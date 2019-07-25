@@ -35,7 +35,7 @@ std::vector<char> load_text(std::string filename)
 	}
 	return vec;
 }
-std::vector<uint8_t> load_text_from_file(std::string filename)
+std::vector<uint8_t> load_text_from_file(std::string filename, bool appendSpecialCharacter)
 {
 
 	std::ifstream stream;
@@ -54,7 +54,7 @@ std::vector<uint8_t> load_text_from_file(std::string filename)
 	stream.seekg(0, std::ios::beg);
 	len = n / sizeof(uint8_t);
 
-	vec.resize(len + 1, 0);
+	vec.resize(len + (appendSpecialCharacter ? 1 : 0 ), 0);
 	stream.read((char *)&(vec)[0], len * sizeof(char));
 
 	for (uint64_t i = 0; i < len; i++)
