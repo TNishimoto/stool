@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
-
+#include <limits>
 
 namespace stool
 {
