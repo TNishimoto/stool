@@ -1,8 +1,9 @@
 #pragma once
 #include <unordered_set>
 #include <cassert>
-#include "divsufsort.h"
-#include "divsufsort64.h"
+#include <string>
+#include <iostream>
+#include <vector>
 
 
 namespace stool
