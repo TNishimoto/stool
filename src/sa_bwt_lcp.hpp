@@ -9,6 +9,12 @@
 namespace stool
 {
 
+template <typename CHAR>
+bool checkTextWithSpecialMarker(std::vector<CHAR> &text, CHAR c);
+
+
+
+
 template <typename index_type>
 class LCPInterval
 {

@@ -40,6 +40,7 @@ std::vector<T> load(std::string filename)
 std::vector<char> load_text(std::string filename);
 std::vector<uint8_t> load_text_from_file(std::string filename, bool appendSpecialCharacter = true);
 
+
 /*
 std::vector<int64_t> construct_sa(std::vector<char> &text)
 {

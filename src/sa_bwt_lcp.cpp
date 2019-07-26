@@ -7,6 +7,27 @@
 namespace stool
 {
 
+template <typename CHAR>
+bool checkTextWithSpecialMarker(std::vector<CHAR> &text, CHAR c){
+	uint64_t p = UINT64_MAX;
+	for(uint64_t i=0;i<text.size();i++){
+		if(text[i] == c){
+			p = i;
+			break;
+		}else if(text[i] < c){
+		    throw std::logic_error("The characters of the input text must not be less than '0'.");
+        }
+	}
+	if(p == text.size()-1 ){
+		return true;
+	}else if(p == UINT64_MAX){
+		throw std::logic_error("The last character of the input text must be '0'");
+	}else{
+		throw std::logic_error("The input text must not contain '0' except for the last character.");
+	}
+}
+template bool checkTextWithSpecialMarker<uint8_t>(std::vector<uint8_t> &, uint8_t);
+
 template <typename CHAR, typename INDEX>
 std::vector<INDEX> constructSA(std::vector<CHAR> &text)
 {
