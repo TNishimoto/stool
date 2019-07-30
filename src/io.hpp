@@ -39,7 +39,7 @@ std::vector<char> load_text(std::string filename);
 std::vector<uint8_t> load_text_from_file(std::string filename, bool appendSpecialCharacter = true);
 
 template <typename T>
-static bool write_vector(std::string &filename, std::vector<T> &text)
+bool write_vector(std::string &filename, std::vector<T> &text)
 {
 	std::cout << "Writing: " << filename << std::endl;
 	std::ofstream out(filename, std::ios::out | std::ios::binary);
@@ -48,10 +48,31 @@ static bool write_vector(std::string &filename, std::vector<T> &text)
 	if (!out)
 		return 1;
 	uint64_t size = text.size();
-	out.write(reinterpret_cast<const char *>(&size ), sizeof(uint64_t));
+	out.write(reinterpret_cast<const char *>(&size), sizeof(uint64_t));
 	out.write(reinterpret_cast<const char *>(&text[0]), text.size() * sizeof(T));
 
 	out.close();
+	return true;
+}
+template <typename T>
+bool load_vector(std::string &filename, std::vector<T> &text)
+{
+
+	std::cout << "Loading: " << filename << std::endl;
+	std::ifstream file;
+	file.open(filename, std::ios::binary);
+
+	if (!file)
+	{
+		std::cerr << "error reading file " << std::endl;
+		return false;
+	}
+	uint64_t size = UINT64_MAX;
+	file.read((char *)&(size), sizeof(uint64_t));
+	text.resize(size);
+	file.read((char *)&(text)[0], size * sizeof(T));
+	file.close();
+	file.clear();
 	return true;
 }
 
