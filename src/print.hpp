@@ -26,7 +26,7 @@ class Printer
 		std::string s = "";
 		s += "[";
 		//int k = items.size();
-		for (unsigned int i = 0; i < (int)items.size(); i++)
+		for (int i = 0; i < (int)items.size(); i++)
 		{
 			if(items[i] == UINT64_MAX){
 			s += "-";
@@ -34,7 +34,7 @@ class Printer
 			}else{
 			s += std::to_string(items[i]);
 			}
-			if (i != items.size() - 1)
+			if (i != (int)items.size() - 1)
 				s += ", ";
 		}
 		s += "]";
@@ -106,15 +106,6 @@ class Printer
 		}
 		result += "]";
 	}
-	
-
-
-	template <class X>
-	static void print(std::vector<X> &items)
-	{
-		std::cout << toIntegerString<X>(items) << std::endl;
-	}
-
 	template <class X>
 	static std::string toString(std::vector<X> &items, uint64_t padding)
 	{
@@ -128,7 +119,23 @@ class Printer
 		toIntegerString(str, s, padding);
 		return s;
 	}
+	
 
+
+	template <class X>
+	static void print(std::vector<X> &items)
+	{
+		std::cout << toIntegerString<X>(items) << std::endl;
+	}
+	template <class X>
+	static void print(std::string name, std::vector<X> &items)
+	{
+		std::cout << name << ": " << toIntegerString<X>(items) << std::endl;
+	}
+
+
+	
+	/*
 	template <class X>
 	static void write(std::string filename, std::vector<X> &items)
 	{
@@ -170,6 +177,7 @@ class Printer
 		std::string s = toIntegerString<X>(items);
 		out.write((const char *)&s[0], sizeof(char) * s.size());
 	}
+	*/
 
 };
 } // namespace my
