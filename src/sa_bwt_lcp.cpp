@@ -40,6 +40,7 @@ std::vector<INDEX> constructSA(std::vector<CHAR> &text)
     return sa;
 }
 template std::vector<uint64_t> constructSA<uint8_t, uint64_t>(std::vector<uint8_t> &);
+template std::vector<int64_t> constructSA<uint8_t, int64_t>(std::vector<uint8_t> &);
 
 template <typename CHAR, typename INDEX>
 std::vector<INDEX> constructISA(std::vector<CHAR> &text, std::vector<INDEX> &sa)
