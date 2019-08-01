@@ -17,6 +17,30 @@
 namespace stool
 {
 
+class Counter{
+	uint64_t baseline = 2;
+	uint64_t i = 2;
+
+	public:
+	Counter(){
+
+	}
+	Counter(uint64_t _baseline) : baseline(_baseline), i(_baseline){
+		
+	}
+	void increment(){
+		if(this->i==0){
+			this->baseline *= 2;
+			this->i = this->baseline;
+			std::cout << "+" << std::endl;
+		}else{
+			--this->i;
+		}
+
+	}
+
+};
+
 class Printer
 {
   public:
