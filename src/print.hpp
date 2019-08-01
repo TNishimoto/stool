@@ -32,7 +32,7 @@ class Counter{
 		if(this->i==0){
 			this->baseline *= 2;
 			this->i = this->baseline;
-			std::cout << "+" << std::endl;
+			std::cout << "*" << std::flush;
 		}else{
 			--this->i;
 		}

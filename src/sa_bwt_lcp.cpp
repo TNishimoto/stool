@@ -3,6 +3,7 @@
 #include "divsufsort64.h"
 #include <vector>
 #include <iostream>
+#include "print.hpp"
 
 namespace stool
 {
@@ -87,12 +88,12 @@ std::vector<INDEX> constructLCP(std::vector<CHAR> &text, std::vector<INDEX> &sa,
     lcp.resize(text.size(), 0);
     INDEX n = text.size();
     INDEX k = 0;
+    stool::Counter counter;
+    std::cout << "constructing LCP Array..."  << std::flush;
+
     for (INDEX i = 0; i < n; i++)
     {
-
-        if (i % 10000000 == 0)
-            std::cout << "\r"
-                      << "constructing LCP Array : [" << i << "/" << n << "]" << std::flush;
+        counter.increment();
 
         INDEX x = isa[i];
         if (x == 0)
