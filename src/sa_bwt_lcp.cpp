@@ -89,7 +89,7 @@ std::vector<INDEX> constructLCP(std::vector<CHAR> &text, std::vector<INDEX> &sa,
     INDEX n = text.size();
     INDEX k = 0;
     stool::Counter counter;
-    std::cout << "constructing LCP Array..."  << std::flush;
+    std::cout << "Constructing LCP Array"  << std::flush;
 
     for (INDEX i = 0; i < n; i++)
     {
