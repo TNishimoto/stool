@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "divsufsort.h"
-#include "divsufsort64.h"
 
 namespace stool
 {
