@@ -50,7 +50,7 @@ class Printer
 {
   public:
 	template <class X>
-	static std::string toIntegerString(std::vector<X> &items)
+	static std::string toIntegerString(const std::vector<X> &items)
 	{
 		std::string s = "";
 		s += "[";
@@ -70,7 +70,7 @@ class Printer
 		return s;
 	}
 	template <class X>
-	static void toIntegerString(std::vector<X> &items, std::string &result)
+	static void toIntegerString(const std::vector<X> &items, std::string &result)
 	{
 		result += "[";
 		//int k = items.size();
@@ -83,7 +83,7 @@ class Printer
 		result += "]";
 	}
 	template <class X>
-	static void toIntegerString(std::vector<X> &items, std::string &result, uint64_t padding)
+	static void toIntegerString(const std::vector<X> &items, std::string &result, uint64_t padding)
 	{
 		result += "[";
 		//int k = items.size();
@@ -108,7 +108,7 @@ class Printer
 		}
 		result += "]";
 	}
-	static void toIntegerString(std::string &items, std::string &result, uint64_t padding)
+	static void toIntegerString(const std::string &items, std::string &result, uint64_t padding)
 	{
 		result += "[";
 		//int k = items.size();
@@ -152,12 +152,12 @@ class Printer
 
 
 	template <class X>
-	static void print(std::vector<X> &items)
+	static void print(const std::vector<X> &items)
 	{
 		std::cout << toIntegerString<X>(items) << std::endl;
 	}
 	template <class X>
-	static void print(std::string name, std::vector<X> &items)
+	static void print(const std::string name, const std::vector<X> &items)
 	{
 		std::cout << name << ": " << toIntegerString<X>(items) << std::endl;
 	}
