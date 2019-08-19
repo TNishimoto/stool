@@ -74,7 +74,7 @@ class Printer
 	{
 		result += "[";
 		//int k = items.size();
-		for (unsigned int i = 0; i < (int)items.size(); i++)
+		for (size_t i = 0; i < (size_t)items.size(); i++)
 		{
 			result += std::to_string(items[i]);
 			if (i != items.size() - 1)
@@ -161,7 +161,6 @@ class Printer
 	{
 		std::cout << name << ": " << toIntegerString<X>(items) << std::endl;
 	}
-
 
 	
 	/*
