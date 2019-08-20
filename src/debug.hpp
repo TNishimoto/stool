@@ -76,10 +76,10 @@ bool equal_check(const std::vector<T> &vec1, const std::vector<T> &vec2)
 		{
 			std::string msg = "collect_vec[" + std::to_string(i) + "] != test_vec[" + std::to_string(i) + "]";
 
-			if(vec1.size() < 100){
+			if (vec1.size() < 100)
+			{
 				Printer::print("vec1", vec1);
 				Printer::print("vec2", vec2);
-
 			}
 
 			throw std::logic_error("Values are different! " + msg);
@@ -105,4 +105,40 @@ bool equal_check(std::string &vec1, std::string &vec2)
 	}
 	return true;
 }
+
+template <typename CHAR = uint8_t>
+bool compare_suffixes(const std::vector<CHAR> &text, const uint64_t x, const uint64_t y){
+	uint64_t max = x < y ? text.size() - y :text.size() -x;
+	for(uint64_t i=0;i<max;i++){
+		CHAR c1 = text[x + i];
+		CHAR c2 = text[y + i];
+		if (c1 != c2)
+		{
+			return c1 < c2;
+		}
+	}
+	return x > y;
+}
+
+
+template <typename CHAR = uint8_t, typename INDEX = uint64_t>
+std::vector<INDEX> construct_naive_SA(const std::vector<CHAR> &text)
+{
+	std::vector<INDEX> r;
+	for (uint64_t i = 0; i < text.size(); i++)
+	{
+		r.push_back(i);
+	}
+
+	std::sort(
+		r.begin(),
+		r.end(),
+		[&](const uint64_t &x, const uint64_t &y) {
+			
+			return compare_suffixes(text, x, y);
+			
+		});
+		return r;
+}
+
 } // namespace stool

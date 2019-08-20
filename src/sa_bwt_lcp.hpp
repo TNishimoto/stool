@@ -170,20 +170,20 @@ index_type begin = sa[this->i];
 };
 
 template <typename CHAR = uint8_t,typename INDEX = uint64_t>
-std::vector<INDEX> constructSA(std::vector<CHAR> &text);
+std::vector<INDEX> constructSA(const std::vector<CHAR> &text);
 //template std::vector<uint64_t> constructSA<char,uint64_t>(std::vector<char>&);
 
 
 template <typename CHAR = char,typename INDEX = uint64_t>
-std::vector<INDEX> constructISA(std::vector<CHAR> &text, std::vector<INDEX> &sa);
+std::vector<INDEX> constructISA(const std::vector<CHAR> &text, const std::vector<INDEX> &sa);
 
 template <typename CHAR = char,typename INDEX = uint64_t>
-std::vector<INDEX> constructLCP(std::vector<CHAR> &text, std::vector<INDEX> &sa, std::vector<INDEX> &isa);
+std::vector<INDEX> constructLCP(const std::vector<CHAR> &text, const std::vector<INDEX> &sa, const std::vector<INDEX> &isa);
 template <typename CHAR = char,typename INDEX = uint64_t>
-std::vector<INDEX> constructLCP(std::vector<CHAR> &text, std::vector<INDEX> &sa);
+std::vector<INDEX> constructLCP(const std::vector<CHAR> &text, const std::vector<INDEX> &sa);
 
 template <typename CHAR,typename INDEX>
-std::vector<CHAR> constructBWT(std::vector<CHAR> &text, std::vector<INDEX> &sa);
+std::vector<CHAR> constructBWT(const std::vector<CHAR> &text, const std::vector<INDEX> &sa);
 
 
 } // namespace stool

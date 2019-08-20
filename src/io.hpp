@@ -53,7 +53,7 @@ bool write_vector(std::string &filename, std::vector<T> &text)
 	return true;
 }
 template <typename T>
-bool load_vector(std::string &filename, std::vector<T> &text)
+bool load_vector(std::string &filename, std::vector<T> &text, bool has_size_info)
 {
 
 	std::cout << "Loading: " << filename << std::endl;
@@ -65,12 +65,27 @@ bool load_vector(std::string &filename, std::vector<T> &text)
 		std::cerr << "error reading file " << std::endl;
 		return false;
 	}
-	uint64_t size = UINT64_MAX;
-	file.read((char *)&(size), sizeof(uint64_t));
-	text.resize(size);
-	file.read((char *)&(text)[0], size * sizeof(T));
-	file.close();
-	file.clear();
+
+	if (has_size_info)
+	{
+		uint64_t size = UINT64_MAX;
+		file.read((char *)&(size), sizeof(uint64_t));
+		text.resize(size);
+		file.read((char *)&(text)[0], size * sizeof(T));
+		file.close();
+		file.clear();
+	}
+	else
+	{
+		uint64_t len;
+		file.seekg(0, std::ios::end);
+		uint64_t n = (unsigned long)file.tellg();
+		file.seekg(0, std::ios::beg);
+		len = n / sizeof(T);
+
+		text.resize(len, 0);
+		file.read((char *)&(text)[0], len * sizeof(T));
+	}
 	return true;
 }
 

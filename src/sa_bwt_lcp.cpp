@@ -30,7 +30,7 @@ bool checkTextWithSpecialMarker(std::vector<CHAR> &text, CHAR c){
 template bool checkTextWithSpecialMarker<uint8_t>(std::vector<uint8_t> &, uint8_t);
 
 template <typename CHAR, typename INDEX>
-std::vector<INDEX> constructSA(std::vector<CHAR> &text)
+std::vector<INDEX> constructSA(const std::vector<CHAR> &text)
 {
     std::vector<INDEX> sa;
 
@@ -40,13 +40,13 @@ std::vector<INDEX> constructSA(std::vector<CHAR> &text)
     divsufsort64((const unsigned char *)&text[0], (int64_t *)&sa[0], n);
     return sa;
 }
-template std::vector<uint64_t> constructSA<uint8_t, uint64_t>(std::vector<uint8_t> &);
-template std::vector<int64_t> constructSA<uint8_t, int64_t>(std::vector<uint8_t> &);
-template std::vector<uint64_t> constructSA<char, uint64_t>(std::vector<char> &);
+template std::vector<uint64_t> constructSA<uint8_t, uint64_t>(const std::vector<uint8_t> &);
+template std::vector<int64_t> constructSA<uint8_t, int64_t>(const std::vector<uint8_t> &);
+template std::vector<uint64_t> constructSA<char, uint64_t>(const std::vector<char> &);
 
 
 template <typename CHAR, typename INDEX>
-std::vector<INDEX> constructISA(std::vector<CHAR> &text, std::vector<INDEX> &sa)
+std::vector<INDEX> constructISA(const std::vector<CHAR> &text,const  std::vector<INDEX> &sa)
 {
     std::vector<INDEX> isa;
     uint64_t n = text.size();
@@ -58,7 +58,7 @@ std::vector<INDEX> constructISA(std::vector<CHAR> &text, std::vector<INDEX> &sa)
     }
     return isa;
 }
-template std::vector<uint64_t> constructISA<uint8_t, uint64_t>(std::vector<uint8_t> &, std::vector<uint64_t> &);
+template std::vector<uint64_t> constructISA<uint8_t, uint64_t>(const std::vector<uint8_t> &,const  std::vector<uint64_t> &);
 
 /*
 void constructSA(string &text, vector<uint64_t> &sa, vector<uint64_t> &isa)
@@ -82,7 +82,7 @@ void constructSA(string &text, vector<uint64_t> &sa, vector<uint64_t> &isa)
 }
 */
 template <typename CHAR, typename INDEX>
-std::vector<INDEX> constructLCP(std::vector<CHAR> &text, std::vector<INDEX> &sa, std::vector<INDEX> &isa)
+std::vector<INDEX> constructLCP(const std::vector<CHAR> &text,const  std::vector<INDEX> &sa,const  std::vector<INDEX> &isa)
 {
     std::vector<INDEX> lcp;
     lcp.resize(text.size(), 0);
@@ -114,19 +114,19 @@ std::vector<INDEX> constructLCP(std::vector<CHAR> &text, std::vector<INDEX> &sa,
     std::cout << "[END]" << std::endl;
     return lcp;
 }
-template std::vector<uint64_t> constructLCP(std::vector<uint8_t> &, std::vector<uint64_t> &, std::vector<uint64_t> &);
+template std::vector<uint64_t> constructLCP(const std::vector<uint8_t> &,const  std::vector<uint64_t> &,const  std::vector<uint64_t> &);
 
 template <typename CHAR, typename INDEX>
-std::vector<INDEX> constructLCP(std::vector<CHAR> &text, std::vector<INDEX> &sa)
+std::vector<INDEX> constructLCP(const std::vector<CHAR> &text,const  std::vector<INDEX> &sa)
 {
     std::vector<INDEX> isa = stool::constructISA<CHAR, INDEX>(text, sa);
     return constructLCP<CHAR, INDEX>(text, sa, isa);
     //lcp.resize(text.size(), 0);
 }
-template std::vector<uint64_t> constructLCP(std::vector<uint8_t> &, std::vector<uint64_t> &);
+template std::vector<uint64_t> constructLCP(const std::vector<uint8_t> &, const std::vector<uint64_t> &);
 
 template <typename CHAR, typename INDEX>
-std::vector<CHAR> constructBWT(std::vector<CHAR> &text, std::vector<INDEX> &sa)
+std::vector<CHAR> constructBWT(const std::vector<CHAR> &text, const std::vector<INDEX> &sa)
 {
     std::vector<CHAR> bwt;
     bwt.resize(text.size());
@@ -144,6 +144,6 @@ std::vector<CHAR> constructBWT(std::vector<CHAR> &text, std::vector<INDEX> &sa)
     }
     return bwt;
 }
-template std::vector<uint8_t> constructBWT(std::vector<uint8_t> &, std::vector<uint64_t> &);
-template std::vector<char> constructBWT(std::vector<char> &, std::vector<uint64_t> &);
+template std::vector<uint8_t> constructBWT(const std::vector<uint8_t> &, const std::vector<uint64_t> &);
+template std::vector<char> constructBWT(const std::vector<char> &, const std::vector<uint64_t> &);
 } // namespace stool

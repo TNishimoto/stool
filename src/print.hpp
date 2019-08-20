@@ -87,13 +87,13 @@ class Printer
 	{
 		result += "[";
 		//int k = items.size();
-		for (uint64_t i = 0; i < items.size(); i++)
+		for (size_t i = 0; i < items.size(); i++)
 		{
 			std::string s = "";
 
-			if(items[i] == UINT64_MAX){
+			if((uint64_t)items[i] == UINT64_MAX){
 			s = "-";
-			}else if(items[i] == UINT64_MAX-1){
+			}else if((uint64_t)items[i] == UINT64_MAX-1){
 			s = "*";
 			}else{
 			s = std::to_string(items[i]);
