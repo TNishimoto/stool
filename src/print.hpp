@@ -50,20 +50,15 @@ class Printer
 {
   public:
 	template <class X>
-	static std::string toIntegerString(const std::vector<X> &items)
+	static std::string to_integer_string(const std::vector<X> &items)
 	{
 		std::string s = "";
 		s += "[";
 		//int k = items.size();
-		for (int i = 0; i < (int)items.size(); i++)
+		for (size_t i = 0; i < (size_t)items.size(); i++)
 		{
-			if(items[i] == UINT64_MAX){
-			s += "-";
-
-			}else{
 			s += std::to_string(items[i]);
-			}
-			if (i != (int)items.size() - 1)
+			if (i != items.size() - 1)
 				s += ", ";
 		}
 		s += "]";
@@ -154,12 +149,12 @@ class Printer
 	template <class X>
 	static void print(const std::vector<X> &items)
 	{
-		std::cout << toIntegerString<X>(items) << std::endl;
+		std::cout << to_integer_string<X>(items) << std::endl;
 	}
 	template <class X>
 	static void print(const std::string name, const std::vector<X> &items)
 	{
-		std::cout << name << ": " << toIntegerString<X>(items) << std::endl;
+		std::cout << name << ": " << to_integer_string<X>(items) << std::endl;
 	}
 
 	

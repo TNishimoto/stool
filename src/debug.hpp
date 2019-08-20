@@ -46,16 +46,17 @@ std::vector<uint64_t> CreateRandomInteger(int len, int max)
 	}
 	return r;
 }
-std::vector<uint64_t> create_deterministic_integers(uint64_t len, uint64_t max, uint64_t seed)
+template <typename T>
+std::vector<T> create_deterministic_integers(uint64_t len, int64_t max, int64_t min, int64_t seed)
 {
 	std::mt19937 mt(seed);
-	std::uniform_int_distribution<> rand100(0, max - 1);
+	std::uniform_int_distribution<> rand100(0, (max - min) - 1);
 
-	std::vector<uint64_t> r;
+	std::vector<T> r;
 
-	for (uint64_t i = 0; i < len; i++)
+	for (size_t i = 0; i < len; i++)
 	{
-		auto value = rand100(mt);
+		int64_t value = min + rand100(mt);
 		r.push_back(value);
 	}
 	return r;
