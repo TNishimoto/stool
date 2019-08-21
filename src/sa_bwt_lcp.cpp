@@ -134,6 +134,10 @@ std::vector<INDEX> constructLCP(const std::vector<CHAR> &text,const  std::vector
     //lcp.resize(text.size(), 0);
 }
 
+template std::vector<uint64_t> constructLCP(const std::vector<uint64_t> &, const std::vector<uint64_t> &);
+template std::vector<uint64_t> constructLCP(const std::vector<int64_t> &, const std::vector<uint64_t> &);
+template std::vector<uint64_t> constructLCP(const std::vector<uint32_t> &, const std::vector<uint64_t> &);
+template std::vector<uint64_t> constructLCP(const std::vector<int32_t> &, const std::vector<uint64_t> &);
 template std::vector<uint64_t> constructLCP(const std::vector<uint8_t> &, const std::vector<uint64_t> &);
 template std::vector<uint64_t> constructLCP(const std::vector<char> &, const std::vector<uint64_t> &);
 
