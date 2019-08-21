@@ -77,11 +77,13 @@ bool equal_check(const std::vector<T> &vec1, const std::vector<T> &vec2)
 		{
 			std::string msg = "collect_vec[" + std::to_string(i) + "] != test_vec[" + std::to_string(i) + "]";
 
+			/*
 			if (vec1.size() < 100)
 			{
 				Printer::print("vec1", vec1);
 				Printer::print("vec2", vec2);
 			}
+			*/
 
 			throw std::logic_error("Values are different! " + msg);
 		}
@@ -89,7 +91,7 @@ bool equal_check(const std::vector<T> &vec1, const std::vector<T> &vec2)
 	return true;
 }
 
-bool equal_check(std::string &vec1, std::string &vec2)
+bool equal_check(const std::string &vec1, const std::string &vec2)
 {
 	if (vec1.size() != vec2.size())
 	{

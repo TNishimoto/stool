@@ -89,11 +89,11 @@ std::vector<INDEX> constructLCP(const std::vector<CHAR> &text,const  std::vector
     INDEX n = text.size();
     INDEX k = 0;
     stool::Counter counter;
-    std::cout << "Constructing LCP Array"  << std::flush;
+    if(text.size() > 1000000)std::cout << "Constructing LCP Array"  << std::flush;
 
     for (INDEX i = 0; i < n; i++)
     {
-        counter.increment();
+        if(text.size() > 1000000)counter.increment();
 
         INDEX x = isa[i];
         if (x == 0)
@@ -111,7 +111,7 @@ std::vector<INDEX> constructLCP(const std::vector<CHAR> &text,const  std::vector
         if (k > 0)
             k--;
     }
-    std::cout << "[END]" << std::endl;
+    if(text.size() > 1000000)std::cout << "[END]" << std::endl;
     return lcp;
 }
 template std::vector<uint64_t> constructLCP(const std::vector<uint8_t> &,const  std::vector<uint64_t> &,const  std::vector<uint64_t> &);
@@ -123,7 +123,9 @@ std::vector<INDEX> constructLCP(const std::vector<CHAR> &text,const  std::vector
     return constructLCP<CHAR, INDEX>(text, sa, isa);
     //lcp.resize(text.size(), 0);
 }
+
 template std::vector<uint64_t> constructLCP(const std::vector<uint8_t> &, const std::vector<uint64_t> &);
+template std::vector<uint64_t> constructLCP(const std::vector<char> &, const std::vector<uint64_t> &);
 
 template <typename CHAR, typename INDEX>
 std::vector<CHAR> constructBWT(const std::vector<CHAR> &text, const std::vector<INDEX> &sa)

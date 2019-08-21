@@ -79,6 +79,11 @@ public:
 		//if(!b) std::cout << "b" << std::endl;
 		return b;
 	}
+	bool operator!=(const LCPInterval &rhs) const
+	{
+		return !(*this == rhs);
+	}
+	
 	std::string to_string()
 	{
 		return "[" + std::to_string(i) + ", " + std::to_string(j) + ", " + std::to_string(lcp) + "]";
