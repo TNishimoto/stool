@@ -108,9 +108,16 @@ std::vector<INDEX> constructLCP(const std::vector<CHAR> &text,const  std::vector
             }
         }
         lcp[x] = k;
+        
+        Printer::print(lcp);
+        uint64_t prevLength = text.size() - sa[x-1];
+        assert(prevLength >= k);
+
         if (k > 0)
             k--;
     }
+
+
     if(text.size() > 1000000)std::cout << "[END]" << std::endl;
     return lcp;
 }
