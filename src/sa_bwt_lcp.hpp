@@ -174,6 +174,29 @@ index_type begin = sa[this->i];
 	}
 };
 
+template <typename INDEX = uint64_t>
+struct LCPIntervalPreorderComp
+{
+  bool operator()(LCPInterval<INDEX> &x, LCPInterval<INDEX> &y)
+  {
+    if (x.i == y.i)
+    {
+      if (x.j == y.j)
+      {
+        return x.lcp < y.lcp;
+      }
+      else
+      {
+        return x.j > y.j;
+      }
+    }
+    else
+    {
+      return x.i < y.i;
+    }
+  }
+};
+
 template <typename CHAR = uint8_t,typename INDEX = uint64_t>
 std::vector<INDEX> constructSA(const std::vector<CHAR> &text);
 //template std::vector<uint64_t> constructSA<char,uint64_t>(std::vector<char>&);
