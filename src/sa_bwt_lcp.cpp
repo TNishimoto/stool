@@ -102,16 +102,19 @@ std::vector<INDEX> constructLCP(const std::vector<CHAR> &text,const  std::vector
         }
         else
         {
-            while (text[sa[x] + k] == text[sa[x - 1] + k])
+            while (sa[x] + k < text.size() && sa[x - 1] + k < text.size() && text[sa[x] + k] == text[sa[x - 1] + k])
             {
+                assert(sa[x] + k < text.size());
+                assert(sa[x - 1] + k < text.size());
+
                 k++;
             }
         }
         lcp[x] = k;
         
-        Printer::print(lcp);
-        uint64_t prevLength = text.size() - sa[x-1];
-        assert(prevLength >= k);
+        //Printer::print(lcp);
+        //uint64_t prevLength = text.size() - sa[x-1];
+        assert((text.size() - sa[x-1]) >= k);
 
         if (k > 0)
             k--;
