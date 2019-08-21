@@ -83,7 +83,7 @@ bool load_vector(std::string &filename, std::vector<T> &text, bool has_size_info
 		file.seekg(0, std::ios::beg);
 		len = n / sizeof(T);
 
-		text.resize(len, 0);
+		text.resize(len);
 		file.read((char *)&(text)[0], len * sizeof(T));
 	}
 	return true;
