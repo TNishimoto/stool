@@ -162,4 +162,9 @@ std::vector<CHAR> constructBWT(const std::vector<CHAR> &text, const std::vector<
 }
 template std::vector<uint8_t> constructBWT(const std::vector<uint8_t> &, const std::vector<uint64_t> &);
 template std::vector<char> constructBWT(const std::vector<char> &, const std::vector<uint64_t> &);
+template std::vector<int32_t> constructBWT(const std::vector<int32_t> &, const std::vector<uint64_t> &);
+template std::vector<uint32_t> constructBWT(const std::vector<uint32_t> &, const std::vector<uint64_t> &);
+template std::vector<int64_t> constructBWT(const std::vector<int64_t> &, const std::vector<uint64_t> &);
+template std::vector<uint64_t> constructBWT(const std::vector<uint64_t> &, const std::vector<uint64_t> &);
+
 } // namespace stool
