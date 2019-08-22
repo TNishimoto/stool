@@ -37,7 +37,7 @@ std::vector<char> load_text(std::string filename);
 std::vector<uint8_t> load_text_from_file(std::string filename, bool appendSpecialCharacter = true);
 
 template <typename T>
-bool write_vector(std::string &filename, std::vector<T> &text)
+bool write_vector(std::string &filename, std::vector<T> &text, bool addLengthInfo)
 {
 	std::cout << "Writing: " << filename << std::endl;
 	std::ofstream out(filename, std::ios::out | std::ios::binary);
@@ -46,7 +46,7 @@ bool write_vector(std::string &filename, std::vector<T> &text)
 	if (!out)
 		return 1;
 	uint64_t size = text.size();
-	out.write(reinterpret_cast<const char *>(&size), sizeof(uint64_t));
+	if(addLengthInfo)out.write(reinterpret_cast<const char *>(&size), sizeof(uint64_t));
 	out.write(reinterpret_cast<const char *>(&text[0]), text.size() * sizeof(T));
 
 	out.close();
