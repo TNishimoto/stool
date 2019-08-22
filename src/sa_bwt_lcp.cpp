@@ -1,6 +1,4 @@
 #include "sa_bwt_lcp.hpp"
-#include "divsufsort.h"
-#include "divsufsort64.h"
 #include <vector>
 #include <iostream>
 #include "print.hpp"
