@@ -30,22 +30,6 @@ bool checkTextWithSpecialMarker(std::vector<CHAR> &text, CHAR c){
 template bool checkTextWithSpecialMarker<uint8_t>(std::vector<uint8_t> &, uint8_t);
 
 template <typename CHAR, typename INDEX>
-std::vector<INDEX> constructSA(const std::vector<CHAR> &text)
-{
-    std::vector<INDEX> sa;
-
-    uint64_t n = text.size();
-    sa.resize(n);
-
-    divsufsort64((const unsigned char *)&text[0], (int64_t *)&sa[0], n);
-    return sa;
-}
-template std::vector<uint64_t> constructSA<uint8_t, uint64_t>(const std::vector<uint8_t> &);
-template std::vector<int64_t> constructSA<uint8_t, int64_t>(const std::vector<uint8_t> &);
-template std::vector<uint64_t> constructSA<char, uint64_t>(const std::vector<char> &);
-
-
-template <typename CHAR, typename INDEX>
 std::vector<INDEX> constructISA(const std::vector<CHAR> &text,const  std::vector<INDEX> &sa)
 {
     std::vector<INDEX> isa;

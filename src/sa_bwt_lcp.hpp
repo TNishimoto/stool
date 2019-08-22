@@ -258,9 +258,6 @@ struct LCPIntervalPreorderComp
 	}
 };
 
-template <typename CHAR = uint8_t, typename INDEX = uint64_t>
-std::vector<INDEX> constructSA(const std::vector<CHAR> &text);
-//template std::vector<uint64_t> constructSA<char,uint64_t>(std::vector<char>&);
 
 template <typename CHAR = char, typename INDEX = uint64_t>
 std::vector<INDEX> constructISA(const std::vector<CHAR> &text, const std::vector<INDEX> &sa);
