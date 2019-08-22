@@ -27,7 +27,7 @@ public:
 		this->lcp = _lcp;
 	}
 
-	static LCPInterval<index_type> create_end_marker()
+	static LCPInterval<index_type> create_end_marker() 
 	{
 		return LCPInterval<index_type>(std::numeric_limits<index_type>::max(), std::numeric_limits<index_type>::max(), std::numeric_limits<index_type>::max());
 	}
@@ -81,11 +81,11 @@ public:
 		return !(*this == rhs);
 	}
 
-	std::string to_string()
+	std::string to_string() const
 	{
 		return "[" + std::to_string(i) + ", " + std::to_string(j) + ", " + std::to_string(lcp) + "]";
 	}
-	bool is_special_marker()
+	bool is_special_marker() const
 	{
 		return this->i == std::numeric_limits<index_type>::max() && this->j == std::numeric_limits<index_type>::max() && this->lcp == std::numeric_limits<index_type>::max();
 	}
