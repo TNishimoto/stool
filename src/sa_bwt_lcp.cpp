@@ -41,6 +41,11 @@ std::vector<INDEX> constructISA(const std::vector<CHAR> &text,const  std::vector
     return isa;
 }
 template std::vector<uint64_t> constructISA<uint8_t, uint64_t>(const std::vector<uint8_t> &,const  std::vector<uint64_t> &);
+template std::vector<uint64_t> constructISA<char, uint64_t>(const std::vector<char> &,const  std::vector<uint64_t> &);
+template std::vector<uint64_t> constructISA<int32_t, uint64_t>(const std::vector<int32_t> &,const  std::vector<uint64_t> &);
+template std::vector<uint64_t> constructISA<uint32_t, uint64_t>(const std::vector<uint32_t> &,const  std::vector<uint64_t> &);
+template std::vector<uint64_t> constructISA<int64_t, uint64_t>(const std::vector<int64_t> &,const  std::vector<uint64_t> &);
+template std::vector<uint64_t> constructISA<uint64_t, uint64_t>(const std::vector<uint64_t> &,const  std::vector<uint64_t> &);
 
 /*
 void constructSA(string &text, vector<uint64_t> &sa, vector<uint64_t> &isa)
@@ -73,37 +78,43 @@ std::vector<INDEX> constructLCP(const std::vector<CHAR> &text,const  std::vector
     stool::Counter counter;
     if(text.size() > 1000000)std::cout << "Constructing LCP Array"  << std::flush;
 
+
     for (INDEX i = 0; i < n; i++)
     {
-        if(text.size() > 1000000)counter.increment();
+        if(n > 1000000)counter.increment();
 
+        assert(i < n );
         INDEX x = isa[i];
+        assert(x < n );
+
+
         if (x == 0)
         {
             lcp[x] = 0;
         }
         else
         {
-            while (sa[x] + k < text.size() && sa[x - 1] + k < text.size() && text[sa[x] + k] == text[sa[x - 1] + k])
+            //std::cout << n << "/" << x << "/" << sa[x] << "/" << sa[x-1] << "/" << k << std::endl;
+            while (sa[x] + k < n && sa[x - 1] + k < n && text[sa[x] + k] == text[sa[x - 1] + k])
             {
-                assert(sa[x] + k < text.size());
-                assert(sa[x - 1] + k < text.size());
+                assert(sa[x] + k < n );
+                assert(sa[x - 1] + k < n );
 
                 k++;
             }
         }
         lcp[x] = k;
-        
+
         //Printer::print(lcp);
         //uint64_t prevLength = text.size() - sa[x-1];
-        assert((text.size() - sa[x-1]) >= k);
+        assert((n - sa[x-1]) >= k);
 
         if (k > 0)
             k--;
     }
 
 
-    if(text.size() > 1000000)std::cout << "[END]" << std::endl;
+    if(n > 1000000)std::cout << "[END]" << std::endl;
     return lcp;
 }
 template std::vector<uint64_t> constructLCP(const std::vector<uint8_t> &,const  std::vector<uint64_t> &,const  std::vector<uint64_t> &);
