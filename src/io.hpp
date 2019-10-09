@@ -53,10 +53,10 @@ bool write_vector(std::string &filename, std::vector<T> &text, bool addLengthInf
 	return true;
 }
 template <typename T>
-bool load_vector(std::string &filename, std::vector<T> &text, bool has_size_info)
+bool load_vector(std::string &filename, std::vector<T> &text, bool has_size_info, bool print_loading_message = true)
 {
 
-	std::cout << "Loading: " << filename << std::endl;
+	if(print_loading_message)std::cout << "Loading: " << filename << std::endl;
 	std::ifstream file;
 	file.open(filename, std::ios::binary);
 
