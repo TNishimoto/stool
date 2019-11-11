@@ -107,7 +107,8 @@ std::vector<INDEX> constructLCP(const std::vector<CHAR> &text,const  std::vector
 
         //Printer::print(lcp);
         //uint64_t prevLength = text.size() - sa[x-1];
-        assert((n - sa[x-1]) >= k);
+        //assert((n - sa[x-1]) >= k);
+        assert(x == 0 || (x > 0 && ( ( n - sa[x-1]) >= k )  ) );
 
         if (k > 0)
             k--;
