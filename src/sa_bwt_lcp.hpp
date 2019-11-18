@@ -259,6 +259,14 @@ struct LCPIntervalPreorderComp
 	}
 };
 
+template <typename INDEX = uint64_t>
+void sort_in_preorder(std::vector<stool::LCPInterval<INDEX>> &items){
+    std::sort(
+        items.begin(),
+        items.end(),
+        stool::LCPIntervalPreorderComp<INDEX>());
+}
+
 
 template <typename CHAR = char, typename INDEX = uint64_t>
 std::vector<INDEX> constructISA(const std::vector<CHAR> &text, const std::vector<INDEX> &sa);

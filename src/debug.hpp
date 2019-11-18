@@ -63,6 +63,7 @@ std::vector<T> create_deterministic_integers(uint64_t len, int64_t max, int64_t 
 	return r;
 }
 
+
 template <typename T>
 bool equal_check(const std::vector<T> &vec1, const std::vector<T> &vec2)
 {
@@ -78,19 +79,12 @@ bool equal_check(const std::vector<T> &vec1, const std::vector<T> &vec2)
 		{
 			std::string msg = "collect_vec[" + std::to_string(i) + "] != test_vec[" + std::to_string(i) + "]";
 
-			/*
-			if (vec1.size() < 100)
-			{
-				Printer::print("vec1", vec1);
-				Printer::print("vec2", vec2);
-			}
-			*/
-
 			throw std::logic_error("Values are different! " + msg);
 		}
 	}
 	return true;
 }
+
 
 bool equal_check(const std::string &vec1, const std::string &vec2)
 {
@@ -111,9 +105,11 @@ bool equal_check(const std::string &vec1, const std::string &vec2)
 }
 
 template <typename CHAR = uint8_t>
-bool compare_suffixes(const std::vector<CHAR> &text, const uint64_t x, const uint64_t y){
-	uint64_t max = x < y ? text.size() - y :text.size() -x;
-	for(uint64_t i=0;i<max;i++){
+bool compare_suffixes(const std::vector<CHAR> &text, const uint64_t x, const uint64_t y)
+{
+	uint64_t max = x < y ? text.size() - y : text.size() - x;
+	for (uint64_t i = 0; i < max; i++)
+	{
 		CHAR c1 = text[x + i];
 		CHAR c2 = text[y + i];
 		if (c1 != c2)
@@ -123,7 +119,6 @@ bool compare_suffixes(const std::vector<CHAR> &text, const uint64_t x, const uin
 	}
 	return x > y;
 }
-
 
 template <typename CHAR = uint8_t, typename INDEX = uint64_t>
 std::vector<INDEX> construct_naive_SA(const std::vector<CHAR> &text)
@@ -138,11 +133,9 @@ std::vector<INDEX> construct_naive_SA(const std::vector<CHAR> &text)
 		r.begin(),
 		r.end(),
 		[&](const uint64_t &x, const uint64_t &y) {
-			
 			return compare_suffixes(text, x, y);
-			
 		});
-		return r;
+	return r;
 }
 
 } // namespace stool
