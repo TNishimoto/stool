@@ -37,7 +37,7 @@ std::vector<char> load_text(std::string filename);
 std::vector<uint8_t> load_text_from_file(std::string filename, bool appendSpecialCharacter = true);
 
 std::vector<char> load_char_vec_from_file(std::string filename, bool appendSpecialCharacter = true);
-
+std::string load_string_from_file(std::string filename, bool appendSpecialCharacter = true);
 
 template <typename T>
 bool write_vector(std::string &filename, std::vector<T> &text, bool addLengthInfo)
