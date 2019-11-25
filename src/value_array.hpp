@@ -15,7 +15,7 @@ class VectorTranslator
 {
 public:
     template <typename X, typename Y>
-    static void translate(vector<X> &input, vector<Y> &output)
+    static void translate(const vector<X> &input, vector<Y> &output)
     {
         output.resize(input.size());
         for (uint64_t i = 0; i < input.size(); i++)
@@ -39,10 +39,16 @@ public:
     void load(ifstream &stream);
     void load(string filename);
     ValueArray();
-    uint64_t operator[](uint64_t i);
+    ValueArray(ValueArray && obj){
+        this->byteSize = obj.byteSize;
+        this->num = obj.num;
+        this->arr.swap(obj.arr);
+    }
+
+    uint64_t operator[](uint64_t i) const;
 
     template <typename BYTE>
-    void set(vector<BYTE> &_arr, bool isShrink)
+    void set(const vector<BYTE> &_arr, bool isShrink)
     {
         if (!isShrink)
         {
@@ -86,7 +92,7 @@ public:
         }
     }
     template <typename BYTE>
-    void fitDecode(vector<BYTE> &output)
+    void fitDecode(vector<BYTE> &output) const
     {
         output.resize(this->num);
         if (this->byteSize == sizeof(BYTE))
@@ -100,7 +106,7 @@ public:
         }
     }
     template <typename BYTE>
-    void decode(vector<BYTE> &output)
+    void decode(vector<BYTE> &output) const
     {
         if (this->byteSize == 1)
         {

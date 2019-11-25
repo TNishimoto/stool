@@ -19,7 +19,7 @@ namespace stool{
     {
     }
 
-    uint64_t ValueArray::operator[](uint64_t i)
+    uint64_t ValueArray::operator[](uint64_t i) const
     {
         if (this->byteSize > 2)
         {
