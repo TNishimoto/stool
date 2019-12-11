@@ -23,6 +23,7 @@ public:
             output[i] = input[i];
         }
     }
+
 };
 
 class ValueArray
@@ -90,6 +91,45 @@ public:
                 this->set(o, false);
             }
         }
+    }
+    void change(uint64_t i, uint64_t value){
+        if(this->byteSize == 1){
+            //std::vector<uint8_t> r;
+            //r.push_back(value);
+
+            uint8_t x = value; 
+            memcpy(&this->arr[this->byteSize * i], &x, this->byteSize);    
+
+            //this->arr[this->num * i] = value;
+            //memcpy(&this->arr[this->num * i], &x, this->byteSize);           
+
+        }else if(this->byteSize == 2){
+            uint16_t x = value; 
+            std::vector<uint16_t> r;
+            r.push_back(value);
+            /*
+            uint16_t x = value; 
+            uint8_t x1 = value >> 8;
+            uint8_t x2 = (value << 8) >> 8;
+            this->arr[this->num * i] = x2;
+            this->arr[this->num * i + 1] = x1;
+            */
+            
+
+            memcpy(&this->arr[this->byteSize * i], &x, this->byteSize);           
+        }else if(this->byteSize == 4){
+            uint32_t x = value; 
+            memcpy(&this->arr[this->byteSize * i], &x, this->byteSize);           
+        }else{
+            uint64_t x = value; 
+            memcpy(&this->arr[this->byteSize * i], &x, this->byteSize);           
+
+        }
+    }
+    void resize(uint64_t _size, uint64_t _byteSize){
+        this->arr.resize(_size * _byteSize, 0);
+        this->num = _size;
+        this->byteSize = _byteSize;
     }
     template <typename BYTE>
     void fitDecode(vector<BYTE> &output) const
