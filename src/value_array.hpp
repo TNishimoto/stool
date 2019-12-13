@@ -178,5 +178,8 @@ public:
             throw - 1;
         }
     }
+    uint64_t get_using_memory() const {
+        return this->arr.size() + sizeof(this->byteSize) + sizeof(this->num) + 3;
+    }
 };
 } // namespace stool
