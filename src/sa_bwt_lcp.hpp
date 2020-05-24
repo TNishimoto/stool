@@ -28,7 +28,7 @@ public:
 		this->lcp = _lcp;
 	}
 
-	static LCPInterval<index_type> create_end_marker() 
+	static LCPInterval<index_type> create_end_marker()
 	{
 		return LCPInterval<index_type>(std::numeric_limits<index_type>::max(), std::numeric_limits<index_type>::max(), std::numeric_limits<index_type>::max());
 	}
