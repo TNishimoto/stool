@@ -1,6 +1,7 @@
 #include <iostream>
 #include <bitset>
 #include <array>
+#include <cmath>
 
 namespace stool {
 	class Byte {
