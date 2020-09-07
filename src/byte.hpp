@@ -70,7 +70,7 @@ namespace stool {
 		{
 			if (n <= 0)
 			{
-				throw - 1;
+				throw std::out_of_range("Log_{2}(n) error: n <= 0");
 			}
 			else
 			{
@@ -84,7 +84,9 @@ namespace stool {
 						//int64_t r = (int64_t)(n - m);
 						return t;
 					}
-					if (m == 0) throw - 1;
+					if (m == 0){
+						throw std::out_of_range("Log2 Error!");
+					} 
 					m *= 2;
 					t++;
 				}
