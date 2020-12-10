@@ -257,7 +257,7 @@ private:
 
     }
 
-    std::pair<uint64_t, uint64_t> get_upper_and_lower_bits(uint64_t value)
+    std::pair<uint64_t, uint64_t> get_upper_and_lower_bits(uint64_t value) const
     {
         uint64_t upper = value >> this->lower_bit_size;
         uint64_t upper_filter = 64 - this->lower_bit_size;
@@ -265,7 +265,7 @@ private:
         return std::pair<uint64_t, uint64_t>(upper, lower);
     }
 
-    uint64_t recover(uint64_t lower, uint64_t upper)
+    uint64_t recover(uint64_t lower, uint64_t upper) const
     {
         return (upper << lower_bit_size) | lower;
     }
@@ -350,6 +350,10 @@ public:
         uint64_t upper = (upper_selecter(i + 1) - i);
         uint64_t lower = lower_bits[i];
         return (upper << lower_bit_size) | lower;
+    }
+    uint64_t predecessor(uint64_t value) const {
+        std::pair<uint64_t, uint64_t> ul = get_upper_and_lower_bits(value);
+        
     }
 
     template <typename VEC = std::vector<uint64_t>>
