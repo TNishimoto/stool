@@ -161,4 +161,6 @@ template std::vector<uint32_t> constructBWT(const std::vector<uint32_t> &, const
 template std::vector<int64_t> constructBWT(const std::vector<int64_t> &, const std::vector<uint64_t> &);
 template std::vector<uint64_t> constructBWT(const std::vector<uint64_t> &, const std::vector<uint64_t> &);
 
+
+
 } // namespace stool

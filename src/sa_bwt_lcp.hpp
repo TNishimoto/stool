@@ -239,7 +239,7 @@ public:
 template <typename INDEX = uint64_t>
 struct LCPIntervalPreorderComp
 {
-	bool operator()(LCPInterval<INDEX> &x, LCPInterval<INDEX> &y)
+	bool operator()(const LCPInterval<INDEX> &x, const LCPInterval<INDEX> &y)
 	{
 		if (x.i == y.i)
 		{
