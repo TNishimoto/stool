@@ -12,7 +12,7 @@
 
 namespace stool
 {
-/*
+    /*
 bool getBit(uint64_t x, int8_t nth)
 {
     return ((x >> nth) & 0x00000001) > 0;
@@ -29,198 +29,163 @@ std::string toBinaryString(uint64_t x)
 }
 */
 
-class EliasFanoVector
-{
-public:
-    class iterator
+    class EliasFanoVector
     {
-    private:
-        uint64_t index = 0;
-        const EliasFanoVector *efs;
-
     public:
-        using difference_type = uint64_t;
-        using value_type = uint64_t;
-        using pointer = uint64_t *;
-        using reference = uint64_t &;
-        using iterator_category = std::random_access_iterator_tag;
-        //using value_type = uint64_t;
+        class iterator
+        {
+        private:
+            uint64_t index = 0;
+            const EliasFanoVector *efs;
 
-        iterator(const EliasFanoVector *_efs, uint64_t _index) : index(_index), efs(_efs)
-        {
-        }
+        public:
+            using difference_type = uint64_t;
+            using value_type = uint64_t;
+            using pointer = uint64_t *;
+            using reference = uint64_t &;
+            using iterator_category = std::random_access_iterator_tag;
+            //using value_type = uint64_t;
 
-        iterator &operator++()
-        {
-            this->index++;
-            return *this;
-        }
-        uint64_t operator*()
-        {
-            return efs->access(this->index);
-        }
-        bool operator!=(const iterator &rhs)
-        {
-            return (index != rhs.index);
-        }
-        bool operator==(const iterator &rhs)
-        {
-            return (index == rhs.index);
-        }
-
-        iterator &operator+=(int64_t p)
-        {
-            this->index += p;
-            return *this;
-        }
-
-        bool operator<(const iterator &rhs)
-        {
-            return (index < rhs.index);
-        }
-        bool operator>(const iterator &rhs)
-        {
-            return (index > rhs.index);
-        }
-        bool operator<=(const iterator &rhs)
-        {
-            return (index <= rhs.index);
-        }
-        bool operator>=(const iterator &rhs)
-        {
-            return (index >= rhs.index);
-        }
-        uint64_t operator-(const iterator &rhs)
-        {
-            if (this->index < rhs.index)
+            iterator(const EliasFanoVector *_efs, uint64_t _index) : index(_index), efs(_efs)
             {
-                return rhs.index - this->index;
             }
-            else
+
+            iterator &operator++()
             {
-                return this->index - rhs.index;
+                this->index++;
+                return *this;
             }
-        }
-    };
-
-private:
-    uint64_t _size = 0;
-    stool::ValueArray lower_bits;
-    sdsl::bit_vector upper_bits;
-    sdsl::bit_vector::select_1_type upper_selecter;
-    uint8_t upper_bit_size;
-    uint8_t lower_bit_size;
-    uint64_t max_value = 0;
-
-    template <typename VEC = std::vector<uint64_t>>
-    void construct_lower_data_structure(const VEC &seq)
-    {
-
-        this->lower_bits.set(seq, true);
-    }
-    void build_lower_data_structure_from_bit_vector(const std::vector<bool> &seq, uint64_t item_count)
-    {
-        uint64_t zero_counter = 0;
-        uint64_t max_value = 0;
-        for (size_t i = 0; i < seq.size(); i++)
-        {
-            if (seq[i])
+            uint64_t operator*()
             {
-                uint64_t lower_value = get_upper_and_lower_bits(zero_counter).second;
-                if (max_value < lower_value)
-                    max_value = lower_value;
+                return efs->access(this->index);
             }
-            else
+            bool operator!=(const iterator &rhs)
             {
-                zero_counter++;
+                return (index != rhs.index);
             }
-        }
-        if (max_value <= UINT8_MAX)
-        {
-            this->lower_bits.resize(item_count, 1);
-        }
-        else if (max_value <= UINT16_MAX)
-        {
-            this->lower_bits.resize(item_count, 2);
-        }
-        else if (max_value <= UINT32_MAX)
-        {
-
-            this->lower_bits.resize(item_count, 4);
-        }
-        else
-        {
-
-            this->lower_bits.resize(item_count, 8);
-        }
-        zero_counter = 0;
-        uint64_t ith = 0;
-        for (size_t i = 0; i < seq.size(); i++)
-        {
-            if (seq[i])
+            bool operator==(const iterator &rhs)
             {
-                uint64_t lower_value = get_upper_and_lower_bits(zero_counter).second;
-                this->lower_bits.change(ith, lower_value);
-                ith++;
+                return (index == rhs.index);
             }
-            else
+
+            iterator &operator+=(int64_t p)
             {
-                zero_counter++;
+                this->index += p;
+                return *this;
             }
-        }
-
-    }
-
-    template <typename VEC = std::vector<uint64_t>>
-    void construct_upper_data_structure(const VEC &seq)
-    {
-
-        vector<bool> tmp2;
-        uint64_t tmp2_pos = 0;
-        for (size_t i = 0; i < seq.size(); i++)
-        {
-            uint64_t upper_value = get_upper_and_lower_bits(seq[i]).first;
-            if (tmp2_pos == upper_value)
+            iterator operator+(int64_t p)
             {
-                tmp2.push_back(true);
+                iterator r(this->efs, this->index + p);
+                return r;
             }
-            else if (tmp2_pos < upper_value)
+
+            bool operator<(const iterator &rhs)
             {
-                while (tmp2_pos < upper_value)
+                return (index < rhs.index);
+            }
+            bool operator>(const iterator &rhs)
+            {
+                return (index > rhs.index);
+            }
+            bool operator<=(const iterator &rhs)
+            {
+                return (index <= rhs.index);
+            }
+            bool operator>=(const iterator &rhs)
+            {
+                return (index >= rhs.index);
+            }
+            uint64_t operator-(const iterator &rhs)
+            {
+                if (this->index < rhs.index)
                 {
-                    tmp2.push_back(false);
-                    ++tmp2_pos;
+                    return rhs.index - this->index;
                 }
-                tmp2.push_back(true);
+                else
+                {
+                    return this->index - rhs.index;
+                }
+            }
+        };
+
+    private:
+        uint64_t _size = 0;
+        stool::ValueArray lower_bits;
+        sdsl::bit_vector upper_bits;
+        sdsl::bit_vector::select_1_type upper_selecter;
+        sdsl::bit_vector::select_0_type upper_0selecter;
+
+        uint8_t upper_bit_size;
+        uint8_t lower_bit_size;
+        uint64_t max_value = 0;
+
+        template <typename VEC = std::vector<uint64_t>>
+        void construct_lower_data_structure(const VEC &seq)
+        {
+
+            this->lower_bits.set(seq, true);
+        }
+        void build_lower_data_structure_from_bit_vector(const std::vector<bool> &seq, uint64_t item_count)
+        {
+            uint64_t zero_counter = 0;
+            uint64_t max_value = 0;
+            for (size_t i = 0; i < seq.size(); i++)
+            {
+                if (seq[i])
+                {
+                    uint64_t lower_value = get_upper_and_lower_bits(zero_counter).second;
+                    if (max_value < lower_value)
+                        max_value = lower_value;
+                }
+                else
+                {
+                    zero_counter++;
+                }
+            }
+            if (max_value <= UINT8_MAX)
+            {
+                this->lower_bits.resize(item_count, 1);
+            }
+            else if (max_value <= UINT16_MAX)
+            {
+                this->lower_bits.resize(item_count, 2);
+            }
+            else if (max_value <= UINT32_MAX)
+            {
+
+                this->lower_bits.resize(item_count, 4);
             }
             else
             {
-                std::runtime_error("error");
+
+                this->lower_bits.resize(item_count, 8);
             }
-            //std::cout << upper_bits[i] << std::endl;
-        }
-        tmp2.push_back(false);
-
-        sdsl::bit_vector b(tmp2.size(), 0);
-        for (uint64_t i = 0; i < tmp2.size(); i++)
-            b[i] = tmp2[i] ? 1 : 0;
-        //sdsl::bit_vector::select_1_type b_sel(&b);
-        upper_bits.swap(b);
-        sdsl::bit_vector::select_1_type b_sel(&upper_bits);
-        upper_selecter.set_vector(&upper_bits);
-        upper_selecter.swap(b_sel);
-    }
-    void build_upper_data_structure_from_bit_vector(const std::vector<bool> &seq)
-    {
-
-        vector<bool> tmp2;
-        uint64_t tmp2_pos = 0;
-        uint64_t zero_counter = 0;
-        for (size_t i = 0; i < seq.size(); i++)
-        {
-            if (seq[i])
+            zero_counter = 0;
+            uint64_t ith = 0;
+            for (size_t i = 0; i < seq.size(); i++)
             {
-                uint64_t upper_value = get_upper_and_lower_bits(zero_counter).first;
+                if (seq[i])
+                {
+                    uint64_t lower_value = get_upper_and_lower_bits(zero_counter).second;
+                    this->lower_bits.change(ith, lower_value);
+                    ith++;
+                }
+                else
+                {
+                    zero_counter++;
+                }
+            }
+        }
+
+        template <typename VEC = std::vector<uint64_t>>
+        void construct_upper_data_structure(const VEC &seq)
+        {
+
+            vector<bool> tmp2;
+            uint64_t tmp2_pos = 0;
+            for (size_t i = 0; i < seq.size(); i++)
+            {
+                uint64_t upper_value = get_upper_and_lower_bits(seq[i]).first;
                 if (tmp2_pos == upper_value)
                 {
                     tmp2.push_back(true);
@@ -238,170 +203,271 @@ private:
                 {
                     std::runtime_error("error");
                 }
+                //std::cout << upper_bits[i] << std::endl;
+            }
+            tmp2.push_back(false);
+
+            sdsl::bit_vector b(tmp2.size(), 0);
+            for (uint64_t i = 0; i < tmp2.size(); i++)
+                b[i] = tmp2[i] ? 1 : 0;
+            //sdsl::bit_vector::select_1_type b_sel(&b);
+            upper_bits.swap(b);
+            sdsl::bit_vector::select_1_type b_sel(&upper_bits);
+            upper_selecter.set_vector(&upper_bits);
+            upper_selecter.swap(b_sel);
+
+            sdsl::bit_vector::select_0_type b0_sel(&upper_bits);
+            upper_0selecter.set_vector(&upper_bits);
+            upper_0selecter.swap(b0_sel);
+        }
+        void build_upper_data_structure_from_bit_vector(const std::vector<bool> &seq)
+        {
+
+            vector<bool> tmp2;
+            uint64_t tmp2_pos = 0;
+            uint64_t zero_counter = 0;
+            for (size_t i = 0; i < seq.size(); i++)
+            {
+                if (seq[i])
+                {
+                    uint64_t upper_value = get_upper_and_lower_bits(zero_counter).first;
+                    if (tmp2_pos == upper_value)
+                    {
+                        tmp2.push_back(true);
+                    }
+                    else if (tmp2_pos < upper_value)
+                    {
+                        while (tmp2_pos < upper_value)
+                        {
+                            tmp2.push_back(false);
+                            ++tmp2_pos;
+                        }
+                        tmp2.push_back(true);
+                    }
+                    else
+                    {
+                        std::runtime_error("error");
+                    }
+                }
+                else
+                {
+                    zero_counter++;
+                }
+                //std::cout << upper_bits[i] << std::endl;
+            }
+            tmp2.push_back(false);
+            sdsl::bit_vector b(tmp2.size(), 0);
+            for (uint64_t i = 0; i < tmp2.size(); i++)
+                b[i] = tmp2[i] ? 1 : 0;
+            //sdsl::bit_vector::select_1_type b_sel(&b);
+            upper_bits.swap(b);
+            sdsl::bit_vector::select_1_type b_sel(&upper_bits);
+            upper_selecter.set_vector(&upper_bits);
+            upper_selecter.swap(b_sel);
+
+            sdsl::bit_vector::select_0_type b0_sel(&upper_bits);
+            upper_0selecter.set_vector(&upper_bits);
+            upper_0selecter.swap(b0_sel);
+        }
+
+        std::pair<uint64_t, uint64_t> get_upper_and_lower_bits(uint64_t value) const
+        {
+            uint64_t upper = value >> this->lower_bit_size;
+            uint64_t upper_filter = 64 - this->lower_bit_size;
+            uint64_t lower = (value << upper_filter) >> upper_filter;
+            return std::pair<uint64_t, uint64_t>(upper, lower);
+        }
+
+        uint64_t recover(uint64_t lower, uint64_t upper) const
+        {
+            return (upper << lower_bit_size) | lower;
+        }
+
+    public:
+        using value_type = uint64_t;
+        using const_iterator = iterator;
+
+        EliasFanoVector()
+        {
+        }
+
+        EliasFanoVector(EliasFanoVector &&obj) : lower_bits(std::move(obj.lower_bits))
+        {
+
+            this->_size = obj._size;
+            this->upper_bit_size = obj.upper_bit_size;
+            this->lower_bit_size = obj.lower_bit_size;
+            this->max_value = obj.max_value;
+            this->upper_bits.swap(obj.upper_bits);
+            this->upper_selecter.set_vector(&this->upper_bits);
+            this->upper_selecter.swap(obj.upper_selecter);
+
+            this->upper_0selecter.set_vector(&this->upper_bits);
+            this->upper_0selecter.swap(obj.upper_0selecter);
+        }
+        template <typename VEC = std::vector<uint64_t>>
+        void construct(VEC *seq)
+        {
+            for (auto it : *seq)
+            {
+                if (max_value < it)
+                    max_value = it;
+            }
+            _size = seq->size();
+
+            this->upper_bit_size = std::log2(seq->size()) + 1;
+            this->lower_bit_size = (std::log2(max_value) + 1) - upper_bit_size;
+
+            this->construct_upper_data_structure(*seq);
+
+            for (uint64_t i = 0; i < _size; i++)
+            {
+                (*seq)[i] = get_upper_and_lower_bits((*seq)[i]).second;
+            }
+            this->construct_lower_data_structure(*seq);
+            for (uint64_t i = 0; i < _size; i++)
+            {
+                (*seq)[i] = this->access(i);
+            }
+
+            //this->check(*seq);
+        }
+        void build_from_bit_vector(const std::vector<bool> &seq)
+        {
+            uint64_t zero_counter = 0;
+            uint64_t max_value = 0;
+            uint64_t item_count = 0;
+            for (size_t i = 0; i < seq.size(); i++)
+            {
+                if (seq[i])
+                {
+                    uint64_t value = zero_counter;
+                    item_count++;
+                    if (max_value < value)
+                        max_value = value;
+                }
+                else
+                {
+                    zero_counter++;
+                }
+            }
+            _size = item_count;
+            this->upper_bit_size = std::log2(item_count) + 1;
+            this->lower_bit_size = (std::log2(max_value) + 1) - upper_bit_size;
+
+            this->build_upper_data_structure_from_bit_vector(seq);
+            this->build_lower_data_structure_from_bit_vector(seq, item_count);
+        }
+
+        uint64_t access(uint64_t i) const
+        {
+            uint64_t upper = (upper_selecter(i + 1) - i);
+            uint64_t lower = lower_bits[i];
+            return (upper << lower_bit_size) | lower;
+        }
+        uint64_t rank(uint64_t value) const
+        {
+            auto min_value = this->access(0);
+            if (value > min_value)
+            {
+                std::pair<uint64_t, uint64_t> ul = get_upper_and_lower_bits(value);
+                
+
+                uint64_t l = ul.first == 0 ? 0 : upper_0selecter(ul.first) - (ul.first - 1);
+                uint64_t lpos = l == 0 ? 0 : (l - 1);
+                uint64_t r = upper_0selecter(ul.first + 1) - (ul.first);
+                uint64_t rpos = r == 0 ? 0 : (r - 1);
+
+                if (rpos - lpos < 16)
+                {
+                    for (uint64_t i = lpos; i <= rpos; i++)
+                    {
+                        if (this->access(i) >= value)
+                        {
+                            return i;
+                        }
+                    }
+                    return rpos + 1;
+                }
+                else
+                {
+                    auto p2 = std::lower_bound(this->begin() + lpos, this->begin() + (rpos + 1), value);
+                    uint64_t pos2 = std::distance(this->begin(), p2);
+
+                    return pos2;
+                }
             }
             else
             {
-                zero_counter++;
+                return 0;
             }
-            //std::cout << upper_bits[i] << std::endl;
-        }
-        tmp2.push_back(false);
-        sdsl::bit_vector b(tmp2.size(), 0);
-        for (uint64_t i = 0; i < tmp2.size(); i++)
-            b[i] = tmp2[i] ? 1 : 0;
-        //sdsl::bit_vector::select_1_type b_sel(&b);
-        upper_bits.swap(b);
-        sdsl::bit_vector::select_1_type b_sel(&upper_bits);
-        upper_selecter.set_vector(&upper_bits);
-        upper_selecter.swap(b_sel);
-
-    }
-
-    std::pair<uint64_t, uint64_t> get_upper_and_lower_bits(uint64_t value) const
-    {
-        uint64_t upper = value >> this->lower_bit_size;
-        uint64_t upper_filter = 64 - this->lower_bit_size;
-        uint64_t lower = (value << upper_filter) >> upper_filter;
-        return std::pair<uint64_t, uint64_t>(upper, lower);
-    }
-
-    uint64_t recover(uint64_t lower, uint64_t upper) const
-    {
-        return (upper << lower_bit_size) | lower;
-    }
-
-public:
-    using value_type = uint64_t;
-    using const_iterator = iterator;
-
-    EliasFanoVector()
-    {
-    }
-
-    EliasFanoVector(EliasFanoVector &&obj) : lower_bits(std::move(obj.lower_bits))
-    {
-
-        this->_size = obj._size;
-        this->upper_bit_size = obj.upper_bit_size;
-        this->lower_bit_size = obj.lower_bit_size;
-        this->max_value = obj.max_value;
-        this->upper_bits.swap(obj.upper_bits);
-        this->upper_selecter.set_vector(&this->upper_bits);
-        this->upper_selecter.swap(obj.upper_selecter);
-    }
-    template <typename VEC = std::vector<uint64_t>>
-    void construct(VEC *seq)
-    {
-        for (auto it : *seq)
-        {
-            if (max_value < it)
-                max_value = it;
-        }
-        _size = seq->size();
-
-        this->upper_bit_size = std::log2(seq->size()) + 1;
-        this->lower_bit_size = (std::log2(max_value) + 1) - upper_bit_size;
-
-        this->construct_upper_data_structure(*seq);
-
-        for (uint64_t i = 0; i < _size; i++)
-        {
-            (*seq)[i] = get_upper_and_lower_bits((*seq)[i]).second;
-        }
-        this->construct_lower_data_structure(*seq);
-        for (uint64_t i = 0; i < _size; i++)
-        {
-            (*seq)[i] = this->access(i);
         }
 
-        //this->check(*seq);
-    }
-    void build_from_bit_vector(const std::vector<bool> &seq)
-    {
-        uint64_t zero_counter = 0;
-        uint64_t max_value = 0;
-        uint64_t item_count = 0;
-        for (size_t i = 0; i < seq.size(); i++)
+        template <typename VEC = std::vector<uint64_t>>
+        void check(const VEC &seq)
         {
-            if (seq[i])
+            for (uint64_t i = 0; i < seq.size(); i++)
             {
-                uint64_t value = zero_counter;
-                item_count++;
-                if (max_value < value)
-                    max_value = value;
+                uint64_t p = this->access(i);
+                if (seq[i] != p)
+                {
+                    throw std::logic_error("Something error!");
+                }
             }
-            else
-            {
-                zero_counter++;
-            }
+            std::cout << "OK!" << std::endl;
         }
-        _size = item_count;
-        this->upper_bit_size = std::log2(item_count) + 1;
-        this->lower_bit_size = (std::log2(max_value) + 1) - upper_bit_size;
-
-
-        this->build_upper_data_structure_from_bit_vector(seq);
-        this->build_lower_data_structure_from_bit_vector(seq, item_count);
-
-    }
-
-    uint64_t access(uint64_t i) const
-    {
-        uint64_t upper = (upper_selecter(i + 1) - i);
-        uint64_t lower = lower_bits[i];
-        return (upper << lower_bit_size) | lower;
-    }
-    uint64_t predecessor(uint64_t value) const {
-        std::pair<uint64_t, uint64_t> ul = get_upper_and_lower_bits(value);
-        
-    }
-
-    template <typename VEC = std::vector<uint64_t>>
-    void check(const VEC &seq)
-    {
-        for (uint64_t i = 0; i < seq.size(); i++)
+        uint64_t operator[](uint64_t i) const
         {
-            uint64_t p = this->access(i);
-            if (seq[i] != p)
-            {
-                throw std::logic_error("Something error!");
-            }
+            return this->access(i);
         }
-        std::cout << "OK!" << std::endl;
-    }
-    uint64_t operator[](uint64_t i) const
-    {
-        return this->access(i);
-    }
-    std::vector<uint64_t> to_vector()
-    {
-        std::vector<uint64_t> r;
-        for (uint64_t i = 0; i < _size; i++)
+        std::vector<uint64_t> to_vector()
         {
-            r.push_back(this->access(i));
+            std::vector<uint64_t> r;
+            for (uint64_t i = 0; i < _size; i++)
+            {
+                r.push_back(this->access(i));
+            }
+
+            return r;
+        }
+        uint64_t size() const
+        {
+            return this->_size;
         }
 
-        return r;
-    }
-    uint64_t size() const
-    {
-        return this->_size;
-    }
+        iterator begin() const
+        {
+            auto p = iterator(this, 0);
+            return p;
+        }
+        iterator end() const
+        {
+            auto p = iterator(this, _size);
+            return p;
+        }
 
-    iterator begin() const
-    {
-        auto p = iterator(this, 0);
-        return p;
-    }
-    iterator end() const
-    {
-        auto p = iterator(this, _size);
-        return p;
-    }
+        uint64_t get_using_memory() const
+        {
+            return this->lower_bits.get_using_memory() + (this->upper_bits.size() / 8) + 18;
+        }
 
-    uint64_t get_using_memory() const {
-        return this->lower_bits.get_using_memory() + (this->upper_bits.size()/8) + 18;
-    }
-};
+        void print() const
+        {
+            uint64_t upper_size = upper_bits.size();
+            std::cout << "Upper bits: ";
+            for (uint64_t i = 0; i < upper_size; i++)
+            {
+                std::cout << (upper_bits[i] ? "1" : "0");
+            }
+            std::cout << std::endl;
+            for (uint64_t i = 0; i < this->size(); i++)
+            {
+                uint64_t p = this->access(i);
+                std::pair<uint64_t, uint64_t> ul = get_upper_and_lower_bits(p);
+                std::cout << "[" << p << ", " << ul.first << ", " << ul.second << "]";
+            }
+            std::cout << std::endl;
+        }
+    };
 
 } // namespace stool
