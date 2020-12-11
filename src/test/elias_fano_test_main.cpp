@@ -53,7 +53,7 @@ uint64_t rank2(std::vector<uint64_t> &sorted_items, uint64_t value)
 
 uint64_t rank3(std::vector<uint64_t> &sorted_items, uint64_t value)
 {
-    uint64_t x = rank2(sorted_items, value+1) - 1;
+    uint64_t x = rank2(sorted_items, value + 1) - 1;
     auto p = std::upper_bound(sorted_items.begin(), sorted_items.end(), value);
     uint64_t pos = std::distance(sorted_items.begin(), p) - 1;
     /*
@@ -61,7 +61,8 @@ uint64_t rank3(std::vector<uint64_t> &sorted_items, uint64_t value)
         pos = 0;
     }
     */
-    if(x != pos){
+    if (x != pos)
+    {
         std::cout << "RANK ERRO" << x << ", " << pos << std::endl;
         throw -1;
     }
@@ -69,8 +70,78 @@ uint64_t rank3(std::vector<uint64_t> &sorted_items, uint64_t value)
     return pos;
 }
 
+void rankTest()
+{
+    std::vector<uint64_t> r = create_random_integer_vector(30000, 3000);
+    stool::Printer::print(r);
+
+    stool::EliasFanoVector efs;
+    efs.construct(&r);
+
+    std::cout << "Rank Test" << std::endl;
+    uint64_t value1 = 10000;
+
+    auto p1 = std::upper_bound(r.begin(), r.end(), value1);
+    uint64_t pos1 = std::distance(r.begin(), p1) - 1;
+    std::cout << r[pos1] << " <= " << value1 << " <= " << r[pos1 + 1] << std::endl;
+
+    auto p2 = std::upper_bound(efs.begin(), efs.end(), value1);
+    uint64_t pos2 = std::distance(efs.begin(), p2) - 1;
+    std::cout << r[pos2] << " <= " << value1 << " <= " << r[pos2 + 1] << std::endl;
+
+    efs.print();
+    /*
+    efs2.rank(value1);
+    efs2.rank(efs2.access(0)+1);
+    */
+
+    std::vector<uint64_t> test_r = create_random_integer_vector(50000, 3000);
+    for (auto &i : test_r)
+    {
+        uint64_t collect_value = rank2(r, i);
+        uint64_t test_value = efs.rank(i);
+        rank3(r, i);
+        std::cout << i << ", " << test_value << ", " << collect_value << std::endl;
+
+        if (test_value != collect_value)
+        {
+            std::cout << "rank Error" << std::endl;
+            throw -1;
+        }
+    }
+}
+void builderTest()
+{
+    std::vector<uint64_t> r = create_random_integer_vector(30000, 300);
+    stool::Printer::print(r);
+
+    uint64_t max_value = r[r.size()-1];
+    stool::EliasFanoVectorBuilder builder(max_value, r.size());
+
+    for(auto &it: r){
+        builder.push(it);
+    }
+    builder.finish();    
+    std::vector<uint64_t> r2;    
+    builder.to_vector(r2);
+
+    stool::equal_check(r, r2);
+
+    stool::EliasFanoVector efv;
+    efv.build_from_builder(builder);
+
+        
+
+    std::vector<uint64_t> r3 = efv.to_vector();
+    stool::equal_check(r, r3);
+
+    std::cout << "OK!" << std::endl;
+
+}
+
 int main()
 {
+    /*
     std::vector<uint64_t> r = create_random_integer_vector(30000, 3000);
     stool::Printer::print(r);
 
@@ -80,11 +151,7 @@ int main()
     std::vector<uint64_t> r2;
     va.decode(r2);
     stool::Printer::print(r2);
-    /*
-    for(int i=0;i<r2.size();i++){
-        std::cout << stool::toBinaryString(r2[i]) << std::endl;
-    }
-    */
+
     stool::EliasFanoVector efs;
     efs.construct(&r2);
 
@@ -98,35 +165,8 @@ int main()
         r4.push_back(it);
     stool::Printer::print(r4);
 
-    std::cout << "Predecessor Test" << std::endl;
-    uint64_t value1 = 10000;
-
-    auto p1 = std::upper_bound(r.begin(), r.end(), value1);
-    uint64_t pos1 = std::distance(r.begin(), p1) - 1;
-    std::cout << r[pos1] << " <= " << value1 << " <= " << r[pos1 + 1] << std::endl;
-
-    auto p2 = std::upper_bound(efs2.begin(), efs2.end(), value1);
-    uint64_t pos2 = std::distance(efs2.begin(), p2) - 1;
-    std::cout << r[pos2] << " <= " << value1 << " <= " << r[pos2 + 1] << std::endl;
-
-    efs2.print();
-    /*
-    efs2.rank(value1);
-    efs2.rank(efs2.access(0)+1);
     */
 
-    std::vector<uint64_t> test_r = create_random_integer_vector(50000, 3000);
-    for (auto &i : test_r)
-    {
-        uint64_t collect_value = rank2(r, i);
-        uint64_t test_value = efs2.rank(i);
-        rank3(r, i);
-        std::cout << i << ", " << test_value << ", " << collect_value << std::endl;
-
-        if (test_value != collect_value)
-        {
-            std::cout << "rank Error" << std::endl;
-            throw -1;
-        }
-    }
+    //rankTest();
+    builderTest();
 }

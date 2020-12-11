@@ -29,6 +29,152 @@ std::string toBinaryString(uint64_t x)
 }
 */
 
+    class EliasFanoVectorBuilder
+    {
+    public:
+        uint64_t _size = 0;
+        stool::ValueArray lower_bits;
+        std::vector<bool> upper_bits;
+
+        uint8_t upper_bit_size;
+        uint8_t lower_bit_size;
+        uint64_t max_value = 0;
+
+        uint64_t current_zero_num_on_upper_bits = 0;
+        uint64_t current_element_count = 0;
+        uint64_t tmp_value = 0;
+
+        EliasFanoVectorBuilder(uint64_t universe, uint64_t element_num)
+        {
+            _size = element_num;
+
+            this->upper_bit_size = std::log2(_size) + 1;
+            this->lower_bit_size = (std::log2(universe) + 1) - upper_bit_size;
+
+            if (this->lower_bit_size <= 8)
+            {
+                this->lower_bits.resize(element_num, 1);
+            }
+            else if (this->lower_bit_size <= 16)
+            {
+                this->lower_bits.resize(element_num, 2);
+            }
+            else if (this->lower_bit_size <= 32)
+            {
+                this->lower_bits.resize(element_num, 4);
+            }
+            else
+            {
+                this->lower_bits.resize(element_num, 8);
+            }
+        }
+        std::pair<uint64_t, uint64_t> get_upper_and_lower_bits(uint64_t value) const
+        {
+            uint64_t upper = value >> this->lower_bit_size;
+            uint64_t upper_filter = 64 - this->lower_bit_size;
+            uint64_t lower = (value << upper_filter) >> upper_filter;
+            return std::pair<uint64_t, uint64_t>(upper, lower);
+        }
+        void push_bit(bool bit)
+        {
+            if (bit)
+            {
+                std::pair<uint64_t, uint64_t> lr = get_upper_and_lower_bits(tmp_value);
+                this->lower_bits.change(current_element_count, lr.second);
+
+                uint64_t upper_value = lr.first;
+                if (current_zero_num_on_upper_bits == upper_value)
+                {
+                    upper_bits.push_back(true);
+                }
+                else if (current_zero_num_on_upper_bits < upper_value)
+                {
+                    while (current_zero_num_on_upper_bits < upper_value)
+                    {
+                        upper_bits.push_back(false);
+                        ++current_zero_num_on_upper_bits;
+                    }
+                    upper_bits.push_back(true);
+                }
+                else
+                {
+                    std::runtime_error("error");
+                }
+            }
+            else
+            {
+                tmp_value++;
+            }
+        }
+        void push(uint64_t value)
+        {
+            std::pair<uint64_t, uint64_t> lr = get_upper_and_lower_bits(value);
+
+            uint64_t upper_value = lr.first;
+            this->lower_bits.change(current_element_count, lr.second);
+            if (current_zero_num_on_upper_bits == upper_value)
+            {
+                upper_bits.push_back(true);
+            }
+            else if (current_zero_num_on_upper_bits < upper_value)
+            {
+                while (current_zero_num_on_upper_bits < upper_value)
+                {
+                    upper_bits.push_back(false);
+                    ++current_zero_num_on_upper_bits;
+                }
+                upper_bits.push_back(true);
+            }
+            else
+            {
+                std::runtime_error("error");
+            }
+            current_element_count++;
+        }
+        void finish()
+        {
+            upper_bits.push_back(false);
+        }
+
+        uint64_t upper_selecter(uint64_t i) const
+        {
+            uint64_t p = 0;
+            for (uint64_t x = 0; x < this->upper_bits.size(); x++)
+            {
+                if (this->upper_bits[x])
+                {
+                    p++;
+                }
+                if (p == i)
+                {
+                    return x;
+                }
+            }
+            return UINT64_MAX;
+        }
+        uint64_t access(uint64_t i) const
+        {
+            uint64_t upper = (upper_selecter(i + 1) - i);
+            uint64_t lower = lower_bits[i];
+            return (upper << lower_bit_size) | lower;
+        }
+        void print()
+        {
+            for (uint64_t i = 0; i < this->current_element_count; i++)
+            {
+                std::cout << this->access(i) << ", ";
+            }
+        }
+        void to_vector(std::vector<uint64_t> &output)
+        {
+            output.resize(this->current_element_count);
+            for (uint64_t i = 0; i < this->current_element_count; i++)
+            {
+                output[i] = this->access(i);
+            }
+        }
+    };
+
     class EliasFanoVector
     {
     public:
@@ -119,7 +265,9 @@ std::string toBinaryString(uint64_t x)
         uint8_t lower_bit_size;
         uint64_t max_value = 0;
 
-        template <typename VEC = std::vector<uint64_t>>
+        //template <typename VEC = std::vector<uint64_t>>
+
+        /*
         void construct_lower_data_structure(const VEC &seq)
         {
 
@@ -269,6 +417,7 @@ std::string toBinaryString(uint64_t x)
             upper_0selecter.set_vector(&upper_bits);
             upper_0selecter.swap(b0_sel);
         }
+        */
 
         std::pair<uint64_t, uint64_t> get_upper_and_lower_bits(uint64_t value) const
         {
@@ -305,15 +454,58 @@ std::string toBinaryString(uint64_t x)
             this->upper_0selecter.set_vector(&this->upper_bits);
             this->upper_0selecter.swap(obj.upper_0selecter);
         }
+        void build_from_builder(EliasFanoVectorBuilder &builder)
+        {
+            this->upper_bit_size = builder.upper_bit_size;
+            this->lower_bit_size = builder.lower_bit_size;
+            this->_size = builder._size;
+            this->max_value = builder.max_value;
+
+            sdsl::bit_vector b(builder.upper_bits.size(), 0);
+            for (uint64_t i = 0; i < builder.upper_bits.size(); i++)
+                b[i] = builder.upper_bits[i] ? 1 : 0;
+            upper_bits.swap(b);
+
+            sdsl::bit_vector::select_1_type b_sel(&upper_bits);
+            upper_selecter.set_vector(&upper_bits);
+            upper_selecter.swap(b_sel);
+
+            sdsl::bit_vector::select_0_type b0_sel(&upper_bits);
+            upper_0selecter.set_vector(&upper_bits);
+            upper_0selecter.swap(b0_sel);
+
+            this->lower_bits.swap(builder.lower_bits);
+        }
         template <typename VEC = std::vector<uint64_t>>
         void construct(VEC *seq)
         {
+            uint64_t _max_value = 0;
+            for (auto it : *seq)
+            {
+                if (_max_value < it)
+                    _max_value = it;
+            }
+
+            EliasFanoVectorBuilder builder(_max_value, seq->size());
+            for (auto it : *seq)
+            {
+                builder.push(it);
+            }
+            builder.finish();
+            this->build_from_builder(builder);
+
+            /*
+
             for (auto it : *seq)
             {
                 if (max_value < it)
                     max_value = it;
             }
-            _size = seq->size();
+
+            this->upper_bit_size = builder.upper_bit_size;
+            this->lower_bit_size = builder.lower_bit_size;
+            this->_size = builder._size;
+            this->max_value = builder.max_value;
 
             this->upper_bit_size = std::log2(seq->size()) + 1;
             this->lower_bit_size = (std::log2(max_value) + 1) - upper_bit_size;
@@ -329,11 +521,34 @@ std::string toBinaryString(uint64_t x)
             {
                 (*seq)[i] = this->access(i);
             }
+            */
 
             //this->check(*seq);
         }
         void build_from_bit_vector(const std::vector<bool> &seq)
         {
+            uint64_t _max_value = 0;
+            uint64_t _element_num = 0;
+            for (auto it : seq)
+            {
+                if (it)
+                {
+                    _element_num++;
+                }
+                else
+                {
+                    _max_value++;
+                }
+            }
+            EliasFanoVectorBuilder builder(_max_value, _element_num);
+            for (auto it : seq)
+            {
+                builder.push_bit(it);
+            }
+            builder.finish();
+            this->build_from_builder(builder);
+
+            /*
             uint64_t zero_counter = 0;
             uint64_t max_value = 0;
             uint64_t item_count = 0;
@@ -357,6 +572,7 @@ std::string toBinaryString(uint64_t x)
 
             this->build_upper_data_structure_from_bit_vector(seq);
             this->build_lower_data_structure_from_bit_vector(seq, item_count);
+            */
         }
 
         uint64_t access(uint64_t i) const
@@ -371,7 +587,6 @@ std::string toBinaryString(uint64_t x)
             if (value > min_value)
             {
                 std::pair<uint64_t, uint64_t> ul = get_upper_and_lower_bits(value);
-                
 
                 uint64_t l = ul.first == 0 ? 0 : upper_0selecter(ul.first) - (ul.first - 1);
                 uint64_t lpos = l == 0 ? 0 : (l - 1);

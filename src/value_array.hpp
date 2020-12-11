@@ -48,6 +48,12 @@ public:
 
     uint64_t operator[](uint64_t i) const;
 
+    void swap(ValueArray &obj){
+        this->num = obj.num;
+        this->arr.swap(obj.arr);
+        this->byteSize = obj.byteSize;
+    }
+
     template <typename BYTE>
     void set(const vector<BYTE> &_arr, bool isShrink)
     {
