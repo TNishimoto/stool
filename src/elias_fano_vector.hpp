@@ -44,7 +44,10 @@ std::string toBinaryString(uint64_t x)
         uint64_t current_element_count = 0;
         uint64_t tmp_value = 0;
 
-        EliasFanoVectorBuilder(uint64_t universe, uint64_t element_num)
+        EliasFanoVectorBuilder()
+        {
+        }
+        void initialize(uint64_t universe, uint64_t element_num)
         {
             _size = element_num;
 
@@ -68,6 +71,7 @@ std::string toBinaryString(uint64_t x)
                 this->lower_bits.resize(element_num, 8);
             }
         }
+
         std::pair<uint64_t, uint64_t> get_upper_and_lower_bits(uint64_t value) const
         {
             uint64_t upper = value >> this->lower_bit_size;
@@ -100,6 +104,7 @@ std::string toBinaryString(uint64_t x)
                 {
                     std::runtime_error("error");
                 }
+                current_element_count++;
             }
             else
             {
@@ -160,17 +165,39 @@ std::string toBinaryString(uint64_t x)
         }
         void print()
         {
+            std::cout << "print" << std::endl;
+            for (uint64_t i = 0; i < this->upper_bits.size(); i++)
+            {
+                std::cout << (this->upper_bits[i] ? "1" : "0");
+            }
+            std::cout << std::endl;
+            std::cout << this->current_element_count << std::endl;
+
             for (uint64_t i = 0; i < this->current_element_count; i++)
             {
                 std::cout << this->access(i) << ", ";
             }
+            std::cout << "print end" << std::endl;
         }
         void to_vector(std::vector<uint64_t> &output)
         {
             output.resize(this->current_element_count);
-            for (uint64_t i = 0; i < this->current_element_count; i++)
+
+            uint64_t p = 0;
+            uint64_t index = 0;
+            for (uint64_t i = 0; i < this->upper_bits.size(); i++)
             {
-                output[i] = this->access(i);
+                if (this->upper_bits[i])
+                {
+                    uint64_t upper = p;
+                    uint64_t lower = lower_bits[index];
+                    output[index] = (upper << lower_bit_size) | lower;
+                    index++;
+                }
+                else
+                {
+                    p++;
+                }
             }
         }
     };
@@ -486,7 +513,9 @@ std::string toBinaryString(uint64_t x)
                     _max_value = it;
             }
 
-            EliasFanoVectorBuilder builder(_max_value, seq->size());
+            EliasFanoVectorBuilder builder;
+            builder.initialize(_max_value, seq->size());
+
             for (auto it : *seq)
             {
                 builder.push(it);
@@ -540,7 +569,8 @@ std::string toBinaryString(uint64_t x)
                     _max_value++;
                 }
             }
-            EliasFanoVectorBuilder builder(_max_value, _element_num);
+            EliasFanoVectorBuilder builder;
+            builder.initialize(_max_value, _element_num);
             for (auto it : seq)
             {
                 builder.push_bit(it);

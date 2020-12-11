@@ -116,7 +116,8 @@ void builderTest()
     stool::Printer::print(r);
 
     uint64_t max_value = r[r.size()-1];
-    stool::EliasFanoVectorBuilder builder(max_value, r.size());
+    stool::EliasFanoVectorBuilder builder;
+    builder.initialize(max_value, r.size());
 
     for(auto &it: r){
         builder.push(it);
