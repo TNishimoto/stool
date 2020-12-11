@@ -113,6 +113,7 @@ std::string toBinaryString(uint64_t x)
         }
         void push(uint64_t value)
         {
+            assert(current_element_count < _size);
             std::pair<uint64_t, uint64_t> lr = get_upper_and_lower_bits(value);
 
             uint64_t upper_value = lr.first;
