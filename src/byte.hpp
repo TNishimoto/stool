@@ -3,8 +3,10 @@
 #include <array>
 #include <cmath>
 
-namespace stool {
-	class Byte {
+namespace stool
+{
+	class Byte
+	{
 	private:
 		inline static int64_t numofbits4(int64_t bits)
 		{
@@ -24,25 +26,30 @@ namespace stool {
 			bits = (bits & 0x00ff00ff) + (bits >> 8 & 0x00ff00ff);
 			return (bits & 0x0000ffff) + (bits >> 16 & 0x0000ffff);
 		}
-	public:
 
-		inline static int64_t countBits(int64_t bits) {
+	public:
+		inline static int64_t countBits(int64_t bits)
+		{
 			return numofbits4(bits);
 		}
-		inline static int64_t numberOfLeadingZero(int64_t x) {
+		inline static int64_t numberOfLeadingZero(int64_t x)
+		{
 			return numofbits5((~x) & (x - 1));
 		}
-		inline static bool getBit(int64_t x, int64_t nth) {
+		inline static bool getBit(int64_t x, int64_t nth)
+		{
 			return ((x >> nth) & 0x00000001) > 0;
 		}
-
 	};
 
-	class Log {
+	class Log
+	{
 	public:
-		const std::array<long long, 10> logArr{ 0, 
-			(long long)std::pow(2,1), (long long)std::pow(2,2), (long long)std::pow(2,3), (long long)std::pow(2,4), (long long)std::pow(2,5), 
-			(long long)std::pow(2,6), (long long)std::pow(2,7), (long long)std::pow(2,8), (long long)std::pow(2,9) };
+		/*
+		const std::array<long long, 10> logArr{0,
+											   (long long)std::pow(2, 1), (long long)std::pow(2, 2), (long long)std::pow(2, 3), (long long)std::pow(2, 4), (long long)std::pow(2, 5),
+											   (long long)std::pow(2, 6), (long long)std::pow(2, 7), (long long)std::pow(2, 8), (long long)std::pow(2, 9)};
+		*/
 		inline static int64_t logIterate(int64_t n)
 		{
 			return log2Iterate(n, 0);
@@ -62,7 +69,7 @@ namespace stool {
 			else
 			{
 				r = -1;
-				throw - 1;
+				throw -1;
 			}
 			return r;
 		}
@@ -84,13 +91,14 @@ namespace stool {
 						//int64_t r = (int64_t)(n - m);
 						return t;
 					}
-					if (m == 0){
+					if (m == 0)
+					{
 						throw std::out_of_range("Log2 Error!");
-					} 
+					}
 					m *= 2;
 					t++;
 				}
 			}
 		}
 	};
-}
+} // namespace stool
