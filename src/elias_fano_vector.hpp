@@ -44,6 +44,10 @@ std::string toBinaryString(uint64_t x)
         uint64_t current_element_count = 0;
         uint64_t tmp_value = 0;
 
+        uint64_t get_using_memory() const
+        {
+            return this->lower_bits.get_using_memory() + (this->upper_bits.size() / 8) + 42;
+        }
         EliasFanoVectorBuilder()
         {
         }
