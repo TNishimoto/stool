@@ -43,6 +43,9 @@ std::string toBinaryString(uint64_t x)
         uint64_t current_zero_num_on_upper_bits = 0;
         uint64_t current_element_count = 0;
         uint64_t tmp_value = 0;
+        uint64_t universe = 0;
+
+        //uint64_t base_bit_size = 0;
 
         uint64_t get_using_memory() const
         {
@@ -51,11 +54,20 @@ std::string toBinaryString(uint64_t x)
         EliasFanoVectorBuilder()
         {
         }
-        void initialize(uint64_t universe, uint64_t element_num)
+        void initialize(uint64_t _universe, uint64_t element_num)
         {
+            uint64_t x = std::log2(_size) + 1;
+            this->initialize(_universe, element_num, x);
+        }
+        void initialize(uint64_t _universe, uint64_t element_num, uint64_t _upper_bit_size)
+        {
+
+            this->universe = _universe;
+            uint64_t x = std::log2(_size) + 1;
+            assert(x <= _upper_bit_size);
             _size = element_num;
 
-            this->upper_bit_size = std::log2(_size) + 1;
+            this->upper_bit_size = _upper_bit_size;
             this->lower_bit_size = (std::log2(universe) + 1) - upper_bit_size;
 
             if (this->lower_bit_size <= 8)
@@ -74,6 +86,35 @@ std::string toBinaryString(uint64_t x)
             {
                 this->lower_bits.resize(element_num, 8);
             }
+        }
+        void swap(EliasFanoVectorBuilder &builder)
+        {
+            this->_size = builder._size;
+            this->lower_bits.swap(builder.lower_bits);
+            this->upper_bits.swap(builder.upper_bits);
+
+            std::swap(this->upper_bit_size, builder.upper_bit_size);
+            std::swap(this->lower_bit_size, builder.lower_bit_size);
+            std::swap(this->max_value, builder.max_value);
+            std::swap(this->current_zero_num_on_upper_bits, builder.current_zero_num_on_upper_bits);
+            std::swap(this->current_element_count, builder.current_element_count);
+            std::swap(this->tmp_value, builder.tmp_value);
+            std::swap(this->universe, builder.universe);
+        }
+        void merge(EliasFanoVectorBuilder &builder, uint64_t add_value)
+        {
+            std::vector<uint64_t> output;
+            builder.to_vector(output);
+
+            for (auto &it : output)
+            {
+                assert(add_value + it <= this->universe);
+
+                this->push(add_value + it);
+            }
+
+            EliasFanoVectorBuilder _tmp;
+            builder.swap(_tmp);
         }
 
         std::pair<uint64_t, uint64_t> get_upper_and_lower_bits(uint64_t value) const
@@ -118,10 +159,12 @@ std::string toBinaryString(uint64_t x)
         void push(uint64_t value)
         {
             assert(current_element_count < _size);
+            assert(value <= this->universe);
             std::pair<uint64_t, uint64_t> lr = get_upper_and_lower_bits(value);
 
             uint64_t upper_value = lr.first;
             this->lower_bits.change(current_element_count, lr.second);
+
             if (current_zero_num_on_upper_bits == upper_value)
             {
                 upper_bits.push_back(true);
@@ -139,6 +182,7 @@ std::string toBinaryString(uint64_t x)
             {
                 std::runtime_error("error");
             }
+
             current_element_count++;
         }
         void finish()
