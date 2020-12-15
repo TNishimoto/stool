@@ -56,15 +56,19 @@ std::string toBinaryString(uint64_t x)
         }
         void initialize(uint64_t _universe, uint64_t element_num)
         {
-            uint64_t x = std::log2(_size) + 1;
+            uint64_t x = element_num == 0 ? 1 : std::log2(element_num) + 1;
+
             this->initialize(_universe, element_num, x);
         }
         void initialize(uint64_t _universe, uint64_t element_num, uint64_t _upper_bit_size)
         {
 
             this->universe = _universe;
+            #if DEBUG
             uint64_t x = std::log2(_size) + 1;
             assert(x <= _upper_bit_size);
+
+            #endif
             _size = element_num;
 
             this->upper_bit_size = _upper_bit_size;
@@ -103,15 +107,35 @@ std::string toBinaryString(uint64_t x)
         }
         void merge(EliasFanoVectorBuilder &builder, uint64_t add_value)
         {
-            std::vector<uint64_t> output;
-            builder.to_vector(output);
+            //std::vector<uint64_t> output;
+            //builder.to_vector(output);
 
+            uint64_t p = 0;
+            uint64_t index = 0;
+            for (uint64_t i = 0; i < builder.upper_bits.size(); i++)
+            {
+                if (builder.upper_bits[i])
+                {
+                    uint64_t upper = p;
+                    uint64_t lower = builder.lower_bits[index];
+                    uint64_t value = (upper << builder.lower_bit_size) | lower;
+                this->push(add_value + value);
+
+                    index++;
+                }
+                else
+                {
+                    p++;
+                }
+            }
+
+            /*
             for (auto &it : output)
             {
                 assert(add_value + it <= this->universe);
 
-                this->push(add_value + it);
             }
+            */
 
             EliasFanoVectorBuilder _tmp;
             builder.swap(_tmp);
@@ -228,6 +252,7 @@ std::string toBinaryString(uint64_t x)
             }
             std::cout << "print end" << std::endl;
         }
+        
         void to_vector(std::vector<uint64_t> &output)
         {
             output.resize(this->current_element_count);
@@ -249,6 +274,7 @@ std::string toBinaryString(uint64_t x)
                 }
             }
         }
+        
     };
 
     class EliasFanoVector
