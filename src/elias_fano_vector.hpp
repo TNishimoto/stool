@@ -33,7 +33,8 @@ std::string toBinaryString(uint64_t x)
     {
     public:
         uint64_t _size = 0;
-        stool::ValueArray lower_bits;
+        //stool::ValueArray lower_bits;
+        sdsl::int_vector<> lower_bits;
         std::vector<bool> upper_bits;
 
         uint8_t upper_bit_size;
@@ -44,19 +45,20 @@ std::string toBinaryString(uint64_t x)
         uint64_t current_element_count = 0;
         uint64_t tmp_value = 0;
         uint64_t universe = 0;
+        bool finished = false;
 
         //uint64_t base_bit_size = 0;
 
         uint64_t get_using_memory() const
         {
-            return this->lower_bits.get_using_memory() + (this->upper_bits.size() / 8) + 42;
+            return sdsl::size_in_bytes(lower_bits) + (this->upper_bits.size() / 8) + 42;
         }
         EliasFanoVectorBuilder()
         {
         }
         void initialize(uint64_t _universe, uint64_t element_num)
         {
-            uint64_t x = element_num == 0 ? 1 : std::log2(element_num) + 1;
+            uint64_t x = element_num == 0 ? 1 : std::ceil(std::log2(element_num));
 
             this->initialize(_universe, element_num, x);
         }
@@ -64,16 +66,27 @@ std::string toBinaryString(uint64_t x)
         {
 
             this->universe = _universe;
-            #if DEBUG
-            uint64_t x = std::log2(_size) + 1;
+#if DEBUG
+            uint64_t x = element_num == 0 ? 1 : std::ceil(std::log2(element_num));
+
             assert(x <= _upper_bit_size);
 
-            #endif
+#endif
             _size = element_num;
 
             this->upper_bit_size = _upper_bit_size;
-            this->lower_bit_size = (std::log2(universe) + 1) - upper_bit_size;
+            this->lower_bit_size = std::ceil(std::log2(universe)) - upper_bit_size;
 
+            if (this->lower_bit_size != 0)
+            {
+                this->lower_bits.width(this->lower_bit_size);
+            }
+            else
+            {
+                this->lower_bits.width(1);
+            }
+            this->lower_bits.resize(element_num);
+            /*
             if (this->lower_bit_size <= 8)
             {
                 this->lower_bits.resize(element_num, 1);
@@ -90,6 +103,7 @@ std::string toBinaryString(uint64_t x)
             {
                 this->lower_bits.resize(element_num, 8);
             }
+            */
         }
         void swap(EliasFanoVectorBuilder &builder)
         {
@@ -116,10 +130,8 @@ std::string toBinaryString(uint64_t x)
             {
                 if (builder.upper_bits[i])
                 {
-                    uint64_t upper = p;
-                    uint64_t lower = builder.lower_bits[index];
-                    uint64_t value = (upper << builder.lower_bit_size) | lower;
-                this->push(add_value + value);
+                    uint64_t value = builder.access(index, p);
+                    this->push(add_value + value);
 
                     index++;
                 }
@@ -153,7 +165,12 @@ std::string toBinaryString(uint64_t x)
             if (bit)
             {
                 std::pair<uint64_t, uint64_t> lr = get_upper_and_lower_bits(tmp_value);
-                this->lower_bits.change(current_element_count, lr.second);
+                if (this->lower_bit_size != 0)
+                {
+                    this->lower_bits[current_element_count] = lr.second;
+                }
+
+                //this->lower_bits.change(current_element_count, lr.second);
 
                 uint64_t upper_value = lr.first;
                 if (current_zero_num_on_upper_bits == upper_value)
@@ -171,7 +188,7 @@ std::string toBinaryString(uint64_t x)
                 }
                 else
                 {
-                    std::runtime_error("error");
+                    throw std::runtime_error("error");
                 }
                 current_element_count++;
             }
@@ -182,12 +199,21 @@ std::string toBinaryString(uint64_t x)
         }
         void push(uint64_t value)
         {
+            //std::cout << "CHECK/" << value   << std::endl;
+
+
             assert(current_element_count < _size);
             assert(value <= this->universe);
             std::pair<uint64_t, uint64_t> lr = get_upper_and_lower_bits(value);
 
             uint64_t upper_value = lr.first;
-            this->lower_bits.change(current_element_count, lr.second);
+            if (this->lower_bit_size != 0)
+            {
+                this->lower_bits[current_element_count] = lr.second;
+            }
+
+            //std::cout << "CHECK-" << current_zero_num_on_upper_bits << "/" << upper_value << std::endl;
+            //this->lower_bits.change(current_element_count, lr.second);
 
             if (current_zero_num_on_upper_bits == upper_value)
             {
@@ -204,14 +230,68 @@ std::string toBinaryString(uint64_t x)
             }
             else
             {
-                std::runtime_error("error");
+                assert(false);
+                throw std::runtime_error("error");
             }
 
             current_element_count++;
+            //this->check3(value);
+
+
         }
+        /*
+        void check3(uint64_t last_value){
+            uint64_t p = this->access(this->current_element_count-1);
+            assert(p == last_value);
+            if(p != last_value){
+                throw -1;
+            }
+        }
+        */
+#if DEBUG
+        void check2(){
+            
+            uint64_t one_count = 0;
+            for (uint64_t i = 0; i < this->upper_bits.size(); i++)
+            {
+                one_count += this->upper_bits[i] ?  1 : 0;
+            }
+            assert(this->current_element_count == one_count);
+            if(this->current_element_count != one_count){
+                throw -1;
+            }
+        }
+
+        void check(){
+            assert(this->current_element_count == _size);
+            
+            uint64_t one_count = 0;
+            for (uint64_t i = 0; i < this->upper_bits.size(); i++)
+            {
+                one_count += this->upper_bits[i];
+            }
+            assert(one_count == _size);
+            if(one_count != _size){
+                throw -1;
+            }
+        }
+#endif
         void finish()
         {
-            upper_bits.push_back(false);
+#if DEBUG
+            this->check();
+#endif
+
+            if (!this->finished)
+            {
+                upper_bits.push_back(false);
+                this->finished = true;
+            }
+            else
+            {
+                std::cout << "EliasFanoVector Finish Error" << std::endl;
+                throw -1;
+            }
         }
 
         uint64_t upper_selecter(uint64_t i) const
@@ -233,9 +313,21 @@ std::string toBinaryString(uint64_t x)
         uint64_t access(uint64_t i) const
         {
             uint64_t upper = (upper_selecter(i + 1) - i);
-            uint64_t lower = lower_bits[i];
-            return (upper << lower_bit_size) | lower;
+            return access(i, upper);
         }
+        uint64_t access(uint64_t i, uint64_t upper) const
+        {
+            if (lower_bit_size > 0)
+            {
+                uint64_t lower = lower_bits[i];
+                return (upper << lower_bit_size) | lower;
+            }
+            else
+            {
+                return upper;
+            }
+        }
+
         void print()
         {
             std::cout << "print" << std::endl;
@@ -252,7 +344,7 @@ std::string toBinaryString(uint64_t x)
             }
             std::cout << "print end" << std::endl;
         }
-        
+
         void to_vector(std::vector<uint64_t> &output)
         {
             output.resize(this->current_element_count);
@@ -274,7 +366,6 @@ std::string toBinaryString(uint64_t x)
                 }
             }
         }
-        
     };
 
     class EliasFanoVector
@@ -358,7 +449,8 @@ std::string toBinaryString(uint64_t x)
 
     private:
         uint64_t _size = 0;
-        stool::ValueArray lower_bits;
+        //stool::ValueArray lower_bits;
+        sdsl::int_vector<> lower_bits;
         sdsl::bit_vector upper_bits;
         sdsl::bit_vector::select_1_type upper_selecter;
         sdsl::bit_vector::select_0_type upper_0selecter;
@@ -558,6 +650,11 @@ std::string toBinaryString(uint64_t x)
         }
         void build_from_builder(EliasFanoVectorBuilder &builder)
         {
+            if (!builder.finished)
+            {
+                std::cout << "ERRRR" << std::endl;
+                throw -1;
+            }
             this->upper_bit_size = builder.upper_bit_size;
             this->lower_bit_size = builder.lower_bit_size;
             this->_size = builder._size;
@@ -565,7 +662,19 @@ std::string toBinaryString(uint64_t x)
 
             sdsl::bit_vector b(builder.upper_bits.size(), 0);
             for (uint64_t i = 0; i < builder.upper_bits.size(); i++)
+            {
                 b[i] = builder.upper_bits[i] ? 1 : 0;
+            }
+
+#if DEBUG
+            uint64_t one_count = 0;
+            for (uint64_t i = 0; i < builder.upper_bits.size(); i++)
+            {
+                one_count += builder.upper_bits[i];
+            }
+            assert(one_count == _size);
+#endif
+
             upper_bits.swap(b);
 
             sdsl::bit_vector::select_1_type b_sel(&upper_bits);
@@ -577,6 +686,15 @@ std::string toBinaryString(uint64_t x)
             upper_0selecter.swap(b0_sel);
 
             this->lower_bits.swap(builder.lower_bits);
+/*
+#if DEBUG
+            uint64_t k = 0;
+            for (uint64_t x = 0; x < this->_size; x++)
+            {
+                k += this->upper_selecter(x + 1);
+            }
+#endif
+*/
         }
         template <typename VEC = std::vector<uint64_t>>
         void construct(VEC *seq)
@@ -682,9 +800,20 @@ std::string toBinaryString(uint64_t x)
 
         uint64_t access(uint64_t i) const
         {
+            assert(i < this->_size);
+
             uint64_t upper = (upper_selecter(i + 1) - i);
-            uint64_t lower = lower_bits[i];
-            return (upper << lower_bit_size) | lower;
+
+            if (lower_bit_size > 0)
+            {
+                uint64_t lower = lower_bits[i];
+
+                return (upper << lower_bit_size) | lower;
+            }
+            else
+            {
+                return upper;
+            }
         }
         uint64_t rank(uint64_t value) const
         {
@@ -768,7 +897,7 @@ std::string toBinaryString(uint64_t x)
 
         uint64_t get_using_memory() const
         {
-            return this->lower_bits.get_using_memory() + (this->upper_bits.size() / 8) + 18;
+            return sdsl::size_in_bytes(lower_bits) + (this->upper_bits.size() / 8) + 18;
         }
 
         void print() const

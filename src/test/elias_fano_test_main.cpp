@@ -115,6 +115,7 @@ void builderTest()
     std::vector<uint64_t> r = create_random_integer_vector(30000, 300);
     stool::Printer::print(r);
 
+
     uint64_t max_value = r[r.size()-1];
     stool::EliasFanoVectorBuilder builder;
     builder.initialize(max_value, r.size());
@@ -123,6 +124,7 @@ void builderTest()
         builder.push(it);
     }
     builder.finish();    
+
     std::vector<uint64_t> r2;    
     builder.to_vector(r2);
 
