@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <fstream>
 #include <chrono>
+#include <deque>
+
 #include <time.h>
 //#include <stdio.h>
 //#include <windows.h>
@@ -54,6 +56,21 @@ namespace stool
 	public:
 		template <class X>
 		static std::string to_integer_string(const std::vector<X> &items)
+		{
+			std::string s = "";
+			s += "[";
+			//int k = items.size();
+			for (size_t i = 0; i < (size_t)items.size(); i++)
+			{
+				s += std::to_string(items[i]);
+				if (i != items.size() - 1)
+					s += ", ";
+			}
+			s += "]";
+			return s;
+		}
+		template <class X>
+		static std::string to_integer_string(const std::deque<X> &items)
 		{
 			std::string s = "";
 			s += "[";
@@ -177,6 +194,11 @@ namespace stool
 				s += items[i] ? "1" : "0";
 			}
 			std::cout << name << ": " << s << std::endl;
+		}
+		template <class X>
+		static void print(const std::string name, const std::deque<X> &items)
+		{
+			std::cout << name << ": " << to_integer_string<X>(items) << std::endl;
 		}
 
 		/*
