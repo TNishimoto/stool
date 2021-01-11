@@ -260,6 +260,30 @@ struct LCPIntervalPreorderComp
 };
 
 template <typename INDEX = uint64_t>
+struct LCPIntervalDepthOrderComp
+{
+	bool operator()(const LCPInterval<INDEX> &x, const LCPInterval<INDEX> &y)
+	{
+		if (x.lcp == y.lcp)
+		{
+			if (x.i == y.i)
+			{
+				return x.j < y.j;
+			}
+			else
+			{
+				return x.i < y.i;
+			}
+		}
+		else
+		{
+			return x.lcp < y.lcp;
+		}
+	}
+};
+
+
+template <typename INDEX = uint64_t>
 void sort_in_preorder(std::vector<stool::LCPInterval<INDEX>> &items){
     std::sort(
         items.begin(),
