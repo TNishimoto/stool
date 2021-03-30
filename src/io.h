@@ -143,6 +143,7 @@ namespace stool
 
 			return true;
 		}
+		/*
 		template <typename T>
 		static bool write_deque(std::ofstream &out, std::deque<T> &text)
 		{
@@ -183,6 +184,7 @@ namespace stool
 			}
 			return true;
 		}
+		*/
 
 		template <typename CONTAINER>
 		static bool load_bits(std::ifstream &file, CONTAINER &output)
