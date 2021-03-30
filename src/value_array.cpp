@@ -75,7 +75,7 @@ namespace stool{
             throw - 1;
         }
 
-        uint64_t fileSymbol;
+        //uint64_t fileSymbol;
         stream.read((char *)(&this->byteSize), sizeof(uint64_t));
         stream.read((char *)(&this->num), sizeof(uint64_t));
         uint64_t arraySize = this->byteSize * this->num;
