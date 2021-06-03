@@ -8,6 +8,7 @@
 #include "./backward_isa.hpp"
 #include "../print.hpp"
 #include "../elias_fano_vector.hpp"
+#include <sdsl/bit_vectors.hpp>
 
 //#include "rlbwt_functions.hpp"
 
@@ -16,7 +17,6 @@ namespace stool
   namespace rlbwt
   {
 
-    template <typename INDEX = int64_t>
     class ForwardSA
     {
     public:
@@ -24,12 +24,12 @@ namespace stool
     This iterator enumerates the suffix array of the original input text, 
     i.e., the i-th value is SA[i], where SA is the suffix array of the original input text.
   */
-      //using INDEX = typename VEC::value_type;
+      using INDEX = uint32_t;
 
     private:
       //RLBWT<CHAR> &_rlbwt;
       stool::EliasFanoVector sorted_end_ssa;
-      std::vector<INDEX> next_sa_value_vec;
+      sdsl::int_vector<> next_sa_value_vec;
 
       INDEX _first_sa_value;
       INDEX _str_size;
@@ -38,25 +38,24 @@ namespace stool
       {
       private:
         INDEX _sa_value;
-        INDEX _first_sa_value;
-        const stool::EliasFanoVector &_sorted_end_ssa;
-        const std::vector<INDEX> &_next_sa_value_vec;
+        //INDEX _first_sa_value;
+        const ForwardSA &_sa;
 
       public:
         iterator() = default;
 
-        iterator(const INDEX __sa_value, const INDEX __first_sa_value, const stool::EliasFanoVector &__sorted_end_ssa, const std::vector<INDEX> &__next_sa_value_vec) : _sa_value(__sa_value), _first_sa_value(__first_sa_value), _sorted_end_ssa(__sorted_end_ssa), _next_sa_value_vec(__next_sa_value_vec)
+        iterator(const INDEX __sa_value, const ForwardSA &__sa) : _sa_value(__sa_value), _sa(__sa)
         {
         }
 
       public:
         iterator &operator++()
         {
-          uint64_t rank = this->_sorted_end_ssa.rank(this->_sa_value + 1) - 1;
-          uint64_t diff = this->_sa_value - this->_sorted_end_ssa[rank];
+          uint64_t rank = _sa.sorted_end_ssa.rank(this->_sa_value + 1) - 1;
+          uint64_t diff = this->_sa_value - _sa.sorted_end_ssa[rank];
 
-          this->_sa_value = diff + this->_next_sa_value_vec[rank];
-          if (this->_sa_value == this->_first_sa_value)
+          this->_sa_value = diff + _sa.next_sa_value_vec[rank];
+          if (this->_sa_value == _sa._first_sa_value)
           {
             this->_sa_value = std::numeric_limits<INDEX>::max();
           }
@@ -77,18 +76,19 @@ namespace stool
       ForwardSA()
       {
       }
-      INDEX first_sa_value(){
-        return this->_first_sa_value;
+      INDEX first_sa_value()
+      {
+        return _first_sa_value;
       }
 
       iterator begin() const
       {
-        auto it = iterator(_first_sa_value, _first_sa_value, this->sorted_end_ssa, this->next_sa_value_vec);
+        auto it = iterator(_first_sa_value, *this);
         return it;
       }
       iterator end() const
       {
-        auto it = iterator(std::numeric_limits<INDEX>::max(), _first_sa_value, this->sorted_end_ssa, this->next_sa_value_vec);
+        auto it = iterator(std::numeric_limits<INDEX>::max(), *this);
         return it;
       }
       std::vector<INDEX> to_sa() const
@@ -112,13 +112,14 @@ namespace stool
       }
 
     public:
-      stool::EliasFanoVector* get_sorted_end_ssa(){
+      stool::EliasFanoVector *get_sorted_end_ssa()
+      {
         return &this->sorted_end_ssa;
       }
-      std::vector<INDEX>* get_next_sa_value_vec(){
+      sdsl::int_vector<> *get_next_sa_value_vec()
+      {
         return &this->next_sa_value_vec;
       }
-
 
       template <typename LF_DATA_STRUCTURE>
       void build(LF_DATA_STRUCTURE &lfds)
@@ -211,7 +212,7 @@ namespace stool
         builder.finish();
         this->sorted_end_ssa.build_from_builder(builder);
         std::cout << "finished" << std::endl;
-        this->next_sa_value_vec.resize(rle_size, 0);
+        this->next_sa_value_vec.resize(rle_size);
         for (uint64_t i = 0; i < rle_size; i++)
         {
           this->next_sa_value_vec[i] = pmarr[i].second;
