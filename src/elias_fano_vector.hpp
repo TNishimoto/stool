@@ -652,7 +652,7 @@ std::string toBinaryString(uint64_t x)
         {
             if (!builder.finished)
             {
-                std::cout << "ERRRR" << std::endl;
+                std::cout << "ERROR" << std::endl;
                 throw -1;
             }
             this->upper_bit_size = builder.upper_bit_size;
@@ -815,6 +815,9 @@ std::string toBinaryString(uint64_t x)
                 return upper;
             }
         }
+        /*
+        Return the number of 1 in T[0..value-1]
+        */
         uint64_t rank(uint64_t value) const
         {
             auto min_value = this->access(0);
