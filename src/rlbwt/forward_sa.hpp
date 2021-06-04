@@ -218,12 +218,13 @@ namespace stool
           this->next_sa_value_vec[i] = pmarr[i].second;
           //std::cout << this->sorted_end_ssa[i] << "/" << this->next_sa_value_vec[i] << std::endl;
         }
-
+        /*
         for (auto it : *this)
         {
           std::cout << it << ", " << std::flush;
         }
         std::cout << std::endl;
+        */
         /*
         uint64_t pv = this->_first_sa_value;
         for (uint64_t i = 0; i < str_size; i++)
