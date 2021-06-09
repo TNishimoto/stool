@@ -136,66 +136,40 @@ namespace stool
         pmarr.resize(rle_size, std::pair<INDEX, INDEX>(std::numeric_limits<INDEX>::max(), std::numeric_limits<INDEX>::max()));
 
         uint64_t dollerLpos = rlbwt->get_end_rle_lposition();
-        std::cout << dollerLpos << std::endl;
+        //std::cout << dollerLpos << std::endl;
 
         uint64_t x = rlbwt->get_lpos(dollerLpos);
         x = lfds.lf(x);
         uint64_t sa_value = str_size - 1;
 
-        /*
-        #ifdef DEBUG
-        std::vector<bool> sa_value_checker;
-        std::vector<bool> starting_sampled_sa_checker;
-        std::vector<bool> checker3;
-
-        sa_value_checker.resize(str_size, false);
-        starting_sampled_sa_checker.resize(rle_size, false);
-        checker3.resize(rle_size, false);
-        #endif
-        */
-
+        std::cout << "ISA SCAN" << std::endl;
+        std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
         for (uint64_t i = 0; i < str_size; i++)
         {
-          /*
-          assert(!sa_value_checker[x]);
-          sa_value_checker[x] = true;
-          */
-
           uint64_t lindex = rlbwt->get_lindex_containing_the_position(x);
           uint64_t run = rlbwt->get_run(lindex);
           uint64_t diff = x - rlbwt->get_lpos(lindex);
 
           if (diff == 0)
           {
-            /*
-            assert(!starting_sampled_sa_checker[lindex]);
-            starting_sampled_sa_checker[lindex] = true;
-            */
             uint64_t xindex = lindex > 0 ? lindex - 1 : rle_size - 1;
             pmarr[xindex] = std::pair<INDEX, INDEX>(pmarr[xindex].first, sa_value);
           }
 
           if (run == diff + 1)
           {
-            /*
-            assert(!checker3[lindex]);
-            checker3[lindex] = true;
-            */
-
             pmarr[lindex] = std::pair<INDEX, INDEX>(sa_value, pmarr[lindex].second);
           }
           x = lfds.lf(x);
           sa_value--;
         }
-        /*
-        for (uint64_t i = 0; i < rle_size; i++)
-        {
-          assert(starting_sampled_sa_checker[i]);
-          assert(checker3[i]);
+        std::chrono::system_clock::time_point end = std::chrono::system_clock::now();
+        std::cout << "FINISHED ISA SCAN" << std::endl;
 
-          std::cout << pmarr[i].first << "/" << pmarr[i].second << std::endl;
-        }
-        */
+        double elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        double pertime = elapsed / (double)this->_str_size;
+        std::cout << (elapsed / 1000) << "[ms]" << std::endl;
+        std::cout << pertime << "[micro/per]" << std::endl;
 
         this->_first_sa_value = pmarr[rle_size - 1].second;
 
@@ -216,26 +190,7 @@ namespace stool
         for (uint64_t i = 0; i < rle_size; i++)
         {
           this->next_sa_value_vec[i] = pmarr[i].second;
-          //std::cout << this->sorted_end_ssa[i] << "/" << this->next_sa_value_vec[i] << std::endl;
         }
-        /*
-        for (auto it : *this)
-        {
-          std::cout << it << ", " << std::flush;
-        }
-        std::cout << std::endl;
-        */
-        /*
-        uint64_t pv = this->_first_sa_value;
-        for (uint64_t i = 0; i < str_size; i++)
-        {
-          uint64_t rank = this->sorted_end_ssa.rank(pv + 1) - 1;
-          uint64_t diff = pv - this->sorted_end_ssa[rank];
-
-          pv = diff + this->next_sa_value_vec[rank];
-          std::cout << pv << std::endl;
-        }
-        */
       }
     };
 
