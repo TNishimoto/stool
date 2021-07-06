@@ -4,6 +4,7 @@
 namespace stool
 {
 
+/*
 std::vector<char> load_text(std::string filename)
 {
 
@@ -126,4 +127,5 @@ std::string load_string_from_file(std::string filename, bool appendSpecialCharac
 	}
 	return vec;
 }
+*/
 }
