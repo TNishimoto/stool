@@ -5,8 +5,8 @@
 #include <fstream>
 #include <stdio.h>
 #include <string.h>
-#include "print.hpp"
-#include "value_array.hpp"
+#include "../include/print.hpp"
+#include "../include/value_array.hpp"
 
 using namespace std;
 

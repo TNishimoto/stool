@@ -1,7 +1,7 @@
-#include "sa_bwt_lcp.hpp"
+#include "../include/sa_bwt_lcp.hpp"
 #include <vector>
 #include <iostream>
-#include "print.hpp"
+#include "../include/print.hpp"
 
 namespace stool
 {
