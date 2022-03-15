@@ -201,9 +201,9 @@ namespace stool
 			std::cout << name << ": " << to_integer_string<X>(items) << std::endl;
 		}
 		template <class X>
-		static void print_string(const std::vector<X> &items)
+		static void print_string(const X &items)
 		{
-			for(X c : items){
+			for(auto c : items){
 				if(c != 0){
 					std::cout << c;
 				}else{
