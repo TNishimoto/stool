@@ -119,6 +119,7 @@ std::vector<INDEX> constructLCP(const std::vector<CHAR> &text,const  std::vector
     return lcp;
 }
 template std::vector<uint64_t> constructLCP(const std::vector<uint8_t> &,const  std::vector<uint64_t> &,const  std::vector<uint64_t> &);
+template std::vector<uint32_t> constructLCP(const std::vector<uint8_t> &,const  std::vector<uint32_t> &,const  std::vector<uint32_t> &);
 
 template <typename CHAR, typename INDEX>
 std::vector<INDEX> constructLCP(const std::vector<CHAR> &text,const  std::vector<INDEX> &sa)
