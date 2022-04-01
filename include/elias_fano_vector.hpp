@@ -446,6 +446,13 @@ std::string toBinaryString(uint64_t x)
                     return this->index - rhs.index;
                 }
             }
+            iterator &operator--()
+            {
+                throw std::logic_error("Error(EliasFanoVector:--): This function is not supported.");
+                this->index--;                
+                return *this;
+            }
+
         };
 
     private:
@@ -874,7 +881,11 @@ std::string toBinaryString(uint64_t x)
                 }
                 else
                 {
-                    auto p2 = std::lower_bound(this->begin() + lpos, this->begin() + (rpos + 1), value);
+                    auto beg_poiner = this->begin() + lpos;
+                    auto end_pointer = this->begin() + (rpos + 1);
+                    stool::EliasFanoVector::iterator p2 = std::lower_bound(beg_poiner, end_pointer, value);
+                    //stool:EliasFanoVector::iterator p2;
+
                     uint64_t pos2 = std::distance(this->begin(), p2);
 
                     return pos2;
