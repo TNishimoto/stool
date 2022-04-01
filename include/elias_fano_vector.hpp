@@ -8,7 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <sdsl/bit_vectors.hpp>
-#include "stool/src/value_array.hpp"
+#include "./value_array.hpp"
 
 namespace stool
 {

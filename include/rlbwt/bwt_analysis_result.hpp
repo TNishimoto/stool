@@ -13,7 +13,7 @@
 //#include "OnlineRlbwt/online_rlbwt.hpp"
 //#include "rlbwt.hpp"
 //#include "stool/src/elias_fano_vector.hpp"
-#include "../io.h"
+#include "../io.hpp"
 #include "../elias_fano_vector.hpp"
 #include "../byte.hpp"
 
