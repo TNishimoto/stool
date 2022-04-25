@@ -292,19 +292,23 @@ void sort_in_preorder(std::vector<stool::LCPInterval<INDEX>> &items){
 }
 
 
-template <typename CHAR = char, typename INDEX = uint64_t>
+
+template <typename CHAR = uint8_t, typename INDEX = uint64_t>
 std::vector<INDEX> constructISA(const std::vector<CHAR> &text, const std::vector<INDEX> &sa);
 
 template <typename CHAR = uint8_t, typename INDEX = uint64_t>
-std::vector<INDEX> constructLCP(const std::vector<CHAR> &text, const std::vector<INDEX> &sa, const std::vector<INDEX> &isa);
-template <typename CHAR = uint8_t, typename INDEX = uint32_t>
-std::vector<INDEX> constructLCP(const std::vector<CHAR> &text, const std::vector<INDEX> &sa, const std::vector<INDEX> &isa);
-
-
-template <typename CHAR = char, typename INDEX = uint64_t>
 std::vector<INDEX> constructLCP(const std::vector<CHAR> &text, const std::vector<INDEX> &sa);
 
 template <typename CHAR, typename INDEX>
 std::vector<CHAR> constructBWT(const std::vector<CHAR> &text, const std::vector<INDEX> &sa);
+
+
+//template <typename CHAR = uint8_t, typename INDEX = uint64_t>
+//std::vector<INDEX> constructLCP(const std::vector<CHAR> &text, const std::vector<INDEX> &sa, const std::vector<INDEX> &isa);
+//template <typename CHAR = uint8_t, typename INDEX = uint32_t>
+//std::vector<INDEX> constructLCP(const std::vector<CHAR> &text, const std::vector<INDEX> &sa, const std::vector<INDEX> &isa);
+
+
+
 
 } // namespace stool
