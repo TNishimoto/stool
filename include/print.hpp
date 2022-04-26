@@ -220,7 +220,7 @@ namespace stool
 				if(c != 0){
 					s += c;
 				}else{
-					s += "$"; 
+					s += "[$]"; 
 				}
 			}
 			return s;
