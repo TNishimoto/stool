@@ -193,7 +193,7 @@ namespace stool
 		}
 
 	public:
-		static std::vector<LCPInterval> compute_complete_lcp_intervals2(const std::vector<index_type> &lcpArray)
+		static std::vector<LCPInterval> compute_lcp_intervals(const std::vector<index_type> &lcpArray)
 		{
 			using TMP = std::pair<index_type, index_type>;
 			std::stack<TMP> st;
@@ -217,7 +217,6 @@ namespace stool
 				{
 					st.push(TMP(_next_lcp_interval_i_candidate, lcpArray[i]));
 				}
-				print_bottom_lcp_intervals(st, i);
 			}
 			while (st.size() > 0)
 			{
