@@ -6,6 +6,7 @@
 #include <vector>
 #include <limits>
 #include <algorithm>
+#include <stack>
 
 namespace stool
 {
@@ -192,6 +193,44 @@ namespace stool
 		}
 
 	public:
+		static std::vector<LCPInterval> compute_lcp_intervals(const std::vector<index_type> &lcpArray)
+		{
+			using TMP = std::pair<index_type, index_type>;
+			std::stack<TMP> st;
+			std::vector<LCPInterval> r;
+			lcpArray.push_back(0);
+
+			st.push(TMP(0, 0));
+			for (index_type i = 1; i < lcpArray.size(); i++)
+			{
+				std::cout << "look: LCParray[" << i << "]=" << lcpArray[i] << std::endl;
+				index_type lb = i - 1;
+				auto top = st.top();
+				while (lcpArray[i] < top.second)
+				{
+					index_type rb = i - 1;
+					r.push_back(LCPInterval(top.first, rb, top.second));
+					std::cout << "report: " << r[r.size() - 1].to_string() << std::endl;
+					st.pop();
+					top = st.top();
+					lb = top.first;
+				}
+				if (lcpArray[i] > top.second)
+				{
+					std::cout << "push: [" << lb << ", " << lcpArray[i] << "]"
+							  << "top = " << top.first << ", " << top.second << std::endl;
+					if (lb == top.first && lb != 0)
+					{
+						st.pop();
+					}
+					st.push(TMP(lb, lcpArray[i]));
+				}
+			}
+			r.push_back(stool::LCPInterval<index_type>(0, lcpArray.size() - 2, 0));
+
+			return r;
+		}
+
 		template <typename CHAR = char>
 		static stool::LCPInterval<index_type> computeLCPInterval(const std::vector<CHAR> &T, const std::vector<CHAR> &pattern, const std::vector<index_type> &sa)
 		{
