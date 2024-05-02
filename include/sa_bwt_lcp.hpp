@@ -204,22 +204,18 @@ namespace stool
 			for (index_type i = 1; i <= lcpArray.size(); i++)
 			{
 				int64_t current_lcp_value = i < lcpArray.size() ? lcpArray[i] : 0;
-				std::cout << "look: LCParray[" << i << "]=" << current_lcp_value << std::endl;
 				index_type lb = i - 1;
 				auto top = st.top();
 				while (current_lcp_value < top.second)
 				{
 					index_type rb = i - 1;
 					r.push_back(LCPInterval(top.first, rb, top.second));
-					std::cout << "report: " << r[r.size() - 1].to_string() << std::endl;
 					st.pop();
 					top = st.top();
 					lb = top.first;
 				}
 				if (current_lcp_value > top.second)
 				{
-					std::cout << "push: [" << lb << ", " << current_lcp_value << "]"
-							  << "top = " << top.first << ", " << top.second << std::endl;
 					if (lb == top.first && lb != 0)
 					{
 						st.pop();
