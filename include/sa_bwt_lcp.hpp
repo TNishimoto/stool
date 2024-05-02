@@ -198,15 +198,16 @@ namespace stool
 			using TMP = std::pair<index_type, index_type>;
 			std::stack<TMP> st;
 			std::vector<LCPInterval> r;
-			lcpArray.push_back(0);
+			//lcpArray.push_back(0);
 
 			st.push(TMP(0, 0));
-			for (index_type i = 1; i < lcpArray.size(); i++)
+			for (index_type i = 1; i <= lcpArray.size(); i++)
 			{
-				std::cout << "look: LCParray[" << i << "]=" << lcpArray[i] << std::endl;
+				int64_t current_lcp_value = i < lcpArray.size() ? lcpArray[i] : 0;
+				std::cout << "look: LCParray[" << i << "]=" << current_lcp_value << std::endl;
 				index_type lb = i - 1;
 				auto top = st.top();
-				while (lcpArray[i] < top.second)
+				while (current_lcp_value < top.second)
 				{
 					index_type rb = i - 1;
 					r.push_back(LCPInterval(top.first, rb, top.second));
@@ -215,18 +216,18 @@ namespace stool
 					top = st.top();
 					lb = top.first;
 				}
-				if (lcpArray[i] > top.second)
+				if (current_lcp_value > top.second)
 				{
-					std::cout << "push: [" << lb << ", " << lcpArray[i] << "]"
+					std::cout << "push: [" << lb << ", " << current_lcp_value << "]"
 							  << "top = " << top.first << ", " << top.second << std::endl;
 					if (lb == top.first && lb != 0)
 					{
 						st.pop();
 					}
-					st.push(TMP(lb, lcpArray[i]));
+					st.push(TMP(lb, current_lcp_value));
 				}
 			}
-			r.push_back(stool::LCPInterval<index_type>(0, lcpArray.size() - 2, 0));
+			r.push_back(stool::LCPInterval<index_type>(0, lcpArray.size() - 1, 0));
 
 			return r;
 		}
