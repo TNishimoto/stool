@@ -193,37 +193,38 @@ namespace stool
 		}
 
 	public:
-		static std::vector<LCPInterval> compute_lcp_intervals(const std::vector<index_type> &lcpArray)
+		static std::vector<LCPInterval> compute_complete_lcp_intervals2(const std::vector<index_type> &lcpArray)
 		{
 			using TMP = std::pair<index_type, index_type>;
 			std::stack<TMP> st;
-			std::vector<LCPInterval> r;
-			//lcpArray.push_back(0);
-
 			st.push(TMP(0, 0));
-			for (index_type i = 1; i <= lcpArray.size(); i++)
+			std::vector<LCPInterval> r;
+
+			for (index_type i = 1; i < lcpArray.size(); i++)
 			{
-				int64_t current_lcp_value = i < lcpArray.size() ? lcpArray[i] : 0;
-				index_type lb = i - 1;
+				index_type _next_lcp_interval_i_candidate = i - 1;
 				auto top = st.top();
-				while (current_lcp_value < top.second)
+
+				while (top.second > lcpArray[i])
 				{
-					index_type rb = i - 1;
-					r.push_back(LCPInterval(top.first, rb, top.second));
+					r.push_back(LCPInterval<index_type>(top.first, i - 1, top.second));
 					st.pop();
+
+					_next_lcp_interval_i_candidate = top.first;
 					top = st.top();
-					lb = top.first;
 				}
-				if (current_lcp_value > top.second)
+				if (top.second < lcpArray[i])
 				{
-					if (lb == top.first && lb != 0)
-					{
-						st.pop();
-					}
-					st.push(TMP(lb, current_lcp_value));
+					st.push(TMP(_next_lcp_interval_i_candidate, lcpArray[i]));
 				}
+				print_bottom_lcp_intervals(st, i);
 			}
-			r.push_back(stool::LCPInterval<index_type>(0, lcpArray.size() - 1, 0));
+			while (st.size() > 0)
+			{
+				auto top = st.top();
+				r.push_back(LCPInterval<index_type>(top.first, lcpArray.size() - 1, top.second));
+				st.pop();
+			}
 
 			return r;
 		}
