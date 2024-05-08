@@ -1,11 +1,27 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.21)
 project(stool CXX)
 
-if(CPP_STATIC)
-set(CMAKE_CXX_FLAGS "-std=c++11 -m64  -D_INT128 -Wall -Wextra -static")
-else(CPP_STATIC)
-set(CMAKE_CXX_FLAGS "-std=c++11 -m64  -D_INT128 -Wall -Wextra")
-endif(CPP_STATIC)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+if(MY_SERVER)
+set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_PROCESSOR aarch64)
+set(CMAKE_SYSROOT /opt/homebrew/Cellar/aarch64-unknown-linux-gnu/13.2.0/toolchain/aarch64-unknown-linux-gnu/sysroot)
+
+set(CMAKE_EXE_LINKER_FLAGS -B/opt/homebrew/Cellar/aarch64-unknown-linux-gnu/13.2.0/toolchain/lib/gcc/aarch64-unknown-linux-gnu/13.2.0)
+set(CMAKE_CXX_FLAGS "--target=aarch64-linux-gnu -fexceptions -m64 -D_INT128 -static")
+include_directories(/opt/homebrew/Cellar/aarch64-unknown-linux-gnu/13.2.0/toolchain/aarch64-unknown-linux-gnu/include/c++/13.2.0/aarch64-unknown-linux-gnu)
+include_directories(/opt/homebrew/Cellar/aarch64-unknown-linux-gnu/13.2.0/toolchain/aarch64-unknown-linux-gnu/include/c++/13.2.0)
+link_directories(/opt/homebrew/Cellar/aarch64-unknown-linux-gnu/13.2.0/toolchain/lib/gcc/aarch64-unknown-linux-gnu/13.2.0)
+
+set(CMAKE_EXE_LINKER_FLAGS -B/opt/homebrew/Cellar/aarch64-unknown-linux-gnu/13.2.0/toolchain/lib/gcc/aarch64-unknown-linux-gnu/13.2.0)
+set(CMAKE_CXX_FLAGS "--target=aarch64-linux-gnu -fexceptions -m64 -D_INT128 -static")
+else(MY_SERVER)
+set(CMAKE_CXX_FLAGS "-m64  -D_INT128 -Wall -Wextra")
+endif(MY_SERVER)
+
 
 set(CMAKE_CXX_FLAGS_DEBUG  "-g -O0 -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE  "-O3 -DNDEBUG")
@@ -32,6 +48,7 @@ FILE(GLOB SOURCES lib/*.cpp)
 
 INCLUDE_DIRECTORIES(include)
 add_library(stool STATIC ${SOURCES})
+target_link_libraries(stool stdc++)
 
 
 #target_link_libraries(a.out fn)

@@ -7,6 +7,9 @@
 #include <limits>
 #include <algorithm>
 #include <stack>
+#include <cstdint>
+#include <cstdlib>
+#include <stdio.h>
 
 namespace stool
 {

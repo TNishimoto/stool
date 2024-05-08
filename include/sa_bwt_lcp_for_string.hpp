@@ -4,6 +4,10 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
+#include <cstdint>
+#include <cstdlib>
+#include <stdio.h>
+
 
 namespace stool
 {
