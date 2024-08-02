@@ -11,10 +11,10 @@
 #include <deque>
 
 #include <time.h>
-//#include <stdio.h>
-//#include <windows.h>
-//#include <Psapi.h>      // Psapi.Lib
-//using namespace std;
+// #include <stdio.h>
+// #include <windows.h>
+// #include <Psapi.h>      // Psapi.Lib
+// using namespace std;
 
 namespace stool
 {
@@ -59,7 +59,7 @@ namespace stool
 		{
 			std::string s = "";
 			s += "[";
-			//int k = items.size();
+			// int k = items.size();
 			for (size_t i = 0; i < (size_t)items.size(); i++)
 			{
 				s += std::to_string(items[i]);
@@ -74,7 +74,7 @@ namespace stool
 		{
 			std::string s = "";
 			s += "[";
-			//int k = items.size();
+			// int k = items.size();
 			for (size_t i = 0; i < (size_t)items.size(); i++)
 			{
 				s += std::to_string(items[i]);
@@ -88,7 +88,7 @@ namespace stool
 		static void toIntegerString(const std::vector<X> &items, std::string &result)
 		{
 			result += "[";
-			//int k = items.size();
+			// int k = items.size();
 			for (size_t i = 0; i < (size_t)items.size(); i++)
 			{
 				result += std::to_string(items[i]);
@@ -101,7 +101,7 @@ namespace stool
 		static void toIntegerString(const std::vector<X> &items, std::string &result, uint64_t padding)
 		{
 			result += "[";
-			//int k = items.size();
+			// int k = items.size();
 			for (size_t i = 0; i < items.size(); i++)
 			{
 				std::string s = "";
@@ -132,7 +132,7 @@ namespace stool
 		static void toIntegerString(const std::string &items, std::string &result, uint64_t padding)
 		{
 			result += "[";
-			//int k = items.size();
+			// int k = items.size();
 			for (uint64_t i = 0; i < items.size(); i++)
 			{
 				std::string s = "";
@@ -186,6 +186,25 @@ namespace stool
 		}
 
 		template <class X>
+		static void print_chars(const std::string name, const std::vector<X> &items)
+		{
+			std::string result;
+			result += "[";
+			// int k = items.size();
+			for (uint64_t i = 0; i < items.size(); i++)
+			{
+				std::string s;
+				s.push_back(items[i]);
+				result += s;
+				if (i != items.size() - 1)
+					result += ", ";
+			}
+			result += "]";
+
+			std::cout << name << ": " << result << std::endl;
+		}
+
+		template <class X>
 		static void print_bits(const std::string name, const X &items)
 		{
 			std::string s;
@@ -203,11 +222,15 @@ namespace stool
 		template <class X>
 		static void print_string(const X &items)
 		{
-			for(auto c : items){
-				if(c != 0){
+			for (auto c : items)
+			{
+				if (c != 0)
+				{
 					std::cout << c;
-				}else{
-					std::cout << "[$]"; 
+				}
+				else
+				{
+					std::cout << "[$]";
 				}
 			}
 			std::cout << std::endl;
@@ -216,11 +239,15 @@ namespace stool
 		static std::string to_string(X &items)
 		{
 			std::string s = "";
-			for(auto c : items){
-				if(c != 0){
+			for (auto c : items)
+			{
+				if (c != 0)
+				{
 					s += c;
-				}else{
-					s += "[$]"; 
+				}
+				else
+				{
+					s += "[$]";
 				}
 			}
 			return s;
