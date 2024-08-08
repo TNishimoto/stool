@@ -33,5 +33,61 @@ namespace stool
                 text[i] = tmp[text.size() - 1 - i];
             }
         }
+
+        static std::vector<std::string> get_all_strings(uint64_t len, std::vector<uint8_t> &alphabets){
+            std::vector<std::string> r;
+
+            if(len == 0){
+                return r;
+            }else if(len == 1){
+                for(uint8_t c : alphabets){
+                    std::string s;
+                    s.push_back(c);
+                    r.push_back(s);
+                } 
+                return r;               
+            }else{
+                std::vector<std::string> pref_vec = get_all_strings(len-1, alphabets);
+                for(std::string &s : pref_vec){
+                    for(uint8_t c : alphabets){
+                        std::string new_str = s + (char)c;
+                        r.push_back(new_str);
+                    }
+                }
+                return r;
+
+
+            }
+        }
+        static std::vector<std::string> get_all_strings(uint64_t len, uint8_t alphabet_size){
+            std::vector<uint8_t> alphabets;
+            alphabets.push_back('a');
+            alphabets.push_back('b');
+            alphabets.push_back('c');
+            alphabets.push_back('d');
+            alphabets.push_back('e');
+            alphabets.push_back('f');
+            alphabets.push_back('g');
+            alphabets.push_back('h');
+            alphabets.push_back('i');
+            alphabets.push_back('j');
+            alphabets.push_back('k');
+            alphabets.push_back('l');
+            alphabets.push_back('m');
+            alphabets.push_back('n');
+            alphabets.push_back('o');
+            alphabets.push_back('p');
+            alphabets.push_back('q');
+            alphabets.push_back('r');
+            alphabets.push_back('s');
+            alphabets.push_back('t');
+            alphabets.push_back('u');
+            while(alphabets.size() > alphabet_size){
+                alphabets.pop_back();
+            }
+            return get_all_strings(len, alphabets);
+
+        }
+
     };
 } // namespace stool
