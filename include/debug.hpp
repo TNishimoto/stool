@@ -187,6 +187,20 @@ namespace stool
 	class StringGenerator
 	{
 	public:
+		static std::vector<uint8_t> create_random_uint8_t_sequence(uint64_t len, std::vector<uint8_t> &alphabet, int64_t seed)
+		{
+			std::mt19937 mt(seed);
+			std::uniform_int_distribution<> rand100(0, alphabet.size() - 1);
+			std::vector<uint8_t> r;
+
+			for (size_t i = 0; i < len; i++)
+			{
+				r.push_back(alphabet[rand100(mt)]);
+			}
+			return r;
+		}
+
+
 		static std::vector<uint32_t> create_random_sequence(uint64_t len, uint64_t alphabet_size, int64_t seed)
 		{
 			std::mt19937 mt(seed);
