@@ -7,10 +7,10 @@
 
 namespace stool
 {
-	class FileReader
+	class OnlineFileReader
 	{
 	public:
-		static bool read(std::ifstream &file, std::vector<char> &output, uint64_t bufferSize, uint64_t textSize)
+		static bool read(std::ifstream &file, std::vector<uint8_t> &output, uint64_t bufferSize, uint64_t textSize)
 		{
 			if (file.eof())
 			{
@@ -21,24 +21,27 @@ namespace stool
 				return false;
 
 			uint64_t tmpBufferSize = std::min(textSize - i, bufferSize);
-			output.resize(tmpBufferSize);
+			if (output.size() != tmpBufferSize)
+			{
+				output.resize(tmpBufferSize);
+			}
 			file.read((char *)&(output)[0], tmpBufferSize * sizeof(char));
 
 			return true;
 		}
-		static uint64_t getTextSize(std::ifstream &file)
+		static uint64_t get_text_size(std::ifstream &file)
 		{
 			file.seekg(0, std::ios::end);
 			uint64_t textSize = (uint64_t)file.tellg() / sizeof(char);
 			file.seekg(0, std::ios::beg);
 			return textSize;
 		}
-		static uint64_t getTextSize(std::string filename)
+		static uint64_t get_text_size(std::string filename)
 		{
 
 			std::ifstream inputStream;
 			inputStream.open(filename, std::ios::binary);
-			uint64_t p = getTextSize(inputStream);
+			uint64_t p = get_text_size(inputStream);
 			inputStream.close();
 			return p;
 		}
@@ -57,8 +60,36 @@ namespace stool
 
 			return true;
 		}
+		static std::vector<uint8_t> get_alphabet(std::string filename, uint64_t buffer_size = 16000)
+		{
+			uint64_t text_size = get_text_size(filename);
+			std::vector<bool> checker;
+			checker.resize(256, false);
 
-		static std::pair<bool, uint64_t> equalCheck(std::string filename, std::string filename2, uint64_t bufferSize)
+			std::ifstream inputStream;
+			inputStream.open(filename, std::ios::binary);
+			std::vector<uint8_t> buffer;
+			while (read(inputStream, buffer, buffer_size, text_size))
+			{
+				for (uint8_t c : buffer)
+				{
+					checker[c] = true;
+				}
+			}
+			inputStream.close();
+
+			std::vector<uint8_t> r;
+			for (size_t i = 0; i < checker.size(); i++)
+			{
+				if (checker[i])
+				{
+					r.push_back(i);
+				}
+			}
+			return r;
+		}
+
+		static std::pair<bool, uint64_t> equal_check(std::string filename, std::string filename2, uint64_t bufferSize)
 		{
 			std::ifstream stream, stream2;
 			stream.open(filename, std::ios::binary);
@@ -86,13 +117,12 @@ namespace stool
 				return std::pair<bool, uint64_t>(false, UINT64_MAX);
 			}
 
-			std::vector<char> tmp1, tmp2;
+			std::vector<uint8_t> tmp1, tmp2;
 			uint64_t sum = 0;
 
 			while (true)
 			{
-				bool b1 = FileReader::read(stream, tmp1, bufferSize, textSize);
-				//bool b2 = FileReader::read(stream2, tmp2, bufferSize, textSize2);
+				bool b1 = OnlineFileReader::read(stream, tmp1, bufferSize, textSize);
 
 				for (uint64_t i = 0; i < tmp1.size(); i++)
 				{
