@@ -6,7 +6,33 @@ namespace stool
     class RLEIO
     {
     public:
-        static void build_RLBWT_from_BWT(std::string file_path, std::vector<uint8_t> &output_chars, std::vector<uint64_t> &output_runs, uint64_t buffer_size = 16000)
+        static void build_RLBWT_from_BWT(std::vector<uint8_t> &bwt, std::vector<uint8_t> &output_chars, std::vector<uint64_t> &output_runs)
+        {
+
+                int64_t tmp_l = 1;
+                for (int64_t i = 1; i < (int64_t)bwt.size(); i++)
+                {
+                    if (bwt[i] != bwt[i - 1])
+                    {
+                        output_runs.push_back(tmp_l);
+                        output_chars.push_back(bwt[i - 1]);
+                        tmp_l = 1;
+                    }
+                    else
+                    {
+                        tmp_l++;
+                    }
+                }
+                if (tmp_l > 0)
+                {
+                    output_runs.push_back(tmp_l);
+                    output_chars.push_back(bwt[bwt.size() - 1]);
+                    tmp_l = 0;
+                }
+        }
+        
+
+        static void build_RLBWT_from_BWT_file(std::string file_path, std::vector<uint8_t> &output_chars, std::vector<uint64_t> &output_runs, uint64_t buffer_size = 16000)
         {
             // this->clear();
 
