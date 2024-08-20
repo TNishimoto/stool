@@ -13,7 +13,7 @@
 //#include "OnlineRlbwt/online_rlbwt.hpp"
 //#include "rlbwt.hpp"
 //#include "stool/src/elias_fano_vector.hpp"
-#include "../io.hpp"
+//#include "../io.hpp"
 #include "../online_file_reader.hpp"
 
 //#include "../elias_fano_vector.hpp"
@@ -57,7 +57,7 @@ namespace stool
             void analyze(std::string filename)
             {
                 std::ifstream inp;
-                std::vector<char> buffer;
+                std::vector<uint8_t> buffer;
                 uint64_t bufferSize = 8192;
                 buffer.resize(8192);
 

@@ -14,7 +14,7 @@
 
 namespace stool
 {
-  namespace rlbwt
+  namespace rlbwt2
   {
 
     class ForwardSA

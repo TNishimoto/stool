@@ -9,10 +9,11 @@
 #include <fstream>
 #include "./bwt_analysis_result.hpp"
 #include "../elias_fano_vector.hpp"
+#include "../online_file_reader.hpp"
 
 namespace stool
 {
-    namespace stnode_on_rlbwt
+    namespace rlbwt2
     {
 
         template <typename CHAR = uint8_t>
@@ -50,7 +51,7 @@ namespace stool
                 this->head_char_vec.width(8);
                 stool::EliasFanoVectorBuilder run_bits;
                 std::ifstream inp;
-                std::vector<char> buffer;
+                std::vector<uint8_t> buffer;
                 uint64_t bufferSize = 8192;
                 buffer.resize(8192);
 
@@ -69,14 +70,14 @@ namespace stool
 
                     throw std::runtime_error("error");
                 }
-                uint64_t textSize = stool::FileReader::getTextSize(inp);
+                uint64_t textSize = stool::OnlineFileReader::get_text_size(inp);
                 uint8_t prevChar = 255;
                 uint64_t x = 0;
                 uint64_t currentRunP = 0;
 
                 while (true)
                 {
-                    bool b = stool::FileReader::read(inp, buffer, bufferSize, textSize);
+                    bool b = stool::OnlineFileReader::read(inp, buffer, bufferSize, textSize);
                     if (!b)
                     {
                         break;

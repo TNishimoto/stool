@@ -16,7 +16,7 @@ namespace stool
 
     using WT = sdsl::wt_huff<>;
 
-    namespace stnode_on_rlbwt
+    namespace rlbwt2
     {
         template <typename T>
         class RankSupportVectorWrapper
@@ -375,5 +375,5 @@ namespace stool
                 return x;
             }
         };
-    } // namespace stnode_on_rlbwt
+    } // namespace rlbwt2
 } // namespace stool

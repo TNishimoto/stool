@@ -13,31 +13,31 @@
 
 namespace stool
 {
-    namespace stnode_on_rlbwt
+    namespace rlbwt2
     {
 
-        template <typename INDEX_SIZE>
+        //template <typename INDEX_SIZE>
         class RLEWaveletTree
         {
         public:
-            using INDEX = INDEX_SIZE;
+            using INDEX = uint64_t;
             //using RINTERVAL = RInterval<INDEX_SIZE>;
             using CHAR = uint8_t;
             using UCHAR = typename std::make_unsigned<CHAR>::type;
             using CHAR_VEC = sdsl::int_vector<>;
-            using FPOSDS = stool::stnode_on_rlbwt::LightFPosDataStructure;
+            using FPOSDS = stool::rlbwt2::LightFPosDataStructure;
 
         private:
-            stool::stnode_on_rlbwt::RLE<CHAR> *rlbwt;
+            stool::rlbwt2::RLE<CHAR> *rlbwt;
             stool::WT wt;
 
         public:
 
-            stool::stnode_on_rlbwt::LightFPosDataStructure _fposDS;
+            stool::rlbwt2::LightFPosDataStructure _fposDS;
 
-            //RLEWaveletTree(stool::stnode_on_rlbwt::RLE<CHAR> *_rlbwt, string inputFile) : rlbwt(_rlbwt)
+            //RLEWaveletTree(stool::rlbwt2::RLE<CHAR> *_rlbwt, string inputFile) : rlbwt(_rlbwt)
 
-            RLEWaveletTree(stool::stnode_on_rlbwt::RLE<CHAR> *_rlbwt) : rlbwt(_rlbwt)
+            RLEWaveletTree(stool::rlbwt2::RLE<CHAR> *_rlbwt) : rlbwt(_rlbwt)
             {
                 uint64_t data_structure_bytes = 0;
                 const sdsl::int_vector<>* head_char_vec_pointer = rlbwt->get_head_char_vec();
@@ -63,7 +63,7 @@ namespace stool
             {
                 return this->rlbwt->get_lpos_vec();
             }
-            stool::stnode_on_rlbwt::RLE<CHAR>* get_rlbwt() const {
+            stool::rlbwt2::RLE<CHAR>* get_rlbwt() const {
                 return this->rlbwt;
             } 
             const sdsl::int_vector<> *get_head_chars_pointer() const
@@ -83,7 +83,7 @@ namespace stool
                 return isMaximalRepeat;
             }
 
-            INDEX_SIZE get_fpos(INDEX_SIZE index, INDEX_SIZE diff) const
+            INDEX get_fpos(INDEX index, INDEX diff) const
             {
                 return _fposDS[index] + diff;
             }
@@ -102,7 +102,7 @@ namespace stool
                 return sdsl::size_in_bytes(this->wt) + this->_fposDS.get_using_memory();
             }
 
-            uint64_t lf(INDEX_SIZE i) const {
+            uint64_t lf(INDEX i) const {
                 uint64_t x = this->rlbwt->get_lindex_containing_the_position(i);
                 uint64_t pos = this->rlbwt->get_lpos(x);
                 uint64_t lf = this->get_fpos(x, i - pos);
@@ -111,5 +111,5 @@ namespace stool
 
             }
         };
-    } // namespace stnode_on_rlbwt
+    } // namespace rlbwt2
 } // namespace stool
