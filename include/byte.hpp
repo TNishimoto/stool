@@ -41,6 +41,40 @@ namespace stool
 		{
 			return ((x >> nth) & 0x00000001) > 0;
 		}
+
+		static uint64_t zero_pad_tail(uint64_t code, uint8_t len)
+		{
+			uint64_t mask = (len < 64) ? ~((1ULL << len) - 1) : 0;
+			uint64_t pref = code & mask;
+			return pref;
+		}
+		static uint64_t zero_pad_head(uint64_t code, uint8_t len)
+		{
+			uint64_t mask = len < 64 ? UINT64_MAX >> len : 0;
+			uint64_t suf = code & mask;
+			return suf;
+		}
+
+		static uint64_t zero_pad(uint64_t code, uint8_t pos, uint8_t len)
+		{
+			if (len > 0)
+			{
+
+				uint64_t mask1_len = 64 - pos;
+				uint64_t mask1 = (mask1_len < 64) ? ~((1ULL << mask1_len) - 1) : 0;
+				uint64_t pref = code & mask1;
+
+				uint64_t end_pos = std::min(63, pos + len - 1);
+				uint64_t mask2_len = end_pos + 1;
+				uint64_t mask2 = mask2_len < 64 ? UINT64_MAX >> mask2_len : 0;
+				uint64_t suf = code & mask2;
+				return pref | suf;
+			}
+			else
+			{
+				return code;
+			}
+		}
 	};
 
 	class Log
@@ -89,7 +123,7 @@ namespace stool
 					long long upper = m * 2;
 					if (m <= n && n < upper)
 					{
-						//int64_t r = (int64_t)(n - m);
+						// int64_t r = (int64_t)(n - m);
 						return t;
 					}
 					if (m == 0)

@@ -97,6 +97,7 @@ namespace stool
 			}
 			result += "]";
 		}
+
 		template <class X>
 		static void toIntegerString(const std::vector<X> &items, std::string &result, uint64_t padding)
 		{
@@ -179,6 +180,14 @@ namespace stool
 		{
 			std::cout << to_integer_string<X>(items) << std::endl;
 		}
+
+		template <class X>
+		static void print(const std::deque<X> &items)
+		{
+			std::cout << to_integer_string<X>(items) << std::endl;
+		}
+
+
 		template <class X>
 		static void print(const std::string name, const std::vector<X> &items)
 		{

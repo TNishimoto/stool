@@ -110,6 +110,28 @@ namespace stool
 	}
 
 	template<typename T>
+	bool equal_check(const std::deque<T> &deq1, const std::deque<T> &deq2)
+	{
+		if (deq1.size() != deq2.size())
+		{
+			std::string s = std::string("String sizes are different!") + ", collect = " + std::to_string(deq1.size()) + ", test = " + std::to_string(deq2.size());
+
+			throw std::logic_error(s);
+		}
+		for (uint64_t i = 0; i < deq1.size(); i++)
+		{
+			if (deq1[i] != deq2[i])
+			{
+				std::string msg = "collect_vec[" + std::to_string(i) + "] != test_vec[" + std::to_string(i) + "]";
+
+				throw std::logic_error("Values are different! " + msg);
+			}
+		}
+		return true;
+	}
+
+
+	template<typename T>
 	bool equal_check(std::string name, const std::vector<T> &vec1, const std::vector<T> &vec2)
 	{
 		if (vec1.size() != vec2.size())
