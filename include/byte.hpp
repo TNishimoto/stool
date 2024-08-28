@@ -75,6 +75,18 @@ namespace stool
 				return code;
 			}
 		}
+		static uint8_t get_code_length(uint64_t code)
+		{
+			if (code > 0)
+			{
+
+				return 64 - __builtin_clzll(code);
+			}
+			else
+			{
+				return 0;
+			}
+		}
 	};
 
 	class Log
