@@ -11,8 +11,28 @@
 
 #include "./print.hpp"
 
+#ifdef __linux__
+#include <malloc.h>
+#elif defined(__APPLE__)
+#include <stdlib.h>
+#include <malloc/malloc.h>
+#endif
+
 namespace stool
 {
+	void print_memory_usage()
+	{
+#ifdef __linux__
+		struct mallinfo mi = mallinfo();
+		std::cout << "Total allocated space: " << mi.uordblks << " bytes" << std::endl;
+#elif defined(__APPLE__)
+		malloc_zone_t *zone = malloc_default_zone();
+		malloc_statistics_t stats;
+		malloc_zone_statistics(zone, &stats);
+		std::cout << "Total allocated space: " << (stats.size_in_use / 1000) << "KB" << std::endl;
+#endif
+	}
+
 	/*
 	std::string CreateRandomString(int len, int alphabetSize)
 	{
@@ -88,7 +108,7 @@ namespace stool
 		return true;
 	}
 	*/
-	template<typename T>
+	template <typename T>
 	bool equal_check(const std::vector<T> &vec1, const std::vector<T> &vec2)
 	{
 		if (vec1.size() != vec2.size())
@@ -109,7 +129,7 @@ namespace stool
 		return true;
 	}
 
-	template<typename T>
+	template <typename T>
 	bool equal_check(const std::deque<T> &deq1, const std::deque<T> &deq2)
 	{
 		if (deq1.size() != deq2.size())
@@ -130,8 +150,7 @@ namespace stool
 		return true;
 	}
 
-
-	template<typename T>
+	template <typename T>
 	bool equal_check(std::string name, const std::vector<T> &vec1, const std::vector<T> &vec2)
 	{
 		if (vec1.size() != vec2.size())
@@ -151,7 +170,6 @@ namespace stool
 		}
 		return true;
 	}
-
 
 	bool equal_check(const std::string &vec1, const std::string &vec2)
 	{
@@ -222,7 +240,6 @@ namespace stool
 			return r;
 		}
 
-
 		static std::vector<uint32_t> create_random_sequence(uint64_t len, uint64_t alphabet_size, int64_t seed)
 		{
 			std::mt19937 mt(seed);
@@ -244,7 +261,7 @@ namespace stool
 		static std::vector<uint8_t> create_uint8_t_string(std::vector<uint32_t> &original_text)
 		{
 			std::vector<uint8_t> chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
-			std::vector<uint8_t> r; 
+			std::vector<uint8_t> r;
 			r.resize(original_text.size(), 1);
 
 			for (size_t i = 0; i < original_text.size(); i++)
@@ -287,7 +304,6 @@ namespace stool
 			uint64_t len = rand100(mt);
 			return create_uint8_t_binary_string(len);
 		}
-
 
 		static std::vector<uint8_t> create_uint8_t_8_ary_string(uint64_t len, int64_t seed)
 		{
