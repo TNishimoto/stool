@@ -7,8 +7,13 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
-#include <sdsl/bit_vectors.hpp>
 #include "./value_array.hpp"
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+#include <sdsl/bit_vectors.hpp>
+#pragma GCC diagnostic pop
 
 namespace stool
 {

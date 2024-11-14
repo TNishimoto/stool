@@ -39,7 +39,7 @@ namespace stool
 
             RLEWaveletTree(stool::rlbwt2::RLE<CHAR> *_rlbwt) : rlbwt(_rlbwt)
             {
-                uint64_t data_structure_bytes = 0;
+                //uint64_t data_structure_bytes = 0;
                 const sdsl::int_vector<>* head_char_vec_pointer = rlbwt->get_head_char_vec();
                 auto lpos_vec_pointer = rlbwt->get_lpos_vec();
 
@@ -51,11 +51,11 @@ namespace stool
 
                 this->wt.swap(_wt);
 
-                data_structure_bytes += sdsl::size_in_bytes(wt);
+                //data_structure_bytes += sdsl::size_in_bytes(wt);
                 std::cout << "WT using memory = " << sdsl::size_in_bytes(wt) / 1000 << "[KB]" << std::endl;
                 this->_fposDS.build(head_char_vec_pointer, *lpos_vec_pointer, &wt);
                 std::cout << "FPOS Vec using memory = " << _fposDS.get_using_memory() / 1000 << "[KB]" << std::endl;
-                data_structure_bytes += _fposDS.get_using_memory();
+                //data_structure_bytes += _fposDS.get_using_memory();
 
             }
 
