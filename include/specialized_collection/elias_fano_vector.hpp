@@ -12,6 +12,8 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+#pragma GCC diagnostic ignored "-Wdeprecated-copy-with-user-provided-copy"
+
 #include <sdsl/bit_vectors.hpp>
 #pragma GCC diagnostic pop
 

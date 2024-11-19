@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <cstring>
-using namespace std;
+//using namespace std;
 
 namespace stool
 {
@@ -15,7 +15,7 @@ class VectorTranslator
 {
 public:
     template <typename X, typename Y>
-    static void translate(const vector<X> &input, vector<Y> &output)
+    static void translate(const std::vector<X> &input, std::vector<Y> &output)
     {
         output.resize(input.size());
         for (uint64_t i = 0; i < input.size(); i++)
@@ -31,14 +31,14 @@ class ValueArray
 
     uint64_t byteSize;
     uint64_t num;
-    vector<uint8_t> arr;
+    std::vector<uint8_t> arr;
 
 public:
     uint64_t size();
-    void write(ofstream &writer);
-    void write(string filename);
-    void load(ifstream &stream);
-    void load(string filename);
+    void write(std::ofstream &writer);
+    void write(std::string filename);
+    void load(std::ifstream &stream);
+    void load(std::string filename);
     ValueArray();
     ValueArray(ValueArray && obj){
         this->byteSize = obj.byteSize;
@@ -55,7 +55,7 @@ public:
     }
 
     template <typename BYTE>
-    void set(const vector<BYTE> &_arr, bool isShrink)
+    void set(const std::vector<BYTE> &_arr, bool isShrink)
     {
         if (!isShrink)
         {
@@ -74,25 +74,25 @@ public:
             }
             if (max <= UINT8_MAX)
             {
-                vector<uint8_t> o;
+                std::vector<uint8_t> o;
                 VectorTranslator::translate(_arr, o);
                 this->set(o, false);
             }
             else if (max <= UINT16_MAX)
             {
-                vector<uint16_t> o;
+                std::vector<uint16_t> o;
                 VectorTranslator::translate(_arr, o);
                 this->set(o, false);
             }
             else if (max <= UINT32_MAX)
             {
-                vector<uint32_t> o;
+                std::vector<uint32_t> o;
                 VectorTranslator::translate(_arr, o);
                 this->set(o, false);
             }
             else
             {
-                vector<uint64_t> o;
+                std::vector<uint64_t> o;
                 VectorTranslator::translate(_arr, o);
                 this->set(o, false);
             }
@@ -138,7 +138,7 @@ public:
         this->byteSize = _byteSize;
     }
     template <typename BYTE>
-    void fitDecode(vector<BYTE> &output) const
+    void fitDecode(std::vector<BYTE> &output) const
     {
         output.resize(this->num);
         if (this->byteSize == sizeof(BYTE))
@@ -152,29 +152,29 @@ public:
         }
     }
     template <typename BYTE>
-    void decode(vector<BYTE> &output) const
+    void decode(std::vector<BYTE> &output) const
     {
         if (this->byteSize == 1)
         {
-            vector<uint8_t> decArr;
+            std::vector<uint8_t> decArr;
             this->fitDecode(decArr);
             VectorTranslator::translate(decArr, output);
         }
         else if (this->byteSize == 2)
         {
-            vector<uint16_t> decArr;
+            std::vector<uint16_t> decArr;
             this->fitDecode(decArr);
             VectorTranslator::translate(decArr, output);
         }
         else if (this->byteSize == 4)
         {
-            vector<uint32_t> decArr;
+            std::vector<uint32_t> decArr;
             this->fitDecode(decArr);
             VectorTranslator::translate(decArr, output);
         }
         else if (this->byteSize == 8)
         {
-            vector<uint64_t> decArr;
+            std::vector<uint64_t> decArr;
             this->fitDecode(decArr);
             VectorTranslator::translate(decArr, output);
         }

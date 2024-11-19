@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../include/print.hpp"
-#include "../include/value_array.hpp"
+#include "../include/specialized_collection/value_array.hpp"
 
 using namespace std;
 

@@ -1,12 +1,15 @@
 #include <cassert>
 #include <chrono>
 
-#include "stool/src/io.hpp"
-#include "stool/src/cmdline.h"
-#include "stool/src/debug.hpp"
-#include "stool/src/value_array.hpp"
+#include "../include/io.hpp"
+#include "../include/byte.hpp"
 
-#include "../include/sampling_lcp/variable_fixed_array.hpp"
+#include "../include/cmdline.h"
+#include "../include/debug.hpp"
+#include "../include/specialized_collection/value_array.hpp"
+
+
+//#include "../include/sampling_lcp/variable_fixed_array.hpp"
 
 bool SHOW = false;
 
@@ -36,16 +39,17 @@ std::string toBinaryString(uint64_t x)
     return s;
 }
 
-int main(int argc, char *argv[])
+int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
 {
+    /*
     std::vector<uint64_t> r = create_random_integer_vector(300, 10);
     for (auto it : r)
     {
-        std::cout << it << "/" << toBinaryString(it) << "/" << (int)stool::BinaryOperations::getBitWidth(it) << std::endl;
+        std::cout << it << "/" << toBinaryString(it) << "/" << (int)stool::Byte::get_code_length(it) << std::endl;
     }
     stool::Printer::print(r);
-    stool::VariableFixedArray vfa;
-    auto bits = stool::VariableFixedArray::create_width_bits(r);
+    stool::ValueArray vfa;
+    auto bits = stool::ValueArray::create_width_bits(r);
     sdsl::bit_vector::select_1_type b_sel(&bits);
     vfa.build(&b_sel, r.size());
     for(uint64_t i=0;i<vfa.size();i++){
@@ -66,6 +70,7 @@ int main(int argc, char *argv[])
     std::cout << std::endl;
 
     }
+    */
 
     /*
     uint64_t v = UINT64_MAX;

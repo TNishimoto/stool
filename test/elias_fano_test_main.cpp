@@ -4,11 +4,11 @@
 #include <vector>
 #include <list>
 #include <iterator>
-#include "../../include/io.hpp"
-#include "../../include/cmdline.h"
-#include "../../include/debug.hpp"
-#include "../../include/value_array.hpp"
-#include "../../include/elias_fano_vector.hpp"
+//#include "../../include/io.hpp"
+//#include "../../include/cmdline.h"
+#include "../include/debug.hpp"
+#include "../include/specialized_collection/value_array.hpp"
+#include "../include/specialized_collection/elias_fano_vector.hpp"
 
 bool SHOW = false;
 
