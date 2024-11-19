@@ -6,10 +6,8 @@
 #include <chrono>
 // #include "qgram_tree.h"
 // #include "include/debug/debug.hpp"
-#include "../include/cmdline.h"
-#include "../include/print.hpp"
-#include "../include/io.hpp"
-#include "../include/debug.hpp"
+
+#include "../include/light_stool.hpp"
 #include "./vlc_deque_test.hpp"
 #include "./simple_deque_test.hpp"
 #include "./integer_deque_test.hpp"

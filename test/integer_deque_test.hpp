@@ -6,9 +6,7 @@
 #include <cassert>
 #include <chrono>
 #include <random>
-#include "../include/specialized_collection/integer_deque.hpp"
-#include "../include/debug.hpp"
-#include "./vlc_deque_test.hpp"
+#include "../include/light_stool.hpp"
 
 namespace stool
 {
