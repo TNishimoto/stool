@@ -1,3 +1,3 @@
 # STool
 
-[Doxygen](https://TNishimoto.github.io/stool/docs/html/index.html)
+[Doxygen](https://TNishimoto.github.io/stool/html/index.html)
