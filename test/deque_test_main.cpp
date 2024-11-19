@@ -7,7 +7,7 @@
 // #include "qgram_tree.h"
 // #include "include/debug/debug.hpp"
 
-#include "../include/light_stool.hpp"
+#include "../include/stool.hpp"
 #include "./vlc_deque_test.hpp"
 #include "./simple_deque_test.hpp"
 #include "./integer_deque_test.hpp"

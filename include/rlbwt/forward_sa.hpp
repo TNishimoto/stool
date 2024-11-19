@@ -7,8 +7,8 @@
 //#include "rlbwt.hpp"
 #include "./backward_isa.hpp"
 #include "../print.hpp"
-#include "../elias_fano_vector.hpp"
-#include <sdsl/bit_vectors.hpp>
+#include "../specialized_collection/elias_fano_vector.hpp"
+
 
 //#include "rlbwt_functions.hpp"
 
@@ -42,7 +42,7 @@ namespace stool
         const ForwardSA &_sa;
 
       public:
-        iterator() = default;
+        //iterator() = default;
 
         iterator(const INDEX __sa_value, const ForwardSA &__sa) : _sa_value(__sa_value), _sa(__sa)
         {

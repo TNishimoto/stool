@@ -7,7 +7,7 @@
 #include <queue>
 #include <vector>
 #include <type_traits>
-#include "../elias_fano_vector.hpp"
+#include "../specialized_collection/elias_fano_vector.hpp"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-copy-with-user-provided-copy"  // suppress specific warning

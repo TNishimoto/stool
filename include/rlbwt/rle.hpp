@@ -8,8 +8,8 @@
 #include <iostream>
 #include <fstream>
 #include "./bwt_analysis_result.hpp"
-#include "../elias_fano_vector.hpp"
 #include "../online_file_reader.hpp"
+#include "../specialized_collection/elias_fano_vector.hpp"
 
 namespace stool
 {
