@@ -67,13 +67,13 @@ namespace stool
 
 			for (uint64_t i = 0; i < buffer.size(); i++)
 			{
-				uint8_t byte = buffer[i];
+				uint8_t _byte = buffer[i];
 				uint64_t w = std::min(xsize - (i * 8), (uint64_t)8UL);
 
 				for (size_t j = 0; j < w; ++j)
 				{
-					output[y + w - 1 - j] = byte & 1;
-					byte = byte >> 1;
+					output[y + w - 1 - j] = _byte & 1;
+					_byte = _byte >> 1;
 				}
 				y += w;
 			}
@@ -149,10 +149,10 @@ namespace stool
 			{
 				uint64_t SIZE = text.size() - (x * 8);
 				uint64_t w = std::min(SIZE, (uint64_t)8UL);
-				uint8_t byte = 0;
+				uint8_t _byte = 0;
 				for (size_t j = 0; j < w; ++j)
-					byte = (byte << 1) | text[(x * 8) + j];
-				buffer.push_back(byte);
+					_byte = (_byte << 1) | text[(x * 8) + j];
+				buffer.push_back(_byte);
 				if (buffer.size() > 8192)
 				{
 					out.write((char *)(&buffer[0]), sizeof(uint8_t) * buffer.size());
