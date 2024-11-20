@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <cassert>
 
 namespace stool
 {
@@ -28,7 +29,46 @@ namespace stool
             return r;
         }
 
+        static std::vector<uint8_t> get_suffx(const std::vector<uint8_t> &text, uint64_t i)
+        {
+            std::vector<uint8_t> r;
+            for (uint64_t x = i; x < text.size(); x++)
+            {
+                r.push_back(text[x]);
+            }
+            return r;
+        }
+        static std::string get_suffix_str(const std::vector<uint8_t> &text, uint64_t i)
+        {
+            std::string r;
+            for (uint64_t x = i; x < text.size(); x++)
+            {
+                r.push_back(text[x]);
+            }
+            return r;
+        }
+
+        static uint64_t LCE(const std::vector<uint8_t> &text, uint64_t i, const std::vector<uint8_t> &pattern)
+        {
+            for (uint64_t x = 0; x < pattern.size(); x++)
+            {
+                if (i + x < text.size())
+                {
+                    if (text[i + x] != pattern[x])
+                    {
+                        return x;
+                    }
+                }
+                else
+                {
+                    return x;
+                }
+            }
+            return pattern.size();
+        }
+
         // Return the longest common extension of text[i..] and text[j..].
+
         static uint64_t LCE(const std::string &text, uint64_t i, uint64_t j)
         {
             if (i > j)
@@ -127,6 +167,76 @@ namespace stool
                 alphabets.pop_back();
             }
             return get_all_strings(len, alphabets);
+        }
+
+        template <typename CHAR = uint8_t>
+        static bool compare_suffixes(const std::vector<CHAR> &text, const uint64_t x, const uint64_t y)
+        {
+            uint64_t max = x < y ? text.size() - y : text.size() - x;
+            for (uint64_t i = 0; i < max; i++)
+            {
+                CHAR c1 = text[x + i];
+                CHAR c2 = text[y + i];
+                if (c1 != c2)
+                {
+                    return c1 < c2;
+                }
+            }
+            return x > y;
+        }
+
+        template <typename CHAR = uint8_t>
+        static std::vector<uint64_t> construct_naive_suffix_array(const std::vector<CHAR> &text)
+        {
+            std::vector<uint64_t> r;
+            for (uint64_t i = 0; i < text.size(); i++)
+            {
+                r.push_back(i);
+            }
+
+            std::sort(
+                r.begin(),
+                r.end(),
+                [&](const uint64_t &x, const uint64_t &y)
+                {
+                    return compare_suffixes(text, x, y);
+                });
+            return r;
+        }
+        static std::vector<uint64_t> locate_query(const std::vector<uint8_t> &text, const std::vector<uint8_t> &pattern)
+        {
+            if (pattern.size() == 0)
+            {
+                std::vector<uint64_t> positions;
+                for(uint64_t i = 0; i < text.size();i++){
+                    positions.push_back(i);
+                }
+                return positions;
+            }
+            else
+            {
+                std::vector<uint64_t> positions;
+
+                if (pattern.empty() || text.size() < pattern.size())
+                {
+                    return positions;
+                }
+
+                auto it = text.begin();
+                while (it != text.end())
+                {
+                    it = std::search(it, text.end(), pattern.begin(), pattern.end());
+
+                    if (it != text.end())
+                    {
+                        uint64_t find_pos = std::distance(text.begin(), it);
+                        positions.push_back(find_pos);
+                        ++it;
+                    }
+                }
+
+                return positions;
+            }
         }
     };
 } // namespace stool

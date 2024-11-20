@@ -151,4 +151,29 @@ int main(int argc, char *argv[])
             num *= 2;
         }
     }
+    else if (mode == 7)
+    {
+        uint64_t length = 10000;
+        using T = stool::VLCDeque;
+        std::vector<T *> vec;
+        vec.resize(length);
+
+        for (uint64_t i = 0; i < length; i++)
+        {
+            vec[i] = new T();
+            for (uint64_t j = 0; j < 100; j++)
+            {
+                vec[i]->push_back(length);
+            }
+        }
+
+        std::cout << "Memory: " << (vec.capacity() * sizeof(T *) + (vec.size() * vec[0]->size_in_bytes())) << " bytes" << std::endl;
+
+        stool::print_memory_usage();
+        /*
+        for(uint64_t i = 0; i < length;i++){
+            delete vec[i];
+        }
+        */
+    }
 }

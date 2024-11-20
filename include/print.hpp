@@ -304,6 +304,35 @@ namespace stool
 
 		}
 
+		static void print_sa_table(std::vector<uint8_t> &text, std::vector<uint64_t> &sa)
+		{
+
+			std::cout << "===========================" << std::endl;
+			for (uint64_t i = 0; i < sa.size(); i++)
+			{
+				std::string s;
+				uint64_t len = sa.size() - sa[i];
+				for (uint64_t p = 0; p < len; p++)
+				{
+					s.push_back(text[sa[i] + p]);
+				}
+				std::string str1 = std::to_string(i);
+				while (str1.size() < 3)
+				{
+					str1.push_back(' ');
+				}
+				std::string str2 = std::to_string(sa[i]);
+				while (str2.size() < 3)
+				{
+					str2.push_back(' ');
+				}
+
+				std::cout << str1 << " " << str2 << " | " << s << std::endl;
+			}
+			std::cout << "===========================" << std::endl;
+
+		}
+
 		/*
 	template <class X>
 	static void write(std::string filename, std::vector<X> &items)

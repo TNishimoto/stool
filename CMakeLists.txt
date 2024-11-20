@@ -54,6 +54,10 @@ target_link_libraries(elias_fano_test.out stool)
 
 add_executable(deque_test.out test/deque_test_main.cpp ${SOURCES})
 target_link_libraries(deque_test.out stool)
+
+add_executable(test.out test/test_main.cpp ${SOURCES})
+target_link_libraries(test.out stool)
+
 endif()
 
 
