@@ -33,17 +33,17 @@ int main(int argc, char *argv[])
         uint64_t len = 100;
         for (uint64_t i = 0; i < 3; i++)
         {
-            std::vector<uint8_t> alphabet = stool::StringGenerator::create_ACGT_alphabet();
+            std::vector<uint8_t> alphabet = stool::UInt8VectorGenerator::create_ACGT_alphabet();
 
             for (uint64_t x = 0; x < 100; x++)
             {
-                std::vector<uint8_t> text = stool::StringGenerator::create_random_uint8_t_sequence(len, alphabet, x);
+                std::vector<uint8_t> text = stool::UInt8VectorGenerator::create_random_sequence(len, alphabet, x);
                 std::vector<uint64_t> sa = stool::StringFunctions::construct_naive_suffix_array(text);
 
                 std::cout << "+" << std::flush;
                 for (uint64_t j = 0; j < 100; j++)
                 {
-                    std::vector<uint8_t> pattern = stool::StringGenerator::create_random_substring(text, j);
+                    std::vector<uint8_t> pattern = stool::UInt8VectorGenerator::create_random_substring(text, j);
 
                     std::vector<uint64_t> result1 = stool::StringFunctions::locate_query(text, pattern);
                     std::vector<uint64_t> result2 = stool::StringFunctionsOnSA::locate_query(text, pattern, sa);
