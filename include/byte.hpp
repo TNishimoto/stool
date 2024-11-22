@@ -45,6 +45,91 @@ namespace stool
 		{
 			return ((x >> nth) & 0x00000001) > 0;
 		}
+		inline static uint64_t insert_bit(uint64_t bits, int64_t pos, bool value)
+		{
+			if (pos == 0)
+			{
+				return (bits << 1) | (value ? 1ULL : 0ULL);
+			}
+			else if (pos == 63)
+			{
+				return (bits >> 1) | ((value ? 1ULL : 0ULL) << 63);
+			}
+			else
+			{
+				uint64_t left = (bits >> (pos)) << (pos + 1);
+				uint64_t right = (bits << (64 - pos)) >> (64 - pos);
+				uint64_t center = (value ? 1ULL : 0ULL) << pos;
+
+				return left | center | right;
+			}
+		}
+		inline static uint64_t write_bit(uint64_t bits, int64_t pos, bool value)
+		{
+			if (pos == 0)
+			{
+				return ((bits >> 1) << 1) | (value ? 1ULL : 0ULL);
+			}
+			else if (pos == 63)
+			{
+				return ((bits << 1) >> 1) | ((value ? 1ULL : 0ULL) << 63);
+			}
+			else
+			{
+				uint64_t left = (bits >> (pos + 1)) << (pos + 1);
+				uint64_t right = (bits << (64 - pos)) >> (64 - pos);
+				uint64_t center = (value ? 1ULL : 0ULL) << pos;
+				return left | center | right;
+			}
+		}
+		inline static uint64_t remove_bit(uint64_t bits, int64_t pos)
+		{
+			if (pos == 0)
+			{
+				return bits >> 1;
+			}
+			else if (pos == 63)
+			{
+				return (bits << 1) >> 1;
+			}
+			else
+			{
+				uint64_t left = (bits >> (pos + 1)) << pos;
+				uint64_t right = (bits << (64 - pos)) >> (64 - pos);
+				return left | right;
+			}
+		}
+
+		inline static uint64_t select1(uint64_t bits, int64_t nth)
+		{
+			uint64_t mask = UINT8_MAX;
+			uint64_t counter = 0;
+			for (uint64_t i = 0; i < 8; i++)
+			{
+				uint64_t bs = i * 8;
+				uint64_t mask2 = mask << bs;
+				uint64_t v = bits & mask2;
+				uint64_t c = countBits(v);
+				if (counter + c >= nth)
+				{
+
+					for (uint64_t j = 0; j < 8; j++)
+					{
+						if (getBit(bits, bs + j))
+						{
+							counter++;
+							if (counter == nth)
+							{
+								return bs + j;
+							}
+						}
+					}
+					throw std::logic_error("Error:select1");
+				}
+				counter += c;
+			}
+			throw std::runtime_error("This bits do not contain the n-th 1.");
+		}
 
 		static uint64_t zero_pad_tail(uint64_t code, uint8_t len)
 		{
@@ -90,6 +175,12 @@ namespace stool
 			{
 				return 0;
 			}
+		}
+		static std::string to_string(uint64_t code)
+		{
+			std::bitset<64> bits(code);
+			std::string bitString = bits.to_string();
+			return bitString;
 		}
 	};
 
