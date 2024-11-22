@@ -9,6 +9,7 @@ namespace stool
 	class Byte
 	{
 	private:
+		/*
 		inline static int64_t numofbits4(int64_t bits)
 		{
 			int64_t num;
@@ -19,6 +20,7 @@ namespace stool
 
 			return num;
 		}
+		*/
 		inline static int64_t numofbits5(long bits)
 		{
 			bits = (bits & 0x55555555) + (bits >> 1 & 0x55555555);
@@ -29,14 +31,16 @@ namespace stool
 		}
 
 	public:
-		inline static int64_t countBits(int64_t bits)
+		inline static int64_t countBits(uint64_t bits)
 		{
-			return numofbits4(bits);
+			return __builtin_popcountll(bits);
 		}
+		/*
 		inline static int64_t numberOfLeadingZero(int64_t x)
 		{
 			return numofbits5((~x) & (x - 1));
 		}
+		*/
 		inline static bool getBit(int64_t x, int64_t nth)
 		{
 			return ((x >> nth) & 0x00000001) > 0;
