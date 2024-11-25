@@ -82,7 +82,7 @@ namespace stool
 				return left | center | right;
 			}
 		}
-		inline static uint64_t remove_bit(uint64_t bits, int64_t pos)
+		inline static uint64_t remove_bit(uint64_t bits, uint64_t pos)
 		{
 			if (pos == 0)
 			{
@@ -100,7 +100,7 @@ namespace stool
 			}
 		}
 
-		inline static uint64_t select1(uint64_t bits, int64_t nth)
+		inline static uint64_t select1(uint64_t bits, uint64_t nth)
 		{
 			uint64_t mask = UINT8_MAX;
 			uint64_t counter = 0;
@@ -129,6 +129,10 @@ namespace stool
 				counter += c;
 			}
 			throw std::runtime_error("This bits do not contain the n-th 1.");
+		}
+		inline static uint64_t select0(uint64_t bits, uint64_t nth)
+		{
+			return select1(~bits, nth);
 		}
 
 		static uint64_t zero_pad_tail(uint64_t code, uint8_t len)
