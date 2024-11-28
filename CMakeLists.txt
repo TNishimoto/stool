@@ -6,9 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 if(CPP_STATIC)
-set(CMAKE_CXX_FLAGS "-m64  -D_INT128 -Wall -Wextra -static")
+set(CMAKE_CXX_FLAGS "-D_INT128 -Wall -Wextra -static")
 else(CPP_STATIC)
-set(CMAKE_CXX_FLAGS "-m64  -D_INT128 -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-D_INT128 -Wall -Wextra")
 endif(CPP_STATIC)
 
 set(CMAKE_CXX_FLAGS_DEBUG  "-g -O0 -DDEBUG")
