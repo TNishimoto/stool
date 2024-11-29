@@ -13,7 +13,7 @@ namespace stool
             Let R be the output array of length r.
             R[i] stores the index of the L-run corresponding to i-th F-run.
             */
-            static std::vector<uint64_t> construct_rle_fl_mapper(const sdsl::int_vector<> &bwt)
+            static std::vector<uint64_t> construct_rle_fl_mapper(const sdsl::int_vector<8> &bwt)
             {
                 std::vector<uint64_t> indexes;
                 uint64_t size = bwt.size();
@@ -42,7 +42,7 @@ namespace stool
             R[i] stores the starting position of the F-run corresponding to i-th L-run.
             */
             template <typename LPOSDS>
-            static std::vector<uint64_t> construct_fpos_array(const sdsl::int_vector<> &bwt, const LPOSDS &lpos_vec)
+            static std::vector<uint64_t> construct_fpos_array(const sdsl::int_vector<8> &bwt, const LPOSDS &lpos_vec)
             {
                 std::vector<uint64_t> fvec = construct_rle_fl_mapper(bwt);
                 std::vector<uint64_t> output;
@@ -65,7 +65,7 @@ namespace stool
                 return output;
             }
             template <typename LPOSDS>
-            static void check(const sdsl::int_vector<> &bwt, const LPOSDS &lpos_vec, const std::vector<uint64_t> &r)
+            static void check(const sdsl::int_vector<8> &bwt, const LPOSDS &lpos_vec, const std::vector<uint64_t> &r)
             {
                 std::vector<bool> checker;
 
@@ -98,7 +98,7 @@ namespace stool
                 std::cout << "OK!" << std::endl;
             }
             template <typename LPOSDS>
-            static std::vector<uint64_t> construct(const sdsl::int_vector<> &bwt, const LPOSDS &lpos_vec)
+            static std::vector<uint64_t> construct(const sdsl::int_vector<8> &bwt, const LPOSDS &lpos_vec)
             {
                 std::cout << "Building Fpos_vec(std::vector<uint64_t>) ..." << std::flush;
                 std::vector<uint64_t> v1 = construct_fpos_array(bwt, lpos_vec);

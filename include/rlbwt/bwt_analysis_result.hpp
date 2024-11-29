@@ -32,6 +32,11 @@ namespace stool
             uint64_t min_char_pos;
             uint64_t min_char_count;
 
+            int64_t max_char = -1;
+            uint64_t max_char_pos = 0;
+            uint64_t max_char_count = 0;
+
+
             uint64_t alphabet_count = 0;
 
             std::vector<uint64_t> character_count_vec;
@@ -97,6 +102,14 @@ namespace stool
                             this->min_char_count++;
                         }
 
+                        if(c > this->max_char){
+                            this->max_char = c;
+                            this->max_char_pos = x;
+                            this->max_char_count = 1;
+                        }else if(c == this->max_char){
+                            this->max_char_count++;
+                        }
+
                         if (prevChar != c || x == 0)
                         {
                             count_run++;
@@ -122,9 +135,12 @@ namespace stool
             {
                 std::cout << "\033[31m";
                 std::cout << "______________________RESULT______________________" << std::endl;
-                std::cout << "The length of the input text \t\t : " << this->str_size << std::endl;
-                std::cout << "The number of runs on BWT \t\t : " << this->run_count << std::endl;
-                std::cout << "Alphabet size \t\t : " << this->alphabet_count << std::endl;
+                std::cout << "The length of the input text: \t\t " << this->str_size << std::endl;
+                std::cout << "The number of runs on BWT: \t\t " << this->run_count << std::endl;
+                std::cout << "Alphabet size: \t\t " << this->alphabet_count << std::endl;
+                std::cout << "min sigma: \t \t  " << this->min_char << std::endl;
+                std::cout << "max sigma: \t \t  " << this->max_char << std::endl;
+
                 //std::cout << "log sigma \t\t : " << this->character_bit_size() << std::endl;
                 //uint64_t x = run_count * (stool::Log::log2(str_size / run_count));
 

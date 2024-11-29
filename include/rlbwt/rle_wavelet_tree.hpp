@@ -54,6 +54,7 @@ namespace stool
 
             bool verifyBWT() const
             {
+                std::cout << "verify BWT" << std::flush;
                 uint64_t len = this->rlbwt->str_size();
                 std::vector<bool> checker;
                 checker.resize(len, false);
@@ -69,6 +70,8 @@ namespace stool
 
                     pos = this->lf(pos);
                 }
+                std::cout << "[END]" << std::endl;
+
             }
         };
         class WaveletTreeOnHeadChars
@@ -77,7 +80,7 @@ namespace stool
             template <typename CHAR = uint8_t>
             static stool::WT build(stool::rlbwt2::RLE<CHAR> *_rlbwt)
             {
-                const sdsl::int_vector<> *head_char_vec_pointer = _rlbwt->get_head_char_vec();
+                const sdsl::int_vector<8> *head_char_vec_pointer = _rlbwt->get_head_char_vec();
                 stool::WT _wt;
                 // construct(_wt, inputFile + ".tmp");
                 construct_im(_wt, *head_char_vec_pointer);

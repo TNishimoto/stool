@@ -25,7 +25,7 @@ void mode1(RLBWT &static_rlbwt, LF_DATA &rle_wt)
 
     std::chrono::system_clock::time_point st1, st2;
 
-        st1 = std::chrono::system_clock::now();    
+    st1 = std::chrono::system_clock::now();
     for (auto it = isa_ds.begin(); it != isa_ds.end(); ++it)
     {
         counter++;
@@ -35,13 +35,13 @@ void mode1(RLBWT &static_rlbwt, LF_DATA &rle_wt)
             std::cout << "[" << counter << "/" << text_size << "]" << std::endl;
         }
     }
-        st2 = std::chrono::system_clock::now();
+    st2 = std::chrono::system_clock::now();
 
-    uint64_t time1 = std::chrono::duration_cast<std::chrono::nanoseconds>(st2 - st1).count();        
+    uint64_t time1 = std::chrono::duration_cast<std::chrono::nanoseconds>(st2 - st1).count();
     std::cout << counter << std::endl;
 
     std::cout << "checksum: " << checksum << std::endl;
-    std::cout << "time: " << (time1 / (1000 * 1000)) << "[ms]" << std::endl; 
+    std::cout << "time: " << (time1 / (1000 * 1000)) << "[ms]" << std::endl;
 }
 
 int main(int argc, char *argv[])
@@ -82,21 +82,52 @@ int main(int argc, char *argv[])
 
     stool::WT wt = stool::rlbwt2::WaveletTreeOnHeadChars::build(&static_rlbwt);
 
-    if (type == 0)
+        if (type == 0)
+        {
+            stool::rlbwt2::LightFPosDataStructure fpos_array;
+            fpos_array.build(static_rlbwt.get_head_char_vec(), *static_rlbwt.get_lpos_vec(), &wt);
+            stool::rlbwt2::LFDataStructure<RLBWT, stool::rlbwt2::LightFPosDataStructure> rle_wt(&static_rlbwt, &fpos_array);
+            rle_wt.verifyBWT();
+            mode1(static_rlbwt, rle_wt);
+        }
+        else
+        {
+            std::vector<uint64_t> fpos_array = stool::rlbwt2::FPosDataStructure::construct_fpos_array(*static_rlbwt.get_head_char_vec(), *static_rlbwt.get_lpos_vec());
+            stool::rlbwt2::LFDataStructure<RLBWT, std::vector<uint64_t>> rle_wt(&static_rlbwt, &fpos_array);
+            rle_wt.verifyBWT();
+
+            mode1(static_rlbwt, rle_wt);
+        }
+
+    /*
+    if (true)
     {
-        stool::rlbwt2::LightFPosDataStructure fpos_array;
-        fpos_array.build(static_rlbwt.get_head_char_vec(), *static_rlbwt.get_lpos_vec(), &wt);
-        stool::rlbwt2::LFDataStructure<RLBWT, stool::rlbwt2::LightFPosDataStructure> rle_wt(&static_rlbwt, &fpos_array);
-        rle_wt.verifyBWT();
-        mode1(static_rlbwt, rle_wt);
+        stool::rlbwt2::LightFPosDataStructure fpos_array1;
+        fpos_array1.build(static_rlbwt.get_head_char_vec(), *static_rlbwt.get_lpos_vec(), &wt);
+        std::vector<uint64_t> fpos_array2 = stool::rlbwt2::FPosDataStructure::construct_fpos_array(*static_rlbwt.get_head_char_vec(), *static_rlbwt.get_lpos_vec());
+
+        for (uint8_t x = 0; x <= 8; x++)
+        {
+            std::cout << "c: " << (int)x << std::endl; 
+            for (uint64_t i = 0; i < fpos_array2.size(); i++)
+            {
+                uint8_t c = static_rlbwt.get_char_by_run_index(i);
+                uint64_t len = static_rlbwt.get_run(i);
+                if (c == (uint64_t)x)
+                {
+                    std::cout << i << "/len: " << len << "/" << fpos_array1[i] << "/" << fpos_array2[i] << std::endl;
+                    if (fpos_array1[i] != fpos_array2[i])
+                    {
+                        throw std::logic_error("Error: fpos");
+                    }
+                }
+            }
+        }
+
+        std::cout << "OK!" << std::endl;
     }
     else
     {
-        std::vector<uint64_t> fpos_array = stool::rlbwt2::FPosDataStructure::construct_fpos_array(*static_rlbwt.get_head_char_vec(), *static_rlbwt.get_lpos_vec());
-        stool::rlbwt2::LFDataStructure<RLBWT, std::vector<uint64_t>> rle_wt(&static_rlbwt, &fpos_array);
-        rle_wt.verifyBWT();
-
-        mode1(static_rlbwt, rle_wt);
-
     }
+    */
 }

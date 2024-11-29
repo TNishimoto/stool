@@ -25,7 +25,7 @@ namespace stool
             using LPOS_TYPE = stool::EliasFanoVector;
 
         private:
-            sdsl::int_vector<> head_char_vec;
+            sdsl::int_vector<8> head_char_vec;
             LPOS_TYPE lpos_vec;
             INDEX smallest_character = 0;
 
@@ -34,7 +34,7 @@ namespace stool
             {
             }
 
-            const sdsl::int_vector<> *get_head_char_vec() const
+            const sdsl::int_vector<8> *get_head_char_vec() const
             {
                 return &this->head_char_vec;
             }
@@ -43,7 +43,7 @@ namespace stool
                 return &this->lpos_vec;
             }
 
-            void initialize(sdsl::int_vector<> &_head_char_vec, LPOS_TYPE &_lpos_vec, INDEX _smallest_character)
+            void initialize(sdsl::int_vector<8> &_head_char_vec, LPOS_TYPE &_lpos_vec, INDEX _smallest_character)
             {
                 this->head_char_vec.swap(_head_char_vec);
                 this->lpos_vec.swap(_lpos_vec);
@@ -111,11 +111,11 @@ namespace stool
         public:
             static RLE<uint8_t> build(std::string filename, stool::rlbwt2::BWTAnalysisResult &analysisResult)
             {
-                sdsl::int_vector<> head_char_vec;
+                sdsl::int_vector<8> head_char_vec;
                 stool::EliasFanoVector lpos_vec;
                 uint64_t smallest_character = 0;
 
-                head_char_vec.width(8);
+                //head_char_vec.width(8);
                 stool::EliasFanoVectorBuilder run_bits;
                 std::ifstream inp;
                 std::vector<uint8_t> buffer;

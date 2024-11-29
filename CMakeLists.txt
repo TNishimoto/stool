@@ -58,6 +58,10 @@ target_link_libraries(deque_test.out stool)
 add_executable(test.out test/test_main.cpp ${SOURCES})
 target_link_libraries(test.out stool)
 
+add_executable(rank_select_test.out test/rank_select_test_main.cpp ${SOURCES})
+target_link_libraries(rank_select_test.out stool)
+
+
 endif()
 
 
