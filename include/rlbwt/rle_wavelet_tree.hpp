@@ -60,7 +60,7 @@ namespace stool
                 checker.resize(len, false);
                 uint64_t pos = this->rlbwt->get_end_marker_position();
 
-                for (int64_t i = 0; i < len; i++)
+                for (int64_t i = 0; i < (int64_t)len; i++)
                 {
                     if (checker[pos])
                     {
@@ -71,6 +71,7 @@ namespace stool
                     pos = this->lf(pos);
                 }
                 std::cout << "[END]" << std::endl;
+                return true;
 
             }
         };

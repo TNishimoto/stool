@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
     stool::rlbwt2::BWTAnalysisResult analyzer;
     using RLBWT = stool::rlbwt2::RLE<uint8_t>;
     // stool::rlbwt2::RLE<uint8_t> static_rlbwt = stool::rlbwt2::RLEBuilder::build(input_path, analyzer);
-    RLBWT static_rlbwt = stool::rlbwt2::RLEBuilder::build(input_path, analyzer);
+    RLBWT static_rlbwt = RLBWT::build(input_path, analyzer);
 
     stool::WT wt = stool::rlbwt2::WaveletTreeOnHeadChars::build(&static_rlbwt);
 

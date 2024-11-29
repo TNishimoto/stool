@@ -104,11 +104,6 @@ namespace stool
                 return sdsl::size_in_bytes(this->head_char_vec) + this->lpos_vec.get_using_memory();
             }
 
-        };
-
-        class RLEBuilder
-        {
-        public:
             static RLE<uint8_t> build(std::string filename, stool::rlbwt2::BWTAnalysisResult &analysisResult)
             {
                 sdsl::int_vector<8> head_char_vec;
@@ -184,72 +179,7 @@ namespace stool
                 rle.initialize(head_char_vec, lpos_vec, smallest_character);
                 return rle;
             }
-            /*
-            static RLE<uint8_t, std::vector<uint64_t>> build2(std::string filename, stool::rlbwt2::BWTAnalysisResult &analysisResult)
-            {
-                sdsl::int_vector<> head_char_vec;
-                std::vector<uint64_t> lpos_vec;
-                uint64_t smallest_character = 0;
 
-                head_char_vec.width(8);
-                std::ifstream inp;
-                std::vector<uint8_t> buffer;
-                uint64_t bufferSize = 8192;
-                buffer.resize(8192);
-
-                analysisResult.analyze(filename);
-                smallest_character = analysisResult.min_char;
-
-                head_char_vec.resize(analysisResult.run_count);
-                lpos_vec.resize(analysisResult.run_count+1, UINT64_MAX);
-
-                inp.open(filename, std::ios::binary);
-                bool inputFileExist = inp.is_open();
-                if (!inputFileExist)
-                {
-                    std::cout << filename << " cannot open." << std::endl;
-
-                    throw std::runtime_error("error");
-                }
-                uint64_t textSize = stool::OnlineFileReader::get_text_size(inp);
-                uint8_t prevChar = 255;
-                uint64_t x = 0;
-                uint64_t currentRunP = 0;
-
-                while (true)
-                {
-                    bool b = stool::OnlineFileReader::read(inp, buffer, bufferSize, textSize);
-                    if (!b)
-                    {
-                        break;
-                    }
-
-                    for (uint64_t i = 0; i < buffer.size(); i++)
-                    {
-                        uint8_t c = (uint8_t)buffer[i];
-                        if (prevChar != c || x == 0)
-                        {
-                            lpos_vec[currentRunP] = x;
-                            head_char_vec[currentRunP] = c;
-                            prevChar = c;
-                            currentRunP++;
-                        }
-                        x++;
-                    }
-                }
-                lpos_vec[currentRunP] = x;
-
-                std::cout << "BWT using memory = " << sdsl::size_in_bytes(head_char_vec) / 1000 << "[KB]" << std::endl;
-
-                inp.close();
-
-                analysisResult.print();
-
-                RLE<uint8_t, std::vector<uint64_t>> rle;
-                rle.initialize(head_char_vec, lpos_vec, smallest_character);
-                return rle;
-            }
-            */
         };
 
     } // namespace stnode_on_rlbwt
