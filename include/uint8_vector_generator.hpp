@@ -24,11 +24,23 @@ namespace stool
 		{
 			return std::vector<uint8_t>{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
 		}
-
 		static std::vector<uint8_t> create_ACGT_alphabet()
 		{
 			return std::vector<uint8_t>{'A', 'C', 'G', 'T'};
 		}
+		static std::vector<uint8_t> create_AtoZ_alphabet()
+		{
+			return std::vector<uint8_t>{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+		}
+		static std::vector<uint8_t> create_full_alphabet()
+		{
+			std::vector<uint8_t> r;
+			for(uint64_t i = 2; i < 250;i++){
+				r.push_back(i);
+			}
+			return r;
+		}
+
 		static std::vector<uint8_t> create_alphabet(uint64_t alphabet_type)
 		{
 			if (alphabet_type == 0)
@@ -39,9 +51,13 @@ namespace stool
 			{
 				return create_ACGT_alphabet();
 			}
-			else
+			else if(alphabet_type == 2)
 			{
 				return create_abcdefgh_alphabet();
+			}else if(alphabet_type == 3){
+				return create_AtoZ_alphabet();
+			}else{
+				return create_full_alphabet();
 			}
 		}
 		static std::vector<uint8_t> create_random_sequence(uint64_t len, const std::vector<uint8_t> &alphabet, int64_t seed)

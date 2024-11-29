@@ -38,6 +38,8 @@ namespace stool
 
 
             uint64_t alphabet_count = 0;
+                std::vector<uint64_t> char_coutner;
+
 
             std::vector<uint64_t> character_count_vec;
             /*
@@ -66,6 +68,9 @@ namespace stool
                 uint64_t bufferSize = 8192;
                 buffer.resize(8192);
 
+                char_coutner.clear();
+                char_coutner.resize(256, 0);
+
                 inp.open(filename, std::ios::binary);
                 bool inputFileExist = inp.is_open();
                 if (!inputFileExist)
@@ -89,6 +94,7 @@ namespace stool
                     for (uint64_t i = 0; i < buffer.size(); i++)
                     {
                         uint8_t c = (uint8_t)buffer[i];
+                        char_coutner[c]++;
 
                         this->character_count_vec[c]++;
                         if (c < this->min_char)
@@ -131,6 +137,15 @@ namespace stool
                     }
                 }
             }
+            std::vector<uint8_t> get_alphabet() const {
+                std::vector<uint8_t> r;
+                for(uint64_t i = 0; i < this->char_coutner.size();i++){
+                    if(char_coutner[i] > 0){
+                        r.push_back(i);
+                    }
+                }
+                return r;
+            }
             void print()
             {
                 std::cout << "\033[31m";
@@ -140,6 +155,10 @@ namespace stool
                 std::cout << "Alphabet size: \t\t " << this->alphabet_count << std::endl;
                 std::cout << "min sigma: \t \t  " << this->min_char << std::endl;
                 std::cout << "max sigma: \t \t  " << this->max_char << std::endl;
+
+                std::vector<uint8_t> alph = this->get_alphabet();
+
+                stool::Printer::print_chars("Alphabet", alph);
 
                 //std::cout << "log sigma \t\t : " << this->character_bit_size() << std::endl;
                 //uint64_t x = run_count * (stool::Log::log2(str_size / run_count));
