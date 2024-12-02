@@ -186,6 +186,7 @@ namespace stool
 			std::string bitString = bits.to_string();
 			return bitString;
 		}
+
 	};
 
 	class Log

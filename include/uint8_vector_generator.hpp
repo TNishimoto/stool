@@ -40,6 +40,9 @@ namespace stool
 			}
 			return r;
 		}
+		static uint64_t get_max_alphabet_type(){
+			return 4;
+		}
 
 		static std::vector<uint8_t> create_alphabet(uint64_t alphabet_type)
 		{
