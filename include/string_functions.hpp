@@ -238,5 +238,33 @@ namespace stool
                 return positions;
             }
         }
+      /*
+       * number of character c in string text[1..i-1]
+       */
+        static int64_t rank_query(const std::vector<uint8_t> &text, uint64_t i, uint8_t c){
+            uint64_t counter = 0;
+            for(uint64_t x = 0; x < i;x++){
+                if(text[x] == c){
+                    counter++;
+                }
+            }
+            return counter;
+        }
+		/*
+		 * Return the position of the (i+1)-th c in the given string if such character exists; otherwise return -1.
+		 */
+        static int64_t select_query(const std::vector<uint8_t> &text, uint64_t i, uint8_t c){
+            uint64_t counter = 0;
+            for(uint64_t x = 0; x < text.size();x++){
+                if(text[x] == c){
+                    counter++;
+                }
+                if(counter == i+1){
+                    return x;
+                }
+            }
+            return -1;
+        }
+
     };
 } // namespace stool

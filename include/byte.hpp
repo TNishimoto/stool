@@ -100,8 +100,12 @@ namespace stool
 			}
 		}
 
-		inline static uint64_t select1(uint64_t bits, uint64_t nth)
+		/*
+		 * Return the position of the (i+1)-th 1 in the given bits if such bit exists; otherwise return -1.
+		 */
+		inline static int64_t select1(uint64_t bits, uint64_t i)
 		{
+			uint64_t nth = i + 1;
 			uint64_t mask = UINT8_MAX;
 			uint64_t counter = 0;
 			for (uint64_t i = 0; i < 8; i++)
@@ -124,15 +128,19 @@ namespace stool
 							}
 						}
 					}
-					throw std::logic_error("Error:select1");
+					return -1;
 				}
 				counter += c;
 			}
-			throw std::runtime_error("This bits do not contain the n-th 1.");
+			return -1;
 		}
-		inline static uint64_t select0(uint64_t bits, uint64_t nth)
+
+		/*
+		 * Return the position of the (i+1)-th 0 in the given bits if such bit exists; otherwise return -1.
+		 */
+		inline static int64_t select0(uint64_t bits, uint64_t i)
 		{
-			return select1(~bits, nth);
+			return select1(~bits, i);
 		}
 
 		static uint64_t zero_pad_tail(uint64_t code, uint8_t len)
@@ -186,7 +194,6 @@ namespace stool
 			std::string bitString = bits.to_string();
 			return bitString;
 		}
-
 	};
 
 	class Log
