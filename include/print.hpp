@@ -51,6 +51,53 @@ namespace stool
 		}
 	};
 
+	class DebugPrinter
+	{
+		public:
+		template <typename VEC>
+		static std::string to_integer_string(const VEC &items)
+		{
+			std::string s = "";
+			s += "[";
+			// int k = items.size();
+			for (size_t i = 0; i < (size_t)items.size(); i++)
+			{
+				s += std::to_string(items[i]);
+				if (i != items.size() - 1)
+					s += ", ";
+			}
+			s += "]";
+			return s;
+		}
+		template <typename VEC>
+		static std::string to_character_string(const VEC &items, std::string separator = ", ")
+		{
+			std::string s = "";
+			s += "[";
+			// int k = items.size();
+			for (size_t i = 0; i < (size_t)items.size(); i++)
+			{
+				s.push_back(items[i]);
+				if (i != items.size() - 1)
+					s += separator;
+			}
+			s += "]";
+			return s;
+		}
+		template <typename VEC>
+		static void print_integers(const VEC &items, const std::string name = "PRINT_INTEGERS")
+		{
+			std::cout << name << ": " << to_integer_string(items) << std::endl;
+		}
+		template <typename VEC>
+		static void print_characters(const VEC &items, const std::string name = "PRINT_INTEGERS", std::string separator = ", ")
+		{
+			std::cout << name << ": " << to_integer_string(items, separator) << std::endl;
+		}
+
+
+	};
+
 	class Printer
 	{
 	public:
@@ -187,12 +234,19 @@ namespace stool
 			std::cout << to_integer_string<X>(items) << std::endl;
 		}
 
-
 		template <class X>
 		static void print(const std::string name, const std::vector<X> &items)
 		{
 			std::cout << name << ": " << to_integer_string<X>(items) << std::endl;
 		}
+
+		/*
+		template <typename VEC>
+		static void print_integers(const std::string name, const VEC &items)
+		{
+			std::cout << name << ": " << to_integer_string<X>(items) << std::endl;
+		}
+		*/
 
 		template <class X>
 		static void print_chars(const std::string name, const std::vector<X> &items)
@@ -301,7 +355,6 @@ namespace stool
 				std::cout << str1 << " " << str2 << " : " << bwt[i] << " | " << s << std::endl;
 			}
 			std::cout << "===========================" << std::endl;
-
 		}
 
 		static void print_sa_table(std::vector<uint8_t> &text, std::vector<uint64_t> &sa)
@@ -330,7 +383,6 @@ namespace stool
 				std::cout << str1 << " " << str2 << " | " << s << std::endl;
 			}
 			std::cout << "===========================" << std::endl;
-
 		}
 
 		/*

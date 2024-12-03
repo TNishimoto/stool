@@ -89,27 +89,8 @@ namespace stool
 		return true;
 	}
 	*/
-	template <typename T>
-	bool equal_check(const std::vector<T> &vec1, const std::vector<T> &vec2)
-	{
-		if (vec1.size() != vec2.size())
-		{
-			std::string s = std::string("String sizes are different!") + ", collect = " + std::to_string(vec1.size()) + ", test = " + std::to_string(vec2.size());
-
-			throw std::logic_error(s);
-		}
-		for (uint64_t i = 0; i < vec1.size(); i++)
-		{
-			if (vec1[i] != vec2[i])
-			{
-				std::string msg = "collect_vec[" + std::to_string(i) + "] != test_vec[" + std::to_string(i) + "]";
-
-				throw std::logic_error("Values are different! " + msg);
-			}
-		}
-		return true;
-	}
-
+	
+	/*
 	template <typename T>
 	bool equal_check(const std::deque<T> &deq1, const std::deque<T> &deq2)
 	{
@@ -130,13 +111,14 @@ namespace stool
 		}
 		return true;
 	}
-
-	template <typename T>
-	bool equal_check(std::string name, const std::vector<T> &vec1, const std::vector<T> &vec2)
+	*/
+/*
+template <typename T>
+	bool equal_check(const std::vector<T> &vec1, const std::vector<T> &vec2)
 	{
 		if (vec1.size() != vec2.size())
 		{
-			std::string s = std::string("[" + name + "] String sizes are different!") + ", collect = " + std::to_string(vec1.size()) + ", test = " + std::to_string(vec2.size());
+			std::string s = std::string("String sizes are different!") + ", collect = " + std::to_string(vec1.size()) + ", test = " + std::to_string(vec2.size());
 
 			throw std::logic_error(s);
 		}
@@ -146,12 +128,38 @@ namespace stool
 			{
 				std::string msg = "collect_vec[" + std::to_string(i) + "] != test_vec[" + std::to_string(i) + "]";
 
+				throw std::logic_error("Values are different! " + msg);
+			}
+		}
+		return true;
+	}
+	*/
+
+	template <typename VEC>
+	bool equal_check(std::string name, const VEC &collect_vec, const VEC &test_vec)
+	{
+		if (collect_vec.size() != test_vec.size())
+		{
+			std::string s = std::string("[" + name + "] String sizes are different!") + ", collect = " + std::to_string(collect_vec.size()) + ", test = " + std::to_string(test_vec.size());
+
+			throw std::logic_error(s);
+		}
+		for (uint64_t i = 0; i < collect_vec.size(); i++)
+		{
+			if (collect_vec[i] != test_vec[i])
+			{
+				std::string msg = "collect_vec[" + std::to_string(i) + "] != test_vec[" + std::to_string(i) + "]";
+
 				throw std::logic_error("[" + name + "] Values are different! " + msg);
 			}
 		}
 		return true;
 	}
-
+	template <typename VEC>
+	bool equal_check(const VEC &collect_vec, const VEC &test_vec){
+		return equal_check("EQUAL_CHECK", collect_vec, test_vec);
+	}
+	/*
 	bool equal_check(const std::string &vec1, const std::string &vec2)
 	{
 		if (vec1.size() != vec2.size())
@@ -169,6 +177,7 @@ namespace stool
 		}
 		return true;
 	}
+	*/
 
 	
 
