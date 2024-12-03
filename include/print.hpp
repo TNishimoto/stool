@@ -92,7 +92,7 @@ namespace stool
 		template <typename VEC>
 		static void print_characters(const VEC &items, const std::string name = "PRINT_INTEGERS", std::string separator = ", ")
 		{
-			std::cout << name << ": " << to_integer_string(items, separator) << std::endl;
+			std::cout << name << ": " << to_character_string(items, separator) << std::endl;
 		}
 
 
