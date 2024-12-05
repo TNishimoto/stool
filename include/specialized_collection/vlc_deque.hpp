@@ -57,8 +57,6 @@ namespace stool
             {
 
                 uint64_t len = m_vlc_deque->value_length_deque[m_idx - 1];
-                
-                
 
                 if (m_code_pos2 >= len)
                 {
@@ -96,7 +94,6 @@ namespace stool
         {
             this->clear();
             assert(this->verify());
-
         }
 
         static std::string name()
@@ -105,17 +102,19 @@ namespace stool
         }
         uint64_t size_in_bytes() const
         {
-            //return (sizeof(VLCDeque) + this->value_length_deque.size_in_bytes() + this->code_deque.size_in_bytes());
+            // return (sizeof(VLCDeque) + this->value_length_deque.size_in_bytes() + this->code_deque.size_in_bytes());
 
             return (sizeof(VLCDeque) + this->value_length_deque.size_in_bytes() + this->code_deque.size_in_bytes()) - (sizeof(this->code_deque) + sizeof(this->value_length_deque));
-            //return sizeof(this->first_gap) + sizeof(this->last_gap) + sizeof(this->value_length_deque) + sizeof(this->code_deque) + (sizeof(uint8_t) * this->value_length_deque.size()) + (sizeof(uint64_t) * this->code_deque.size());
+            // return sizeof(this->first_gap) + sizeof(this->last_gap) + sizeof(this->value_length_deque) + sizeof(this->code_deque) + (sizeof(uint8_t) * this->value_length_deque.size()) + (sizeof(uint64_t) * this->code_deque.size());
         }
-        uint64_t reverse_psum(uint64_t i) const {
-            
-            uint64_t len = i+1;
+        uint64_t reverse_psum(uint64_t i) const
+        {
+
+            uint64_t len = i + 1;
             uint64_t sum = 0;
             VLCDequeIterator it = this->end();
-            for(size_t x = 0; x < len; x++){
+            for (size_t x = 0; x < len; x++)
+            {
                 --it;
                 sum += *it;
             }
@@ -154,10 +153,14 @@ namespace stool
                 return this->psum(this->size() - 1);
             }
         }
-        uint64_t psum(uint64_t i, uint64_t j) const {
-            if(i == j){
+        uint64_t psum(uint64_t i, uint64_t j) const
+        {
+            if (i == j)
+            {
                 return this->at(i);
-            }else{
+            }
+            else
+            {
                 throw std::runtime_error("No implementation");
             }
         }
@@ -194,8 +197,7 @@ namespace stool
                 {
                     s += ", ";
                 }
-                    counter++;
-
+                counter++;
             }
             s.push_back(']');
 
@@ -205,6 +207,17 @@ namespace stool
         {
             return this->to_vector();
         }
+        template <typename VEC>
+        void to_values(VEC &output_vec) const
+        {
+            output_vec.clear();
+            output_vec.resize(this->size());
+            for (uint64_t i = 0; i < this->size(); i++)
+            {
+                output_vec[i] = this->at(i);
+            }
+        }
+
         void push_front(std::vector<uint64_t> &new_items)
         {
             for (auto i = new_items.rbegin(), e = new_items.rend(); i != e; ++i)
@@ -254,7 +267,7 @@ namespace stool
         }
         VLCDequeIterator end() const
         {
-            //uint64_t code_pos = 64 * this->code_deque.size() - 1 - (uint64_t)this->last_gap;
+            // uint64_t code_pos = 64 * this->code_deque.size() - 1 - (uint64_t)this->last_gap;
             if (this->last_gap < 64)
             {
                 return VLCDequeIterator(const_cast<VLCDeque *>(this), this->value_length_deque.size(), this->code_deque.size() - 1, 64 - this->last_gap);
@@ -322,7 +335,7 @@ namespace stool
                 uint64_t tmp_code1 = stool::Byte::zero_pad_tail(code1, 64 - pos);
                 // uint64_t tmp_code1_len = pos;
                 uint64_t suf = (stool::Byte::zero_pad_head(code1, end_pos + 1)) << len;
-                //uint64_t suf_len = 63 - end_pos;
+                // uint64_t suf_len = 63 - end_pos;
                 uint64_t pref_len = len;
                 uint64_t pref = (code2 >> (64 - pref_len));
                 uint64_t new_code1 = tmp_code1 | suf | pref;
@@ -445,7 +458,6 @@ namespace stool
         void push_back(uint64_t v)
         {
 
-
             uint64_t value_length = stool::Byte::get_code_length(v);
             this->value_length_deque.push_back(value_length);
             if (v > 0)
@@ -480,7 +492,6 @@ namespace stool
             }
 
             assert(this->verify());
-
         }
         void push_front(uint64_t v)
         {
@@ -512,7 +523,6 @@ namespace stool
                 }
             }
             assert(this->verify());
-
         }
 
         uint64_t head() const
@@ -557,7 +567,6 @@ namespace stool
                     uint64_t len1 = value_len - (64 - this->last_gap);
                     this->code_deque[this->code_deque.size() - 1] = stool::Byte::zero_pad_tail(last_code, len1);
                     this->last_gap = (value_len + this->last_gap) - 64;
-
                 }
             }
 
@@ -676,13 +685,12 @@ namespace stool
         void insert(uint64_t pos, uint64_t value)
         {
             uint64_t value_len = stool::Byte::get_code_length(value);
-            
+
             this->shift_right(pos, value_len);
             std::pair<uint64_t, uint8_t> code_pos = this->get_code_starting_position(pos);
             this->set_value(pos, code_pos.first, code_pos.second, value);
 
             assert(this->verify());
-
         }
         void remove(uint64_t pos)
         {
@@ -698,7 +706,8 @@ namespace stool
             assert(this->verify());
         }
 
-        void set_value(uint64_t pos, uint64_t value){
+        void set_value(uint64_t pos, uint64_t value)
+        {
             this->remove(pos);
             this->insert(pos, value);
         }
@@ -706,7 +715,8 @@ namespace stool
         void set_value(uint64_t pos, uint64_t code_pos1, uint8_t code_pos2, uint64_t value)
         {
 
-            if(stool::Byte::get_code_length(value) != this->value_length_deque[pos]){
+            if (stool::Byte::get_code_length(value) != this->value_length_deque[pos])
+            {
                 throw std::invalid_argument("set_value");
             }
             assert(stool::Byte::get_code_length(value) == this->value_length_deque[pos]);
@@ -727,7 +737,6 @@ namespace stool
                 uint64_t code1 = this->code_deque[code_pos1];
                 uint64_t code2 = 0;
 
-
                 std::pair<uint64_t, uint64_t> new_code = VLCDeque::write(code1, code2, code_pos2, value);
 
                 this->code_deque[code_pos1] = new_code.first;
@@ -738,8 +747,6 @@ namespace stool
         {
             uint64_t left = this->code_deque[0] >> (64 - this->first_gap);
             uint64_t right = this->code_deque[this->code_deque.size() - 1] << (64 - this->last_gap);
-
-            
 
             if (left > 0)
             {
@@ -924,15 +931,19 @@ namespace stool
             std::cout << "============================" << std::endl;
         }
 
-        void increment(uint64_t i, int64_t delta){
+        void increment(uint64_t i, int64_t delta)
+        {
             std::pair<uint64_t, uint8_t> code_pos = this->get_code_starting_position(i);
 
             uint64_t x = this->at(code_pos.first, code_pos.second, this->value_length_deque[i]) + delta;
             uint64_t code_length = stool::Byte::get_code_length(x);
-            if(code_length != this->value_length_deque[i]){
+            if (code_length != this->value_length_deque[i])
+            {
                 this->remove(i);
                 this->insert(i, x);
-            }else{
+            }
+            else
+            {
                 this->set_value(i, code_pos.first, code_pos.second, x);
             }
             assert(this->at(i) == x);
