@@ -3,6 +3,7 @@
 #include "./byte.hpp"
 #include "./debug.hpp"
 #include "./string_generator.hpp"
+#include "./basic_search.hpp"
 
 #include "./io.hpp"
 #include "./memory.hpp"
