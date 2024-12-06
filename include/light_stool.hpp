@@ -8,6 +8,7 @@
 #include "./io.hpp"
 #include "./memory.hpp"
 #include "./online_file_reader.hpp"
+#include "./file_writer.hpp"
 #include "./print.hpp"
 #include "./sa_bwt_lcp_for_string.hpp"
 #include "./sa_bwt_lcp.hpp"
