@@ -492,7 +492,7 @@ namespace stool
         }
         static void save(const SimpleDeque<T, INDEX_TYPE> &item, std::ofstream &os)
         {
-            uint64_t bytes = sizeof(item.circular_buffer_size_) + sizeof(item.starting_position_) + sizeof(item.deque_size_) + (item.circular_buffer_size_ * sizeof(T));
+            //uint64_t bytes = sizeof(item.circular_buffer_size_) + sizeof(item.starting_position_) + sizeof(item.deque_size_) + (item.circular_buffer_size_ * sizeof(T));
 
             os.write(reinterpret_cast<const char *>(&item.circular_buffer_size_), sizeof(item.circular_buffer_size_));
             os.write(reinterpret_cast<const char *>(&item.starting_position_), sizeof(item.starting_position_));
