@@ -948,6 +948,115 @@ namespace stool
             }
             assert(this->at(i) == x);
         }
+        
+        static uint64_t get_byte_size(const VLCDeque &item)
+        {
+            uint64_t bytes = sizeof(item.first_gap) + sizeof(item.last_gap) + SimpleDeque16<uint8_t>::get_byte_size(item.value_length_deque) + SimpleDeque16<uint64_t>::get_byte_size(item.code_deque);
+            return bytes;
+        }
+        static uint64_t get_byte_size(const std::vector<VLCDeque> &items)
+        {
+            uint64_t bytes = sizeof(uint64_t);
+            for(auto &it : items){
+                bytes += VLCDeque::get_byte_size(it);
+            }
+            return bytes;
+        }
+        
+
+        static void save(const VLCDeque &item, std::vector<uint8_t> &output, uint64_t &pos)
+        {
+
+            std::memcpy(output.data() + pos, &item.first_gap, sizeof(item.first_gap));
+            pos += sizeof(item.first_gap);
+            std::memcpy(output.data() + pos, &item.last_gap, sizeof(item.last_gap));
+            pos += sizeof(item.last_gap);
+            SimpleDeque16<uint8_t>::save(item.value_length_deque, output, pos);
+            SimpleDeque16<uint64_t>::save(item.code_deque, output, pos);
+
+
+        }
+        static void save(const VLCDeque &item, std::ofstream &os)
+        {
+            os.write(reinterpret_cast<const char *>(&item.first_gap), sizeof(item.first_gap));
+            os.write(reinterpret_cast<const char *>(&item.last_gap), sizeof(item.last_gap));
+            SimpleDeque16<uint8_t>::save(item.value_length_deque, os);
+            SimpleDeque16<uint64_t>::save(item.code_deque, os);
+
+        }
+
+
+        static void save(const std::vector<VLCDeque> &items, std::vector<uint8_t> &output, uint64_t &pos)
+        {
+            uint64_t size = items.size();
+            std::memcpy(output.data() + pos, &size, sizeof(size));
+            pos += sizeof(size);
+
+            for(auto &it : items){
+                VLCDeque::save(it, output, pos);
+            }
+
+        }
+        static void save(const std::vector<VLCDeque> &items, std::ofstream &os)
+        {
+            uint64_t size = items.size();
+            os.write(reinterpret_cast<const char *>(&size), sizeof(size));
+            for(auto &it : items){
+                VLCDeque::save(it, os);
+            }
+        }
+
+        static VLCDeque load(const std::vector<uint8_t> &data, uint64_t &pos)
+        {
+            VLCDeque r; 
+            std::memcpy(&r.first_gap, data.data() + pos, sizeof(r.first_gap));
+            pos += sizeof(r.first_gap);
+            std::memcpy(&r.last_gap, data.data() + pos, sizeof(r.last_gap));
+            pos += sizeof(r.last_gap);
+            SimpleDeque16<uint8_t> tmp1 = SimpleDeque16<uint8_t>::load(data, pos);
+            SimpleDeque16<uint64_t> tmp2 = SimpleDeque16<uint64_t>::load(data, pos);
+            r.value_length_deque.swap(tmp1);
+            r.code_deque.swap(tmp2);
+
+
+            return r;
+        }
+        static VLCDeque load(std::ifstream &ifs)
+        {
+            VLCDeque r; 
+            ifs.read(reinterpret_cast<char *>(&r.first_gap), sizeof(r.first_gap));
+            ifs.read(reinterpret_cast<char *>(&r.last_gap), sizeof(r.last_gap));
+            SimpleDeque16<uint8_t> tmp1 = SimpleDeque16<uint8_t>::load(ifs);
+            SimpleDeque16<uint64_t> tmp2 = SimpleDeque16<uint64_t>::load(ifs);
+            r.value_length_deque.swap(tmp1);
+            r.code_deque.swap(tmp2);
+            return r;
+        }
+
+
+        static std::vector<VLCDeque> load_vector(const std::vector<uint8_t> &data, uint64_t &pos)
+        {
+            uint64_t size;
+            std::memcpy(&size, data.data() + pos, sizeof(size));
+            pos += sizeof(size);
+
+            std::vector<VLCDeque> r;
+            for(uint64_t i = 0; i < size;i++){
+                r.push_back(VLCDeque::load(data, pos));
+            }
+            return r;
+        }
+        static std::vector<VLCDeque> load_vector(std::ifstream &ifs)
+        {
+            uint64_t size = 0;
+            ifs.read(reinterpret_cast<char *>(&size), sizeof(size));
+
+            std::vector<VLCDeque> r;
+            for(uint64_t i = 0; i < size;i++){
+                r.push_back(VLCDeque::load(ifs));
+            }
+            return r;
+        }
     };
 
 }

@@ -182,6 +182,21 @@ namespace stool
             this->circular_buffer_size_ = 2;
             this->deque_size_ = 0;
         }
+        SimpleDeque(uint64_t _circular_buffer_size){
+            if (this->circular_buffer_ != nullptr)
+            {
+                delete[] this->circular_buffer_;
+                this->circular_buffer_ = nullptr;
+            }
+            this->circular_buffer_ = new T[_circular_buffer_size];
+            this->starting_position_ = 0;
+            this->circular_buffer_size_ = _circular_buffer_size;
+            this->deque_size_ = 0;
+
+        }
+
+
+
         ~SimpleDeque()
         {
             if (this->circular_buffer_ != nullptr)
@@ -461,6 +476,87 @@ namespace stool
             uint64_t mask = this->circular_buffer_size_ - 1;
             return this->circular_buffer_[pos & mask];
         }
+
+        static void save(const SimpleDeque<T, INDEX_TYPE> &item, std::vector<uint8_t> &output, uint64_t &pos)
+        {
+
+            std::memcpy(output.data() + pos, &item.circular_buffer_size_, sizeof(item.circular_buffer_size_));
+            pos += sizeof(item.circular_buffer_size_);
+            std::memcpy(output.data() + pos, &item.starting_position_, sizeof(item.starting_position_));
+            pos += sizeof(item.starting_position_);
+            std::memcpy(output.data() + pos, &item.deque_size_, sizeof(item.deque_size_));
+            pos += sizeof(item.deque_size_);
+            std::memcpy(output.data() + pos, item.circular_buffer_, item.circular_buffer_size_ * sizeof(T));
+            pos += item.circular_buffer_size_ * sizeof(T);
+
+        }
+        static void save(const SimpleDeque<T, INDEX_TYPE> &item, std::ofstream &os)
+        {
+            uint64_t bytes = sizeof(item.circular_buffer_size_) + sizeof(item.starting_position_) + sizeof(item.deque_size_) + (item.circular_buffer_size_ * sizeof(T));
+
+            os.write(reinterpret_cast<const char *>(&item.circular_buffer_size_), sizeof(item.circular_buffer_size_));
+            os.write(reinterpret_cast<const char *>(&item.starting_position_), sizeof(item.starting_position_));
+            os.write(reinterpret_cast<const char *>(&item.deque_size_), sizeof(item.deque_size_));
+            os.write(reinterpret_cast<const char *>(item.circular_buffer_), item.circular_buffer_size_ * sizeof(T));
+        }
+
+        static SimpleDeque<T, INDEX_TYPE> load(const std::vector<uint8_t> &data, uint64_t &pos)
+        {
+            INDEX_TYPE _circular_buffer_size;
+            INDEX_TYPE _starting_position;
+            INDEX_TYPE _deque_size;
+
+            std::memcpy(&_circular_buffer_size, data.data() + pos, sizeof(INDEX_TYPE));
+            pos += sizeof(INDEX_TYPE);
+            std::memcpy(&_starting_position, data.data() + pos, sizeof(INDEX_TYPE));
+            pos += sizeof(INDEX_TYPE);
+            std::memcpy(&_deque_size, data.data() + pos, sizeof(INDEX_TYPE));
+            pos += sizeof(INDEX_TYPE);
+
+            SimpleDeque<T, INDEX_TYPE> r(_circular_buffer_size);
+            r.starting_position_ = _starting_position;
+            r.deque_size_ = _deque_size;
+
+            std::memcpy(r.circular_buffer_, data.data() + pos, sizeof(T) * _circular_buffer_size);
+            pos += sizeof(T) * _circular_buffer_size;
+
+
+
+            return r;
+        }
+        static SimpleDeque<T, INDEX_TYPE> load(std::ifstream &ifs)
+        {
+            INDEX_TYPE _circular_buffer_size;
+            INDEX_TYPE _starting_position;
+            INDEX_TYPE _deque_size;
+
+            ifs.read(reinterpret_cast<char *>(&_circular_buffer_size), sizeof(INDEX_TYPE));
+            ifs.read(reinterpret_cast<char *>(&_starting_position), sizeof(INDEX_TYPE));
+            ifs.read(reinterpret_cast<char *>(&_deque_size), sizeof(INDEX_TYPE));
+
+            SimpleDeque<T, INDEX_TYPE> r(_circular_buffer_size);
+            r.starting_position_ = _starting_position;
+            r.deque_size_ = _deque_size;
+            ifs.read(reinterpret_cast<char *>(&r.circular_buffer_), sizeof(T) * _circular_buffer_size);
+
+            return r;
+        }
+        static uint64_t get_byte_size(const SimpleDeque<T, INDEX_TYPE> &item)
+        {
+            uint64_t bytes = (sizeof(INDEX_TYPE) * 3) + (item.circular_buffer_size_ * sizeof(T));
+            return bytes;
+        }
+
+
+
+
+        /*
+        T *circular_buffer_ = nullptr;
+        INDEX_TYPE circular_buffer_size_;
+        INDEX_TYPE starting_position_;
+        INDEX_TYPE deque_size_;
+        */
+
     };
     /*
     template <typename T>
