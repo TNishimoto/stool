@@ -1028,6 +1028,7 @@ namespace stool
             ifs.read(reinterpret_cast<char *>(&r.last_gap), sizeof(r.last_gap));
             SimpleDeque16<uint8_t> tmp1 = SimpleDeque16<uint8_t>::load(ifs);
             SimpleDeque16<uint64_t> tmp2 = SimpleDeque16<uint64_t>::load(ifs);
+
             r.value_length_deque.swap(tmp1);
             r.code_deque.swap(tmp2);
             return r;

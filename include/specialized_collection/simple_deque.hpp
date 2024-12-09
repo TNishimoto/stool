@@ -534,10 +534,12 @@ namespace stool
             ifs.read(reinterpret_cast<char *>(&_starting_position), sizeof(INDEX_TYPE));
             ifs.read(reinterpret_cast<char *>(&_deque_size), sizeof(INDEX_TYPE));
 
+
             SimpleDeque<T, INDEX_TYPE> r(_circular_buffer_size);
             r.starting_position_ = _starting_position;
             r.deque_size_ = _deque_size;
-            ifs.read(reinterpret_cast<char *>(&r.circular_buffer_), sizeof(T) * _circular_buffer_size);
+            ifs.read(reinterpret_cast<char *>(r.circular_buffer_), sizeof(T) * _circular_buffer_size);
+
 
             return r;
         }
