@@ -22,7 +22,7 @@
 #include "./specialized_collection/vlc_deque.hpp"
 #include "./specialized_collection/naive_dynamic_string.hpp"
 
-#include "./rlbwt/backward_isa.hpp"
+#include "./bwt/backward_isa.hpp"
 #include "./rlbwt/bwt_analysis_result.hpp"
 #include "./rlbwt/rle_io.hpp"
 

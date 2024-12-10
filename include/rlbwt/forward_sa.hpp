@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <unordered_set>
 //#include "rlbwt.hpp"
-#include "./backward_isa.hpp"
+#include "../bwt/backward_isa.hpp"
 #include "../print.hpp"
 #include "../specialized_collection/elias_fano_vector.hpp"
 

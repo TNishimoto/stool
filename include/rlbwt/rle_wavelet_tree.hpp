@@ -18,7 +18,7 @@ namespace stool
 
         // template <typename INDEX_SIZE>
         template <typename RLBWT, typename FPOS_TYPE = stool::rlbwt2::LightFPosDataStructure>
-        class LFDataStructure
+        class LFDataStructureBasedOnRLBWT
         {
         public:
             using INDEX = uint64_t;
@@ -34,7 +34,7 @@ namespace stool
         public:
             // RLEWaveletTree(stool::rlbwt2::RLE<CHAR> *_rlbwt, string inputFile) : rlbwt(_rlbwt)
 
-            LFDataStructure(RLBWT *_rlbwt, FPOS_TYPE *_fpos_array) : rlbwt(_rlbwt), fpos_array(_fpos_array)
+            LFDataStructureBasedOnRLBWT(RLBWT *_rlbwt, FPOS_TYPE *_fpos_array) : rlbwt(_rlbwt), fpos_array(_fpos_array)
             {
             }
 

@@ -10,7 +10,7 @@
 
 namespace stool
 {
-  namespace rlbwt2
+  namespace bwt
   {
 
     /*
