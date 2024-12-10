@@ -28,6 +28,7 @@ namespace stool
             sdsl::int_vector<> bwt;
             std::vector<uint64_t> C;
             sdsl::wt_gmr<> wt;
+            uint64_t end_marker_position;
             uint8_t end_marker = 0;
 
         public:
@@ -53,6 +54,12 @@ namespace stool
                     current_sa_value--;
                 }
                 return sa;
+            }
+            uint64_t get_end_marker_position() const {
+                return this->end_marker_position;
+            }
+            uint64_t get_text_size() const {
+                return this->bwt.size();
             }
 
             static std::vector<uint64_t> construct_c_array(const sdsl::int_vector<> &bwt)
@@ -113,11 +120,15 @@ namespace stool
                 _bwt.width(8);
                 _bwt.resize(text_size);
 
+                uint64_t end_marker_position = UINT64_MAX;
                 uint64_t end_marker = UINT64_MAX;
                 for (uint64_t i = 0; i < text_size; i++)
                 {
                     _bwt[i] = bwt[i];
-                    end_marker = std::min((uint64_t)bwt[i], end_marker);
+                    if((uint64_t)bwt[i] < end_marker){
+                        end_marker = bwt[i];
+                        end_marker_position = i;
+                    }
                 }
                 sdsl::wt_gmr<> wt_gmr = stool::bwt::LFDataStructure::construct_wt_gmr(_bwt);
                 std::vector<uint64_t> c_array = stool::bwt::LFDataStructure::construct_c_array(_bwt);
@@ -127,6 +138,7 @@ namespace stool
                 r.wt.swap(wt_gmr);
                 r.C.swap(c_array);
                 r.end_marker = end_marker;
+                r.end_marker_position = end_marker_position;
                 return r;
             }
         };
