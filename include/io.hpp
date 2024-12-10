@@ -42,15 +42,56 @@ namespace stool
 		template <typename T>
 		static void load(std::string &filename, std::vector<T> &vec)
 		{
-			std::cout << "Loading: " << filename << std::endl;
-
 			std::ifstream inputStream1;
 			inputStream1.open(filename, std::ios::binary);
 			load(inputStream1, vec);
-
-			inputStream1.close();
-			inputStream1.clear();
 		}
+
+		template <typename T>
+		static void load_text(std::string &filename, std::vector<T> &vec)
+		{
+			load(filename, vec);
+		}
+
+		template <typename T>
+		static void load_text(std::string &filename, std::vector<T> &output_vec, bool appendEndMarker, uint8_t end_marker = 0)
+		{
+			std::cout << "Loading file: " << filename << std::endl;
+			std::ifstream stream;
+			stream.open(filename, std::ios::binary);
+
+			if (!stream)
+			{
+				std::cerr << "error reading file " << std::endl;
+				throw -1;
+			}
+			uint64_t len;
+			stream.seekg(0, std::ios::end);
+			uint64_t n = (unsigned long)stream.tellg();
+			stream.seekg(0, std::ios::beg);
+			len = (n / sizeof(T));
+
+			output_vec.resize(len+1, end_marker);
+			stream.read((char *)&(output_vec)[0], len * sizeof(T));
+
+			if(appendEndMarker){
+				uint64_t counter = 0;
+				for(uint8_t c : output_vec){
+					if(c == end_marker){
+						counter++;
+					}
+				}
+				if(counter == 1){
+					std::cout << filename << " does not contain the end marker. So the end marker is appended to this text." << std::endl;
+				}else{
+					std::cout << "This program assumes that " << filename << " does not contain the end marker, but this text contains the end marker." << std::endl;
+					throw std::runtime_error("An error occurs in load_text function.");
+				}
+			}else{
+				output_vec.pop_back();
+			}
+		}
+
 		template <typename CONTAINER>
 		static bool load_bits(std::ifstream &file, CONTAINER &output)
 		{
