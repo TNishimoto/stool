@@ -44,13 +44,14 @@ namespace stool
         iterator &operator++()
         {
           //std::cout << this->_pos << ": ";
-          this->_pos = _lfds.lf(this->_pos);
           //std::cout << this->_pos << std::endl;
 
           if (this->_pos == this->_end_pos)
           {
             this->_pos = std::numeric_limits<INDEX>::max();
             this->_end_pos = std::numeric_limits<INDEX>::max();
+          }else{
+            this->_pos = _lfds.lf(this->_pos);
           }
           return *this;
         }
@@ -88,7 +89,9 @@ namespace stool
 
       iterator begin() const
       {
-        auto p = iterator(this->_end_position, this->_end_position, *this->_lfds);
+
+        uint64_t x = this->_lfds->lf(this->_end_position);
+        auto p = iterator(x, this->_end_position, *this->_lfds);
         return p;
       }
       iterator end() const
@@ -98,7 +101,7 @@ namespace stool
       std::vector<INDEX> to_isa() const
       {
         std::vector<INDEX> r;
-        INDEX size = this->str_size;
+        INDEX size = this->_str_size;
         r.resize(size);
         INDEX p = size;
         for (INDEX c : *this)
@@ -108,6 +111,7 @@ namespace stool
         assert(p == 0);
         return r;
       }
+      /*
       std::vector<INDEX> to_sa() const
       {
         std::vector<INDEX> r;
@@ -121,6 +125,7 @@ namespace stool
         assert(p == 0);
         return r;
       }
+      */
     };
 
   } // namespace rlbwt
