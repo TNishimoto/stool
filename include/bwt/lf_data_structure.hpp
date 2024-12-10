@@ -34,7 +34,7 @@ namespace stool
         public:
             using INDEX = uint64_t;
 
-            uint64_t lf(uint64_t i)
+            uint64_t lf(uint64_t i) const
             {
                 uint8_t c = this->bwt[i];
                 uint64_t cNum = this->wt.rank(i, c);
