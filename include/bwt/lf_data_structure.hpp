@@ -32,6 +32,8 @@ namespace stool
             uint8_t end_marker = 0;
 
         public:
+            using INDEX = uint64_t;
+
             uint64_t LF(uint64_t i)
             {
                 uint8_t c = this->bwt[i];
