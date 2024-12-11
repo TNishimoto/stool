@@ -1,4 +1,6 @@
 #pragma once
+#include "./constants.hpp"
+
 #include "./third_party/cmdline.h"
 #include "./byte.hpp"
 #include "./debug.hpp"
