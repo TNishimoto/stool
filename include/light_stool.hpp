@@ -12,7 +12,8 @@
 #include "./online_file_reader.hpp"
 #include "./file_writer.hpp"
 #include "./print.hpp"
-#include "./sa_bwt_lcp_for_string.hpp"
+#include "./lcp_interval.hpp"
+
 #include "./sa_bwt_lcp.hpp"
 #include "./string_functions_on_sa.hpp"
 
