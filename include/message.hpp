@@ -5,7 +5,8 @@ namespace stool
     class Message
     {
     public:
-        static inline constexpr int dont_show_message = -1;
+        static inline constexpr int NO_MESSAGE = -1;
+        static inline constexpr int SHOW_MESSAGE = 0;
 
         static int add_message_paragraph(int message_paragraph)
         {
@@ -15,15 +16,15 @@ namespace stool
             }
             else
             {
-                return Message::dont_show_message;
+                return Message::NO_MESSAGE;
             }
         }
 
         static std::string get_paragraph_string(int message_paragraph){
             if(message_paragraph >= 0){
-                return std::string(' ', message_paragraph * 2);
+                return std::string(message_paragraph * 2, ' ');
             }else{
-                return std::string(' ', 0);
+                return std::string(0, ' ');
             }
         }
 
