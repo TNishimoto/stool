@@ -6,7 +6,7 @@ namespace stool
     class RLEIO
     {
     public:
-        static void build_RLBWT_from_BWT(std::vector<uint8_t> &bwt, std::vector<uint8_t> &output_chars, std::vector<uint64_t> &output_runs)
+        static void build_RLBWT_from_BWT(const std::vector<uint8_t> &bwt, std::vector<uint8_t> &output_chars, std::vector<uint64_t> &output_runs)
         {
 
                 int64_t tmp_l = 1;
