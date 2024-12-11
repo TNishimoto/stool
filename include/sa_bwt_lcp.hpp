@@ -1,5 +1,4 @@
 #pragma once
-#include <unordered_set>
 #include <cassert>
 #include <string>
 #include <iostream>
@@ -7,9 +6,8 @@
 #include <limits>
 #include <algorithm>
 #include <stack>
-#include <cstdint>
-#include <cstdlib>
-#include <stdio.h>
+#include <chrono>
+#include "./message.hpp"
 
 namespace stool
 {
@@ -45,8 +43,15 @@ namespace stool
 	}
 
 	template <typename CHAR = uint8_t, typename INDEX = uint64_t>
-	std::vector<INDEX> constructISA(const std::vector<CHAR> &text, const std::vector<INDEX> &sa)
+	std::vector<INDEX> constructISA(const std::vector<CHAR> &text, const std::vector<INDEX> &sa, int message_paragraph = stool::Message::SHOW_MESSAGE)
 	{
+		if (message_paragraph >= 0 && text.size() > 0)
+		{
+			std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing Inverse Suffix Array from Suffix Array... " << std::flush;
+		}
+		std::chrono::system_clock::time_point st1, st2;
+		st1 = std::chrono::system_clock::now();
+
 		std::vector<INDEX> isa;
 		uint64_t n = text.size();
 		isa.resize(n);
@@ -55,24 +60,38 @@ namespace stool
 		{
 			isa[sa[i]] = i;
 		}
+		st2 = std::chrono::system_clock::now();
+
+		if (message_paragraph >= 0 && text.size() > 0)
+		{
+			uint64_t sec_time = std::chrono::duration_cast<std::chrono::seconds>(st2 - st1).count();
+			uint64_t ms_time = std::chrono::duration_cast<std::chrono::milliseconds>(st2 - st1).count();
+			uint64_t per_time = ((double)ms_time / (double)text.size()) * 1000000;
+
+			std::cout << "[END] Elapsed Time: " << sec_time << " sec (" << per_time << " ms/MB)" << std::endl;
+		}
+
 		return isa;
 	}
 
 	template <typename CHAR = uint8_t, typename INDEX = uint64_t>
-	std::vector<INDEX> constructLCP(const std::vector<CHAR> &text, const std::vector<INDEX> &sa, const std::vector<INDEX> &isa)
+	std::vector<INDEX> constructLCP(const std::vector<CHAR> &text, const std::vector<INDEX> &sa, const std::vector<INDEX> &isa, int message_paragraph = stool::Message::SHOW_MESSAGE)
 	{
+		if (message_paragraph >= 0 && text.size() > 0)
+		{
+			std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing LCP Array from SA and ISA... " << std::flush;
+		}
+		std::chrono::system_clock::time_point st1, st2;
+		st1 = std::chrono::system_clock::now();
+
+
 		std::vector<INDEX> lcp;
 		lcp.resize(text.size(), 0);
 		INDEX n = text.size();
 		INDEX k = 0;
-		stool::Counter counter;
-		if (text.size() > 1000000)
-			std::cout << "Constructing LCP Array" << std::flush;
 
 		for (INDEX i = 0; i < n; i++)
 		{
-			if (n > 1000000)
-				counter.increment();
 
 			assert(i < n);
 			INDEX x = isa[i];
@@ -104,21 +123,43 @@ namespace stool
 				k--;
 		}
 
-		if (n > 1000000)
-			std::cout << "[END]" << std::endl;
+
+		st2 = std::chrono::system_clock::now();
+
+		if (message_paragraph >= 0 && text.size() > 0)
+		{
+			uint64_t sec_time = std::chrono::duration_cast<std::chrono::seconds>(st2 - st1).count();
+			uint64_t ms_time = std::chrono::duration_cast<std::chrono::milliseconds>(st2 - st1).count();
+			uint64_t per_time = ((double)ms_time / (double)text.size()) * 1000000;
+
+			std::cout << "[END] Elapsed Time: " << sec_time << " sec (" << per_time << " ms/MB)" << std::endl;
+		}
 		return lcp;
 	}
 	template <typename CHAR, typename INDEX>
-	std::vector<INDEX> constructLCP(const std::vector<CHAR> &text, const std::vector<INDEX> &sa)
+	std::vector<INDEX> constructLCP(const std::vector<CHAR> &text, const std::vector<INDEX> &sa,  int message_paragraph = stool::Message::SHOW_MESSAGE)
 	{
+
+
 		std::vector<INDEX> isa = stool::constructISA<CHAR, INDEX>(text, sa);
-		return constructLCP<CHAR, INDEX>(text, sa, isa);
+		return constructLCP<CHAR, INDEX>(text, sa, isa, message_paragraph);
+
+
+
 		// lcp.resize(text.size(), 0);
 	}
 
 	template <typename CHAR, typename INDEX>
-	std::vector<CHAR> constructBWT(const std::vector<CHAR> &text, const std::vector<INDEX> &sa)
+	std::vector<CHAR> constructBWT(const std::vector<CHAR> &text, const std::vector<INDEX> &sa,  int message_paragraph = stool::Message::SHOW_MESSAGE)
 	{
+		if (message_paragraph >= 0 && text.size() > 0)
+		{
+			std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing BWT from SA... " << std::flush;
+		}
+		std::chrono::system_clock::time_point st1, st2;
+		st1 = std::chrono::system_clock::now();
+
+
 		std::vector<CHAR> bwt;
 		bwt.resize(text.size());
 		INDEX n = text.size();
@@ -133,6 +174,19 @@ namespace stool
 				bwt[i] = text[sa[i] - 1];
 			}
 		}
+
+
+		st2 = std::chrono::system_clock::now();
+
+		if (message_paragraph >= 0 && text.size() > 0)
+		{
+			uint64_t sec_time = std::chrono::duration_cast<std::chrono::seconds>(st2 - st1).count();
+			uint64_t ms_time = std::chrono::duration_cast<std::chrono::milliseconds>(st2 - st1).count();
+			uint64_t per_time = ((double)ms_time / (double)text.size()) * 1000000;
+
+			std::cout << "[END] Elapsed Time: " << sec_time << " sec (" << per_time << " ms/MB)" << std::endl;
+		}
+
 		return bwt;
 	}
 
