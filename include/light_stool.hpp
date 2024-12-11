@@ -1,5 +1,5 @@
 #pragma once
-#include "./constants.hpp"
+#include "./message.hpp"
 
 #include "./third_party/cmdline.h"
 #include "./byte.hpp"
