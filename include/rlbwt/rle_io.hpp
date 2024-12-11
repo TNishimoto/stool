@@ -1,12 +1,12 @@
 #pragma once
 #include "../online_file_reader.hpp"
-
+#include "../message.hpp"
 namespace stool
 {
     class RLEIO
     {
     public:
-        static void build_RLBWT_from_BWT(const std::vector<uint8_t> &bwt, std::vector<uint8_t> &output_chars, std::vector<uint64_t> &output_runs)
+        static void build_RLBWT_from_BWT(const std::vector<uint8_t> &bwt, std::vector<uint8_t> &output_chars, std::vector<uint64_t> &output_runs, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
 
                 int64_t tmp_l = 1;
@@ -32,7 +32,7 @@ namespace stool
         }
         
 
-        static void build_RLBWT_from_BWT_file(std::string file_path, std::vector<uint8_t> &output_chars, std::vector<uint64_t> &output_runs, uint64_t buffer_size = 16000)
+        static void build_RLBWT_from_BWT_file(std::string file_path, std::vector<uint8_t> &output_chars, std::vector<uint64_t> &output_runs, uint64_t buffer_size = 16000, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
             // this->clear();
 
