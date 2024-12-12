@@ -39,7 +39,7 @@ namespace stool
             uint64_t alphabet_count = 0;
             std::vector<uint64_t> char_coutner;
 
-            std::vector<uint64_t> character_count_vec;
+            // std::vector<uint64_t> character_count_vec;
             /*
             std::vector<uint64_t> character_to_id_vec;
             std::vector<uint64_t> id_to_character_vec;
@@ -49,7 +49,7 @@ namespace stool
             {
                 uint64_t size = UINT8_MAX + 1;
 
-                this->character_count_vec.resize(size, 0);
+                this->char_coutner.resize(size, 0);
                 /*
                 this->character_to_id_vec.resize(size, 0);
                 */
@@ -59,189 +59,75 @@ namespace stool
                 return 8;
                 // return std::log2(this->alphabet_count) + 1;
             }
-            /*
-            void analyze(const std::vector<uint8_t> &text)
+
+            template <typename TEXT_ITERATOR_BEGIN, typename TEXT_ITERATOR_END>
+            void analyze(stool::ForwardRLE<TEXT_ITERATOR_BEGIN, TEXT_ITERATOR_END, uint8_t> &frle)
             {
+                this->char_coutner.clear();
+                this->char_coutner.resize(256, 0);
+                this->run_count = 0;
+                this->str_size = frle.size();
+                this->alphabet_count = 0;
 
-                char_coutner.clear();
-                char_coutner.resize(256, 0);
-
-                uint64_t textSize = text.size();
                 uint8_t prevChar = 255;
                 uint64_t x = 0;
                 uint64_t count_run = 0;
 
-                for (uint8_t c : text)
+                for (stool::CharacterRun<uint8_t, uint64_t> v : frle)
                 {
-                    this->char_coutner[c]++;
+                    uint8_t c = v.character;
+                    char_coutner[c] += v.length;
+                    this->run_count++;
 
-                    this->character_count_vec[c]++;
                     if (c < this->min_char)
                     {
                         this->min_char = c;
                         this->min_char_pos = x;
-                        this->min_char_count = 1;
+                        this->min_char_count = v.length;
                     }
                     else if (c == this->min_char)
                     {
-                        this->min_char_count++;
+                        this->min_char_count += v.length;
                     }
 
                     if (c > this->max_char)
                     {
                         this->max_char = c;
                         this->max_char_pos = x;
-                        this->max_char_count = 1;
+                        this->max_char_count = v.length;
                     }
                     else if (c == this->max_char)
                     {
-                        this->max_char_count++;
+                        this->max_char_count = v.length;
                     }
-
-                    if (prevChar != c || x == 0)
-                    {
-                        count_run++;
-                        prevChar = c;
-                    }
-                    x++;
-                }
-                while (true)
-                {
-                    bool b = stool::OnlineFileReader::read(inp, buffer, bufferSize, textSize);
-                    if (!b)
-                    {
-                        break;
-                    }
-
-                    for (uint64_t i = 0; i < buffer.size(); i++)
-                    {
-                        uint8_t c = (uint8_t)buffer[i];
-                        char_coutner[c]++;
-
-                        this->character_count_vec[c]++;
-                        if (c < this->min_char)
-                        {
-                            this->min_char = c;
-                            this->min_char_pos = x;
-                            this->min_char_count = 1;
-                        }
-                        else if (c == this->min_char)
-                        {
-                            this->min_char_count++;
-                        }
-
-                        if (c > this->max_char)
-                        {
-                            this->max_char = c;
-                            this->max_char_pos = x;
-                            this->max_char_count = 1;
-                        }
-                        else if (c == this->max_char)
-                        {
-                            this->max_char_count++;
-                        }
-
-                        if (prevChar != c || x == 0)
-                        {
-                            count_run++;
-                            prevChar = c;
-                        }
-                        x++;
-                    }
+                    x += v.length;
                 }
 
-                this->run_count = count_run;
-                this->str_size = x;
-
-                for (uint64_t i = 0; i < this->character_count_vec.size(); i++)
+                for (uint64_t i = 0; i < this->char_coutner.size(); i++)
                 {
-                    if (this->character_count_vec[i] > 0)
+                    if (this->char_coutner[i] > 0)
                     {
                         this->alphabet_count++;
                     }
                 }
             }
-            */
+
 
             void analyze(std::string filename)
             {
-                std::ifstream inp;
-                std::vector<uint8_t> buffer;
-                uint64_t bufferSize = 8192;
-                buffer.resize(8192);
-
-                char_coutner.clear();
-                char_coutner.resize(256, 0);
-
-                inp.open(filename, std::ios::binary);
-                bool inputFileExist = inp.is_open();
-                if (!inputFileExist)
-                {
-                    std::cout << filename << " cannot open." << std::endl;
-
-                    throw std::runtime_error("error");
-                }
-                uint64_t textSize = stool::OnlineFileReader::get_text_size(inp);
-                uint8_t prevChar = 255;
-                uint64_t x = 0;
-                uint64_t count_run = 0;
-                while (true)
-                {
-                    bool b = stool::OnlineFileReader::read(inp, buffer, bufferSize, textSize);
-                    if (!b)
-                    {
-                        break;
-                    }
-
-                    for (uint64_t i = 0; i < buffer.size(); i++)
-                    {
-                        uint8_t c = (uint8_t)buffer[i];
-                        char_coutner[c]++;
-
-                        this->character_count_vec[c]++;
-                        if (c < this->min_char)
-                        {
-                            this->min_char = c;
-                            this->min_char_pos = x;
-                            this->min_char_count = 1;
-                        }
-                        else if (c == this->min_char)
-                        {
-                            this->min_char_count++;
-                        }
-
-                        if (c > this->max_char)
-                        {
-                            this->max_char = c;
-                            this->max_char_pos = x;
-                            this->max_char_count = 1;
-                        }
-                        else if (c == this->max_char)
-                        {
-                            this->max_char_count++;
-                        }
-
-                        if (prevChar != c || x == 0)
-                        {
-                            count_run++;
-                            prevChar = c;
-                        }
-                        x++;
-                    }
-                }
-                inp.close();
-
-                this->run_count = count_run;
-                this->str_size = x;
-
-                for (uint64_t i = 0; i < this->character_count_vec.size(); i++)
-                {
-                    if (this->character_count_vec[i] > 0)
-                    {
-                        this->alphabet_count++;
-                    }
-                }
+                stool::OnlineFileReader ofr(filename);
+                ofr.open();
+                stool::ForwardRLE frle(ofr.begin(), ofr.end(), ofr.size());
+                this->analyze(frle);
+                ofr.close();
             }
+            void analyze(const std::vector<uint8_t> &text)
+            {
+                stool::ForwardRLE frle(text.begin(), text.end(), text.size());
+                this->analyze(frle);
+
+            }
+
             std::vector<uint8_t> get_alphabet() const
             {
                 std::vector<uint8_t> r;
