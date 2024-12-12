@@ -18,26 +18,7 @@ namespace stool
             LightFPosDataStructure()
             {
             }
-            template <typename LPOSVEC>
-            void build(const sdsl::int_vector<8> *_bwt, const LPOSVEC &_lposvec, stool::WT *_wt)
-            {
-                this->bwt = _bwt;
-                this->wt = _wt;
-                std::cout << "Building Fpos_vec(EliasFanoVector) ..." << std::flush;
-                /*
-                LightFPosDataStructure::construct_C(bwt, this->C);
-                LightFPosDataStructure::construct_sorted_fpos_array(_bwt, _lposvec, this->fposSortedArray);
-                */
-#if DEBUG
-                this->rank_test();
-#endif
-                this->build(_lposvec);
-                std::cout << "[Finished]" << std::endl;
 
-#if DEBUG
-                //this->check(_lposvec);
-#endif
-            }
             /*
             template <typename LPOSVEC>
             void check(const LPOSVEC &_lposvec)
@@ -63,7 +44,71 @@ namespace stool
             }
             */
 
+            uint64_t operator[](uint64_t i) const
+            {
 
+                uint8_t c = (*this->bwt)[i];
+                uint64_t rank1 = ((*wt).rank(i + 1, c) - 1);
+
+                assert(rank1 < this->efv_vec[c].size());
+                uint64_t q = C2[c] + this->efv_vec[c][rank1];
+
+                return q;
+            }
+            uint64_t size() const
+            {
+                return this->bwt->size();
+            }
+            uint64_t get_using_memory() const
+            {
+                uint64_t x = 0;
+
+                for (auto &it : this->efv_vec)
+                {
+                    x += it.get_using_memory();
+                }
+                return x;
+            }
+
+            template <typename LPOSVEC>
+            void build(const sdsl::int_vector<8> *_bwt, const LPOSVEC &_lposvec, stool::WT *_wt, int message_paragraph = stool::Message::SHOW_MESSAGE)
+            {
+                if (message_paragraph >= 0 && _bwt->size() > 0)
+                {
+                    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing LightFPosDataStructure from RLBWT..." << std::endl;
+                }
+                std::chrono::system_clock::time_point st1, st2;
+                st1 = std::chrono::system_clock::now();
+
+
+                this->bwt = _bwt;
+                this->wt = _wt;
+                /*
+                LightFPosDataStructure::construct_C(bwt, this->C);
+                LightFPosDataStructure::construct_sorted_fpos_array(_bwt, _lposvec, this->fposSortedArray);
+                */
+#if DEBUG
+                this->rank_test();
+#endif
+                this->build(_lposvec);
+
+#if DEBUG
+                // this->check(_lposvec);
+#endif
+
+                if (message_paragraph >= 0 && _bwt->size() > 0)
+                {
+                    uint64_t sec_time = std::chrono::duration_cast<std::chrono::seconds>(st2 - st1).count();
+                    uint64_t ms_time = std::chrono::duration_cast<std::chrono::milliseconds>(st2 - st1).count();
+                    uint64_t per_time = ((double)ms_time / (double)_bwt->size()) * 1000000;
+
+                    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "[END] Elapsed Time: " << sec_time << " sec (" << per_time << " ms/MB)" << std::endl;
+                }
+
+
+            }
+
+        private:
             static void construct_C(const sdsl::int_vector<8> &bwt_head_chars, std::vector<uint64_t> &C)
             {
                 uint64_t CHARMAX = UINT8_MAX + 1;
@@ -152,32 +197,6 @@ namespace stool
                     builders[i].finish();
                     this->efv_vec[i].build_from_builder(builders[i]);
                 }
-            }
-
-            uint64_t operator[](uint64_t i) const
-            {
-
-                uint8_t c = (*this->bwt)[i];
-                uint64_t rank1 = ((*wt).rank(i + 1, c) - 1);
-
-                assert(rank1 < this->efv_vec[c].size());
-                uint64_t q = C2[c] + this->efv_vec[c][rank1];
-
-                return q;
-            }
-            uint64_t size() const
-            {
-                return this->bwt->size();
-            }
-            uint64_t get_using_memory() const
-            {
-                uint64_t x = 0;
-
-                for (auto &it : this->efv_vec)
-                {
-                    x += it.get_using_memory();
-                }
-                return x;
             }
         };
     } // namespace rlbwt2
