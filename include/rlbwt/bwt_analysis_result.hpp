@@ -69,9 +69,9 @@ namespace stool
                 this->str_size = frle.size();
                 this->alphabet_count = 0;
 
-                uint8_t prevChar = 255;
+                //uint8_t prevChar = 255;
                 uint64_t x = 0;
-                uint64_t count_run = 0;
+                //uint64_t count_run = 0;
 
                 for (stool::CharacterRun<uint8_t, uint64_t> v : frle)
                 {

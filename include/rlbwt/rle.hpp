@@ -10,6 +10,8 @@
 #include "./bwt_analysis_result.hpp"
 #include "../online_file_reader.hpp"
 #include "../specialized_collection/elias_fano_vector.hpp"
+#include "../specialized_collection/forward_rle.hpp"
+
 #include "../string_functions.hpp"
 
 namespace stool
@@ -105,81 +107,39 @@ namespace stool
                 return sdsl::size_in_bytes(this->head_char_vec) + this->lpos_vec.get_using_memory();
             }
 
-            static RLE<uint8_t> build_from_BWT(std::vector<uint8_t> &bwt, stool::rlbwt2::BWTAnalysisResult &analysisResult)
+            static RLE<uint8_t> build_from_BWT(std::vector<uint8_t> &bwt)
             {
-                throw -1;
+                BWTAnalysisResult ar;
+                ar.analyze(bwt);
+
+                stool::ForwardRLE frle(bwt.begin(), bwt.end(), bwt.size());
+                return RLE::build(frle, ar.run_count, ar.min_char);
+
             }
 
-
-            static RLE<uint8_t> build(std::string filename, stool::rlbwt2::BWTAnalysisResult &analysisResult)
+            template <typename TEXT_ITERATOR_BEGIN, typename TEXT_ITERATOR_END>
+            static RLE<uint8_t> build(ForwardRLE<TEXT_ITERATOR_BEGIN, TEXT_ITERATOR_END, uint8_t> &frle, uint64_t run_count, uint8_t smallest_character)
             {
                 sdsl::int_vector<8> head_char_vec;
                 stool::EliasFanoVector lpos_vec;
-                uint64_t smallest_character = 0;
 
-                //head_char_vec.width(8);
+                // head_char_vec.width(8);
                 stool::EliasFanoVectorBuilder run_bits;
-                std::ifstream inp;
-                std::vector<uint8_t> buffer;
-                uint64_t bufferSize = 8192;
-                buffer.resize(8192);
-
-                analysisResult.analyze(filename);
-                smallest_character = analysisResult.min_char;
-
-                head_char_vec.resize(analysisResult.run_count);
-                run_bits.initialize(analysisResult.str_size + 1, analysisResult.run_count + 1);
-
-                inp.open(filename, std::ios::binary);
-                bool inputFileExist = inp.is_open();
-                if (!inputFileExist)
-                {
-                    std::cout << filename << " cannot open." << std::endl;
-
-                    throw std::runtime_error("error");
-                }
-                uint64_t textSize = stool::OnlineFileReader::get_text_size(inp);
-                uint8_t prevChar = 255;
-                uint64_t x = 0;
+                head_char_vec.resize(run_count);
+                run_bits.initialize(frle.size() + 1, run_count + 1);
                 uint64_t currentRunP = 0;
 
-                while (true)
+                for (CharacterRun<uint8_t, uint64_t> v : frle)
                 {
-                    bool b = stool::OnlineFileReader::read(inp, buffer, bufferSize, textSize);
-                    if (!b)
+                    run_bits.push_bit(true);
+                    for (uint64_t i = 1; i <= v.length; i++)
                     {
-                        break;
+                        run_bits.push_bit(false);
                     }
-
-                    for (uint64_t i = 0; i < buffer.size(); i++)
-                    {
-                        uint8_t c = (uint8_t)buffer[i];
-                        if (prevChar != c || x == 0)
-                        {
-                            run_bits.push_bit(true);
-                            run_bits.push_bit(false);
-                            head_char_vec[currentRunP++] = c;
-                            prevChar = c;
-                        }
-                        else
-                        {
-                            run_bits.push_bit(false);
-
-                            // run_bits.push_back(0);
-                        }
-                        x++;
-                    }
+                    head_char_vec[currentRunP++] = v.character;
                 }
-
                 run_bits.push_bit(true);
                 run_bits.finish();
-
-                std::cout << "BWT using memory = " << sdsl::size_in_bytes(head_char_vec) / 1000 << "[KB]" << std::endl;
-                std::cout << "Run bits using memory = " << run_bits.get_using_memory() / 1000 << "[KB]" << std::endl;
-
-                inp.close();
-
-                analysisResult.print();
                 lpos_vec.build_from_builder(run_bits);
 
                 RLE<uint8_t> rle;
@@ -187,6 +147,18 @@ namespace stool
                 return rle;
             }
 
+            static RLE<uint8_t> build_from_file(std::string filename)
+            {
+                BWTAnalysisResult ar;
+                ar.analyze(filename);
+
+                stool::OnlineFileReader ofr(filename);
+                ofr.open();
+                stool::ForwardRLE frle(ofr.begin(), ofr.end(), ofr.size());
+                RLE<uint8_t> r = RLE::build(frle, ar.run_count, ar.min_char);
+                ofr.close();
+                return r;
+            }
         };
 
     } // namespace stnode_on_rlbwt
