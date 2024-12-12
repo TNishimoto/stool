@@ -1,6 +1,8 @@
 #pragma once
 #include "../online_file_reader.hpp"
 #include "../message.hpp"
+#include "./bwt_analysis_result.hpp"
+
 namespace stool
 {
     class RLEIO
@@ -8,79 +10,79 @@ namespace stool
     public:
         static void build_RLBWT_from_BWT(const std::vector<uint8_t> &bwt, std::vector<uint8_t> &output_chars, std::vector<uint64_t> &output_runs, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
+            if (message_paragraph >= 0 && bwt.size() > 0)
+            {
+                std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing RLBWT from BWT..." << std::flush;
+            }
+            std::chrono::system_clock::time_point st1, st2;
+            st1 = std::chrono::system_clock::now();
 
-                int64_t tmp_l = 1;
-                for (int64_t i = 1; i < (int64_t)bwt.size(); i++)
-                {
-                    if (bwt[i] != bwt[i - 1])
-                    {
-                        output_runs.push_back(tmp_l);
-                        output_chars.push_back(bwt[i - 1]);
-                        tmp_l = 1;
-                    }
-                    else
-                    {
-                        tmp_l++;
-                    }
-                }
-                if (tmp_l > 0)
-                {
-                    output_runs.push_back(tmp_l);
-                    output_chars.push_back(bwt[bwt.size() - 1]);
-                    tmp_l = 0;
-                }
+            rlbwt2::BWTAnalysisResult ar;
+            ar.analyze(bwt);
+
+            output_chars.resize(ar.run_count, UINT8_MAX);
+            output_runs.resize(ar.run_count, UINT64_MAX);
+
+            stool::ForwardRLE frle(bwt.begin(), bwt.end(), bwt.size());
+
+            uint64_t i = 0;
+            for (CharacterRun<uint8_t, uint64_t> v : frle)
+            {
+                output_chars[i] = v.character;
+                output_runs[i] = v.length;
+                i++;
+            }
+
+            st2 = std::chrono::system_clock::now();
+            if (message_paragraph >= 0 && bwt.size() > 0)
+            {
+                uint64_t sec_time = std::chrono::duration_cast<std::chrono::seconds>(st2 - st1).count();
+                uint64_t ms_time = std::chrono::duration_cast<std::chrono::milliseconds>(st2 - st1).count();
+                uint64_t per_time = ((double)ms_time / (double)bwt.size()) * 1000000;
+
+                std::cout << "[END] Elapsed Time: " << sec_time << " sec (" << per_time << " ms/MB)" << std::endl;
+            }
         }
-        
 
-        static void build_RLBWT_from_BWT_file(std::string file_path, std::vector<uint8_t> &output_chars, std::vector<uint64_t> &output_runs, uint64_t buffer_size = 16000, int message_paragraph = stool::Message::SHOW_MESSAGE)
+        static void build_RLBWT_from_BWT_file(std::string file_path, std::vector<uint8_t> &output_chars, std::vector<uint64_t> &output_runs, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
-            // this->clear();
-
-            std::vector<uint8_t> chars = stool::OnlineFileReader::get_alphabet(file_path, buffer_size);
-            uint64_t text_size = stool::OnlineFileReader::get_text_size(file_path);
-
-            if (buffer_size < 1000)
+            if (message_paragraph >= 0)
             {
-                buffer_size = 1000;
+                std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing RLBWT from BWT file..." << std::flush;
+            }
+            std::chrono::system_clock::time_point st1, st2;
+            st1 = std::chrono::system_clock::now();
+
+            rlbwt2::BWTAnalysisResult ar;
+            ar.analyze(file_path);
+            uint64_t text_size = ar.str_size;
+
+            output_chars.resize(ar.run_count, UINT8_MAX);
+            output_runs.resize(ar.run_count, UINT64_MAX);
+
+            stool::OnlineFileReader ofr(file_path);
+            ofr.open();
+            stool::ForwardRLE frle(ofr.begin(), ofr.end(), ofr.size());
+            uint64_t i = 0;
+            for (CharacterRun<uint8_t, uint64_t> v : frle)
+            {
+                output_chars[i] = v.character;
+                output_runs[i] = v.length;
+                i++;
+            }
+            ofr.close();
+
+
+            st2 = std::chrono::system_clock::now();
+            if (message_paragraph >= 0 && text_size > 0)
+            {
+                uint64_t sec_time = std::chrono::duration_cast<std::chrono::seconds>(st2 - st1).count();
+                uint64_t ms_time = std::chrono::duration_cast<std::chrono::milliseconds>(st2 - st1).count();
+                uint64_t per_time = ((double)ms_time / (double)text_size) * 1000000;
+
+                std::cout << "[END] Elapsed Time: " << sec_time << " sec (" << per_time << " ms/MB)" << std::endl;
             }
 
-            std::vector<uint8_t> buffer;
-
-            std::ifstream inputStream;
-            inputStream.open(file_path, std::ios::binary);
-            {
-                std::vector<uint8_t> buffer;
-
-                uint8_t c;
-                uint64_t rl = 0;
-
-                while (stool::OnlineFileReader::read(inputStream, buffer, buffer_size, text_size))
-                {
-                    for (uint8_t c2 : buffer)
-                    {
-                        if (c == c2)
-                        {
-                            rl++;
-                        }
-                        else
-                        {
-                            if (rl != 0)
-                            {
-                                output_chars.push_back(c);
-                                output_runs.push_back(rl);
-                            }
-                            c = c2;
-                            rl = 1;
-                        }
-                    }
-                }
-                if (rl != 0)
-                {
-                    output_chars.push_back(c);
-                    output_runs.push_back(rl);
-                }
-            }
-            inputStream.close();
         }
     };
 

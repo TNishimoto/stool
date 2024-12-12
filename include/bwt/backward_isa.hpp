@@ -71,7 +71,7 @@ namespace stool
 
     private:
       const LF_DATA_STRUCTURE *_lfds = nullptr;
-      INDEX _end_position;
+      INDEX _end_marker_position_in_BWT;
       INDEX _str_size;
 
     public:
@@ -80,18 +80,18 @@ namespace stool
       {
       }
 
-      void set(const LF_DATA_STRUCTURE *__lfds, INDEX __end_position, INDEX __str_size)
+      void set(const LF_DATA_STRUCTURE *__lfds, INDEX __end_marker_position_in_BWT, INDEX __str_size)
       {
         this->_lfds = __lfds;
-        this->_end_position = __end_position;
+        this->_end_marker_position_in_BWT = __end_marker_position_in_BWT;
         this->_str_size = __str_size;
       }
 
       iterator begin() const
       {
 
-        uint64_t x = this->_lfds->lf(this->_end_position);
-        auto p = iterator(x, this->_end_position, *this->_lfds);
+        uint64_t x = this->_lfds->lf(this->_end_marker_position_in_BWT);
+        auto p = iterator(x, this->_end_marker_position_in_BWT, *this->_lfds);
         return p;
       }
       iterator end() const

@@ -107,19 +107,27 @@ namespace stool
                 return sdsl::size_in_bytes(this->head_char_vec) + this->lpos_vec.get_using_memory();
             }
 
-            static RLE<uint8_t> build_from_BWT(const std::vector<uint8_t> &bwt)
+            static RLE<uint8_t> build_from_BWT(const std::vector<uint8_t> &bwt, int message_paragraph = stool::Message::SHOW_MESSAGE)
             {
                 BWTAnalysisResult ar;
                 ar.analyze(bwt);
 
                 stool::ForwardRLE frle(bwt.begin(), bwt.end(), bwt.size());
-                return RLE::build(frle, ar.run_count, ar.min_char);
+                return RLE::build(frle, ar.run_count, ar.min_char, message_paragraph);
 
             }
 
             template <typename TEXT_ITERATOR_BEGIN, typename TEXT_ITERATOR_END>
-            static RLE<uint8_t> build(ForwardRLE<TEXT_ITERATOR_BEGIN, TEXT_ITERATOR_END, uint8_t> &frle, uint64_t run_count, uint8_t smallest_character)
+            static RLE<uint8_t> build(ForwardRLE<TEXT_ITERATOR_BEGIN, TEXT_ITERATOR_END, uint8_t> &frle, uint64_t run_count, uint8_t smallest_character, int message_paragraph = stool::Message::SHOW_MESSAGE)
             {
+                if (message_paragraph >= 0 && frle.size() > 0)
+                {
+                    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing RLE..." << std::endl;
+                }
+                std::chrono::system_clock::time_point st1, st2;
+                st1 = std::chrono::system_clock::now();
+
+
                 sdsl::int_vector<8> head_char_vec;
                 stool::EliasFanoVector lpos_vec;
 
@@ -144,10 +152,21 @@ namespace stool
 
                 RLE<uint8_t> rle;
                 rle.initialize(head_char_vec, lpos_vec, smallest_character);
+
+                st2 = std::chrono::system_clock::now();
+               if (message_paragraph >= 0 && frle.size() > 0)
+                {
+                    uint64_t sec_time = std::chrono::duration_cast<std::chrono::seconds>(st2 - st1).count();
+                    uint64_t ms_time = std::chrono::duration_cast<std::chrono::milliseconds>(st2 - st1).count();
+                    uint64_t per_time = ((double)ms_time / (double)frle.size()) * 1000000;
+
+                    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "[END] Elapsed Time: " << sec_time << " sec (" << per_time << " ms/MB)" << std::endl;
+                }
+
                 return rle;
             }
 
-            static RLE<uint8_t> build_from_file(std::string filename)
+            static RLE<uint8_t> build_from_file(std::string filename, int message_paragraph = stool::Message::SHOW_MESSAGE)
             {
                 BWTAnalysisResult ar;
                 ar.analyze(filename);
@@ -155,7 +174,7 @@ namespace stool
                 stool::OnlineFileReader ofr(filename);
                 ofr.open();
                 stool::ForwardRLE frle(ofr.begin(), ofr.end(), ofr.size());
-                RLE<uint8_t> r = RLE::build(frle, ar.run_count, ar.min_char);
+                RLE<uint8_t> r = RLE::build(frle, ar.run_count, ar.min_char, message_paragraph);
                 ofr.close();
                 return r;
             }

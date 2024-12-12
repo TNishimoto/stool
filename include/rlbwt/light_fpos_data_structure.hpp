@@ -96,6 +96,7 @@ namespace stool
                 // this->check(_lposvec);
 #endif
 
+                st2 = std::chrono::system_clock::now();
                 if (message_paragraph >= 0 && _bwt->size() > 0)
                 {
                     uint64_t sec_time = std::chrono::duration_cast<std::chrono::seconds>(st2 - st1).count();
