@@ -107,7 +107,7 @@ namespace stool
                 return sdsl::size_in_bytes(this->head_char_vec) + this->lpos_vec.get_using_memory();
             }
 
-            static RLE<uint8_t> build_from_BWT(std::vector<uint8_t> &bwt)
+            static RLE<uint8_t> build_from_BWT(const std::vector<uint8_t> &bwt)
             {
                 BWTAnalysisResult ar;
                 ar.analyze(bwt);

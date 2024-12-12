@@ -26,15 +26,15 @@ namespace stool
             using CHAR_VEC = sdsl::int_vector<>;
 
         private:
-            RLBWT *rlbwt;
-            FPOS_TYPE *fpos_array;
+            const RLBWT *rlbwt;
+            const FPOS_TYPE *fpos_array;
 
             // stool::WT wt;
 
         public:
             // RLEWaveletTree(stool::rlbwt2::RLE<CHAR> *_rlbwt, string inputFile) : rlbwt(_rlbwt)
 
-            LFDataStructureBasedOnRLBWT(RLBWT *_rlbwt, FPOS_TYPE *_fpos_array) : rlbwt(_rlbwt), fpos_array(_fpos_array)
+            LFDataStructureBasedOnRLBWT(const RLBWT *_rlbwt, const FPOS_TYPE *_fpos_array) : rlbwt(_rlbwt), fpos_array(_fpos_array)
             {
             }
 
@@ -79,7 +79,7 @@ namespace stool
         {
         public:
             template <typename CHAR = uint8_t>
-            static stool::WT build(stool::rlbwt2::RLE<CHAR> *_rlbwt)
+            static stool::WT build(const stool::rlbwt2::RLE<CHAR> *_rlbwt)
             {
                 const sdsl::int_vector<8> *head_char_vec_pointer = _rlbwt->get_head_char_vec();
                 stool::WT _wt;
