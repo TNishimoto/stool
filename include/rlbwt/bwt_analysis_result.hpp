@@ -7,16 +7,16 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
-//#include "common/io.h"
-//#include "common/print.hpp"
-//#include "other_functions.hpp"
-//#include "OnlineRlbwt/online_rlbwt.hpp"
-//#include "rlbwt.hpp"
-//#include "stool/src/elias_fano_vector.hpp"
-//#include "../io.hpp"
+// #include "common/io.h"
+// #include "common/print.hpp"
+// #include "other_functions.hpp"
+// #include "OnlineRlbwt/online_rlbwt.hpp"
+// #include "rlbwt.hpp"
+// #include "stool/src/elias_fano_vector.hpp"
+// #include "../io.hpp"
 #include "../online_file_reader.hpp"
 
-//#include "../elias_fano_vector.hpp"
+// #include "../elias_fano_vector.hpp"
 #include "../byte.hpp"
 
 namespace stool
@@ -36,10 +36,8 @@ namespace stool
             uint64_t max_char_pos = 0;
             uint64_t max_char_count = 0;
 
-
             uint64_t alphabet_count = 0;
-                std::vector<uint64_t> char_coutner;
-
+            std::vector<uint64_t> char_coutner;
 
             std::vector<uint64_t> character_count_vec;
             /*
@@ -50,7 +48,7 @@ namespace stool
             BWTAnalysisResult()
             {
                 uint64_t size = UINT8_MAX + 1;
-                
+
                 this->character_count_vec.resize(size, 0);
                 /*
                 this->character_to_id_vec.resize(size, 0);
@@ -59,8 +57,112 @@ namespace stool
             uint64_t character_bit_size()
             {
                 return 8;
-                //return std::log2(this->alphabet_count) + 1;
+                // return std::log2(this->alphabet_count) + 1;
             }
+            /*
+            void analyze(const std::vector<uint8_t> &text)
+            {
+
+                char_coutner.clear();
+                char_coutner.resize(256, 0);
+
+                uint64_t textSize = text.size();
+                uint8_t prevChar = 255;
+                uint64_t x = 0;
+                uint64_t count_run = 0;
+
+                for (uint8_t c : text)
+                {
+                    this->char_coutner[c]++;
+
+                    this->character_count_vec[c]++;
+                    if (c < this->min_char)
+                    {
+                        this->min_char = c;
+                        this->min_char_pos = x;
+                        this->min_char_count = 1;
+                    }
+                    else if (c == this->min_char)
+                    {
+                        this->min_char_count++;
+                    }
+
+                    if (c > this->max_char)
+                    {
+                        this->max_char = c;
+                        this->max_char_pos = x;
+                        this->max_char_count = 1;
+                    }
+                    else if (c == this->max_char)
+                    {
+                        this->max_char_count++;
+                    }
+
+                    if (prevChar != c || x == 0)
+                    {
+                        count_run++;
+                        prevChar = c;
+                    }
+                    x++;
+                }
+                while (true)
+                {
+                    bool b = stool::OnlineFileReader::read(inp, buffer, bufferSize, textSize);
+                    if (!b)
+                    {
+                        break;
+                    }
+
+                    for (uint64_t i = 0; i < buffer.size(); i++)
+                    {
+                        uint8_t c = (uint8_t)buffer[i];
+                        char_coutner[c]++;
+
+                        this->character_count_vec[c]++;
+                        if (c < this->min_char)
+                        {
+                            this->min_char = c;
+                            this->min_char_pos = x;
+                            this->min_char_count = 1;
+                        }
+                        else if (c == this->min_char)
+                        {
+                            this->min_char_count++;
+                        }
+
+                        if (c > this->max_char)
+                        {
+                            this->max_char = c;
+                            this->max_char_pos = x;
+                            this->max_char_count = 1;
+                        }
+                        else if (c == this->max_char)
+                        {
+                            this->max_char_count++;
+                        }
+
+                        if (prevChar != c || x == 0)
+                        {
+                            count_run++;
+                            prevChar = c;
+                        }
+                        x++;
+                    }
+                }
+
+                this->run_count = count_run;
+                this->str_size = x;
+
+                for (uint64_t i = 0; i < this->character_count_vec.size(); i++)
+                {
+                    if (this->character_count_vec[i] > 0)
+                    {
+                        this->alphabet_count++;
+                    }
+                }
+            }
+            */
+
             void analyze(std::string filename)
             {
                 std::ifstream inp;
@@ -108,11 +210,14 @@ namespace stool
                             this->min_char_count++;
                         }
 
-                        if(c > this->max_char){
+                        if (c > this->max_char)
+                        {
                             this->max_char = c;
                             this->max_char_pos = x;
                             this->max_char_count = 1;
-                        }else if(c == this->max_char){
+                        }
+                        else if (c == this->max_char)
+                        {
                             this->max_char_count++;
                         }
 
@@ -137,10 +242,13 @@ namespace stool
                     }
                 }
             }
-            std::vector<uint8_t> get_alphabet() const {
+            std::vector<uint8_t> get_alphabet() const
+            {
                 std::vector<uint8_t> r;
-                for(uint64_t i = 0; i < this->char_coutner.size();i++){
-                    if(char_coutner[i] > 0){
+                for (uint64_t i = 0; i < this->char_coutner.size(); i++)
+                {
+                    if (char_coutner[i] > 0)
+                    {
                         r.push_back(i);
                     }
                 }
@@ -160,10 +268,10 @@ namespace stool
 
                 stool::Printer::print_chars("Alphabet", alph);
 
-                //std::cout << "log sigma \t\t : " << this->character_bit_size() << std::endl;
-                //uint64_t x = run_count * (stool::Log::log2(str_size / run_count));
+                // std::cout << "log sigma \t\t : " << this->character_bit_size() << std::endl;
+                // uint64_t x = run_count * (stool::Log::log2(str_size / run_count));
 
-                //std::cout << "r log (n/r) = " << x << std::endl;
+                // std::cout << "r log (n/r) = " << x << std::endl;
                 /*
                 for (uint64_t i = 0; i < this->id_to_character_vec.size(); i++)
                 {

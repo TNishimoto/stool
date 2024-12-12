@@ -10,6 +10,7 @@
 #include "./bwt_analysis_result.hpp"
 #include "../online_file_reader.hpp"
 #include "../specialized_collection/elias_fano_vector.hpp"
+#include "../string_functions.hpp"
 
 namespace stool
 {
@@ -103,6 +104,12 @@ namespace stool
             {
                 return sdsl::size_in_bytes(this->head_char_vec) + this->lpos_vec.get_using_memory();
             }
+
+            static RLE<uint8_t> build_from_BWT(std::vector<uint8_t> &bwt, stool::rlbwt2::BWTAnalysisResult &analysisResult)
+            {
+                throw -1;
+            }
+
 
             static RLE<uint8_t> build(std::string filename, stool::rlbwt2::BWTAnalysisResult &analysisResult)
             {
