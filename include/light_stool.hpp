@@ -19,6 +19,7 @@
 
 #include "./sort.hpp"
 #include "./string_functions.hpp"
+#include "./specialized_collection/forward_rle.hpp"
 #include "./specialized_collection/integer_deque.hpp"
 #include "./specialized_collection/simple_deque.hpp"
 #include "./specialized_collection/value_array.hpp"

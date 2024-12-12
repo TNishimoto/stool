@@ -9,7 +9,30 @@ namespace stool
 {
 	class OnlineFileReader
 	{
+		std::string filename;
+		std::ifstream stream;
+			std::vector<uint8_t> buffer;
+		uint64_t text_length;
+		bool is_used;
+
+
 	public:
+		OnlineFileReader(std::string _filename)
+		{
+			this->filename = _filename;
+			this->text_length = stool::OnlineFileReader::get_text_size(this->filename);
+			this->is_used = false;
+		}
+		uint64_t size() const {
+			return this->text_length;
+		}
+		void open(){
+			this->stream.open(filename, std::ios::binary);
+		}
+		void close(){
+			this->stream.close();
+		}
+
 		static bool read(std::ifstream &file, std::vector<uint8_t> &output, uint64_t bufferSize, uint64_t textSize)
 		{
 			if (file.eof())
@@ -145,5 +168,103 @@ namespace stool
 			stream2.close();
 			return std::pair<bool, uint64_t>(true, textSize);
 		}
+		static inline constexpr int STATIC_BUFFER_SIZE = 8192;
+
+		class OnlineFileReaderIterator
+		{
+			using iterator_category = std::forward_iterator_tag;
+			using value_type = uint8_t;
+			using difference_type = std::ptrdiff_t;
+
+		public:
+			std::ifstream *stream;
+			std::vector<uint8_t> *buffer;
+			uint64_t text_size;
+			uint64_t current_position;
+			uint16_t current_position_in_buffer;
+
+			OnlineFileReaderIterator(std::ifstream *_stream, std::vector<uint8_t> *_buffer, uint64_t _text_size, bool is_end)
+			{
+				if (is_end)
+				{
+					this->stream = nullptr;
+					this->buffer = nullptr;
+					this->text_size = _text_size;
+					this->current_position = UINT64_MAX;
+					this->current_position_in_buffer = UINT16_MAX;
+				}
+				else
+				{
+					this->stream = _stream;
+					this->buffer = _buffer;
+					this->text_size = _text_size;
+					bool b = OnlineFileReader::read(*this->stream, *this->buffer, STATIC_BUFFER_SIZE, this->text_size);
+					if (b)
+					{
+						this->current_position_in_buffer = 0;
+						this->current_position++;
+					}
+					else
+					{
+						this->current_position_in_buffer = UINT16_MAX;
+						this->current_position = UINT64_MAX;
+					}
+				}
+			}
+
+			uint8_t operator*() const
+			{
+				return (*buffer)[current_position_in_buffer];
+			}
+			OnlineFileReaderIterator &operator++()
+			{
+				if (this->current_position_in_buffer + 1 < this->buffer->size())
+				{
+					this->current_position_in_buffer++;
+					this->current_position++;
+				}
+				else
+				{
+					bool b = OnlineFileReader::read(*this->stream, *this->buffer, STATIC_BUFFER_SIZE, this->text_size);
+					if (b)
+					{
+						this->current_position_in_buffer = 0;
+						this->current_position++;
+					}
+					else
+					{
+						this->current_position_in_buffer = UINT16_MAX;
+						this->current_position = UINT64_MAX;
+					}
+				}
+				return *this;
+			}
+
+			OnlineFileReaderIterator operator++(int)
+			{
+				OnlineFileReaderIterator temp = *this;
+				++(*this);
+				return temp;
+			}
+			bool operator==(const OnlineFileReaderIterator &other) const { return current_position == other.current_position; }
+			bool operator!=(const OnlineFileReaderIterator &other) const { return current_position != other.current_position; }
+		};
+
+		OnlineFileReaderIterator begin()
+		{
+			if(this->is_used){
+				throw std::runtime_error("Error: OnlineFileReaderIterator");
+			}else{
+				this->is_used = true;
+				return OnlineFileReaderIterator(&this->stream, &this->buffer, this->text_length, false);
+
+			}
+		}
+		OnlineFileReaderIterator end() 
+		{
+			return OnlineFileReaderIterator(&this->stream, &this->buffer, this->text_length, true);
+
+		}
+
 	};
 } // namespace stool

@@ -42,27 +42,27 @@ if (CMAKE_VERSION VERSION_LESS 3.21)
     endif()
 endif ()
 
-FILE(GLOB SOURCES lib/*.cpp)
+#FILE(GLOB SOURCES lib/*.cpp)
 
 if (PROJECT_IS_TOP_LEVEL)
 INCLUDE_DIRECTORIES(include)
-add_library(stool STATIC ${SOURCES})
-target_link_libraries(stool sdsl)
+#add_library(stool STATIC ${SOURCES})
+#target_link_libraries(stool sdsl)
 
-add_executable(elias_fano_test.out test/elias_fano_test_main.cpp ${SOURCES})
-target_link_libraries(elias_fano_test.out stool)
+add_executable(elias_fano_test.out test/elias_fano_test_main.cpp)
+target_link_libraries(elias_fano_test.out sdsl)
 
-add_executable(deque_test.out test/deque_test_main.cpp ${SOURCES})
-target_link_libraries(deque_test.out stool)
+add_executable(deque_test.out test/deque_test_main.cpp)
+target_link_libraries(deque_test.out sdsl)
 
-add_executable(test.out test/test_main.cpp ${SOURCES})
-target_link_libraries(test.out stool)
+add_executable(test.out test/test_main.cpp)
+target_link_libraries(test.out sdsl)
 
-add_executable(rank_select_test.out test/rank_select_test_main.cpp ${SOURCES})
-target_link_libraries(rank_select_test.out stool)
+add_executable(rank_select_test.out test/rank_select_test_main.cpp)
+target_link_libraries(rank_select_test.out sdsl)
 
-add_executable(fm_index_test.out test/fm_index_test_main.cpp ${SOURCES})
-target_link_libraries(fm_index_test.out stool)
+add_executable(fm_index_test.out test/fm_index_test_main.cpp)
+target_link_libraries(fm_index_test.out sdsl)
 
 
 endif()

@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     p.parse_check(argc, argv);
     uint64_t mode = p.get<uint>("mode");
 
-    if (mode == 0)
+    if (mode == 1)
     {
         uint64_t len = 100;
         for (uint64_t i = 0; i < 3; i++)
@@ -50,8 +50,46 @@ int main(int argc, char *argv[])
                     stool::equal_check(result1, result2);
                 }
             }
-                std::cout << std::endl;
-
+            std::cout << std::endl;
         }
+    }
+    else if (mode == 2)
+    {
+        for (uint64_t x = 0; x < 100; x++)
+        {
+            std::vector<uint8_t> alphabet = stool::UInt8VectorGenerator::create_ACGT_alphabet();
+            std::vector<uint8_t> text = stool::UInt8VectorGenerator::create_random_sequence(100, alphabet, x);
+            stool::ForwardRLE frle(text.begin(), text.end(), text.size());
+            std::vector<uint8_t> text2 = frle.to_text_vector();
+
+            std::cout << "+" << std::flush;
+
+            stool::equal_check(text, text2);
+        }
+
+        std::cout << std::endl;
+    }
+    else if (mode == 3){
+        for (uint64_t x = 0; x < 100; x++)
+        {
+            std::vector<uint8_t> alphabet = stool::UInt8VectorGenerator::create_ACGT_alphabet();
+            std::vector<uint8_t> text = stool::UInt8VectorGenerator::create_random_sequence(100, alphabet, x);
+            std::string filename = "test_file.txt";
+            
+            stool::IO::write(filename, text);
+            stool::OnlineFileReader ofr(filename);
+            ofr.open();
+            std::vector<uint8_t> text2;
+            for(uint8_t c : ofr){
+                text2.push_back(c);
+            }
+            ofr.close();
+
+            std::cout << "+" << std::flush;
+
+            stool::equal_check(text, text2);
+        }
+        std::cout << std::endl;
+
     }
 }
