@@ -53,6 +53,22 @@ namespace stool
 			load(filename, vec);
 		}
 
+		static uint64_t load_first_64bits(std::string filename)
+		{
+			std::ifstream stream;
+			stream.open(filename, std::ios::binary);
+
+			if (!stream)
+			{
+				std::cerr << "error reading file " << std::endl;
+				throw -1;
+			}
+			uint64_t value;
+			stream.read((char *)&value, sizeof(uint64_t));
+			return value;
+		}
+
+
 		template <typename T>
 		static void load_text(std::string &filename, std::vector<T> &output_vec, bool appendEndMarker, uint8_t end_marker = 0)
 		{
@@ -91,6 +107,8 @@ namespace stool
 				output_vec.pop_back();
 			}
 		}
+
+
 
 		template <typename CONTAINER>
 		static bool load_bits(std::ifstream &file, CONTAINER &output)
