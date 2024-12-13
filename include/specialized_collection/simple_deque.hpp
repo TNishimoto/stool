@@ -25,23 +25,23 @@ namespace stool
         }
         uint64_t size_in_bytes() const
         {
-            //return (sizeof(T) * this->circular_buffer_size_);
+            // return (sizeof(T) * this->circular_buffer_size_);
 
             return sizeof(SimpleDeque) + (sizeof(T) * this->circular_buffer_size_);
-            //return sizeof(this->circular_buffer_size_) + sizeof(this->starting_position_) + sizeof(this->deque_size_) + sizeof(this->circular_buffer_) + (sizeof(T) * this->circular_buffer_size_);
+            // return sizeof(this->circular_buffer_size_) + sizeof(this->starting_position_) + sizeof(this->deque_size_) + sizeof(this->circular_buffer_) + (sizeof(T) * this->circular_buffer_size_);
         }
 
-        SimpleDeque(const SimpleDeque &other) noexcept{
-            this->circular_buffer_size_= other.circular_buffer_size_;
+        SimpleDeque(const SimpleDeque &other) noexcept
+        {
+            this->circular_buffer_size_ = other.circular_buffer_size_;
             this->starting_position_ = other.starting_position_;
             this->deque_size_ = other.deque_size_;
             this->circular_buffer_ = new T[this->circular_buffer_size_];
-            for(uint64_t i = 0; i < this->circular_buffer_size_;i++){
+            for (uint64_t i = 0; i < this->circular_buffer_size_; i++)
+            {
                 this->circular_buffer_[i] = other.circular_buffer_[i];
             }
-
         }
-
 
         // Move constructor
         SimpleDeque(SimpleDeque &&other) noexcept
@@ -55,6 +55,23 @@ namespace stool
             other.circular_buffer_size_ = 0;
             other.starting_position_ = 0;
             other.deque_size_ = 0;
+        }
+        SimpleDeque &operator=(SimpleDeque &&other) noexcept
+        {
+            if (this != &other)
+            {
+                this->circular_buffer_ = other.circular_buffer_;
+                this->circular_buffer_size_ = other.circular_buffer_size_;
+                this->starting_position_ = other.starting_position_;
+                this->deque_size_ = other.deque_size_;
+
+
+                other.circular_buffer_ = nullptr;
+                other.circular_buffer_size_ = 0;
+                other.starting_position_ = 0;
+                other.deque_size_ = 0;
+            }
+            return *this;
         }
 
         size_t capacity() const
@@ -136,10 +153,11 @@ namespace stool
                 int16_t sum = (int16_t)this->_m_idx - (int16_t)n;
                 return SimpleDequeIterator(this->_m_deq, sum);
             }
-            SimpleDequeIterator& operator-=(difference_type n) {
-        this->_m_idx -= n;
-        return *this;
-    }
+            SimpleDequeIterator &operator-=(difference_type n)
+            {
+                this->_m_idx -= n;
+                return *this;
+            }
 
             // イテレータ同士の差（i - j）
             difference_type operator-(const SimpleDequeIterator &other) const
@@ -182,7 +200,8 @@ namespace stool
             this->circular_buffer_size_ = 2;
             this->deque_size_ = 0;
         }
-        SimpleDeque(uint64_t _circular_buffer_size){
+        SimpleDeque(uint64_t _circular_buffer_size)
+        {
             if (this->circular_buffer_ != nullptr)
             {
                 delete[] this->circular_buffer_;
@@ -192,10 +211,7 @@ namespace stool
             this->starting_position_ = 0;
             this->circular_buffer_size_ = _circular_buffer_size;
             this->deque_size_ = 0;
-
         }
-
-
 
         ~SimpleDeque()
         {
@@ -488,11 +504,10 @@ namespace stool
             pos += sizeof(item.deque_size_);
             std::memcpy(output.data() + pos, item.circular_buffer_, item.circular_buffer_size_ * sizeof(T));
             pos += item.circular_buffer_size_ * sizeof(T);
-
         }
         static void save(const SimpleDeque<T, INDEX_TYPE> &item, std::ofstream &os)
         {
-            //uint64_t bytes = sizeof(item.circular_buffer_size_) + sizeof(item.starting_position_) + sizeof(item.deque_size_) + (item.circular_buffer_size_ * sizeof(T));
+            // uint64_t bytes = sizeof(item.circular_buffer_size_) + sizeof(item.starting_position_) + sizeof(item.deque_size_) + (item.circular_buffer_size_ * sizeof(T));
 
             os.write(reinterpret_cast<const char *>(&item.circular_buffer_size_), sizeof(item.circular_buffer_size_));
             os.write(reinterpret_cast<const char *>(&item.starting_position_), sizeof(item.starting_position_));
@@ -520,8 +535,6 @@ namespace stool
             std::memcpy(r.circular_buffer_, data.data() + pos, sizeof(T) * _circular_buffer_size);
             pos += sizeof(T) * _circular_buffer_size;
 
-
-
             return r;
         }
         static SimpleDeque<T, INDEX_TYPE> load(std::ifstream &ifs)
@@ -534,12 +547,10 @@ namespace stool
             ifs.read(reinterpret_cast<char *>(&_starting_position), sizeof(INDEX_TYPE));
             ifs.read(reinterpret_cast<char *>(&_deque_size), sizeof(INDEX_TYPE));
 
-
             SimpleDeque<T, INDEX_TYPE> r(_circular_buffer_size);
             r.starting_position_ = _starting_position;
             r.deque_size_ = _deque_size;
             ifs.read(reinterpret_cast<char *>(r.circular_buffer_), sizeof(T) * _circular_buffer_size);
-
 
             return r;
         }
@@ -549,16 +560,12 @@ namespace stool
             return bytes;
         }
 
-
-
-
         /*
         T *circular_buffer_ = nullptr;
         INDEX_TYPE circular_buffer_size_;
         INDEX_TYPE starting_position_;
         INDEX_TYPE deque_size_;
         */
-
     };
     /*
     template <typename T>
