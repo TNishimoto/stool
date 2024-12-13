@@ -218,7 +218,7 @@ namespace stool
 			}
 			OnlineFileReaderIterator &operator++()
 			{
-				if (this->current_position_in_buffer + 1 < this->buffer->size())
+				if ((uint64_t)(this->current_position_in_buffer + 1) < (uint64_t)this->buffer->size())
 				{
 					this->current_position_in_buffer++;
 					this->current_position++;

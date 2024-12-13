@@ -4,7 +4,7 @@
 #include <iostream>
 
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-copy-with-user-provided-copy"  // suppress specific warning
+#pragma GCC diagnostic ignored "-Wdeprecated-copy"  // suppress specific warning
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 
 #include <sdsl/wt_gmr.hpp>

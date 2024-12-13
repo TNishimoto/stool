@@ -185,18 +185,7 @@ namespace stool
 			{
 				std::string s = "";
 
-				if ((uint64_t)items[i] == UINT64_MAX)
-				{
-					s = "-";
-				}
-				else if ((uint64_t)items[i] == UINT64_MAX - 1)
-				{
-					s = "*";
-				}
-				else
-				{
 					s = items[i];
-				}
 				while (s.size() < padding)
 				{
 					s += " ";

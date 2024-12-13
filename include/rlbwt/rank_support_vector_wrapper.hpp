@@ -10,7 +10,7 @@
 #include "../specialized_collection/elias_fano_vector.hpp"
 
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-copy-with-user-provided-copy"  // suppress specific warning
+#pragma GCC diagnostic ignored "-Wdeprecated-copy"  // suppress specific warning
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #include <sdsl/wavelet_trees.hpp>
 #include <sdsl/wt_algorithm.hpp>

@@ -16,7 +16,7 @@ namespace stool
 	void print_memory_usage()
 	{
 #ifdef __linux__
-		struct mallinfo mi = mallinfo();
+		struct mallinfo2 mi = mallinfo2();
 		std::cout << "Total allocated space: " << mi.uordblks << " bytes" << std::endl;
 #elif defined(__APPLE__)
 		malloc_zone_t *zone = malloc_default_zone();
