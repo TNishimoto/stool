@@ -9,7 +9,7 @@ namespace stool
     class StringFunctions
     {
     public:
-        static std::vector<uint8_t> get_alphabet(std::vector<uint8_t> &text)
+        static std::vector<uint8_t> get_alphabet(const std::vector<uint8_t> &text)
         {
             std::vector<bool> checker;
             checker.resize(256, false);
