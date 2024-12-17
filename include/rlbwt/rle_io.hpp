@@ -1,7 +1,7 @@
 #pragma once
 #include "../online_file_reader.hpp"
 #include "../message.hpp"
-#include "./bwt_analysis_result.hpp"
+#include "../text_statistics.hpp"
 
 namespace stool
 {
@@ -17,8 +17,8 @@ namespace stool
             std::chrono::system_clock::time_point st1, st2;
             st1 = std::chrono::system_clock::now();
 
-            rlbwt2::BWTAnalysisResult ar;
-            ar.analyze(bwt);
+            TextStatistics ar;
+            ar.build(bwt);
 
             output_chars.resize(ar.run_count, UINT8_MAX);
             output_runs.resize(ar.run_count, UINT64_MAX);
@@ -53,8 +53,8 @@ namespace stool
             std::chrono::system_clock::time_point st1, st2;
             st1 = std::chrono::system_clock::now();
 
-            rlbwt2::BWTAnalysisResult ar;
-            ar.analyze(file_path);
+            TextStatistics ar;
+            ar.build(file_path);
             uint64_t text_size = ar.str_size;
 
             output_chars.resize(ar.run_count, UINT8_MAX);

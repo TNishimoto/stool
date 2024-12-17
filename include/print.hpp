@@ -85,6 +85,26 @@ namespace stool
 			return s;
 		}
 		template <typename VEC>
+		static std::string to_integer_string_with_characters(const VEC &items, std::string separator = ", ")
+		{
+			std::string s = "";
+			s += "[";
+			// int k = items.size();
+			for (size_t i = 0; i < (size_t)items.size(); i++)
+			{
+				s += std::to_string(items[i]);
+				s.push_back('(');
+				s.push_back(items[i]);
+				s.push_back(')');
+
+				if (i != items.size() - 1)
+					s += separator;
+			}
+			s += "]";
+			return s;
+		}
+
+		template <typename VEC>
 		static void print_integers(const VEC &items, const std::string name = "PRINT_INTEGERS")
 		{
 			std::cout << name << ": " << to_integer_string(items) << std::endl;
@@ -93,6 +113,12 @@ namespace stool
 		static void print_characters(const VEC &items, const std::string name = "PRINT_INTEGERS", std::string separator = ", ")
 		{
 			std::cout << name << ": " << to_character_string(items, separator) << std::endl;
+		}
+
+		template <typename VEC>
+		static void print_integers_with_characters(const VEC &items, const std::string name = "PRINT_INTEGERS", std::string separator = ", ")
+		{
+			std::cout << name << ": " << to_integer_string_with_characters(items, separator) << std::endl;
 		}
 
 

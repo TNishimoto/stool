@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
-#include "./bwt_analysis_result.hpp"
+#include "../text_statistics.hpp"
 #include "../online_file_reader.hpp"
 #include "../specialized_collection/elias_fano_vector.hpp"
 #include "../specialized_collection/forward_rle.hpp"
@@ -109,11 +109,9 @@ namespace stool
 
             static RLE<uint8_t> build_from_BWT(const std::vector<uint8_t> &bwt, int message_paragraph = stool::Message::SHOW_MESSAGE)
             {
-                BWTAnalysisResult ar;
-                ar.analyze(bwt);
-
+                TextStatistics ar = TextStatistics::build(bwt, message_paragraph);
                 stool::ForwardRLE frle(bwt.begin(), bwt.end(), bwt.size());
-                return RLE::build(frle, ar.run_count, ar.min_char, message_paragraph);
+                return RLE::build(frle, ar.run_count, ar.get_smallest_character(), message_paragraph);
 
             }
 
@@ -168,13 +166,12 @@ namespace stool
 
             static RLE<uint8_t> build_from_file(std::string filename, int message_paragraph = stool::Message::SHOW_MESSAGE)
             {
-                BWTAnalysisResult ar;
-                ar.analyze(filename);
+                TextStatistics ar = TextStatistics::build(filename, message_paragraph);
 
                 stool::OnlineFileReader ofr(filename);
                 ofr.open();
                 stool::ForwardRLE frle(ofr.begin(), ofr.end(), ofr.size());
-                RLE<uint8_t> r = RLE::build(frle, ar.run_count, ar.min_char, message_paragraph);
+                RLE<uint8_t> r = RLE::build(frle, ar.run_count, ar.get_smallest_character(), message_paragraph);
                 ofr.close();
                 return r;
             }

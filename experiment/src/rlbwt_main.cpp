@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
     std::string input_path = p.get<std::string>("input_path");
     bool detailed_check = p.get<uint>("detailed_check") == 0 ? false : true;
 
-    stool::rlbwt2::BWTAnalysisResult analyzer;
+    stool::rlbwt2::TextStatistics analyzer;
     using RLBWT = stool::rlbwt2::RLE<uint8_t>;
     // stool::rlbwt2::RLE<uint8_t> static_rlbwt = stool::rlbwt2::RLEBuilder::build(input_path, analyzer);
     RLBWT static_rlbwt = RLBWT::build(input_path, analyzer);
