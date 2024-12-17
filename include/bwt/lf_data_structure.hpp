@@ -126,6 +126,8 @@ namespace stool
                     std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing LFDataStructure from BWT..." << std::endl;
                 }
 
+                std::chrono::system_clock::time_point st1, st2;
+                st1 = std::chrono::system_clock::now();
 
                 sdsl::int_vector<> _bwt;
                 _bwt.width(8);
@@ -156,9 +158,15 @@ namespace stool
                 r.end_marker = end_marker;
                 r.end_marker_position = end_marker_position;
 
+
+                st2 = std::chrono::system_clock::now();
                 if (message_paragraph >= 0 && bwt.size() > 0)
                 {
-                    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "[END]" << std::endl;
+                    uint64_t sec_time = std::chrono::duration_cast<std::chrono::seconds>(st2 - st1).count();
+                    uint64_t ms_time = std::chrono::duration_cast<std::chrono::milliseconds>(st2 - st1).count();
+                    uint64_t per_time = ((double)ms_time / (double)bwt.size()) * 1000000;
+
+                    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "[END] Elapsed Time: " << sec_time << " sec (" << per_time << " ms/MB)" << std::endl;
                 }
 
                 return r;

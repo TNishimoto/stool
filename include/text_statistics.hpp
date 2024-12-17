@@ -87,6 +87,7 @@ namespace stool
             }
 
             if(message_paragraph >= 0){
+                std::cout << std::endl;
                 std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Computing the statistics of the given text... [END]" << std::endl;
 
             }
