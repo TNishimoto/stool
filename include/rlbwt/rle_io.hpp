@@ -17,8 +17,7 @@ namespace stool
             std::chrono::system_clock::time_point st1, st2;
             st1 = std::chrono::system_clock::now();
 
-            TextStatistics ar;
-            ar.build(bwt);
+            TextStatistics ar = TextStatistics::build(bwt, message_paragraph);
 
             output_chars.resize(ar.run_count, UINT8_MAX);
             output_runs.resize(ar.run_count, UINT64_MAX);
@@ -53,8 +52,7 @@ namespace stool
             std::chrono::system_clock::time_point st1, st2;
             st1 = std::chrono::system_clock::now();
 
-            TextStatistics ar;
-            ar.build(file_path);
+            TextStatistics ar = TextStatistics::build(file_path, message_paragraph);
             uint64_t text_size = ar.str_size;
 
             output_chars.resize(ar.run_count, UINT8_MAX);

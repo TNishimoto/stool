@@ -63,34 +63,35 @@ namespace stool
             uint64_t get_text_size() const {
                 return this->bwt.size();
             }
+            private:
 
-            static std::vector<uint64_t> construct_c_array(const sdsl::int_vector<> &bwt)
+            static std::vector<uint64_t> construct_c_array(const std::vector<uint64_t> &char_counter_vector)
             {
+                uint64_t CHARMAX = 256;
                 std::vector<uint64_t> output;
-                uint64_t CHARMAX = UINT8_MAX + 1;
-
-                std::vector<uint64_t> tmp;
-
-                tmp.resize(CHARMAX, 0);
                 output.resize(CHARMAX, 0);
-                uint64_t size = bwt.size();
-
-                for (uint64_t i = 0; i < size; i++)
-                {
-                    // assert(text[i] >= 0 && text[i] < tmp.size());
-                    tmp[bwt[i]]++;
-                }
 
                 for (uint64_t i = 1; i < output.size(); i++)
                 {
-                    output[i] = output[i - 1] + tmp[i - 1];
+                    output[i] = output[i - 1] + char_counter_vector[i - 1];
                 }
                 return output;
             }
-            static sdsl::wt_gmr<> construct_wt_gmr(const sdsl::int_vector<> &bwt)
+            static sdsl::wt_gmr<> construct_wt_gmr(const sdsl::int_vector<> &bwt, int message_paragraph = stool::Message::SHOW_MESSAGE)
             {
+
+                if (message_paragraph >= 0 && bwt.size() > 0)
+                {
+                    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing WaveletTree(gmr)..." << std::flush;
+                }
+
                 sdsl::wt_gmr<> wt;
                 construct_im(wt, bwt);
+                if (message_paragraph >= 0 && bwt.size() > 0)
+                {
+                    std::cout  << "[END]" << std::endl;
+                }
+
                 return wt;
             }
             template <typename INDEX = uint64_t>
@@ -114,26 +115,39 @@ namespace stool
                 }
                 return outputBWT;
             }
+            public:
 
-            static LFDataStructure build(const std::vector<uint8_t> &bwt)
+            static LFDataStructure build(const std::vector<uint8_t> &bwt, int message_paragraph = stool::Message::SHOW_MESSAGE)
             {
                 uint64_t text_size = bwt.size();
+
+                if (message_paragraph >= 0 && bwt.size() > 0)
+                {
+                    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing LFDataStructure from BWT..." << std::endl;
+                }
+
+
                 sdsl::int_vector<> _bwt;
                 _bwt.width(8);
                 _bwt.resize(text_size);
+
+                std::vector<uint64_t> char_counter_vec;
+                char_counter_vec.resize(256, 0);
 
                 uint64_t end_marker_position = UINT64_MAX;
                 uint64_t end_marker = UINT64_MAX;
                 for (uint64_t i = 0; i < text_size; i++)
                 {
                     _bwt[i] = bwt[i];
+                    char_counter_vec[bwt[i]]++;
                     if((uint64_t)bwt[i] < end_marker){
                         end_marker = bwt[i];
                         end_marker_position = i;
                     }
                 }
-                sdsl::wt_gmr<> wt_gmr = stool::bwt::LFDataStructure::construct_wt_gmr(_bwt);
-                std::vector<uint64_t> c_array = stool::bwt::LFDataStructure::construct_c_array(_bwt);
+                std::vector<uint64_t> c_array = stool::bwt::LFDataStructure::construct_c_array(char_counter_vec);
+
+                sdsl::wt_gmr<> wt_gmr = stool::bwt::LFDataStructure::construct_wt_gmr(_bwt, stool::Message::add_message_paragraph(message_paragraph));
 
                 LFDataStructure r;
                 r.bwt.swap(_bwt);
@@ -141,6 +155,12 @@ namespace stool
                 r.C.swap(c_array);
                 r.end_marker = end_marker;
                 r.end_marker_position = end_marker_position;
+
+                if (message_paragraph >= 0 && bwt.size() > 0)
+                {
+                    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "[END]" << std::endl;
+                }
+
                 return r;
             }
         };
