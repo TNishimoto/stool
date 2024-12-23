@@ -111,14 +111,15 @@ namespace stool
 
         std::vector<char> decompress_bwt(std::string filename)
         {
+            const int C_ARRAY_MAX_SIZE = 257;
 
             std::vector<uint8_t> bwt;
             load(filename, bwt);
             std::cout << "file: " << filename << std::endl;
 
             std::vector<uint64_t> FreqArr, C;
-            FreqArr.resize(256, 0);
-            C.resize(256, 0);
+            FreqArr.resize(C_ARRAY_MAX_SIZE, 0);
+            C.resize(C_ARRAY_MAX_SIZE, 0);
 
             sdsl::int_vector<> iv;
             iv.resize(bwt.size());
