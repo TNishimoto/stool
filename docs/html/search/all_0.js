@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['backwardisa_0',['BackwardISA',['../classstool_1_1rlbwt2_1_1_backward_i_s_a.html',1,'stool::rlbwt2']]],
-  ['bwtanalysisresult_1',['BWTAnalysisResult',['../structstool_1_1rlbwt2_1_1_b_w_t_analysis_result.html',1,'stool::rlbwt2']]],
-  ['byte_2',['Byte',['../classstool_1_1_byte.html',1,'stool']]]
+  ['backwardisa_0',['BackwardISA',['../classstool_1_1bwt_1_1_backward_i_s_a.html',1,'stool::bwt']]],
+  ['basicsearch_1',['BasicSearch',['../classstool_1_1_basic_search.html',1,'stool']]],
+  ['bwtfunctions_2',['BWTFunctions',['../classstool_1_1bwt_1_1_b_w_t_functions.html',1,'stool::bwt']]],
+  ['byte_3',['Byte',['../classstool_1_1_byte.html',1,'stool']]]
 ];

@@ -98,6 +98,15 @@ $(function(){ initResizable(false); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a71b200ca0f035ce42a9dc54019242980" id="r_a71b200ca0f035ce42a9dc54019242980"><td class="memItemLeft" align="right" valign="top"><a id="a71b200ca0f035ce42a9dc54019242980" name="a71b200ca0f035ce42a9dc54019242980"></a>
+<a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a> &amp;)=delete</td></tr>
+<tr class="separator:a71b200ca0f035ce42a9dc54019242980"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf35f60d7ccb35667e0fc12d852013c0" id="r_adf35f60d7ccb35667e0fc12d852013c0"><td class="memItemLeft" align="right" valign="top"><a id="adf35f60d7ccb35667e0fc12d852013c0" name="adf35f60d7ccb35667e0fc12d852013c0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>VLCDeque</b> (<a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="separator:adf35f60d7ccb35667e0fc12d852013c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac6ea07dff5ac5718ee94db2ac8fa45c" id="r_aac6ea07dff5ac5718ee94db2ac8fa45c"><td class="memItemLeft" align="right" valign="top"><a id="aac6ea07dff5ac5718ee94db2ac8fa45c" name="aac6ea07dff5ac5718ee94db2ac8fa45c"></a>
+<a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="separator:aac6ea07dff5ac5718ee94db2ac8fa45c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7b97b0ceb1bfce8463e0e42d5217b13" id="r_aa7b97b0ceb1bfce8463e0e42d5217b13"><td class="memItemLeft" align="right" valign="top"><a id="aa7b97b0ceb1bfce8463e0e42d5217b13" name="aa7b97b0ceb1bfce8463e0e42d5217b13"></a>
 uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>size_in_bytes</b> () const</td></tr>
 <tr class="separator:aa7b97b0ceb1bfce8463e0e42d5217b13"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,6 +131,10 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>to_string</b> 
 <tr class="memitem:ae2133a5a8a676ebca0f1edb234cc5b11" id="r_ae2133a5a8a676ebca0f1edb234cc5b11"><td class="memItemLeft" align="right" valign="top"><a id="ae2133a5a8a676ebca0f1edb234cc5b11" name="ae2133a5a8a676ebca0f1edb234cc5b11"></a>
 std::vector&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>to_value_vector</b> () const</td></tr>
 <tr class="separator:ae2133a5a8a676ebca0f1edb234cc5b11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a378c68919750614a0b2b1d0c708ee2" id="r_a1a378c68919750614a0b2b1d0c708ee2"><td class="memTemplParams" colspan="2"><a id="a1a378c68919750614a0b2b1d0c708ee2" name="a1a378c68919750614a0b2b1d0c708ee2"></a>
+template&lt;typename VEC &gt; </td></tr>
+<tr class="memitem:a1a378c68919750614a0b2b1d0c708ee2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>to_values</b> (VEC &amp;output_vec) const</td></tr>
+<tr class="separator:a1a378c68919750614a0b2b1d0c708ee2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc58ebc0970e3524f0282757a988ff3e" id="r_afc58ebc0970e3524f0282757a988ff3e"><td class="memItemLeft" align="right" valign="top"><a id="afc58ebc0970e3524f0282757a988ff3e" name="afc58ebc0970e3524f0282757a988ff3e"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>push_front</b> (std::vector&lt; uint64_t &gt; &amp;new_items)</td></tr>
 <tr class="separator:afc58ebc0970e3524f0282757a988ff3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -233,6 +246,36 @@ static std::pair&lt; uint64_t, uint64_t &gt;&#160;</td><td class="memItemRight" 
 <tr class="memitem:a2f837a939d1fcbac615dc309ecc15306" id="r_a2f837a939d1fcbac615dc309ecc15306"><td class="memItemLeft" align="right" valign="top"><a id="a2f837a939d1fcbac615dc309ecc15306" name="a2f837a939d1fcbac615dc309ecc15306"></a>
 static std::pair&lt; uint64_t, uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>write</b> (uint64_t code1, uint64_t code2, uint8_t pos, uint64_t value)</td></tr>
 <tr class="separator:a2f837a939d1fcbac615dc309ecc15306"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab33fbc3df933033dc54ce082762c77f4" id="r_ab33fbc3df933033dc54ce082762c77f4"><td class="memItemLeft" align="right" valign="top"><a id="ab33fbc3df933033dc54ce082762c77f4" name="ab33fbc3df933033dc54ce082762c77f4"></a>
+static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_byte_size</b> (const <a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a> &amp;item)</td></tr>
+<tr class="separator:ab33fbc3df933033dc54ce082762c77f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37e67bb1e23c8eb56c97c6cd5d8d67fa" id="r_a37e67bb1e23c8eb56c97c6cd5d8d67fa"><td class="memItemLeft" align="right" valign="top"><a id="a37e67bb1e23c8eb56c97c6cd5d8d67fa" name="a37e67bb1e23c8eb56c97c6cd5d8d67fa"></a>
+static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_byte_size</b> (const std::vector&lt; <a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a> &gt; &amp;items)</td></tr>
+<tr class="separator:a37e67bb1e23c8eb56c97c6cd5d8d67fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac60c9493b7ae05341afec2f1f24e1d41" id="r_ac60c9493b7ae05341afec2f1f24e1d41"><td class="memItemLeft" align="right" valign="top"><a id="ac60c9493b7ae05341afec2f1f24e1d41" name="ac60c9493b7ae05341afec2f1f24e1d41"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>save</b> (const <a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a> &amp;item, std::vector&lt; uint8_t &gt; &amp;output, uint64_t &amp;pos)</td></tr>
+<tr class="separator:ac60c9493b7ae05341afec2f1f24e1d41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bc2d7e20e961df30c37e4b99ebe754b" id="r_a6bc2d7e20e961df30c37e4b99ebe754b"><td class="memItemLeft" align="right" valign="top"><a id="a6bc2d7e20e961df30c37e4b99ebe754b" name="a6bc2d7e20e961df30c37e4b99ebe754b"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>save</b> (const <a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a> &amp;item, std::ofstream &amp;os)</td></tr>
+<tr class="separator:a6bc2d7e20e961df30c37e4b99ebe754b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a713d23f92f6207de8aeaf50e01d1a03f" id="r_a713d23f92f6207de8aeaf50e01d1a03f"><td class="memItemLeft" align="right" valign="top"><a id="a713d23f92f6207de8aeaf50e01d1a03f" name="a713d23f92f6207de8aeaf50e01d1a03f"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>save</b> (const std::vector&lt; <a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a> &gt; &amp;items, std::vector&lt; uint8_t &gt; &amp;output, uint64_t &amp;pos)</td></tr>
+<tr class="separator:a713d23f92f6207de8aeaf50e01d1a03f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66240cc8436d8806a953d94b73ceb62f" id="r_a66240cc8436d8806a953d94b73ceb62f"><td class="memItemLeft" align="right" valign="top"><a id="a66240cc8436d8806a953d94b73ceb62f" name="a66240cc8436d8806a953d94b73ceb62f"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>save</b> (const std::vector&lt; <a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a> &gt; &amp;items, std::ofstream &amp;os)</td></tr>
+<tr class="separator:a66240cc8436d8806a953d94b73ceb62f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81c9d6b4887cabd7364629adee6aa984" id="r_a81c9d6b4887cabd7364629adee6aa984"><td class="memItemLeft" align="right" valign="top"><a id="a81c9d6b4887cabd7364629adee6aa984" name="a81c9d6b4887cabd7364629adee6aa984"></a>
+static <a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a>&#160;</td><td class="memItemRight" valign="bottom"><b>load</b> (const std::vector&lt; uint8_t &gt; &amp;data, uint64_t &amp;pos)</td></tr>
+<tr class="separator:a81c9d6b4887cabd7364629adee6aa984"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee8e3dcbfbc884847d4484de875de76b" id="r_aee8e3dcbfbc884847d4484de875de76b"><td class="memItemLeft" align="right" valign="top"><a id="aee8e3dcbfbc884847d4484de875de76b" name="aee8e3dcbfbc884847d4484de875de76b"></a>
+static <a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a>&#160;</td><td class="memItemRight" valign="bottom"><b>load</b> (std::ifstream &amp;ifs)</td></tr>
+<tr class="separator:aee8e3dcbfbc884847d4484de875de76b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30914ce97ac0a4e685ef68ca530bc7dd" id="r_a30914ce97ac0a4e685ef68ca530bc7dd"><td class="memItemLeft" align="right" valign="top"><a id="a30914ce97ac0a4e685ef68ca530bc7dd" name="a30914ce97ac0a4e685ef68ca530bc7dd"></a>
+static std::vector&lt; <a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>load_vector</b> (const std::vector&lt; uint8_t &gt; &amp;data, uint64_t &amp;pos)</td></tr>
+<tr class="separator:a30914ce97ac0a4e685ef68ca530bc7dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b3ba3d62b85c8869fc7d2302eaf29c6" id="r_a6b3ba3d62b85c8869fc7d2302eaf29c6"><td class="memItemLeft" align="right" valign="top"><a id="a6b3ba3d62b85c8869fc7d2302eaf29c6" name="a6b3ba3d62b85c8869fc7d2302eaf29c6"></a>
+static std::vector&lt; <a class="el" href="classstool_1_1_v_l_c_deque.html">VLCDeque</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>load_vector</b> (std::ifstream &amp;ifs)</td></tr>
+<tr class="separator:a6b3ba3d62b85c8869fc7d2302eaf29c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/specialized_collection/<a class="el" href="vlc__deque_8hpp_source.html">vlc_deque.hpp</a></li>

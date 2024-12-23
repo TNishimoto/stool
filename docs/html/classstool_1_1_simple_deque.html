@@ -113,12 +113,18 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>size_in_bytes</b>
 <tr class="memitem:ad9949e175c2d7ebffdb14a9e034399bb" id="r_ad9949e175c2d7ebffdb14a9e034399bb"><td class="memItemLeft" align="right" valign="top"><a id="ad9949e175c2d7ebffdb14a9e034399bb" name="ad9949e175c2d7ebffdb14a9e034399bb"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>SimpleDeque</b> (<a class="el" href="classstool_1_1_simple_deque.html">SimpleDeque</a> &amp;&amp;other) noexcept</td></tr>
 <tr class="separator:ad9949e175c2d7ebffdb14a9e034399bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a218e84ee3051d84e2e9eadd2d59152b4" id="r_a218e84ee3051d84e2e9eadd2d59152b4"><td class="memItemLeft" align="right" valign="top"><a id="a218e84ee3051d84e2e9eadd2d59152b4" name="a218e84ee3051d84e2e9eadd2d59152b4"></a>
+<a class="el" href="classstool_1_1_simple_deque.html">SimpleDeque</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classstool_1_1_simple_deque.html">SimpleDeque</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:a218e84ee3051d84e2e9eadd2d59152b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6c6b6b9329e88723fae117624b9ed53" id="r_aa6c6b6b9329e88723fae117624b9ed53"><td class="memItemLeft" align="right" valign="top"><a id="aa6c6b6b9329e88723fae117624b9ed53" name="aa6c6b6b9329e88723fae117624b9ed53"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>capacity</b> () const</td></tr>
 <tr class="separator:aa6c6b6b9329e88723fae117624b9ed53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a741bbe1d1dd6810b6529d1168faac5e7" id="r_a741bbe1d1dd6810b6529d1168faac5e7"><td class="memItemLeft" align="right" valign="top"><a id="a741bbe1d1dd6810b6529d1168faac5e7" name="a741bbe1d1dd6810b6529d1168faac5e7"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>clear</b> ()</td></tr>
 <tr class="separator:a741bbe1d1dd6810b6529d1168faac5e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54ac2c5a3692d06e940ce02c0ac78f2f" id="r_a54ac2c5a3692d06e940ce02c0ac78f2f"><td class="memItemLeft" align="right" valign="top"><a id="a54ac2c5a3692d06e940ce02c0ac78f2f" name="a54ac2c5a3692d06e940ce02c0ac78f2f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SimpleDeque</b> (uint64_t _circular_buffer_size)</td></tr>
+<tr class="separator:a54ac2c5a3692d06e940ce02c0ac78f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a114406dc09d4243c08f72023feb8e520" id="r_a114406dc09d4243c08f72023feb8e520"><td class="memItemLeft" align="right" valign="top"><a id="a114406dc09d4243c08f72023feb8e520" name="a114406dc09d4243c08f72023feb8e520"></a>
 <a class="el" href="classstool_1_1_simple_deque_1_1_simple_deque_iterator.html">SimpleDequeIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b> () const</td></tr>
 <tr class="separator:a114406dc09d4243c08f72023feb8e520"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,6 +197,21 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ad7adbac585aa1b9d05bf155e0dec8dc0" id="r_ad7adbac585aa1b9d05bf155e0dec8dc0"><td class="memItemLeft" align="right" valign="top"><a id="ad7adbac585aa1b9d05bf155e0dec8dc0" name="ad7adbac585aa1b9d05bf155e0dec8dc0"></a>
 static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_deque_size</b> ()</td></tr>
 <tr class="separator:ad7adbac585aa1b9d05bf155e0dec8dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3c4c3760e1f327dc9940c06238891b2" id="r_aa3c4c3760e1f327dc9940c06238891b2"><td class="memItemLeft" align="right" valign="top"><a id="aa3c4c3760e1f327dc9940c06238891b2" name="aa3c4c3760e1f327dc9940c06238891b2"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>save</b> (const <a class="el" href="classstool_1_1_simple_deque.html">SimpleDeque</a>&lt; T, INDEX_TYPE &gt; &amp;item, std::vector&lt; uint8_t &gt; &amp;output, uint64_t &amp;pos)</td></tr>
+<tr class="separator:aa3c4c3760e1f327dc9940c06238891b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b856496e937af7a068135a3f0e7948e" id="r_a3b856496e937af7a068135a3f0e7948e"><td class="memItemLeft" align="right" valign="top"><a id="a3b856496e937af7a068135a3f0e7948e" name="a3b856496e937af7a068135a3f0e7948e"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>save</b> (const <a class="el" href="classstool_1_1_simple_deque.html">SimpleDeque</a>&lt; T, INDEX_TYPE &gt; &amp;item, std::ofstream &amp;os)</td></tr>
+<tr class="separator:a3b856496e937af7a068135a3f0e7948e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2acbb3621434705301ef1672009721b" id="r_aa2acbb3621434705301ef1672009721b"><td class="memItemLeft" align="right" valign="top"><a id="aa2acbb3621434705301ef1672009721b" name="aa2acbb3621434705301ef1672009721b"></a>
+static <a class="el" href="classstool_1_1_simple_deque.html">SimpleDeque</a>&lt; T, INDEX_TYPE &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>load</b> (const std::vector&lt; uint8_t &gt; &amp;data, uint64_t &amp;pos)</td></tr>
+<tr class="separator:aa2acbb3621434705301ef1672009721b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae24b9d4159616ec10a62ef73d186ef86" id="r_ae24b9d4159616ec10a62ef73d186ef86"><td class="memItemLeft" align="right" valign="top"><a id="ae24b9d4159616ec10a62ef73d186ef86" name="ae24b9d4159616ec10a62ef73d186ef86"></a>
+static <a class="el" href="classstool_1_1_simple_deque.html">SimpleDeque</a>&lt; T, INDEX_TYPE &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>load</b> (std::ifstream &amp;ifs)</td></tr>
+<tr class="separator:ae24b9d4159616ec10a62ef73d186ef86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5995131d4ee4fad73d6d9eb69e5777b2" id="r_a5995131d4ee4fad73d6d9eb69e5777b2"><td class="memItemLeft" align="right" valign="top"><a id="a5995131d4ee4fad73d6d9eb69e5777b2" name="a5995131d4ee4fad73d6d9eb69e5777b2"></a>
+static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_byte_size</b> (const <a class="el" href="classstool_1_1_simple_deque.html">SimpleDeque</a>&lt; T, INDEX_TYPE &gt; &amp;item)</td></tr>
+<tr class="separator:a5995131d4ee4fad73d6d9eb69e5777b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/specialized_collection/<a class="el" href="simple__deque_8hpp_source.html">simple_deque.hpp</a></li>

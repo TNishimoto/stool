@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['integerdeque_0',['IntegerDeque',['../classstool_1_1_integer_deque.html',1,'stool']]],
-  ['integerdequeiterator_1',['IntegerDequeIterator',['../classstool_1_1_integer_deque_1_1_integer_deque_iterator.html',1,'stool::IntegerDeque']]],
-  ['io_2',['IO',['../classstool_1_1_i_o.html',1,'stool']]],
-  ['iterator_3',['iterator',['../classstool_1_1_elias_fano_vector_1_1iterator.html',1,'stool::EliasFanoVector::iterator'],['../classstool_1_1rlbwt2_1_1_backward_i_s_a_1_1iterator.html',1,'stool::rlbwt2::BackwardISA&lt; LF_DATA_STRUCTURE &gt;::iterator']]]
+  ['filewriter_0',['FileWriter',['../classstool_1_1_file_writer.html',1,'stool']]],
+  ['forwardrle_1',['ForwardRLE',['../classstool_1_1_forward_r_l_e.html',1,'stool']]],
+  ['forwardrleiterator_2',['ForwardRLEIterator',['../classstool_1_1_forward_r_l_e_1_1_forward_r_l_e_iterator.html',1,'stool::ForwardRLE']]],
+  ['forwardsa_3',['ForwardSA',['../classstool_1_1rlbwt2_1_1_forward_s_a.html',1,'stool::rlbwt2']]],
+  ['fposdatastructure_4',['FPosDataStructure',['../classstool_1_1rlbwt2_1_1_f_pos_data_structure.html',1,'stool::rlbwt2']]]
 ];

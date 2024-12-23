@@ -97,15 +97,27 @@ $(function(){ initResizable(false); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a4fa05ad504f069e5fcc3f86837ba0933" id="r_a4fa05ad504f069e5fcc3f86837ba0933"><td class="memItemLeft" align="right" valign="top"><a id="a4fa05ad504f069e5fcc3f86837ba0933" name="a4fa05ad504f069e5fcc3f86837ba0933"></a>
-static int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>countBits</b> (int64_t bits)</td></tr>
-<tr class="separator:a4fa05ad504f069e5fcc3f86837ba0933"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52cc533f8b6aec97a33d9a2a1d24b4a0" id="r_a52cc533f8b6aec97a33d9a2a1d24b4a0"><td class="memItemLeft" align="right" valign="top"><a id="a52cc533f8b6aec97a33d9a2a1d24b4a0" name="a52cc533f8b6aec97a33d9a2a1d24b4a0"></a>
-static int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>numberOfLeadingZero</b> (int64_t x)</td></tr>
-<tr class="separator:a52cc533f8b6aec97a33d9a2a1d24b4a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02a74f760d13aa195804784cc65565e9" id="r_a02a74f760d13aa195804784cc65565e9"><td class="memItemLeft" align="right" valign="top"><a id="a02a74f760d13aa195804784cc65565e9" name="a02a74f760d13aa195804784cc65565e9"></a>
+static int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>countBits</b> (uint64_t bits)</td></tr>
+<tr class="separator:a02a74f760d13aa195804784cc65565e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84ac1f6b800ce3750025fbaa942475c6" id="r_a84ac1f6b800ce3750025fbaa942475c6"><td class="memItemLeft" align="right" valign="top"><a id="a84ac1f6b800ce3750025fbaa942475c6" name="a84ac1f6b800ce3750025fbaa942475c6"></a>
 static bool&#160;</td><td class="memItemRight" valign="bottom"><b>getBit</b> (int64_t x, int64_t nth)</td></tr>
 <tr class="separator:a84ac1f6b800ce3750025fbaa942475c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6319f1fb6b3f60cbec33cd1faa1817f8" id="r_a6319f1fb6b3f60cbec33cd1faa1817f8"><td class="memItemLeft" align="right" valign="top"><a id="a6319f1fb6b3f60cbec33cd1faa1817f8" name="a6319f1fb6b3f60cbec33cd1faa1817f8"></a>
+static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>insert_bit</b> (uint64_t bits, int64_t pos, bool value)</td></tr>
+<tr class="separator:a6319f1fb6b3f60cbec33cd1faa1817f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb0deb436b88df98330cbeb0150ea8a1" id="r_abb0deb436b88df98330cbeb0150ea8a1"><td class="memItemLeft" align="right" valign="top"><a id="abb0deb436b88df98330cbeb0150ea8a1" name="abb0deb436b88df98330cbeb0150ea8a1"></a>
+static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>write_bit</b> (uint64_t bits, int64_t pos, bool value)</td></tr>
+<tr class="separator:abb0deb436b88df98330cbeb0150ea8a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeccc69c65ec2571f11a9bf440035ac24" id="r_aeccc69c65ec2571f11a9bf440035ac24"><td class="memItemLeft" align="right" valign="top"><a id="aeccc69c65ec2571f11a9bf440035ac24" name="aeccc69c65ec2571f11a9bf440035ac24"></a>
+static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>remove_bit</b> (uint64_t bits, uint64_t pos)</td></tr>
+<tr class="separator:aeccc69c65ec2571f11a9bf440035ac24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a39a7c60f73bede20ee34063f0a1069" id="r_a1a39a7c60f73bede20ee34063f0a1069"><td class="memItemLeft" align="right" valign="top"><a id="a1a39a7c60f73bede20ee34063f0a1069" name="a1a39a7c60f73bede20ee34063f0a1069"></a>
+static int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>select1</b> (uint64_t bits, uint64_t i)</td></tr>
+<tr class="separator:a1a39a7c60f73bede20ee34063f0a1069"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcc172aa2f6540f578a803a8bd79fa89" id="r_adcc172aa2f6540f578a803a8bd79fa89"><td class="memItemLeft" align="right" valign="top"><a id="adcc172aa2f6540f578a803a8bd79fa89" name="adcc172aa2f6540f578a803a8bd79fa89"></a>
+static int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>select0</b> (uint64_t bits, uint64_t i)</td></tr>
+<tr class="separator:adcc172aa2f6540f578a803a8bd79fa89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee5d8add0fad3b8f3c91c91c16971912" id="r_aee5d8add0fad3b8f3c91c91c16971912"><td class="memItemLeft" align="right" valign="top"><a id="aee5d8add0fad3b8f3c91c91c16971912" name="aee5d8add0fad3b8f3c91c91c16971912"></a>
 static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>zero_pad_tail</b> (uint64_t code, uint8_t len)</td></tr>
 <tr class="separator:aee5d8add0fad3b8f3c91c91c16971912"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,6 +130,9 @@ static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>zero_pad</
 <tr class="memitem:a9586eca62b622f23253e79387f1b1689" id="r_a9586eca62b622f23253e79387f1b1689"><td class="memItemLeft" align="right" valign="top"><a id="a9586eca62b622f23253e79387f1b1689" name="a9586eca62b622f23253e79387f1b1689"></a>
 static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_code_length</b> (uint64_t code)</td></tr>
 <tr class="separator:a9586eca62b622f23253e79387f1b1689"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bd736726a86c5164fa77f7520d59fad" id="r_a8bd736726a86c5164fa77f7520d59fad"><td class="memItemLeft" align="right" valign="top"><a id="a8bd736726a86c5164fa77f7520d59fad" name="a8bd736726a86c5164fa77f7520d59fad"></a>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>to_string</b> (uint64_t code)</td></tr>
+<tr class="separator:a8bd736726a86c5164fa77f7520d59fad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/<a class="el" href="byte_8hpp_source.html">byte.hpp</a></li>

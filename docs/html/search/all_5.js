@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['lcpinterval_0',['LCPInterval',['../classstool_1_1_l_c_p_interval.html',1,'stool']]],
-  ['lcpintervaldepthordercomp_1',['LCPIntervalDepthOrderComp',['../structstool_1_1_l_c_p_interval_depth_order_comp.html',1,'stool']]],
-  ['lcpintervalpreordercomp_2',['LCPIntervalPreorderComp',['../structstool_1_1_l_c_p_interval_preorder_comp.html',1,'stool']]],
-  ['lightfposdatastructure_3',['LightFPosDataStructure',['../classstool_1_1rlbwt2_1_1_light_f_pos_data_structure.html',1,'stool::rlbwt2']]],
-  ['log_4',['Log',['../classstool_1_1_log.html',1,'stool']]]
+  ['integerdeque_0',['IntegerDeque',['../classstool_1_1_integer_deque.html',1,'stool']]],
+  ['integerdequeiterator_1',['IntegerDequeIterator',['../classstool_1_1_integer_deque_1_1_integer_deque_iterator.html',1,'stool::IntegerDeque']]],
+  ['io_2',['IO',['../classstool_1_1_i_o.html',1,'stool']]],
+  ['iterator_3',['iterator',['../classstool_1_1bwt_1_1_backward_i_s_a_1_1iterator.html',1,'stool::bwt::BackwardISA&lt; LF_DATA_STRUCTURE &gt;::iterator'],['../classstool_1_1_elias_fano_vector_1_1iterator.html',1,'stool::EliasFanoVector::iterator']]]
 ];
