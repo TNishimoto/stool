@@ -1,6 +1,10 @@
 #pragma once
 #include "./message.hpp"
 
+#include "./rational.hpp"
+#include "./delta.hpp"
+
+
 #include "./third_party/cmdline.h"
 #include "./byte.hpp"
 #include "./debug.hpp"
