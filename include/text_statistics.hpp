@@ -41,7 +41,7 @@ namespace stool
         {
             TextStatistics ts;
             ts.run_count = 0;
-            ts.str_size = 0;
+            ts.str_size = frle.size();
             ts.alphabet_size = 0;
             ts.char_counter.resize(256, 0);
             ts.char_min_pos_vec.resize(256, INT64_MAX);
@@ -127,7 +127,7 @@ namespace stool
         {
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "======= Text Statistics ======" << std::endl;
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "The length of the input text: \t\t " << this->str_size << std::endl;
-            std::cout << stool::Message::get_paragraph_string(message_paragraph) << "The number of runs on BWT: \t\t " << this->run_count << std::endl;
+            std::cout << stool::Message::get_paragraph_string(message_paragraph) << "The number of runs on the input text: \t\t " << this->run_count << std::endl;
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Alphabet size: \t\t " << this->alphabet_size << std::endl;
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "min sigma: \t \t  " << this->get_smallest_character() << std::endl;
             //std::cout << stool::Message::get_paragraph_string(message_paragraph) << "max sigma: \t \t  " << this->max_char << std::endl;

@@ -39,11 +39,23 @@ int main(int argc, char *argv[])
     stool::TextStatistics ts = stool::TextStatistics::build(input_file_path);
     ts.print();
 
-    }else{
+    } else if(mode == 1){
         std::vector<uint8_t> text;
         stool::IO::load_text(input_file_path, text);
         for(uint64_t i = 0; i < text.size();i++){
             if(text[i] <= 12){
+                text[i] += 3;
+            }
+        }
+        std::string output_path = input_file_path + ".mod";
+        stool::IO::write(output_path, text);
+        std::cout << "Finished!" << std::endl;
+
+    } else{
+        std::vector<uint8_t> text;
+        stool::IO::load_text(input_file_path, text);
+        for(uint64_t i = 0; i < text.size();i++){
+            if(text[i] <= 131){
                 text[i] += 3;
             }
         }
