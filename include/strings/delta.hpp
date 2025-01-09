@@ -4,7 +4,7 @@
 #include <random>
 #include <algorithm>
 #include <set>
-#include "./rational.hpp"
+#include "../basic/rational.hpp"
 
 namespace stool
 {

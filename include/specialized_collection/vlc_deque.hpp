@@ -2,8 +2,8 @@
 #include <vector>
 #include <deque>
 #include <bitset>
-#include "../byte.hpp"
-#include "../print.hpp"
+#include "../basic/byte.hpp"
+#include "../debug/print.hpp"
 #include "./simple_deque.hpp"
 
 namespace stool

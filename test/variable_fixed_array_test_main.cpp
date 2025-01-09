@@ -1,12 +1,7 @@
 #include <cassert>
 #include <chrono>
 
-#include "../include/io.hpp"
-#include "../include/byte.hpp"
-
-#include "../include/cmdline.h"
-#include "../include/debug.hpp"
-#include "../include/specialized_collection/value_array.hpp"
+#include "../include/stool.hpp"
 
 
 //#include "../include/sampling_lcp/variable_fixed_array.hpp"

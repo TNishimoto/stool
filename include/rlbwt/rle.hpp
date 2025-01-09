@@ -7,12 +7,12 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
-#include "../text_statistics.hpp"
-#include "../online_file_reader.hpp"
+#include "../strings/text_statistics.hpp"
+#include "../io/online_file_reader.hpp"
 #include "../specialized_collection/elias_fano_vector.hpp"
 #include "../specialized_collection/forward_rle.hpp"
 
-#include "../string_functions.hpp"
+#include "../strings/string_functions.hpp"
 
 namespace stool
 {

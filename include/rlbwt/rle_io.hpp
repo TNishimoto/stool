@@ -1,7 +1,7 @@
 #pragma once
-#include "../online_file_reader.hpp"
-#include "../message.hpp"
-#include "../text_statistics.hpp"
+#include "../io/online_file_reader.hpp"
+#include "../debug/message.hpp"
+#include "../strings/text_statistics.hpp"
 
 namespace stool
 {

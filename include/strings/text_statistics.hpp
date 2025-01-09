@@ -1,9 +1,8 @@
 #pragma once
-#include "./online_file_reader.hpp"
-#include "./specialized_collection/forward_rle.hpp"
+#include "../specialized_collection/forward_rle.hpp"
+#include "../debug/message.hpp"
 
-#include "./byte.hpp"
-#include "./message.hpp"
+//#include "./byte.hpp"
 
 namespace stool
 {

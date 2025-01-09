@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <stack>
 #include <chrono>
-#include "./message.hpp"
+#include "../debug/message.hpp"
 
 namespace stool
 {

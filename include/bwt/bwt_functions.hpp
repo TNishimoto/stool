@@ -12,8 +12,8 @@
 #include <sdsl/wt_algorithm.hpp>
 
 #include <queue>
-#include "../sa_bwt_lcp.hpp"
-#include "../print.hpp"
+#include "../strings/sa_bwt_lcp.hpp"
+#include "../debug/print.hpp"
 
 // #include "sa_lcp.hpp"
 // using namespace std;

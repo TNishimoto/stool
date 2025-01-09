@@ -6,9 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 if(CPP_STATIC)
-set(CMAKE_CXX_FLAGS "-D_INT128 -Wall -Wextra -static")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -static")
 else(CPP_STATIC)
-set(CMAKE_CXX_FLAGS "-D_INT128 -Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 endif(CPP_STATIC)
 
 set(CMAKE_CXX_FLAGS_DEBUG  "-g -O0 -DDEBUG")
@@ -27,28 +27,6 @@ find_path(SDSL_INCLUDE_DIR sdsl REQUIRED)
 LINK_DIRECTORIES(${SDSL_LIBRARY_DIR})
 include_directories(${SDSL_INCLUDE_DIR})
 
-
-
-# Set PROJECT_IS_TOP_LEVEL to ON if if this is the top level project (not
-# if this is included as a subproject of something else). Note that this is
-# handled automatically for CMake >= 3.21.
-if (CMAKE_VERSION VERSION_LESS 3.21)
-    if ("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
-        message("SET PROJECT_IS_TOP_LEVEL ON IN ${PROJECT_NAME}")
-        set (PROJECT_IS_TOP_LEVEL ON)
-    else()
-        message("SET PROJECT_IS_TOP_LEVEL OFF IN ${PROJECT_NAME}")
-    set (PROJECT_IS_TOP_LEVEL OFF)    
-    endif()
-endif ()
-
-#FILE(GLOB SOURCES lib/*.cpp)
-
-if (PROJECT_IS_TOP_LEVEL)
-INCLUDE_DIRECTORIES(include)
-#add_library(stool STATIC ${SOURCES})
-#target_link_libraries(stool sdsl)
-
 add_executable(elias_fano_test.out test/elias_fano_test_main.cpp)
 target_link_libraries(elias_fano_test.out sdsl)
 
@@ -65,9 +43,6 @@ add_executable(fm_index_test.out test/fm_index_test_main.cpp)
 target_link_libraries(fm_index_test.out sdsl)
 
 add_executable(analyze_file.out main/analyze_file_main.cpp)
-
-
-endif()
 
 
 #target_link_libraries(a.out fn)
