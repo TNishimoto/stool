@@ -199,11 +199,6 @@ namespace stool
 	class Log
 	{
 	public:
-		/*
-		const std::array<long long, 10> logArr{0,
-											   (long long)std::pow(2, 1), (long long)std::pow(2, 2), (long long)std::pow(2, 3), (long long)std::pow(2, 4), (long long)std::pow(2, 5),
-											   (long long)std::pow(2, 6), (long long)std::pow(2, 7), (long long)std::pow(2, 8), (long long)std::pow(2, 9)};
-		*/
 		inline static int64_t logIterate(int64_t n)
 		{
 			return log2Iterate(n, 0);
