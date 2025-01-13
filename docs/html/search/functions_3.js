@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['log2_0',['log2',['../classstool_1_1_log.html#ace76ddd6b960f32c0e08fd4c449afa8f',1,'stool::Log']]],
-  ['log2_5fiterate_1',['log2_iterate',['../classstool_1_1_log.html#aa5c96b8d12b211cf80b4802a5b42f11b',1,'stool::Log']]],
-  ['log_5fiterate_2',['log_iterate',['../classstool_1_1_log.html#ad011ec6d37434f167f7745d2008dcbea',1,'stool::Log']]]
+  ['get_5fbit_0',['get_bit',['../classstool_1_1_byte.html#a0c4efbcf87c62b2fbeafbd055cf39ffd',1,'stool::Byte']]],
+  ['get_5fcode_5flength_1',['get_code_length',['../classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689',1,'stool::Byte']]]
 ];

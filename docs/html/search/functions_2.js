@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['insert_5fbit_0',['insert_bit',['../classstool_1_1_byte.html#a6319f1fb6b3f60cbec33cd1faa1817f8',1,'stool::Byte']]]
+  ['floor_0',['floor',['../structstool_1_1_rational.html#a1da80be253d21d5eada4f3b6b059e5ce',1,'stool::Rational']]]
 ];

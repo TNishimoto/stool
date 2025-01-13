@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
                 std::vector<uint8_t> text = stool::UInt8VectorGenerator::create_random_sequence(len, alphabet, seed++);
                 text.push_back(end_marker);
                 std::vector<uint64_t> sa = stool::StringFunctions::construct_naive_suffix_array(text);
-                std::vector<uint8_t> bwt = stool::constructBWT(text, sa);
+                std::vector<uint8_t> bwt = stool::construct_BWT(text, sa);
                 auto ds = stool::bwt::LFDataStructure::build(bwt);
                 
                 std::vector<uint64_t> test_sa = ds.construct_suffix_array();

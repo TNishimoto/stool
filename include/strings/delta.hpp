@@ -8,9 +8,17 @@
 
 namespace stool
 {
-    class DeltaFunctions
+
+    /*! 
+    * @brief Class for computing substring complexity functions
+    * 
+    * This class provides methods for computing various complexity functions related to substrings
+    * of a given text. It includes functions for constructing distinct substring counter arrays,
+    * computing delta values, and creating count profile arrays.
+    */
+    class SubstringComplexityFunctions
     {
-        public:
+    public:
 
         template <typename T = char>
         static std::vector<uint64_t> construct_distinct_substring_counter_array(const std::vector<T> &text, const std::vector<uint64_t> &sa)
@@ -87,6 +95,12 @@ namespace stool
             distinct_substring_counter_array.resize(k + 1);
             return distinct_substring_counter_array;
         }
+
+        /*! 
+        * @brief Computes the substring complexity delta using a distinct substring counter array
+        * @param distinct_substring_counter_array The array of distinct substring counts
+        * @return The substring complexity determined by the given array
+        */  
         static uint64_t compute_delta(std::vector<uint64_t> &distinct_substring_counter_array)
         {
             uint64_t max_delta = 0;

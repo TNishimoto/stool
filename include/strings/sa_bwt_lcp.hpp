@@ -11,7 +11,21 @@
 
 namespace stool
 {
-
+	/*!
+	* @brief Checks if a text contains a special marker character
+	* 
+	* This function verifies that a given text contains a special marker character 'c'
+	* only at the end of the text. It checks three conditions:
+	* 1. The marker character appears exactly once at the end of the text
+	* 2. No characters in the text are less than the marker character
+	* 3. The marker character does not appear anywhere else in the text
+	*
+	* @tparam CHAR The character type of the text
+	* @param text The input text to check
+	* @param c The special marker character to look for
+	* @return true if the text satisfies all conditions, throws an exception otherwise
+	* @throws std::logic_error if any of the conditions are violated
+	*/
 	template <typename CHAR>
 	bool checkTextWithSpecialMarker(std::vector<CHAR> &text, CHAR c)
 	{
@@ -41,9 +55,24 @@ namespace stool
 			throw std::logic_error("The input text must not contain '0' except for the last character.");
 		}
 	}
-
+	
+	
+	/*!
+	* @brief Constructs the Inverse Suffix Array (ISA) from a Suffix Array
+	* 
+	* This function builds the Inverse Suffix Array from a given Suffix Array.
+	* The ISA maps each suffix position to its rank in the sorted order of suffixes.
+	* For each position i in the text, ISA[SA[i]] = i.
+	*
+	* @tparam CHAR The character type of the text (defaults to uint8_t)
+	* @tparam INDEX The index type for positions (defaults to uint64_t)
+	* @param text The input text
+	* @param sa The suffix array of the text
+	* @param message_paragraph Controls output verbosity (-1 for no output)
+	* @return The constructed Inverse Suffix Array
+	*/
 	template <typename CHAR = uint8_t, typename INDEX = uint64_t>
-	std::vector<INDEX> constructISA(const std::vector<CHAR> &text, const std::vector<INDEX> &sa, int message_paragraph = stool::Message::SHOW_MESSAGE)
+	std::vector<INDEX> construct_ISA(const std::vector<CHAR> &text, const std::vector<INDEX> &sa, int message_paragraph = stool::Message::SHOW_MESSAGE)
 	{
 		if (message_paragraph >= 0 && text.size() > 0)
 		{
@@ -74,8 +103,23 @@ namespace stool
 		return isa;
 	}
 
+	/*!
+	* @brief Constructs the Longest Common Prefix (LCP) array from a Suffix Array and Inverse Suffix Array
+	* 
+	* This function computes the LCP array for a given text using its suffix array and inverse suffix array.
+	* The LCP array stores the length of the longest common prefix between consecutive suffixes in the sorted order.
+	*
+	* @tparam CHAR The character type of the text (defaults to uint8_t)
+	* @tparam INDEX The index type for positions (defaults to uint64_t)
+	* @param text The input text
+	* @param sa The suffix array of the text
+	* @param isa The inverse suffix array of the text
+	* @param message_paragraph Controls output verbosity (-1 for no output)
+	* @return The constructed LCP array
+	*/
+
 	template <typename CHAR = uint8_t, typename INDEX = uint64_t>
-	std::vector<INDEX> constructLCP(const std::vector<CHAR> &text, const std::vector<INDEX> &sa, const std::vector<INDEX> &isa, int message_paragraph = stool::Message::SHOW_MESSAGE)
+	std::vector<INDEX> construct_LCP_array(const std::vector<CHAR> &text, const std::vector<INDEX> &sa, const std::vector<INDEX> &isa, int message_paragraph = stool::Message::SHOW_MESSAGE)
 	{
 		if (message_paragraph >= 0 && text.size() > 0)
 		{
@@ -136,21 +180,50 @@ namespace stool
 		}
 		return lcp;
 	}
+
+	/*!
+	* @brief Constructs the LCP array from a Suffix Array
+	* 
+	* This function constructs the LCP array from a given Suffix Array.
+	* It first constructs the Inverse Suffix Array (ISA) and then uses it to compute the LCP array.
+	*
+	* @tparam CHAR The character type of the text (defaults to uint8_t)
+	* @tparam INDEX The index type for positions (defaults to uint64_t)
+	* @param text The input text
+	* @param sa The suffix array of the text
+	* @param message_paragraph Controls output verbosity (-1 for no output)
+	* @return The constructed LCP array
+	*/
 	template <typename CHAR, typename INDEX>
-	std::vector<INDEX> constructLCP(const std::vector<CHAR> &text, const std::vector<INDEX> &sa,  int message_paragraph = stool::Message::SHOW_MESSAGE)
+	std::vector<INDEX> construct_LCP_array(const std::vector<CHAR> &text, const std::vector<INDEX> &sa,  int message_paragraph = stool::Message::SHOW_MESSAGE)
 	{
 
 
-		std::vector<INDEX> isa = stool::constructISA<CHAR, INDEX>(text, sa);
-		return constructLCP<CHAR, INDEX>(text, sa, isa, message_paragraph);
+		std::vector<INDEX> isa = stool::construct_ISA<CHAR, INDEX>(text, sa);
+		return construct_LCP_array<CHAR, INDEX>(text, sa, isa, message_paragraph);
 
 
 
 		// lcp.resize(text.size(), 0);
 	}
 
+	/*!
+	* @brief Constructs the Burrows-Wheeler Transform (BWT) from a Suffix Array
+	* 
+	* This function computes the Burrows-Wheeler Transform of a given text using its suffix array.
+	* For each position i in the suffix array, it takes the character at position (sa[i] - 1) 
+	* if sa[i] > 0, or the last character of the text if sa[i] = 0.
+	*
+	* @tparam CHAR The character type of the text and BWT
+	* @tparam INDEX The integer type used for the suffix array
+	* @param text The input text
+	* @param sa The suffix array of the text
+	* @param message_paragraph Controls output verbosity (-1 for no output)
+	* @return The Burrows-Wheeler Transform of the text
+	*/
+
 	template <typename CHAR, typename INDEX>
-	std::vector<CHAR> constructBWT(const std::vector<CHAR> &text, const std::vector<INDEX> &sa,  int message_paragraph = stool::Message::SHOW_MESSAGE)
+	std::vector<CHAR> construct_BWT(const std::vector<CHAR> &text, const std::vector<INDEX> &sa,  int message_paragraph = stool::Message::SHOW_MESSAGE)
 	{
 		if (message_paragraph >= 0 && text.size() > 0)
 		{
@@ -190,7 +263,20 @@ namespace stool
 		return bwt;
 	}
 
-	std::vector<uint64_t> constructISA(const std::string &text, const std::vector<uint64_t> &sa)
+	
+	/*!
+	* @brief Constructs the Inverse Suffix Array (ISA) from a text and its suffix array
+	*
+	* The Inverse Suffix Array maps each position in the text to its corresponding position
+	* in the suffix array. For each position i in the text, ISA[SA[i]] = i.
+	* This is useful for various string processing algorithms and is often used in
+	* conjunction with the suffix array and LCP array.
+	*
+	* @param text The input text
+	* @param sa The suffix array of the text
+	* @return The Inverse Suffix Array
+	*/
+	std::vector<uint64_t> construct_ISA(const std::string &text, const std::vector<uint64_t> &sa)
 	{
 
 		std::vector<uint64_t> isa;
@@ -203,7 +289,19 @@ namespace stool
 		}
 		return isa;
 	}
-	std::vector<uint64_t> constructLCP(const std::string &text, const std::vector<uint64_t> &sa, const std::vector<uint64_t> &isa)
+
+	/*!
+	* @brief Constructs the Longest Common Prefix (LCP) array from a text and its suffix array
+	*
+	* This function computes the LCP array for a given text using its suffix array and inverse suffix array.
+	* The LCP array stores the length of the longest common prefix between consecutive suffixes in the sorted order.
+	*
+	* @param text The input text
+	* @param sa The suffix array of the text
+	* @param isa The inverse suffix array of the text
+	* @return The constructed LCP array
+	*/
+	std::vector<uint64_t> construct_LCP_array(const std::string &text, const std::vector<uint64_t> &sa, const std::vector<uint64_t> &isa)
 	{
 		std::vector<uint64_t> lcp;
 		lcp.resize(text.size(), 0);

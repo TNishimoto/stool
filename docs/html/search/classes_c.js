@@ -7,5 +7,6 @@ var searchData=
   ['sortstring_4',['SortString',['../classstool_1_1_sort_string.html',1,'stool']]],
   ['stringfunctions_5',['StringFunctions',['../classstool_1_1_string_functions.html',1,'stool']]],
   ['stringfunctionsonsa_6',['StringFunctionsOnSA',['../classstool_1_1_string_functions_on_s_a.html',1,'stool']]],
-  ['stringgenerator_7',['StringGenerator',['../classstool_1_1_string_generator.html',1,'stool']]]
+  ['stringgenerator_7',['StringGenerator',['../classstool_1_1_string_generator.html',1,'stool']]],
+  ['substringcomplexityfunctions_8',['SubstringComplexityFunctions',['../classstool_1_1_substring_complexity_functions.html',1,'stool']]]
 ];

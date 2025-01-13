@@ -110,18 +110,103 @@ $(function(){initNavTree('classstool_1_1_basic_search.html',''); initResizable(t
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ad7433144691dbcdfb0c0e35f78bfb23b" id="r_ad7433144691dbcdfb0c0e35f78bfb23b"><td class="memTemplParams" colspan="2"><a id="ad7433144691dbcdfb0c0e35f78bfb23b" name="ad7433144691dbcdfb0c0e35f78bfb23b"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ad7433144691dbcdfb0c0e35f78bfb23b"><td class="memTemplItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memTemplItemRight" valign="bottom"><b>predecessor</b> (const std::vector&lt; T &gt; &amp;vec, T item)</td></tr>
+<tr class="memitem:ad7433144691dbcdfb0c0e35f78bfb23b" id="r_ad7433144691dbcdfb0c0e35f78bfb23b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad7433144691dbcdfb0c0e35f78bfb23b"><td class="memTemplItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad7433144691dbcdfb0c0e35f78bfb23b">predecessor</a> (const std::vector&lt; T &gt; &amp;vec, T item)</td></tr>
+<tr class="memdesc:ad7433144691dbcdfb0c0e35f78bfb23b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the predecessor of an element in an array.  <br /></td></tr>
 <tr class="separator:ad7433144691dbcdfb0c0e35f78bfb23b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae08e28b216557dd2745571a57efbd3ce" id="r_ae08e28b216557dd2745571a57efbd3ce"><td class="memTemplParams" colspan="2"><a id="ae08e28b216557dd2745571a57efbd3ce" name="ae08e28b216557dd2745571a57efbd3ce"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ae08e28b216557dd2745571a57efbd3ce"><td class="memTemplItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memTemplItemRight" valign="bottom"><b>successor</b> (const std::vector&lt; T &gt; &amp;vec, T item)</td></tr>
+<tr class="memitem:ae08e28b216557dd2745571a57efbd3ce" id="r_ae08e28b216557dd2745571a57efbd3ce"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ae08e28b216557dd2745571a57efbd3ce"><td class="memTemplItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae08e28b216557dd2745571a57efbd3ce">successor</a> (const std::vector&lt; T &gt; &amp;vec, T item)</td></tr>
+<tr class="memdesc:ae08e28b216557dd2745571a57efbd3ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the successor of an element in an array.  <br /></td></tr>
 <tr class="separator:ae08e28b216557dd2745571a57efbd3ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Predecessors and successors on vectors. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad7433144691dbcdfb0c0e35f78bfb23b" name="ad7433144691dbcdfb0c0e35f78bfb23b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7433144691dbcdfb0c0e35f78bfb23b">&#9670;&#160;</a></span>predecessor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int64_t stool::BasicSearch::predecessor </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>vec</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>item</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Searches for the predecessor of an element in an array. </p>
+<p>This function returns the index of the largest element less than or equal to the given value in the provided array. It uses linear search by scanning the array from back to front. Returns -1 if no such element is found.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vec</td><td>The array to search in </td></tr>
+    <tr><td class="paramname">item</td><td>The value to search for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Index of the predecessor, or -1 if not found </dd></dl>
+
+</div>
+</div>
+<a id="ae08e28b216557dd2745571a57efbd3ce" name="ae08e28b216557dd2745571a57efbd3ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae08e28b216557dd2745571a57efbd3ce">&#9670;&#160;</a></span>successor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int64_t stool::BasicSearch::successor </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; T &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>vec</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T</td>          <td class="paramname"><span class="paramname"><em>item</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Searches for the successor of an element in an array. </p>
+<p>This function returns the index of the smallest element greater than or equal to the given value in the provided array. It uses linear search by scanning the array from front to back. Returns -1 if no such element is found.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vec</td><td>The array to search in </td></tr>
+    <tr><td class="paramname">item</td><td>The value to search for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Index of the successor, or -1 if not found </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/basic/<a class="el" href="basic__search_8hpp_source.html">basic_search.hpp</a></li>
 </ul>
 </div><!-- contents -->

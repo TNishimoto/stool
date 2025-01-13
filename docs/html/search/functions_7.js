@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['write_5fbit_0',['write_bit',['../classstool_1_1_byte.html#abb0deb436b88df98330cbeb0150ea8a1',1,'stool::Byte']]]
+  ['predecessor_0',['predecessor',['../classstool_1_1_basic_search.html#ad7433144691dbcdfb0c0e35f78bfb23b',1,'stool::BasicSearch']]]
 ];
