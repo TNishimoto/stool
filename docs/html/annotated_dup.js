@@ -20,6 +20,7 @@ var annotated_dup =
       [ "CharacterRun", "structstool_1_1_character_run.html", null ],
       [ "Counter", "classstool_1_1_counter.html", null ],
       [ "DebugPrinter", "classstool_1_1_debug_printer.html", null ],
+      [ "DeltaFunctions", "classstool_1_1_delta_functions.html", null ],
       [ "EliasFanoVector", "classstool_1_1_elias_fano_vector.html", "classstool_1_1_elias_fano_vector" ],
       [ "EliasFanoVectorBuilder", "classstool_1_1_elias_fano_vector_builder.html", null ],
       [ "FileWriter", "classstool_1_1_file_writer.html", null ],
