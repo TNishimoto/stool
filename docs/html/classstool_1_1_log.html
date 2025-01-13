@@ -102,19 +102,209 @@ $(function(){initNavTree('classstool_1_1_log.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">stool::Log Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Class for calculating logarithmic values.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="byte_8hpp_source.html">byte.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ad25090e2194d7b2411e315452d4ac914" id="r_ad25090e2194d7b2411e315452d4ac914"><td class="memItemLeft" align="right" valign="top"><a id="ad25090e2194d7b2411e315452d4ac914" name="ad25090e2194d7b2411e315452d4ac914"></a>
-static int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>logIterate</b> (int64_t n)</td></tr>
-<tr class="separator:ad25090e2194d7b2411e315452d4ac914"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12829e007fe0feea33bf901b6f50ac8f" id="r_a12829e007fe0feea33bf901b6f50ac8f"><td class="memItemLeft" align="right" valign="top"><a id="a12829e007fe0feea33bf901b6f50ac8f" name="a12829e007fe0feea33bf901b6f50ac8f"></a>
-static int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>log2Iterate</b> (int64_t n, int64_t m)</td></tr>
-<tr class="separator:a12829e007fe0feea33bf901b6f50ac8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace76ddd6b960f32c0e08fd4c449afa8f" id="r_ace76ddd6b960f32c0e08fd4c449afa8f"><td class="memItemLeft" align="right" valign="top"><a id="ace76ddd6b960f32c0e08fd4c449afa8f" name="ace76ddd6b960f32c0e08fd4c449afa8f"></a>
-static int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>log2</b> (int64_t n)</td></tr>
+<tr class="memitem:ad011ec6d37434f167f7745d2008dcbea" id="r_ad011ec6d37434f167f7745d2008dcbea"><td class="memItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad011ec6d37434f167f7745d2008dcbea">log_iterate</a> (int64_t n)</td></tr>
+<tr class="memdesc:ad011ec6d37434f167f7745d2008dcbea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the number of times log2 can be applied to a number.  <br /></td></tr>
+<tr class="separator:ad011ec6d37434f167f7745d2008dcbea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5c96b8d12b211cf80b4802a5b42f11b" id="r_aa5c96b8d12b211cf80b4802a5b42f11b"><td class="memItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5c96b8d12b211cf80b4802a5b42f11b">log2_iterate</a> (int64_t n, int64_t m)</td></tr>
+<tr class="memdesc:aa5c96b8d12b211cf80b4802a5b42f11b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper method for log_iterate that recursively applies log2.  <br /></td></tr>
+<tr class="separator:aa5c96b8d12b211cf80b4802a5b42f11b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace76ddd6b960f32c0e08fd4c449afa8f" id="r_ace76ddd6b960f32c0e08fd4c449afa8f"><td class="memItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace76ddd6b960f32c0e08fd4c449afa8f">log2</a> (int64_t n)</td></tr>
+<tr class="memdesc:ace76ddd6b960f32c0e08fd4c449afa8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the base-2 logarithm of an integer.  <br /></td></tr>
 <tr class="separator:ace76ddd6b960f32c0e08fd4c449afa8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class for calculating logarithmic values. </p>
+<p>This class provides static methods for calculating logarithmic values, particularly logarithms base 2. It includes iterative methods for calculating repeated logarithms (log log ... log) and basic logarithm calculations. The class handles error cases by throwing exceptions for invalid inputs such as non-positive numbers.</p>
+<p>The class contains three main methods:</p><ul>
+<li>log_iterate: Calculates repeated logarithm (number of times log2 can be applied)</li>
+<li>log2_iterate: Helper method for logIterate that recursively applies log2</li>
+<li>log2: Calculates the floor of the binary logarithm using iterative doubling </li>
+</ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ace76ddd6b960f32c0e08fd4c449afa8f" name="ace76ddd6b960f32c0e08fd4c449afa8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace76ddd6b960f32c0e08fd4c449afa8f">&#9670;&#160;</a></span>log2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int64_t stool::Log::log2 </td>
+          <td>(</td>
+          <td class="paramtype">int64_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calculates the base-2 logarithm of an integer. </p>
+<p>This method computes the floor of the base-2 logarithm of a given positive integer. For example, log2(8)=3, log2(7)=2. The method uses a binary search approach by comparing the input against powers of 2 to find the largest power that is less than or equal to the input.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>The positive integer to calculate the logarithm for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The floor of the base-2 logarithm of n </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>if n &lt;= 0 </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classstool_1_1_log_ace76ddd6b960f32c0e08fd4c449afa8f_icgraph.png" border="0" usemap="#aclassstool_1_1_log_ace76ddd6b960f32c0e08fd4c449afa8f_icgraph" alt=""/></div>
+<map name="aclassstool_1_1_log_ace76ddd6b960f32c0e08fd4c449afa8f_icgraph" id="aclassstool_1_1_log_ace76ddd6b960f32c0e08fd4c449afa8f_icgraph">
+<area shape="rect" title="Calculates the base&#45;2 logarithm of an integer." alt="" coords="401,29,511,55"/>
+<area shape="rect" href="classstool_1_1_log.html#aa5c96b8d12b211cf80b4802a5b42f11b" title="Helper method for log_iterate that recursively applies log2." alt="" coords="200,29,353,55"/>
+<area shape="poly" title=" " alt="" coords="386,45,354,45,354,40,386,40"/>
+<area shape="poly" title=" " alt="" coords="307,16,296,10,276,8,258,10,248,15,245,20,250,28,246,30,240,21,244,11,256,5,276,3,298,5,310,12"/>
+<area shape="rect" href="classstool_1_1_log.html#ad011ec6d37434f167f7745d2008dcbea" title="Calculates the number of times log2 can be applied to a number." alt="" coords="5,29,152,55"/>
+<area shape="poly" title=" " alt="" coords="184,45,152,45,152,40,184,40"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aa5c96b8d12b211cf80b4802a5b42f11b" name="aa5c96b8d12b211cf80b4802a5b42f11b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5c96b8d12b211cf80b4802a5b42f11b">&#9670;&#160;</a></span>log2_iterate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int64_t stool::Log::log2_iterate </td>
+          <td>(</td>
+          <td class="paramtype">int64_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int64_t</td>          <td class="paramname"><span class="paramname"><em>m</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Helper method for log_iterate that recursively applies log2. </p>
+<p>This method recursively calculates how many times log2 can be applied to a number before reaching 1 or less. It maintains a counter parameter m to track the number of iterations. The method handles the base cases where n=1 (returns current count) or n&lt;=0 (throws exception), and recursively applies log2 in other cases.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>The current number in the iteration </td></tr>
+    <tr><td class="paramname">m</td><td>The current count of iterations performed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The total number of possible log2 iterations </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">-1</td><td>if n &lt;= 0 </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classstool_1_1_log_aa5c96b8d12b211cf80b4802a5b42f11b_cgraph.png" border="0" usemap="#aclassstool_1_1_log_aa5c96b8d12b211cf80b4802a5b42f11b_cgraph" alt=""/></div>
+<map name="aclassstool_1_1_log_aa5c96b8d12b211cf80b4802a5b42f11b_cgraph" id="aclassstool_1_1_log_aa5c96b8d12b211cf80b4802a5b42f11b_cgraph">
+<area shape="rect" title="Helper method for log_iterate that recursively applies log2." alt="" coords="5,29,159,55"/>
+<area shape="poly" title=" " alt="" coords="52,30,46,21,49,11,62,5,82,3,104,5,115,12,113,16,102,10,82,8,63,10,53,15,51,20,56,28"/>
+<area shape="rect" href="classstool_1_1_log.html#ace76ddd6b960f32c0e08fd4c449afa8f" title="Calculates the base&#45;2 logarithm of an integer." alt="" coords="207,29,317,55"/>
+<area shape="poly" title=" " alt="" coords="159,40,191,40,191,45,159,45"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classstool_1_1_log_aa5c96b8d12b211cf80b4802a5b42f11b_icgraph.png" border="0" usemap="#aclassstool_1_1_log_aa5c96b8d12b211cf80b4802a5b42f11b_icgraph" alt=""/></div>
+<map name="aclassstool_1_1_log_aa5c96b8d12b211cf80b4802a5b42f11b_icgraph" id="aclassstool_1_1_log_aa5c96b8d12b211cf80b4802a5b42f11b_icgraph">
+<area shape="rect" title="Helper method for log_iterate that recursively applies log2." alt="" coords="200,29,353,55"/>
+<area shape="poly" title=" " alt="" coords="311,17,299,10,276,8,256,10,244,15,242,20,248,27,243,30,237,21,241,11,254,5,276,3,301,5,313,12"/>
+<area shape="rect" href="classstool_1_1_log.html#ad011ec6d37434f167f7745d2008dcbea" title="Calculates the number of times log2 can be applied to a number." alt="" coords="5,29,152,55"/>
+<area shape="poly" title=" " alt="" coords="184,45,152,45,152,40,184,40"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad011ec6d37434f167f7745d2008dcbea" name="ad011ec6d37434f167f7745d2008dcbea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad011ec6d37434f167f7745d2008dcbea">&#9670;&#160;</a></span>log_iterate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int64_t stool::Log::log_iterate </td>
+          <td>(</td>
+          <td class="paramtype">int64_t</td>          <td class="paramname"><span class="paramname"><em>n</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calculates the number of times log2 can be applied to a number. </p>
+<p>This method determines how many times the logarithm base 2 can be iteratively applied to a given number before reaching 1 or less. For example, if n=16: log2(16)=4, log2(4)=2, log2(2)=1, so the result would be 3 iterations. If the input is less than or equal to 0, it throws an exception.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>The input number to calculate iterations for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of times log2 can be applied before reaching 1 </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>if n &lt;= 0 </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classstool_1_1_log_ad011ec6d37434f167f7745d2008dcbea_cgraph.png" border="0" usemap="#aclassstool_1_1_log_ad011ec6d37434f167f7745d2008dcbea_cgraph" alt=""/></div>
+<map name="aclassstool_1_1_log_ad011ec6d37434f167f7745d2008dcbea_cgraph" id="aclassstool_1_1_log_ad011ec6d37434f167f7745d2008dcbea_cgraph">
+<area shape="rect" title="Calculates the number of times log2 can be applied to a number." alt="" coords="5,29,152,55"/>
+<area shape="rect" href="classstool_1_1_log.html#aa5c96b8d12b211cf80b4802a5b42f11b" title="Helper method for log_iterate that recursively applies log2." alt="" coords="200,29,353,55"/>
+<area shape="poly" title=" " alt="" coords="152,40,184,40,184,45,152,45"/>
+<area shape="poly" title=" " alt="" coords="246,30,240,21,244,11,256,5,276,3,298,5,310,12,307,16,296,10,276,8,258,10,248,15,245,20,250,28"/>
+<area shape="rect" href="classstool_1_1_log.html#ace76ddd6b960f32c0e08fd4c449afa8f" title="Calculates the base&#45;2 logarithm of an integer." alt="" coords="401,29,511,55"/>
+<area shape="poly" title=" " alt="" coords="353,40,386,40,386,45,353,45"/>
+</map>
+</div>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/basic/<a class="el" href="byte_8hpp_source.html">byte.hpp</a></li>
 </ul>

@@ -1,0 +1,7 @@
+<map id="stool::Byte::get_bit" name="stool::Byte::get_bit">
+<area shape="rect" id="Node000001" title="Checks if a specific bit is set in a 64&#45;bit integer." alt="" coords="370,5,501,31"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1_byte.html#a1a39a7c60f73bede20ee34063f0a1069" title="Finds the position of the (i+1)&#45;th set bit (1) in a 64&#45;bit integer." alt="" coords="188,5,322,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="354,21,322,21,322,16,354,16"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1_byte.html#adcc172aa2f6540f578a803a8bd79fa89" title="Finds the position of the (i+1)&#45;th unset bit (0) in a 64&#45;bit integer." alt="" coords="5,5,140,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="172,21,140,21,140,16,172,16"/>
+</map>

@@ -122,7 +122,7 @@ $(function(){initNavTree('simple__deque_8hpp_source.html',''); initResizable(tru
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keyword">public</span>:</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keyword">static</span> uint64_t max_deque_size()</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        {</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            uint64_t b = stool::Byte::get_code_length(std::numeric_limits&lt;INDEX_TYPE&gt;::max());</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            uint64_t b = <a class="code hl_function" href="classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689">stool::Byte::get_code_length</a>(std::numeric_limits&lt;INDEX_TYPE&gt;::max());</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            <span class="keywordflow">return</span> (1 &lt;&lt; (b - 1)) - 1;</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        }</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        uint64_t size_in_bytes()<span class="keyword"> const</span></div>
@@ -343,8 +343,8 @@ $(function(){initNavTree('simple__deque_8hpp_source.html',''); initResizable(tru
 <div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span><span class="comment">        */</span></div>
 <div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>        <span class="keywordtype">void</span> update_size_if_needed()</div>
 <div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>        {</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>            uint64_t deque_bit = stool::Byte::get_code_length(this-&gt;deque_size_ + 1);</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>            uint64_t buffer_bit = stool::Byte::get_code_length(this-&gt;circular_buffer_size_);</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>            uint64_t deque_bit = <a class="code hl_function" href="classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689">stool::Byte::get_code_length</a>(this-&gt;deque_size_ + 1);</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>            uint64_t buffer_bit = <a class="code hl_function" href="classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689">stool::Byte::get_code_length</a>(this-&gt;circular_buffer_size_);</div>
 <div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
 <div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>            <span class="comment">// uint64_t max = 1 &lt;&lt; deque_bit;</span></div>
 <div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>            assert(deque_bit &lt;= buffer_bit);</div>
@@ -380,7 +380,7 @@ $(function(){initNavTree('simple__deque_8hpp_source.html',''); initResizable(tru
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        }</div>
 <div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>        <span class="keywordtype">void</span> shrink_to_fit()</div>
 <div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>        {</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>            uint64_t bit_size = stool::Byte::get_code_length(this-&gt;deque_size_ + 1);</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>            uint64_t bit_size = <a class="code hl_function" href="classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689">stool::Byte::get_code_length</a>(this-&gt;deque_size_ + 1);</div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>            this-&gt;shrink_to_fit(bit_size);</div>
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>        }</div>
 <div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span> </div>
@@ -687,6 +687,7 @@ $(function(){initNavTree('simple__deque_8hpp_source.html',''); initResizable(tru
 <div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>    <span class="keyword">using </span>SimpleDeque64 = SimpleDeque&lt;T, uint64_t&gt;;</div>
 <div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span> </div>
 <div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>}</div>
+<div class="ttc" id="aclassstool_1_1_byte_html_a9586eca62b622f23253e79387f1b1689"><div class="ttname"><a href="classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689">stool::Byte::get_code_length</a></div><div class="ttdeci">static uint8_t get_code_length(uint64_t code)</div><div class="ttdoc">Gets the length of a code by finding the position of the leftmost 1 bit.</div><div class="ttdef"><b>Definition</b> byte.hpp:323</div></div>
 <div class="ttc" id="aclassstool_1_1_simple_deque_1_1_simple_deque_iterator_html"><div class="ttname"><a href="classstool_1_1_simple_deque_1_1_simple_deque_iterator.html">stool::SimpleDeque::SimpleDequeIterator</a></div><div class="ttdef"><b>Definition</b> simple_deque.hpp:88</div></div>
 <div class="ttc" id="aclassstool_1_1_simple_deque_html"><div class="ttname"><a href="classstool_1_1_simple_deque.html">stool::SimpleDeque</a></div><div class="ttdef"><b>Definition</b> simple_deque.hpp:12</div></div>
 </div><!-- fragment --></div><!-- contents -->

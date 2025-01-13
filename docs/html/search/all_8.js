@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['naivedynamicstring_0',['NaiveDynamicString',['../classstool_1_1_naive_dynamic_string.html',1,'stool']]]
+  ['message_0',['Message',['../classstool_1_1_message.html',1,'stool']]]
 ];

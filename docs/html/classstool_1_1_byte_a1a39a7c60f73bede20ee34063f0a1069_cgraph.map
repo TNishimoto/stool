@@ -1,0 +1,7 @@
+<map id="stool::Byte::select1" name="stool::Byte::select1">
+<area shape="rect" id="Node000001" title="Finds the position of the (i+1)&#45;th set bit (1) in a 64&#45;bit integer." alt="" coords="5,31,140,56"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1_byte.html#a501c9ed6b0fc7c43bdafbc2a7dc5e5b9" title="Counts the number of 1 bits in a 64&#45;bit integer using built&#45;in function." alt="" coords="188,5,340,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,32,172,28,173,33,140,37"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1_byte.html#a0c4efbcf87c62b2fbeafbd055cf39ffd" title="Checks if a specific bit is set in a 64&#45;bit integer." alt="" coords="198,55,330,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="140,49,183,55,182,60,139,55"/>
+</map>

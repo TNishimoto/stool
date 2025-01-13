@@ -437,9 +437,9 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>            uint64_t end_pos = pos + len - 1;</div>
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>            <span class="keywordflow">if</span> (end_pos &lt; 63)</div>
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>            {</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>                uint64_t tmp_code1 = stool::Byte::zero_pad_tail(code1, 64 - pos);</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>                uint64_t tmp_code1 = <a class="code hl_function" href="classstool_1_1_byte.html#aee5d8add0fad3b8f3c91c91c16971912">stool::Byte::zero_pad_tail</a>(code1, 64 - pos);</div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>                <span class="comment">// uint64_t tmp_code1_len = pos;</span></div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>                uint64_t suf = (stool::Byte::zero_pad_head(code1, end_pos + 1)) &lt;&lt; len;</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>                uint64_t suf = (<a class="code hl_function" href="classstool_1_1_byte.html#af28c9bd134fe228cbb9b12f6ed3aaf97">stool::Byte::zero_pad_head</a>(code1, end_pos + 1)) &lt;&lt; len;</div>
 <div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>                <span class="comment">// uint64_t suf_len = 63 - end_pos;</span></div>
 <div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>                uint64_t pref_len = len;</div>
 <div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>                uint64_t pref = (code2 &gt;&gt; (64 - pref_len));</div>
@@ -449,10 +449,10 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>            }</div>
 <div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>            <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>            {</div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>                uint64_t tmp_code1 = stool::Byte::zero_pad_tail(code1, 64 - pos);</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>                uint64_t tmp_code1 = <a class="code hl_function" href="classstool_1_1_byte.html#aee5d8add0fad3b8f3c91c91c16971912">stool::Byte::zero_pad_tail</a>(code1, 64 - pos);</div>
 <div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>                uint64_t pref_len = end_pos - 63;</div>
 <div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>                uint64_t suf_len = len - pref_len;</div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>                uint64_t tmp_code2 = stool::Byte::zero_pad_head(code2, pref_len);</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>                uint64_t tmp_code2 = <a class="code hl_function" href="classstool_1_1_byte.html#af28c9bd134fe228cbb9b12f6ed3aaf97">stool::Byte::zero_pad_head</a>(code2, pref_len);</div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>                uint64_t tmp_code2_len = 64 - pref_len;</div>
 <div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>                uint64_t xsuf = tmp_code2 &gt;&gt; (tmp_code2_len - suf_len);</div>
 <div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>                uint64_t ysuf = tmp_code2 &lt;&lt; (64 - (tmp_code2_len - suf_len));</div>
@@ -473,7 +473,7 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>            uint64_t rLen = 64 - pos;</div>
 <div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>            uint64_t sgap = std::min(rLen, (uint64_t)len);</div>
 <div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span> </div>
-<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>            uint64_t _left = stool::Byte::zero_pad_tail(code, 64 - pos);</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>            uint64_t _left = <a class="code hl_function" href="classstool_1_1_byte.html#aee5d8add0fad3b8f3c91c91c16971912">stool::Byte::zero_pad_tail</a>(code, 64 - pos);</div>
 <div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>            uint64_t _right_tmp = code &lt;&lt; pos;</div>
 <div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>            uint64_t _right = pos + sgap &lt; 64 ? (_right_tmp &gt;&gt; (pos + sgap)) : 0;</div>
 <div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span> </div>
@@ -497,14 +497,14 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span> </div>
 <div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>        <span class="keyword">static</span> std::pair&lt;uint64_t, uint64_t&gt; write(uint64_t code1, uint64_t code2, uint8_t pos, uint64_t value)</div>
 <div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>        {</div>
-<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>            uint64_t len = stool::Byte::get_code_length(value);</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>            uint64_t len = <a class="code hl_function" href="classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689">stool::Byte::get_code_length</a>(value);</div>
 <div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span> </div>
 <div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>            <span class="keywordflow">if</span> (len &gt; 0)</div>
 <div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>            {</div>
 <div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>                uint64_t end_pos = pos + len - 1;</div>
 <div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>                <span class="keywordflow">if</span> (end_pos &lt;= 63)</div>
 <div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>                {</div>
-<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>                    uint64_t code1_with_padding_zero = stool::Byte::zero_pad(code1, pos, len);</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>                    uint64_t code1_with_padding_zero = <a class="code hl_function" href="classstool_1_1_byte.html#a644a296d96ad07be48b6918241c0940c">stool::Byte::zero_pad</a>(code1, pos, len);</div>
 <div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>                    uint64_t new_code1 = code1_with_padding_zero | (value &lt;&lt; (63 - end_pos));</div>
 <div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>                    <span class="keywordflow">return</span> std::pair&lt;uint64_t, uint64_t&gt;(new_code1, code2);</div>
 <div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>                }</div>
@@ -512,8 +512,8 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>                {</div>
 <div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>                    uint64_t left_len = 64 - pos;</div>
 <div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>                    uint64_t right_len = end_pos - 63;</div>
-<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>                    uint64_t code1_with_padding_zero = stool::Byte::zero_pad(code1, pos, left_len);</div>
-<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>                    uint64_t code2_with_padding_zero = stool::Byte::zero_pad(code2, 0, right_len);</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>                    uint64_t code1_with_padding_zero = <a class="code hl_function" href="classstool_1_1_byte.html#a644a296d96ad07be48b6918241c0940c">stool::Byte::zero_pad</a>(code1, pos, left_len);</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>                    uint64_t code2_with_padding_zero = <a class="code hl_function" href="classstool_1_1_byte.html#a644a296d96ad07be48b6918241c0940c">stool::Byte::zero_pad</a>(code2, 0, right_len);</div>
 <div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span> </div>
 <div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>                    uint64_t value1 = value &gt;&gt; right_len;</div>
 <div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>                    uint64_t value2 = value &lt;&lt; (64 - right_len);</div>
@@ -526,7 +526,7 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>                }</div>
 <div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (pos &gt; 63 &amp;&amp; end_pos &lt;= 127)</div>
 <div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>                {</div>
-<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>                    uint64_t code2_with_padding_zero = stool::Byte::zero_pad(code2, end_pos - 64, len);</div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>                    uint64_t code2_with_padding_zero = <a class="code hl_function" href="classstool_1_1_byte.html#a644a296d96ad07be48b6918241c0940c">stool::Byte::zero_pad</a>(code2, end_pos - 64, len);</div>
 <div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>                    uint64_t new_code2 = code2_with_padding_zero | (value &lt;&lt; (127 - end_pos));</div>
 <div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>                    <span class="keywordflow">return</span> std::pair&lt;uint64_t, uint64_t&gt;(code1, new_code2);</div>
 <div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>                }</div>
@@ -537,7 +537,7 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>            }</div>
 <div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>            <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>            {</div>
-<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>                uint64_t code1_with_padding_zero = stool::Byte::zero_pad(code1, pos, 1);</div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>                uint64_t code1_with_padding_zero = <a class="code hl_function" href="classstool_1_1_byte.html#a644a296d96ad07be48b6918241c0940c">stool::Byte::zero_pad</a>(code1, pos, 1);</div>
 <div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>                <span class="keywordflow">return</span> std::pair&lt;uint64_t, uint64_t&gt;(code1_with_padding_zero, code2);</div>
 <div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>            }</div>
 <div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>        }</div>
@@ -563,7 +563,7 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>        <span class="keywordtype">void</span> push_back(uint64_t v)</div>
 <div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span>        {</div>
 <div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span> </div>
-<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>            uint64_t value_length = stool::Byte::get_code_length(v);</div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>            uint64_t value_length = <a class="code hl_function" href="classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689">stool::Byte::get_code_length</a>(v);</div>
 <div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>            this-&gt;value_length_deque.push_back(value_length);</div>
 <div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>            <span class="keywordflow">if</span> (v &gt; 0)</div>
 <div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>            {</div>
@@ -600,7 +600,7 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>        }</div>
 <div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span>        <span class="keywordtype">void</span> push_front(uint64_t v)</div>
 <div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span>        {</div>
-<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>            uint64_t value_length = stool::Byte::get_code_length(v);</div>
+<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>            uint64_t value_length = <a class="code hl_function" href="classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689">stool::Byte::get_code_length</a>(v);</div>
 <div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span>            this-&gt;value_length_deque.push_front(value_length);</div>
 <div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span>            <span class="keywordflow">if</span> (v &gt; 0)</div>
 <div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span>            {</div>
@@ -662,7 +662,7 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>            {</div>
 <div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>                <span class="keywordflow">if</span> (value_len + this-&gt;last_gap &lt; 64)</div>
 <div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>                {</div>
-<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>                    this-&gt;code_deque[this-&gt;code_deque.size() - 1] = stool::Byte::zero_pad_tail(last_code, value_len + this-&gt;last_gap);</div>
+<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>                    this-&gt;code_deque[this-&gt;code_deque.size() - 1] = <a class="code hl_function" href="classstool_1_1_byte.html#aee5d8add0fad3b8f3c91c91c16971912">stool::Byte::zero_pad_tail</a>(last_code, value_len + this-&gt;last_gap);</div>
 <div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>                    this-&gt;last_gap += value_len;</div>
 <div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>                }</div>
 <div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>                <span class="keywordflow">else</span></div>
@@ -670,7 +670,7 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>                    this-&gt;code_deque.pop_back();</div>
 <div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span>                    last_code = this-&gt;code_deque[this-&gt;code_deque.size() - 1];</div>
 <div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>                    uint64_t len1 = value_len - (64 - this-&gt;last_gap);</div>
-<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>                    this-&gt;code_deque[this-&gt;code_deque.size() - 1] = stool::Byte::zero_pad_tail(last_code, len1);</div>
+<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>                    this-&gt;code_deque[this-&gt;code_deque.size() - 1] = <a class="code hl_function" href="classstool_1_1_byte.html#aee5d8add0fad3b8f3c91c91c16971912">stool::Byte::zero_pad_tail</a>(last_code, len1);</div>
 <div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>                    this-&gt;last_gap = (value_len + this-&gt;last_gap) - 64;</div>
 <div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>                }</div>
 <div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>            }</div>
@@ -697,7 +697,7 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>            {</div>
 <div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>                <span class="keywordflow">if</span> (value_len + this-&gt;first_gap &lt; 64)</div>
 <div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>                {</div>
-<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>                    this-&gt;code_deque[0] = stool::Byte::zero_pad_head(fst_code, value_len + this-&gt;first_gap);</div>
+<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>                    this-&gt;code_deque[0] = <a class="code hl_function" href="classstool_1_1_byte.html#af28c9bd134fe228cbb9b12f6ed3aaf97">stool::Byte::zero_pad_head</a>(fst_code, value_len + this-&gt;first_gap);</div>
 <div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>                    this-&gt;first_gap += value_len;</div>
 <div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>                }</div>
 <div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>                <span class="keywordflow">else</span></div>
@@ -705,7 +705,7 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>                    this-&gt;code_deque.pop_front();</div>
 <div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>                    fst_code = this-&gt;code_deque[0];</div>
 <div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>                    uint64_t len1 = value_len - (64 - this-&gt;first_gap);</div>
-<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>                    this-&gt;code_deque[0] = stool::Byte::zero_pad_head(fst_code, len1);</div>
+<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>                    this-&gt;code_deque[0] = <a class="code hl_function" href="classstool_1_1_byte.html#af28c9bd134fe228cbb9b12f6ed3aaf97">stool::Byte::zero_pad_head</a>(fst_code, len1);</div>
 <div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>                    this-&gt;first_gap = ((uint64_t)value_len + (uint64_t)this-&gt;first_gap) - 64;</div>
 <div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>                }</div>
 <div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>            }</div>
@@ -789,7 +789,7 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>        }</div>
 <div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>        <span class="keywordtype">void</span> insert(uint64_t pos, uint64_t value)</div>
 <div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>        {</div>
-<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>            uint64_t value_len = stool::Byte::get_code_length(value);</div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>            uint64_t value_len = <a class="code hl_function" href="classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689">stool::Byte::get_code_length</a>(value);</div>
 <div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span> </div>
 <div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>            this-&gt;shift_right(pos, value_len);</div>
 <div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>            std::pair&lt;uint64_t, uint8_t&gt; code_pos = this-&gt;get_code_starting_position(pos);</div>
@@ -820,11 +820,11 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>        <span class="keywordtype">void</span> set_value(uint64_t pos, uint64_t code_pos1, uint8_t code_pos2, uint64_t value)</div>
 <div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>        {</div>
 <div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span> </div>
-<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>            <span class="keywordflow">if</span> (stool::Byte::get_code_length(value) != this-&gt;value_length_deque[pos])</div>
+<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689">stool::Byte::get_code_length</a>(value) != this-&gt;value_length_deque[pos])</div>
 <div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>            {</div>
 <div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>                <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;set_value&quot;</span>);</div>
 <div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>            }</div>
-<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>            assert(stool::Byte::get_code_length(value) == this-&gt;value_length_deque[pos]);</div>
+<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>            assert(<a class="code hl_function" href="classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689">stool::Byte::get_code_length</a>(value) == this-&gt;value_length_deque[pos]);</div>
 <div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>            <span class="keywordflow">if</span> (value == 0)</div>
 <div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>            {</div>
 <div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>                <span class="keywordflow">return</span>;</div>
@@ -1041,7 +1041,7 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 <div class="line"><a id="l00939" name="l00939"></a><span class="lineno">  939</span>            std::pair&lt;uint64_t, uint8_t&gt; code_pos = this-&gt;get_code_starting_position(i);</div>
 <div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span> </div>
 <div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span>            uint64_t x = this-&gt;at(code_pos.first, code_pos.second, this-&gt;value_length_deque[i]) + delta;</div>
-<div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span>            uint64_t code_length = stool::Byte::get_code_length(x);</div>
+<div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span>            uint64_t code_length = <a class="code hl_function" href="classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689">stool::Byte::get_code_length</a>(x);</div>
 <div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span>            <span class="keywordflow">if</span> (code_length != this-&gt;value_length_deque[i])</div>
 <div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span>            {</div>
 <div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span>                this-&gt;remove(i);</div>
@@ -1164,6 +1164,10 @@ $(function(){initNavTree('vlc__deque_8hpp_source.html',''); initResizable(true);
 </div>
 <div class="line"><a id="l01062" name="l01062"></a><span class="lineno"> 1062</span> </div>
 <div class="line"><a id="l01063" name="l01063"></a><span class="lineno"> 1063</span>}</div>
+<div class="ttc" id="aclassstool_1_1_byte_html_a644a296d96ad07be48b6918241c0940c"><div class="ttname"><a href="classstool_1_1_byte.html#a644a296d96ad07be48b6918241c0940c">stool::Byte::zero_pad</a></div><div class="ttdeci">static uint64_t zero_pad(uint64_t code, uint8_t pos, uint8_t len)</div><div class="ttdoc">Pads zeros in a specified range within a 64-bit integer.</div><div class="ttdef"><b>Definition</b> byte.hpp:291</div></div>
+<div class="ttc" id="aclassstool_1_1_byte_html_a9586eca62b622f23253e79387f1b1689"><div class="ttname"><a href="classstool_1_1_byte.html#a9586eca62b622f23253e79387f1b1689">stool::Byte::get_code_length</a></div><div class="ttdeci">static uint8_t get_code_length(uint64_t code)</div><div class="ttdoc">Gets the length of a code by finding the position of the leftmost 1 bit.</div><div class="ttdef"><b>Definition</b> byte.hpp:323</div></div>
+<div class="ttc" id="aclassstool_1_1_byte_html_aee5d8add0fad3b8f3c91c91c16971912"><div class="ttname"><a href="classstool_1_1_byte.html#aee5d8add0fad3b8f3c91c91c16971912">stool::Byte::zero_pad_tail</a></div><div class="ttdeci">static uint64_t zero_pad_tail(uint64_t code, uint8_t len)</div><div class="ttdoc">Pads zeros at the tail of a 64-bit integer.</div><div class="ttdef"><b>Definition</b> byte.hpp:252</div></div>
+<div class="ttc" id="aclassstool_1_1_byte_html_af28c9bd134fe228cbb9b12f6ed3aaf97"><div class="ttname"><a href="classstool_1_1_byte.html#af28c9bd134fe228cbb9b12f6ed3aaf97">stool::Byte::zero_pad_head</a></div><div class="ttdeci">static uint64_t zero_pad_head(uint64_t code, uint8_t len)</div><div class="ttdoc">Pads zeros at the head of a 64-bit integer.</div><div class="ttdef"><b>Definition</b> byte.hpp:270</div></div>
 <div class="ttc" id="aclassstool_1_1_simple_deque_html"><div class="ttname"><a href="classstool_1_1_simple_deque.html">stool::SimpleDeque</a></div><div class="ttdef"><b>Definition</b> simple_deque.hpp:12</div></div>
 <div class="ttc" id="aclassstool_1_1_v_l_c_deque_html"><div class="ttname"><a href="classstool_1_1_v_l_c_deque.html">stool::VLCDeque</a></div><div class="ttdef"><b>Definition</b> vlc_deque.hpp:12</div></div>
 </div><!-- fragment --></div><!-- contents -->

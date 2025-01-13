@@ -1,0 +1,5 @@
+<map id="stool::Byte::select1" name="stool::Byte::select1">
+<area shape="rect" id="Node000001" title="Finds the position of the (i+1)&#45;th set bit (1) in a 64&#45;bit integer." alt="" coords="188,5,322,31"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1_byte.html#adcc172aa2f6540f578a803a8bd79fa89" title="Finds the position of the (i+1)&#45;th unset bit (0) in a 64&#45;bit integer." alt="" coords="5,5,140,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,21,140,21,140,16,172,16"/>
+</map>

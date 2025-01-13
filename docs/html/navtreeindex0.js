@@ -67,6 +67,8 @@ var NAVTREEINDEX0 =
 "forward__rle_8hpp_source.html":[1,0,0,5,2],
 "forward__sa_8hpp_source.html":[1,0,0,4,1],
 "fpos__data__structure_8hpp_source.html":[1,0,0,4,2],
+"functions.html":[0,2,0],
+"functions_func.html":[0,2,1],
 "index.html":[],
 "integer__deque_8hpp_source.html":[1,0,0,5,3],
 "io_8hpp_source.html":[1,0,0,3,1],

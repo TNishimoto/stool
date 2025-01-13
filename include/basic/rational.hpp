@@ -4,15 +4,37 @@
 #include <numeric> // std::gcd in C++17
 namespace stool
 {
+    /*! 
+    * @brief Class for representing and manipulating rational numbers
+    *
+    * This class provides functionality for working with rational numbers (fractions)
+    * represented as pairs of integers (numerator/denominator). It includes methods
+    * for basic arithmetic operations, comparison, reduction to lowest terms, and
+    * conversion to other numeric formats.
+    *
+    * The class stores rational numbers in reduced form, automatically simplifying
+    * fractions using GCD when constructed or modified. It also ensures the denominator
+    * is always positive by moving any negative sign to the numerator.
+    *
+    * Key features:
+    * - Automatic reduction to lowest terms using GCD
+    * - Proper handling of signs
+    * - Conversion to decimal and string representations
+    * - Basic arithmetic operations
+    * - Comparison operations
+    */
+
     struct Rational
     {
     public:
         uint64_t numerator;
         uint64_t denominator;
+
         Rational(int num, int den) : numerator(num), denominator(den)
         {
             reduce();
         }
+
         void reduce()
         {
             int gcd = std::gcd(numerator, denominator);
@@ -25,7 +47,10 @@ namespace stool
                 denominator = -denominator;
             }
         }
-        uint64_t floor() const {
+
+
+        uint64_t floor() const
+        {
             uint64_t p = this->numerator / this->denominator;
             return p;
         }
@@ -67,11 +92,12 @@ namespace stool
             int new_denominator = denominator * other.denominator;
             return Rational(new_numerator, new_denominator);
         }
-        Rational operator+(const Rational& other) const {
-        int new_numerator = numerator * other.denominator + other.numerator * denominator;
-        int new_denominator = denominator * other.denominator;
-        return Rational(new_numerator, new_denominator);
-    }
+        Rational operator+(const Rational &other) const
+        {
+            int new_numerator = numerator * other.denominator + other.numerator * denominator;
+            int new_denominator = denominator * other.denominator;
+            return Rational(new_numerator, new_denominator);
+        }
         std::string to_string(bool taibunsuu) const
         {
             if (taibunsuu)

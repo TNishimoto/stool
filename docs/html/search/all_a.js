@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['printer_0',['Printer',['../classstool_1_1_printer.html',1,'stool']]]
+  ['onlinefilereader_0',['OnlineFileReader',['../classstool_1_1_online_file_reader.html',1,'stool']]],
+  ['onlinefilereaderiterator_1',['OnlineFileReaderIterator',['../classstool_1_1_online_file_reader_1_1_online_file_reader_iterator.html',1,'stool::OnlineFileReader']]]
 ];
