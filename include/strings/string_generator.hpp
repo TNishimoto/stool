@@ -19,15 +19,13 @@ namespace stool
 			return r;
 		}
 
-
-
 		static std::vector<uint32_t> create_random_sequence(uint64_t len, uint64_t alphabet_size)
 		{
 			std::random_device rnd;
 			int64_t p = rnd();
 			return create_random_sequence(len, alphabet_size, p);
 		}
-		
+
 		static std::vector<uint8_t> create_uint8_t_string(std::vector<uint32_t> &original_text)
 		{
 			std::vector<uint8_t> chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
@@ -43,7 +41,6 @@ namespace stool
 			}
 			return r;
 		}
-		
 
 		/*
 		static std::vector<uint8_t> create_uint8_t_binary_string(std::vector<uint32_t> &original_text)
@@ -93,6 +90,27 @@ namespace stool
 			std::uniform_int_distribution<> rand100(0, max_len);
 			uint64_t len = rand100(mt);
 			return create_uint8_t_8_ary_string(len);
+		}
+
+		static void create_all_permutations(uint64_t len, const std::vector<uint8_t> &alphabet, const std::string &prefix, std::vector<std::string> &output)
+		{
+			if(prefix.size() > len){
+				for(uint8_t c : alphabet){
+					std::string new_prefix = prefix + (std::string(1, c));
+					create_all_permutations(len, alphabet, new_prefix, output);
+				}
+			}else{
+				output.push_back(prefix);
+			}
+		}
+
+
+		static std::vector<std::string> create_all_permutations(uint64_t len, const std::vector<uint8_t> &alphabet)
+		{
+			std::string prefix = "";
+			std::vector<std::string> output;
+			create_all_permutations(len, alphabet, prefix, output);
+			return output;
 		}
 	};
 
