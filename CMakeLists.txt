@@ -44,6 +44,7 @@ target_link_libraries(fm_index_test.out sdsl)
 
 add_executable(analyze_file.out main/analyze_file_main.cpp)
 
-
+add_executable(beller.out main/beller_main.cpp)
+target_link_libraries(beller.out sdsl)
 #target_link_libraries(a.out fn)
 
