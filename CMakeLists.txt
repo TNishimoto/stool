@@ -42,9 +42,13 @@ target_link_libraries(rank_select_test.out sdsl)
 add_executable(fm_index_test.out test/fm_index_test_main.cpp)
 target_link_libraries(fm_index_test.out sdsl)
 
-add_executable(analyze_file.out main/analyze_file_main.cpp)
 
-add_executable(beller.out main/beller_main.cpp)
-target_link_libraries(beller.out sdsl)
 #target_link_libraries(a.out fn)
 
+add_executable(lcp_interval_test.out test/lcp_interval_test_main.cpp)
+target_link_libraries(lcp_interval_test.out sdsl)
+
+add_executable(analyze_file.out main/analyze_file_main.cpp)
+
+add_executable(analyze_bwt.out main/analyze_bwt_main.cpp)
+target_link_libraries(analyze_bwt.out sdsl)

@@ -8,6 +8,8 @@
 #include "./interval_search_data_structure.hpp"
 
 #include "../strings/lcp_interval.hpp"
+#include "../debug/message.hpp"
+#include "../strings/sa_bwt_lcp.hpp"
 
 // #include "sa_lcp.hpp"
 // using namespace std;
@@ -18,6 +20,7 @@ namespace stool
     namespace beller
     {
 
+        /*
         template <typename INDEX>
         class OutputStructure
         {
@@ -68,6 +71,7 @@ namespace stool
                 }
             }
         };
+        */
 
         struct BellerSmallComponent
         {
@@ -95,6 +99,10 @@ namespace stool
 
             std::vector<std::queue<INTERVAL>> intervalQueues;
             std::vector<bool> checker;
+
+            std::vector<bool> lcp_checker;
+
+
             std::vector<uint64_t> counter;
             std::vector<uint8_t> occurrenceChars;
             std::vector<CharInterval<INDEX, uint8_t>> charIntervalTmpVec;
@@ -103,32 +111,42 @@ namespace stool
             IntervalSearchDataStructure<uint8_t> *range = nullptr;
 
             uint64_t lcp = 0;
-            bool is_end = false;
+            bool _process_end = false;
+            bool output_single_lcp_interval = false;
 
-
-            void refresh(){
+            void refresh()
+            {
                 uint64_t bwtSize = this->range->wt->size();
                 uint64_t CHARMAX = UINT8_MAX + 1;
 
                 intervalQueues.clear();
-                while(outputQueue.size() > 0){
+                while (outputQueue.size() > 0)
+                {
                     outputQueue.pop();
                 }
                 checker.clear();
                 counter.clear();
                 occurrenceChars.clear();
                 charIntervalTmpVec.clear();
+                lcp_checker.clear();
 
                 intervalQueues.resize(CHARMAX);
                 counter.resize(CHARMAX, 0);
                 checker.resize(bwtSize + 1, false);
                 checker[0] = false;
+
+                if(this->output_single_lcp_interval){
+                    lcp_checker.resize(bwtSize, false);
+                }
+
+
+                //checker2.resize(bwtSize, false);
+
                 occurrenceChars.resize(0);
                 charIntervalTmpVec.resize(CHARMAX);
 
                 this->lcp = 0;
-                this->is_end = false;
-
+                this->_process_end = false;
             }
 
             void initialize(IntervalSearchDataStructure<uint8_t> *_range)
@@ -136,24 +154,18 @@ namespace stool
                 this->range = _range;
                 this->refresh();
                 this->first_process();
-
-                while(this->outputQueue.size() == 0){
-                    if(this->is_end){
-                        break;
-                    }else{
-                        this->computeLCPIntervals();
-                    }                    
-                }                
             }
 
             void process(BellerSmallComponent &bsc)
             {
-                uint64_t k = 0;
+                // uint64_t k = 0;
                 for (auto &c : this->occurrenceChars)
                 {
                     auto &que = this->intervalQueues[c];
                     uint64_t queSize = this->counter[c];
 
+
+                    
                     while (queSize > 0)
                     {
                         bsc.occB = true;
@@ -161,6 +173,24 @@ namespace stool
                         auto top = que.front();
                         que.pop();
                         queSize--;
+
+                        //std::cout << "TOP/" << top.to_string() << std::endl;
+
+                        if(this->output_single_lcp_interval){
+                            if(!lcp_checker[top.i]){
+                                uint64_t lcp_value = top.lcp == 0 ? 0 : top.lcp - 1;
+                                this->outputQueue.push(INTERVAL(top.i, top.i, lcp_value));
+                            }
+                            lcp_checker[top.i] = true;
+                        }
+
+                        /*
+                        if(this->output_single_lcp_interval && (!checker2[top.j]) && (top.i == top.j)){
+                            checker2[top.j] = true;
+                                this->outputQueue.push(INTERVAL(top.i-1, top.j-1, 999 + top.lcp));
+                        }
+                        */
+
 
                         if (!this->checker[top.j + 1])
                         {
@@ -174,15 +204,17 @@ namespace stool
 
                             uint64_t charIntvCount = this->range->getIntervals(top.i, top.j, this->charIntervalTmpVec);
 
-                            //this->debugCounter++;
+                            // this->debugCounter++;
 
                             for (uint64_t i = 0; i < charIntvCount; i++)
                             {
                                 auto &intv = this->charIntervalTmpVec[i];
                                 this->intervalQueues[intv.c].push(INTERVAL(intv.i, intv.j, top.lcp + 1));
-                                k++;
+                                // k++;
                                 bsc.nextOccurrenceSet.insert(intv.c);
                             }
+                            
+                            
                         }
                         else
                         {
@@ -190,19 +222,21 @@ namespace stool
                             if (top.i == bsc.last_idx)
                             {
                                 INTERVAL iv(bsc.last_lb, top.j, top.lcp - 1);
-                                this->outputQueue.push(iv);
+                                if(!this->output_single_lcp_interval){
+                                    this->outputQueue.push(iv);
+                                }
 
                                 bsc.last_lb = UINT64_MAX;
                                 bsc.last_idx = UINT64_MAX;
 
                                 uint64_t charIntvCount = this->range->getIntervals(top.i, top.j, this->charIntervalTmpVec);
-                                //this->debugCounter++;
+                                // this->debugCounter++;
 
                                 for (uint64_t i = 0; i < charIntvCount; i++)
                                 {
                                     auto &intv = this->charIntervalTmpVec[i];
                                     this->intervalQueues[intv.c].push(INTERVAL(intv.i, intv.j, top.lcp + 1));
-                                    k++;
+                                    // k++;
 
                                     bsc.nextOccurrenceSet.insert(intv.c);
                                 }
@@ -244,102 +278,50 @@ namespace stool
                 if (!bsc.occB)
                 {
                     this->checker.pop_back();
-                    this->is_end = true;
+                    this->_process_end = true;
                 }
 
                 // return output_lcp_intervals;
             }
 
-            class ForwardLCPIntervalIterator
+            bool empty_output_queue() const
             {
+                return this->outputQueue.size() == 0;
+            }
 
-            public:
-                BellerComponent *component = nullptr;
-                uint64_t index = 0;
-                LCPInterval<INDEX> interval;
-
-                using iterator_category = std::forward_iterator_tag;
-                using value_type = stool::LCPInterval<uint64_t>;
-                using difference_type = std::ptrdiff_t;
-                ForwardLCPIntervalIterator(BellerComponent *_component, uint64_t _index) : component(_component), index(_index)
+            LCPInterval<INDEX> get_current_lcp_interval() const
+            {
+                if (this->empty_output_queue())
                 {
-                    if(this->component == nullptr){
-                        this->index = UINT64_MAX;
-                    }
+                    throw std::runtime_error("component is end");
                 }
-
-                LCPInterval<INDEX> operator*() const
+                else
                 {
-                    if (component != nullptr)
-                    {
-                        return this->interval;
-                    }
-                    else
-                    {
-                        throw std::runtime_error("component is nullptr");
-                    }
+                    return this->outputQueue.front();
                 }
-
-                ForwardLCPIntervalIterator &operator++()
+            }
+            bool proceed()
+            {
+                if (this->empty_output_queue())
                 {
-                    if (this->component != nullptr)
+                    return false;
+                }
+                else
+                {
+                    this->outputQueue.pop();
+                    while (this->outputQueue.size() == 0)
                     {
-                        if (this->component->is_end)
+                        if (this->_process_end)
                         {
-                            throw std::runtime_error("component error");
+                            return true;
                         }
                         else
                         {
-                            while (this->component->outputQueue.size() == 0)
-                            {
-                                if (this->component->is_end)
-                                {
-                                    this->component = nullptr;
-                                    this->index = UINT64_MAX;
-                                    return *this;
-                                }
-                                else
-                                {
-                                    this->component->computeLCPIntervals();
-                                }
-                            }
-
-                            this->interval = this->component->outputQueue.front();
-                            this->component->outputQueue.pop();
+                            this->computeLCPIntervals();
                         }
                     }
-                    else
-                    {
-                        throw std::runtime_error("component is nullptr");
-                    }
-                    return *this;
+                    return true;
                 }
-
-                ForwardLCPIntervalIterator operator++(int)
-                {
-                    ForwardLCPIntervalIterator temp = *this;
-                    ++(*this);
-                    return temp;
-                }
-
-                bool operator==(const ForwardLCPIntervalIterator &other) const { return this->index == other.index; }
-                bool operator!=(const ForwardLCPIntervalIterator &other) const { return this->index != other.index; }
-                bool operator<(const ForwardLCPIntervalIterator &other) const { return this->index < other.index; }
-                bool operator>(const ForwardLCPIntervalIterator &other) const { return this->index > other.index; }
-                bool operator<=(const ForwardLCPIntervalIterator &other) const { return this->index <= other.index; }
-                bool operator>=(const ForwardLCPIntervalIterator &other) const { return this->index >= other.index; }
-            };
-
-            ForwardLCPIntervalIterator begin(){
-                this->initialize(this->range);
-                if(this->outputQueue.size() == 0){
-                    return ForwardLCPIntervalIterator(nullptr, UINT64_MAX);
-                }else{
-                    return ForwardLCPIntervalIterator(this, 0);
-                }
-            }
-            ForwardLCPIntervalIterator end(){
-                return ForwardLCPIntervalIterator(nullptr, UINT64_MAX);
             }
 
         private:
@@ -349,7 +331,7 @@ namespace stool
                 INTERVAL fst(0, bwtSize - 1, 0);
                 uint64_t charIntvCount = this->range->getIntervals(fst.i, fst.j, this->charIntervalTmpVec);
 
-                //this->debugCounter++;
+                // this->debugCounter++;
 
                 std::set<uint8_t> nextOccurrenceSet;
 
@@ -364,8 +346,11 @@ namespace stool
                 {
                     this->occurrenceChars.push_back(c);
                 }
+
+                outputQueue.push(INTERVAL(0, this->range->get_text_size() - 1, 0));
             }
         };
+
 
     } // namespace beller
 } // namespace stool

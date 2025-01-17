@@ -33,8 +33,33 @@ namespace stool
                 return C[c] + cNum;
             }
 
+            template <typename TEXT, typename OUTPUT>
+            static void construct_C_array(TEXT &text, OUTPUT &output, int message_paragraph = stool::Message::SHOW_MESSAGE)
+            {
+                if(message_paragraph != stool::Message::NO_MESSAGE){
+                    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing C array..." << std::flush;
+                }
+
+                uint64_t CHARMAX = UINT8_MAX + 1;
+                output.resize(CHARMAX, 0);
+                std::vector<uint64_t> tmp;
+                tmp.resize(CHARMAX, 0);
+                for(uint64_t i = 0; i < text.size(); i++){
+                    tmp[text[i]]++;
+                }
+                for(uint64_t i = 1; i < CHARMAX; i++){
+                    output[i] = output[i - 1] + tmp[i - 1];
+                }
+
+                if(message_paragraph != stool::Message::NO_MESSAGE){
+                    std::cout << "[DONE]" << std::endl;
+                }
+
+            }
+
+
             template <typename OUTPUT>
-            static void constructC(sdsl::wt_huff<> &wt, uint8_t lastChar, OUTPUT &output)
+            static void construct_C_array(sdsl::wt_huff<> &wt, uint8_t lastChar, OUTPUT &output)
             {
                 uint64_t CHARMAX = UINT8_MAX + 1;
 

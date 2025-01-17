@@ -131,7 +131,7 @@ namespace stool
             return std::pair<stool::Rational, uint64_t>(max_delta, x);
         }
 
-        static std::vector<uint64_t> create_count_profile_array(const std::vector<uint64_t> &lcp_array)
+        static std::vector<uint64_t> compute_LCP_statistics(const std::vector<uint64_t> &lcp_array)
         {
             uint64_t max = *std::max_element(lcp_array.begin(), lcp_array.end());
             std::vector<uint64_t> r;
@@ -145,15 +145,17 @@ namespace stool
 
         static std::vector<uint64_t> construct_distinct_substring_counter_array(const std::vector<uint64_t> &lcp_array)
         {
-            uint64_t text_size = lcp_array.size();
+            std::vector<uint64_t> profiler = compute_LCP_statistics(lcp_array);
+            return construct_distinct_substring_counter_array_from_lcp_statistics(profiler, lcp_array.size());
+        }
+        static std::vector<uint64_t> construct_distinct_substring_counter_array_from_lcp_statistics(const std::vector<uint64_t> &lcp_statistics, uint64_t text_size)
+        {
             std::vector<uint64_t> output;
-
-            std::vector<uint64_t> profiler = create_count_profile_array(lcp_array);
             output.push_back(0);
 
-            for (uint64_t i = 0; i < profiler.size(); i++)
+            for (uint64_t i = 0; i < lcp_statistics.size(); i++)
             {
-                uint64_t counter = profiler[i];
+                uint64_t counter = lcp_statistics[i];
                 uint64_t prev_value = output[output.size() - 1];
                 uint64_t new_value = prev_value == 0 ? counter : (prev_value + counter - 1);
                 output.push_back(new_value);

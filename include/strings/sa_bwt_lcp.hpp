@@ -199,7 +199,7 @@ namespace stool
 	{
 
 
-		std::vector<INDEX> isa = stool::construct_ISA<CHAR, INDEX>(text, sa);
+		std::vector<INDEX> isa = stool::construct_ISA<CHAR, INDEX>(text, sa, message_paragraph);
 		return construct_LCP_array<CHAR, INDEX>(text, sa, isa, message_paragraph);
 
 

@@ -110,6 +110,7 @@ namespace stool
             }
 
         private:
+            
             static void construct_C(const sdsl::int_vector<8> &bwt_head_chars, std::vector<uint64_t> &C)
             {
                 uint64_t CHARMAX = UINT8_MAX + 1;

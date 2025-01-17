@@ -21,7 +21,11 @@ namespace stool
         std::vector<uint64_t> cs1;
         std::vector<uint64_t> cs2;
 
-        void initialize(stool::WT *_wt, std::vector<uint64_t> *_C, CHAR _lastChar)
+        uint64_t get_text_size() const {
+            return this->wt->size();
+        }
+
+        void initialize(WT *_wt, std::vector<uint64_t> *_C, CHAR _lastChar)
         {
             this->wt = _wt;
             this->C = _C;

@@ -9,6 +9,9 @@
 
 #include "./bwt/bwt_functions.hpp"
 #include "./bwt/lf_data_structure.hpp"
+#include "./third_party/sdsl_functions.hpp"
 
-
+#include "./beller/beller_component.hpp"
+#include "./beller/lcp_interval_enumerator.hpp"
+#include "./beller/lcp_enumerator.hpp"
 
