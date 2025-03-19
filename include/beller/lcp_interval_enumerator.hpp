@@ -110,7 +110,7 @@ namespace stool
                 return LCPIntervalIterator(nullptr, UINT64_MAX, LCPInterval<INDEX>(UINT64_MAX, UINT64_MAX, UINT64_MAX));
             }
 
-            static std::vector<INTERVAL> compute_lcp_intervals(const sdsl::int_vector<> &bwt, int message_paragraph = stool::Message::NO_MESSAGE)
+            static std::vector<INTERVAL> compute_lcp_intervals(const sdsl::int_vector<> &bwt, [[maybe_unused]]int message_paragraph = stool::Message::NO_MESSAGE)
             {
                 std::vector<uint64_t> C;
                 stool::bwt::BWTFunctions::construct_C_array(bwt, C);
