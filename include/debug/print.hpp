@@ -100,6 +100,16 @@ namespace stool
 			}
 			return s;
 		}
+		template <typename VEC>
+		static std::string to_string(const VEC &items)
+		{
+			std::string s = "";
+			for (size_t i = 0; i < (size_t)items.size(); i++)
+			{
+				s.push_back(items[i]);
+			}
+			return s;
+		}
 
 		template <typename VEC>
 		static std::string to_integer_string_with_characters(const VEC &items, std::string separator = ", ")
