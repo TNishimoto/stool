@@ -84,6 +84,24 @@ namespace stool
 			s += "]";
 			return s;
 		}
+
+		template <typename VEC>
+		static std::string to_visible_string(const std::string &str)
+		{
+			std::string s = "";
+			for (size_t i = 0; i < (size_t)str.size(); i++)
+			{
+				if(str[i] == 0){
+					s.push_back('(');
+					s.push_back('0');
+					s.push_back(')');
+				}else{
+					s.push_back(str[i]);
+				}
+			}
+			return s;
+		}
+
 		template <typename VEC>
 		static std::string to_integer_string_with_characters(const VEC &items, std::string separator = ", ")
 		{
@@ -120,6 +138,8 @@ namespace stool
 		{
 			std::cout << name << ": " << to_integer_string_with_characters(items, separator) << std::endl;
 		}
+
+
 
 
 	};
