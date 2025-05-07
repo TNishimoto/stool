@@ -85,18 +85,24 @@ namespace stool
 			return s;
 		}
 
+		static std::string to_visible_string(uint8_t c){
+			std::string s = "";
+			if(std::iscntrl(c)){
+				s.push_back('/');
+				s += std::to_string(c);
+			}else{
+				s.push_back(c);
+			}
+			return s;
+		}
+
+
 		static std::string to_visible_string(const std::string &str)
 		{
 			std::string s = "";
 			for (size_t i = 0; i < (size_t)str.size(); i++)
 			{
-				if(str[i] == 0){
-					s.push_back('(');
-					s.push_back('0');
-					s.push_back(')');
-				}else{
-					s.push_back(str[i]);
-				}
+				s += to_visible_string(str[i]);
 			}
 			return s;
 		}
@@ -119,10 +125,13 @@ namespace stool
 			// int k = items.size();
 			for (size_t i = 0; i < (size_t)items.size(); i++)
 			{
+				s += to_visible_string(items[i]);
+				/*
 				s += std::to_string(items[i]);
 				s.push_back('(');
 				s.push_back(items[i]);
 				s.push_back(')');
+				*/
 
 				if (i != items.size() - 1)
 					s += separator;
