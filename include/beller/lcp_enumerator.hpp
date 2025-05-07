@@ -137,7 +137,7 @@ namespace stool
                 return LCPIterator(nullptr, UINT64_MAX, LCPInfo(UINT64_MAX, UINT64_MAX));
             }
 
-            static std::vector<uint64_t> construct_LCP_array(const sdsl::int_vector<> &bwt, int message_paragraph = stool::Message::SHOW_MESSAGE)
+            static std::vector<uint64_t> construct_LCP_array(const sdsl::int_vector<> &bwt, [[maybe_unused]]int message_paragraph = stool::Message::SHOW_MESSAGE)
             {
                 std::vector<uint64_t> C;
                 stool::bwt::BWTFunctions::construct_C_array(bwt, C);
