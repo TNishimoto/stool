@@ -85,7 +85,6 @@ namespace stool
 			return s;
 		}
 
-		template <typename VEC>
 		static std::string to_visible_string(const std::string &str)
 		{
 			std::string s = "";
