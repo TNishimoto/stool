@@ -54,6 +54,19 @@ namespace stool
 	class DebugPrinter
 	{
 		public:
+		static uint8_t get_first_character(const std::string &text, uint8_t default_character = '\0'){
+			if(text.size() == 0){
+				return default_character;
+			}
+			if(text[0] == '\\' && text.size() > 1){
+				auto tmp = text.substr(1);
+				return std::stoi(tmp);
+			}else{
+				return text[0];
+			}
+		
+		}
+
 		template <typename VEC>
 		static std::string to_integer_string(const VEC &items)
 		{
