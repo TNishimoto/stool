@@ -206,7 +206,7 @@ namespace stool
 		dsa.resize(sa.size(), 0);
 		for (uint64_t i = 0; i < sa.size(); i++)
 		{
-			if (i != 0)
+			if (i == 0)
 			{
 				dsa[i] = sa[i];
 			}
