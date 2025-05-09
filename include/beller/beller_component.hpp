@@ -1,96 +1,10 @@
 #pragma once
-#include <cassert>
-#include <chrono>
-#include <random>
-#include <algorithm>
-#include <set>
-#include "./char_interval.hpp"
-#include "./interval_search_data_structure.hpp"
-
-#include "../strings/lcp_interval.hpp"
-#include "../debug/message.hpp"
-#include "../strings/sa_bwt_lcp.hpp"
-
-// #include "sa_lcp.hpp"
-// using namespace std;
-// using namespace sdsl;
+#include "./beller_small_component.hpp"
 
 namespace stool
 {
     namespace beller
     {
-
-        /*
-        template <typename INDEX>
-        class OutputStructure
-        {
-        public:
-            std::vector<stool::LCPInterval<INDEX>> outputIntervals;
-            std::ofstream *out = nullptr;
-            sdsl::bit_vector::rank_1_type *bwt_bit_rank1;
-            bool is_output_maximal_substrings;
-            uint64_t count = 0;
-            uint64_t lcp_interval_count = 0;
-            uint64_t peak = 0;
-
-            void push(stool::LCPInterval<INDEX> &interval)
-            {
-                std::cout << interval.to_string() << std::endl;
-                lcp_interval_count++;
-                if (this->is_output_maximal_substrings)
-                {
-                    uint64_t k1 = interval.i == 0 ? 0 : (*bwt_bit_rank1)(interval.i);
-                    uint64_t k2 = (*bwt_bit_rank1)(interval.j + 1);
-
-                    bool isNotMaximalRepeat = ((k2 - k1 == 0) || ((k2 - k1) == (interval.j - interval.i + 1)));
-
-                    if (!isNotMaximalRepeat)
-                    {
-                        this->outputIntervals.push_back(interval);
-                        count++;
-                    }
-                }
-                else
-                {
-                    this->outputIntervals.push_back(interval);
-                    count++;
-                }
-
-                if (this->out != nullptr && this->outputIntervals.size() > 8192)
-                {
-                    out->write(reinterpret_cast<const char *>(&this->outputIntervals[0]), sizeof(stool::LCPInterval<INDEX>) * this->outputIntervals.size());
-                    this->outputIntervals.clear();
-                }
-            }
-            void finish()
-            {
-                if (this->out != nullptr && this->outputIntervals.size() > 0)
-                {
-                    out->write(reinterpret_cast<const char *>(&this->outputIntervals[0]), sizeof(stool::LCPInterval<INDEX>) * this->outputIntervals.size());
-                    this->outputIntervals.clear();
-                }
-            }
-        };
-        */
-
-        struct BellerSmallComponent
-        {
-            uint64_t last_idx;
-            uint64_t last_lb;
-            bool occB;
-            std::set<uint8_t> nextOccurrenceSet;
-
-            BellerSmallComponent()
-            {
-            }
-            void initialize()
-            {
-                last_idx = UINT64_MAX;
-                last_lb = UINT64_MAX;
-                occB = false;
-            }
-        };
-
         class BellerComponent
         {
         public:

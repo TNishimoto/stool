@@ -5,24 +5,13 @@
 #include <algorithm>
 #include <set>
 #include "./beller_component.hpp"
+#include "./lcp_info.hpp"
 #include "../bwt/bwt_functions.hpp"
 
 namespace stool
 {
     namespace beller
     {
-        struct LCPInfo
-        {
-            uint64_t lcp;
-            uint64_t position;
-            LCPInfo()
-            {
-                this->lcp = UINT64_MAX;
-                this->position = UINT64_MAX;
-            }
-            LCPInfo(uint64_t _lcp, uint64_t _position) : lcp(_lcp), position(_position) {}
-        };
-
         class LCPEnumerator
         {
             BellerComponent component;
