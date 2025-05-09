@@ -215,6 +215,7 @@ namespace stool
 				dsa[i] = ((int64_t)sa[i]) - ((int64_t)sa[i - 1]);
 			}
 		}
+		return dsa;
 	}
 	/*!
 	 * @brief Constructs the Burrows-Wheeler Transform (BWT) from a Suffix Array
