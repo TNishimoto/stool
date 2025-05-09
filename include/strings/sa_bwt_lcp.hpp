@@ -202,7 +202,7 @@ namespace stool
 	}
 	std::vector<int64_t> construct_DSA(const std::vector<uint64_t> &sa, int message_paragraph = stool::Message::SHOW_MESSAGE)
 	{
-		if (message_paragraph >= 0 && text.size() > 0)
+		if (message_paragraph >= 0 && sa.size() > 0)
 		{
 			std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing Diffrential Suffix Array from Suffix Array... " << std::flush;
 		}
@@ -226,7 +226,7 @@ namespace stool
 
 		st2 = std::chrono::system_clock::now();
 
-		if (message_paragraph >= 0 && text.size() > 0)
+		if (message_paragraph >= 0 && sa.size() > 0)
 		{
 			uint64_t sec_time = std::chrono::duration_cast<std::chrono::seconds>(st2 - st1).count();
 			uint64_t ms_time = std::chrono::duration_cast<std::chrono::milliseconds>(st2 - st1).count();
