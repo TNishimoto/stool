@@ -200,8 +200,16 @@ namespace stool
 
 		// lcp.resize(text.size(), 0);
 	}
-	std::vector<int64_t> construct_DSA(const std::vector<uint64_t> &sa)
+	std::vector<int64_t> construct_DSA(const std::vector<uint64_t> &sa, int message_paragraph = stool::Message::SHOW_MESSAGE)
 	{
+		if (message_paragraph >= 0 && text.size() > 0)
+		{
+			std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing Diffrential Suffix Array from Suffix Array... " << std::flush;
+		}
+		std::chrono::system_clock::time_point st1, st2;
+		st1 = std::chrono::system_clock::now();
+
+
 		std::vector<int64_t> dsa;
 		dsa.resize(sa.size(), 0);
 		for (uint64_t i = 0; i < sa.size(); i++)
@@ -215,6 +223,18 @@ namespace stool
 				dsa[i] = ((int64_t)sa[i]) - ((int64_t)sa[i - 1]);
 			}
 		}
+
+		st2 = std::chrono::system_clock::now();
+
+		if (message_paragraph >= 0 && text.size() > 0)
+		{
+			uint64_t sec_time = std::chrono::duration_cast<std::chrono::seconds>(st2 - st1).count();
+			uint64_t ms_time = std::chrono::duration_cast<std::chrono::milliseconds>(st2 - st1).count();
+			uint64_t per_time = ((double)ms_time / (double)sa.size()) * 1000000;
+
+			std::cout << "[END] Elapsed Time: " << sec_time << " sec (" << per_time << " ms/MB)" << std::endl;
+		}
+
 		return dsa;
 	}
 	/*!
