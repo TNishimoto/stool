@@ -1,6 +1,13 @@
 var annotated_dup =
 [
     [ "stool", null, [
+      [ "beller", null, [
+        [ "BellerComponent", "classstool_1_1beller_1_1_beller_component.html", null ],
+        [ "BellerSmallComponent", "structstool_1_1beller_1_1_beller_small_component.html", null ],
+        [ "LCPEnumerator", "classstool_1_1beller_1_1_l_c_p_enumerator.html", "classstool_1_1beller_1_1_l_c_p_enumerator" ],
+        [ "LCPInfo", "structstool_1_1beller_1_1_l_c_p_info.html", null ],
+        [ "LCPIntervalEnumerator", "classstool_1_1beller_1_1_l_c_p_interval_enumerator.html", "classstool_1_1beller_1_1_l_c_p_interval_enumerator" ]
+      ] ],
       [ "bwt", null, [
         [ "BackwardISA", "classstool_1_1bwt_1_1_backward_i_s_a.html", "classstool_1_1bwt_1_1_backward_i_s_a" ],
         [ "BWTFunctions", "classstool_1_1bwt_1_1_b_w_t_functions.html", null ],
@@ -18,6 +25,7 @@ var annotated_dup =
       [ "BasicSearch", "classstool_1_1_basic_search.html", null ],
       [ "Byte", "classstool_1_1_byte.html", null ],
       [ "CharacterRun", "structstool_1_1_character_run.html", null ],
+      [ "CharInterval", "classstool_1_1_char_interval.html", null ],
       [ "Counter", "classstool_1_1_counter.html", null ],
       [ "DebugPrinter", "classstool_1_1_debug_printer.html", null ],
       [ "EliasFanoVector", "classstool_1_1_elias_fano_vector.html", "classstool_1_1_elias_fano_vector" ],
@@ -25,6 +33,7 @@ var annotated_dup =
       [ "FileWriter", "classstool_1_1_file_writer.html", null ],
       [ "ForwardRLE", "classstool_1_1_forward_r_l_e.html", "classstool_1_1_forward_r_l_e" ],
       [ "IntegerDeque", "classstool_1_1_integer_deque.html", "classstool_1_1_integer_deque" ],
+      [ "IntervalSearchDataStructure", "classstool_1_1_interval_search_data_structure.html", null ],
       [ "IO", "classstool_1_1_i_o.html", null ],
       [ "LCPInterval", "classstool_1_1_l_c_p_interval.html", null ],
       [ "LCPIntervalDepthOrderComp", "structstool_1_1_l_c_p_interval_depth_order_comp.html", null ],
