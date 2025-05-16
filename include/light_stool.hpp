@@ -13,6 +13,8 @@
 #include "./io/online_file_reader.hpp"
 #include "./io/file_writer.hpp"
 
+#include "./rmq/rmq_small_sparse_table.hpp"
+
 #include "./strings/delta.hpp"
 #include "./strings/string_generator.hpp"
 #include "./strings/text_statistics.hpp"

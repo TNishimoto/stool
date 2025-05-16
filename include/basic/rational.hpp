@@ -50,11 +50,9 @@ namespace stool
             numerator /= gcd;
             denominator /= gcd;
 
-            if (denominator < 0)
-            {
-                numerator = -numerator;
-                denominator = -denominator;
-            }
+            numerator = -numerator;
+            denominator = -denominator;
+
         }
 
         /*! 
