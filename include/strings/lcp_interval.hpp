@@ -111,7 +111,7 @@ namespace stool{
 		}
 		*/
 		template <typename sa_type>
-		std::string getCSVLine(uint64_t id, std::vector<char> &text, sa_type &sa)
+		std::string get_CSV_line(uint64_t id, std::vector<char> &text, sa_type &sa)
 		{
 			std::string tmp = "";
 			tmp += (std::to_string(id));
@@ -159,7 +159,7 @@ namespace stool{
 			}
 			return intervalText;
 		}
-		bool containsPosition(std::vector<uint64_t> &sa, uint64_t pos) const
+		bool contains_position(std::vector<uint64_t> &sa, uint64_t pos) const
 		{
 			for (uint64_t x = this->i; x <= this->j; x++)
 			{
@@ -228,7 +228,7 @@ namespace stool{
 		}
 
 		template <typename CHAR = char>
-		static stool::LCPInterval<index_type> computeLCPInterval(const std::vector<CHAR> &T, const std::vector<CHAR> &pattern, const std::vector<index_type> &sa)
+		static stool::LCPInterval<index_type> compute_LCP_interval(const std::vector<CHAR> &T, const std::vector<CHAR> &pattern, const std::vector<index_type> &sa)
 		{
 			uint64_t p = T.size();
 			auto beg = std::upper_bound(

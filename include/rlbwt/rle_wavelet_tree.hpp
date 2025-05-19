@@ -52,7 +52,7 @@ namespace stool
                 return lf;
             }
 
-            bool verifyBWT() const
+            bool verify_BWT() const
             {
                 std::cout << "verify BWT" << std::flush;
                 uint64_t len = this->rlbwt->str_size();

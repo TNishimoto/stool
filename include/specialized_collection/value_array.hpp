@@ -217,7 +217,7 @@ namespace stool
             this->byteSize = _byteSize;
         }
         template <typename BYTE>
-        void fitDecode(std::vector<BYTE> &output) const
+        void fit_decode(std::vector<BYTE> &output) const
         {
             output.resize(this->num);
             if (this->byteSize == sizeof(BYTE))
@@ -236,25 +236,25 @@ namespace stool
             if (this->byteSize == 1)
             {
                 std::vector<uint8_t> decArr;
-                this->fitDecode(decArr);
+                this->fit_decode(decArr);
                 VectorTranslator::translate(decArr, output);
             }
             else if (this->byteSize == 2)
             {
                 std::vector<uint16_t> decArr;
-                this->fitDecode(decArr);
+                this->fit_decode(decArr);
                 VectorTranslator::translate(decArr, output);
             }
             else if (this->byteSize == 4)
             {
                 std::vector<uint32_t> decArr;
-                this->fitDecode(decArr);
+                this->fit_decode(decArr);
                 VectorTranslator::translate(decArr, output);
             }
             else if (this->byteSize == 8)
             {
                 std::vector<uint64_t> decArr;
-                this->fitDecode(decArr);
+                this->fit_decode(decArr);
                 VectorTranslator::translate(decArr, output);
             }
             else

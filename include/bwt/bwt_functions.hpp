@@ -81,7 +81,7 @@ namespace stool
                 }
             }
 
-            static void constructFrequencyArray(sdsl::wt_huff<> &wt, uint8_t last_char, std::vector<uint64_t> &output)
+            static void construct_frequency_array(sdsl::wt_huff<> &wt, uint8_t last_char, std::vector<uint64_t> &output)
             {
                 uint64_t CHARMAX = UINT8_MAX + 1;
 
@@ -95,7 +95,7 @@ namespace stool
                         if(k == 2){
                             k = 1;
                         }else{
-                            std::cout << "Error: constructFrequencyArray" << std::endl;
+                            std::cout << "Error: construct_frequency_array" << std::endl;
                             assert(false);
                             throw -1;
                         }
@@ -117,7 +117,7 @@ namespace stool
             {
                 uint64_t CHARMAX = UINT8_MAX + 1;
                 std::vector<uint64_t> freqArr;
-                constructFrequencyArray(wt, last_char, freqArr);
+                construct_frequency_array(wt, last_char, freqArr);
                 // stool::Printer::print(freqArr);
 
                 output.resize(CHARMAX, 0);
@@ -161,7 +161,7 @@ namespace stool
                 }
                 return UINT64_MAX;
             }
-            static uint8_t getUpperChar(uint64_t i, std::vector<uint64_t> &C)
+            static uint8_t get_upper_char(uint64_t i, std::vector<uint64_t> &C)
             {
                 std::vector<uint8_t> chars;
                 for (uint64_t x = 0; x < C.size(); x++)
@@ -180,7 +180,7 @@ namespace stool
                     return chars[i - 1];
                 }
             }
-            static uint8_t getFChar(uint64_t i, std::vector<uint64_t> &C)
+            static uint8_t get_F_char(uint64_t i, std::vector<uint64_t> &C)
             {
                 std::vector<uint8_t> chars;
                 for (uint64_t x = 0; x < C.size(); x++)

@@ -25,7 +25,7 @@ namespace stool
             uint64_t last_idx;
             uint64_t last_lb;
             bool occB;
-            std::set<uint8_t> nextOccurrenceSet;
+            std::set<uint8_t> next_occurrence_set;
 
             BellerSmallComponent()
             {

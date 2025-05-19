@@ -209,7 +209,7 @@ namespace stool
 			return s;
 		}
 		template <class X>
-		static void toIntegerString(const std::vector<X> &items, std::string &result)
+		static void to_integer_string(const std::vector<X> &items, std::string &result)
 		{
 			result += "[";
 			// int k = items.size();
@@ -223,7 +223,7 @@ namespace stool
 		}
 
 		template <class X>
-		static void toIntegerString(const std::vector<X> &items, std::string &result, uint64_t padding)
+		static void to_integer_string(const std::vector<X> &items, std::string &result, uint64_t padding)
 		{
 			result += "[";
 			// int k = items.size();
@@ -254,7 +254,7 @@ namespace stool
 			}
 			result += "]";
 		}
-		static void toIntegerString(const std::string &items, std::string &result, uint64_t padding)
+		static void to_integer_string(const std::string &items, std::string &result, uint64_t padding)
 		{
 			result += "[";
 			// int k = items.size();
@@ -278,13 +278,13 @@ namespace stool
 		static std::string toString(std::vector<X> &items, uint64_t padding)
 		{
 			std::string s = "";
-			toIntegerString<X>(items, s, padding);
+			to_integer_string<X>(items, s, padding);
 			return s;
 		}
 		static std::string toString(std::string &str, uint64_t padding)
 		{
 			std::string s = "";
-			toIntegerString(str, s, padding);
+			to_integer_string(str, s, padding);
 			return s;
 		}
 
@@ -460,7 +460,7 @@ namespace stool
 		{
 			throw - 1;
 		}
-		std::string s = toIntegerString<X>(items);
+		std::string s = to_integer_string<X>(items);
 		out.write((const char *)&s[0], sizeof(char) * s.size());
 	}
 	static bool write(std::ofstream &os, std::string &text)
@@ -490,7 +490,7 @@ namespace stool
 		{
 			throw - 1;
 		}
-		std::string s = toIntegerString<X>(items);
+		std::string s = to_integer_string<X>(items);
 		out.write((const char *)&s[0], sizeof(char) * s.size());
 	}
 	*/

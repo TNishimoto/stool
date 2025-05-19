@@ -125,7 +125,7 @@ namespace stool
                                 auto &intv = this->charIntervalTmpVec[i];
                                 this->intervalQueues[intv.c].push(INTERVAL(intv.i, intv.j, top.lcp + 1));
                                 // k++;
-                                bsc.nextOccurrenceSet.insert(intv.c);
+                                bsc.next_occurrence_set.insert(intv.c);
                             }
                             
                             
@@ -152,14 +152,14 @@ namespace stool
                                     this->intervalQueues[intv.c].push(INTERVAL(intv.i, intv.j, top.lcp + 1));
                                     // k++;
 
-                                    bsc.nextOccurrenceSet.insert(intv.c);
+                                    bsc.next_occurrence_set.insert(intv.c);
                                 }
                             }
                         }
                     }
                 }
             }
-            void computeLCPIntervals()
+            void compute_LCP_intervals()
             {
                 using INTERVAL = stool::LCPInterval<INDEX>;
                 uint64_t max_interval_count = 0;
@@ -185,7 +185,7 @@ namespace stool
                 this->process(bsc);
 
                 this->occurrenceChars.resize(0);
-                for (auto c : bsc.nextOccurrenceSet)
+                for (auto c : bsc.next_occurrence_set)
                 {
                     this->occurrenceChars.push_back(c);
                 }
@@ -231,7 +231,7 @@ namespace stool
                         }
                         else
                         {
-                            this->computeLCPIntervals();
+                            this->compute_LCP_intervals();
                         }
                     }
                     return true;
@@ -247,16 +247,16 @@ namespace stool
 
                 // this->debugCounter++;
 
-                std::set<uint8_t> nextOccurrenceSet;
+                std::set<uint8_t> next_occurrence_set;
 
                 for (uint64_t i = 0; i < charIntvCount; i++)
                 {
                     auto &intv = this->charIntervalTmpVec[i];
                     this->intervalQueues[intv.c].push(INTERVAL(intv.i, intv.j, 1));
-                    nextOccurrenceSet.insert(intv.c);
+                    next_occurrence_set.insert(intv.c);
                 }
 
-                for (auto c : nextOccurrenceSet)
+                for (auto c : next_occurrence_set)
                 {
                     this->occurrenceChars.push_back(c);
                 }

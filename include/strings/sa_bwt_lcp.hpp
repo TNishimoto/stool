@@ -27,7 +27,7 @@ namespace stool
 	 * @throws std::logic_error if any of the conditions are violated
 	 */
 	template <typename CHAR>
-	bool checkTextWithSpecialMarker(std::vector<CHAR> &text, CHAR c)
+	bool check_text_with_special_marker(std::vector<CHAR> &text, CHAR c)
 	{
 		uint64_t p = UINT64_MAX;
 		for (uint64_t i = 0; i < text.size(); i++)
