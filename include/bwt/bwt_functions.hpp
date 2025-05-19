@@ -32,9 +32,13 @@ namespace stool
                 uint64_t cNum = wt.rank(i, c);
                 return C[c] + cNum;
             }
-            static std::vector<uint64_t> construct_LF_array(const std::vector<uint8_t> &bwt, const std::vector<uint64_t> &C)
+            static std::vector<uint64_t> construct_LF_array(const std::vector<uint8_t> &bwt, const std::vector<uint64_t> &C, int message_paragraph = stool::Message::SHOW_MESSAGE)
             {
-                const std::vector<uint64_t> rank_array;
+                if(message_paragraph != stool::Message::NO_MESSAGE){
+                    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing LF array..." << std::flush;
+                }
+
+                std::vector<uint64_t> rank_array;
                 rank_array.resize(C.size(), 0);
 
                 std::vector<uint64_t> LF;
@@ -43,17 +47,29 @@ namespace stool
                     LF[i] = C[bwt[i]] + rank_array[bwt[i]];
                     rank_array[bwt[i]]++;                    
                 }
+                if(message_paragraph != stool::Message::NO_MESSAGE){
+                    std::cout << "[DONE]" << std::endl;
+                }
+
                 return LF;
             }
 
-            static std::vector<uint64_t> construct_FL_array(const std::vector<uint8_t> &bwt, const std::vector<uint64_t> &lf_array)
+            static std::vector<uint64_t> construct_FL_array(const std::vector<uint8_t> &bwt, const std::vector<uint64_t> &lf_array, int message_paragraph = stool::Message::SHOW_MESSAGE)
             {
-                const std::vector<uint64_t> fl_array;
+                if(message_paragraph != stool::Message::NO_MESSAGE){
+                    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Constructing FL array..." << std::flush;
+                }
+
+                std::vector<uint64_t> fl_array;
                 fl_array.resize(bwt.size(), 0);
 
                 for(uint64_t i = 0; i < bwt.size(); i++){
                     fl_array[lf_array[i]] = i;
                 }
+                if(message_paragraph != stool::Message::NO_MESSAGE){
+                    std::cout << "[DONE]" << std::endl;
+                }
+
                 return fl_array;
             }
 

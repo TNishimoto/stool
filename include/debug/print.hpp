@@ -9,8 +9,9 @@
 #include <fstream>
 #include <chrono>
 #include <deque>
-
 #include <time.h>
+#include "../basic/log.hpp"
+
 // #include <stdio.h>
 // #include <windows.h>
 // #include <Psapi.h>      // Psapi.Lib
@@ -168,6 +169,29 @@ namespace stool
 		static void print_integers_with_characters(const VEC &items, const std::string name = "PRINT_INTEGERS", std::string separator = ", ")
 		{
 			std::cout << name << ": " << to_integer_string_with_characters(items, separator) << std::endl;
+		}
+
+		template <typename VEC>
+		static void print_log_profile(const VEC &items, const std::string name = "PRINT_INTEGERS")
+		{
+			std::vector<uint64_t> log_profile;
+			for(uint64_t i = 0; i < items.size(); i++) {
+				uint64_t log_value = 0;
+				if(items[i] > 0) {
+				log_value = stool::Log::log2ceil(items[i]);
+
+				}
+				while(log_profile.size() <= log_value) {
+					log_profile.push_back(0);
+				}
+				log_profile[log_value]++;
+			}
+
+			std::cout << "=========" << name << "=========" << std::endl;
+			for(uint64_t i = 0; i < log_profile.size(); i++) {
+				std::cout << i << ": " << log_profile[i] << std::endl;
+			}
+			std::cout << "==================" << std::endl;
 		}
 
 
