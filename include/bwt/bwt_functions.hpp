@@ -32,6 +32,31 @@ namespace stool
                 uint64_t cNum = wt.rank(i, c);
                 return C[c] + cNum;
             }
+            static std::vector<uint64_t> construct_LF_array(const std::vector<uint8_t> &bwt, const std::vector<uint64_t> &C)
+            {
+                const std::vector<uint64_t> rank_array;
+                rank_array.resize(C.size(), 0);
+
+                std::vector<uint64_t> LF;
+                LF.resize(bwt.size(), 0);
+                for(uint64_t i = 0; i < bwt.size(); i++){
+                    LF[i] = C[bwt[i]] + rank_array[bwt[i]];
+                    rank_array[bwt[i]]++;                    
+                }
+                return LF;
+            }
+
+            static std::vector<uint64_t> construct_FL_array(const std::vector<uint8_t> &bwt, const std::vector<uint64_t> &lf_array)
+            {
+                const std::vector<uint64_t> fl_array;
+                fl_array.resize(bwt.size(), 0);
+
+                for(uint64_t i = 0; i < bwt.size(); i++){
+                    fl_array[lf_array[i]] = i;
+                }
+                return fl_array;
+            }
+
 
             template <typename TEXT, typename OUTPUT>
             static void construct_C_array(TEXT &text, OUTPUT &output, int message_paragraph = stool::Message::SHOW_MESSAGE)
