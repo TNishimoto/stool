@@ -1,26 +1,42 @@
+/**
+ * @file rmq_small_sparse_table.hpp
+ * @brief Implementation of a small sparse table for Range Minimum Query (RMQ).
+ */
+
 #pragma once
 #include "./rmq_sparse_table.hpp"
 
 namespace stool
 {
+    /**
+     * @class RMQSmallSparseTable
+     * @brief A class for performing Range Minimum Query (RMQ) using a small sparse table.
+     * @tparam T The data type of the elements in the array, defaulting to uint64_t.
+     */
     template <typename T = uint64_t>
     class RMQSmallSparseTable
     {
-        std::vector<uint64_t> _sub_array;
-        RMQSparseTable<T> _rmq;
+        std::vector<uint64_t> _sub_array; ///< Sub-array for storing minimum values.
+        RMQSparseTable<T> _rmq; ///< Sparse table for RMQ operations.
 
     public:
+        /**
+         * @brief Default constructor.
+         */
         RMQSmallSparseTable()
         {
         }
 
+        /**
+         * @brief Builds the small sparse table from the given array.
+         * @param array The input array to build the sparse table from.
+         */
         void build(const std::vector<T> &array)
         {
             _sub_array.clear();
             uint64_t logn = stool::Log::log2floor(array.size());
             uint64_t counter = 0;
             T current_minimum = std::numeric_limits<T>::max();
-
 
             for(auto p : array){
                 if(current_minimum > p){
@@ -41,7 +57,14 @@ namespace stool
             _rmq.build(_sub_array);
         }
 
-
+        /**
+         * @brief Finds the index of the minimum element in the range [i, j] of the array.
+         * @param i The start index of the range.
+         * @param j The end index of the range.
+         * @param array The input array.
+         * @return The index of the minimum element in the specified range.
+         * @throws std::out_of_range if j < i.
+         */
         uint64_t rmq_index(uint64_t i, uint64_t j, const std::vector<T> &array) const
         {
             if(j < i){
@@ -83,15 +106,19 @@ namespace stool
                         }
                     }
                 }
-
             }
-
         }
+
+        /**
+         * @brief Returns the minimum element in the range [i, j] of the array.
+         * @param i The start index of the range.
+         * @param j The end index of the range.
+         * @param array The input array.
+         * @return The minimum element in the specified range.
+         */
         uint64_t rmq(uint64_t i, uint64_t j, const std::vector<T> &array) const
         {
             return array[rmq_index(i, j, array)];
         }
-
     };
-
 }
