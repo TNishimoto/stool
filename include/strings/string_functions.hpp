@@ -6,9 +6,17 @@
 namespace stool
 {
 
+    /**
+     * @brief A utility class for string manipulation functions.
+     */
     class StringFunctions
     {
     public:
+        /**
+         * @brief Extracts the unique characters (alphabet) from the input text.
+         * @param text The input text as a vector of uint8_t.
+         * @return A vector containing the unique characters in the text.
+         */
         static std::vector<uint8_t> get_alphabet(const std::vector<uint8_t> &text)
         {
             std::vector<bool> checker;
@@ -29,7 +37,13 @@ namespace stool
             return r;
         }
 
-        static std::vector<uint8_t> get_suffx(const std::vector<uint8_t> &text, uint64_t i)
+        /**
+         * @brief Gets the suffix of the text starting from index i.
+         * @param text The input text as a vector of uint8_t.
+         * @param i The starting index for the suffix.
+         * @return A vector containing the suffix of the text.
+         */
+        static std::vector<uint8_t> get_suffix(const std::vector<uint8_t> &text, uint64_t i)
         {
             std::vector<uint8_t> r;
             for (uint64_t x = i; x < text.size(); x++)
@@ -38,6 +52,12 @@ namespace stool
             }
             return r;
         }
+        /**
+         * @brief Gets the suffix of the text starting from index i as a string.
+         * @param text The input text as a vector of uint8_t.
+         * @param i The starting index for the suffix.
+         * @return A string containing the suffix of the text.
+         */
         static std::string get_suffix_str(const std::vector<uint8_t> &text, uint64_t i)
         {
             std::string r;
@@ -48,6 +68,13 @@ namespace stool
             return r;
         }
 
+        /**
+         * @brief Computes the Longest Common Extension (LCE) between a text and a pattern.
+         * @param text The input text as a vector of uint8_t.
+         * @param i The starting index in the text.
+         * @param pattern The pattern to compare with the text.
+         * @return The length of the longest common extension.
+         */
         static uint64_t LCE(const std::vector<uint8_t> &text, uint64_t i, const std::vector<uint8_t> &pattern)
         {
             for (uint64_t x = 0; x < pattern.size(); x++)
@@ -67,8 +94,13 @@ namespace stool
             return pattern.size();
         }
 
-        // Return the longest common extension of text[i..] and text[j..].
-
+        /**
+         * @brief Computes the Longest Common Extension (LCE) between two suffixes of a string.
+         * @param text The input text as a string.
+         * @param i The starting index of the first suffix.
+         * @param j The starting index of the second suffix.
+         * @return The length of the longest common extension.
+         */
         static uint64_t LCE(const std::string &text, uint64_t i, uint64_t j)
         {
             if (i > j)
@@ -84,7 +116,10 @@ namespace stool
             }
             return x;
         }
-        // Reverse the input text.
+        /**
+         * @brief Reverses the input text in-place.
+         * @param text The input text to be reversed.
+         */
         static void reverse(std::string &text)
         {
             std::string tmp = text;
@@ -93,6 +128,11 @@ namespace stool
                 text[i] = tmp[text.size() - 1 - i];
             }
         }
+        /**
+         * @brief Reverses the input text and returns it as a new vector.
+         * @param text The input text as a vector of uint8_t.
+         * @return A new vector containing the reversed text.
+         */
         static std::vector<uint8_t> to_reversed_string(std::vector<uint8_t> &text)
         {
             std::vector<uint8_t> r;
@@ -106,6 +146,12 @@ namespace stool
             return r;
         }
 
+        /**
+         * @brief Generates all possible strings of a given length using the provided alphabet.
+         * @param len The length of the strings to generate.
+         * @param alphabets The alphabet to use for generating strings.
+         * @return A vector of strings containing all possible combinations.
+         */
         static std::vector<std::string> get_all_strings(uint64_t len, std::vector<uint8_t> &alphabets)
         {
             std::vector<std::string> r;
@@ -138,6 +184,12 @@ namespace stool
                 return r;
             }
         }
+        /**
+         * @brief Generates all possible strings of a given length using a specified alphabet size.
+         * @param len The length of the strings to generate.
+         * @param alphabet_size The size of the alphabet to use.
+         * @return A vector of strings containing all possible combinations.
+         */
         static std::vector<std::string> get_all_strings(uint64_t len, uint8_t alphabet_size)
         {
             std::vector<uint8_t> alphabets;
@@ -169,6 +221,13 @@ namespace stool
             return get_all_strings(len, alphabets);
         }
 
+        /**
+         * @brief Compares two suffixes of a text.
+         * @param text The input text as a vector of characters.
+         * @param x The starting index of the first suffix.
+         * @param y The starting index of the second suffix.
+         * @return True if the first suffix is less than the second, false otherwise.
+         */
         template <typename CHAR = uint8_t>
         static bool compare_suffixes(const std::vector<CHAR> &text, const uint64_t x, const uint64_t y)
         {
@@ -185,6 +244,11 @@ namespace stool
             return x > y;
         }
 
+        /**
+         * @brief Constructs a naive suffix array for the given text.
+         * @param text The input text as a vector of characters.
+         * @return A vector containing the indices of the suffixes in lexicographical order.
+         */
         template <typename CHAR = uint8_t>
         static std::vector<uint64_t> construct_naive_suffix_array(const std::vector<CHAR> &text)
         {
@@ -203,6 +267,12 @@ namespace stool
                 });
             return r;
         }
+        /**
+         * @brief Locates all occurrences of a pattern in the text.
+         * @param text The input text as a vector of uint8_t.
+         * @param pattern The pattern to search for.
+         * @return A vector containing the starting positions of all occurrences of the pattern.
+         */
         static std::vector<uint64_t> locate_query(const std::vector<uint8_t> &text, const std::vector<uint8_t> &pattern)
         {
             if (pattern.size() == 0)
@@ -238,8 +308,12 @@ namespace stool
                 return positions;
             }
         }
-      /*
-       * number of character c in string text[1..i-1]
+      /**
+       * @brief Counts the number of occurrences of a character in the text up to a given index.
+       * @param text The input text as a vector of characters.
+       * @param i The index up to which to count.
+       * @param c The character to count.
+       * @return The number of occurrences of the character.
        */
         template <typename CHAR = uint8_t>
         static int64_t rank_query(const std::vector<CHAR> &text, uint64_t i, CHAR c){
@@ -251,8 +325,12 @@ namespace stool
             }
             return counter;
         }
-		/*
-		 * Return the position of the (i+1)-th c in the given string if such character exists; otherwise return -1.
+		/**
+		 * @brief Finds the position of the (i+1)-th occurrence of a character in the text.
+		 * @param text The input text as a vector of characters.
+		 * @param i The index of the occurrence to find.
+		 * @param c The character to search for.
+		 * @return The position of the (i+1)-th occurrence, or -1 if it does not exist.
 		 */
         template <typename CHAR = uint8_t>
         static int64_t select_query(const std::vector<CHAR> &text, uint64_t i, CHAR c){

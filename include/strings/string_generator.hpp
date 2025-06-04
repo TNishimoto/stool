@@ -6,6 +6,13 @@ namespace stool
 	class StringGenerator
 	{
 	public:
+		/**
+		 * @brief Creates a random sequence of integers.
+		 * @param len The length of the sequence to generate.
+		 * @param alphabet_size The size of the alphabet (range of possible values).
+		 * @param seed The seed for the random number generator.
+		 * @return A vector of random integers.
+		 */
 		static std::vector<uint32_t> create_random_sequence(uint64_t len, uint64_t alphabet_size, int64_t seed)
 		{
 			std::mt19937 mt(seed);
@@ -19,6 +26,12 @@ namespace stool
 			return r;
 		}
 
+		/**
+		 * @brief Creates a random sequence of integers.
+		 * @param len The length of the sequence to generate.
+		 * @param alphabet_size The size of the alphabet (range of possible values).
+		 * @return A vector of random integers.
+		 */
 		static std::vector<uint32_t> create_random_sequence(uint64_t len, uint64_t alphabet_size)
 		{
 			std::random_device rnd;

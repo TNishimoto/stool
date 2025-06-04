@@ -6,23 +6,39 @@
 
 namespace stool
 {
+    /**
+     * @brief Class that holds statistical information about a text
+     */
     struct TextStatistics
     {
-        uint64_t run_count = UINT64_MAX;
-        uint64_t str_size = UINT64_MAX;
-        uint64_t alphabet_size = UINT64_MAX;
-        std::vector<uint64_t> char_counter;
-        std::vector<int64_t> char_min_pos_vec;
-        std::vector<int64_t> char_max_pos_vec;
+        uint64_t run_count = UINT64_MAX; ///< Number of runs in the text
+        uint64_t str_size = UINT64_MAX; ///< Size of the text
+        uint64_t alphabet_size = UINT64_MAX; ///< Size of the alphabet
+        std::vector<uint64_t> char_counter; ///< Character frequency counter
+        std::vector<int64_t> char_min_pos_vec; ///< Minimum position of each character
+        std::vector<int64_t> char_max_pos_vec; ///< Maximum position of each character
 
+        /**
+         * @brief Default constructor
+         */
         TextStatistics()
         {
         }
+
+        /**
+         * @brief Get the bit size of a character
+         * @return Bit size of a character
+         */
         uint64_t character_bit_size()
         {
             return 8;
             // return std::log2(this->alphabet_size) + 1;
         }
+
+        /**
+         * @brief Get the smallest character in the text
+         * @return Index of the smallest character in the text. Returns UINT64_MAX if text is empty
+         */
         uint64_t get_smallest_character() const
         {
             for (uint64_t i = 0; i < this->char_counter.size(); i++)
@@ -35,6 +51,14 @@ namespace stool
             return UINT64_MAX;
         }
 
+        /**
+         * @brief Build text statistics from a ForwardRLE object
+         * @tparam TEXT_ITERATOR_BEGIN Type of the begin iterator
+         * @tparam TEXT_ITERATOR_END Type of the end iterator
+         * @param frle ForwardRLE object
+         * @param message_paragraph Message paragraph number
+         * @return Constructed TextStatistics object
+         */
         template <typename TEXT_ITERATOR_BEGIN, typename TEXT_ITERATOR_END>
         static TextStatistics build(stool::ForwardRLE<TEXT_ITERATOR_BEGIN, TEXT_ITERATOR_END, uint8_t> &frle, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
@@ -94,6 +118,12 @@ namespace stool
             return ts;
         }
 
+        /**
+         * @brief Build text statistics from a file
+         * @param filename Input filename
+         * @param message_paragraph Message paragraph number
+         * @return Constructed TextStatistics object
+         */
         static TextStatistics build(std::string filename, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
 
@@ -104,12 +134,23 @@ namespace stool
             ofr.close();
             return ts;
         }
+
+        /**
+         * @brief Build text statistics from a vector
+         * @param text Input text vector
+         * @param message_paragraph Message paragraph number
+         * @return Constructed TextStatistics object
+         */
         static TextStatistics build(const std::vector<uint8_t> &text, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
             stool::ForwardRLE frle(text.begin(), text.end(), text.size());
             return TextStatistics::build(frle, message_paragraph);
         }
 
+        /**
+         * @brief Get the alphabet of the text
+         * @return Vector of characters that exist in the text
+         */
         std::vector<uint8_t> get_alphabet() const
         {
             std::vector<uint8_t> r;
@@ -122,6 +163,11 @@ namespace stool
             }
             return r;
         }
+
+        /**
+         * @brief Print text statistics information
+         * @param message_paragraph Message paragraph number
+         */
         void print(int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
             std::vector<uint8_t> alph = this->get_alphabet();
