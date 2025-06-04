@@ -12,6 +12,17 @@ namespace stool
     class SortString
     {
     public:
+        /**
+         * @brief Computes the Longest Common Prefix (LCP) and lexicographical comparison of two strings.
+         *
+         * This function calculates the LCP of two input strings and determines their lexicographical order.
+         * It returns a pair containing the LCP length and a comparison result.
+         *
+         * @param str1 The first input string as a vector of uint8_t.
+         * @param str2 The second input string as a vector of uint8_t.
+         * @return std::pair<uint64_t, int8_t> A pair where the first element is the LCP length and the second element is the comparison result:
+         *         -1 if str1 < str2, 1 if str1 > str2, and 0 if str1 == str2.
+         */
         static std::pair<uint64_t, int8_t> lcp_and_compare(const std::vector<uint8_t> &str1, const std::vector<uint8_t> &str2)
         {
             uint64_t lcp = SortString::lcp(str1, str2);
