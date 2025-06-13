@@ -1,0 +1,9 @@
+<map id="stool::RMQSmallSparseTable::rmq" name="stool::RMQSmallSparseTable::rmq">
+<area shape="rect" id="Node000001" title="Returns the minimum element in the range [i, j] of the array." alt="" coords="5,13,248,38"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1RMQSmallSparseTable.html#a9b496a75acd9d4bbc2da217eb4f187ff" title="Finds the index of the minimum element in the range [i, j] of the array." alt="" coords="296,5,504,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="248,23,282,23,282,28,248,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1Log.html#afd811b0800a41e2daca706807111d3f3" title="Calculates the base&#45;2 logarithm of an integer." alt="" coords="552,13,703,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="504,23,538,23,538,28,504,28"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1Byte.html#a9586eca62b622f23253e79387f1b1689" title="Gets the length of a code by finding the position of the leftmost 1 bit." alt="" coords="751,5,909,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="703,23,737,23,737,28,703,28"/>
+</map>

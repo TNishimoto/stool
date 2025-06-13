@@ -1,0 +1,7 @@
+<map id="stool::TextStatistics::print" name="stool::TextStatistics::print">
+<area shape="rect" id="Node000001" title="Print text statistics information." alt="" coords="5,37,155,77"/>
+<area shape="rect" id="Node000002" href="$structstool_1_1TextStatistics.html#acc69ca5eabcbc38be730199ca29cf6b6" title="Get the alphabet of the text." alt="" coords="219,5,369,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,44,205,36,206,41,156,49"/>
+<area shape="rect" id="Node000003" href="$structstool_1_1TextStatistics.html#a3ef5d23680679d2e458c74491cbab6fd" title="Get the smallest character in the text." alt="" coords="203,69,385,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,66,189,71,189,76,155,71"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="stool::TextStatistics::build" name="stool::TextStatistics::build">
+<area shape="rect" id="Node000001" title="Build text statistics from a file." alt="" coords="5,5,155,45"/>
+<area shape="rect" id="Node000002" href="$structstool_1_1TextStatistics.html#a0ba7d72156ce965fee35f64464b78d06" title="Build text statistics from a ForwardRLE object." alt="" coords="203,5,352,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,23,189,23,189,28,155,28"/>
+</map>
