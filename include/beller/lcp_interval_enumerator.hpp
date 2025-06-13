@@ -112,6 +112,9 @@ namespace stool
 
             static std::vector<INTERVAL> compute_lcp_intervals(const sdsl::int_vector<> &bwt, [[maybe_unused]]int message_paragraph = stool::Message::NO_MESSAGE)
             {
+                if(bwt.width() != 8){
+                    throw std::runtime_error("BWT must be 8-bit encoded.");
+                }
                 std::vector<uint64_t> C;
                 stool::bwt::BWTFunctions::construct_C_array(bwt, C);
 

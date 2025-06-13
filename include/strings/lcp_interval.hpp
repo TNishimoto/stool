@@ -11,8 +11,8 @@
 #include <cstdlib>
 #include <stdio.h>
 
-
-namespace stool{
+namespace stool
+{
 	template <typename index_type>
 	class LCPInterval
 	{
@@ -274,7 +274,7 @@ namespace stool{
 		}
 	};
 
-    template <typename INDEX = uint64_t>
+	template <typename INDEX = uint64_t>
 	struct LCPIntervalPreorderComp
 	{
 		bool operator()(const LCPInterval<INDEX> &x, const LCPInterval<INDEX> &y)
@@ -320,12 +320,17 @@ namespace stool{
 		}
 	};
 
-	template <typename INDEX = uint64_t>
-	void sort_in_preorder(std::vector<stool::LCPInterval<INDEX>> &items)
+	class LCPIntervalSort
 	{
-		std::sort(
-			items.begin(),
-			items.end(),
-			stool::LCPIntervalPreorderComp<INDEX>());
-	}
+		public: 
+		template <typename INDEX = uint64_t>
+		static void sort_in_preorder(std::vector<stool::LCPInterval<INDEX>> &items)
+		{
+			std::sort(
+				items.begin(),
+				items.end(),
+				stool::LCPIntervalPreorderComp<INDEX>());
+		}
+	};
+
 }

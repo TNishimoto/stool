@@ -15,3 +15,4 @@
 #include "./beller/lcp_interval_enumerator.hpp"
 #include "./beller/lcp_enumerator.hpp"
 
+#include "./suffix_tree/suffix_tree_builder.hpp"
