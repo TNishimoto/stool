@@ -38,6 +38,7 @@ namespace stool
             uint64_t len = 1;
             for (uint64_t y = 0; y < logn; y++)
             {
+                std::cout << "y: " << y << "/" << logn << std::endl;
                 for (uint64_t j = 0; j < array.size(); j++)
                 {
                     if (j + len < array.size())

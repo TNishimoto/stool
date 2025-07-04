@@ -131,7 +131,7 @@ namespace stool
 
 			if (n <= 0)
 			{
-				throw std::out_of_range("Log_{2}(n) error: n <= 0");
+				throw std::out_of_range("Log_{2}(n) error: n <= 0, n = " + std::to_string(n));
 			}
 			else
 			{
