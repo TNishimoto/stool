@@ -133,7 +133,7 @@ namespace stool
          * @param text The input text as a vector of uint8_t.
          * @return A new vector containing the reversed text.
          */
-        static std::vector<uint8_t> to_reversed_string(std::vector<uint8_t> &text)
+        static std::vector<uint8_t> to_reversed_string(const std::vector<uint8_t> &text)
         {
             std::vector<uint8_t> r;
             r.resize(text.size(), 0);
