@@ -35,6 +35,8 @@
 #include "./specialized_collection/vlc_deque.hpp"
 #include "./specialized_collection/naive_dynamic_string.hpp"
 
+#include "./lz/lz_factor.hpp"
+
 #include "./bwt/backward_isa.hpp"
 #include "./rlbwt/rle_io.hpp"
 
