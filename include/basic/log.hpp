@@ -137,7 +137,7 @@ namespace stool
 			{
 				uint64_t b = Byte::get_code_length(n);
 				uint64_t m = 1 << (b-1);
-				if(n == m){
+				if(n == (int64_t)m){
 					return b-1;
 				}else{
 					return b;

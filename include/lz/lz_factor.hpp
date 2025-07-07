@@ -48,13 +48,13 @@ namespace stool
         {
             LZFactor f;
             f.reference = reference;
-            f.length = UINT64_MAX;
+            f.length = length;
             return f;
         }
 
         uint64_t get_length() const
         {
-            if (this->isChar())
+            if (this->is_char())
             {
                 return 1;
             }

@@ -74,7 +74,7 @@ namespace stool
                 return RMQSparseTable<T>::naive_rmq_index(i, j, array);
             }
             uint64_t logn = stool::Log::log2floor(array.size());
-            uint64_t len = j - i + 1;
+            //uint64_t len = j - i + 1;
 
             uint64_t i_pos = i / logn;
             uint64_t j_pos = j / logn;
