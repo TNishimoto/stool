@@ -30,6 +30,8 @@ namespace stool
 		}
 		*/
 
+
+	public:
 		/*! 
 		* @brief Counts the number of 1 bits in a 32-bit integer using bit manipulation
 		* 
@@ -42,17 +44,25 @@ namespace stool
 		* @param bits The 32-bit integer value to count bits in
 		* @return The total number of 1 bits in the input value
 		*/
-		inline static int64_t numofbits5(long bits)
-		{
-			bits = (bits & 0x55555555) + (bits >> 1 & 0x55555555);
-			bits = (bits & 0x33333333) + (bits >> 2 & 0x33333333);
-			bits = (bits & 0x0f0f0f0f) + (bits >> 4 & 0x0f0f0f0f);
-			bits = (bits & 0x00ff00ff) + (bits >> 8 & 0x00ff00ff);
-			return (bits & 0x0000ffff) + (bits >> 16 & 0x0000ffff);
+	inline static int64_t numofbits5(long bits)
+	{
+		bits = (bits & 0x55555555) + (bits >> 1 & 0x55555555);
+		bits = (bits & 0x33333333) + (bits >> 2 & 0x33333333);
+		bits = (bits & 0x0f0f0f0f) + (bits >> 4 & 0x0f0f0f0f);
+		bits = (bits & 0x00ff00ff) + (bits >> 8 & 0x00ff00ff);
+		return (bits & 0x0000ffff) + (bits >> 16 & 0x0000ffff);
+	}
+
+	static int number_of_leading_zero(uint64_t x) {
+		if(x == 0){
+			return -1;
+		}else{
+			return __builtin_ctzll(x);
 		}
 
-	public:
-		/*! 
+	}
+
+	/*! 
 		* @brief Counts the number of 1 bits in a 64-bit integer using built-in function
 		* 
 		* This method uses the built-in __builtin_popcountll function to efficiently count
