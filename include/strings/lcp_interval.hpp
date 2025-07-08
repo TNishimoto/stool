@@ -228,7 +228,7 @@ namespace stool
 		}
 
 		template <typename CHAR = char>
-		static stool::LCPInterval<index_type> compute_LCP_interval(const std::vector<CHAR> &T, const std::vector<CHAR> &pattern, const std::vector<index_type> &sa)
+		static stool::LCPInterval<index_type> compute_lcp_intervals(const std::vector<CHAR> &T, const std::vector<CHAR> &pattern, const std::vector<index_type> &sa)
 		{
 			uint64_t p = T.size();
 			auto beg = std::upper_bound(

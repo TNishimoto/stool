@@ -33,6 +33,27 @@ namespace stool
 			this->stream.close();
 		}
 
+		static bool read(std::ifstream &file, std::vector<char> &output, uint64_t bufferSize, uint64_t textSize)
+		{
+			if (file.eof())
+			{
+				throw -1;
+			}
+			uint64_t i = file.tellg();
+			if (i == textSize)
+				return false;
+
+			uint64_t tmpBufferSize = std::min(textSize - i, bufferSize);
+			if (output.size() != tmpBufferSize)
+			{
+				output.resize(tmpBufferSize);
+			}
+			file.read((char *)&(output)[0], tmpBufferSize * sizeof(char));
+
+			return true;
+		}
+
+
 		static bool read(std::ifstream &file, std::vector<uint8_t> &output, uint64_t bufferSize, uint64_t textSize)
 		{
 			if (file.eof())
