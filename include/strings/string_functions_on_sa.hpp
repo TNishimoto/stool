@@ -14,7 +14,7 @@ namespace stool
         static Interval compute_sa_interval(const std::vector<uint8_t> &text, const std::vector<uint8_t> &pattern, const std::vector<uint64_t> &sa)
         {
             std::vector<uint64_t> r;
-            auto intv = stool::LCPInterval<uint64_t>::compute_LCP_interval(text, pattern, sa);
+            auto intv = stool::LCPInterval<uint64_t>::compute_lcp_intervals(text, pattern, sa);
             if (intv.lcp != pattern.size())
             {
                 return Interval(-1, -1);
