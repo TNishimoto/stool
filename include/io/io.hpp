@@ -34,6 +34,30 @@ namespace stool
 			vec.resize(len);
 			stream.read((char *)&(vec)[0], len * sizeof(T));
 		}
+
+		static void load(std::ifstream &stream, std::string &vec, bool allReading)
+		{
+			if (!stream)
+			{
+				std::cerr << "error reading file " << std::endl;
+				throw -1;
+			}
+			uint64_t len;
+			if (allReading)
+			{
+				stream.seekg(0, std::ios::end);
+				uint64_t n = (unsigned long)stream.tellg();
+				stream.seekg(0, std::ios::beg);
+				len = n / sizeof(char);
+			}
+			else
+			{
+				stream.read((char *)(&len), sizeof(uint64_t));
+			}
+			vec.resize(len);
+			stream.read((char *)&(vec)[0], len * sizeof(char));
+		}
+
 		template <typename T>
 		static void load(std::ifstream &stream, std::vector<T> &vec)
 		{
@@ -46,9 +70,20 @@ namespace stool
 			inputStream1.open(filename, std::ios::binary);
 			load(inputStream1, vec);
 		}
+		static void load(std::string &filename, std::string &vec)
+		{
+			std::ifstream inputStream1;
+			inputStream1.open(filename, std::ios::binary);
+			load(inputStream1, vec, true);
+		}
+
 
 		template <typename T>
 		static void load_text(std::string &filename, std::vector<T> &vec)
+		{
+			load(filename, vec);
+		}
+		static void load_text(std::string &filename, std::string &vec)
 		{
 			load(filename, vec);
 		}
@@ -107,7 +142,6 @@ namespace stool
 				output_vec.pop_back();
 			}
 		}
-
 
 
 		template <typename CONTAINER>
