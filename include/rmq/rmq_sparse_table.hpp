@@ -1,23 +1,52 @@
 #pragma once
 #include "../basic/log.hpp"
 #include "../debug/print.hpp"
+#include <cassert>
 
 namespace stool
 {
+    
+    /**
+     * @brief Range Minimum Query (RMQ) implementation using Sparse Table data structure
+     * 
+     * This class provides efficient range minimum query operations on an array using
+     * the sparse table technique. It preprocesses the array in O(n log n) time and
+     * can answer RMQ queries in O(1) time.
+     * 
+     * @tparam T The data type of the array elements (default: uint64_t)
+     */
     template <typename T = uint64_t>
     class RMQSparseTable
     {
         std::vector<std::vector<uint64_t>> _sparse_table;
 
     public:
+        /**
+         * @brief Default constructor
+         * 
+         * Creates an empty RMQ sparse table.
+         */
         RMQSparseTable()
         {
         }
 
+        /**
+         * @brief Clears the sparse table
+         * 
+         * Removes all data from the sparse table, making it empty.
+         */
         void clear(){
             _sparse_table.clear();
         }
 
+        /**
+         * @brief Builds the sparse table from the given array
+         * 
+         * Preprocesses the input array to create a sparse table that enables
+         * O(1) range minimum queries. The construction time is O(n log n).
+         * 
+         * @param array The input array to build the sparse table from
+         */
         void build(const std::vector<T> &array)
         {
             this->clear();
@@ -70,6 +99,19 @@ namespace stool
                 len *= 2;
             }
         }
+        
+        /**
+         * @brief Finds the index of the minimum element in the range [i, j]
+         * 
+         * Returns the index of the minimum element in the specified range
+         * using the precomputed sparse table. Time complexity is O(1).
+         * 
+         * @param i The starting index of the range (inclusive)
+         * @param j The ending index of the range (inclusive)
+         * @param array The original array used to build the sparse table
+         * @return The index of the minimum element in range [i, j]
+         * @throws std::out_of_range if j < i or j >= array.size()
+         */
         uint64_t rmq_index(uint64_t i, uint64_t j, const std::vector<T> &array) const
         {
             if(j < i){
@@ -103,11 +145,36 @@ namespace stool
                 return array[left] <= array[right] ? left : right;
             }
         }
+        
+        /**
+         * @brief Finds the minimum value in the range [i, j]
+         * 
+         * Returns the minimum value in the specified range by first finding
+         * the index of the minimum element and then returning its value.
+         * 
+         * @param i The starting index of the range (inclusive)
+         * @param j The ending index of the range (inclusive)
+         * @param array The original array used to build the sparse table
+         * @return The minimum value in range [i, j]
+         * @throws std::out_of_range if j < i or j >= array.size()
+         */
         uint64_t rmq(uint64_t i, uint64_t j, const std::vector<T> &array) const
         {
             return array[rmq_index(i, j, array)];
         }
 
+        /**
+         * @brief Naive implementation of range minimum query index
+         * 
+         * Finds the index of the minimum element in range [i, j] using
+         * a simple linear scan. Time complexity is O(n).
+         * 
+         * @param i The starting index of the range (inclusive)
+         * @param j The ending index of the range (inclusive)
+         * @param array The input array
+         * @return The index of the minimum element in range [i, j]
+         * @throws std::out_of_range if j < i
+         */
         static uint64_t naive_rmq_index(uint64_t i, uint64_t j, const std::vector<T> &array)
         {
             if(j < i){
@@ -126,11 +193,30 @@ namespace stool
             }
             return min_index;
         }
+        
+        /**
+         * @brief Naive implementation of range minimum query
+         * 
+         * Finds the minimum value in range [i, j] using a simple linear scan.
+         * Time complexity is O(n).
+         * 
+         * @param i The starting index of the range (inclusive)
+         * @param j The ending index of the range (inclusive)
+         * @param array The input array
+         * @return The minimum value in range [i, j]
+         * @throws std::out_of_range if j < i
+         */
         static uint64_t naive_rmq(uint64_t i, uint64_t j, const std::vector<T> &array)
         {
             return array[naive_rmq_index(i, j, array)];
         }
 
+        /**
+         * @brief Prints the sparse table for debugging purposes
+         * 
+         * Outputs the contents of the sparse table to standard output
+         * to help with debugging and understanding the data structure.
+         */
         void print() const{
             std::cout << "sparse table" << std::endl;
             for(uint64_t i = 0; i < _sparse_table.size(); i++){

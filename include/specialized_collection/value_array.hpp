@@ -11,9 +11,37 @@
 
 namespace stool
 {
-    class VectorTranslator
+
+    /**
+     * @brief A memory-efficient array that automatically chooses the smallest data type
+     * 
+     * ValueArray stores a sequence of unsigned integers using the smallest possible
+     * data type (uint8_t, uint16_t, uint32_t, or uint64_t) based on the maximum value
+     * in the data. This provides significant memory savings when storing arrays with
+     * small values.
+     * 
+     * The class supports:
+     * - Automatic type selection for optimal memory usage
+     * - File I/O operations (save/load)
+     * - Random access to elements
+     * - Type conversion and decoding
+     */
+    class ValueArray
     {
+
+        uint64_t byteSize;  ///< Size of each element in bytes
+        uint64_t num;       ///< Number of elements in the array
+        std::vector<uint8_t> arr;  ///< Raw byte array storing the data
+
     public:
+/**
+         * @brief Translates a vector from type X to type Y
+         * 
+         * @tparam X Source type
+         * @tparam Y Destination type
+         * @param input Source vector
+         * @param output Destination vector (will be resized to match input size)
+         */
         template <typename X, typename Y>
         static void translate(const std::vector<X> &input, std::vector<Y> &output)
         {
@@ -23,20 +51,23 @@ namespace stool
                 output[i] = input[i];
             }
         }
-    };
 
-    class ValueArray
-    {
-
-        uint64_t byteSize;
-        uint64_t num;
-        std::vector<uint8_t> arr;
-
-    public:
+        /**
+         * @brief Returns the number of elements in the array
+         * 
+         * @return uint64_t Number of elements
+         */
         uint64_t size()
         {
             return this->num;
         }
+
+        /**
+         * @brief Writes the ValueArray to an output file stream
+         * 
+         * @param writer Output file stream
+         * @throws -1 if the stream is not valid
+         */
         void write(std::ofstream &writer) const
         {
             if (!writer)
@@ -45,6 +76,12 @@ namespace stool
             writer.write((const char *)(&this->num), sizeof(uint64_t));
             writer.write((const char *)(&this->arr[0]), sizeof(uint8_t) * this->arr.size());
         }
+
+        /**
+         * @brief Writes the ValueArray to a file
+         * 
+         * @param filename Name of the output file
+         */
         void write(std::string filename) const
         {
 
@@ -52,6 +89,13 @@ namespace stool
             this->write(out);
             out.close();
         }
+
+        /**
+         * @brief Loads the ValueArray from an input file stream
+         * 
+         * @param stream Input file stream
+         * @throws -1 if the stream is not valid or reading fails
+         */
         void load(std::ifstream &stream)
         {
             if (!stream)
@@ -67,6 +111,12 @@ namespace stool
             this->arr.resize(arraySize);
             stream.read((char *)(&this->arr[0]), sizeof(uint8_t) * this->arr.size());
         }
+
+        /**
+         * @brief Loads the ValueArray from a file
+         * 
+         * @param filename Name of the input file
+         */
         void load(std::string filename)
         {
             std::ifstream stream;
@@ -74,9 +124,19 @@ namespace stool
             this->load(stream);
             stream.close();
         }
+
+        /**
+         * @brief Default constructor
+         */
         ValueArray()
         {
         }
+
+        /**
+         * @brief Move constructor
+         * 
+         * @param obj ValueArray to move from
+         */
         ValueArray(ValueArray &&obj)
         {
             this->byteSize = obj.byteSize;
@@ -84,6 +144,12 @@ namespace stool
             this->arr.swap(obj.arr);
         }
 
+        /**
+         * @brief Access element at index i
+         * 
+         * @param i Index of the element to access
+         * @return uint64_t Value at index i
+         */
         uint64_t operator[](uint64_t i) const
         {
 
@@ -120,6 +186,11 @@ namespace stool
             }
         }
 
+        /**
+         * @brief Swaps the contents of this ValueArray with another
+         * 
+         * @param obj ValueArray to swap with
+         */
         void swap(ValueArray &obj)
         {
             this->num = obj.num;
@@ -127,6 +198,13 @@ namespace stool
             this->byteSize = obj.byteSize;
         }
 
+        /**
+         * @brief Sets the ValueArray from a vector of values
+         * 
+         * @tparam BYTE Type of the input vector elements
+         * @param _arr Input vector
+         * @param isShrink If true, automatically choose the smallest data type based on maximum value
+         */
         template <typename BYTE>
         void set(const std::vector<BYTE> &_arr, bool isShrink)
         {
@@ -148,29 +226,36 @@ namespace stool
                 if (max <= UINT8_MAX)
                 {
                     std::vector<uint8_t> o;
-                    VectorTranslator::translate(_arr, o);
+                    ValueArray::translate(_arr, o);
                     this->set(o, false);
                 }
                 else if (max <= UINT16_MAX)
                 {
                     std::vector<uint16_t> o;
-                    VectorTranslator::translate(_arr, o);
+                    ValueArray::translate(_arr, o);
                     this->set(o, false);
                 }
                 else if (max <= UINT32_MAX)
                 {
                     std::vector<uint32_t> o;
-                    VectorTranslator::translate(_arr, o);
+                    ValueArray::translate(_arr, o);
                     this->set(o, false);
                 }
                 else
                 {
                     std::vector<uint64_t> o;
-                    VectorTranslator::translate(_arr, o);
+                    ValueArray::translate(_arr, o);
                     this->set(o, false);
                 }
             }
         }
+
+        /**
+         * @brief Changes the value at a specific index
+         * 
+         * @param i Index of the element to change
+         * @param value New value to set
+         */
         void change(uint64_t i, uint64_t value)
         {
             if (this->byteSize == 1)
@@ -210,12 +295,29 @@ namespace stool
                 memcpy(&this->arr[this->byteSize * i], &x, this->byteSize);
             }
         }
+
+        /**
+         * @brief Resizes the ValueArray to a new size with specified byte size
+         * 
+         * @param _size New number of elements
+         * @param _byteSize Size of each element in bytes
+         */
         void resize(uint64_t _size, uint64_t _byteSize)
         {
             this->arr.resize(_size * _byteSize, 0);
             this->num = _size;
             this->byteSize = _byteSize;
         }
+
+        /**
+         * @brief Decodes the ValueArray to a vector of the specified type
+         * 
+         * This method requires that the byte size matches the size of the target type.
+         * 
+         * @tparam BYTE Type of the output vector elements
+         * @param output Output vector (will be resized)
+         * @throws -1 if byte size doesn't match the target type size
+         */
         template <typename BYTE>
         void fit_decode(std::vector<BYTE> &output) const
         {
@@ -230,6 +332,16 @@ namespace stool
                 throw -1;
             }
         }
+
+        /**
+         * @brief Decodes the ValueArray to a vector of the specified type
+         * 
+         * This method automatically handles type conversion regardless of the stored byte size.
+         * 
+         * @tparam BYTE Type of the output vector elements
+         * @param output Output vector (will be resized)
+         * @throws -1 if the byte size is not supported (1, 2, 4, or 8 bytes)
+         */
         template <typename BYTE>
         void decode(std::vector<BYTE> &output) const
         {
@@ -237,25 +349,25 @@ namespace stool
             {
                 std::vector<uint8_t> decArr;
                 this->fit_decode(decArr);
-                VectorTranslator::translate(decArr, output);
+                ValueArray::translate(decArr, output);
             }
             else if (this->byteSize == 2)
             {
                 std::vector<uint16_t> decArr;
                 this->fit_decode(decArr);
-                VectorTranslator::translate(decArr, output);
+                ValueArray::translate(decArr, output);
             }
             else if (this->byteSize == 4)
             {
                 std::vector<uint32_t> decArr;
                 this->fit_decode(decArr);
-                VectorTranslator::translate(decArr, output);
+                ValueArray::translate(decArr, output);
             }
             else if (this->byteSize == 8)
             {
                 std::vector<uint64_t> decArr;
                 this->fit_decode(decArr);
-                VectorTranslator::translate(decArr, output);
+                ValueArray::translate(decArr, output);
             }
             else
             {
@@ -263,6 +375,12 @@ namespace stool
                 throw -1;
             }
         }
+
+        /**
+         * @brief Returns the memory usage in bytes
+         * 
+         * @return uint64_t Total memory usage including array data and metadata
+         */
         uint64_t get_using_memory() const
         {
             return this->arr.size() + sizeof(this->byteSize) + sizeof(this->num) + 3;

@@ -4,9 +4,25 @@
 namespace stool
 {
 
+    /**
+     * @brief Elias-Fano encoding implementation for storing a sequence of integers efficiently
+     * 
+     * This class implements the Elias-Fano encoding scheme, which provides space-efficient
+     * storage for monotonically increasing sequences of integers. The encoding splits
+     * each value into upper and lower bits, storing them separately for optimal compression.
+     * 
+     * The data structure supports O(1) random access and O(log n) rank queries.
+     */
     class EliasFanoVector
     {
     public:
+        /**
+         * @brief Iterator class for EliasFanoVector providing random access iteration
+         * 
+         * This iterator implements the standard random access iterator interface,
+         * allowing traversal of the encoded sequence with O(1) access time.
+         * Note that decrement operations are not supported.
+         */
         class iterator
         {
         private:
@@ -21,55 +37,121 @@ namespace stool
             using iterator_category = std::random_access_iterator_tag;
             //using value_type = uint64_t;
 
+            /**
+             * @brief Constructs an iterator pointing to a specific position
+             * @param _efs Pointer to the EliasFanoVector instance
+             * @param _index Position in the sequence (0-based)
+             */
             iterator(const EliasFanoVector *_efs, uint64_t _index) : index(_index), efs(_efs)
             {
             }
 
+            /**
+             * @brief Pre-increment operator
+             * @return Reference to the incremented iterator
+             */
             iterator &operator++()
             {
                 this->index++;
                 return *this;
             }
+            
+            /**
+             * @brief Dereference operator
+             * @return The value at the current position
+             */
             uint64_t operator*()
             {
                 return efs->access(this->index);
             }
+            
+            /**
+             * @brief Inequality comparison
+             * @param rhs Iterator to compare with
+             * @return true if iterators point to different positions
+             */
             bool operator!=(const iterator &rhs)
             {
                 return (index != rhs.index);
             }
+            
+            /**
+             * @brief Equality comparison
+             * @param rhs Iterator to compare with
+             * @return true if iterators point to the same position
+             */
             bool operator==(const iterator &rhs)
             {
                 return (index == rhs.index);
             }
 
+            /**
+             * @brief Compound assignment operator for addition
+             * @param p Number of positions to advance
+             * @return Reference to the modified iterator
+             */
             iterator &operator+=(int64_t p)
             {
                 this->index += p;
                 return *this;
             }
+            
+            /**
+             * @brief Addition operator
+             * @param p Number of positions to advance
+             * @return New iterator at the advanced position
+             */
             iterator operator+(int64_t p)
             {
                 iterator r(this->efs, this->index + p);
                 return r;
             }
 
+            /**
+             * @brief Less-than comparison
+             * @param rhs Iterator to compare with
+             * @return true if this iterator points to an earlier position
+             */
             bool operator<(const iterator &rhs)
             {
                 return (index < rhs.index);
             }
+            
+            /**
+             * @brief Greater-than comparison
+             * @param rhs Iterator to compare with
+             * @return true if this iterator points to a later position
+             */
             bool operator>(const iterator &rhs)
             {
                 return (index > rhs.index);
             }
+            
+            /**
+             * @brief Less-than-or-equal comparison
+             * @param rhs Iterator to compare with
+             * @return true if this iterator points to the same or earlier position
+             */
             bool operator<=(const iterator &rhs)
             {
                 return (index <= rhs.index);
             }
+            
+            /**
+             * @brief Greater-than-or-equal comparison
+             * @param rhs Iterator to compare with
+             * @return true if this iterator points to the same or later position
+             */
             bool operator>=(const iterator &rhs)
             {
                 return (index >= rhs.index);
             }
+            
+            /**
+             * @brief Distance between two iterators
+             * @param rhs Iterator to calculate distance from
+             * @return Absolute distance between iterator positions
+             */
             uint64_t operator-(const iterator &rhs)
             {
                 if (this->index < rhs.index)
@@ -81,6 +163,12 @@ namespace stool
                     return this->index - rhs.index;
                 }
             }
+            
+            /**
+             * @brief Pre-decrement operator (not supported)
+             * @return Reference to the iterator (never reached due to exception)
+             * @throws std::logic_error Always thrown as decrement is not supported
+             */
             iterator &operator--()
             {
                 throw std::logic_error("Error(EliasFanoVector:--): This function is not supported.");
@@ -102,7 +190,11 @@ namespace stool
         uint8_t lower_bit_size;
         uint64_t max_value = 0;
 
-
+        /**
+         * @brief Splits a value into upper and lower bits according to the encoding scheme
+         * @param value The value to split
+         * @return Pair containing (upper_bits, lower_bits)
+         */
         std::pair<uint64_t, uint64_t> get_upper_and_lower_bits(uint64_t value) const
         {
             uint64_t upper = value >> this->lower_bit_size;
@@ -111,6 +203,12 @@ namespace stool
             return std::pair<uint64_t, uint64_t>(upper, lower);
         }
 
+        /**
+         * @brief Reconstructs a value from its upper and lower bits
+         * @param lower The lower bits
+         * @param upper The upper bits
+         * @return The reconstructed value
+         */
         uint64_t recover(uint64_t lower, uint64_t upper) const
         {
             return (upper << lower_bit_size) | lower;
@@ -120,10 +218,17 @@ namespace stool
         using value_type = uint64_t;
         using const_iterator = iterator;
 
+        /**
+         * @brief Default constructor
+         */
         EliasFanoVector()
         {
         }
 
+        /**
+         * @brief Move constructor
+         * @param obj The EliasFanoVector to move from
+         */
         EliasFanoVector(EliasFanoVector &&obj) : lower_bits(std::move(obj.lower_bits))
         {
 
@@ -138,6 +243,11 @@ namespace stool
             this->upper_0selecter.set_vector(&this->upper_bits);
             this->upper_0selecter.swap(obj.upper_0selecter);
         }
+        
+        /**
+         * @brief Swaps the contents of this vector with another
+         * @param obj The EliasFanoVector to swap with
+         */
         void swap(EliasFanoVector &obj)
         {
             std::swap(this->_size, obj._size);
@@ -158,6 +268,12 @@ namespace stool
 
             
         }
+        
+        /**
+         * @brief Builds the Elias-Fano vector from a builder object
+         * @param builder The EliasFanoVectorBuilder containing the data
+         * @throws int Thrown if the builder is not finished
+         */
         void build_from_builder(EliasFanoVectorBuilder &builder)
         {
             if (!builder.finished)
@@ -206,6 +322,12 @@ namespace stool
 #endif
 */
         }
+        
+        /**
+         * @brief Constructs the Elias-Fano vector from a sequence of integers
+         * @tparam VEC The type of the input vector (defaults to std::vector<uint64_t>)
+         * @param seq Pointer to the input sequence
+         */
         template <typename VEC = std::vector<uint64_t>>
         void construct(VEC *seq)
         {
@@ -227,6 +349,11 @@ namespace stool
             this->build_from_builder(builder);
 
         }
+        
+        /**
+         * @brief Builds the Elias-Fano vector from a bit vector representation
+         * @param seq Vector of booleans where true indicates presence of an element
+         */
         void build_from_bit_vector(const std::vector<bool> &seq)
         {
             uint64_t _max_value = 0;
@@ -278,6 +405,12 @@ namespace stool
             */
         }
 
+        /**
+         * @brief Accesses the element at the specified position
+         * @param i Index of the element to access (0-based)
+         * @return The value at position i
+         * @pre i < size()
+         */
         uint64_t access(uint64_t i) const
         {
             assert(i < this->_size);
@@ -295,9 +428,12 @@ namespace stool
                 return upper;
             }
         }
-        /*
-        Return the number of 1 in T[0..value-1]
-        */
+        
+        /**
+         * @brief Computes the rank of a value (number of elements less than the value)
+         * @param value The value to compute rank for
+         * @return Number of elements in the sequence that are less than value
+         */
         uint64_t rank(uint64_t value) const
         {
             auto min_value = this->access(0);
@@ -339,6 +475,12 @@ namespace stool
             }
         }
 
+        /**
+         * @brief Verifies that the encoded sequence matches the original input
+         * @tparam VEC The type of the input vector (defaults to std::vector<uint64_t>)
+         * @param seq The original input sequence to verify against
+         * @throws std::logic_error If the encoded sequence doesn't match the input
+         */
         template <typename VEC = std::vector<uint64_t>>
         void check(const VEC &seq)
         {
@@ -352,10 +494,21 @@ namespace stool
             }
             std::cout << "OK!" << std::endl;
         }
+        
+        /**
+         * @brief Array-style access operator
+         * @param i Index of the element to access
+         * @return The value at position i
+         */
         uint64_t operator[](uint64_t i) const
         {
             return this->access(i);
         }
+        
+        /**
+         * @brief Converts the encoded sequence back to a standard vector
+         * @return std::vector<uint64_t> containing all elements in order
+         */
         std::vector<uint64_t> to_vector()
         {
             std::vector<uint64_t> r;
@@ -366,27 +519,52 @@ namespace stool
 
             return r;
         }
+        
+        /**
+         * @brief Returns the number of elements in the sequence
+         * @return The size of the sequence
+         */
         uint64_t size() const
         {
             return this->_size;
         }
 
+        /**
+         * @brief Returns an iterator pointing to the first element
+         * @return Iterator to the beginning of the sequence
+         */
         iterator begin() const
         {
             auto p = iterator(this, 0);
             return p;
         }
+        
+        /**
+         * @brief Returns an iterator pointing past the last element
+         * @return Iterator to the end of the sequence
+         */
         iterator end() const
         {
             auto p = iterator(this, _size);
             return p;
         }
 
+        /**
+         * @brief Estimates the memory usage of the data structure
+         * @return Approximate memory usage in bytes
+         */
         uint64_t get_using_memory() const
         {
             return sdsl::size_in_bytes(lower_bits) + (this->upper_bits.size() / 8) + 18;
         }
 
+        /**
+         * @brief Prints detailed information about the data structure for debugging
+         * 
+         * Outputs the size, bit sizes, maximum value, lower bits array,
+         * upper bits bit vector, and the reconstructed values with their
+         * upper/lower bit decomposition.
+         */
         void print() const
         {
             std::cout << "@(" << _size << ", " << (uint64_t)upper_bit_size << ", " << (uint64_t)lower_bit_size << ", " << max_value << ")" << std::endl; 

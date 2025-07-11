@@ -19,56 +19,79 @@
 
 namespace stool
 {
-    /*
-bool getBit(uint64_t x, int8_t nth)
-{
-    return ((x >> nth) & 0x00000001) > 0;
-}
-std::string toBinaryString(uint64_t x)
-{
-    std::string s;
-    s.resize(64, '0');
-    for (uint64_t i = 0; i < 64; i++)
-    {
-        s[i] = getBit(x, i) ? '1' : '0';
-    }
-    return s;
-}
-*/
 
+    /**
+     * @brief Builder class for Elias-Fano encoded vectors
+     * 
+     * This class implements a builder for Elias-Fano encoded vectors, which provide
+     * space-efficient storage for monotonically increasing sequences of integers.
+     * The encoding splits each value into upper and lower bits, where upper bits
+     * are stored as a unary-coded bit vector and lower bits are stored directly.
+     * 
+     * @tparam T The type of values to be stored (typically uint64_t)
+     */
     class EliasFanoVectorBuilder
     {
     public:
+        /** @brief Total number of elements to be stored */
         uint64_t _size = 0;
-        //stool::ValueArray lower_bits;
+        /** @brief Storage for lower bits of each value */
         sdsl::int_vector<> lower_bits;
+        /** @brief Bit vector for upper bits (unary encoding) */
         std::vector<bool> upper_bits;
 
+        /** @brief Number of bits used for upper part of each value */
         uint8_t upper_bit_size;
+        /** @brief Number of bits used for lower part of each value */
         uint8_t lower_bit_size;
+        /** @brief Maximum value in the sequence */
         uint64_t max_value = 0;
 
+        /** @brief Current number of zeros in upper bits */
         uint64_t current_zero_num_on_upper_bits = 0;
+        /** @brief Current number of elements added */
         uint64_t current_element_count = 0;
+        /** @brief Temporary value for bit-by-bit insertion */
         uint64_t tmp_value = 0;
+        /** @brief Universe size (maximum possible value + 1) */
         uint64_t universe = 0;
+        /** @brief Flag indicating if building is finished */
         bool finished = false;
 
-        //uint64_t base_bit_size = 0;
-
+        /**
+         * @brief Calculate memory usage in bytes
+         * @return Memory usage in bytes
+         */
         uint64_t get_using_memory() const
         {
             return sdsl::size_in_bytes(lower_bits) + (this->upper_bits.size() / 8) + 42;
         }
+        
+        /**
+         * @brief Default constructor
+         */
         EliasFanoVectorBuilder()
         {
         }
+        
+        /**
+         * @brief Initialize the builder with universe size and element count
+         * @param _universe The universe size (maximum value + 1)
+         * @param element_num Number of elements to be stored
+         */
         void initialize(uint64_t _universe, uint64_t element_num)
         {
             uint64_t x = element_num == 0 ? 1 : std::ceil(std::log2(element_num));
 
             this->initialize(_universe, element_num, x);
         }
+        
+        /**
+         * @brief Initialize the builder with universe size, element count, and upper bit size
+         * @param _universe The universe size (maximum value + 1)
+         * @param element_num Number of elements to be stored
+         * @param _upper_bit_size Number of bits to use for upper part
+         */
         void initialize(uint64_t _universe, uint64_t element_num, uint64_t _upper_bit_size)
         {
 
@@ -112,6 +135,11 @@ std::string toBinaryString(uint64_t x)
             }
             */
         }
+        
+        /**
+         * @brief Swap contents with another builder
+         * @param builder The builder to swap with
+         */
         void swap(EliasFanoVectorBuilder &builder)
         {
             this->_size = builder._size;
@@ -126,6 +154,12 @@ std::string toBinaryString(uint64_t x)
             std::swap(this->tmp_value, builder.tmp_value);
             std::swap(this->universe, builder.universe);
         }
+        
+        /**
+         * @brief Merge another builder's contents with an offset
+         * @param builder The builder to merge from
+         * @param add_value Value to add to each element from the other builder
+         */
         void merge(EliasFanoVectorBuilder &builder, uint64_t add_value)
         {
             //std::vector<uint64_t> output;
@@ -160,6 +194,11 @@ std::string toBinaryString(uint64_t x)
             builder.swap(_tmp);
         }
 
+        /**
+         * @brief Split a value into upper and lower bits
+         * @param value The value to split
+         * @return Pair of (upper_bits, lower_bits)
+         */
         std::pair<uint64_t, uint64_t> get_upper_and_lower_bits(uint64_t value) const
         {
             uint64_t upper = value >> this->lower_bit_size;
@@ -167,6 +206,11 @@ std::string toBinaryString(uint64_t x)
             uint64_t lower = (value << upper_filter) >> upper_filter;
             return std::pair<uint64_t, uint64_t>(upper, lower);
         }
+        
+        /**
+         * @brief Push a single bit (for bit-by-bit construction)
+         * @param bit The bit to push (true for 1, false for 0)
+         */
         void push_bit(bool bit)
         {
             if (bit)
@@ -204,6 +248,11 @@ std::string toBinaryString(uint64_t x)
                 tmp_value++;
             }
         }
+        
+        /**
+         * @brief Add a value to the sequence
+         * @param value The value to add (must be monotonically increasing)
+         */
         void push(uint64_t value)
         {
             //std::cout << "CHECK/" << value   << std::endl;
@@ -253,6 +302,9 @@ std::string toBinaryString(uint64_t x)
         }
         */
 #if DEBUG
+        /**
+         * @brief Debug function to check upper bits consistency
+         */
         void check2()
         {
 
@@ -268,6 +320,9 @@ std::string toBinaryString(uint64_t x)
             }
         }
 
+        /**
+         * @brief Debug function to check overall consistency
+         */
         void check()
         {
             assert(this->current_element_count == _size);
@@ -284,6 +339,9 @@ std::string toBinaryString(uint64_t x)
             }
         }
 #endif
+        /**
+         * @brief Finalize the construction by adding the final zero bit
+         */
         void finish()
         {
 #if DEBUG
@@ -302,6 +360,11 @@ std::string toBinaryString(uint64_t x)
             }
         }
 
+        /**
+         * @brief Find the position of the i-th 1 in upper bits
+         * @param i The index of the 1 to find (1-based)
+         * @return Position of the i-th 1, or UINT64_MAX if not found
+         */
         uint64_t upper_selecter(uint64_t i) const
         {
             uint64_t p = 0;
@@ -318,11 +381,24 @@ std::string toBinaryString(uint64_t x)
             }
             return UINT64_MAX;
         }
+        
+        /**
+         * @brief Access the i-th element in the sequence
+         * @param i The index of the element to access (0-based)
+         * @return The value at index i
+         */
         uint64_t access(uint64_t i) const
         {
             uint64_t upper = (upper_selecter(i + 1) - i);
             return access(i, upper);
         }
+        
+        /**
+         * @brief Access the i-th element with precomputed upper bits
+         * @param i The index of the element to access (0-based)
+         * @param upper The upper bits value
+         * @return The reconstructed value
+         */
         uint64_t access(uint64_t i, uint64_t upper) const
         {
             if (lower_bit_size > 0)
@@ -336,6 +412,9 @@ std::string toBinaryString(uint64_t x)
             }
         }
 
+        /**
+         * @brief Print the current state for debugging
+         */
         void print()
         {
             std::cout << "print" << std::endl;
@@ -353,6 +432,10 @@ std::string toBinaryString(uint64_t x)
             std::cout << "print end" << std::endl;
         }
 
+        /**
+         * @brief Convert the encoded sequence to a standard vector
+         * @param output The output vector to store the decoded values
+         */
         void to_vector(std::vector<uint64_t> &output)
         {
             output.resize(this->current_element_count);

@@ -8,6 +8,7 @@
 
 namespace stool
 {
+    
     class VLCDeque
     {
         SimpleDeque16<uint8_t> value_length_deque;
