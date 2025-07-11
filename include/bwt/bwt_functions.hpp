@@ -12,12 +12,9 @@
 #include <sdsl/wt_algorithm.hpp>
 
 #include <queue>
-#include "../strings/sa_bwt_lcp.hpp"
+#include "../strings/array_constructor.hpp"
 #include "../debug/print.hpp"
 
-// #include "sa_lcp.hpp"
-// using namespace std;
-// using namespace sdsl;
 
 namespace stool
 {

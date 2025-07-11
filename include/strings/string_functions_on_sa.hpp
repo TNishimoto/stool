@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <cassert>
-#include "./sa_bwt_lcp.hpp"
+#include "./array_constructor.hpp"
 #include "./lcp_interval.hpp"
 namespace stool
 {

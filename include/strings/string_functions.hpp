@@ -12,6 +12,51 @@ namespace stool
     class StringFunctions
     {
     public:
+        /*!
+         * @brief Checks if a text contains a special marker character
+         *
+         * This function verifies that a given text contains a special marker character 'c'
+         * only at the end of the text. It checks three conditions:
+         * 1. The marker character appears exactly once at the end of the text
+         * 2. No characters in the text are less than the marker character
+         * 3. The marker character does not appear anywhere else in the text
+         *
+         * @tparam CHAR The character type of the text
+         * @param text The input text to check
+         * @param c The special marker character to look for
+         * @return true if the text satisfies all conditions, throws an exception otherwise
+         * @throws std::logic_error if any of the conditions are violated
+         */
+        template <typename CHAR>
+        static bool check_text_with_special_marker(std::vector<CHAR> &text, CHAR c)
+        {
+            uint64_t p = UINT64_MAX;
+            for (uint64_t i = 0; i < text.size(); i++)
+            {
+                if (text[i] == c)
+                {
+                    p = i;
+                    break;
+                }
+                else if (text[i] < c)
+                {
+                    throw std::logic_error("The characters of the input text must not be less than '0'.");
+                }
+            }
+            if (p == text.size() - 1)
+            {
+                return true;
+            }
+            else if (p == UINT64_MAX)
+            {
+                throw std::logic_error("The last character of the input text must be '0'");
+            }
+            else
+            {
+                throw std::logic_error("The input text must not contain '0' except for the last character.");
+            }
+        }
+
         /**
          * @brief Extracts the unique characters (alphabet) from the input text.
          * @param text The input text as a vector of uint8_t.
@@ -278,7 +323,8 @@ namespace stool
             if (pattern.size() == 0)
             {
                 std::vector<uint64_t> positions;
-                for(uint64_t i = 0; i < text.size();i++){
+                for (uint64_t i = 0; i < text.size(); i++)
+                {
                     positions.push_back(i);
                 }
                 return positions;
@@ -308,43 +354,49 @@ namespace stool
                 return positions;
             }
         }
-      /**
-       * @brief Counts the number of occurrences of a character in the text up to a given index.
-       * @param text The input text as a vector of characters.
-       * @param i The index up to which to count.
-       * @param c The character to count.
-       * @return The number of occurrences of the character.
-       */
+        /**
+         * @brief Counts the number of occurrences of a character in the text up to a given index.
+         * @param text The input text as a vector of characters.
+         * @param i The index up to which to count.
+         * @param c The character to count.
+         * @return The number of occurrences of the character.
+         */
         template <typename CHAR = uint8_t>
-        static int64_t rank_query(const std::vector<CHAR> &text, uint64_t i, CHAR c){
+        static int64_t rank_query(const std::vector<CHAR> &text, uint64_t i, CHAR c)
+        {
             uint64_t counter = 0;
-            for(uint64_t x = 0; x < i;x++){
-                if(text[x] == c){
+            for (uint64_t x = 0; x < i; x++)
+            {
+                if (text[x] == c)
+                {
                     counter++;
                 }
             }
             return counter;
         }
-		/**
-		 * @brief Finds the position of the (i+1)-th occurrence of a character in the text.
-		 * @param text The input text as a vector of characters.
-		 * @param i The index of the occurrence to find.
-		 * @param c The character to search for.
-		 * @return The position of the (i+1)-th occurrence, or -1 if it does not exist.
-		 */
+        /**
+         * @brief Finds the position of the (i+1)-th occurrence of a character in the text.
+         * @param text The input text as a vector of characters.
+         * @param i The index of the occurrence to find.
+         * @param c The character to search for.
+         * @return The position of the (i+1)-th occurrence, or -1 if it does not exist.
+         */
         template <typename CHAR = uint8_t>
-        static int64_t select_query(const std::vector<CHAR> &text, uint64_t i, CHAR c){
+        static int64_t select_query(const std::vector<CHAR> &text, uint64_t i, CHAR c)
+        {
             uint64_t counter = 0;
-            for(uint64_t x = 0; x < text.size();x++){
-                if(text[x] == c){
+            for (uint64_t x = 0; x < text.size(); x++)
+            {
+                if (text[x] == c)
+                {
                     counter++;
                 }
-                if(counter == i+1){
+                if (counter == i + 1)
+                {
                     return x;
                 }
             }
             return -1;
         }
-
     };
 } // namespace stool

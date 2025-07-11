@@ -19,7 +19,7 @@
 #include "./strings/string_generator.hpp"
 #include "./strings/text_statistics.hpp"
 #include "./strings/lcp_interval.hpp"
-#include "./strings/sa_bwt_lcp.hpp"
+#include "./strings/array_constructor.hpp"
 #include "./strings/string_functions_on_sa.hpp"
 #include "./strings/sort.hpp"
 #include "./strings/string_functions.hpp"

@@ -12,7 +12,7 @@
 #include <sdsl/wt_algorithm.hpp>
 
 #include <queue>
-#include "../strings/sa_bwt_lcp.hpp"
+#include "../strings/array_constructor.hpp"
 #include "../debug/print.hpp"
 
 namespace stool

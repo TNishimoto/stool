@@ -9,11 +9,8 @@
 
 #include "../strings/lcp_interval.hpp"
 #include "../debug/message.hpp"
-#include "../strings/sa_bwt_lcp.hpp"
+#include "../strings/array_constructor.hpp"
 
-// #include "sa_lcp.hpp"
-// using namespace std;
-// using namespace sdsl;
 
 namespace stool
 {

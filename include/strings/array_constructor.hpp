@@ -28,50 +28,7 @@ namespace stool
 	class ArrayConstructor
 	{
 	public:
-		/*!
-		 * @brief Checks if a text contains a special marker character
-		 *
-		 * This function verifies that a given text contains a special marker character 'c'
-		 * only at the end of the text. It checks three conditions:
-		 * 1. The marker character appears exactly once at the end of the text
-		 * 2. No characters in the text are less than the marker character
-		 * 3. The marker character does not appear anywhere else in the text
-		 *
-		 * @tparam CHAR The character type of the text
-		 * @param text The input text to check
-		 * @param c The special marker character to look for
-		 * @return true if the text satisfies all conditions, throws an exception otherwise
-		 * @throws std::logic_error if any of the conditions are violated
-		 */
-		template <typename CHAR>
-		static bool check_text_with_special_marker(std::vector<CHAR> &text, CHAR c)
-		{
-			uint64_t p = UINT64_MAX;
-			for (uint64_t i = 0; i < text.size(); i++)
-			{
-				if (text[i] == c)
-				{
-					p = i;
-					break;
-				}
-				else if (text[i] < c)
-				{
-					throw std::logic_error("The characters of the input text must not be less than '0'.");
-				}
-			}
-			if (p == text.size() - 1)
-			{
-				return true;
-			}
-			else if (p == UINT64_MAX)
-			{
-				throw std::logic_error("The last character of the input text must be '0'");
-			}
-			else
-			{
-				throw std::logic_error("The input text must not contain '0' except for the last character.");
-			}
-		}
+		
 
 		/*!
 		 * @brief Constructs the Inverse Suffix Array (ISA) from a Suffix Array
