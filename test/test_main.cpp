@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 
                     std::vector<uint64_t> result1 = stool::StringFunctions::locate_query(text, pattern);
                     std::vector<uint64_t> result2 = stool::StringFunctionsOnSA::locate_query(text, pattern, sa);
-                    stool::equal_check(result1, result2);
+                    stool::EqualChecker::equal_check(result1, result2);
                 }
             }
             std::cout << std::endl;
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 
             std::cout << "+" << std::flush;
 
-            stool::equal_check(text, text2);
+            stool::EqualChecker::equal_check(text, text2);
         }
 
         std::cout << std::endl;
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
 
             std::cout << "+" << std::flush;
 
-            stool::equal_check(text, text2);
+            stool::EqualChecker::equal_check(text, text2);
         }
         std::cout << std::endl;
 

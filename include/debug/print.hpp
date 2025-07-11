@@ -12,49 +12,29 @@
 #include <time.h>
 #include "../basic/log.hpp"
 
-// #include <stdio.h>
-// #include <windows.h>
-// #include <Psapi.h>      // Psapi.Lib
-// using namespace std;
-
 namespace stool
 {
 
-	class Counter
-	{
-		char c = '.';
-		uint64_t baseline = 2;
-		uint64_t i = 2;
-
-	public:
-		Counter()
-		{
-		}
-		Counter(uint64_t _baseline) : baseline(_baseline), i(_baseline)
-		{
-		}
-		Counter(char _c, uint64_t _baseline) : c(_c), baseline(_baseline), i(_baseline)
-		{
-		}
-
-		void increment()
-		{
-			if (this->i == 0)
-			{
-				this->baseline *= 2;
-				this->i = this->baseline;
-				std::cout << this->c << std::flush;
-			}
-			else
-			{
-				--this->i;
-			}
-		}
-	};
-
+	/**
+	 * @brief Debug printing utility class providing various formatting and output functions
+	 * 
+	 * This class contains static methods for converting data structures to formatted strings
+	 * and printing them for debugging purposes. It supports various data types including
+	 * vectors, characters, and integers with different formatting options.
+	 */
 	class DebugPrinter
 	{
 		public:
+		/**
+		 * @brief Extracts the first character from a string, handling escape sequences
+		 * 
+		 * @param text The input string to extract the first character from
+		 * @param default_character The character to return if the string is empty
+		 * @return uint8_t The first character or the default character if string is empty
+		 * 
+		 * If the string starts with a backslash followed by a number, it converts
+		 * the number to an integer character value. Otherwise, returns the first character.
+		 */
 		static uint8_t get_first_character(const std::string &text, uint8_t default_character = '\0'){
 			if(text.size() == 0){
 				return default_character;
@@ -68,6 +48,13 @@ namespace stool
 		
 		}
 
+		/**
+		 * @brief Converts a vector of numeric values to a comma-separated string representation
+		 * 
+		 * @tparam VEC The type of the vector (must support size() and operator[])
+		 * @param items The vector to convert
+		 * @return std::string A string representation in format "[item1, item2, ...]"
+		 */
 		template <typename VEC>
 		static std::string to_integer_string(const VEC &items)
 		{
@@ -83,6 +70,15 @@ namespace stool
 			s += "]";
 			return s;
 		}
+		
+		/**
+		 * @brief Converts a vector of characters to a string representation
+		 * 
+		 * @tparam VEC The type of the vector (must support size() and operator[])
+		 * @param items The vector of characters to convert
+		 * @param separator The separator string between characters (default: ", ")
+		 * @return std::string A string representation in format "[char1, char2, ...]"
+		 */
 		template <typename VEC>
 		static std::string to_character_string(const VEC &items, std::string separator = ", ")
 		{
@@ -99,6 +95,15 @@ namespace stool
 			return s;
 		}
 
+		/**
+		 * @brief Converts a single character to a visible string representation
+		 * 
+		 * @param c The character to convert
+		 * @return std::string A string representation of the character
+		 * 
+		 * If the character is a control character, it returns "/" followed by the
+		 * character's numeric value. Otherwise, returns the character as a string.
+		 */
 		static std::string to_visible_string(uint8_t c){
 			std::string s = "";
 			if(std::iscntrl(c)){
@@ -110,7 +115,12 @@ namespace stool
 			return s;
 		}
 
-
+		/**
+		 * @brief Converts a string to a visible representation, handling control characters
+		 * 
+		 * @param str The input string to convert
+		 * @return std::string A string where control characters are represented as "/number"
+		 */
 		static std::string to_visible_string(const std::string &str)
 		{
 			std::string s = "";
@@ -120,6 +130,14 @@ namespace stool
 			}
 			return s;
 		}
+		
+		/**
+		 * @brief Converts a vector to a string by concatenating all elements
+		 * 
+		 * @tparam VEC The type of the vector (must support size() and operator[])
+		 * @param items The vector to convert
+		 * @return std::string A string containing all elements concatenated
+		 */
 		template <typename VEC>
 		static std::string to_string(const VEC &items)
 		{
@@ -131,6 +149,14 @@ namespace stool
 			return s;
 		}
 
+		/**
+		 * @brief Converts a vector to a string showing both numeric values and character representations
+		 * 
+		 * @tparam VEC The type of the vector (must support size() and operator[])
+		 * @param items The vector to convert
+		 * @param separator The separator string between elements (default: ", ")
+		 * @return std::string A string representation showing both numeric and character values
+		 */
 		template <typename VEC>
 		static std::string to_integer_string_with_characters(const VEC &items, std::string separator = ", ")
 		{
@@ -154,23 +180,57 @@ namespace stool
 			return s;
 		}
 
+		/**
+		 * @brief Prints a vector of integers to stdout with a label
+		 * 
+		 * @tparam VEC The type of the vector (must support size() and operator[])
+		 * @param items The vector to print
+		 * @param name The label to print before the vector (default: "PRINT_INTEGERS")
+		 */
 		template <typename VEC>
 		static void print_integers(const VEC &items, const std::string name = "PRINT_INTEGERS")
 		{
 			std::cout << name << ": " << to_integer_string(items) << std::endl;
 		}
+		
+		/**
+		 * @brief Prints a vector of characters to stdout with a label
+		 * 
+		 * @tparam VEC The type of the vector (must support size() and operator[])
+		 * @param items The vector of characters to print
+		 * @param name The label to print before the vector (default: "PRINT_INTEGERS")
+		 * @param separator The separator string between characters (default: ", ")
+		 */
 		template <typename VEC>
 		static void print_characters(const VEC &items, const std::string name = "PRINT_INTEGERS", std::string separator = ", ")
 		{
 			std::cout << name << ": " << to_character_string(items, separator) << std::endl;
 		}
 
+		/**
+		 * @brief Prints a vector showing both numeric values and character representations
+		 * 
+		 * @tparam VEC The type of the vector (must support size() and operator[])
+		 * @param items The vector to print
+		 * @param name The label to print before the vector (default: "PRINT_INTEGERS")
+		 * @param separator The separator string between elements (default: ", ")
+		 */
 		template <typename VEC>
 		static void print_integers_with_characters(const VEC &items, const std::string name = "PRINT_INTEGERS", std::string separator = ", ")
 		{
 			std::cout << name << ": " << to_integer_string_with_characters(items, separator) << std::endl;
 		}
 
+		/**
+		 * @brief Prints a logarithmic profile of the values in a vector
+		 * 
+		 * @tparam VEC The type of the vector (must support size() and operator[])
+		 * @param items The vector to analyze
+		 * @param name The label to print before the profile (default: "PRINT_INTEGERS")
+		 * 
+		 * Creates a histogram showing the distribution of values based on their
+		 * ceiling log2 values. Useful for analyzing the distribution of data.
+		 */
 		template <typename VEC>
 		static void print_log_profile(const VEC &items, const std::string name = "PRINT_INTEGERS")
 		{
@@ -194,14 +254,25 @@ namespace stool
 			std::cout << "==================" << std::endl;
 		}
 
-
-
-
 	};
 
+	/**
+	 * @brief General purpose printing utility class for various data structures
+	 * 
+	 * This class provides comprehensive printing and formatting capabilities for
+	 * different data types including vectors, deques, strings, and specialized
+	 * data structures like BWT tables and suffix arrays.
+	 */
 	class Printer
 	{
 	public:
+		/**
+		 * @brief Converts a vector of numeric values to a comma-separated string
+		 * 
+		 * @tparam X The type of elements in the vector
+		 * @param items The vector to convert
+		 * @return std::string A string representation in format "[item1, item2, ...]"
+		 */
 		template <class X>
 		static std::string to_integer_string(const std::vector<X> &items)
 		{
@@ -217,6 +288,14 @@ namespace stool
 			s += "]";
 			return s;
 		}
+		
+		/**
+		 * @brief Converts a deque of numeric values to a comma-separated string
+		 * 
+		 * @tparam X The type of elements in the deque
+		 * @param items The deque to convert
+		 * @return std::string A string representation in format "[item1, item2, ...]"
+		 */
 		template <class X>
 		static std::string to_integer_string(const std::deque<X> &items)
 		{
@@ -232,6 +311,14 @@ namespace stool
 			s += "]";
 			return s;
 		}
+		
+		/**
+		 * @brief Appends a vector's string representation to an existing result string
+		 * 
+		 * @tparam X The type of elements in the vector
+		 * @param items The vector to convert
+		 * @param result The string to append the result to
+		 */
 		template <class X>
 		static void to_integer_string(const std::vector<X> &items, std::string &result)
 		{
@@ -246,6 +333,19 @@ namespace stool
 			result += "]";
 		}
 
+		/**
+		 * @brief Converts a vector to a padded string representation with special handling for UINT64_MAX values
+		 * 
+		 * @tparam X The type of elements in the vector
+		 * @param items The vector to convert
+		 * @param result The string to append the result to
+		 * @param padding The minimum width for each element (padded with spaces)
+		 * 
+		 * Special values are handled as follows:
+		 * - UINT64_MAX is displayed as "-"
+		 * - UINT64_MAX-1 is displayed as "*"
+		 * - Other values are displayed as their string representation
+		 */
 		template <class X>
 		static void to_integer_string(const std::vector<X> &items, std::string &result, uint64_t padding)
 		{
@@ -278,6 +378,14 @@ namespace stool
 			}
 			result += "]";
 		}
+		
+		/**
+		 * @brief Converts a string to a padded string representation
+		 * 
+		 * @param items The string to convert
+		 * @param result The string to append the result to
+		 * @param padding The minimum width for each character (padded with spaces)
+		 */
 		static void to_integer_string(const std::string &items, std::string &result, uint64_t padding)
 		{
 			result += "[";
@@ -298,6 +406,15 @@ namespace stool
 			}
 			result += "]";
 		}
+		
+		/**
+		 * @brief Creates a padded string representation of a vector
+		 * 
+		 * @tparam X The type of elements in the vector
+		 * @param items The vector to convert
+		 * @param padding The minimum width for each element
+		 * @return std::string A padded string representation
+		 */
 		template <class X>
 		static std::string toString(std::vector<X> &items, uint64_t padding)
 		{
@@ -305,6 +422,14 @@ namespace stool
 			to_integer_string<X>(items, s, padding);
 			return s;
 		}
+		
+		/**
+		 * @brief Creates a padded string representation of a string
+		 * 
+		 * @param str The string to convert
+		 * @param padding The minimum width for each character
+		 * @return std::string A padded string representation
+		 */
 		static std::string toString(std::string &str, uint64_t padding)
 		{
 			std::string s = "";
@@ -312,18 +437,37 @@ namespace stool
 			return s;
 		}
 
+		/**
+		 * @brief Prints a vector to stdout
+		 * 
+		 * @tparam X The type of elements in the vector
+		 * @param items The vector to print
+		 */
 		template <class X>
 		static void print(const std::vector<X> &items)
 		{
 			std::cout << to_integer_string<X>(items) << std::endl;
 		}
 
+		/**
+		 * @brief Prints a deque to stdout
+		 * 
+		 * @tparam X The type of elements in the deque
+		 * @param items The deque to print
+		 */
 		template <class X>
 		static void print(const std::deque<X> &items)
 		{
 			std::cout << to_integer_string<X>(items) << std::endl;
 		}
 
+		/**
+		 * @brief Prints a vector to stdout with a label
+		 * 
+		 * @tparam X The type of elements in the vector
+		 * @param name The label to print before the vector
+		 * @param items The vector to print
+		 */
 		template <class X>
 		static void print(const std::string name, const std::vector<X> &items)
 		{
@@ -338,6 +482,13 @@ namespace stool
 		}
 		*/
 
+		/**
+		 * @brief Prints a vector of characters to stdout with a label
+		 * 
+		 * @tparam X The type of elements in the vector (typically char or uint8_t)
+		 * @param name The label to print before the vector
+		 * @param items The vector of characters to print
+		 */
 		template <class X>
 		static void print_chars(const std::string name, const std::vector<X> &items)
 		{
@@ -357,6 +508,13 @@ namespace stool
 			std::cout << name << ": " << result << std::endl;
 		}
 
+		/**
+		 * @brief Prints a bit vector to stdout as a binary string
+		 * 
+		 * @tparam X The type of the bit vector (must support size() and operator[])
+		 * @param name The label to print before the bit string
+		 * @param items The bit vector to print
+		 */
 		template <class X>
 		static void print_bits(const std::string name, const X &items)
 		{
@@ -367,11 +525,28 @@ namespace stool
 			}
 			std::cout << name << ": " << s << std::endl;
 		}
+		
+		/**
+		 * @brief Prints a deque to stdout with a label
+		 * 
+		 * @tparam X The type of elements in the deque
+		 * @param name The label to print before the deque
+		 * @param items The deque to print
+		 */
 		template <class X>
 		static void print(const std::string name, const std::deque<X> &items)
 		{
 			std::cout << name << ": " << to_integer_string<X>(items) << std::endl;
 		}
+		
+		/**
+		 * @brief Prints a string-like container to stdout, handling null characters
+		 * 
+		 * @tparam X The type of the container (must support iteration)
+		 * @param items The container to print
+		 * 
+		 * Null characters (0) are printed as "[$]", while other characters are printed normally.
+		 */
 		template <class X>
 		static void print_string(const X &items)
 		{
@@ -388,6 +563,14 @@ namespace stool
 			}
 			std::cout << std::endl;
 		}
+		
+		/**
+		 * @brief Converts a string-like container to a string, handling null characters
+		 * 
+		 * @tparam X The type of the container (must support iteration)
+		 * @param items The container to convert
+		 * @return std::string A string representation where null characters are shown as "[$]"
+		 */
 		template <class X>
 		static std::string to_string(X &items)
 		{
@@ -406,6 +589,15 @@ namespace stool
 			return s;
 		}
 
+		/**
+		 * @brief Prints a BWT (Burrows-Wheeler Transform) table in a formatted manner
+		 * 
+		 * @param bwt The BWT array
+		 * @param sa The suffix array corresponding to the BWT
+		 * 
+		 * Prints a table showing the index, suffix array position, BWT character,
+		 * and the corresponding suffix for each position in the BWT.
+		 */
 		static void print_bwt_table(std::vector<uint8_t> &bwt, std::vector<uint64_t> &sa)
 		{
 			std::string text;
@@ -447,6 +639,15 @@ namespace stool
 			std::cout << "===========================" << std::endl;
 		}
 
+		/**
+		 * @brief Prints a suffix array table in a formatted manner
+		 * 
+		 * @param text The original text string
+		 * @param sa The suffix array
+		 * 
+		 * Prints a table showing the index, suffix array position, and the
+		 * corresponding suffix for each position in the suffix array.
+		 */
 		static void print_sa_table(std::vector<uint8_t> &text, std::vector<uint64_t> &sa)
 		{
 

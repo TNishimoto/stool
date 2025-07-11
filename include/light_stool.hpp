@@ -4,7 +4,7 @@
 #include "./basic/byte.hpp"
 #include "./basic/basic_search.hpp"
 
-#include "./debug/debug.hpp"
+#include "./debug/equal_checker.hpp"
 #include "./debug/message.hpp"
 #include "./debug/print.hpp"
 #include "./debug/memory.hpp"

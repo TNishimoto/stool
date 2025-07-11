@@ -98,9 +98,9 @@ std::vector<uint8_t> alph = stool::UInt8VectorGenerator::create_ACGT_alphabet();
         equal_check_lcp_intervals(beller_intervals,correct_intervals, "Beller");
 
         std::vector<uint64_t> beller_lcp_array = stool::beller::LCPEnumerator::construct_LCP_array(sdsl_BWT);
-        std::vector<uint64_t> correct_lcp_array = stool::construct_LCP_array(text, sa, stool::Message::NO_MESSAGE);
+        std::vector<uint64_t> correct_lcp_array = stool::ArrayConstructor::construct_LCP_array(text, sa, stool::Message::NO_MESSAGE);
 
-        stool::equal_check("LCP Array", correct_lcp_array, beller_lcp_array);
+        stool::EqualChecker::equal_check(correct_lcp_array, beller_lcp_array, "LCP Array");
 }
 
 int main(int argc, char *argv[])

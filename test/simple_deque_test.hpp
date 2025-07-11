@@ -28,14 +28,14 @@ namespace stool
                 vlc_deque.push_back(it);
             }
 
-            stool::equal_check(deq1, vlc_deque.to_deque());
+            stool::EqualChecker::equal_check(deq1, vlc_deque.to_deque());
 
             while (deq1.size() > 0)
             {
                 deq1.pop_back();
                 vlc_deque.pop_back();
             }
-            stool::equal_check(deq1, vlc_deque.to_deque());
+            stool::EqualChecker::equal_check(deq1, vlc_deque.to_deque());
         }
         static void test2(uint64_t num, int64_t max_value, uint64_t seed)
         {
@@ -48,7 +48,7 @@ namespace stool
 
             }
 
-            stool::equal_check(deq1, vlc_deque.to_deque());
+            stool::EqualChecker::equal_check(deq1, vlc_deque.to_deque());
 
             while (deq1.size() > 0)
             {
@@ -56,7 +56,7 @@ namespace stool
                 vlc_deque.pop_front();
 
             }
-            stool::equal_check(deq1, vlc_deque.to_deque());
+            stool::EqualChecker::equal_check(deq1, vlc_deque.to_deque());
         }
 
         static void test3(uint64_t num, int64_t max_value, uint64_t seed)
@@ -80,11 +80,11 @@ namespace stool
                 // stool::Printer::print("Deq1", deq1);
                 // stool::Printer::print("Deq2", deq2);
 
-                // stool::equal_check(deq1, deq2);
+                // stool::EqualChecker::equal_check(deq1, deq2);
             }
 
             std::deque<uint64_t> deq2 = vlc_deque.to_deque();
-            stool::equal_check(deq1, deq2);
+            stool::EqualChecker::equal_check(deq1, deq2);
         }
         static void test4(uint64_t num, int64_t max_value, uint64_t seed)
         {
@@ -112,11 +112,11 @@ namespace stool
                 // stool::Printer::print("Deq1", deq1);
                 // stool::Printer::print("Deq2", deq2);
 
-                // stool::equal_check(deq1, deq2);
+                // stool::EqualChecker::equal_check(deq1, deq2);
             }
 
             std::deque<uint64_t> deq2 = vlc_deque.to_deque();
-            stool::equal_check(deq1, deq2);
+            stool::EqualChecker::equal_check(deq1, deq2);
         }
     };
 

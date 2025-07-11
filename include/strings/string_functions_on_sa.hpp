@@ -54,7 +54,7 @@ namespace stool
             }
 
             std::vector<stool::LCPInterval<INDEX>> r;
-            std::vector<INDEX> lcpArray = stool::construct_LCP_array<CHAR, INDEX>(text, sa, stool::Message::NO_MESSAGE);
+            std::vector<INDEX> lcpArray = stool::ArrayConstructor::construct_LCP_array<CHAR, INDEX>(text, sa, stool::Message::NO_MESSAGE);
             for (uint64_t i = 0; i < sa.size(); i++)
             {
                 uint64_t limit_lcp = i == 0 ? 0 : lcpArray[i];

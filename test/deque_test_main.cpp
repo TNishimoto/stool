@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
 
         std::cout << "Memory: " << (vec.capacity() * sizeof(T *) + (vec.size() * vec[0]->size_in_bytes())) << " bytes" << std::endl;
 
-        stool::print_memory_usage();
+        stool::Memory::print_memory_usage();
         /*
         for(uint64_t i = 0; i < length;i++){
             delete vec[i];

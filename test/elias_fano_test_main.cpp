@@ -125,7 +125,7 @@ void builderTest()
     std::vector<uint64_t> r2;    
     builder.to_vector(r2);
 
-    stool::equal_check(r, r2);
+    stool::EqualChecker::equal_check(r, r2);
 
     stool::EliasFanoVector efv;
     efv.build_from_builder(builder);
@@ -133,7 +133,7 @@ void builderTest()
         
 
     std::vector<uint64_t> r3 = efv.to_vector();
-    stool::equal_check(r, r3);
+    stool::EqualChecker::equal_check(r, r3);
 
     std::cout << "OK!" << std::endl;
 
