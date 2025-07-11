@@ -11,6 +11,20 @@
 
 namespace stool
 {
+	
+	/**
+	 * @brief A utility class for constructing various string processing arrays
+	 * 
+	 * The ArrayConstructor class provides static methods for building essential
+	 * data structures used in string processing and bioinformatics, including:
+	 * - Inverse Suffix Array (ISA)
+	 * - Longest Common Prefix (LCP) array
+	 * - Burrows-Wheeler Transform (BWT)
+	 * - Differential Suffix Array (DSA)
+	 * 
+	 * This class is designed to work with different character types and index types
+	 * through template parameters, making it flexible for various applications.
+	 */
 	class ArrayConstructor
 	{
 	public:
@@ -203,6 +217,19 @@ namespace stool
 
 			// lcp.resize(text.size(), 0);
 		}
+
+		/**
+		 * @brief Constructs the Differential Suffix Array (DSA) from a Suffix Array
+		 * 
+		 * The Differential Suffix Array stores the differences between consecutive
+		 * elements in the suffix array. For position i, DSA[i] = SA[i] - SA[i-1]
+		 * (with DSA[0] = SA[0]). This representation is useful for compression
+		 * and certain string processing algorithms.
+		 * 
+		 * @param sa The suffix array of the text
+		 * @param message_paragraph Controls output verbosity (-1 for no output)
+		 * @return The constructed Differential Suffix Array
+		 */
 		static std::vector<int64_t> construct_DSA(const std::vector<uint64_t> &sa, int message_paragraph = stool::Message::SHOW_MESSAGE)
 		{
 			if (message_paragraph >= 0 && sa.size() > 0)
@@ -239,6 +266,7 @@ namespace stool
 
 			return dsa;
 		}
+
 		/*!
 		 * @brief Constructs the Burrows-Wheeler Transform (BWT) from a Suffix Array
 		 *

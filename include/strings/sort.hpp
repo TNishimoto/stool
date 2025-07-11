@@ -9,6 +9,13 @@
 
 namespace stool
 {
+    /**
+     * @brief A utility class for string comparison and analysis operations.
+     * 
+     * This class provides static methods for computing Longest Common Prefix (LCP),
+     * Longest Common Suffix (LCS), and lexicographical comparison of strings
+     * represented as vectors of uint8_t.
+     */
     class SortString
     {
     public:
@@ -39,23 +46,19 @@ namespace stool
                 }
             }
             return std::pair<uint64_t, int8_t>(lcp, com);
-            /*
-            uint64_t min = std::min(str1.size(), str2.size());
-            for (uint64_t i = 0; i < min; i++)
-            {
-                if (str1[i] != str2[i])
-                {
-                    return str1[i] < str2[i];
-                }
-            }
-            if (str1.size() != str2.size())
-            {
-                return str1.size() < str2.size();
-            }
-            return false;
-            */
+
         }
 
+        /**
+         * @brief Computes the Longest Common Prefix (LCP) of two strings.
+         *
+         * This function finds the length of the longest common prefix between two strings.
+         * The LCP is the number of characters that match from the beginning of both strings.
+         *
+         * @param str1 The first input string as a vector of uint8_t.
+         * @param str2 The second input string as a vector of uint8_t.
+         * @return uint64_t The length of the longest common prefix.
+         */
         static uint64_t lcp(const std::vector<uint8_t> &str1, const std::vector<uint8_t> &str2)
         {
             uint64_t min = std::min(str1.size(), str2.size());
@@ -68,6 +71,17 @@ namespace stool
             }
             return min;
         }
+
+        /**
+         * @brief Computes the Longest Common Suffix (LCS) of two strings.
+         *
+         * This function finds the length of the longest common suffix between two strings.
+         * The LCS is the number of characters that match from the end of both strings.
+         *
+         * @param str1 The first input string as a vector of uint8_t.
+         * @param str2 The second input string as a vector of uint8_t.
+         * @return uint64_t The length of the longest common suffix.
+         */
         static uint64_t lcs(const std::vector<uint8_t> &str1, const std::vector<uint8_t> &str2)
         {
             int64_t min = std::min(str1.size(), str2.size());

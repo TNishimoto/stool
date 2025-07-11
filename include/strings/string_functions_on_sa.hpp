@@ -7,10 +7,31 @@
 namespace stool
 {
 
+    /**
+     * @brief A utility class providing string functions that operate on suffix arrays
+     * 
+     * This class contains static methods for performing various string operations
+     * using suffix arrays, including pattern matching, LCP interval computation,
+     * and query location.
+     */
     class StringFunctionsOnSA
     {
     public:
         using Interval = std::pair<int64_t, int64_t>;
+        
+        /**
+         * @brief Computes the suffix array interval for a given pattern
+         * 
+         * This function finds the range of positions in the suffix array where
+         * suffixes start with the given pattern. It uses LCP intervals to efficiently
+         * determine the matching range.
+         * 
+         * @param text The input text as a vector of bytes
+         * @param pattern The pattern to search for as a vector of bytes
+         * @param sa The suffix array of the text
+         * @return A pair representing the start and end indices of the matching interval.
+         *         Returns (-1, -1) if the pattern is not found.
+         */
         static Interval compute_sa_interval(const std::vector<uint8_t> &text, const std::vector<uint8_t> &pattern, const std::vector<uint64_t> &sa)
         {
             std::vector<uint64_t> r;
@@ -25,6 +46,18 @@ namespace stool
             }
         }
 
+        /**
+         * @brief Locates all occurrences of a pattern in the text using suffix array
+         * 
+         * This function finds all positions in the text where the pattern occurs.
+         * It first computes the suffix array interval for the pattern, then
+         * retrieves all positions within that interval and sorts them.
+         * 
+         * @param text The input text as a vector of bytes
+         * @param pattern The pattern to search for as a vector of bytes
+         * @param sa The suffix array of the text
+         * @return A vector containing all positions where the pattern occurs in the text
+         */
         static std::vector<uint64_t> locate_query(const std::vector<uint8_t> &text, const std::vector<uint8_t> &pattern, const std::vector<uint64_t> &sa)
         {
             std::vector<uint64_t> r;
@@ -40,6 +73,19 @@ namespace stool
             return r;
         }
 
+        /**
+         * @brief Computes LCP intervals using a naive approach
+         * 
+         * This function computes all LCP intervals in the suffix array using a
+         * straightforward algorithm. It iterates through the suffix array and
+         * constructs intervals based on the LCP array values.
+         * 
+         * @tparam CHAR The character type used in the text
+         * @tparam INDEX The index type for suffix array positions
+         * @param text The input text as a vector of characters
+         * @param sa The suffix array of the text
+         * @return A vector of LCP intervals sorted in preorder
+         */
         template <typename CHAR, typename INDEX = uint64_t>
         static std::vector<stool::LCPInterval<INDEX>> naive_compute_lcp_intervals(const std::vector<CHAR> &text, const std::vector<INDEX> &sa)
         {
@@ -91,6 +137,19 @@ namespace stool
             return r;
         }
 
+        /**
+         * @brief Checks if an LCP interval is valid based on minimum character positions
+         * 
+         * This function validates an LCP interval by ensuring that it doesn't contain
+         * any positions where the minimum character occurs in the text. It also
+         * checks that the interval has a valid range (i < j).
+         * 
+         * @tparam INDEX The index type for suffix array positions
+         * @param intv The LCP interval to check
+         * @param sa The suffix array
+         * @param charMinIndexes Vector of positions where the minimum character occurs
+         * @return true if the interval is valid, false otherwise
+         */
         template <typename INDEX = uint64_t>
         static bool check_lcp_interval(const stool::LCPInterval<INDEX> &intv, const std::vector<INDEX> &sa, const std::vector<INDEX> &charMinIndexes)
         {

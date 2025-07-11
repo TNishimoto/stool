@@ -8,9 +8,25 @@
 namespace stool
 {
 
+	/**
+	 * @brief A utility class for file I/O operations
+	 * 
+	 * The IO class provides static methods for reading and writing various data types
+	 * to and from files. It supports binary and text file operations, including
+	 * vectors, strings, and bit-level operations.
+	 */
 	class IO
 	{
 	public:
+		/**
+		 * @brief Loads data from a binary stream into a vector
+		 * 
+		 * @tparam T The data type to load
+		 * @param stream The input file stream
+		 * @param vec The vector to store the loaded data
+		 * @param allReading If true, reads the entire file; if false, reads length first
+		 * @throws int Throws -1 if stream is invalid
+		 */
 		template <typename T>
 		static void load(std::ifstream &stream, std::vector<T> &vec, bool allReading)
 		{
@@ -35,6 +51,14 @@ namespace stool
 			stream.read((char *)&(vec)[0], len * sizeof(T));
 		}
 
+		/**
+		 * @brief Loads data from a binary stream into a string
+		 * 
+		 * @param stream The input file stream
+		 * @param vec The string to store the loaded data
+		 * @param allReading If true, reads the entire file; if false, reads length first
+		 * @throws int Throws -1 if stream is invalid
+		 */
 		static void load(std::ifstream &stream, std::string &vec, bool allReading)
 		{
 			if (!stream)
@@ -58,11 +82,26 @@ namespace stool
 			stream.read((char *)&(vec)[0], len * sizeof(char));
 		}
 
+		/**
+		 * @brief Loads data from a binary stream into a vector (reads entire file)
+		 * 
+		 * @tparam T The data type to load
+		 * @param stream The input file stream
+		 * @param vec The vector to store the loaded data
+		 */
 		template <typename T>
 		static void load(std::ifstream &stream, std::vector<T> &vec)
 		{
 			load(stream, vec, true);
 		}
+
+		/**
+		 * @brief Loads data from a file into a vector
+		 * 
+		 * @tparam T The data type to load
+		 * @param filename The name of the file to read from
+		 * @param vec The vector to store the loaded data
+		 */
 		template <typename T>
 		static void load(std::string &filename, std::vector<T> &vec)
 		{
@@ -70,6 +109,13 @@ namespace stool
 			inputStream1.open(filename, std::ios::binary);
 			load(inputStream1, vec);
 		}
+
+		/**
+		 * @brief Loads data from a file into a string
+		 * 
+		 * @param filename The name of the file to read from
+		 * @param vec The string to store the loaded data
+		 */
 		static void load(std::string &filename, std::string &vec)
 		{
 			std::ifstream inputStream1;
@@ -77,17 +123,37 @@ namespace stool
 			load(inputStream1, vec, true);
 		}
 
-
+		/**
+		 * @brief Loads text data from a file into a vector
+		 * 
+		 * @tparam T The data type to load
+		 * @param filename The name of the file to read from
+		 * @param vec The vector to store the loaded data
+		 */
 		template <typename T>
 		static void load_text(std::string &filename, std::vector<T> &vec)
 		{
 			load(filename, vec);
 		}
+
+		/**
+		 * @brief Loads text data from a file into a string
+		 * 
+		 * @param filename The name of the file to read from
+		 * @param vec The string to store the loaded data
+		 */
 		static void load_text(std::string &filename, std::string &vec)
 		{
 			load(filename, vec);
 		}
 
+		/**
+		 * @brief Loads the first 64 bits from a file
+		 * 
+		 * @param filename The name of the file to read from
+		 * @return uint64_t The 64-bit value read from the file
+		 * @throws int Throws -1 if file cannot be opened
+		 */
 		static uint64_t load_first_64bits(std::string filename)
 		{
 			std::ifstream stream;
@@ -103,7 +169,16 @@ namespace stool
 			return value;
 		}
 
-
+		/**
+		 * @brief Loads text data from a file with optional end marker handling
+		 * 
+		 * @tparam T The data type to load
+		 * @param filename The name of the file to read from
+		 * @param output_vec The vector to store the loaded data
+		 * @param appendEndMarker If true, appends an end marker to the data
+		 * @param end_marker The end marker character (default: 0)
+		 * @throws std::runtime_error If the file contains the end marker when appendEndMarker is true
+		 */
 		template <typename T>
 		static void load_text(std::string &filename, std::vector<T> &output_vec, bool appendEndMarker, uint8_t end_marker = 0)
 		{
@@ -143,7 +218,14 @@ namespace stool
 			}
 		}
 
-
+		/**
+		 * @brief Loads bit data from a file into a container
+		 * 
+		 * @tparam CONTAINER The container type to store the bit data
+		 * @param file The input file stream
+		 * @param output The container to store the loaded bit data
+		 * @return bool True if successful, false otherwise
+		 */
 		template <typename CONTAINER>
 		static bool load_bits(std::ifstream &file, CONTAINER &output)
 		{
@@ -174,6 +256,12 @@ namespace stool
 			return true;
 		}
 
+		/**
+		 * @brief Gets the size of a file stream in bytes
+		 * 
+		 * @param stream The file stream to measure
+		 * @return uint64_t The size of the file in bytes
+		 */
 		static uint64_t getSize(std::ifstream &stream)
 		{
 			stream.seekg(0, std::ios::end);
@@ -182,6 +270,15 @@ namespace stool
 			return n;
 		}
 
+		/**
+		 * @brief Writes vector data to an output stream
+		 * 
+		 * @tparam T The data type to write
+		 * @param out The output file stream
+		 * @param text The vector data to write
+		 * @param allWriting If true, writes only data; if false, writes length first
+		 * @return bool True if successful, false otherwise
+		 */
 		template <typename T>
 		static bool write(std::ofstream &out, std::vector<T> &text, bool allWriting)
 		{
@@ -201,12 +298,29 @@ namespace stool
 			return true;
 		}
 
+		/**
+		 * @brief Writes vector data to an output stream (writes entire data)
+		 * 
+		 * @tparam T The data type to write
+		 * @param out The output file stream
+		 * @param text The vector data to write
+		 * @return bool True if successful, false otherwise
+		 */
 		template <typename T>
 		static bool write(std::ofstream &out, std::vector<T> &text)
 		{
 			write(out, text, true);
 			return true;
 		}
+
+		/**
+		 * @brief Writes vector data to a file
+		 * 
+		 * @tparam T The data type to write
+		 * @param filename The name of the file to write to
+		 * @param text The vector data to write
+		 * @return bool True if successful, false otherwise
+		 */
 		template <typename T>
 		static bool write(std::string &filename, std::vector<T> &text)
 		{
@@ -216,11 +330,27 @@ namespace stool
 			out.close();
 			return true;
 		}
+
+		/**
+		 * @brief Writes string data to an output stream
+		 * 
+		 * @param os The output file stream
+		 * @param text The string data to write
+		 * @return bool True if successful, false otherwise
+		 */
 		static bool write(std::ofstream &os, std::string &text)
 		{
 			os.write((const char *)(&text[0]), sizeof(char) * text.size());
 			return true;
 		}
+
+		/**
+		 * @brief Writes string data to a file
+		 * 
+		 * @param filename The name of the file to write to
+		 * @param text The string data to write
+		 * @return bool True if successful, false otherwise
+		 */
 		static bool write(std::string &filename, std::string &text)
 		{
 			std::ofstream out(filename, std::ios::out | std::ios::binary);
@@ -228,6 +358,15 @@ namespace stool
 				return 1;
 			return write(out, text);
 		}
+
+		/**
+		 * @brief Writes bit data from a container to an output stream
+		 * 
+		 * @tparam CONTAINER The container type containing the bit data
+		 * @param out The output file stream
+		 * @param text The container with bit data to write
+		 * @return bool True if successful, false otherwise
+		 */
 		template <typename CONTAINER>
 		static bool write_bits(std::ofstream &out, CONTAINER &text)
 		{

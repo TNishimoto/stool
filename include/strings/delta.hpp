@@ -20,6 +20,20 @@ namespace stool
     {
     public:
 
+        /*!
+        * @brief Constructs a distinct substring counter array from text and suffix array
+        * 
+        * This function computes the number of distinct substrings of each length in the given text.
+        * It uses the suffix array to efficiently determine which substrings are unique.
+        * 
+        * @tparam T The data type of the text elements (default: char)
+        * @param text The input text as a vector of elements
+        * @param sa The suffix array of the text
+        * @return A vector where index i contains the number of distinct substrings of length i
+        * 
+        * @note The function prints progress information during computation
+        * @note The returned array is truncated when all remaining substrings are distinct
+        */
         template <typename T = char>
         static std::vector<uint64_t> construct_distinct_substring_counter_array(const std::vector<T> &text, const std::vector<uint64_t> &sa)
         {
@@ -98,6 +112,10 @@ namespace stool
 
         /*! 
         * @brief Computes the substring complexity delta using a distinct substring counter array
+        * 
+        * The delta value is the maximum ratio of distinct substrings to substring length.
+        * This is a measure of the complexity of the text.
+        * 
         * @param distinct_substring_counter_array The array of distinct substring counts
         * @return The substring complexity determined by the given array
         */  
@@ -115,6 +133,15 @@ namespace stool
             return max_delta;
         }
 
+        /*!
+        * @brief Computes detailed delta information including the exact rational value and position
+        * 
+        * This function provides more precise information about the substring complexity
+        * by returning the exact rational value of the maximum delta and the position where it occurs.
+        * 
+        * @param distinct_substring_counter_array The array of distinct substring counts
+        * @return A pair containing the maximum delta as a rational number and the position where it occurs
+        */
         static std::pair<stool::Rational, uint64_t> compute_detailed_delta(std::vector<uint64_t> &distinct_substring_counter_array)
         {
             stool::Rational max_delta = stool::Rational(0, 1);
@@ -131,6 +158,14 @@ namespace stool
             return std::pair<stool::Rational, uint64_t>(max_delta, x);
         }
 
+        /*!
+        * @brief Computes LCP (Longest Common Prefix) statistics from an LCP array
+        * 
+        * This function creates a histogram of LCP values, counting how many times each LCP value occurs.
+        * 
+        * @param lcp_array The LCP array to analyze
+        * @return A vector where index i contains the count of LCP values equal to i
+        */
         static std::vector<uint64_t> compute_LCP_statistics(const std::vector<uint64_t> &lcp_array)
         {
             uint64_t max = *std::max_element(lcp_array.begin(), lcp_array.end());
@@ -143,11 +178,31 @@ namespace stool
             return r;
         }
 
+        /*!
+        * @brief Constructs a distinct substring counter array from an LCP array
+        * 
+        * This function uses the LCP array to efficiently compute the distinct substring counter array
+        * without needing the original text and suffix array.
+        * 
+        * @param lcp_array The LCP array of the text
+        * @return A vector where index i contains the number of distinct substrings of length i
+        */
         static std::vector<uint64_t> construct_distinct_substring_counter_array(const std::vector<uint64_t> &lcp_array)
         {
             std::vector<uint64_t> profiler = compute_LCP_statistics(lcp_array);
             return construct_distinct_substring_counter_array_from_lcp_statistics(profiler, lcp_array.size());
         }
+
+        /*!
+        * @brief Constructs a distinct substring counter array from LCP statistics
+        * 
+        * This function builds the distinct substring counter array using pre-computed LCP statistics
+        * and the text size. It's useful when you already have the LCP histogram.
+        * 
+        * @param lcp_statistics The histogram of LCP values
+        * @param text_size The size of the original text
+        * @return A vector where index i contains the number of distinct substrings of length i
+        */
         static std::vector<uint64_t> construct_distinct_substring_counter_array_from_lcp_statistics(const std::vector<uint64_t> &lcp_statistics, uint64_t text_size)
         {
             std::vector<uint64_t> output;
@@ -169,6 +224,15 @@ namespace stool
             return output;
         }
 
+        /*!
+        * @brief Prints the distinct substring counter array in a formatted table
+        * 
+        * This function displays the distinct substring counter array along with the ratio
+        * of distinct substrings to substring length for each position. It automatically
+        * determines how many entries to display based on the delta pattern.
+        * 
+        * @param lcp_array The LCP array used to construct the distinct substring counter array
+        */
         static void print_distinct_substring_counter_array(const std::vector<uint64_t> &lcp_array)
         {
             std::vector<uint64_t> table = construct_distinct_substring_counter_array(lcp_array);
