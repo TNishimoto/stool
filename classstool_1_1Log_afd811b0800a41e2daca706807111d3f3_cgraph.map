@@ -1,0 +1,5 @@
+<map id="stool::Log::log2floor" name="stool::Log::log2floor">
+<area shape="rect" id="Node000001" title="Calculates the base&#45;2 logarithm of an integer." alt="" coords="5,13,156,38"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Byte.html#a9586eca62b622f23253e79387f1b1689" title="Gets the length of a code by finding the position of the leftmost 1 bit." alt="" coords="204,5,363,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,23,190,23,190,28,156,28"/>
+</map>

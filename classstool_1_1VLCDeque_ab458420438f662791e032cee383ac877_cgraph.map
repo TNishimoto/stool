@@ -1,0 +1,12 @@
+<map id="stool::VLCDeque::set_value" name="stool::VLCDeque::set_value">
+<area shape="rect" id="Node000001" title="Sets a value at a specific code position." alt="" coords="5,33,163,73"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Byte.html#a9586eca62b622f23253e79387f1b1689" title="Gets the length of a code by finding the position of the leftmost 1 bit." alt="" coords="429,5,588,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="151,31,210,19,317,12,416,15,415,20,317,18,211,24,152,36"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="221,33,371,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,51,208,51,208,56,163,56"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1VLCDeque.html#a2f837a939d1fcbac615dc309ecc15306" title="Inserts zero bits into a 64&#45;bit code at a specified position." alt="" coords="211,98,381,123"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="159,71,235,92,234,97,158,76"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="343,95,380,83,456,49,458,54,382,88,345,100"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1Byte.html#a644a296d96ad07be48b6918241c0940c" title="Pads zeros in a specified range within a 64&#45;bit integer." alt="" coords="429,98,588,123"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="382,108,416,108,416,113,382,113"/>
+</map>

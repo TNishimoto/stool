@@ -1,0 +1,9 @@
+<map id="stool::ValueArray::swap" name="stool::ValueArray::swap">
+<area shape="rect" id="Node000001" title="Swaps the contents of this ValueArray with another." alt="" coords="5,29,180,55"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ValueArray.html#a0620cf93e081c0ba82903d255fc0356a" title="Sets the ValueArray from a vector of values." alt="" coords="228,29,388,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,39,214,39,214,45,180,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="275,31,269,21,272,11,286,5,308,3,335,6,346,15,343,19,333,11,308,8,287,10,276,15,274,20,280,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ValueArray.html#a68ab6b7980013147a71a17cf9fa787c7" title="Translates a vector from type X to type Y." alt="" coords="436,22,576,62"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="388,48,422,48,422,54,388,54"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="436,36,402,36,402,30,436,31"/>
+</map>

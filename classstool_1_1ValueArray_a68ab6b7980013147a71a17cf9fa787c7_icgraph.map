@@ -1,0 +1,32 @@
+<map id="stool::ValueArray::translate" name="stool::ValueArray::translate">
+<area shape="rect" id="Node000001" title="Translates a vector from type X to type Y." alt="" coords="652,251,792,291"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ValueArray.html#a97af8be9410fa9951ac823b33f34fd41" title="Decodes the ValueArray to a vector of the specified type." alt="" coords="19,15,159,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="693,243,643,191,573,129,489,69,443,44,395,25,335,11,272,8,212,13,160,21,159,16,212,7,272,3,335,6,397,20,445,39,492,65,577,125,647,188,697,239"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ValueArray.html#a0620cf93e081c0ba82903d255fc0356a" title="Sets the ValueArray from a vector of values." alt="" coords="444,259,604,284"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="638,283,604,283,604,278,638,278"/>
+<area shape="poly" id="edge13_Node000003_Node000001" title=" " alt="" coords="618,260,652,260,652,265,618,265"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="513,246,498,204,474,153,440,103,419,81,395,63,367,49,338,38,276,26,215,23,160,27,160,22,214,18,276,21,339,33,369,44,397,59,422,77,444,100,479,151,503,202,518,245"/>
+<area shape="poly" id="edge11_Node000003_Node000003" title=" " alt="" coords="559,249,549,241,524,237,503,239,492,244,490,250,496,257,491,260,485,250,488,241,502,234,524,232,551,236,562,244"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1ValueArray.html#a2253d831e0fd9ecf47d0682c75bb0d97" title="Changes the value at a specific index." alt="" coords="239,73,379,113"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="505,249,460,188,429,156,394,127,374,115,376,111,398,123,433,152,464,185,510,246"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1ValueArray.html#a4c2ce789d9747e6a103f92fa6be34c8b" title="Decodes the ValueArray to a vector of the specified type." alt="" coords="239,137,379,177"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="493,253,448,222,395,191,368,179,371,175,397,186,451,218,496,249"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1ValueArray.html#a69378a729d979487aff07b2552f6e11c" title="Loads the ValueArray from an input file stream." alt="" coords="225,201,393,227"/>
+<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="461,258,356,229,358,224,463,253"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1ValueArray.html#a7fbf7adda54c05c62d60c7be440c7acb" title="Access element at index i." alt="" coords="239,251,379,291"/>
+<area shape="poly" id="edge9_Node000003_Node000008" title=" " alt="" coords="430,274,379,274,379,269,430,269"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1ValueArray.html#ac802da5de8fc752472941d7624546745" title="Resizes the ValueArray to a new size with specified byte size." alt="" coords="239,315,379,355"/>
+<area shape="poly" id="edge10_Node000003_Node000009" title=" " alt="" coords="468,291,378,318,376,313,466,286"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1ValueArray.html#afecdeb638224bd354cc6c14e057b7d09" title="Swaps the contents of this ValueArray with another." alt="" coords="221,380,396,405"/>
+<area shape="poly" id="edge12_Node000003_Node000010" title=" " alt="" coords="501,295,455,333,397,370,365,383,363,378,395,365,452,329,498,291"/>
+<area shape="rect" id="Node000011" href="$classstool_1_1ValueArray.html#a1960181e08491e8bd32e4a3d27f20c23" title="Move constructor." alt="" coords="239,430,379,470"/>
+<area shape="poly" id="edge14_Node000003_Node000011" title=" " alt="" coords="509,297,464,357,433,390,398,419,374,432,371,428,394,415,429,386,460,354,505,294"/>
+<area shape="rect" id="Node000012" href="$classstool_1_1ValueArray.html#a3bd864ea756b65c21ba27fcfa484d3e3" title="Writes the ValueArray to an output file stream." alt="" coords="239,494,379,534"/>
+<area shape="poly" id="edge15_Node000003_Node000012" title=" " alt="" coords="516,298,499,339,474,388,440,440,398,484,379,496,376,492,394,480,436,436,469,386,494,337,511,296"/>
+<area shape="rect" id="Node000013" href="$classstool_1_1ValueArray.html#aa144c8478ea5fab005bf53d0176d480a" title="Writes the ValueArray to a file." alt="" coords="19,522,159,562"/>
+<area shape="poly" id="edge17_Node000003_Node000013" title=" " alt="" coords="522,298,512,353,490,423,474,459,454,493,428,524,397,548,369,563,338,573,273,580,210,576,155,565,156,560,211,570,273,575,337,568,367,558,395,544,424,520,449,490,469,457,485,421,507,352,517,297"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="234,134,220,127,162,92,114,58,118,53,165,88,223,122,236,129"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1ValueArray.html#a555d136135da268cff06c704039bf95b" title="Loads the ValueArray from a file." alt="" coords="5,201,173,227"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="211,217,174,217,174,211,211,211"/>
+<area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="225,527,160,536,159,531,224,522"/>
+</map>

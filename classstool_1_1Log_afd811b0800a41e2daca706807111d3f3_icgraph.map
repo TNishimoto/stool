@@ -1,0 +1,17 @@
+<map id="stool::Log::log2floor" name="stool::Log::log2floor">
+<area shape="rect" id="Node000001" title="Calculates the base&#45;2 logarithm of an integer." alt="" coords="771,74,921,99"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1RMQSmallSparseTable.html#a9b27348690cdeb1431f00e3dc4e28e09" title="Builds the small sparse table from the given array." alt="" coords="296,5,504,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="814,69,771,46,722,28,667,18,610,14,504,16,504,11,610,9,668,13,723,23,774,41,816,64"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1RMQSparseTable.html#a84d21d8403e657ef9620ff5d322444ec" title="Builds the sparse table from the given array." alt="" coords="552,37,723,77"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="757,77,722,72,723,67,757,72"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1RMQSmallSparseTable.html#a9b496a75acd9d4bbc2da217eb4f187ff" title="Finds the index of the minimum element in the range [i, j] of the array." alt="" coords="296,95,504,135"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="757,95,504,111,504,106,757,90"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1RMQSparseTable.html#a0a582cf5f2b11348c8a178c7a046baa0" title="Finds the index of the minimum element in the range [i, j]." alt="" coords="552,152,723,192"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="802,107,688,154,686,150,800,102"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="538,47,504,42,504,37,539,41"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1RMQSmallSparseTable.html#af51ed7e712f7eb60f5ddd6b97d0abc74" title="Returns the minimum element in the range [i, j] of the array." alt="" coords="5,102,248,127"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="282,117,248,117,248,112,282,112"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="540,151,483,137,484,132,542,146"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1RMQSparseTable.html#a153aa1a3cafa191539abfa3d5b3c2cc5" title="Finds the minimum value in the range [i, j]." alt="" coords="297,159,503,185"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="538,175,503,175,503,169,538,169"/>
+</map>

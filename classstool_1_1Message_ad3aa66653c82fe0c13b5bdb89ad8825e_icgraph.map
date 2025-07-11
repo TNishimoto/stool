@@ -1,0 +1,27 @@
+<map id="stool::Message::get_paragraph_string" name="stool::Message::get_paragraph_string">
+<area shape="rect" id="Node000001" title="Generates indentation string based on paragraph level." alt="" coords="449,293,599,333"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1bwt_1_1LFDataStructure.html#a929dd6c372ee1a33baa095390d3a070e" title="Builds an LFDataStructure from a BWT vector." alt="" coords="203,5,401,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="513,281,500,231,477,172,444,111,423,84,400,59,382,48,385,43,403,55,427,80,449,108,482,170,505,230,518,279"/>
+<area shape="rect" id="Node000003" href="$structstool_1_1TextStatistics.html#a0ba7d72156ce965fee35f64464b78d06" title="Build text statistics from a ForwardRLE object." alt="" coords="227,69,377,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="508,282,491,245,467,202,437,160,400,123,376,109,378,105,403,119,441,156,472,199,496,242,513,279"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1ArrayConstructor.html#a3cdb912a99008f464778773640416cc7" title="Constructs the Burrows&#45;Wheeler Transform (BWT) from a Suffix Array." alt="" coords="216,133,388,173"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="499,284,456,234,429,209,400,188,377,176,380,171,403,183,433,205,460,231,503,281"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1bwt_1_1BWTFunctions.html#ad8648996d24da92f9f69137ee328a619" title="Constructs the C array from a given text." alt="" coords="209,197,395,237"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="475,289,400,252,369,240,371,235,402,247,478,284"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1ArrayConstructor.html#ab0e9109d8df79efc32ddd408d551a21c" title="Constructs the Differential Suffix Array (DSA) from a Suffix Array." alt="" coords="216,261,388,301"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="435,303,388,296,389,291,436,298"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1bwt_1_1BWTFunctions.html#a02f65fb1da3de26af4c1b9d5e0b93f6d" title="Constructs the FL (First&#45;to&#45;Last) array from the LF array." alt="" coords="209,325,395,365"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="436,329,396,335,395,329,435,323"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1ArrayConstructor.html#a005fd2cc2a469f7ef83941fc5ec95e03" title="Constructs the Inverse Suffix Array (ISA) from a Suffix Array." alt="" coords="216,389,388,429"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="478,342,402,380,371,392,369,387,400,375,475,338"/>
+<area shape="rect" id="Node000011" href="$classstool_1_1ArrayConstructor.html#a09e9aace862d4f1dfadb10e8fae60e6b" title="Constructs the Longest Common Prefix (LCP) array from a Suffix Array and Inverse Suffix Array." alt="" coords="216,453,388,493"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="503,346,460,396,433,421,403,444,380,456,377,451,400,439,429,417,456,392,499,343"/>
+<area shape="rect" id="Node000012" href="$classstool_1_1bwt_1_1BWTFunctions.html#a6959f0fdf8c97c849ffae85dbc98dd79" title="Constructs the LF (Last&#45;to&#45;First) array for a given BWT." alt="" coords="209,517,395,557"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="513,347,496,384,472,427,441,470,403,507,383,520,380,515,400,503,437,467,467,424,491,382,508,345"/>
+<area shape="rect" id="Node000013" href="$structstool_1_1TextStatistics.html#a9168b020de7e22e283c443e8480cd354" title="Print text statistics information." alt="" coords="227,581,377,621"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="518,348,505,397,482,457,449,518,427,546,403,571,378,587,376,582,400,567,423,543,444,515,477,455,500,395,513,346"/>
+<area shape="rect" id="Node000004" href="$structstool_1_1TextStatistics.html#a07c428318dea10e906a134d47c02a31b" title="Build text statistics from a vector." alt="" coords="5,37,155,77"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="213,79,154,71,155,65,214,74"/>
+<area shape="rect" id="Node000005" href="$structstool_1_1TextStatistics.html#a0ea99925551722ee7b17174772e36773" title="Build text statistics from a file." alt="" coords="5,101,155,141"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="214,105,155,113,154,108,213,99"/>
+</map>

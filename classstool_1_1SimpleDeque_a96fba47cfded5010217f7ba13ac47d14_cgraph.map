@@ -1,0 +1,6 @@
+<map id="stool::SimpleDeque::shrink_to_fit" name="stool::SimpleDeque::shrink_to_fit">
+<area shape="rect" id="Node000001" title="Reduce buffer size to fit current content." alt="" coords="5,29,155,69"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="42,30,40,20,46,11,60,5,80,3,104,6,116,13,114,18,102,11,80,8,61,10,49,15,45,21,47,28"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Byte.html#a9586eca62b622f23253e79387f1b1689" title="Gets the length of a code by finding the position of the leftmost 1 bit." alt="" coords="203,29,361,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,47,189,47,189,52,155,52"/>
+</map>

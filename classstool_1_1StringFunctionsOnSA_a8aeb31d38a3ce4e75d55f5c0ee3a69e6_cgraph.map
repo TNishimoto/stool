@@ -1,0 +1,5 @@
+<map id="stool::StringFunctionsOnSA::naive_compute_lcp_intervals" name="stool::StringFunctionsOnSA::naive_compute_lcp_intervals">
+<area shape="rect" id="Node000001" title="Computes LCP intervals using a naive approach." alt="" coords="5,5,185,60"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1StringFunctionsOnSA.html#a1328afb3ed5868211fc90ee9a0574c8e" title="Checks if an LCP interval is valid based on minimum character positions." alt="" coords="233,13,413,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,30,220,30,220,35,186,35"/>
+</map>
