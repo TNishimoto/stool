@@ -25,7 +25,7 @@ namespace stool
 
 
         template <typename T>
-        static int64_t predecessor(const std::vector<T> &vec, T item)
+        static int64_t predecessor_by_linear_search(const std::vector<T> &vec, T item)
         {
             int64_t size = vec.size();
             for (int64_t i = size - 1; i >= 0; i--)
@@ -51,7 +51,7 @@ namespace stool
         * @return Index of the successor, or -1 if not found
         */
         template <typename T>
-        static int64_t successor(const std::vector<T> &vec, T item)
+        static int64_t successor_by_linear_search(const std::vector<T> &vec, T item)
         {
             int64_t size = vec.size();
             for (int64_t i = 0; i < size; i++)

@@ -100,28 +100,6 @@ namespace stool
 			{
 				uint64_t b = Byte::get_code_length(n);
 				return b-1;
-
-				/*
-				int64_t t = 0;
-				long long m = 1;
-				while (true)
-				{
-					long long upper = m * 2;
-					if (m <= n && n < upper)
-					{
-						// int64_t r = (int64_t)(n - m);
-
-						assert(i == b);
-						return t;
-					}
-					if (m == 0)
-					{
-						throw std::out_of_range("Log2 Error!");
-					}
-					m *= 2;
-					t++;
-				}
-				*/
 			}
 
 		}

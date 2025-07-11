@@ -4,4 +4,4 @@ This is a repository of classes and functions that I often use when writing algo
 
 ## API Documentation (in preparation)
 
-[Doxygen](https://TNishimoto.github.io/stool/html/index.html)
+[Doxygen](https://TNishimoto.github.io/stool/index.html)
