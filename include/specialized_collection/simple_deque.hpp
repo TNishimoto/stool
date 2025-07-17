@@ -46,12 +46,13 @@ namespace stool
          * 
          * @return uint64_t Total memory usage including object overhead and buffer
          */
-        uint64_t size_in_bytes() const
+        uint64_t size_in_bytes(bool only_extra_bytes) const
         {
-            // return (sizeof(T) * this->circular_buffer_size_);
-
-            return sizeof(SimpleDeque) + (sizeof(T) * this->circular_buffer_size_);
-            // return sizeof(this->circular_buffer_size_) + sizeof(this->starting_position_) + sizeof(this->deque_size_) + sizeof(this->circular_buffer_) + (sizeof(T) * this->circular_buffer_size_);
+            if(only_extra_bytes){
+                return sizeof(T) * this->circular_buffer_size_;
+            }else{
+                return sizeof(SimpleDeque) + (sizeof(T) * this->circular_buffer_size_);
+            }
         }
 
         /**

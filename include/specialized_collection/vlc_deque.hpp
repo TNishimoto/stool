@@ -128,9 +128,13 @@ namespace stool
          * @brief Returns the size of the data structure in bytes
          * @return The size of the data structure in bytes
          */
-        uint64_t size_in_bytes() const
+        uint64_t size_in_bytes(bool only_extra_bytes) const
         {
-            return (sizeof(VLCDeque) + this->value_length_deque.size_in_bytes() + this->code_deque.size_in_bytes()) - (sizeof(this->code_deque) + sizeof(this->value_length_deque));
+            if(only_extra_bytes){
+                return this->value_length_deque.size_in_bytes(true) + this->code_deque.size_in_bytes(true);
+            }else{
+                return sizeof(VLCDeque) + this->value_length_deque.size_in_bytes(true) + this->code_deque.size_in_bytes(true);
+            }
         }
 
         /**
