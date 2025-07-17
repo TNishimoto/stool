@@ -1,0 +1,6 @@
+<map id="stool::Log::log2_iterate" name="stool::Log::log2_iterate">
+<area shape="rect" id="Node000001" title="Helper method for log_iterate that recursively applies log2." alt="" coords="216,29,387,55"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="340,20,329,11,301,8,279,10,267,15,264,20,271,28,266,31,259,21,263,11,277,5,301,3,331,6,343,15"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Log.html#ad011ec6d37434f167f7745d2008dcbea" title="Calculates the number of times log2 can be applied to a number." alt="" coords="5,29,168,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="202,45,168,45,168,39,202,39"/>
+</map>

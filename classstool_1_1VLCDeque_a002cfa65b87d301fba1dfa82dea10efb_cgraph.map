@@ -1,0 +1,7 @@
+<map id="stool::VLCDeque::renove_range" name="stool::VLCDeque::renove_range">
+<area shape="rect" id="Node000001" title="Accesses a value from a pair of 64&#45;bit codes." alt="" coords="5,23,188,63"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Byte.html#af28c9bd134fe228cbb9b12f6ed3aaf97" title="Pads zeros at the head of a 64&#45;bit integer." alt="" coords="236,5,435,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,31,222,27,223,33,189,36"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1Byte.html#aee5d8add0fad3b8f3c91c91c16971912" title="Pads zeros at the tail of a 64&#45;bit integer." alt="" coords="242,55,429,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="189,50,229,54,228,59,188,55"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="stool::VLCDeque::write" name="stool::VLCDeque::write">
+<area shape="rect" id="Node000001" title="Inserts zero bits into a 64&#45;bit code at a specified position." alt="" coords="5,42,176,67"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Byte.html#a9586eca62b622f23253e79387f1b1689" title="Gets the length of a code by finding the position of the leftmost 1 bit." alt="" coords="224,5,383,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,40,210,35,211,41,177,46"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1Byte.html#a644a296d96ad07be48b6918241c0940c" title="Pads zeros in a specified range within a 64&#45;bit integer." alt="" coords="224,70,383,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,63,211,68,210,73,176,69"/>
+</map>

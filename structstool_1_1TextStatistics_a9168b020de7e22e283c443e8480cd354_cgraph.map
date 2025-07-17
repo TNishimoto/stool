@@ -1,0 +1,13 @@
+<map id="stool::TextStatistics::print" name="stool::TextStatistics::print">
+<area shape="rect" id="Node000001" title="Print text statistics information." alt="" coords="5,101,155,141"/>
+<area shape="rect" id="Node000002" href="$structstool_1_1TextStatistics.html#acc69ca5eabcbc38be730199ca29cf6b6" title="Get the alphabet of the text." alt="" coords="219,5,369,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,99,202,55,219,48,221,53,204,60,117,104"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1Message.html#ad3aa66653c82fe0c13b5bdb89ad8825e" title="Generates indentation string based on paragraph level." alt="" coords="219,69,369,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="155,108,205,100,206,105,156,113"/>
+<area shape="rect" id="Node000004" href="$structstool_1_1TextStatistics.html#a3ef5d23680679d2e458c74491cbab6fd" title="Get the smallest character in the text." alt="" coords="203,133,385,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="156,130,189,135,189,140,155,135"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1DebugPrinter.html#ac80e37d40452293b3ce66d545784d3b6" title="Converts a vector to a string showing both numeric values and character representations." alt="" coords="221,198,367,253"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="119,139,204,183,218,190,216,195,201,188,117,144"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1DebugPrinter.html#ab3ca1bc0a85ab9c01090eae3769fe0c6" title="Converts a single character to a visible string representation." alt="" coords="433,205,580,245"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="368,223,420,223,420,228,368,228"/>
+</map>

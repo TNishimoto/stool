@@ -1,0 +1,5 @@
+<map id="stool::SimpleSuffixTree::is_leaf" name="stool::SimpleSuffixTree::is_leaf">
+<area shape="rect" id="Node000001" title="Check if a node is a leaf node." alt="" coords="224,5,395,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleSuffixTree.html#a50adb4dde6ca839ca4cf2c13386d4249" title="Check if a node is an internal node." alt="" coords="5,5,176,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,28,176,28,176,23,210,23"/>
+</map>

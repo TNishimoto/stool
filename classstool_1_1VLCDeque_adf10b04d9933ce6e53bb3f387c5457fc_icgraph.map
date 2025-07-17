@@ -1,0 +1,31 @@
+<map id="stool::VLCDeque::verify" name="stool::VLCDeque::verify">
+<area shape="rect" id="Node000001" title="Verifies the integrity of the variable&#45;length coded deque." alt="" coords="1197,174,1372,200"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#a085a9a345d5356f432afb5ff709a0a61" title="Inserts a value at the specified position." alt="" coords="467,9,642,34"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1261,166,1213,120,1182,97,1148,78,1084,52,1016,33,947,20,879,13,749,9,643,14,642,9,749,3,879,7,948,15,1018,28,1086,47,1150,73,1185,92,1216,116,1265,162"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1VLCDeque.html#a9dd7dd3b1bd6499806a508b28f0ba9ec" title="Removes and returns the last element from the deque." alt="" coords="947,88,1145,113"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="1246,171,1148,128,1106,116,1107,111,1150,123,1248,166"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1VLCDeque.html#aa2d61091b7d5b4140b1a85e8fd146af8" title="Removes the value at the specified position." alt="" coords="461,88,648,113"/>
+<area shape="poly" id="edge17_Node000001_Node000008" title=" " alt="" coords="1202,205,1098,217,971,224,902,223,832,218,762,208,695,192,657,177,621,156,568,115,571,111,624,151,659,172,697,187,763,203,833,213,902,218,971,219,1098,212,1201,199"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1VLCDeque.html#a5a534bfb83a1127738bfc32466e159be" title="Removes and returns the first value from the variable&#45;length code deque." alt="" coords="965,138,1127,178"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="1183,177,1127,170,1127,165,1184,172"/>
+<area shape="rect" id="Node000011" href="$classstool_1_1VLCDeque.html#afdfc25be15ed2a6bc87b7f9a6bdebea0" title="Adds a value to the end of the deque." alt="" coords="943,253,1149,278"/>
+<area shape="poly" id="edge15_Node000001_Node000011" title=" " alt="" coords="1236,207,1150,236,1090,256,1088,250,1148,231,1234,202"/>
+<area shape="rect" id="Node000012" href="$classstool_1_1VLCDeque.html#a413e64fca69ff43c685da3fe23eff873" title="Returns the value at the back of the deque." alt="" coords="962,303,1130,343"/>
+<area shape="poly" id="edge16_Node000001_Node000012" title=" " alt="" coords="1262,211,1213,253,1151,293,1123,306,1121,301,1148,289,1210,248,1259,207"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1VLCDeque.html#aa40877a7957a420b563c70e894ef6802" title="Increments a value at a given index by a delta." alt="" coords="5,30,208,56"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="454,14,358,10,256,14,204,22,155,33,154,28,203,17,256,8,358,4,454,9"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1VLCDeque.html#a5ad08a0c01569f427b58f436f69d5808" title="Sets a new value at the specified position." alt="" coords="256,23,413,63"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="490,39,414,47,413,42,489,34"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="427,23,467,19,467,24,427,28"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="242,46,208,46,208,40,242,40"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1VLCDeque.html#aa5755159932493f1f4592536719e081e" title="Pops multiple values from the back of the deque." alt="" coords="696,38,895,64"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="967,88,860,67,861,61,968,83"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1VLCDeque.html#a25eaa6647dcbf21752bf593b600889fe" title="Shifts values to the left starting from a given position." alt="" coords="699,88,892,113"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="933,103,892,103,892,98,933,98"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="685,103,648,103,648,98,685,98"/>
+<area shape="poly" id="edge10_Node000008_Node000003" title=" " alt="" coords="448,97,354,90,256,78,159,58,160,53,256,73,355,84,448,92"/>
+<area shape="poly" id="edge11_Node000008_Node000004" title=" " alt="" coords="491,87,411,66,413,61,493,82"/>
+<area shape="poly" id="edge14_Node000009_Node000007" title=" " alt="" coords="951,139,851,116,852,111,953,134"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1VLCDeque.html#a0415fa7f22a73085968c6eb698e5c1d8" title="Pops multiple values from the front of the deque." alt="" coords="715,138,876,178"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="952,160,876,160,876,155,952,155"/>
+</map>

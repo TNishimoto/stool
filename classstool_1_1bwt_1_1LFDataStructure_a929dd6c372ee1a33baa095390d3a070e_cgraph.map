@@ -1,0 +1,7 @@
+<map id="stool::bwt::LFDataStructure::build" name="stool::bwt::LFDataStructure::build">
+<area shape="rect" id="Node000001" title="Builds an LFDataStructure from a BWT vector." alt="" coords="5,37,204,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Message.html#a97bb3c4ab567125b7c41ca7ab5bdbbca" title="Increments the message paragraph level." alt="" coords="252,5,413,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,41,238,36,239,41,205,46"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1Message.html#ad3aa66653c82fe0c13b5bdb89ad8825e" title="Generates indentation string based on paragraph level." alt="" coords="258,69,407,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="205,69,245,74,244,80,204,74"/>
+</map>
