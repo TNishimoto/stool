@@ -137,6 +137,12 @@ namespace stool
             }
         }
 
+        uint64_t unused_size_in_bytes() const
+        {
+            return this->value_length_deque.unused_size_in_bytes() + this->code_deque.unused_size_in_bytes();   
+        }
+
+
         /**
          * @brief Computes the prefix sum from index i to j
          * 

@@ -55,6 +55,12 @@ namespace stool
             }
         }
 
+        uint64_t unused_size_in_bytes() const
+        {
+            return (this->capacity() - this->size()) * sizeof(T);
+        }
+
+
         /**
          * @brief Copy constructor
          * 
