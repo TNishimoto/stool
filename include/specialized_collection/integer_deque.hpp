@@ -38,7 +38,7 @@ namespace stool
          */
         static uint64_t max_deque_size()
         {
-            uint64_t b = stool::Byte::get_code_length(std::numeric_limits<INDEX_TYPE>::max());
+            uint64_t b = stool::LSBByte::get_code_length(std::numeric_limits<INDEX_TYPE>::max());
             return (1 << (b - 1)) - 1;
         }
         
@@ -406,7 +406,7 @@ namespace stool
          */
         uint64_t get_buffer_bit() const
         {
-            return stool::Byte::get_code_length(this->circular_buffer_size_ * (8 / this->value_byte_size_));
+            return stool::LSBByte::get_code_length(this->circular_buffer_size_ * (8 / this->value_byte_size_));
         }
         
         /**
@@ -416,7 +416,7 @@ namespace stool
          */
         void update_size_if_needed()
         {
-            uint64_t deque_bit = stool::Byte::get_code_length(this->deque_size_ + 1);
+            uint64_t deque_bit = stool::LSBByte::get_code_length(this->deque_size_ + 1);
             uint64_t buffer_bit = this->get_buffer_bit();
 
             // uint64_t max = 1 << deque_bit;
@@ -447,7 +447,7 @@ namespace stool
          */
         void shrink_to_fit()
         {
-            uint64_t bit_size = stool::Byte::get_code_length(this->deque_size_ + 1);
+            uint64_t bit_size = stool::LSBByte::get_code_length(this->deque_size_ + 1);
             this->shrink_to_fit(bit_size);
         }
         
@@ -476,7 +476,7 @@ namespace stool
         static uint64_t get_byte_size(uint64_t value)
         {
             uint64_t new_byte_size = 0;
-            uint64_t vsize = stool::Byte::get_code_length(value);
+            uint64_t vsize = stool::LSBByte::get_code_length(value);
             if (vsize <= 8)
             {
                 new_byte_size = 1;
@@ -504,7 +504,7 @@ namespace stool
         void push_back(const T &value)
         {
             // std::cout << "PUSH: " << value << std::endl;
-            uint64_t vsize = stool::Byte::get_code_length(value);
+            uint64_t vsize = stool::LSBByte::get_code_length(value);
             if (vsize > this->value_byte_size_ * 8)
             {
                 uint64_t new_byte_size = get_byte_size(value);
@@ -614,7 +614,7 @@ namespace stool
             }
             else
             {
-                uint64_t vsize = stool::Byte::get_code_length(value);
+                uint64_t vsize = stool::LSBByte::get_code_length(value);
                 if (vsize > this->value_byte_size_ * 8)
                 {
                     uint64_t new_byte_size = get_byte_size(value);

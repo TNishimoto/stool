@@ -1,7 +1,7 @@
 #include <cassert>
 #include <chrono>
+#include "../../include/stool.hpp"
 
-#include "../include/stool.hpp"
 
 
 //#include "../include/sampling_lcp/variable_fixed_array.hpp"

@@ -378,31 +378,6 @@ namespace stool
             builder.finish();
             this->build_from_builder(builder);
 
-            /*
-            uint64_t zero_counter = 0;
-            uint64_t max_value = 0;
-            uint64_t item_count = 0;
-            for (size_t i = 0; i < seq.size(); i++)
-            {
-                if (seq[i])
-                {
-                    uint64_t value = zero_counter;
-                    item_count++;
-                    if (max_value < value)
-                        max_value = value;
-                }
-                else
-                {
-                    zero_counter++;
-                }
-            }
-            _size = item_count;
-            this->upper_bit_size = std::log2(item_count) + 1;
-            this->lower_bit_size = (std::log2(max_value) + 1) - upper_bit_size;
-
-            this->build_upper_data_structure_from_bit_vector(seq);
-            this->build_lower_data_structure_from_bit_vector(seq, item_count);
-            */
         }
 
         /**

@@ -4,7 +4,7 @@
 #include <bitset>
 #include <cassert>
 #include <chrono>
-#include "../include/stool.hpp"
+#include "../../include/stool.hpp"
 
 using LCPINTV = stool::LCPInterval<uint64_t>;
 using INDEX = uint64_t;

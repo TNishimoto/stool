@@ -4,7 +4,7 @@
 #include <array>
 #include <cmath>
 
-#include "./byte.hpp"
+#include "./lsb_byte.hpp"
 
 
 namespace stool
@@ -98,7 +98,7 @@ namespace stool
 			}
 			else
 			{
-				uint64_t b = Byte::get_code_length(n);
+				uint64_t b = LSBByte::get_code_length(n);
 				return b-1;
 			}
 
@@ -113,7 +113,7 @@ namespace stool
 			}
 			else
 			{
-				uint64_t b = Byte::get_code_length(n);
+				uint64_t b = LSBByte::get_code_length(n);
 				uint64_t m = 1 << (b-1);
 				if(n == (int64_t)m){
 					return b-1;

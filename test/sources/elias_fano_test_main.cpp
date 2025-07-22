@@ -4,9 +4,8 @@
 #include <vector>
 #include <list>
 #include <iterator>
-//#include "../../include/io.hpp"
-//#include "../../include/cmdline.h"
-#include "../include/stool.hpp"
+#include "../../include/stool.hpp"
+
 
 bool SHOW = false;
 

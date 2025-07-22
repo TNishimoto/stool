@@ -6,6 +6,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-copy"  // suppress specific warning
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+#pragma GCC diagnostic ignored "-Wvla-cxx-extension"
 
 #include <sdsl/wt_gmr.hpp>
 #include <sdsl/wt_algorithm.hpp>

@@ -6,7 +6,8 @@
 #include <iterator>
 // #include "../../include/io.hpp"
 // #include "../../include/cmdline.h"
-#include "../include/stool.hpp"
+#include "../../include/stool.hpp"
+
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-copy-with-user-provided-copy" // suppress specific warning

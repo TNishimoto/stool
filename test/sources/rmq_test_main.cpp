@@ -7,7 +7,8 @@
 // #include "qgram_tree.h"
 // #include "include/debug/debug.hpp"
 
-#include "../include/stool.hpp"
+#include "../../include/stool.hpp"
+
 
 std::vector<uint64_t> create_random_integer_vector(uint64_t len, uint64_t max_value)
 {

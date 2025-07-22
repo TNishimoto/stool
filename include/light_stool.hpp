@@ -2,6 +2,9 @@
 
 #include "./basic/rational.hpp"
 #include "./basic/byte.hpp"
+#include "./basic/msb_byte.hpp"
+#include "./basic/lsb_byte.hpp"
+
 #include "./basic/basic_search.hpp"
 
 #include "./debug/equal_checker.hpp"
@@ -34,6 +37,7 @@
 #include "./specialized_collection/value_array.hpp"
 #include "./specialized_collection/vlc_deque.hpp"
 #include "./specialized_collection/naive_dynamic_string.hpp"
+#include "./specialized_collection/short_bit_vector.hpp"
 
 #include "./lz/lz_factor.hpp"
 

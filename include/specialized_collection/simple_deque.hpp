@@ -4,6 +4,7 @@
 #include <bitset>
 #include <cassert>
 #include "../basic/byte.hpp"
+#include "../basic/lsb_byte.hpp"
 #include "../debug/print.hpp"
 
 namespace stool
@@ -37,7 +38,7 @@ namespace stool
          */
         static uint64_t max_deque_size()
         {
-            uint64_t b = stool::Byte::get_code_length(std::numeric_limits<INDEX_TYPE>::max());
+            uint64_t b = stool::LSBByte::get_code_length(std::numeric_limits<INDEX_TYPE>::max());
             return (1 << (b - 1)) - 1;
         }
         
@@ -46,7 +47,7 @@ namespace stool
          * 
          * @return uint64_t Total memory usage including object overhead and buffer
          */
-        uint64_t size_in_bytes(bool only_extra_bytes) const
+        uint64_t size_in_bytes(bool only_extra_bytes = false) const
         {
             if(only_extra_bytes){
                 return sizeof(T) * this->circular_buffer_size_;
@@ -432,8 +433,8 @@ namespace stool
          */
         void update_size_if_needed()
         {
-            uint64_t deque_bit = stool::Byte::get_code_length(this->deque_size_ + 1);
-            uint64_t buffer_bit = stool::Byte::get_code_length(this->circular_buffer_size_);
+            uint64_t deque_bit = stool::LSBByte::get_code_length(this->deque_size_ + 1);
+            uint64_t buffer_bit = stool::LSBByte::get_code_length(this->circular_buffer_size_);
 
             // uint64_t max = 1 << deque_bit;
             assert(deque_bit <= buffer_bit);
@@ -481,7 +482,7 @@ namespace stool
          */
         void shrink_to_fit()
         {
-            uint64_t bit_size = stool::Byte::get_code_length(this->deque_size_ + 1);
+            uint64_t bit_size = stool::LSBByte::get_code_length(this->deque_size_ + 1);
             this->shrink_to_fit(bit_size);
         }
 
