@@ -70,7 +70,7 @@ namespace stool
 			}
 			else
 			{
-				return __builtin_ctzll(x);
+				return __builtin_clzll(x);
 			}
 		}
 

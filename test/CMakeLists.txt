@@ -49,3 +49,6 @@ target_link_libraries(performance_test.out sdsl)
 
 add_executable(short_bit_vector_test.out sources/short_bit_vector_test_main.cpp)
 target_link_libraries(short_bit_vector_test.out sdsl)
+
+add_executable(short_elias_fano_test.out sources/short_elias_fano_test_main.cpp)
+target_link_libraries(short_elias_fano_test.out sdsl)

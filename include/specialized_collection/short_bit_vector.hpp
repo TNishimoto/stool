@@ -162,6 +162,33 @@ namespace stool
             }
             return -1;
         }
+        int64_t successor1(uint64_t i) const {
+            uint64_t block_index = (i+1) / 64;
+            uint64_t bit_index = (i+1) % 64;
+            uint64_t current_pos = (i+1);
+            uint64_t size = this->size();
+
+            while(current_pos < size){
+                uint64_t mask = UINT64_MAX >> bit_index;
+                uint64_t new_bits = bits_with_gap[block_index] & mask;
+
+                if(new_bits == 0){
+                    block_index++;
+                    current_pos += (64 - bit_index);
+                    bit_index = 0;
+                }else{
+                    current_pos += stool::Byte::number_of_leading_zero(new_bits) - bit_index;
+                    if(current_pos == size){
+                        return -1;
+                    }else{
+                        assert(i <= current_pos);
+                        return current_pos;
+                    }
+                }                    
+            }
+            return -1;
+        }
+
 
         void clear()
         {
@@ -194,7 +221,7 @@ namespace stool
             if(bit_index + len <= 64){
                 uint64_t rightlen = 64 - (bit_index + len);
                 uint64_t leftlen = bit_index;
-                return (this->bits_with_gap[block_index] >> rightlen) << leftlen;
+                return (this->bits_with_gap[block_index] >> rightlen) << (leftlen + rightlen);
             }else{
                 uint64_t xlen = 64 - bit_index;
                 uint64_t ylen = len - xlen;

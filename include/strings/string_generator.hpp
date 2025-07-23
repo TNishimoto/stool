@@ -5,7 +5,7 @@ namespace stool
 {
 	/**
 	 * @brief A utility class for generating various types of random strings and sequences.
-	 * 
+	 *
 	 * The StringGenerator class provides static methods for creating random sequences
 	 * of integers and converting them to different string representations. It supports
 	 * binary strings, 8-ary strings, and general random sequences with customizable
@@ -51,7 +51,7 @@ namespace stool
 		 * @brief Converts a sequence of integers to a string using an 8-character alphabet.
 		 * @param original_text The input sequence of integers.
 		 * @return A vector of uint8_t characters representing the converted string.
-		 * 
+		 *
 		 * The function maps each integer to one of 8 characters: 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'.
 		 * The mapping is done using modulo 8 operation on each integer.
 		 */
@@ -71,19 +71,6 @@ namespace stool
 			return r;
 		}
 
-		/*
-		static std::vector<uint8_t> create_uint8_t_binary_string(std::vector<uint32_t> &original_text)
-		{
-			std::vector<uint8_t> r;
-
-			for (size_t i = 0; i < original_text.size(); i++)
-			{
-				r.push_back(original_text[i] % 2 ? 'a' : 'b');
-			}
-			return r;
-		}
-		*/
-		
 		/**
 		 * @brief Creates a binary string of specified length using a given seed.
 		 * @param len The length of the binary string to generate.
@@ -95,7 +82,7 @@ namespace stool
 			std::vector<uint32_t> seed_seq = StringGenerator::create_random_sequence(len, 2, seed);
 			return create_uint8_t_string(seed_seq);
 		}
-		
+
 		/**
 		 * @brief Creates a binary string of specified length using a random seed.
 		 * @param len The length of the binary string to generate.
@@ -106,7 +93,7 @@ namespace stool
 			std::vector<uint32_t> seed_seq = StringGenerator::create_random_sequence(len, 2);
 			return create_uint8_t_string(seed_seq);
 		}
-		
+
 		/**
 		 * @brief Creates a binary string of random length up to a maximum.
 		 * @param max_len The maximum length of the binary string.
@@ -132,7 +119,7 @@ namespace stool
 			std::vector<uint32_t> seed_seq = StringGenerator::create_random_sequence(len, 8, seed);
 			return create_uint8_t_string(seed_seq);
 		}
-		
+
 		/**
 		 * @brief Creates an 8-ary string of specified length using a random seed.
 		 * @param len The length of the 8-ary string to generate.
@@ -143,7 +130,7 @@ namespace stool
 			std::vector<uint32_t> seed_seq = StringGenerator::create_random_sequence(len, 8);
 			return create_uint8_t_string(seed_seq);
 		}
-		
+
 		/**
 		 * @brief Creates an 8-ary string of random length up to a maximum.
 		 * @param max_len The maximum length of the 8-ary string.
@@ -164,17 +151,21 @@ namespace stool
 		 * @param alphabet The set of characters to use for permutations.
 		 * @param prefix The current prefix being built during recursion.
 		 * @param output Reference to the output vector where all permutations will be stored.
-		 * 
+		 *
 		 * This is a helper function used internally by create_all_permutations().
 		 */
 		static void create_all_permutations(uint64_t len, const std::vector<uint8_t> &alphabet, const std::string &prefix, std::vector<std::string> &output)
 		{
-			if(prefix.size() > len){
-				for(uint8_t c : alphabet){
+			if (prefix.size() > len)
+			{
+				for (uint8_t c : alphabet)
+				{
 					std::string new_prefix = prefix + (std::string(1, c));
 					create_all_permutations(len, alphabet, new_prefix, output);
 				}
-			}else{
+			}
+			else
+			{
 				output.push_back(prefix);
 			}
 		}
@@ -184,7 +175,7 @@ namespace stool
 		 * @param len The length of each permutation to generate.
 		 * @param alphabet The set of characters to use for permutations.
 		 * @return A vector containing all possible permutations of the specified length.
-		 * 
+		 *
 		 * This function generates all possible combinations of characters from the alphabet
 		 * that have the specified length. For example, with alphabet {'a', 'b'} and length 2,
 		 * it would generate {"aa", "ab", "ba", "bb"}.
@@ -196,6 +187,32 @@ namespace stool
 			create_all_permutations(len, alphabet, prefix, output);
 			return output;
 		}
+
+		static std::vector<bool> create_random_bit_vector(uint64_t len, std::mt19937_64 &mt64)
+		{
+			std::uniform_int_distribution<uint64_t> get_rand_value(0, 1);
+			std::vector<bool> bv;
+			for (uint64_t i = 0; i < len; i++)
+			{
+				bv.push_back(get_rand_value(mt64) == 1);
+			}
+			return bv;
+		}
+
+		static std::vector<uint64_t> create_random_integer_sequence(uint64_t len, uint64_t max_value, int64_t seed)
+		{
+			std::mt19937 mt(seed);
+			std::uniform_int_distribution<> rand100(0, max_value);
+			std::vector<uint64_t> r;
+
+			for (size_t i = 0; i < len; i++)
+			{
+				r.push_back(rand100(mt));
+			}
+			return r;
+		}
+
+
 	};
 
 } // namespace stool

@@ -254,6 +254,21 @@ namespace stool
 			std::cout << "==================" << std::endl;
 		}
 
+		static std::string to_64bits(uint64_t x){
+			std::bitset<64> b(x);
+			return b.to_string();
+		}
+
+		static std::string to_bits(uint64_t x, uint64_t bit_size){
+			std::bitset<64> b(x);
+			std::string s = b.to_string();
+			std::string s2 = "";
+			for(int64_t i = 64 - bit_size; i < 64; i++){
+				s2 += s[i];
+			}
+			return s2;
+		}
+
 	};
 
 	/**
@@ -675,6 +690,7 @@ namespace stool
 			}
 			std::cout << "===========================" << std::endl;
 		}
+
 
 		/*
 	template <class X>
