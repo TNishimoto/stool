@@ -188,6 +188,19 @@ namespace stool
             }
             return -1;
         }
+        size_t capacity() const{
+            return this->bits_with_gap.capacity();
+        }
+        void reserve(size_t new_capacity){
+            this->bits_with_gap.reserve(new_capacity);
+        }
+        uint64_t size_in_bytes() const
+        {
+            return sizeof(std::vector<uint64_t>) + (this->capacity() * sizeof(uint64_t));
+        }
+        void swap(ShortBitVector &item){
+            this->bits_with_gap.swap(item.bits_with_gap);
+        }
 
 
         void clear()

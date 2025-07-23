@@ -39,7 +39,7 @@
 #include "./specialized_collection/naive_dynamic_string.hpp"
 #include "./specialized_collection/short_bit_vector.hpp"
 #include "./specialized_collection/short_elias_fano_vector.hpp"
-
+#include "./specialized_collection/short_integer_vector.hpp"
 
 #include "./lz/lz_factor.hpp"
 

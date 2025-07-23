@@ -13,8 +13,7 @@ namespace stool
     public:
         ShortEliasFanoVector()
         {
-            this->sbv.clear();
-            this->sbv.push_back(16, 0);
+            this->clear();
         }
         ShortEliasFanoVector(const std::vector<uint64_t> &values)
         {
@@ -30,6 +29,15 @@ namespace stool
             uint64_t lower_bit_size = bit_size - upper_bit_size;
             uint64_t mask = UINT64_MAX >> (64 - lower_bit_size);
             return value & mask;
+        }
+
+        void clear(){
+            this->sbv.clear();
+            this->sbv.push_back(16, 0);
+        }
+
+        void swap(ShortEliasFanoVector &item){
+            this->sbv.swap(item.sbv);
         }
 
         template <size_t N>
@@ -107,6 +115,18 @@ namespace stool
                 }
             }
         }
+        size_t capacity() const{
+            return this->sbv.capacity();
+        }
+        void reserve(size_t new_capacity){
+            this->sbv.reserve(new_capacity);
+        }
+        uint64_t size_in_bytes() const
+        {
+            return this->sbv.size_in_bytes();
+        }
+
+
         void print_color_bits() const
         {
             uint64_t starting_position_of_lower_value_bits = this->get_starting_position_of_lower_value_bits();
@@ -285,6 +305,14 @@ namespace stool
             uint64_t upper_value = this->get_upepr_value(i);
 
             return this->at(i, upper_value, starting_position_of_lower_value_bits);
+        }
+        int64_t successor(uint64_t i) const{
+            for(auto it = this->begin(); it != this->end(); it++){
+                if(it.index > i){
+                    return it.index;
+                }
+            }
+            return -1;
         }
 
         class iterator
