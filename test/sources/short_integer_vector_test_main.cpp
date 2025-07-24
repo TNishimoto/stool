@@ -49,6 +49,54 @@ void access_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value
     std::cout << "access_test is done." << std::endl;
 }
 
+void psum_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, uint64_t seed)
+{
+    std::cout << "access_test" << std::endl;
+    for (uint64_t i = 0; i < number_of_trials; i++)
+    {
+        std::cout << "+" << std::flush;
+        uint64_t len = 1;
+        while (len < max_len)
+        {
+            std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            stool::ShortIntegerVector short_ef(items);
+
+            for(uint64_t j = 0; j < len;j++){
+                uint64_t psum1 = 0;
+                for(uint64_t k = 0; k <= j; k++){
+                    psum1 += items[k];
+                }
+                uint64_t psum2 = short_ef.psum(j);
+                if(psum1 != psum2){
+                    std::cout << "psum1: " << psum1 << " != " << psum2 << std::endl;
+                    throw std::runtime_error("psum error");
+                }
+            }
+
+            for(int64_t j = 0; j < len;j++){
+
+                uint64_t psum1 = 0;
+                for(int64_t k = len-1; k >= j; k--){
+                    psum1 += items[k];
+                }
+
+                uint64_t psum2 = short_ef.reverse_psum(j);
+                if(psum1 != psum2){
+                    std::cout << "j: " << j << " , psum1: " << psum1 << " != " << psum2 << std::endl;
+                    std::cout << "Seq1: " << stool::DebugPrinter::to_integer_string(items) << std::endl;
+                    std::cout << "Seq2: " << short_ef.to_string() << std::endl;
+
+                    throw std::runtime_error("reverse psum error");
+                }
+            }
+
+            len *= 2;
+        }
+    }
+    std::cout << std::endl;
+    std::cout << "access_test is done." << std::endl;
+}
+
 void push_pop_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, uint64_t seed)
 {
     std::cout << "push_pop_test" << std::endl;
@@ -161,8 +209,9 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     uint64_t max_value = 1000000;
     uint64_t number_of_trials = 100;
     access_test(seq_len, number_of_trials, max_value, seed);
-    push_pop_test(seq_len, number_of_trials / 10, max_value, seed);
-    
+    psum_test(seq_len, number_of_trials, max_value, seed);
+
+    push_pop_test(seq_len, number_of_trials / 10, max_value, seed);    
     insert_test(seq_len, number_of_trials/10, max_value, seed);
     erase_test(seq_len, number_of_trials/10, max_value, seed);
     

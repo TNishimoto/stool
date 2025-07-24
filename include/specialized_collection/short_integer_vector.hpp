@@ -61,11 +61,7 @@ namespace stool
             }
             uint64_t psum(uint64_t i) const noexcept
             {
-                if(i > 0){
-                    return this->ef.at(i);
-                }else{
-                    return 0;
-                }
+                return this->ef.at(i);
             }
             uint64_t psum() const noexcept
             {
@@ -284,11 +280,10 @@ namespace stool
 
             uint64_t reverse_psum(uint64_t i) const
             {
-                uint64_t pos = this->size() - i - 1;
-                if(pos == 0){
+                if(i == 0){
                     return this->psum();
                 }else{
-                    return this->psum() - this->psum(pos - 1);
+                    return this->psum() - this->psum(i - 1);
                 }
             }
 
