@@ -30,9 +30,9 @@ namespace stool
             {
                 return this->ef.size();
             }
-            uint64_t size_in_bytes() const
+            uint64_t size_in_bytes(bool only_extra_bytes = false) const
             {
-                return this->ef.size_in_bytes();
+                return this->ef.size_in_bytes(only_extra_bytes);
             }
 
             uint64_t at(uint64_t pos) const
@@ -83,6 +83,10 @@ namespace stool
                 }
             }
 
+            uint64_t unused_size_in_bytes() const
+            {
+                return this->ef.unused_size_in_bytes();
+            }        
             std::vector<uint64_t> to_value_vector() const
             {
                 std::vector<uint64_t> r;

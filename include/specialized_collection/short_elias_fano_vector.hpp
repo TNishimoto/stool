@@ -121,9 +121,9 @@ namespace stool
         void reserve(size_t new_capacity){
             this->sbv.reserve(new_capacity);
         }
-        uint64_t size_in_bytes() const
+        uint64_t size_in_bytes(bool only_extra_bytes = false) const
         {
-            return this->sbv.size_in_bytes();
+            return this->sbv.size_in_bytes(only_extra_bytes);
         }
 
 
@@ -314,6 +314,10 @@ namespace stool
             }
             return -1;
         }
+        uint64_t unused_size_in_bytes() const
+        {
+            return this->sbv.unused_size_in_bytes();
+        }        
 
         class iterator
         {

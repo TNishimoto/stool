@@ -194,12 +194,20 @@ namespace stool
         void reserve(size_t new_capacity){
             this->bits_with_gap.reserve(new_capacity);
         }
-        uint64_t size_in_bytes() const
+        uint64_t size_in_bytes(bool only_extra_bytes = false) const
         {
-            return sizeof(std::vector<uint64_t>) + (this->capacity() * sizeof(uint64_t));
+            if(only_extra_bytes){
+                return (this->capacity() - (this->size()/64) ) * sizeof(uint64_t);
+            }else{
+                return sizeof(std::vector<uint64_t>) + (this->capacity() * sizeof(uint64_t));
+            }
         }
         void swap(ShortBitVector &item){
             this->bits_with_gap.swap(item.bits_with_gap);
+        }
+        uint64_t unused_size_in_bytes() const
+        {
+            return (this->capacity() - (this->size()/64) ) * sizeof(uint64_t);
         }
 
 
