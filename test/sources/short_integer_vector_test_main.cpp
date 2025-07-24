@@ -96,7 +96,7 @@ void psum_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, 
             for (int64_t j = 0; j < len; j++)
             {
                 uint64_t psum1 = reverse_psum_func(items, j);
-                uint64_t psum2 = short_ef.reverse_psum(j);
+                uint64_t psum2 = short_ef.reverse_psum(len - j - 1);
                 if (psum1 != psum2)
                 {
                     std::cout << "j: " << j << " , psum1: " << psum1 << " != " << psum2 << std::endl;
@@ -113,6 +113,59 @@ void psum_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, 
     std::cout << std::endl;
     std::cout << "access_test is done." << std::endl;
 }
+
+void search_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, uint64_t seed)
+{
+    std::cout << "search_test" << std::endl;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<> rand_value(0, UINT32_MAX);
+    auto search_func = [](const std::vector<uint64_t> &items, int64_t i) -> int64_t
+    {
+        uint64_t sum = 0;
+        for (uint64_t k = 0; k <= i; k++)
+        {
+            sum += items[k];
+            if(sum >= i){
+                return k;
+            }
+        }
+        return -1;
+    };
+
+    for (uint64_t i = 0; i < number_of_trials; i++)
+    {
+        std::cout << "+" << std::flush;
+        uint64_t len = 1;
+
+
+
+        while (len < max_len)
+        {
+            std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            stool::ShortIntegerVector short_ef(items);
+            uint64_t sum = short_ef.psum();
+
+            for (uint64_t j = 0; j < max_len; j++)
+            {
+                uint64_t v = rand_value(mt) % sum;
+                int64_t search1 = search_func(items, v);
+                int64_t search2 = short_ef.search(v);
+                if (search1 != search2)
+                {
+                    std::cout << "search1: " << search1 << " != " << search2 << " , j: " << v << std::endl;
+                    std::cout << "Seq1: " << stool::DebugPrinter::to_integer_string(items) << std::endl;
+                    throw std::runtime_error("search error");
+                }
+            }
+
+            len *= 2;
+        }
+    }
+    std::cout << std::endl;
+    std::cout << "search_test is done." << std::endl;
+
+}
+
 
 void back_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, uint64_t seed)
 {
@@ -285,6 +338,9 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     uint64_t number_of_trials = 100;
     access_test(seq_len, number_of_trials, max_value, seed);
     psum_test(seq_len, number_of_trials, max_value, seed);
+
+    search_test(seq_len, number_of_trials, max_value, seed);
+
 
     back_test(seq_len, number_of_trials / 10, max_value, seed);
     front_test(seq_len, number_of_trials / 10, max_value, seed);

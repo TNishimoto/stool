@@ -308,7 +308,7 @@ namespace stool
         }
         int64_t successor(uint64_t i) const{
             for(auto it = this->begin(); it != this->end(); it++){
-                if(it.index > i){
+                if(*it > i){
                     return it.index;
                 }
             }
