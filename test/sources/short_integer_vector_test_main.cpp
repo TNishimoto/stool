@@ -56,32 +56,49 @@ void psum_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, 
     {
         std::cout << "+" << std::flush;
         uint64_t len = 1;
+
+        auto psum_func = [](const std::vector<uint64_t> &items, int64_t i)
+        {
+            uint64_t sum = 0;
+            for (uint64_t k = 0; k <= i; k++)
+            {
+                sum += items[k];
+            }
+            return sum;
+        };
+
+        auto reverse_psum_func = [](const std::vector<uint64_t> &items, int64_t i)
+        {
+            uint64_t sum = 0;
+            for (int64_t k = items.size() - 1; k >= i; k--)
+            {
+                sum += items[k];
+            }
+            return sum;
+        };
+
         while (len < max_len)
         {
             std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
             stool::ShortIntegerVector short_ef(items);
 
-            for(uint64_t j = 0; j < len;j++){
-                uint64_t psum1 = 0;
-                for(uint64_t k = 0; k <= j; k++){
-                    psum1 += items[k];
-                }
+            for (uint64_t j = 0; j < len; j++)
+            {
+                uint64_t psum1 = psum_func(items, j);
                 uint64_t psum2 = short_ef.psum(j);
-                if(psum1 != psum2){
+                if (psum1 != psum2)
+                {
                     std::cout << "psum1: " << psum1 << " != " << psum2 << std::endl;
                     throw std::runtime_error("psum error");
                 }
             }
 
-            for(int64_t j = 0; j < len;j++){
-
-                uint64_t psum1 = 0;
-                for(int64_t k = len-1; k >= j; k--){
-                    psum1 += items[k];
-                }
-
+            for (int64_t j = 0; j < len; j++)
+            {
+                uint64_t psum1 = reverse_psum_func(items, j);
                 uint64_t psum2 = short_ef.reverse_psum(j);
-                if(psum1 != psum2){
+                if (psum1 != psum2)
+                {
                     std::cout << "j: " << j << " , psum1: " << psum1 << " != " << psum2 << std::endl;
                     std::cout << "Seq1: " << stool::DebugPrinter::to_integer_string(items) << std::endl;
                     std::cout << "Seq2: " << short_ef.to_string() << std::endl;
@@ -97,9 +114,12 @@ void psum_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, 
     std::cout << "access_test is done." << std::endl;
 }
 
-void push_pop_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, uint64_t seed)
+void back_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, uint64_t seed)
 {
-    std::cout << "push_pop_test" << std::endl;
+    std::cout << "back_test" << std::endl;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<> rand_len(0, UINT32_MAX);
+
     for (uint64_t i = 0; i < number_of_trials; i++)
     {
         std::cout << "+" << std::flush;
@@ -115,10 +135,49 @@ void push_pop_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_val
             }
             equal_test(short_ef, items);
 
-            while (short_ef.size() > 0)
+            uint64_t sum1 = 0;
+            for (auto it : items)
             {
-                short_ef.pop_back(1);
+                sum1 += it;
             }
+
+            uint64_t sum2 = 0;
+
+            while(short_ef.size() > 0){
+                uint64_t remove_len = rand_len(mt) % (short_ef.size() + 1);
+                std::vector<uint64_t> items2 = short_ef.pop_back(remove_len);
+                for (auto it : items2)
+                {
+                    sum2 += it;
+                }    
+            }
+
+            if (sum1 != sum2)
+            {
+                std::cout << "sum1: " << sum1 << " != " << sum2 << std::endl;
+                throw std::runtime_error("back_test is incorrect");
+            }
+            len *= 2;
+        }
+    }
+    std::cout << std::endl;
+    std::cout << "back_test is done." << std::endl;
+}
+
+void front_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, uint64_t seed)
+{
+    std::cout << "front_test" << std::endl;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<> rand_len(0, UINT32_MAX);
+
+    for (uint64_t i = 0; i < number_of_trials; i++)
+    {
+        std::cout << "+" << std::flush;
+        uint64_t len = 1;
+        while (len < max_len)
+        {
+            std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            stool::ShortIntegerVector short_ef;
 
             for (int64_t i = items.size() - 1; i >= 0; i--)
             {
@@ -126,16 +185,34 @@ void push_pop_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_val
             }
             equal_test(short_ef, items);
 
-            while (short_ef.size() > 0)
+            uint64_t sum1 = 0;
+            for (auto it : items)
             {
-                short_ef.pop_front(1);
+                sum1 += it;
+            }
+
+            uint64_t sum2 = 0;
+            while(short_ef.size() > 0){
+                uint64_t remove_len = rand_len(mt) % (short_ef.size() + 1);
+                std::vector<uint64_t> items2 = short_ef.pop_front(remove_len);
+                for (auto it : items2)
+                {
+                    sum2 += it;
+                }    
+            }
+
+
+            if (sum1 != sum2)
+            {
+                std::cout << "sum1: " << sum1 << " != " << sum2 << std::endl;
+                throw std::runtime_error("front_test is incorrect");
             }
 
             len *= 2;
         }
     }
     std::cout << std::endl;
-    std::cout << "push_pop is done." << std::endl;
+    std::cout << "front_test is done." << std::endl;
 }
 
 void insert_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, uint64_t seed)
@@ -160,14 +237,13 @@ void insert_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value
             short_ef.insert(pos, v);
             items.insert(items.begin() + pos, v);
             equal_test(short_ef, items);
-
         }
     }
     std::cout << std::endl;
 }
 
 void erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, uint64_t seed)
-{ 
+{
     std::mt19937 mt(seed);
     std::uniform_int_distribution<> rand_pos(0, UINT32_MAX);
 
@@ -179,7 +255,8 @@ void erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value,
         std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(max_len, max_value, seed++);
         stool::ShortIntegerVector short_ef(items);
 
-        while(short_ef.size() > 0){
+        while (short_ef.size() > 0)
+        {
             uint64_t pos = rand_pos(mt) % items.size();
             short_ef.remove(pos);
             items.erase(items.begin() + pos);
@@ -188,8 +265,6 @@ void erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value,
     }
     std::cout << std::endl;
 }
-
-
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
 {
@@ -211,8 +286,9 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     access_test(seq_len, number_of_trials, max_value, seed);
     psum_test(seq_len, number_of_trials, max_value, seed);
 
-    push_pop_test(seq_len, number_of_trials / 10, max_value, seed);    
-    insert_test(seq_len, number_of_trials/10, max_value, seed);
-    erase_test(seq_len, number_of_trials/10, max_value, seed);
-    
+    back_test(seq_len, number_of_trials / 10, max_value, seed);
+    front_test(seq_len, number_of_trials / 10, max_value, seed);
+
+    insert_test(seq_len, number_of_trials / 10, max_value, seed);
+    erase_test(seq_len, number_of_trials / 10, max_value, seed);
 }

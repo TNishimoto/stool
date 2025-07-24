@@ -262,28 +262,32 @@ namespace stool
                 uint64_t idx = 0;
                 uint64_t current_value = 0;
                 uint64_t xlen = this->size() - len;
+                uint64_t tmp_idx = 0;
 
                 for(auto it: this->ef){
                     if(idx < xlen){
                         array[x++] = it;                        
                         current_value = it;
                     }else{
-                        tmp1[idx - xlen] = it - current_value;
-                        current_value = it;
+                        tmp1[tmp_idx++] = it - current_value;
+                        current_value = it;                        
                     }
                     idx++;
-                } 
+                }
                 this->ef.build(array, x);
+                assert(tmp_idx == len);
+
 
                 return tmp1;
             }
 
             uint64_t reverse_psum(uint64_t i) const
             {
-                if(i == 0){
+                uint64_t size = this->size();
+                if(i + 1 == size){
                     return this->psum();
                 }else{
-                    return this->psum() - this->psum(i - 1);
+                    return this->psum() - this->psum(size - i - 2);
                 }
             }
 
