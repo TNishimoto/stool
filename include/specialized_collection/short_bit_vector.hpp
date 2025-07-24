@@ -197,7 +197,7 @@ namespace stool
         uint64_t size_in_bytes(bool only_extra_bytes = false) const
         {
             if(only_extra_bytes){
-                return (this->capacity() - (this->size()/64) ) * sizeof(uint64_t);
+                return this->capacity() * sizeof(uint64_t);
             }else{
                 return sizeof(std::vector<uint64_t>) + (this->capacity() * sizeof(uint64_t));
             }
