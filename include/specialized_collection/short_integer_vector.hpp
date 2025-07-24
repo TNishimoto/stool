@@ -14,7 +14,15 @@ namespace stool
             }
             ShortIntegerVector(std::vector<uint64_t> &_items)
             {
-                this->ef.build(_items);
+                std::array<uint64_t, 4096> array;
+                uint64_t x = 0;
+                uint64_t sum = 0;
+                for(auto it: _items){
+                    array[x++] = it + sum;
+                    sum += it;
+                }
+                this->ef.build(array, x);
+
             }
 
 
@@ -129,7 +137,7 @@ namespace stool
                             array[x++] = it + value;
                             current_value = it;
                         }
-                    }    
+                    }
                     this->ef.build(array, x);
                 }else{
                     uint64_t new_value = this->psum() + value;
@@ -143,17 +151,19 @@ namespace stool
                 uint64_t x = 0;
                 uint64_t current_value = 0;
                 uint64_t removed_value = UINT64_MAX;
+                uint64_t p = 0;
                 for(auto it: this->ef){
-                    if(x < pos){
+                    if(p < pos){
                         array[x++] = it;
                         current_value = it;
-                    }else if(x == pos){
+                    }else if(p == pos){
                         removed_value = it - current_value;
                         current_value = it;
                     }else{
                         array[x++] = it - removed_value;
                         current_value = it;
                     }
+                    p++;
                 }    
                 this->ef.build(array, x);
             }
