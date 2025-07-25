@@ -171,6 +171,22 @@ namespace stool
 
 			return s;
 		}
+
+		static std::string to_bit_string(uint64_t x){
+			std::bitset<64> b(x);
+			return b.to_string();
+		}
+		static std::string to_bit_string(const std::vector<uint64_t> &bits){
+			std::string s = "";
+			for(uint64_t i = 0; i < bits.size(); i++){
+				s += to_bit_string(bits[i]);
+				if(i + 1 < bits.size()){
+					s += " ";
+				}
+			}
+			return s;
+		}
+
 	};
 
 } // namespace stool

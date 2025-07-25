@@ -40,6 +40,8 @@
 #include "./specialized_collection/short_bit_vector.hpp"
 #include "./specialized_collection/short_elias_fano_vector.hpp"
 #include "./specialized_collection/short_integer_vector.hpp"
+#include "./specialized_collection/bit_deque.hpp"
+
 
 #include "./lz/lz_factor.hpp"
 

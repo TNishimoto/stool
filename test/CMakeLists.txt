@@ -22,6 +22,8 @@ find_path(SDSL_INCLUDE_DIR sdsl REQUIRED)
 LINK_DIRECTORIES(${SDSL_LIBRARY_DIR})
 include_directories(${SDSL_INCLUDE_DIR})
 
+#[[
+
 add_executable(elias_fano_test.out sources/elias_fano_test_main.cpp)
 target_link_libraries(elias_fano_test.out sdsl)
 
@@ -55,3 +57,8 @@ target_link_libraries(short_elias_fano_test.out sdsl)
 
 add_executable(short_integer_vector_test.out sources/short_integer_vector_test_main.cpp)
 target_link_libraries(short_integer_vector_test.out sdsl)
+
+]]
+
+add_executable(bit_deque_test.out sources/bit_deque_test_main.cpp)
+target_link_libraries(bit_deque_test.out sdsl)
