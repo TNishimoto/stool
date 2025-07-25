@@ -1,0 +1,9 @@
+<map id="stool::SimpleDeque::end" name="stool::SimpleDeque::end">
+<area shape="rect" id="Node000001" title="Get iterator past the last element." alt="" coords="417,45,599,70"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#a8eaa5fa0f1689275c98e08116cf5d447" title="Resize buffer to specified bit size." alt="" coords="220,5,369,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="409,45,369,39,370,34,410,40"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#ad0f737224160e8d5ea44d0b5616d163e" title="Convert to std::deque." alt="" coords="220,69,369,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="410,75,370,81,369,76,409,69"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1VLCDeque.html#ab0d0f0e605a62b1888e394372539eb2e" title="Prints the internal state of the VLCDeque for debugging." alt="" coords="5,77,172,102"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="206,92,172,92,172,87,206,87"/>
+</map>

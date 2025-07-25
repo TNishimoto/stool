@@ -1,0 +1,5 @@
+<map id="stool::StringFunctionsOnSA::check_lcp_interval" name="stool::StringFunctionsOnSA::check_lcp_interval">
+<area shape="rect" id="Node000001" title="Checks if an LCP interval is valid based on minimum character positions." alt="" coords="233,13,413,53"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1StringFunctionsOnSA.html#a8aeb31d38a3ce4e75d55f5c0ee3a69e6" title="Computes LCP intervals using a naive approach." alt="" coords="5,5,185,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,35,185,35,185,30,219,30"/>
+</map>

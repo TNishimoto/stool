@@ -1,0 +1,5 @@
+<map id="stool::LSBByte::select1" name="stool::LSBByte::select1">
+<area shape="rect" id="Node000001" title="Finds the position of the (i+1)&#45;th set bit (1) in a 64&#45;bit integer." alt="" coords="224,5,395,31"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1LSBByte.html#a63e0d5ef6907abc6d2f1003a0c8907ee" title="Finds the position of the (i+1)&#45;th unset bit (0) in a 64&#45;bit integer." alt="" coords="5,5,176,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,21,176,21,176,15,210,15"/>
+</map>

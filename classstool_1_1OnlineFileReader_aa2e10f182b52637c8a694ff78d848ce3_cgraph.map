@@ -1,0 +1,5 @@
+<map id="stool::OnlineFileReader::OnlineFileReader" name="stool::OnlineFileReader::OnlineFileReader">
+<area shape="rect" id="Node000001" title="Constructs an OnlineFileReader with the specified filename." alt="" coords="5,5,179,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1OnlineFileReader.html#a03d459185178ac6b6208e329e7b58502" title="Gets the size of a file in bytes from a file stream." alt="" coords="227,5,400,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,23,213,23,213,28,179,28"/>
+</map>

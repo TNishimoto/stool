@@ -1,0 +1,7 @@
+<map id="stool::BitDeque::shrink_to_fit" name="stool::BitDeque::shrink_to_fit">
+<area shape="rect" id="Node000001" title="Reduce buffer size to fit current content." alt="" coords="5,5,176,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitDeque.html#ac3e1a401897901fb5d4d75550de70df7" title="Get the current number of elements." alt="" coords="224,13,380,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,23,210,23,210,28,176,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1BitDeque.html#a99f328b7f081b13eb13d310964b6ffa9" title="Check if the deque is empty." alt="" coords="428,13,600,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="380,23,414,23,414,28,380,28"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="stool::ValueArray::load" name="stool::ValueArray::load">
+<area shape="rect" id="Node000001" title="Loads the ValueArray from an input file stream." alt="" coords="221,5,389,31"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ValueArray.html#a555d136135da268cff06c704039bf95b" title="Loads the ValueArray from a file." alt="" coords="5,5,173,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,21,174,21,174,15,207,15"/>
+</map>

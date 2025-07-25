@@ -1,0 +1,5 @@
+<map id="stool::BitDeque::size" name="stool::BitDeque::size">
+<area shape="rect" id="Node000001" title="Get the current number of elements." alt="" coords="5,5,161,31"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitDeque.html#a99f328b7f081b13eb13d310964b6ffa9" title="Check if the deque is empty." alt="" coords="209,5,381,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,15,196,15,196,21,161,21"/>
+</map>

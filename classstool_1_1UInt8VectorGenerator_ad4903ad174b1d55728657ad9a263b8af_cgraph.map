@@ -1,0 +1,13 @@
+<map id="stool::UInt8VectorGenerator::create_alphabet" name="stool::UInt8VectorGenerator::create_alphabet">
+<area shape="rect" id="Node000001" title="Creates an alphabet based on the specified type." alt="" coords="5,133,208,173"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1UInt8VectorGenerator.html#a76afc0503de93720fe0bc28e502df8ac" title="Creates a binary alphabet containing &#39;a&#39; and &#39;b&#39;." alt="" coords="256,5,459,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,131,188,93,255,55,272,48,274,53,257,60,191,97,136,135"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1UInt8VectorGenerator.html#aaded4228241169c433d094c4e58d6df0" title="Creates an alphabet containing the first 8 lowercase letters (a&#45;h)" alt="" coords="256,69,459,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,131,265,110,266,115,186,136"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1UInt8VectorGenerator.html#aa664be39f1fe5a0eb767e827089fe599" title="Creates a DNA alphabet containing the four nucleotide bases." alt="" coords="256,133,459,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="208,151,242,151,242,156,208,156"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1UInt8VectorGenerator.html#a47005a209eda269ee6ddcf7ffd25247e" title="Creates an alphabet containing all uppercase English letters (A&#45;Z)" alt="" coords="256,197,459,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="186,171,266,191,265,197,185,176"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1UInt8VectorGenerator.html#a74e11876dffa1722b003495b3a79162d" title="Creates a full alphabet containing ASCII values from 2 to 249." alt="" coords="256,261,459,301"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="136,171,191,209,257,247,274,254,272,259,255,252,188,214,133,176"/>
+</map>

@@ -1,0 +1,20 @@
+<map id="stool::BitDeque::shrink_to_fit" name="stool::BitDeque::shrink_to_fit">
+<area shape="rect" id="Node000001" title="Reduce buffer size to fit current content." alt="" coords="689,57,860,97"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitDeque.html#a05fa96392ce0c2db7b8ca3542c5e8c79" title="Remove all elements from the deque." alt="" coords="473,35,635,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="675,66,635,61,636,55,676,61"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1BitDeque.html#a668f4a9254ae98d9910c7cb8befc117c" title="Update buffer size if needed based on current usage." alt="" coords="467,85,641,125"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="676,92,642,96,641,91,675,87"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1BitDeque.html#a9732b40bf38372e5ca6ce15e0cd35c02" title="Remove the last element from the deque." alt="" coords="223,5,415,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="458,38,415,33,416,27,459,33"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1BitDeque.html#a05b33109ef51194d5868baa3c19c093b" title="Remove the first element from the deque." alt="" coords="242,55,397,95"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="459,61,397,69,396,64,458,56"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1BitDeque.html#a1a61810d4f1328945c0a3e81692630d0" title="Remove element at the specified position." alt="" coords="5,63,172,88"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="228,78,172,78,172,73,228,73"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="483,82,465,74,442,59,418,46,380,33,381,28,420,41,444,55,468,69,486,77"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="452,95,396,88,397,82,453,89"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1BitDeque.html#aef753a3ed71d138620fddb5f4ac6e03a" title="Add an element to the end of the deque." alt="" coords="220,171,419,196"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="484,132,420,154,361,173,359,168,418,149,483,127"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1BitDeque.html#af3ce35c03d95c5eb7fe4c59069a2f2ea" title="Add an element to the beginning of the deque." alt="" coords="8,138,169,178"/>
+<area shape="poly" id="edge10_Node000006_Node000008" title=" " alt="" coords="453,119,170,151,169,146,453,114"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="206,174,169,169,170,164,207,168"/>
+</map>

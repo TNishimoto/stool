@@ -1,0 +1,17 @@
+<map id="stool::BitDeque::erase" name="stool::BitDeque::erase">
+<area shape="rect" id="Node000001" title="Remove element at the specified position." alt="" coords="5,63,172,88"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitDeque.html#a05b33109ef51194d5868baa3c19c093b" title="Remove the first element from the deque." alt="" coords="220,55,375,95"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,73,206,73,206,78,172,78"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1BitDeque.html#a05fa96392ce0c2db7b8ca3542c5e8c79" title="Remove all elements from the deque." alt="" coords="429,5,591,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="371,53,448,32,449,37,373,58"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1BitDeque.html#ac3e1a401897901fb5d4d75550de70df7" title="Get the current number of elements." alt="" coords="864,92,1020,117"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="364,93,423,105,538,114,653,117,850,110,851,115,654,122,538,120,422,110,363,98"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1BitDeque.html#a668f4a9254ae98d9910c7cb8befc117c" title="Update buffer size if needed based on current usage." alt="" coords="423,55,597,95"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="375,73,409,73,409,78,375,78"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1BitDeque.html#ace69ce250dcdd1eb9bb6200966dbf498" title="Reduce buffer size to fit current content." alt="" coords="645,55,816,95"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="560,28,641,49,640,55,559,33"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="817,85,851,89,850,95,816,90"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1BitDeque.html#a99f328b7f081b13eb13d310964b6ffa9" title="Check if the deque is empty." alt="" coords="1068,92,1240,117"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1020,102,1054,102,1054,107,1020,107"/>
+<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="597,73,632,73,632,78,597,78"/>
+</map>

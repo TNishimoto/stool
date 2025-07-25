@@ -1,0 +1,5 @@
+<map id="stool::IO::write" name="stool::IO::write">
+<area shape="rect" id="Node000001" title="Writes vector data to an output stream (writes entire data)" alt="" coords="5,5,123,31"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1IO.html#a0ca567ffb3a09ef6a3a2fe6c928c3b8c" title="Writes vector data to an output stream." alt="" coords="171,5,288,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,15,157,15,157,21,123,21"/>
+</map>

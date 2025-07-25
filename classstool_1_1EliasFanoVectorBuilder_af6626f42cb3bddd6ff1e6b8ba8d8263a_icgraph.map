@@ -1,0 +1,8 @@
+<map id="stool::EliasFanoVectorBuilder::initialize" name="stool::EliasFanoVectorBuilder::initialize">
+<area shape="rect" id="Node000001" title="Initialize the builder with universe size and element count." alt="" coords="225,37,436,77"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="371,26,357,19,331,16,308,18,294,23,289,29,292,36,286,38,284,28,291,18,307,13,331,11,358,14,373,21"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1EliasFanoVector.html#abac585bdec7cd12b76c937778406e344" title="Builds the Elias&#45;Fano vector from a bit vector representation." alt="" coords="5,5,177,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,44,177,39,178,34,212,39"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1EliasFanoVector.html#afadaccf47c4cd061db4a37ae8da2b0ee" title="Constructs the Elias&#45;Fano vector from a sequence of integers." alt="" coords="9,69,173,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="212,76,174,81,173,76,211,71"/>
+</map>

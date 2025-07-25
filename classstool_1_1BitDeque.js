@@ -1,0 +1,27 @@
+var classstool_1_1BitDeque =
+[
+    [ "BitPointer", "classstool_1_1BitDeque_1_1BitPointer.html", null ],
+    [ "BitDeque", "classstool_1_1BitDeque.html#a482212d728dd8ecd99bb349a3033ee32", null ],
+    [ "BitDeque", "classstool_1_1BitDeque.html#a66469f62cb7322fee96bf3dcfa54c31d", null ],
+    [ "BitDeque", "classstool_1_1BitDeque.html#a5de63ee58117fc9ed0c359e4b81591e4", null ],
+    [ "BitDeque", "classstool_1_1BitDeque.html#a371e93ac8a8132eeb728593a4f44a92f", null ],
+    [ "~BitDeque", "classstool_1_1BitDeque.html#a7b111d114bf03f10e05858c04f348b04", null ],
+    [ "at", "classstool_1_1BitDeque.html#a6e2b77873226b10c8ede6d4c212e56ee", null ],
+    [ "capacity", "classstool_1_1BitDeque.html#ab7003fd1879d966633a07d6f84462923", null ],
+    [ "clear", "classstool_1_1BitDeque.html#a05fa96392ce0c2db7b8ca3542c5e8c79", null ],
+    [ "empty", "classstool_1_1BitDeque.html#a99f328b7f081b13eb13d310964b6ffa9", null ],
+    [ "erase", "classstool_1_1BitDeque.html#a1a61810d4f1328945c0a3e81692630d0", null ],
+    [ "insert", "classstool_1_1BitDeque.html#a86a0a67d1b18a2c0e8550719ee2bd68b", null ],
+    [ "operator=", "classstool_1_1BitDeque.html#a6b496abe3566b744ae21512dc42d0f2e", null ],
+    [ "operator[]", "classstool_1_1BitDeque.html#aea57a85f249275140a299688616d1904", null ],
+    [ "pop_back", "classstool_1_1BitDeque.html#a9732b40bf38372e5ca6ce15e0cd35c02", null ],
+    [ "pop_front", "classstool_1_1BitDeque.html#a05b33109ef51194d5868baa3c19c093b", null ],
+    [ "print_info", "classstool_1_1BitDeque.html#afc2c8ea9f37a3a543cb8bf7edb662baf", null ],
+    [ "push_back", "classstool_1_1BitDeque.html#aef753a3ed71d138620fddb5f4ac6e03a", null ],
+    [ "push_front", "classstool_1_1BitDeque.html#af3ce35c03d95c5eb7fe4c59069a2f2ea", null ],
+    [ "shrink_to_fit", "classstool_1_1BitDeque.html#ace69ce250dcdd1eb9bb6200966dbf498", null ],
+    [ "size", "classstool_1_1BitDeque.html#ac3e1a401897901fb5d4d75550de70df7", null ],
+    [ "size_in_bytes", "classstool_1_1BitDeque.html#a497212b1ddd44b6311313f983484f8b1", null ],
+    [ "swap", "classstool_1_1BitDeque.html#a1ae9bb256368b5f49e45aad08b16c308", null ],
+    [ "update_size_if_needed", "classstool_1_1BitDeque.html#a668f4a9254ae98d9910c7cb8befc117c", null ]
+];

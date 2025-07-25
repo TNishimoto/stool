@@ -1,0 +1,12 @@
+<map id="stool::BitDeque::push_back" name="stool::BitDeque::push_back">
+<area shape="rect" id="Node000001" title="Add an element to the end of the deque." alt="" coords="5,5,204,31"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitDeque.html#ac3e1a401897901fb5d4d75550de70df7" title="Get the current number of elements." alt="" coords="693,5,849,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,12,252,11,449,9,645,11,680,12,679,17,645,17,449,15,252,17,204,18"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1BitDeque.html#a668f4a9254ae98d9910c7cb8befc117c" title="Update buffer size if needed based on current usage." alt="" coords="252,26,427,66"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="204,27,239,31,238,37,204,32"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1BitDeque.html#a99f328b7f081b13eb13d310964b6ffa9" title="Check if the deque is empty." alt="" coords="897,5,1069,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="849,15,884,15,884,21,849,21"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1BitDeque.html#ace69ce250dcdd1eb9bb6200966dbf498" title="Reduce buffer size to fit current content." alt="" coords="475,26,645,66"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="427,43,461,43,461,49,427,49"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="645,32,680,27,680,33,646,37"/>
+</map>
