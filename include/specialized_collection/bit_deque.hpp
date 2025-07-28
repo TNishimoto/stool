@@ -41,6 +41,10 @@ namespace stool
             using value_type = bool;
             using difference_type = std::ptrdiff_t;
 
+            BitDequeIterator() : _m_deq(nullptr), index(UINT16_MAX), block_index(UINT16_MAX), size(UINT16_MAX), bit_index(UINT8_MAX) {
+
+            }
+
             BitDequeIterator(const BitDeque *_deque, uint16_t _index, uint16_t _block_index, uint8_t _bit_index, uint16_t _size) : 
             _m_deq(_deque), index(_index), block_index(_block_index), size(_size), bit_index(_bit_index) {}
 
@@ -165,7 +169,7 @@ namespace stool
 
             }
 
-            uint64_t read_64_bit_string() const
+            uint64_t read_64bit_MSB_string() const
             {
                 CircularBitPointer bp(this->_m_deq->circular_buffer_size_, this->block_index, this->bit_index);
                 return bp.read64(this->_m_deq->circular_buffer_);
@@ -174,6 +178,12 @@ namespace stool
             difference_type operator-(const BitDequeIterator &other) const
             {
                 return (int16_t)this->index - (int16_t)other.index;
+            }
+            uint64_t get_size() const {
+                return this->size;
+            }
+            bool is_end() const {
+                return this->index == UINT16_MAX;
             }
 
             /**
@@ -1076,7 +1086,8 @@ namespace stool
                 uint64_t count = this->psum();
                 if (x <= count)
                 {
-                    return this->select1(count - 1);
+                    uint64_t v = this->select1(x - 1);
+                    return v;
                 }
                 else
                 {
@@ -1148,58 +1159,45 @@ namespace stool
 
             // uint64_t size = this->size();
             uint64_t current_pos = 0;
+            uint64_t size = this->size();
 
             bool is_end = false;
+            CircularBitPointer bp(this->circular_buffer_size_, block_index, bit_index);
 
             while (!is_end && counter > 0)
             {
-                uint64_t bits = this->circular_buffer_[block_index];
+                uint64_t bits = bp.read64(this->circular_buffer_);
                 uint64_t bitsize = 64;
+                
 
-                if (block_index == this->last_block_index_ && bit_index <= this->last_bit_index_)
-                {
-                    uint64_t rightLen = (64 - this->last_bit_index_ - 1);
-                    bits = (bits >> rightLen) << rightLen;
-                    assert(bitsize >= rightLen);
-                    bitsize -= rightLen;
-                    is_end = true;
-                }
-                if (bit_index > 0)
-                {
-                    bits = bits << bit_index;
-                    assert(bitsize >= bit_index);
-                    bitsize -= bit_index;
-                }
-
-                int64_t num = stool::Byte::count_bits(bits);
-
-                if (num < counter)
-                {
-                    counter -= num;
-                    bit_index += bitsize;
-                    current_pos += bitsize;
-                }
-                else
-                {
-                    int64_t p = stool::MSBByte::select1(bits, counter - 1);
-
-                    /*
-                    std::bitset<64> bs(bits);
-                    std::cout << "Bits: " << bs.to_string() << "/num = " << num << std::endl;
-                    std::cout << "YYY/" << counter << std::endl;
-                    */
-                    assert(p != -1);
-                    return current_pos + p;
-                }
-
-                if (bit_index >= 64)
-                {
-                    block_index++;
-                    bit_index -= 64;
-                    if (block_index == this->circular_buffer_size_)
-                    {
-                        block_index = 0;
+                if(bp.bit_index_ == 0){
+                    int64_t num = stool::Byte::count_bits(bits);
+                    if(num < counter){
+                        counter -= num;
+                    }else{
+                        int64_t p = stool::MSBByte::select1(bits, counter - 1);
+                        return current_pos + p;
                     }
+                    current_pos += bitsize;
+                    bp.add(bitsize);
+                }else{
+                    uint64_t nokori = size - current_pos;
+                    uint64_t nokori2 = 64 - bit_index;
+                    if(nokori >= nokori2){
+                        bitsize = nokori2;
+                    }else{
+                        bitsize = nokori;
+                    }
+                    bits = (bits >> (64 - bitsize)) << (64 - bitsize);
+                    int64_t num = stool::Byte::count_bits(bits);
+                    if(num < counter){
+                        counter -= num;
+                    }else{
+                        int64_t p = stool::MSBByte::select1(bits, counter - 1);
+                        return current_pos + p;
+                    }
+                    current_pos += bitsize;
+                    bp.add(bitsize);
                 }
             }
 
@@ -1212,6 +1210,70 @@ namespace stool
                 return -1;
             }
         }
+        int64_t select0(uint64_t i) const
+        {
+            if (this->empty())
+            {
+                return -1;
+            }
+            int64_t counter = i + 1;
+            uint64_t block_index = this->first_block_index_;
+            uint64_t bit_index = this->first_bit_index_;
+
+            // uint64_t size = this->size();
+            uint64_t current_pos = 0;
+            uint64_t size = this->size();
+
+            bool is_end = false;
+            CircularBitPointer bp(this->circular_buffer_size_, block_index, bit_index);
+
+            while (!is_end && counter > 0)
+            {
+                uint64_t bits = bp.read64(this->circular_buffer_);
+                uint64_t bitsize = 64;
+                
+
+                if(bp.bit_index_ == 0){
+                    int64_t num = bitsize - stool::Byte::count_bits(bits);
+                    if(num < counter){
+                        counter -= num;
+                    }else{
+                        int64_t p = stool::MSBByte::select0(bits, counter - 1);
+                        return current_pos + p;
+                    }
+                    current_pos += bitsize;
+                    bp.add(bitsize);
+                }else{
+                    uint64_t nokori = size - current_pos;
+                    uint64_t nokori2 = 64 - bit_index;
+                    if(nokori >= nokori2){
+                        bitsize = nokori2;
+                    }else{
+                        bitsize = nokori;
+                    }
+                    bits = (bits >> (64 - bitsize)) << (64 - bitsize);
+                    int64_t num = bitsize - stool::Byte::count_bits(bits);
+                    if(num < counter){
+                        counter -= num;
+                    }else{
+                        int64_t p = stool::MSBByte::select0(bits, counter - 1);
+                        return current_pos + p;
+                    }
+                    current_pos += bitsize;
+                    bp.add(bitsize);
+                }
+            }
+
+            if (counter > 0)
+            {
+                return current_pos;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
 
         std::string to_string(bool use_partition = false) const
         {

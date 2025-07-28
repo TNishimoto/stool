@@ -467,6 +467,38 @@ namespace stool
             }
             return -1;
         }
+        static int64_t select0(uint64_t bits, uint64_t i)
+        {
+            uint64_t nth = i + 1;
+            uint64_t mask = UINT8_MAX;
+            uint64_t counter = 0;
+            for (int64_t i = 7; i >= 0; i--)
+            {
+                uint64_t bs = i * 8;
+                uint64_t mask2 = mask << bs;
+                uint64_t v = bits & mask2;
+                uint64_t c = 8 -Byte::count_bits(v);
+                if (counter + c >= nth)
+                {
+                    uint64_t pos = (7 - i) * 8;
+
+                    for (uint64_t j = 0; j < 8; j++)
+                    {
+                        if (!get_bit(bits, pos + j))
+                        {
+                            counter++;
+                            if (counter == nth)
+                            {
+                                return pos + j;
+                            }
+                        }
+                    }
+                    return -1;
+                }
+                counter += c;
+            }
+            return -1;
+        }
 
         static std::string to_bit_string(uint64_t x, uint64_t bit_size)
         {
