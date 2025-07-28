@@ -459,6 +459,12 @@ namespace stool
             assert(this->size() == old_size);
         }
 
+        uint64_t read_64_bit_string() const {
+            BitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+            uint64_t value = bp.read64(this->circular_buffer_);
+            return value;
+        }
+
         /**
          * @brief Add an element to the end of the deque
          *
