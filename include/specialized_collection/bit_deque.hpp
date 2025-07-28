@@ -1,13 +1,5 @@
 #pragma once
-#include <vector>
-#include <deque>
-#include <bitset>
-#include <cassert>
-#include "../basic/byte.hpp"
-#include "../basic/lsb_byte.hpp"
-#include "../basic/msb_byte.hpp"
-
-#include "../debug/print.hpp"
+#include "circular_bit_pointer.hpp"
 
 namespace stool
 {
@@ -34,6 +26,186 @@ namespace stool
         uint16_t last_block_index_;
         uint8_t first_bit_index_;
         uint8_t last_bit_index_;
+
+        class BitDequeIterator
+        {
+
+        public:
+            const BitDeque *_m_deq;
+            uint16_t index;
+            uint16_t block_index;
+            uint16_t size = 0;
+            uint8_t bit_index;
+
+            using iterator_category = std::random_access_iterator_tag;
+            using value_type = bool;
+            using difference_type = std::ptrdiff_t;
+
+            BitDequeIterator(const BitDeque *_deque, uint16_t _index, uint16_t _block_index, uint8_t _bit_index, uint16_t _size) : 
+            _m_deq(_deque), index(_index), block_index(_block_index), size(_size), bit_index(_bit_index) {}
+
+            bool operator*() const
+            {
+                return ((*_m_deq).circular_buffer_[this->block_index] >> (63 - this->bit_index)) & 1;
+            }
+
+            BitDequeIterator &operator++()
+            {
+                if (this->index + 1 < this->size)
+                {
+                    this->index++;
+                    CircularBitPointer bp(this->_m_deq->circular_buffer_size_, this->block_index, this->bit_index);
+                    bp.add(1);
+                    this->block_index = bp.block_index_;
+                    this->bit_index = bp.bit_index_;
+                }
+                else if (this->index + 1 == this->size)
+                {
+                    this->index = UINT16_MAX;
+                    this->block_index = UINT16_MAX;
+                    this->bit_index = UINT8_MAX;
+                }
+                else
+                {
+                    throw std::invalid_argument("Error: BitDequeIterator::operator++()");
+                }
+
+                return *this;
+            }
+
+            BitDequeIterator operator++(int)
+            {
+                BitDequeIterator temp = *this;
+
+                ++(*this);
+                return temp;
+            }
+
+            BitDequeIterator &operator--()
+            {
+                if (this->index > 1)
+                {
+                    this->index--;
+                    CircularBitPointer bp(this->_m_deq->circular_buffer_size_, this->block_index, this->bit_index);
+                    bp.subtract(1);
+                    this->block_index = bp.block_index_;
+                    this->bit_index = bp.bit_index_;
+                }
+                else
+                {
+                    throw std::invalid_argument("Error: BitDequeIterator::operator--()");
+                }
+
+                return *this;
+            }
+
+            BitDequeIterator operator--(int)
+            {
+                BitDequeIterator temp = *this;
+                --(*this);
+                return temp;
+            }
+
+            BitDequeIterator operator+(difference_type n) const
+            {
+                CircularBitPointer bp(this->_m_deq->circular_buffer_size_, this->block_index, this->bit_index);
+                bp.add(n);
+                if (this->index + n < this->size)
+                {
+                    return BitDequeIterator(this->_m_deq, this->index + n, bp.block_index_, bp.bit_index_, this->size);
+                }
+                else
+                {
+                    return BitDequeIterator(this->_m_deq, UINT16_MAX, UINT16_MAX, UINT8_MAX, this->size);
+                }
+            }
+
+            BitDequeIterator &operator+=(difference_type n)
+            {
+                CircularBitPointer bp(this->_m_deq->circular_buffer_size_, this->block_index, this->bit_index);
+                bp.add(n);
+                this->index += n;
+                this->block_index = bp.block_index_;
+                this->bit_index = bp.bit_index_;
+                if (this->index >= this->size)
+                {
+                    this->index = UINT16_MAX;
+                    this->block_index = UINT16_MAX;
+                    this->bit_index = UINT8_MAX;
+                }
+                return *this;
+            }
+
+            BitDequeIterator operator-(difference_type n) const
+            {
+                CircularBitPointer bp(this->_m_deq->circular_buffer_size_, this->block_index, this->bit_index);
+                bp.subtract(n);
+                if (n <= this->index)
+                {
+                    return BitDequeIterator(this->_m_deq, this->index - n, bp.block_index_, bp.bit_index_, this->size);
+                }
+                else
+                {
+                    throw std::invalid_argument("Error: BitDequeIterator::operator-()");
+                }
+            }
+
+            BitDequeIterator &operator-=(difference_type n)
+            {
+                if (this->index < n)
+                {
+                    throw std::invalid_argument("Error: BitDequeIterator::operator-()");
+                }
+                CircularBitPointer bp(this->_m_deq->circular_buffer_size_, this->block_index, this->bit_index);
+                bp.subtract(n);
+                this->index -= n;
+                this->block_index = bp.block_index_;
+                this->bit_index = bp.bit_index_;
+                return *this;
+
+            }
+
+            uint64_t read_64_bit_string() const
+            {
+                CircularBitPointer bp(this->_m_deq->circular_buffer_size_, this->block_index, this->bit_index);
+                return bp.read64(this->_m_deq->circular_buffer_);
+            }
+
+            difference_type operator-(const BitDequeIterator &other) const
+            {
+                return (int16_t)this->index - (int16_t)other.index;
+            }
+
+            /**
+             * @brief Equality comparison
+             */
+            bool operator==(const BitDequeIterator &other) const { return this->index == other.index; }
+
+            /**
+             * @brief Inequality comparison
+             */
+            bool operator!=(const BitDequeIterator &other) const { return this->index != other.index; }
+
+            /**
+             * @brief Less than comparison
+             */
+            bool operator<(const BitDequeIterator &other) const { return this->index < other.index; }
+
+            /**
+             * @brief Greater than comparison
+             */
+            bool operator>(const BitDequeIterator &other) const { return this->index > other.index; }
+
+            /**
+             * @brief Less than or equal comparison
+             */
+            bool operator<=(const BitDequeIterator &other) const { return this->index <= other.index; }
+
+            /**
+             * @brief Greater than or equal comparison
+             */
+            bool operator>=(const BitDequeIterator &other) const { return this->index >= other.index; }
+        };
 
         // INDEX_TYPE deque_size_;
 
@@ -67,142 +239,6 @@ namespace stool
             }
             throw std::runtime_error("circular_buffer_size_ is not found");
         }
-
-        class BitPointer
-        {
-        public:
-            uint16_t circular_buffer_size_;
-            uint16_t block_index_;
-            uint8_t bit_index_;
-
-            BitPointer(uint16_t circular_buffer_size, uint16_t block_index, uint8_t bit_index)
-            {
-                this->circular_buffer_size_ = circular_buffer_size;
-                this->block_index_ = block_index;
-                this->bit_index_ = bit_index;
-            }
-            uint64_t get_position() const
-            {
-                return this->block_index_ * 64 + this->bit_index_;
-            }
-
-            void add(int64_t x)
-            {
-                while (x > 0)
-                {
-                    if (this->bit_index_ + x < 64)
-                    {
-                        this->bit_index_ += x;
-                        x = 0;
-                    }
-                    else
-                    {
-                        uint64_t diff = 64 - this->bit_index_;
-                        x -= diff;
-                        this->bit_index_ = 0;
-                        this->block_index_++;
-                        if (this->block_index_ == this->circular_buffer_size_)
-                        {
-                            this->block_index_ = 0;
-                        }
-                    }
-                }
-                assert(x == 0);
-            }
-            void subtract(int64_t x)
-            {
-                while (x > 0)
-                {
-                    if (x <= (int64_t)this->bit_index_)
-                    {
-                        this->bit_index_ -= x;
-                        x = 0;
-                    }
-                    else
-                    {
-                        uint64_t diff = this->bit_index_ + 1;
-                        x -= diff;
-
-                        if (this->block_index_ != 0)
-                        {
-                            this->bit_index_ = 63;
-                            this->block_index_--;
-                        }
-                        else
-                        {
-                            this->bit_index_ = 63;
-                            this->block_index_ = this->circular_buffer_size_ - 1;
-                        }
-                    }
-                }
-            }
-
-            template <typename T>
-            uint64_t read64(const T &bits)
-            {
-                if (this->bit_index_ == 0)
-                {
-                    return bits[this->block_index_];
-                }
-                else if (this->block_index_ + 1 < this->circular_buffer_size_)
-                {
-                    // uint64_t Lsize = 64 - this->bit_index_;
-                    uint64_t L = bits[block_index_] << this->bit_index_;
-                    uint64_t R = bits[block_index_ + 1] >> (64 - this->bit_index_);
-                    return L | R;
-                }
-                else
-                {
-                    // uint64_t Lsize = 64 - this->bit_index_;
-                    uint64_t L = bits[block_index_] << this->bit_index_;
-                    uint64_t R = bits[0] >> (64 - this->bit_index_);
-                    return L | R;
-                }
-            }
-
-            template <typename T>
-            void write64(T &bits, uint64_t value)
-            {
-                if (this->bit_index_ == 0)
-                {
-                    bits[this->block_index_] = value;
-                }
-                else
-                {
-                    uint64_t Lvalue = value;
-                    uint64_t Rvalue = value << (64 - this->bit_index_);
-                    uint64_t npos = this->block_index_ + 1 < this->circular_buffer_size_ ? this->block_index_ + 1 : 0;
-                    bits[this->block_index_] = stool::MSBByte::write_bits(bits[this->block_index_], this->bit_index_, 64 - this->bit_index_, Lvalue);
-                    bits[npos] = stool::MSBByte::write_bits(bits[npos], 0, this->bit_index_, Rvalue);
-                }
-            }
-
-            template <typename T>
-            void write_bits(T &bits, uint64_t value, uint64_t len)
-            {
-                if (this->bit_index_ + len <= 64)
-                {
-                    bits[this->block_index_] = stool::MSBByte::write_bits(bits[this->block_index_], this->bit_index_, len, value);
-                }
-                else
-                {
-                    uint64_t Lvalue = value;
-                    uint64_t Rvalue = value << (64 - this->bit_index_);
-
-                    uint64_t diff = 64 - this->bit_index_;
-                    bits[this->block_index_] = stool::MSBByte::write_bits(bits[this->block_index_], this->bit_index_, diff, Lvalue);
-
-                    if (this->block_index_ + 1 < this->circular_buffer_size_)
-                    {
-                        bits[this->block_index_ + 1] = stool::MSBByte::write_bits(bits[this->block_index_ + 1], 0, len - diff, Rvalue);
-                    }
-                    else
-                    {
-                        bits[0] = stool::MSBByte::write_bits(bits[0], 0, len - diff, Rvalue);
-                    }
-                }
-            }
-        };
 
     public:
         /**
@@ -459,8 +495,9 @@ namespace stool
             assert(this->size() == old_size);
         }
 
-        uint64_t read_64_bit_string() const {
-            BitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+        uint64_t read_64_bit_string() const
+        {
+            CircularBitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
             uint64_t value = bp.read64(this->circular_buffer_);
             return value;
         }
@@ -655,7 +692,7 @@ namespace stool
             }
             else
             {
-                BitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
+                CircularBitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
                 bp.add(1);
                 bp.write_bits(this->circular_buffer_, value, len);
                 bp.add(len - 1);
@@ -680,7 +717,7 @@ namespace stool
             }
             else
             {
-                BitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+                CircularBitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
                 bp.subtract(len);
 
                 bp.write_bits(this->circular_buffer_, value, len);
@@ -720,7 +757,7 @@ namespace stool
                 }
                 else
                 {
-                    BitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
+                    CircularBitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
                     bp.subtract(len);
                     this->last_block_index_ = bp.block_index_;
                     this->last_bit_index_ = bp.bit_index_;
@@ -735,7 +772,6 @@ namespace stool
                 return;
             if (len == 1)
             {
-                uint64_t size = this->size();
                 this->pop_front();
             }
             else
@@ -751,7 +787,7 @@ namespace stool
                 }
                 else
                 {
-                    BitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+                    CircularBitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
                     bp.add(len);
                     this->first_block_index_ = bp.block_index_;
                     this->first_bit_index_ = bp.bit_index_;
@@ -780,7 +816,7 @@ namespace stool
 
 #endif
 
-            BitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+            CircularBitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
             bp.add(position);
             bp.write_bits(this->circular_buffer_, value, len);
 
@@ -797,7 +833,7 @@ namespace stool
         template <typename T>
         void replace(uint64_t position, const T &values, uint64_t bit_size)
         {
-            BitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+            CircularBitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
             bp.add(position);
             uint64_t i = 0;
             while (bit_size > 0)
@@ -1017,11 +1053,15 @@ namespace stool
             return this->rank1(i);
         }
 
-        uint64_t reverse_psum(uint64_t i) const {
+        uint64_t reverse_psum(uint64_t i) const
+        {
             uint64_t size = this->size();
-            if(i + 1 < size){
+            if (i + 1 < size)
+            {
                 return this->psum() - this->rank1(size - i - 1);
-            }else{
+            }
+            else
+            {
                 return this->psum();
             }
         }
@@ -1131,7 +1171,7 @@ namespace stool
                     bitsize -= bit_index;
                 }
 
-                uint64_t num = stool::Byte::count_bits(bits);
+                int64_t num = stool::Byte::count_bits(bits);
 
                 if (num < counter)
                 {
@@ -1141,7 +1181,7 @@ namespace stool
                 }
                 else
                 {
-                    uint64_t p = stool::MSBByte::select1(bits, counter - 1);
+                    int64_t p = stool::MSBByte::select1(bits, counter - 1);
 
                     /*
                     std::bitset<64> bs(bits);
@@ -1199,7 +1239,6 @@ namespace stool
             }
         }
 
-
         void shift_right(uint64_t position, uint64_t len)
         {
             uint64_t size = this->size();
@@ -1227,7 +1266,7 @@ namespace stool
 
                 stool::MSBByte::block_shift_right(this->circular_buffer_, position, len, this->circular_buffer_size_);
 
-                BitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
+                CircularBitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
                 bp.add(len);
                 this->last_block_index_ = bp.block_index_;
                 this->last_bit_index_ = bp.bit_index_;
@@ -1246,7 +1285,7 @@ namespace stool
                 this->change_starting_position(0);
                 stool::MSBByte::block_shift_left(this->circular_buffer_, position, len, this->circular_buffer_size_);
 
-                BitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
+                CircularBitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
                 bp.subtract(len);
                 this->last_block_index_ = bp.block_index_;
                 this->last_bit_index_ = bp.bit_index_;
@@ -1259,8 +1298,8 @@ namespace stool
         {
             uint64_t block_index = new_starting_position / 64;
             uint64_t bit_index = new_starting_position % 64;
-            BitPointer bp1(old_buffer_size, old_first_block_index, old_first_bit_index);
-            BitPointer bp2(old_buffer_size, block_index, bit_index);
+            CircularBitPointer bp1(old_buffer_size, old_first_block_index, old_first_bit_index);
+            CircularBitPointer bp2(old_buffer_size, block_index, bit_index);
 
             if (bit_size == 0)
             {
@@ -1299,7 +1338,7 @@ namespace stool
 
         void change_starting_position(uint64_t new_starting_position)
         {
-            BitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+            CircularBitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
             if (bp.get_position() == new_starting_position)
                 return;
 
@@ -1457,16 +1496,20 @@ namespace stool
             uint64_t bytes = (sizeof(uint64_t)) + (item.circular_buffer_size_ * sizeof(uint64_t));
             return bytes;
         }
-        static uint64_t get_byte_size(const std::vector<BitDeque> &items){
+        static uint64_t get_byte_size(const std::vector<BitDeque> &items)
+        {
             uint64_t size = sizeof(uint64_t);
-            for(const auto &item : items){
+            for (const auto &item : items)
+            {
                 size += get_byte_size(item);
             }
             return size;
         }
-        static void save(const std::vector<BitDeque> &items, std::vector<uint8_t> &output, uint64_t &pos){
+        static void save(const std::vector<BitDeque> &items, std::vector<uint8_t> &output, uint64_t &pos)
+        {
             uint64_t size = get_byte_size(items);
-            if(pos + size > output.size()){
+            if (pos + size > output.size())
+            {
                 output.resize(pos + size);
             }
 
@@ -1474,58 +1517,72 @@ namespace stool
             std::memcpy(output.data() + pos, &items_size, sizeof(uint64_t));
             pos += sizeof(uint64_t);
 
-            for(const auto &item : items){
+            for (const auto &item : items)
+            {
                 BitDeque::save(item, output, pos);
             }
         }
-        static void save(const std::vector<BitDeque> &items, std::ofstream &os){
+        static void save(const std::vector<BitDeque> &items, std::ofstream &os)
+        {
             uint64_t items_size = items.size();
-            os.write(reinterpret_cast<const char*>(&items_size), sizeof(uint64_t));
+            os.write(reinterpret_cast<const char *>(&items_size), sizeof(uint64_t));
 
-            for(const auto &item : items){
+            for (const auto &item : items)
+            {
                 BitDeque::save(item, os);
             }
-
         }
         uint64_t psum(uint64_t i, uint64_t j) const
+        {
+            if (i == j)
             {
-                if (i == j)
-                {
-                    return this->at(i);
-                }
-                else
-                {
-                    throw std::runtime_error("No implementation");
-                }
+                return this->at(i);
             }
-            static std::vector<BitDeque> load_vector(const std::vector<uint8_t> &data, uint64_t &pos){
-                uint64_t size = 0;
-                std::memcpy(&size, data.data() + pos, sizeof(uint64_t));
-                pos += sizeof(uint64_t);
-
-                std::vector<BitDeque> output;
-                output.resize(size);
-                for(uint64_t i = 0; i < size; i++){
-                    output[i] = BitDeque::load(data, pos);
-                }
-                return output;
-
+            else
+            {
+                throw std::runtime_error("No implementation");
             }
-            static std::vector<BitDeque> load_vector(std::ifstream &ifs){
-                uint64_t size = 0;
-            	ifs.read(reinterpret_cast<char*>(&size), sizeof(uint64_t));
+        }
+        static std::vector<BitDeque> load_vector(const std::vector<uint8_t> &data, uint64_t &pos)
+        {
+            uint64_t size = 0;
+            std::memcpy(&size, data.data() + pos, sizeof(uint64_t));
+            pos += sizeof(uint64_t);
 
-                std::vector<BitDeque> output;
-                output.resize(size);
-                for(uint64_t i = 0; i < size; i++){
-                    output[i] = BitDeque::load(ifs);
-                }
-            
-                return output;
+            std::vector<BitDeque> output;
+            output.resize(size);
+            for (uint64_t i = 0; i < size; i++)
+            {
+                output[i] = BitDeque::load(data, pos);
+            }
+            return output;
+        }
+        static std::vector<BitDeque> load_vector(std::ifstream &ifs)
+        {
+            uint64_t size = 0;
+            ifs.read(reinterpret_cast<char *>(&size), sizeof(uint64_t));
 
+            std::vector<BitDeque> output;
+            output.resize(size);
+            for (uint64_t i = 0; i < size; i++)
+            {
+                output[i] = BitDeque::load(ifs);
             }
 
+            return output;
+        }
 
-
+        BitDequeIterator begin() const
+        {
+            if(!this->empty()){
+                return BitDequeIterator(this, 0, this->first_block_index_, this->first_bit_index_, this->size());
+            }else{
+                return this->end();
+            }
+        }
+        BitDequeIterator end() const
+        {
+            return BitDequeIterator(this, UINT16_MAX, UINT16_MAX, UINT8_MAX, this->size());
+        }
     };
 }

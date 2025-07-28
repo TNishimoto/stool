@@ -465,9 +465,9 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
             }
 
             while(bv.size() > 0){
-                uint64_t pos = get_rand_value(mt) % bv.size();
-                uint64_t new_pattern_size = get_rand_value(mt) % 257;
-                if(pos + new_pattern_size > bv.size()){
+                int64_t pos = get_rand_value(mt) % bv.size();
+                int64_t new_pattern_size = get_rand_value(mt) % 257;
+                if(pos + new_pattern_size > (int64_t)bv.size()){
                     new_pattern_size = bv.size() - pos;
                 }
 
