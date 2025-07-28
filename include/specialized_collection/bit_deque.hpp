@@ -26,7 +26,7 @@ namespace stool
     {
         inline static std::vector<int> size_array{1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 18, 22, 27, 33, 40, 48, 58, 70, 84, 101, 122, 147, 177, 213, 256, 308, 370, 444, 533, 640, 768, 922, 1107, 1329, 1595, 1914, 2297, 2757, 3309, 3971, 4766};
 
-        public:
+    public:
         using INDEX_TYPE = uint16_t;
         uint64_t *circular_buffer_ = nullptr;
         uint16_t circular_buffer_size_;
@@ -37,11 +37,12 @@ namespace stool
 
         // INDEX_TYPE deque_size_;
 
-        static uint64_t get_appropriate_circular_buffer_size_index(uint64_t size)
+        static uint64_t get_appropriate_circular_buffer_size_index(int64_t size)
         {
             for (uint64_t i = 0; i < size_array.size(); i++)
             {
-                if ((size_array[i] * 64) > size)
+                int64_t xsize = size_array[i] * 64;
+                if (xsize > size)
                 {
                     return i;
                 }
@@ -145,14 +146,14 @@ namespace stool
                 }
                 else if (this->block_index_ + 1 < this->circular_buffer_size_)
                 {
-                    uint64_t Lsize = 64 - this->bit_index_;
+                    //uint64_t Lsize = 64 - this->bit_index_;
                     uint64_t L = bits[block_index_] << this->bit_index_;
                     uint64_t R = bits[block_index_ + 1] >> (64 - this->bit_index_);
                     return L | R;
                 }
                 else
                 {
-                    uint64_t Lsize = 64 - this->bit_index_;
+                    //uint64_t Lsize = 64 - this->bit_index_;
                     uint64_t L = bits[block_index_] << this->bit_index_;
                     uint64_t R = bits[0] >> (64 - this->bit_index_);
                     return L | R;
@@ -447,7 +448,7 @@ namespace stool
 
                 delete[] this->circular_buffer_;
                 this->circular_buffer_ = nullptr;
-                assert(appropriate_size_index < size_array.size());
+                assert(appropriate_size_index < (int64_t)size_array.size());
                 uint64_t new_size = size_array[appropriate_size_index];
                 this->circular_buffer_ = new uint64_t[new_size];
                 this->circular_buffer_size_ = new_size;
@@ -466,21 +467,20 @@ namespace stool
          */
         void push_back(bool value)
         {
-            #if DEBUG
+#if DEBUG
             uint64_t prev_size = this->size();
-            #endif 
+#endif
             uint64_t size = this->size();
             this->update_size_if_needed(size + 1);
 
             if (size == 0)
             {
-                
+
                 this->first_block_index_ = 0;
-                this->first_bit_index_= 0;
+                this->first_bit_index_ = 0;
                 this->last_block_index_ = this->first_block_index_;
                 this->last_bit_index_ = this->first_bit_index_;
                 this->circular_buffer_[this->first_block_index_] = stool::MSBByte::write_bit(this->circular_buffer_[this->first_block_index_], this->first_bit_index_, value);
-
             }
             else
             {
@@ -505,10 +505,9 @@ namespace stool
                     }
                 }
             }
-            #if DEBUG
+#if DEBUG
             assert(this->size() == prev_size + 1);
-            #endif 
-
+#endif
         }
 
         /**
@@ -652,7 +651,7 @@ namespace stool
             {
                 BitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
                 bp.add(1);
-                bp.write_bits(this->circular_buffer_,value, len);
+                bp.write_bits(this->circular_buffer_, value, len);
                 bp.add(len - 1);
                 this->last_block_index_ = bp.block_index_;
                 this->last_bit_index_ = bp.bit_index_;
@@ -660,11 +659,11 @@ namespace stool
         }
         void push_front64(uint64_t value, uint8_t len = 64)
         {
-            #if DEBUG
+#if DEBUG
             std::string suf = this->to_string();
             std::string pref = stool::MSBByte::to_bit_string(value, len);
             std::string bit_string1 = pref + suf;
-            #endif
+#endif
             if (len == 0)
                 return;
             uint64_t size = this->size();
@@ -678,20 +677,20 @@ namespace stool
                 BitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
                 bp.subtract(len);
 
-                bp.write_bits(this->circular_buffer_,value, len);
+                bp.write_bits(this->circular_buffer_, value, len);
 
                 this->first_block_index_ = bp.block_index_;
                 this->first_bit_index_ = bp.bit_index_;
             }
 
-            #if DEBUG
+#if DEBUG
             std::string bit_string2 = this->to_string();
 
-            if(bit_string1 != bit_string2){                
+            if (bit_string1 != bit_string2)
+            {
                 assert(false);
             }
-            #endif
-
+#endif
         }
         void pop_back(uint64_t len)
         {
@@ -752,35 +751,60 @@ namespace stool
             }
         }
 
-        void replace(uint64_t position, bool value){
+        void replace(uint64_t position, bool value)
+        {
             this->replace(position, value ? (1ULL << 63) : 0, 1);
         }
-        void replace(uint64_t position, uint64_t value, uint64_t len){
-            if(position + len > this->size()){
+        void replace(uint64_t position, uint64_t value, uint64_t len)
+        {
+            if (position + len > this->size())
+            {
                 throw std::invalid_argument("Error: replace()");
             }
-            #if DEBUG
+#if DEBUG
             std::string bit_string1 = this->to_string();
             std::string pattern = stool::MSBByte::to_bit_string(value, len);
-            for(uint64_t i = 0; i < len; i++){
+            for (uint64_t i = 0; i < len; i++)
+            {
                 bit_string1[position + i] = pattern[i];
             }
 
-            #endif
+#endif
 
             BitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
-            bp.add(position);            
+            bp.add(position);
             bp.write_bits(this->circular_buffer_, value, len);
 
-            #if DEBUG
+#if DEBUG
             std::string bit_string2 = this->to_string();
-            if(bit_string1 != bit_string2){
+            if (bit_string1 != bit_string2)
+            {
                 std::cout << "bit_string1: " << bit_string1 << std::endl;
                 std::cout << "bit_string2: " << bit_string2 << std::endl;
                 assert(false);
             }
-            #endif
+#endif
         }
+        template <typename T>
+        void replace(uint64_t position, const T &values, uint64_t bit_size)
+        {
+            BitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+            bp.add(position);
+            uint64_t i = 0;
+            while(bit_size > 0){
+                if(bit_size >= 64){
+                    stool::MSBByte::write_64bit_string(this->circular_buffer_, this->circular_buffer_size_, values[i], bp.block_index_, bp.bit_index_, 64, true);
+                    bit_size -= 64;
+                    bp.add(64);
+                    i++;
+                }else{
+                    stool::MSBByte::write_64bit_string(this->circular_buffer_, this->circular_buffer_size_, values[i], bp.block_index_, bp.bit_index_, bit_size, true);
+                    bp.add(bit_size);
+                    bit_size = 0;
+                }
+            }
+        }
+
 
         bool is_cyclic() const
         {
@@ -805,23 +829,33 @@ namespace stool
         void insert(size_t position, bool value)
         {
             uint64_t value64 = value ? (1ULL << 63) : 0;
-            this->insert64(position, value64, 1);
+            this->insert_64bit_string(position, value64, 1);
         }
-        void insert64(size_t position, uint64_t value, uint64_t len)
+        void insert_64bit_string(size_t position, uint64_t value, uint64_t len)
         {
-            
             uint64_t size = this->size();
-            if(position == size){
+            if (position == size)
+            {
                 this->push_back64(value, len);
-            }else if(position < size){
+            }
+            else if (position < size)
+            {
                 this->shift_right(position, len);
                 assert(position + len <= this->size());
-                this->replace(position, value, len);    
-
-            }else{
+                this->replace(position, value, len);
+            }
+            else
+            {
                 throw std::invalid_argument("Error: insert64()");
             }
         }
+        template <typename T>
+        void insert_64bit_string(size_t position, const T &values, uint64_t bit_size)
+        {
+            this->shift_right(position, bit_size);
+            this->replace(position, values, bit_size);
+        }
+        
 
         /**
          * @brief Remove element at the specified position
@@ -830,15 +864,26 @@ namespace stool
          */
         void erase(size_t position)
         {
-            if (position > 0)
+            this->erase(position, 1);
+        }
+
+        void erase(size_t position, size_t len)
+        {
+            uint64_t size = this->size();
+            if (position + len == size)
             {
-                throw std::invalid_argument("Error: erase()");
+                this->pop_back(len);
+            }
+            else if (position == 0)
+            {
+                this->pop_front(len);
             }
             else
             {
-                this->pop_front();
+                this->shift_left(position + len, len);
             }
         }
+
 
         /**
          * @brief Get the current number of elements
@@ -1002,7 +1047,7 @@ namespace stool
             uint64_t block_index = this->first_block_index_;
             uint64_t bit_index = this->first_bit_index_;
 
-            uint64_t size = this->size();
+            //uint64_t size = this->size();
             uint64_t current_pos = 0;
 
             bool is_end = false;
@@ -1075,20 +1120,32 @@ namespace stool
             for (uint64_t i = 0; i < this->size(); i++)
             {
                 s += std::to_string(this->at(i));
-                if(use_partition && i % 64 == 63){
+                if (use_partition && i % 64 == 63)
+                {
                     s += " ";
                 }
-
             }
             return s;
         }
 
-        void shift_right(uint64_t position, uint64_t len) {
+        void shift_right(uint64_t position, uint64_t len)
+        {
             uint64_t size = this->size();
 
-            if(size == 0){
-                this->push_back64(0, len);
-            }else{
+            if (size == 0)
+            {
+                while(len > 0){
+                    if(len >= 64){
+                        this->push_back64(0, len);
+                        len -= 64;
+                    }else{
+                        this->push_back64(0, len);
+                        len = 0;
+                    }
+                }
+            }
+            else
+            {
                 this->update_size_if_needed(size + len);
                 this->change_starting_position(0);
 
@@ -1100,6 +1157,26 @@ namespace stool
                 this->last_bit_index_ = bp.bit_index_;
             }
         }
+        void shift_left(uint64_t position, uint64_t len)
+        {
+            uint64_t size = this->size();
+
+            if (position == size)
+            {
+                this->pop_back(len);
+            }else{
+                this->change_starting_position(0);
+                stool::MSBByte::block_shift_left(this->circular_buffer_, position, len, this->circular_buffer_size_);
+
+                BitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
+                bp.subtract(len);
+                this->last_block_index_ = bp.block_index_;
+                this->last_bit_index_ = bp.bit_index_;
+
+                this->update_size_if_needed(size + len);
+            }
+        }
+
 
         void special_copy(std::array<uint64_t, 4096> &tmp_array, uint64_t old_first_block_index, uint64_t old_first_bit_index, uint64_t new_starting_position, uint64_t old_buffer_size, uint64_t bit_size)
         {
@@ -1146,8 +1223,8 @@ namespace stool
         void change_starting_position(uint64_t new_starting_position)
         {
             BitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
-            if(bp.get_position() == new_starting_position) return;
-
+            if (bp.get_position() == new_starting_position)
+                return;
 
             std::array<uint64_t, 4096> tmp_array;
             std::memcpy(tmp_array.data(), this->circular_buffer_, this->circular_buffer_size_ * sizeof(uint64_t));
@@ -1196,7 +1273,18 @@ namespace stool
          */
         static void save(const BitDeque &item, std::vector<uint8_t> &output, uint64_t &pos)
         {
-            throw std::invalid_argument("Error: save()");
+            uint64_t bs = 0;
+            bs = bs | (((uint64_t)item.circular_buffer_size_) << 48);
+            bs = bs | (((uint64_t)item.first_block_index_) << 32);
+            bs = bs | (((uint64_t)item.last_block_index_) << 16);
+            bs = bs | (((uint64_t)item.first_bit_index_) << 8);
+            bs = bs | (((uint64_t)item.last_bit_index_) << 0);
+            std::memcpy(output.data() + pos, &bs, sizeof(bs));
+            pos += sizeof(bs);
+
+            std::memcpy(output.data() + pos, item.circular_buffer_, item.circular_buffer_size_ * sizeof(uint64_t));
+            pos += item.circular_buffer_size_ * sizeof(uint64_t);
+
         }
 
         /**
@@ -1207,7 +1295,12 @@ namespace stool
          */
         static void save(const BitDeque &item, std::ofstream &os)
         {
-            throw std::invalid_argument("Error: save()");
+            os.write(reinterpret_cast<const char *>(&item.circular_buffer_size_), sizeof(item.circular_buffer_size_));
+            os.write(reinterpret_cast<const char *>(&item.first_block_index_), sizeof(item.first_block_index_));
+            os.write(reinterpret_cast<const char *>(&item.first_bit_index_), sizeof(item.first_bit_index_));
+            os.write(reinterpret_cast<const char *>(&item.last_block_index_), sizeof(item.last_block_index_));
+            os.write(reinterpret_cast<const char *>(&item.last_bit_index_), sizeof(item.last_bit_index_));
+            os.write(reinterpret_cast<const char *>(item.circular_buffer_), item.circular_buffer_size_ * sizeof(uint64_t));
         }
 
         /**
@@ -1219,7 +1312,33 @@ namespace stool
          */
         static BitDeque load(const std::vector<uint8_t> &data, uint64_t &pos)
         {
-            throw std::invalid_argument("Error: load()");
+            uint16_t _circular_buffer_size;
+            uint16_t _first_block_index;
+            uint16_t _last_block_index;
+            uint8_t _first_bit_index;
+            uint8_t _last_bit_index;
+
+            uint64_t tmp = 0;
+
+            std::memcpy(&tmp, data.data() + pos, sizeof(uint64_t));
+            pos += sizeof(uint64_t);
+            _circular_buffer_size = tmp >> 48;
+            _first_block_index = (tmp >> 32) & 0xFFFF;
+            _last_block_index = (tmp >> 16) & 0xFFFF;
+            _first_bit_index = (tmp >> 8) & 0xFF;
+            _last_bit_index = tmp & 0xFF;
+
+            BitDeque r(_circular_buffer_size);
+            r.first_block_index_ = _first_block_index;
+            r.first_bit_index_ = _first_bit_index;
+            r.last_block_index_ = _last_block_index;
+            r.last_bit_index_ = _last_bit_index;
+
+            std::memcpy(r.circular_buffer_, data.data() + pos, sizeof(uint64_t) * (size_t)_circular_buffer_size);
+            pos += sizeof(uint64_t) * _circular_buffer_size;
+
+
+            return r;
         }
 
         /**
@@ -1230,7 +1349,27 @@ namespace stool
          */
         static BitDeque load(std::ifstream &ifs)
         {
-            throw std::invalid_argument("Error: load()");
+            uint16_t _circular_buffer_size;
+            uint16_t _first_block_index;
+            uint16_t _last_block_index;
+            uint8_t _first_bit_index;
+            uint8_t _last_bit_index;
+
+            ifs.read(reinterpret_cast<char *>(&_circular_buffer_size), sizeof(uint16_t));
+            ifs.read(reinterpret_cast<char *>(&_first_block_index), sizeof(uint16_t));
+            ifs.read(reinterpret_cast<char *>(&_last_block_index), sizeof(uint16_t));
+            ifs.read(reinterpret_cast<char *>(&_first_bit_index), sizeof(uint8_t));
+            ifs.read(reinterpret_cast<char *>(&_last_bit_index), sizeof(uint8_t));
+
+
+            BitDeque r(_circular_buffer_size);
+            r.first_block_index_ = _first_block_index;
+            r.first_bit_index_ = _first_bit_index;
+            r.last_block_index_ = _last_block_index;
+            r.last_bit_index_ = _last_bit_index;
+            ifs.read(reinterpret_cast<char *>(r.circular_buffer_), sizeof(uint64_t) * (size_t)_circular_buffer_size);
+
+            return r;
         }
 
         /**
@@ -1241,8 +1380,8 @@ namespace stool
          */
         static uint64_t get_byte_size(const BitDeque &item)
         {
-            throw std::invalid_argument("Error: get_byte_size()");
+            uint64_t bytes = (sizeof(BitDeque)) + (item.circular_buffer_size_ * sizeof(uint64_t));
+            return bytes;
         }
     };
-
 }

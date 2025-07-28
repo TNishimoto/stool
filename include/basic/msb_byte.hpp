@@ -1,5 +1,6 @@
 #pragma once
 #include "./lsb_byte.hpp"
+#include <cassert>
 
 namespace stool
 {
@@ -131,8 +132,10 @@ namespace stool
         }
 
         template <typename T>
-        static void block_shift_right(T &bits_array, uint64_t block_index, uint64_t offset_block_index, uint8_t offset_bit_index, uint64_t array_size)
+        static void move_block_right(T &bits_array, uint64_t block_index, uint64_t offset_block_index, uint8_t offset_bit_index, uint64_t array_size)
         {
+            assert(offset_bit_index < 64);
+
             uint64_t start_index = block_index + offset_block_index;
             if (offset_bit_index == 0)
             {
@@ -150,12 +153,66 @@ namespace stool
 
                 if (end_index < array_size)
                 {
-                    bits_array[start_index + 1] = MSBByte::write_prefix(bits_array[start_index + 1], offset_bit_index, rightBlock);
+                    bits_array[end_index] = MSBByte::write_prefix(bits_array[end_index], offset_bit_index, rightBlock);
                 }
 
                 if (start_index < array_size)
                 {
                     bits_array[start_index] = MSBByte::write_suffix(bits_array[start_index], 64 - offset_bit_index, leftBlock);
+                }
+            }
+        }
+        template <typename T>
+        static void write_64bit_string(T &bits_array, uint64_t array_size, uint64_t bits, uint64_t block_index, uint8_t bit_index, uint8_t len, bool is_cyclic = false)
+        {
+            if (bit_index + len <= 64)
+            {
+                bits_array[block_index] = MSBByte::write_bits(bits_array[block_index], bit_index, len, bits);
+            }
+            else
+            {
+                uint64_t left_len = 64 - bit_index;
+                uint64_t right_len = len - left_len;
+                uint64_t left_bits = bits;
+                uint64_t right_bits = bits << left_len;
+
+                bits_array[block_index] = MSBByte::write_suffix(bits_array[block_index], left_len, left_bits);
+                uint64_t next_block_index = block_index + 1;
+                if(next_block_index == array_size && is_cyclic){
+                    next_block_index = 0;
+                }
+
+                bits_array[next_block_index] = MSBByte::write_prefix(bits_array[next_block_index], right_len, right_bits);
+            }
+        }
+
+        template <typename T>
+        static void move_block_left(T &bits_array, uint64_t block_index, uint64_t offset_block_index, uint8_t offset_bit_index, uint64_t array_size)
+        {
+            assert(offset_bit_index < 64);
+            uint64_t end_index = block_index - offset_block_index;
+            if (offset_bit_index == 0)
+            {
+                if (end_index < array_size)
+                {
+                    bits_array[end_index] = bits_array[block_index];
+                }
+            }
+            else
+            {
+                uint64_t start_index = end_index - 1;
+
+                uint64_t leftBlock = bits_array[block_index];
+                uint64_t rightBlock = bits_array[block_index] << offset_bit_index;
+
+                if (end_index < array_size)
+                {
+                    bits_array[end_index] = MSBByte::write_prefix(bits_array[end_index], 64 - offset_bit_index, rightBlock);
+                }
+
+                if (start_index < array_size)
+                {
+                    bits_array[start_index] = MSBByte::write_suffix(bits_array[start_index], offset_bit_index, leftBlock);
                 }
             }
         }
@@ -169,63 +226,56 @@ namespace stool
             int64_t yblock_index = offset_bit_index / 64;
             int64_t ybit_index = offset_bit_index % 64;
 
-            if (xblock_index + 1 == array_size)
+            if (xbit_index == 0)
             {
-                if (xbit_index + offset_bit_index < 64)
+                for (int64_t i = array_size - 1; i >= xblock_index; i--)
                 {
-                    uint64_t bits = bits_array[xblock_index] << xbit_index;
-                    uint64_t bitsize = 64 - (xbit_index + offset_bit_index);
-                    bits_array[xblock_index] = MSBByte::write_suffix(bits_array[xblock_index], bitsize, bits);
+                    move_block_right(bits_array, i, yblock_index, ybit_index, array_size);
                 }
             }
             else
             {
-                if (xbit_index == 0)
+                for (int64_t i = array_size - 1; i >= xblock_index + 1; i--)
                 {
-                    for (int64_t i = array_size - 1; i >= xblock_index; i--)
-                    {
-                        block_shift_right(bits_array, i, yblock_index, ybit_index, array_size);
-                    }
+                    move_block_right(bits_array, i, yblock_index, ybit_index, array_size);
                 }
-                else
+
+                uint64_t zblock_index = (bit_index + offset_bit_index) / 64;
+                uint64_t zbit_index = (bit_index + offset_bit_index) % 64;
+
+                uint64_t bits = bits_array[xblock_index] << xbit_index;
+
+                write_64bit_string(bits_array, array_size, bits, zblock_index, zbit_index, 64 - xbit_index);
+            }
+
+        }
+        template <typename T>
+        static void block_shift_left(T &bits_array, int64_t bit_index, int64_t offset_bit_index, int64_t array_size)
+        {
+            int64_t xblock_index = bit_index / 64;
+            int64_t xbit_index = bit_index % 64;
+
+            int64_t yblock_index = offset_bit_index / 64;
+            int64_t ybit_index = offset_bit_index % 64;
+
+            if (xbit_index == 0)
+            {
+                for (int64_t i = xblock_index; i < array_size; i++)
                 {
-                    for (int64_t i = array_size - 1; i >= xblock_index + 1; i--)
-                    {
-                        block_shift_right(bits_array, i, yblock_index, ybit_index, array_size);
-                    }
+                    move_block_left(bits_array, i, yblock_index, ybit_index, array_size);
+                }
+            }
+            else
+            {
+                uint64_t zblock_index = (bit_index - offset_bit_index) / 64;
+                uint64_t zbit_index = (bit_index - offset_bit_index) % 64;
 
-                    uint64_t zblock_index = (bit_index + offset_bit_index) / 64;
-                    uint64_t zbit_index = (bit_index + offset_bit_index) % 64;
+                uint64_t bits = bits_array[xblock_index] << xbit_index;
+                write_64bit_string(bits_array, array_size, bits, zblock_index, zbit_index, 64 - xbit_index);
 
-                    uint64_t zlen = 64 - xbit_index;
-                    if (zbit_index + zlen <= 64)
-                    {
-
-                        if (zblock_index < array_size)
-                        {
-
-                            uint64_t bits = bits_array[xblock_index] << xbit_index;
-
-                            bits_array[zblock_index] = MSBByte::write_bits(bits_array[zblock_index], zbit_index, zlen, bits);
-                        }
-                    }
-                    else
-                    {
-                        uint64_t leftLen = 64 - zbit_index;
-                        uint64_t rightLen = zlen - leftLen;
-                        uint64_t leftBits = bits_array[xblock_index] << xbit_index;
-                        uint64_t rightBits = bits_array[xblock_index] << (xbit_index + leftLen);
-
-
-                        if (zblock_index + 1 < array_size)
-                        {
-                            bits_array[zblock_index + 1] = MSBByte::write_prefix(bits_array[zblock_index + 1], rightLen, rightBits);
-                        }
-                        if (zblock_index < array_size)
-                        {
-                            bits_array[zblock_index] = MSBByte::write_suffix(bits_array[zblock_index], leftLen, leftBits);
-                        }
-                    }
+                for (int64_t i = xblock_index + 1; i < array_size; i++)
+                {
+                    move_block_left(bits_array, i, yblock_index, ybit_index, array_size);
                 }
             }
         }
