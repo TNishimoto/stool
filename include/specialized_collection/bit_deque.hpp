@@ -280,7 +280,7 @@ namespace stool
 
         uint64_t unused_size_in_bytes() const
         {
-            return (this->capacity() - this->size()) * sizeof(uint64_t);
+            return (this->capacity() - this->size() / 64) * sizeof(uint64_t);
         }
 
         /**
