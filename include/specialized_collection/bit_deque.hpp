@@ -888,7 +888,22 @@ namespace stool
         void insert(size_t position, bool value)
         {
             uint64_t value64 = value ? (1ULL << 63) : 0;
+
+            #if DEBUG
+            std::string old_string = this->to_string();
+            old_string.insert(position, value ? "1" : "0");
+            #endif
             this->insert_64bit_string(position, value64, 1);
+
+            #if DEBUG
+            std::string new_string = this->to_string();
+            if(old_string != new_string){
+                std::cout << "old_string: " << old_string << std::endl;
+                std::cout << "new_string: " << new_string << std::endl;
+                throw std::runtime_error("Error: insert()");
+            }
+            #endif
+
         }
         void insert_64bit_string(size_t position, uint64_t value, uint64_t len)
         {
@@ -900,6 +915,7 @@ namespace stool
             else if (position < size)
             {
                 this->shift_right(position, len);
+
                 assert(position + len <= this->size());
                 this->replace(position, value, len);
             }
@@ -1328,7 +1344,7 @@ namespace stool
                 this->update_size_if_needed(size + len);
                 this->change_starting_position(0);
 
-                stool::MSBByte::block_shift_right(this->circular_buffer_, position, len, this->circular_buffer_size_, true);
+                stool::MSBByte::block_shift_right(this->circular_buffer_, position, len, this->circular_buffer_size_);
 
                 CircularBitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
                 bp.add(len);
@@ -1475,7 +1491,6 @@ namespace stool
          */
         static void save(const BitDeque &item, std::ofstream &os)
         {
-            std::cout << "save item: " << item.first_block_index_ << ", " << (int)item.first_bit_index_ << ", " << item.last_block_index_ << ", " << (int)item.last_bit_index_ << std::endl;
             os.write(reinterpret_cast<const char *>(&item.circular_buffer_size_), sizeof(item.circular_buffer_size_));
             os.write(reinterpret_cast<const char *>(&item.first_block_index_), sizeof(item.first_block_index_));
             os.write(reinterpret_cast<const char *>(&item.last_block_index_), sizeof(item.last_block_index_));
@@ -1548,7 +1563,6 @@ namespace stool
             r.last_bit_index_ = _last_bit_index;
             ifs.read(reinterpret_cast<char *>(r.circular_buffer_), sizeof(uint64_t) * (size_t)_circular_buffer_size);
 
-            std::cout << "load: " << r.first_block_index_ << ", " << (int)r.first_bit_index_ << ", " << r.last_block_index_ << ", " << (int)r.last_bit_index_ << std::endl;
 
             return r;
         }

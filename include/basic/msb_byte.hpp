@@ -163,7 +163,7 @@ namespace stool
             }
         }
         template <typename T>
-        static void write_64bit_string(T &bits_array, uint64_t array_size, uint64_t bits, uint64_t block_index, uint8_t bit_index, uint8_t len, bool is_cyclic = false)
+        static void write_64bit_string(T &bits_array, uint64_t array_size, uint64_t bits, uint64_t block_index, uint8_t bit_index, uint8_t len, bool is_cyclic)
         {
             assert(block_index < array_size);
 
@@ -182,16 +182,16 @@ namespace stool
                 uint64_t next_block_index = block_index + 1;
                 if(next_block_index == array_size){
                     if(is_cyclic){
-                    next_block_index = 0;
+                        next_block_index = 0;
+                        assert(next_block_index < array_size);
+                        bits_array[next_block_index] = MSBByte::write_prefix(bits_array[next_block_index], right_len, right_bits);
                     }else{
-                        throw std::runtime_error("Error(1): write_64bit_string");
+                        return;
                     }
+                }else{
+                    assert(next_block_index < array_size);
+                    bits_array[next_block_index] = MSBByte::write_prefix(bits_array[next_block_index], right_len, right_bits);    
                 }
-
-                assert(next_block_index < array_size);
-                
-
-                bits_array[next_block_index] = MSBByte::write_prefix(bits_array[next_block_index], right_len, right_bits);
             }
         }
 
@@ -227,7 +227,7 @@ namespace stool
         }
 
         template <typename T>
-        static void block_shift_right(T &bits_array, uint64_t bit_index, uint64_t offset_bit_index, uint64_t array_size, bool is_cyclic)
+        static void block_shift_right(T &bits_array, uint64_t bit_index, uint64_t offset_bit_index, uint64_t array_size)
         {
             int64_t xblock_index = bit_index / 64;
             int64_t xbit_index = bit_index % 64;
@@ -256,7 +256,10 @@ namespace stool
 
                 uint64_t bits = bits_array[xblock_index] << xbit_index;
 
-                write_64bit_string(bits_array, array_size, bits, zblock_index, zbit_index, 64 - xbit_index, is_cyclic);
+
+
+
+                write_64bit_string(bits_array, array_size, bits, zblock_index, zbit_index, 64 - xbit_index, false);
             }
 
         }
@@ -282,7 +285,7 @@ namespace stool
                 uint64_t zbit_index = (bit_index - offset_bit_index) % 64;
 
                 uint64_t bits = bits_array[xblock_index] << xbit_index;
-                write_64bit_string(bits_array, array_size, bits, zblock_index, zbit_index, 64 - xbit_index);
+                write_64bit_string(bits_array, array_size, bits, zblock_index, zbit_index, 64 - xbit_index, false);
 
                 for (int64_t i = xblock_index + 1; i < array_size; i++)
                 {
