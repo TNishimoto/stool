@@ -1328,7 +1328,7 @@ namespace stool
                 this->update_size_if_needed(size + len);
                 this->change_starting_position(0);
 
-                stool::MSBByte::block_shift_right(this->circular_buffer_, position, len, this->circular_buffer_size_);
+                stool::MSBByte::block_shift_right(this->circular_buffer_, position, len, this->circular_buffer_size_, true);
 
                 CircularBitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
                 bp.add(len);
@@ -1407,6 +1407,7 @@ namespace stool
                 return;
 
             std::array<uint64_t, 4096> tmp_array;
+            assert(this->circular_buffer_size_ < 4096);
             std::memcpy(tmp_array.data(), this->circular_buffer_, this->circular_buffer_size_ * sizeof(uint64_t));
 
 #if DEBUG
@@ -1474,10 +1475,11 @@ namespace stool
          */
         static void save(const BitDeque &item, std::ofstream &os)
         {
+            std::cout << "save item: " << item.first_block_index_ << ", " << (int)item.first_bit_index_ << ", " << item.last_block_index_ << ", " << (int)item.last_bit_index_ << std::endl;
             os.write(reinterpret_cast<const char *>(&item.circular_buffer_size_), sizeof(item.circular_buffer_size_));
             os.write(reinterpret_cast<const char *>(&item.first_block_index_), sizeof(item.first_block_index_));
-            os.write(reinterpret_cast<const char *>(&item.first_bit_index_), sizeof(item.first_bit_index_));
             os.write(reinterpret_cast<const char *>(&item.last_block_index_), sizeof(item.last_block_index_));
+            os.write(reinterpret_cast<const char *>(&item.first_bit_index_), sizeof(item.first_bit_index_));
             os.write(reinterpret_cast<const char *>(&item.last_bit_index_), sizeof(item.last_bit_index_));
             os.write(reinterpret_cast<const char *>(item.circular_buffer_), item.circular_buffer_size_ * sizeof(uint64_t));
         }
@@ -1545,6 +1547,8 @@ namespace stool
             r.last_block_index_ = _last_block_index;
             r.last_bit_index_ = _last_bit_index;
             ifs.read(reinterpret_cast<char *>(r.circular_buffer_), sizeof(uint64_t) * (size_t)_circular_buffer_size);
+
+            std::cout << "load: " << r.first_block_index_ << ", " << (int)r.first_bit_index_ << ", " << r.last_block_index_ << ", " << (int)r.last_bit_index_ << std::endl;
 
             return r;
         }
