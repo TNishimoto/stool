@@ -601,6 +601,7 @@ namespace stool
                     }
                 }
             }
+
         }
 
         /**
@@ -1068,7 +1069,8 @@ namespace stool
             uint64_t size = this->size();
             if (i + 1 < size)
             {
-                return this->psum() - this->rank1(size - i - 1);
+                uint64_t v = this->psum() - this->rank1(size - i - 2);
+                return v;
             }
             else
             {
