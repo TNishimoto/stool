@@ -129,7 +129,7 @@ namespace stool
         }
 
         template <typename T>
-        void write_bits(T &bits, uint64_t value, uint64_t len)
+        void write_bits(T &bits, uint64_t value, uint64_t len) const
         {
             if (this->bit_index_ + len <= 64)
             {

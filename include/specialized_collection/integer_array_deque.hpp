@@ -28,8 +28,8 @@ namespace stool
             using iterator_category = std::random_access_iterator_tag;
             using value_type = T;
             using difference_type = std::ptrdiff_t;
-            // using pointer = T *;
-            // using reference = T &;
+            using pointer = T *;
+            using reference = T &;
 
             /**
              * @brief Construct an iterator
@@ -433,24 +433,53 @@ namespace stool
         {
             return IntegerDequeIterator(this->deque.end());
         }
+        /**
+         * @brief Calculate the total memory usage in bytes
+         * 
+         * @return uint64_t Total memory usage including object overhead and buffer
+         */
+        uint64_t size_in_bytes(bool only_extra_bytes = false) const
+        {
+            return this->deque.size_in_bytes(only_extra_bytes);
+        }
+
+        void increment(uint64_t pos, int64_t delta){
+            CircularBitPointer bp = this->deque.get_position_pointer(pos * VALUE_BIT_SIZE);
+            T value = this->deque.read_64_bit_string(bp);
+            value += delta;
+            uint64_t value2 = value;
+            this->deque.replace(bp, value2, VALUE_BIT_SIZE);
+        }
+        void decrement(uint64_t pos, int64_t delta){
+            CircularBitPointer bp = this->deque.get_position_pointer(pos * VALUE_BIT_SIZE);
+            T value = this->deque.read_64_bit_string(bp);
+            value -= delta;
+            uint64_t value2 = value;
+            this->deque.replace(bp, value2, VALUE_BIT_SIZE);
+        }
+        std::deque<T> to_deque() const{
+            std::deque<T> deq;
+            for(auto it : *this){
+                deq.push_back(it);
+            }
+            return deq;
+        }
+
     };
 
     /**
      * @brief Type alias for IntegerArrayDeque with uint16_t index type
      */
-    template <typename T>
     using IntegerArrayDeque16 = IntegerArrayDeque<uint16_t>;
 
     /**
      * @brief Type alias for IntegerArrayDeque with uint32_t index type
      */
-    template <typename T>
     using IntegerArrayDeque32 = IntegerArrayDeque<uint32_t>;
 
     /**
      * @brief Type alias for IntegerArrayDeque with uint64_t index type
      */
-    template <typename T>
     using IntegerArrayDeque64 = IntegerArrayDeque<uint64_t>;
 
 }

@@ -514,6 +514,9 @@ namespace stool
             uint64_t value = bp.read64(this->circular_buffer_);
             return value;
         }
+        void replace(const CircularBitPointer &pointer, uint64_t value, uint64_t len){
+            pointer.write_bits(this->circular_buffer_, value, len);
+        }
         CircularBitPointer get_position_pointer(uint64_t position) const {
             CircularBitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
             bp.add(position);

@@ -41,6 +41,7 @@ namespace stool
             uint64_t b = stool::LSBByte::get_code_length(std::numeric_limits<INDEX_TYPE>::max());
             return (1 << (b - 1)) - 1;
         }
+
         
         /**
          * @brief Calculate the total memory usage in bytes
