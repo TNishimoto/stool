@@ -809,9 +809,9 @@ namespace stool
 
         void replace(uint64_t position, bool value)
         {
-            this->replace(position, value ? (1ULL << 63) : 0, 1);
+            this->replace_64bit_string(position, value ? (1ULL << 63) : 0, 1);
         }
-        void replace(uint64_t position, uint64_t value, uint64_t len)
+        void replace_64bit_string(uint64_t position, uint64_t value, uint64_t len)
         {
             if (position + len > this->size())
             {
@@ -842,7 +842,7 @@ namespace stool
 #endif
         }
         template <typename T>
-        void replace(uint64_t position, const T &values, uint64_t bit_size)
+        void replace_64bit_string_sequence(uint64_t position, const T &values, uint64_t bit_size)
         {
             CircularBitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
             bp.add(position);
@@ -917,7 +917,7 @@ namespace stool
                 this->shift_right(position, len);
 
                 assert(position + len <= this->size());
-                this->replace(position, value, len);
+                this->replace_64bit_string(position, value, len);
             }
             else
             {

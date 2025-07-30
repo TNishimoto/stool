@@ -3,7 +3,8 @@
 #include <bitset>
 #include <array>
 #include <cmath>
-
+#include <vector>
+#include <algorithm>
 namespace stool
 {
 	/*!
