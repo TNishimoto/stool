@@ -63,7 +63,7 @@ uint64_t select1(const std::vector<bool> &bv, uint64_t x)
     throw std::runtime_error("select1 is incorrect");
 }
 
-void random_shift(stool::BitDeque &bit_deque, uint64_t seed){
+void random_shift(stool::BitArrayDeque &bit_deque, uint64_t seed){
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
 
@@ -72,7 +72,7 @@ void random_shift(stool::BitDeque &bit_deque, uint64_t seed){
 }
 
 
-void equal_test(const stool::BitDeque &bv, const std::vector<bool> &naive_bv)
+void equal_test(const stool::BitArrayDeque &bv, const std::vector<bool> &naive_bv)
 {
     if(naive_bv.size() != bv.size()){
         std::cout << std::endl;
@@ -113,7 +113,7 @@ void access_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
         while (len < max_len)
         {
             std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
-            stool::BitDeque bit_deque(bv);
+            stool::BitArrayDeque bit_deque(bv);
 
             random_shift(bit_deque, seed++);
 
@@ -143,7 +143,7 @@ void select_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
                     selecter_array.push_back(j);
                 }
             }
-            stool::BitDeque bit_deque(bv);
+            stool::BitArrayDeque bit_deque(bv);
 
             for (uint64_t j = 0; j < selecter_array.size(); j++)
             {
@@ -181,7 +181,7 @@ void rank_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
         while (len < max_len)
         {
             std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
-            stool::BitDeque bit_deque(bv);
+            stool::BitArrayDeque bit_deque(bv);
 
             for (uint64_t j = 0; j < len; j++)
             {
@@ -211,7 +211,7 @@ void rank_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
 
 void push_and_pop_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
 {
-    stool::BitDeque bit_deque;
+    stool::BitArrayDeque bit_deque;
     std::vector<bool> naive_bv;
     std::cout << "push_and_pop_test" << std::endl;
     std::mt19937 mt(seed);
@@ -254,7 +254,7 @@ void push_and_pop_test(uint64_t max_len, uint64_t number_of_trials, uint64_t see
 
 void push64_and_pop64_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
 {
-    stool::BitDeque bit_deque;
+    stool::BitArrayDeque bit_deque;
     std::vector<bool> naive_bv;
     std::cout << "push64_and_pop64_test" << std::endl;
     std::mt19937 mt(seed);
@@ -320,7 +320,7 @@ void replace_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
         while (len < max_len)
         {
             std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
-            stool::BitDeque bit_deque(bv);
+            stool::BitArrayDeque bit_deque(bv);
 
             random_shift(bit_deque, seed++);
 
@@ -337,7 +337,7 @@ void replace_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
                     bv[j + k] = s[k] == '1';
                 }
                 
-                bit_deque.replace(j, new_value, plen);
+                bit_deque.replace_64bit_string(j, new_value, plen);
             }
 
             equal_test(bit_deque, bv);
@@ -361,7 +361,7 @@ void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
         while (len < (int64_t)max_len)
         {
             std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
-            stool::BitDeque bit_deque(bv);
+            stool::BitArrayDeque bit_deque(bv);
             random_shift(bit_deque, seed++);
             assert(bv.size() == bit_deque.size());
 
@@ -431,7 +431,7 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
         while (len < (int64_t)max_len)
         {
             std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
-            stool::BitDeque bit_deque(bv);
+            stool::BitArrayDeque bit_deque(bv);
             random_shift(bit_deque, seed++);
             assert(bv.size() == bit_deque.size());
 

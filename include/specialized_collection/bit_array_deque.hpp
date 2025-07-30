@@ -14,7 +14,7 @@ namespace stool
      * It supports O(1) push/pop operations at both ends and random access to elements.
      * The buffer size is automatically managed to maintain optimal memory usage.
      */
-    class BitDeque
+    class BitArrayDeque
     {
         inline static std::vector<int> size_array{1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 18, 22, 27, 33, 40, 48, 58, 70, 84, 101, 122, 147, 177, 213, 256, 308, 370, 444, 533, 640, 768, 922, 1107, 1329, 1595, 1914, 2297, 2757, 3309, 3971, 4766};
 
@@ -27,11 +27,11 @@ namespace stool
         uint8_t first_bit_index_;
         uint8_t last_bit_index_;
 
-        class BitDequeIterator
+        class BitArrayDequeIterator
         {
 
         public:
-            const BitDeque *_m_deq;
+            const BitArrayDeque *_m_deq;
             uint16_t index;
             uint16_t block_index;
             uint16_t size = 0;
@@ -41,11 +41,11 @@ namespace stool
             using value_type = bool;
             using difference_type = std::ptrdiff_t;
 
-            BitDequeIterator() : _m_deq(nullptr), index(UINT16_MAX), block_index(UINT16_MAX), size(UINT16_MAX), bit_index(UINT8_MAX) {
+            BitArrayDequeIterator() : _m_deq(nullptr), index(UINT16_MAX), block_index(UINT16_MAX), size(UINT16_MAX), bit_index(UINT8_MAX) {
 
             }
 
-            BitDequeIterator(const BitDeque *_deque, uint16_t _index, uint16_t _block_index, uint8_t _bit_index, uint16_t _size) : 
+            BitArrayDequeIterator(const BitArrayDeque *_deque, uint16_t _index, uint16_t _block_index, uint8_t _bit_index, uint16_t _size) : 
             _m_deq(_deque), index(_index), block_index(_block_index), size(_size), bit_index(_bit_index) {}
 
             bool operator*() const
@@ -53,7 +53,7 @@ namespace stool
                 return ((*_m_deq).circular_buffer_[this->block_index] >> (63 - this->bit_index)) & 1;
             }
 
-            BitDequeIterator &operator++()
+            BitArrayDequeIterator &operator++()
             {
                 if (this->index + 1 < this->size)
                 {
@@ -71,21 +71,21 @@ namespace stool
                 }
                 else
                 {
-                    throw std::invalid_argument("Error: BitDequeIterator::operator++()");
+                    throw std::invalid_argument("Error: BitArrayDequeIterator::operator++()");
                 }
 
                 return *this;
             }
 
-            BitDequeIterator operator++(int)
+            BitArrayDequeIterator operator++(int)
             {
-                BitDequeIterator temp = *this;
+                BitArrayDequeIterator temp = *this;
 
                 ++(*this);
                 return temp;
             }
 
-            BitDequeIterator &operator--()
+            BitArrayDequeIterator &operator--()
             {
                 if (this->index > 1)
                 {
@@ -97,34 +97,34 @@ namespace stool
                 }
                 else
                 {
-                    throw std::invalid_argument("Error: BitDequeIterator::operator--()");
+                    throw std::invalid_argument("Error: BitArrayDequeIterator::operator--()");
                 }
 
                 return *this;
             }
 
-            BitDequeIterator operator--(int)
+            BitArrayDequeIterator operator--(int)
             {
-                BitDequeIterator temp = *this;
+                BitArrayDequeIterator temp = *this;
                 --(*this);
                 return temp;
             }
 
-            BitDequeIterator operator+(difference_type n) const
+            BitArrayDequeIterator operator+(difference_type n) const
             {
                 CircularBitPointer bp(this->_m_deq->circular_buffer_size_, this->block_index, this->bit_index);
                 bp.add(n);
                 if (this->index + n < this->size)
                 {
-                    return BitDequeIterator(this->_m_deq, this->index + n, bp.block_index_, bp.bit_index_, this->size);
+                    return BitArrayDequeIterator(this->_m_deq, this->index + n, bp.block_index_, bp.bit_index_, this->size);
                 }
                 else
                 {
-                    return BitDequeIterator(this->_m_deq, UINT16_MAX, UINT16_MAX, UINT8_MAX, this->size);
+                    return BitArrayDequeIterator(this->_m_deq, UINT16_MAX, UINT16_MAX, UINT8_MAX, this->size);
                 }
             }
 
-            BitDequeIterator &operator+=(difference_type n)
+            BitArrayDequeIterator &operator+=(difference_type n)
             {
                 CircularBitPointer bp(this->_m_deq->circular_buffer_size_, this->block_index, this->bit_index);
                 bp.add(n);
@@ -140,25 +140,25 @@ namespace stool
                 return *this;
             }
 
-            BitDequeIterator operator-(difference_type n) const
+            BitArrayDequeIterator operator-(difference_type n) const
             {
                 CircularBitPointer bp(this->_m_deq->circular_buffer_size_, this->block_index, this->bit_index);
                 bp.subtract(n);
                 if (n <= this->index)
                 {
-                    return BitDequeIterator(this->_m_deq, this->index - n, bp.block_index_, bp.bit_index_, this->size);
+                    return BitArrayDequeIterator(this->_m_deq, this->index - n, bp.block_index_, bp.bit_index_, this->size);
                 }
                 else
                 {
-                    throw std::invalid_argument("Error: BitDequeIterator::operator-()");
+                    throw std::invalid_argument("Error: BitArrayDequeIterator::operator-()");
                 }
             }
 
-            BitDequeIterator &operator-=(difference_type n)
+            BitArrayDequeIterator &operator-=(difference_type n)
             {
                 if (this->index < n)
                 {
-                    throw std::invalid_argument("Error: BitDequeIterator::operator-()");
+                    throw std::invalid_argument("Error: BitArrayDequeIterator::operator-()");
                 }
                 CircularBitPointer bp(this->_m_deq->circular_buffer_size_, this->block_index, this->bit_index);
                 bp.subtract(n);
@@ -175,7 +175,7 @@ namespace stool
                 return bp.read64(this->_m_deq->circular_buffer_);
             }
 
-            difference_type operator-(const BitDequeIterator &other) const
+            difference_type operator-(const BitArrayDequeIterator &other) const
             {
                 return (int16_t)this->index - (int16_t)other.index;
             }
@@ -189,32 +189,32 @@ namespace stool
             /**
              * @brief Equality comparison
              */
-            bool operator==(const BitDequeIterator &other) const { return this->index == other.index; }
+            bool operator==(const BitArrayDequeIterator &other) const { return this->index == other.index; }
 
             /**
              * @brief Inequality comparison
              */
-            bool operator!=(const BitDequeIterator &other) const { return this->index != other.index; }
+            bool operator!=(const BitArrayDequeIterator &other) const { return this->index != other.index; }
 
             /**
              * @brief Less than comparison
              */
-            bool operator<(const BitDequeIterator &other) const { return this->index < other.index; }
+            bool operator<(const BitArrayDequeIterator &other) const { return this->index < other.index; }
 
             /**
              * @brief Greater than comparison
              */
-            bool operator>(const BitDequeIterator &other) const { return this->index > other.index; }
+            bool operator>(const BitArrayDequeIterator &other) const { return this->index > other.index; }
 
             /**
              * @brief Less than or equal comparison
              */
-            bool operator<=(const BitDequeIterator &other) const { return this->index <= other.index; }
+            bool operator<=(const BitArrayDequeIterator &other) const { return this->index <= other.index; }
 
             /**
              * @brief Greater than or equal comparison
              */
-            bool operator>=(const BitDequeIterator &other) const { return this->index >= other.index; }
+            bool operator>=(const BitArrayDequeIterator &other) const { return this->index >= other.index; }
         };
 
         // INDEX_TYPE deque_size_;
@@ -274,7 +274,7 @@ namespace stool
             }
             else
             {
-                return sizeof(BitDeque) + (sizeof(uint64_t) * this->circular_buffer_size_);
+                return sizeof(BitArrayDeque) + (sizeof(uint64_t) * this->circular_buffer_size_);
             }
         }
 
@@ -286,9 +286,9 @@ namespace stool
         /**
          * @brief Copy constructor
          *
-         * @param other The BitDeque to copy from
+         * @param other The BitArrayDeque to copy from
          */
-        BitDeque(const BitDeque &other) noexcept
+        BitArrayDeque(const BitArrayDeque &other) noexcept
         {
             this->circular_buffer_size_ = other.circular_buffer_size_;
             this->first_block_index_ = other.first_block_index_;
@@ -300,7 +300,7 @@ namespace stool
             std::memcpy(this->circular_buffer_, other.circular_buffer_, this->circular_buffer_size_ * sizeof(uint64_t));
         }
 
-        BitDeque(const std::vector<bool> &bv) noexcept
+        BitArrayDeque(const std::vector<bool> &bv) noexcept
         {
             if (bv.size() == 0)
             {
@@ -322,9 +322,9 @@ namespace stool
         /**
          * @brief Move constructor
          *
-         * @param other The BitDeque to move from
+         * @param other The BitArrayDeque to move from
          */
-        BitDeque(BitDeque &&other) noexcept
+        BitArrayDeque(BitArrayDeque &&other) noexcept
             : circular_buffer_(other.circular_buffer_),
               circular_buffer_size_(other.circular_buffer_size_),
               first_block_index_(other.first_block_index_),
@@ -344,10 +344,10 @@ namespace stool
         /**
          * @brief Move assignment operator
          *
-         * @param other The BitDeque to move from
-         * @return BitDeque& Reference to this object
+         * @param other The BitArrayDeque to move from
+         * @return BitArrayDeque& Reference to this object
          */
-        BitDeque &operator=(BitDeque &&other) noexcept
+        BitArrayDeque &operator=(BitArrayDeque &&other) noexcept
         {
             if (this != &other)
             {
@@ -395,7 +395,7 @@ namespace stool
          *
          * Creates an empty deque with initial capacity of 2 elements.
          */
-        BitDeque()
+        BitArrayDeque()
         {
             this->initialize();
         }
@@ -423,7 +423,7 @@ namespace stool
          *
          * @param _circular_buffer_size Initial capacity of the circular buffer
          */
-        BitDeque(uint64_t _circular_buffer_size)
+        BitArrayDeque(uint64_t _circular_buffer_size)
         {
             if (this->circular_buffer_ != nullptr)
             {
@@ -443,7 +443,7 @@ namespace stool
          *
          * Frees the allocated circular buffer memory.
          */
-        ~BitDeque()
+        ~BitArrayDeque()
         {
             if (this->circular_buffer_ != nullptr)
             {
@@ -482,7 +482,7 @@ namespace stool
             new_size = std::max(new_size, (int64_t)0);
 
             int64_t current_size_index = this->get_current_circular_buffer_size_index();
-            int64_t appropriate_size_index = BitDeque::get_appropriate_circular_buffer_size_index(new_size);
+            int64_t appropriate_size_index = BitArrayDeque::get_appropriate_circular_buffer_size_index(new_size);
 
             uint64_t old_buffer_size = this->circular_buffer_size_;
             uint64_t old_size = this->size();
@@ -508,8 +508,16 @@ namespace stool
         uint64_t read_64_bit_string() const
         {
             CircularBitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+            return this->read_64_bit_string(bp);
+        }
+        uint64_t read_64_bit_string(const CircularBitPointer &bp) const{
             uint64_t value = bp.read64(this->circular_buffer_);
             return value;
+        }
+        CircularBitPointer get_position_pointer(uint64_t position) const {
+            CircularBitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+            bp.add(position);
+            return bp;
         }
 
         /**
@@ -692,8 +700,8 @@ namespace stool
                 this->first_bit_index_ = 0;
                 if (len == 64)
                 {
-                    this->last_block_index_ = 1;
-                    this->last_bit_index_ = 0;
+                    this->last_block_index_ = 0;
+                    this->last_bit_index_ = 63;
                 }
                 else
                 {
@@ -713,11 +721,6 @@ namespace stool
         }
         void push_front64(uint64_t value, uint8_t len = 64)
         {
-#if DEBUG
-            std::string suf = this->to_string();
-            std::string pref = stool::MSBByte::to_bit_string(value, len);
-            std::string bit_string1 = pref + suf;
-#endif
             if (len == 0)
                 return;
             uint64_t size = this->size();
@@ -737,14 +740,6 @@ namespace stool
                 this->first_bit_index_ = bp.bit_index_;
             }
 
-#if DEBUG
-            std::string bit_string2 = this->to_string();
-
-            if (bit_string1 != bit_string2)
-            {
-                assert(false);
-            }
-#endif
         }
         void pop_back(uint64_t len)
         {
@@ -817,29 +812,11 @@ namespace stool
             {
                 throw std::invalid_argument("Error: replace()");
             }
-#if DEBUG
-            std::string bit_string1 = this->to_string();
-            std::string pattern = stool::MSBByte::to_bit_string(value, len);
-            for (uint64_t i = 0; i < len; i++)
-            {
-                bit_string1[position + i] = pattern[i];
-            }
-
-#endif
 
             CircularBitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
             bp.add(position);
             bp.write_bits(this->circular_buffer_, value, len);
 
-#if DEBUG
-            std::string bit_string2 = this->to_string();
-            if (bit_string1 != bit_string2)
-            {
-                std::cout << "bit_string1: " << bit_string1 << std::endl;
-                std::cout << "bit_string2: " << bit_string2 << std::endl;
-                assert(false);
-            }
-#endif
         }
         template <typename T>
         void replace_64bit_string_sequence(uint64_t position, const T &values, uint64_t bit_size)
@@ -889,20 +866,8 @@ namespace stool
         {
             uint64_t value64 = value ? (1ULL << 63) : 0;
 
-            #if DEBUG
-            std::string old_string = this->to_string();
-            old_string.insert(position, value ? "1" : "0");
-            #endif
             this->insert_64bit_string(position, value64, 1);
 
-            #if DEBUG
-            std::string new_string = this->to_string();
-            if(old_string != new_string){
-                std::cout << "old_string: " << old_string << std::endl;
-                std::cout << "new_string: " << new_string << std::endl;
-                throw std::runtime_error("Error: insert()");
-            }
-            #endif
 
         }
         void insert_64bit_string(size_t position, uint64_t value, uint64_t len)
@@ -928,7 +893,7 @@ namespace stool
         void insert_64bit_string(size_t position, const T &values, uint64_t bit_size)
         {
             this->shift_right(position, bit_size);
-            this->replace(position, values, bit_size);
+            this->replace_64bit_string_sequence(position, values, bit_size);
         }
 
         /**
@@ -1009,7 +974,7 @@ namespace stool
          */
         void print_info() const
         {
-            std::cout << "BitDeque = {" << std::endl;
+            std::cout << "BitArrayDeque = {" << std::endl;
             std::cout << "S = (" << this->first_block_index_ << ", " << (int)this->first_bit_index_ << ")" << std::endl;
             std::cout << "E = (" << this->last_block_index_ << ", " << (int)this->last_bit_index_ << ")" << std::endl;
             std::cout << "size = " << this->size() << std::endl;
@@ -1028,11 +993,11 @@ namespace stool
         */
 
         /**
-         * @brief Swap contents with another BitDeque
+         * @brief Swap contents with another BitArrayDeque
          *
-         * @param item The BitDeque to swap with
+         * @param item The BitArrayDeque to swap with
          */
-        void swap(BitDeque &item)
+        void swap(BitArrayDeque &item)
         {
             std::swap(this->circular_buffer_, item.circular_buffer_);
             std::swap(this->circular_buffer_size_, item.circular_buffer_size_);
@@ -1426,16 +1391,9 @@ namespace stool
             assert(this->circular_buffer_size_ < 4096);
             std::memcpy(tmp_array.data(), this->circular_buffer_, this->circular_buffer_size_ * sizeof(uint64_t));
 
-#if DEBUG
-            std::string PX = this->to_string();
-#endif
 
             this->special_copy(tmp_array, this->first_block_index_, this->first_bit_index_, new_starting_position, this->circular_buffer_size_, this->size());
 
-#if DEBUG
-            std::string PY = this->to_string();
-            assert(PX == PY);
-#endif
         }
 
         /**
@@ -1468,7 +1426,7 @@ namespace stool
          * @param output Vector to store the serialized data
          * @param pos Current position in the output vector (will be updated)
          */
-        static void save(const BitDeque &item, std::vector<uint8_t> &output, uint64_t &pos)
+        static void save(const BitArrayDeque &item, std::vector<uint8_t> &output, uint64_t &pos)
         {
             uint64_t bs = 0;
             bs = bs | (((uint64_t)item.circular_buffer_size_) << 48);
@@ -1489,7 +1447,7 @@ namespace stool
          * @param item The deque to save
          * @param os Output file stream
          */
-        static void save(const BitDeque &item, std::ofstream &os)
+        static void save(const BitArrayDeque &item, std::ofstream &os)
         {
             os.write(reinterpret_cast<const char *>(&item.circular_buffer_size_), sizeof(item.circular_buffer_size_));
             os.write(reinterpret_cast<const char *>(&item.first_block_index_), sizeof(item.first_block_index_));
@@ -1504,9 +1462,9 @@ namespace stool
          *
          * @param data Vector containing the serialized data
          * @param pos Current position in the data vector (will be updated)
-         * @return BitDeque The loaded deque
+         * @return BitArrayDeque The loaded deque
          */
-        static BitDeque load(const std::vector<uint8_t> &data, uint64_t &pos)
+        static BitArrayDeque load(const std::vector<uint8_t> &data, uint64_t &pos)
         {
             uint16_t _circular_buffer_size;
             uint16_t _first_block_index;
@@ -1524,7 +1482,7 @@ namespace stool
             _first_bit_index = (tmp >> 8) & 0xFF;
             _last_bit_index = tmp & 0xFF;
 
-            BitDeque r(_circular_buffer_size);
+            BitArrayDeque r(_circular_buffer_size);
             r.first_block_index_ = _first_block_index;
             r.first_bit_index_ = _first_bit_index;
             r.last_block_index_ = _last_block_index;
@@ -1540,9 +1498,9 @@ namespace stool
          * @brief Load deque from a file stream
          *
          * @param ifs Input file stream
-         * @return BitDeque The loaded deque
+         * @return BitArrayDeque The loaded deque
          */
-        static BitDeque load(std::ifstream &ifs)
+        static BitArrayDeque load(std::ifstream &ifs)
         {
             uint16_t _circular_buffer_size;
             uint16_t _first_block_index;
@@ -1556,7 +1514,7 @@ namespace stool
             ifs.read(reinterpret_cast<char *>(&_first_bit_index), sizeof(uint8_t));
             ifs.read(reinterpret_cast<char *>(&_last_bit_index), sizeof(uint8_t));
 
-            BitDeque r(_circular_buffer_size);
+            BitArrayDeque r(_circular_buffer_size);
             r.first_block_index_ = _first_block_index;
             r.first_bit_index_ = _first_bit_index;
             r.last_block_index_ = _last_block_index;
@@ -1573,12 +1531,12 @@ namespace stool
          * @param item The deque to measure
          * @return uint64_t Size in bytes when serialized
          */
-        static uint64_t get_byte_size(const BitDeque &item)
+        static uint64_t get_byte_size(const BitArrayDeque &item)
         {
             uint64_t bytes = (sizeof(uint64_t)) + (item.circular_buffer_size_ * sizeof(uint64_t));
             return bytes;
         }
-        static uint64_t get_byte_size(const std::vector<BitDeque> &items)
+        static uint64_t get_byte_size(const std::vector<BitArrayDeque> &items)
         {
             uint64_t size = sizeof(uint64_t);
             for (const auto &item : items)
@@ -1587,7 +1545,7 @@ namespace stool
             }
             return size;
         }
-        static void save(const std::vector<BitDeque> &items, std::vector<uint8_t> &output, uint64_t &pos)
+        static void save(const std::vector<BitArrayDeque> &items, std::vector<uint8_t> &output, uint64_t &pos)
         {
             uint64_t size = get_byte_size(items);
             if (pos + size > output.size())
@@ -1601,17 +1559,17 @@ namespace stool
 
             for (const auto &item : items)
             {
-                BitDeque::save(item, output, pos);
+                BitArrayDeque::save(item, output, pos);
             }
         }
-        static void save(const std::vector<BitDeque> &items, std::ofstream &os)
+        static void save(const std::vector<BitArrayDeque> &items, std::ofstream &os)
         {
             uint64_t items_size = items.size();
             os.write(reinterpret_cast<const char *>(&items_size), sizeof(uint64_t));
 
             for (const auto &item : items)
             {
-                BitDeque::save(item, os);
+                BitArrayDeque::save(item, os);
             }
         }
         uint64_t psum(uint64_t i, uint64_t j) const
@@ -1625,46 +1583,46 @@ namespace stool
                 throw std::runtime_error("No implementation");
             }
         }
-        static std::vector<BitDeque> load_vector(const std::vector<uint8_t> &data, uint64_t &pos)
+        static std::vector<BitArrayDeque> load_vector(const std::vector<uint8_t> &data, uint64_t &pos)
         {
             uint64_t size = 0;
             std::memcpy(&size, data.data() + pos, sizeof(uint64_t));
             pos += sizeof(uint64_t);
 
-            std::vector<BitDeque> output;
+            std::vector<BitArrayDeque> output;
             output.resize(size);
             for (uint64_t i = 0; i < size; i++)
             {
-                output[i] = BitDeque::load(data, pos);
+                output[i] = BitArrayDeque::load(data, pos);
             }
             return output;
         }
-        static std::vector<BitDeque> load_vector(std::ifstream &ifs)
+        static std::vector<BitArrayDeque> load_vector(std::ifstream &ifs)
         {
             uint64_t size = 0;
             ifs.read(reinterpret_cast<char *>(&size), sizeof(uint64_t));
 
-            std::vector<BitDeque> output;
+            std::vector<BitArrayDeque> output;
             output.resize(size);
             for (uint64_t i = 0; i < size; i++)
             {
-                output[i] = BitDeque::load(ifs);
+                output[i] = BitArrayDeque::load(ifs);
             }
 
             return output;
         }
 
-        BitDequeIterator begin() const
+        BitArrayDequeIterator begin() const
         {
             if(!this->empty()){
-                return BitDequeIterator(this, 0, this->first_block_index_, this->first_bit_index_, this->size());
+                return BitArrayDequeIterator(this, 0, this->first_block_index_, this->first_bit_index_, this->size());
             }else{
                 return this->end();
             }
         }
-        BitDequeIterator end() const
+        BitArrayDequeIterator end() const
         {
-            return BitDequeIterator(this, UINT16_MAX, UINT16_MAX, UINT8_MAX, this->size());
+            return BitArrayDequeIterator(this, UINT16_MAX, UINT16_MAX, UINT8_MAX, this->size());
         }
     };
 }

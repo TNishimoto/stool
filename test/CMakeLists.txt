@@ -62,3 +62,6 @@ target_link_libraries(short_integer_vector_test.out sdsl)
 
 add_executable(bit_deque_test.out sources/bit_deque_test_main.cpp)
 target_link_libraries(bit_deque_test.out sdsl)
+
+add_executable(integer_deque_test.out sources/integer_deque_test_main.cpp)
+target_link_libraries(integer_deque_test.out sdsl)

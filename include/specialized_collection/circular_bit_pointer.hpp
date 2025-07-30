@@ -82,7 +82,7 @@ namespace stool
         }
 
         template <typename T>
-        uint64_t read64(const T &bits)
+        uint64_t read64(const T &bits) const
         {
             if (this->bit_index_ == 0)
             {

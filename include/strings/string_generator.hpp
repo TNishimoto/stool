@@ -21,11 +21,12 @@ namespace stool
 		 * @param seed The seed for the random number generator.
 		 * @return A vector of random integers in the range [0, alphabet_size-1].
 		 */
-		static std::vector<uint32_t> create_random_sequence(uint64_t len, uint64_t alphabet_size, int64_t seed)
+		template<typename T>
+		static std::vector<T> create_random_sequence(uint64_t len, uint64_t alphabet_size, int64_t seed)
 		{
 			std::mt19937 mt(seed);
 			std::uniform_int_distribution<> rand100(0, alphabet_size - 1);
-			std::vector<uint32_t> r;
+			std::vector<T> r;
 
 			for (size_t i = 0; i < len; i++)
 			{
@@ -44,7 +45,7 @@ namespace stool
 		{
 			std::random_device rnd;
 			int64_t p = rnd();
-			return create_random_sequence(len, alphabet_size, p);
+			return create_random_sequence<uint32_t>(len, alphabet_size, p);
 		}
 
 		/**
@@ -79,7 +80,7 @@ namespace stool
 		 */
 		static std::vector<uint8_t> create_uint8_t_binary_string(uint64_t len, int64_t seed)
 		{
-			std::vector<uint32_t> seed_seq = StringGenerator::create_random_sequence(len, 2, seed);
+			std::vector<uint32_t> seed_seq = StringGenerator::create_random_sequence<uint32_t>(len, 2, seed);
 			return create_uint8_t_string(seed_seq);
 		}
 
@@ -116,7 +117,7 @@ namespace stool
 		 */
 		static std::vector<uint8_t> create_uint8_t_8_ary_string(uint64_t len, int64_t seed)
 		{
-			std::vector<uint32_t> seed_seq = StringGenerator::create_random_sequence(len, 8, seed);
+			std::vector<uint32_t> seed_seq = StringGenerator::create_random_sequence<uint32_t>(len, 8, seed);
 			return create_uint8_t_string(seed_seq);
 		}
 

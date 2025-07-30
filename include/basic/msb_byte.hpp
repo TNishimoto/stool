@@ -28,10 +28,14 @@ namespace stool
 
         static uint64_t write_suffix(uint64_t bits, uint8_t len, uint64_t suffix_bits)
         {
-            uint64_t mask1 = UINT64_MAX << len;
-            uint64_t result = (bits & mask1) | (suffix_bits >> (64 - len));
-
-            return result;
+            if(len < 64){
+                uint64_t mask1 = UINT64_MAX << len;
+                uint64_t result = (bits & mask1) | (suffix_bits >> (64 - len));
+    
+                return result;                    
+            }else{
+                return suffix_bits;
+            }
         }
         static uint64_t write_prefix(uint64_t bits, uint8_t len, uint64_t prefix_bits)
         {
