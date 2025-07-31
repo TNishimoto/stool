@@ -8,32 +8,46 @@
 
 namespace stool
 {
-    
+
     /**
      * @brief A specialized deque implementation for storing integers with variable byte sizes
-     * 
+     *
      * This class provides a memory-efficient deque implementation that can store integers
      * using different byte sizes (1, 2, 4, or 8 bytes) based on the actual values stored.
      * It uses a circular buffer to efficiently handle front and back operations.
-     * 
+     *
      * @tparam INDEX_TYPE The type used for indexing (uint16_t, uint32_t, uint64_t)
      */
     template <typename INDEX_TYPE = uint16_t>
     class ByteArrayDeque
     {
+        inline static std::vector<int> size_array{0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192};
+
         using T = uint64_t;
         using BUFFER_POS = INDEX_TYPE;
         using DEQUE_POS = INDEX_TYPE;
         uint8_t *circular_buffer_ = nullptr;
-        INDEX_TYPE circular_buffer_size_;
-        INDEX_TYPE starting_position_;
-        INDEX_TYPE deque_size_;
-        uint8_t value_byte_size_;
+        INDEX_TYPE circular_buffer_size_= 0;
+        INDEX_TYPE starting_position_ = 0;
+        INDEX_TYPE deque_size_ = 0;
+        uint8_t value_byte_size_ = 1;
+
+        static uint64_t get_appropriate_circular_buffer_size_index(int64_t size)
+        {
+            for (uint64_t i = 0; i < size_array.size(); i++)
+            {
+                if (size_array[i] >= size)
+                {
+                    return i;
+                }
+            }
+            throw std::runtime_error("size is too large");
+        }
 
     public:
         /**
          * @brief Get the maximum possible deque size based on INDEX_TYPE
-         * 
+         *
          * @return uint64_t The maximum number of elements that can be stored
          */
         static uint64_t max_deque_size()
@@ -41,11 +55,10 @@ namespace stool
             uint64_t b = stool::LSBByte::get_code_length(std::numeric_limits<INDEX_TYPE>::max());
             return (1 << (b - 1)) - 1;
         }
-        
-        
+
         /**
          * @brief Calculate the total memory usage in bytes
-         * 
+         *
          * @return uint64_t The total size in bytes
          */
         uint64_t size_in_bytes() const
@@ -55,7 +68,7 @@ namespace stool
 
         /**
          * @brief Move constructor
-         * 
+         *
          * @param other The source IntegerDeque to move from
          */
         ByteArrayDeque(ByteArrayDeque &&other) noexcept
@@ -72,18 +85,30 @@ namespace stool
             other.deque_size_ = 0;
             other.value_byte_size_ = 0;
         }
-        
+
+        ByteArrayDeque(const std::vector<uint64_t> &items)
+        {
+            this->clear();
+            
+            for (uint64_t i = 0; i < items.size(); i++)
+            {                
+                this->push_back(items[i]);
+
+                assert(this->at(i) == items[i]);
+                assert(this->at(0) == items[0]);
+            }
+        }
 
         /**
          * @brief Get the current capacity of the deque
-         * 
+         *
          * @return size_t The number of elements that can be stored
          */
         size_t capacity() const
         {
             return this->circular_buffer_size_;
         }
-        
+
         /**
          * @brief Clear all elements from the deque
          */
@@ -95,7 +120,7 @@ namespace stool
 
         /**
          * @brief Iterator class for IntegerDeque
-         * 
+         *
          * Provides random access iteration over the deque elements
          */
         class ByteArrayDequeIterator
@@ -110,10 +135,10 @@ namespace stool
             using difference_type = std::ptrdiff_t;
             using pointer = T *;
             using reference = T &;
-            
+
             /**
              * @brief Construct an iterator
-             * 
+             *
              * @param _deque Pointer to the deque
              * @param _idx Current index
              */
@@ -121,7 +146,7 @@ namespace stool
 
             /**
              * @brief Dereference operator
-             * 
+             *
              * @return T The value at the current position
              */
             T operator*() const
@@ -131,7 +156,7 @@ namespace stool
 
             /**
              * @brief Pre-increment operator
-             * 
+             *
              * @return IntegerDequeIterator& Reference to the incremented iterator
              */
             ByteArrayDequeIterator &operator++()
@@ -142,7 +167,7 @@ namespace stool
 
             /**
              * @brief Post-increment operator
-             * 
+             *
              * @return IntegerDequeIterator The iterator before increment
              */
             ByteArrayDequeIterator operator++(int)
@@ -155,7 +180,7 @@ namespace stool
 
             /**
              * @brief Pre-decrement operator
-             * 
+             *
              * @return IntegerDequeIterator& Reference to the decremented iterator
              */
             ByteArrayDequeIterator &operator--()
@@ -166,7 +191,7 @@ namespace stool
 
             /**
              * @brief Post-decrement operator
-             * 
+             *
              * @return IntegerDequeIterator The iterator before decrement
              */
             ByteArrayDequeIterator operator--(int)
@@ -175,10 +200,10 @@ namespace stool
                 --(*this);
                 return temp;
             }
-            
+
             /**
              * @brief Addition operator (iterator + offset)
-             * 
+             *
              * @param n The offset to add
              * @return IntegerDequeIterator The new iterator position
              */
@@ -187,10 +212,10 @@ namespace stool
                 int16_t sum = (int16_t)this->_m_idx + (int16_t)n;
                 return ByteArrayDequeIterator(this->_m_deq, sum);
             }
-            
+
             /**
              * @brief Addition assignment operator
-             * 
+             *
              * @param n The offset to add
              * @return IntegerDequeIterator& Reference to the modified iterator
              */
@@ -199,10 +224,10 @@ namespace stool
                 this->_m_idx += n;
                 return *this;
             }
-            
+
             /**
              * @brief Subtraction operator (iterator - offset)
-             * 
+             *
              * @param n The offset to subtract
              * @return IntegerDequeIterator The new iterator position
              */
@@ -211,10 +236,10 @@ namespace stool
                 int16_t sum = (int16_t)this->_m_idx - (int16_t)n;
                 return ByteArrayDequeIterator(this->_m_deq, sum);
             }
-            
+
             /**
              * @brief Subtraction assignment operator
-             * 
+             *
              * @param n The offset to subtract
              * @return IntegerDequeIterator& Reference to the modified iterator
              */
@@ -226,7 +251,7 @@ namespace stool
 
             /**
              * @brief Difference operator (iterator - iterator)
-             * 
+             *
              * @param other The other iterator
              * @return difference_type The distance between iterators
              */
@@ -237,7 +262,7 @@ namespace stool
 
             /**
              * @brief Subscript operator (non-const version)
-             * 
+             *
              * @param n The offset
              * @return T& Reference to the element at offset n
              */
@@ -249,7 +274,7 @@ namespace stool
 
             /**
              * @brief Subscript operator (const version)
-             * 
+             *
              * @param n The offset
              * @return const T& Const reference to the element at offset n
              */
@@ -258,41 +283,41 @@ namespace stool
                 int16_t sum = (int16_t)this->_m_idx + (int16_t)n;
                 return (*this->_m_deq)[sum];
             }
-            
+
             /**
              * @brief Equality comparison operator
              */
             bool operator==(const ByteArrayDequeIterator &other) const { return _m_idx == other._m_idx; }
-            
+
             /**
              * @brief Inequality comparison operator
              */
             bool operator!=(const ByteArrayDequeIterator &other) const { return _m_idx != other._m_idx; }
-            
+
             /**
              * @brief Less than comparison operator
              */
             bool operator<(const ByteArrayDequeIterator &other) const { return this->_m_idx < other._m_idx; }
-            
+
             /**
              * @brief Greater than comparison operator
              */
             bool operator>(const ByteArrayDequeIterator &other) const { return this->_m_idx > other._m_idx; }
-            
+
             /**
              * @brief Less than or equal comparison operator
              */
             bool operator<=(const ByteArrayDequeIterator &other) const { return this->_m_idx <= other._m_idx; }
-            
+
             /**
              * @brief Greater than or equal comparison operator
              */
             bool operator>=(const ByteArrayDequeIterator &other) const { return this->_m_idx >= other._m_idx; }
         };
-        
+
         /**
          * @brief Default constructor
-         * 
+         *
          * Initializes an empty deque with default capacity
          */
         ByteArrayDeque()
@@ -302,19 +327,19 @@ namespace stool
                 delete[] this->circular_buffer_;
                 this->circular_buffer_ = nullptr;
             }
-            this->circular_buffer_ = new T[2];
-            this->circular_buffer_[0] = 0;
-            this->circular_buffer_[1] = 0;
+            this->circular_buffer_ = nullptr;
+            //this->circular_buffer_[0] = 0;
+            ///this->circular_buffer_[1] = 0;
 
             this->starting_position_ = 0;
-            this->circular_buffer_size_ = 2;
+            this->circular_buffer_size_ = 0;
             this->deque_size_ = 0;
             this->value_byte_size_ = 1;
         }
-        
+
         /**
          * @brief Destructor
-         * 
+         *
          * Frees the allocated memory
          */
         ~ByteArrayDeque()
@@ -325,20 +350,20 @@ namespace stool
                 this->circular_buffer_ = nullptr;
             }
         }
-        
+
         /**
          * @brief Get iterator to the beginning
-         * 
+         *
          * @return IntegerDequeIterator Iterator pointing to the first element
          */
         ByteArrayDequeIterator begin() const
         {
             return ByteArrayDequeIterator(const_cast<ByteArrayDeque<INDEX_TYPE> *>(this), 0);
         }
-        
+
         /**
          * @brief Get iterator to the end
-         * 
+         *
          * @return IntegerDequeIterator Iterator pointing past the last element
          */
         ByteArrayDequeIterator end() const
@@ -346,61 +371,57 @@ namespace stool
             return ByteArrayDequeIterator(const_cast<ByteArrayDeque<INDEX_TYPE> *>(this), this->deque_size_);
         }
 
-        /**
-         * @brief Get the bit size needed for the buffer
-         * 
-         * @return uint64_t The number of bits needed
-         */
+        /*
         uint64_t get_buffer_bit() const
         {
-            return stool::LSBByte::get_code_length(this->circular_buffer_size_ * (8 / this->value_byte_size_));
+            return stool::LSBByte::get_code_length(this->circular_buffer_size_ / this->value_byte_size_);
         }
-        
+        */
+
         /**
          * @brief Update the size if needed based on current usage
-         * 
+         *
          * Automatically resizes the deque when it's too full or too empty
          */
         void update_size_if_needed()
         {
-            uint64_t deque_bit = stool::LSBByte::get_code_length(this->deque_size_ + 1);
-            uint64_t buffer_bit = this->get_buffer_bit();
+            uint64_t new_capacity_size_index = get_appropriate_circular_buffer_size_index(this->deque_size_);
+            uint64_t old_capacity_size_index = get_appropriate_circular_buffer_size_index(this->circular_buffer_size_ / this->value_byte_size_);
 
-            // uint64_t max = 1 << deque_bit;
-            assert(deque_bit <= buffer_bit);
-
-            if (deque_bit == buffer_bit)
+            if (new_capacity_size_index > old_capacity_size_index)
             {
-                this->reserve(buffer_bit, this->value_byte_size_);
+                this->shrink_to_fit2(new_capacity_size_index, this->value_byte_size_);
             }
-            else if (deque_bit + 3 < buffer_bit)
+            else if (new_capacity_size_index + 1 < old_capacity_size_index)
             {
-                this->reserve(buffer_bit - 2, this->value_byte_size_);
+                this->shrink_to_fit2(new_capacity_size_index + 1, this->value_byte_size_);
             }
         }
-        
+
         /**
          * @brief Check if the deque is empty
-         * 
+         *
          * @return bool True if the deque contains no elements
          */
         bool empty() const
         {
             return this->deque_size_ == 0;
         }
-        
+
         /**
          * @brief Shrink the deque to fit its current size
          */
+        /*
         void shrink_to_fit()
         {
             uint64_t bit_size = stool::LSBByte::get_code_length(this->deque_size_ + 1);
             this->shrink_to_fit(bit_size);
         }
-        
+        */
+
         /**
          * @brief Recompute the deque contents
-         * 
+         *
          * Rebuilds the deque from its current elements
          */
         void recompute()
@@ -413,26 +434,25 @@ namespace stool
                 tmp_vec[i++] = x;
             }
         }
-        
+
         /**
          * @brief Determine the appropriate byte size for a value
-         * 
+         *
          * @param value The value to analyze
          * @return uint64_t The recommended byte size (1, 2, 4, or 8)
          */
         static uint64_t get_byte_size(uint64_t value)
         {
             uint64_t new_byte_size = 0;
-            uint64_t vsize = stool::LSBByte::get_code_length(value);
-            if (vsize <= 8)
+            if (value <= (uint64_t)UINT8_MAX)
             {
                 new_byte_size = 1;
             }
-            else if (vsize <= 16)
+            else if (value <= (uint64_t)UINT16_MAX)
             {
                 new_byte_size = 2;
             }
-            else if (vsize <= 32)
+            else if (value <= (uint64_t)UINT32_MAX)
             {
                 new_byte_size = 4;
             }
@@ -445,52 +465,70 @@ namespace stool
 
         /**
          * @brief Add an element to the back of the deque
-         * 
+         *
          * @param value The value to add
          */
         void push_back(const T &value)
         {
-            // std::cout << "PUSH: " << value << std::endl;
-            uint64_t vsize = stool::LSBByte::get_code_length(value);
-            if (vsize > this->value_byte_size_ * 8)
-            {
-                uint64_t new_byte_size = get_byte_size(value);
-                this->reserve(this->get_buffer_bit(), new_byte_size);
-            }
 
-            if (this->size() >= ByteArrayDeque<INDEX_TYPE>::max_deque_size())
+            uint64_t new_byte_size = std::max(get_byte_size(value), (uint64_t)this->value_byte_size_);
+            uint64_t new_capacity_size_index = get_appropriate_circular_buffer_size_index(this->deque_size_ + 1);
+            uint64_t old_capacity_size_index = get_appropriate_circular_buffer_size_index(this->circular_buffer_size_ / this->value_byte_size_);
+
+            if (new_byte_size > this->value_byte_size_ || new_capacity_size_index > old_capacity_size_index)
             {
-                throw std::invalid_argument("Error: push_back()");
+                this->shrink_to_fit2(new_capacity_size_index, new_byte_size);
             }
-            this->update_size_if_needed();
-            this->set_value(this->size(), value);
+            uint64_t pos = this->size();
             this->deque_size_++;
+            this->set_value(pos, value);
+
+            if (this->deque_size_ * this->value_byte_size_ > this->circular_buffer_size_)
+            {
+                std::cout << new_byte_size << "/" << new_capacity_size_index << "/" << old_capacity_size_index << std::endl;
+                this->print_info();
+                throw std::invalid_argument("push_back");
+            }
+            assert(this->deque_size_ * this->value_byte_size_ <= this->circular_buffer_size_);
         }
-        
+
         /**
          * @brief Add an element to the front of the deque
-         * 
+         *
          * @param value The value to add
          */
         void push_front(const T &value)
         {
-            if (this->size() >= ByteArrayDeque<INDEX_TYPE>::max_deque_size())
+            uint64_t new_byte_size = std::max(get_byte_size(value), (uint64_t)this->value_byte_size_);
+            uint64_t new_capacity_size_index = get_appropriate_circular_buffer_size_index(this->deque_size_ + 1);
+            uint64_t old_capacity_size_index = get_appropriate_circular_buffer_size_index(this->circular_buffer_size_ / this->value_byte_size_);
+
+
+            if (new_byte_size > this->value_byte_size_ || new_capacity_size_index > old_capacity_size_index)
             {
-                throw std::invalid_argument("Error: push_front()");
+                this->shrink_to_fit2(new_capacity_size_index, new_byte_size);
             }
 
-            this->update_size_if_needed();
+            if (this->starting_position_ >= this->value_byte_size_)
+            {
+                this->starting_position_ -= this->value_byte_size_;
+                this->deque_size_++;
+                this->set_value(0, value);
 
-            uint64_t pos = this->starting_position_ - 1;
-            uint64_t mask = this->circular_buffer_size_ - 1;
+            }
+            else if (this->starting_position_ == 0)
+            {
 
-            this->circular_buffer_[pos & mask] = value;
-            this->starting_position_ = pos & mask;
-
-            this->deque_size_++;
-            assert(this->at(0) == value);
+                this->starting_position_ = this->circular_buffer_size_ - this->value_byte_size_;
+                this->deque_size_++;
+                this->set_value(0, value);
+            }
+            else
+            {
+                throw std::invalid_argument("push_front");
+            }
         }
-        
+
         /**
          * @brief Remove the last element from the deque
          */
@@ -500,22 +538,32 @@ namespace stool
             this->deque_size_--;
             this->update_size_if_needed();
         }
-        
+
         /**
          * @brief Remove the first element from the deque
          */
         void pop_front()
         {
-            uint64_t pos = this->starting_position_ + 1;
-            uint64_t mask = this->circular_buffer_size_ - 1;
-            this->starting_position_ = pos & mask;
-            this->deque_size_--;
+            if (this->starting_position_ + this->value_byte_size_ < this->circular_buffer_size_)
+            {
+                this->starting_position_ += this->value_byte_size_;
+                this->deque_size_--;
+            }
+            else if (this->starting_position_ + this->value_byte_size_ == this->circular_buffer_size_)
+            {
+                this->starting_position_ = 0;
+                this->deque_size_--;
+            }
+            else
+            {
+                throw std::invalid_argument("pop_front");
+            }
             this->update_size_if_needed();
         }
-        
+
         /**
          * @brief Insert an element at a specific iterator position
-         * 
+         *
          * @param position Iterator pointing to the insertion position
          * @param value The value to insert
          */
@@ -524,10 +572,10 @@ namespace stool
             uint64_t pos = position._m_idx;
             this->insert(pos, value);
         }
-        
+
         /**
          * @brief Erase an element at a specific iterator position
-         * 
+         *
          * @param position Iterator pointing to the element to erase
          */
         void erase(const ByteArrayDequeIterator &position)
@@ -538,7 +586,7 @@ namespace stool
 
         /**
          * @brief Insert an element at a specific position
-         * 
+         *
          * @param position The position to insert at
          * @param value The value to insert
          */
@@ -561,60 +609,55 @@ namespace stool
             }
             else
             {
-                uint64_t vsize = stool::LSBByte::get_code_length(value);
-                if (vsize > this->value_byte_size_ * 8)
+                uint64_t new_byte_size = std::max(get_byte_size(value), (uint64_t)this->value_byte_size_);
+                uint64_t new_capacity_size_index = get_appropriate_circular_buffer_size_index(this->deque_size_ + 1);
+                uint64_t old_capacity_size_index = get_appropriate_circular_buffer_size_index(this->circular_buffer_size_ / this->value_byte_size_);
+
+                this->reset_starting_position();
+
+                if (new_byte_size > this->value_byte_size_ || new_capacity_size_index > old_capacity_size_index)
                 {
-                    uint64_t new_byte_size = get_byte_size(value);
-                    this->reserve(this->get_buffer_bit(), new_byte_size);
+                    this->shrink_to_fit2(new_capacity_size_index, new_byte_size);
                 }
 
-                this->update_size_if_needed();
+                uint64_t src_pos = position * this->value_byte_size_;
+                uint64_t dst_pos = src_pos + this->value_byte_size_;
+                uint64_t move_size = this->circular_buffer_size_ - dst_pos;
 
+                memmove(this->circular_buffer_ + dst_pos, this->circular_buffer_ + src_pos, move_size);
 
-                for (size_t i = this->deque_size_; i > position; --i)
-                {
-                    uint64_t pos = this->starting_position_ + i;
-                    if (pos >= this->circular_buffer_size_)
-                    {
-                        pos -= this->circular_buffer_size_;
-                    }
-                    this->circular_buffer_[pos] = pos > 0 ? this->circular_buffer_[pos - 1] : this->circular_buffer_[this->circular_buffer_size_ - 1];
-                }
-
-                uint64_t wpos = this->starting_position_ + position;
-                if (wpos >= this->circular_buffer_size_)
-                {
-                    wpos -= this->circular_buffer_size_;
-                }
-                this->circular_buffer_[wpos] = value;
-
+    
                 this->deque_size_++;
+                this->set_value(position, value);
             }
 
             assert(this->at(position) == value);
         }
-        
+
         /**
          * @brief Erase an element at a specific position
-         * 
+         *
          * @param position The position of the element to erase
          */
         void erase(size_t position)
         {
             if (position > 0)
             {
-                for (int64_t i = position + 1; i < (int64_t)this->deque_size_; ++i)
+                uint64_t new_capacity_size_index = get_appropriate_circular_buffer_size_index(this->deque_size_ - 1);
+                uint64_t old_capacity_size_index = get_appropriate_circular_buffer_size_index(this->circular_buffer_size_ / this->value_byte_size_);
+
+                this->reset_starting_position();
+                if (new_capacity_size_index + 1 < old_capacity_size_index)
                 {
-                    uint64_t pos = this->starting_position_ + i;
-                    if (pos >= this->circular_buffer_size_)
-                    {
-                        pos -= this->circular_buffer_size_;
-                    }
-                    uint64_t pos2 = pos > 0 ? pos - 1 : this->circular_buffer_size_ - 1;
-                    this->circular_buffer_[pos2] = this->circular_buffer_[pos];
+                    this->shrink_to_fit2(new_capacity_size_index + 1, this->value_byte_size_);
                 }
+
+                uint64_t dst_pos = position * this->value_byte_size_;
+                uint64_t src_pos = dst_pos + this->value_byte_size_;
+                uint64_t move_size = this->circular_buffer_size_ - src_pos;
+
+                memmove(this->circular_buffer_ + dst_pos, this->circular_buffer_ + src_pos, move_size);
                 this->deque_size_--;
-                this->update_size_if_needed();
             }
             else
             {
@@ -624,54 +667,80 @@ namespace stool
 
         /**
          * @brief Get the current number of elements
-         * 
+         *
          * @return size_t The number of elements in the deque
          */
         size_t size() const
         {
             return this->deque_size_;
         }
-        
-        /**
-         * @brief Shrink the deque to a specific capacity and byte size
-         * 
-         * @param capacity_bit_size The bit size for the new capacity
-         * @param byte_size The byte size for storing values
-         */
-        void shrink_to_fit(uint64_t capacity_bit_size, uint8_t byte_size)
-        {
-            uint64_t size = 1 << capacity_bit_size;
-            uint64_t tsize = size / (8 / byte_size);
 
-            if (tsize > ByteArrayDeque<INDEX_TYPE>::max_deque_size())
+        void reset_starting_position()
+        {
+            if (this->starting_position_ != 0)
             {
-                assert(tsize > ByteArrayDeque<INDEX_TYPE>::max_deque_size());
+                std::array<uint8_t, 65536> tmp_array;
+                std::memcpy(tmp_array.data(), this->circular_buffer_, this->circular_buffer_size_);
+
+                uint64_t prefix_size = this->circular_buffer_size_ - this->starting_position_;
+                uint64_t suffix_size = this->circular_buffer_size_ - prefix_size;
+                std::memcpy(this->circular_buffer_, &tmp_array[this->starting_position_], prefix_size);
+                if (this->starting_position_ > 0)
+                {
+                    std::memcpy(this->circular_buffer_ + prefix_size, tmp_array.data(), suffix_size);
+                }
+                this->starting_position_ = 0;
+            }
+        }
+
+        void shrink_to_fit2(uint64_t capacity_size_index, uint8_t new_byte_size)
+        {
+            uint64_t new_capacity_byte_size = size_array[capacity_size_index] * new_byte_size;
+
+            if (new_capacity_byte_size > ByteArrayDeque<INDEX_TYPE>::max_deque_size())
+            {
+                assert(new_capacity_byte_size > ByteArrayDeque<INDEX_TYPE>::max_deque_size());
 
                 throw std::invalid_argument("shrink_to_fit");
             }
-            else if (size > this->deque_size_ || this->value_byte_size_ != byte_size)
+            else if (this->value_byte_size_ != new_byte_size)
             {
-                std::cout << "SHRINK/" << tsize << "/" << (uint64_t)byte_size << std::endl;
-
-                T *new_data = new T[tsize];
+                std::array<uint8_t, 65536> tmp_array;
                 uint64_t i = 0;
-                uint64_t shift = 64 - (byte_size * 8);
-                for (uint64_t i = 0; i < tsize; i++)
+                for (uint64_t it : *this)
                 {
-                    new_data[i] = 0;
+                    std::memcpy(&tmp_array[i * new_byte_size], &it, new_byte_size);
+                    i++;
                 }
-                for (ByteArrayDequeIterator it = this->begin(); it != this->end(); ++it)
+
+                uint8_t *new_data = new uint8_t[new_capacity_byte_size];
+                std::memcpy(new_data, tmp_array.data(), new_capacity_byte_size);
+
+                if (this->circular_buffer_ != nullptr)
                 {
-                    new_data[i] = new_data[i] | (*it << shift);
-                    if (shift == 0)
-                    {
-                        i++;
-                        shift = 64 - (byte_size * 8);
-                    }
-                    else
-                    {
-                        shift -= byte_size * 8;
-                    }
+                    delete[] this->circular_buffer_;
+                    this->circular_buffer_ = nullptr;
+                }
+
+                this->circular_buffer_ = new_data;
+                this->starting_position_ = 0;
+                this->circular_buffer_size_ = new_capacity_byte_size;
+                this->value_byte_size_ = new_byte_size;
+            }
+            else if (new_capacity_byte_size > this->circular_buffer_size_ || new_capacity_byte_size < this->circular_buffer_size_)
+            {
+
+                this->reset_starting_position();
+
+                uint8_t *new_data = new uint8_t[new_capacity_byte_size];
+
+                if (new_capacity_byte_size > this->circular_buffer_size_)
+                {
+                    std::memcpy(new_data, this->circular_buffer_, this->circular_buffer_size_);
+                }
+                else
+                {
+                    std::memcpy(new_data, this->circular_buffer_, new_capacity_byte_size);
                 }
 
                 if (this->circular_buffer_ != nullptr)
@@ -682,14 +751,14 @@ namespace stool
 
                 this->circular_buffer_ = new_data;
                 this->starting_position_ = 0;
-                this->circular_buffer_size_ = tsize;
-                this->value_byte_size_ = byte_size;
+                this->circular_buffer_size_ = new_capacity_byte_size;
+                this->value_byte_size_ = new_byte_size;
             }
         }
-        
+
         /**
          * @brief Convert the deque to a std::deque
-         * 
+         *
          * @return std::deque<T> A standard deque containing the same elements
          */
         std::deque<T> to_deque() const
@@ -705,36 +774,46 @@ namespace stool
 
             return r;
         }
-        
+
         /**
          * @brief Print debug information about the deque
          */
         void print_info() const
         {
+            std::cout << "ByteArrayDeque ===============" << std::endl;
+            std::string buffer_str = "";
             for (uint64_t t = 0; t < this->circular_buffer_size_; t++)
             {
-                std::bitset<64> p(this->circular_buffer_[t]);
-                std::cout << p << std::flush;
-                std::cout << " " << std::flush;
+                std::bitset<8> p(this->circular_buffer_[t]);
+                buffer_str += p.to_string();
+                buffer_str += " ";
             }
-            std::cout << std::endl;
-            std::cout << "IntegerDeque: " << (uint64_t)this->circular_buffer_size_ << ", " << (uint64_t)this->deque_size_ << ", " << (uint64_t)this->starting_position_ << ", " << this->value_byte_size_ << std::endl;
+            std::deque<uint64_t> deque_values = this->to_deque();
+            stool::DebugPrinter::print_integers(deque_values, "Deque");
+            std::cout << "Buffer: " << buffer_str << std::endl;
+            std::cout << "Buffer size: " << (int64_t)this->circular_buffer_size_ << std::endl;
+            std::cout << "Value byte size: " << (int64_t)this->value_byte_size_ << std::endl;
+            std::cout << "Starting position: " << (int64_t)this->starting_position_ << std::endl;
+            std::cout << "Deque size: " << (int64_t)this->deque_size_ << std::endl;
+            std::cout << "==============================" << std::endl;
         }
-        
+
         /**
          * @brief Reserve space for a specific capacity and byte size
-         * 
+         *
          * @param capacity_bit_size The bit size for the capacity
          * @param byte_size The byte size for storing values
          */
+        /*
         void reserve(size_t capacity_bit_size, uint64_t byte_size)
         {
             this->shrink_to_fit(capacity_bit_size, byte_size);
         }
-        
+        */
+
         /**
          * @brief Swap contents with another IntegerDeque
-         * 
+         *
          * @param item The other deque to swap with
          */
         void swap(ByteArrayDeque &item)
@@ -744,50 +823,57 @@ namespace stool
             std::swap(this->starting_position_, item.starting_position_);
             std::swap(this->deque_size_, item.deque_size_);
         }
-        
+
         /**
          * @brief Access element by index (const version)
-         * 
+         *
          * @param index The index of the element
          * @return T The value at the specified index
          */
         T operator[](size_t index) const
         {
             assert(index < this->size());
-            uint64_t pos = this->starting_position_ + index;
-            uint64_t pos1 = pos / (8 / this->value_byte_size_);
-            uint64_t pos2 = pos % (8 / this->value_byte_size_);
-            if (pos1 >= this->circular_buffer_size_)
+            uint64_t pos = this->starting_position_ + (index * this->value_byte_size_);
+            if (pos >= this->circular_buffer_size_)
             {
-                pos1 -= this->circular_buffer_size_;
+                pos -= this->circular_buffer_size_;
             }
-            uint64_t result = access_value(this->circular_buffer_[pos1], pos2, this->value_byte_size_);
-            // std::cout << "Access: " << index << "/" << result << std::endl;
-            return result;
+            uint64_t B = 0;
+            std::memcpy(&B, this->circular_buffer_ + pos, this->value_byte_size_);
+
+            if (this->value_byte_size_ == 1)
+            {
+                assert(B == this->circular_buffer_[pos]);
+            }
+
+            return B;
         }
-    
+
         /**
          * @brief Set a value at a specific index
-         * 
+         *
          * @param index The index where to set the value
          * @param value The value to set
          */
         void set_value(int64_t index, uint64_t value)
         {
-            uint64_t pos = this->starting_position_ + index;
-            uint64_t pos1 = pos / (8 / this->value_byte_size_);
-            uint64_t pos2 = pos % (8 / this->value_byte_size_);
-            if (pos1 >= this->circular_buffer_size_)
-            {
-                pos1 -= this->circular_buffer_size_;
+            uint64_t new_byte_size = std::max(get_byte_size(value), (uint64_t)this->value_byte_size_);
+            if(new_byte_size > this->value_byte_size_){
+                this->shrink_to_fit2(get_appropriate_circular_buffer_size_index(this->deque_size_), new_byte_size);
             }
-            uint64_t new_code = set_code(this->circular_buffer_[pos1], pos2, this->value_byte_size_, value);
-            this->circular_buffer_[pos1] = new_code;
+
+            uint64_t pos = this->starting_position_ + (index * this->value_byte_size_);
+            if (pos >= this->circular_buffer_size_)
+            {
+                pos -= this->circular_buffer_size_;
+            }
+            uint64_t B = value;
+            std::memcpy(this->circular_buffer_ + pos, &B, this->value_byte_size_);
         }
 
         /**
          * @brief Access element by index with bounds checking
-         * 
+         *
          * @param i The index of the element
          * @return T The value at the specified index
          */
@@ -795,10 +881,10 @@ namespace stool
         {
             return (*this)[i];
         }
-        
+
         /**
          * @brief Convert the deque to a std::vector
-         * 
+         *
          * @return std::vector<uint64_t> A vector containing the same elements
          */
         std::vector<uint64_t> to_vector() const
