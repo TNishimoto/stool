@@ -893,6 +893,35 @@ namespace stool
             std::copy(this->begin(), this->end(), tmp.begin());
             return tmp;
         }
+
+        uint64_t psum(uint64_t i) const{
+            uint64_t x = 0;
+            uint64_t sum = 0;
+            for(ByteArrayDequeIterator it = this->begin(); it != this->end(); ++it){
+                sum += *it;
+
+                if(i == x){
+                    break;
+                }else{
+                    x++;
+                }
+            }
+            return sum;
+        }
+        int64_t search(uint64_t value) const{
+            uint64_t x = 0;
+            uint64_t sum = 0;
+            for(ByteArrayDequeIterator it = this->begin(); it != this->end(); ++it){
+                sum += *it;
+
+                if(sum >= value){
+                    return x;
+                }else{
+                    x++;
+                }
+            }
+            return -1;
+        }
     };
 
     /**
