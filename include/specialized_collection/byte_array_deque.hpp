@@ -917,8 +917,12 @@ namespace stool
             return sum;
         }
         int64_t search(uint64_t value) const{
-            uint64_t x = 0;
             uint64_t sum = 0;
+            return this->search(value, sum);
+        }
+        int64_t search(uint64_t value, uint64_t &sum) const{
+            uint64_t x = 0;
+            sum = 0;
             for(ByteArrayDequeIterator it = this->begin(); it != this->end(); ++it){
                 sum += *it;
 
@@ -930,6 +934,7 @@ namespace stool
             }
             return -1;
         }
+
 
         void increment(uint64_t pos, int64_t delta){
             this->set_value(pos, this->at(pos) + delta);
