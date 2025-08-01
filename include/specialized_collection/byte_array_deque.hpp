@@ -930,24 +930,40 @@ namespace stool
         void decrement(uint64_t pos, int64_t delta){
             this->set_value(pos, this->at(pos) - delta);
         }
+
+        uint64_t size_in_bytes(bool only_extra_bytes = false) const
+        {
+            if (only_extra_bytes)
+            {
+                return sizeof(uint8_t) * this->circular_buffer_size_;
+            }
+            else
+            {
+                return sizeof(ByteArrayDeque) + (sizeof(uint8_t) * this->circular_buffer_size_);
+            }
+        }
+
+        uint64_t unused_size_in_bytes() const
+        {
+            uint64_t sum = this->circular_buffer_size_;
+            uint32_t used_byte_size = this->size() * this->value_byte_size_;
+            return sum - used_byte_size;
+        }
     };
 
     /**
      * @brief Type alias for IntegerDeque with uint16_t index type
      */
-    template <typename T>
     using ByteArrayDeque16 = ByteArrayDeque<uint16_t>;
 
     /**
      * @brief Type alias for IntegerDeque with uint32_t index type
      */
-    template <typename T>
     using ByteArrayDeque32 = ByteArrayDeque<uint32_t>;
 
     /**
      * @brief Type alias for IntegerDeque with uint64_t index type
      */
-    template <typename T>
     using ByteArrayDeque64 = ByteArrayDeque<uint64_t>;
 
 }
