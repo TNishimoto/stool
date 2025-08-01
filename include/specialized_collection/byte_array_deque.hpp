@@ -836,6 +836,26 @@ namespace stool
             std::swap(this->starting_position_, item.starting_position_);
             std::swap(this->deque_size_, item.deque_size_);
         }
+        uint64_t at16(uint64_t pos) const{
+            return static_cast<uint64_t>(this->circular_buffer_[pos + 0]) |
+                (static_cast<uint64_t>(this->circular_buffer_[pos + 1]) << 8);
+        }
+        uint64_t at32(uint64_t pos) const{
+            return static_cast<uint64_t>(this->circular_buffer_[pos + 0]) |
+            (static_cast<uint64_t>(this->circular_buffer_[pos + 1]) << 8) |
+            (static_cast<uint64_t>(this->circular_buffer_[pos + 2]) << 16) |
+            (static_cast<uint64_t>(this->circular_buffer_[pos + 3]) << 24);
+        }
+        uint64_t at64(uint64_t pos) const{
+            return static_cast<uint64_t>(this->circular_buffer_[pos + 0]) |
+            (static_cast<uint64_t>(this->circular_buffer_[pos + 1]) << 8) |
+            (static_cast<uint64_t>(this->circular_buffer_[pos + 2]) << 16) |
+            (static_cast<uint64_t>(this->circular_buffer_[pos + 3]) << 24) |
+            (static_cast<uint64_t>(this->circular_buffer_[pos + 4]) << 32) |
+            (static_cast<uint64_t>(this->circular_buffer_[pos + 5]) << 40) |
+            (static_cast<uint64_t>(this->circular_buffer_[pos + 6]) << 48) |
+            (static_cast<uint64_t>(this->circular_buffer_[pos + 7]) << 56);
+        }
 
         /**
          * @brief Access element by index (const version)
@@ -860,24 +880,13 @@ namespace stool
                 B = this->circular_buffer_[pos2];
                 break;
             case ByteType::U16:
-                B = static_cast<uint64_t>(this->circular_buffer_[pos2 + 0]) |
-                    (static_cast<uint64_t>(this->circular_buffer_[pos2 + 1]) << 8);
+                B = this->at16(pos2);
                 break;
             case ByteType::U32:
-                B = static_cast<uint64_t>(this->circular_buffer_[pos2 + 0]) |
-                    (static_cast<uint64_t>(this->circular_buffer_[pos2 + 1]) << 8) |
-                    (static_cast<uint64_t>(this->circular_buffer_[pos2 + 2]) << 16) |
-                    (static_cast<uint64_t>(this->circular_buffer_[pos2 + 3]) << 24);
+                B = this->at32(pos2);
                 break;
             case ByteType::U64:
-                B = static_cast<uint64_t>(this->circular_buffer_[pos2 + 0]) |
-                    (static_cast<uint64_t>(this->circular_buffer_[pos2 + 1]) << 8) |
-                    (static_cast<uint64_t>(this->circular_buffer_[pos2 + 2]) << 16) |
-                    (static_cast<uint64_t>(this->circular_buffer_[pos2 + 3]) << 24) |
-                    (static_cast<uint64_t>(this->circular_buffer_[pos2 + 4]) << 32) |
-                    (static_cast<uint64_t>(this->circular_buffer_[pos2 + 5]) << 40) |
-                    (static_cast<uint64_t>(this->circular_buffer_[pos2 + 6]) << 48) |
-                    (static_cast<uint64_t>(this->circular_buffer_[pos2 + 7]) << 56);
+                B = this->at64(pos2);
                 break;
             default:
                 break;
@@ -949,6 +958,12 @@ namespace stool
             return tmp;
         }
 
+        std::string to_string() const
+        {
+            auto vec = this->to_vector();
+            return stool::DebugPrinter::to_integer_string(vec);
+        }
+
         uint64_t psum(uint64_t i) const
         {
             uint64_t x = 0;
@@ -999,7 +1014,7 @@ namespace stool
             for (uint64_t i = 0; i < size; i++)
             {
                 uint64_t v = this->at(i);
-                if (value < sum + v)
+                if (value <= sum + v)
                 {
                     return i;
                 }
