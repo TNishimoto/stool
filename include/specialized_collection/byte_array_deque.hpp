@@ -274,11 +274,13 @@ namespace stool
              * @param n The offset
              * @return T& Reference to the element at offset n
              */
-            T &operator[](difference_type n)
+            /*
+             T &operator[](difference_type n)
             {
                 int16_t sum = (int16_t)this->_m_idx + (int16_t)n;
                 return (*this->_m_deq)[sum];
             }
+            */
 
             /**
              * @brief Subscript operator (const version)
