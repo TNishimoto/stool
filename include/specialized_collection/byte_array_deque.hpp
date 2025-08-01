@@ -922,6 +922,14 @@ namespace stool
             }
             return -1;
         }
+
+        void increment(uint64_t pos, int64_t delta){
+            this->set_value(pos, this->at(pos) + delta);
+        }
+
+        void decrement(uint64_t pos, int64_t delta){
+            this->set_value(pos, this->at(pos) - delta);
+        }
     };
 
     /**
