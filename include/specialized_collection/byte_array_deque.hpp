@@ -836,25 +836,28 @@ namespace stool
             std::swap(this->starting_position_, item.starting_position_);
             std::swap(this->deque_size_, item.deque_size_);
         }
-        uint64_t at16(uint64_t pos) const{
+        uint64_t at16(uint64_t pos) const
+        {
             return static_cast<uint64_t>(this->circular_buffer_[pos + 0]) |
-                (static_cast<uint64_t>(this->circular_buffer_[pos + 1]) << 8);
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 1]) << 8);
         }
-        uint64_t at32(uint64_t pos) const{
+        uint64_t at32(uint64_t pos) const
+        {
             return static_cast<uint64_t>(this->circular_buffer_[pos + 0]) |
-            (static_cast<uint64_t>(this->circular_buffer_[pos + 1]) << 8) |
-            (static_cast<uint64_t>(this->circular_buffer_[pos + 2]) << 16) |
-            (static_cast<uint64_t>(this->circular_buffer_[pos + 3]) << 24);
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 1]) << 8) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 2]) << 16) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 3]) << 24);
         }
-        uint64_t at64(uint64_t pos) const{
+        uint64_t at64(uint64_t pos) const
+        {
             return static_cast<uint64_t>(this->circular_buffer_[pos + 0]) |
-            (static_cast<uint64_t>(this->circular_buffer_[pos + 1]) << 8) |
-            (static_cast<uint64_t>(this->circular_buffer_[pos + 2]) << 16) |
-            (static_cast<uint64_t>(this->circular_buffer_[pos + 3]) << 24) |
-            (static_cast<uint64_t>(this->circular_buffer_[pos + 4]) << 32) |
-            (static_cast<uint64_t>(this->circular_buffer_[pos + 5]) << 40) |
-            (static_cast<uint64_t>(this->circular_buffer_[pos + 6]) << 48) |
-            (static_cast<uint64_t>(this->circular_buffer_[pos + 7]) << 56);
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 1]) << 8) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 2]) << 16) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 3]) << 24) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 4]) << 32) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 5]) << 40) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 6]) << 48) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 7]) << 56);
         }
 
         /**
@@ -866,7 +869,6 @@ namespace stool
         T operator[](size_t index) const
         {
             assert(index < this->size());
-            uint64_t value_byte_size = get_byte_size2(this->value_byte_type_);
             uint64_t pos = this->starting_position_ + (index << (this->value_byte_type_ - 1));
             uint64_t mask = this->circular_buffer_size_ - 1;
             uint64_t pos2 = pos & mask;
@@ -966,20 +968,43 @@ namespace stool
 
         uint64_t psum(uint64_t i) const
         {
-            uint64_t x = 0;
             uint64_t sum = 0;
-            for (ByteArrayDequeIterator it = this->begin(); it != this->end(); ++it)
-            {
-                sum += *it;
 
-                if (i == x)
+            uint64_t pos = this->starting_position_;
+            uint64_t mask = this->circular_buffer_size_ - 1;
+            ByteType type = (ByteType)this->value_byte_type_;
+            switch (type)
+            {
+            case ByteType::U8:
+                for (uint64_t x = 0; x <= i; x++)
                 {
-                    break;
+                    sum += this->circular_buffer_[pos & mask];
+                    pos++;
                 }
-                else
+                break;
+            case ByteType::U16:
+                for (uint64_t x = 0; x <= i; x++)
                 {
-                    x++;
+                    sum += this->at16(pos & mask);
+                    pos += 2;
                 }
+                break;
+            case ByteType::U32:
+                for (uint64_t x = 0; x <= i; x++)
+                {
+                    sum += this->at32(pos & mask);
+                    pos += 4;
+                }
+                break;
+            case ByteType::U64:
+                for (uint64_t x = 0; x <= i; x++)
+                {
+                    sum += this->at64(pos & mask);
+                    pos += 8;
+                }
+                break;
+            default:
+                break;
             }
             return sum;
         }
@@ -990,38 +1015,67 @@ namespace stool
         }
         int64_t search(uint64_t value, uint64_t &sum) const
         {
-            uint64_t x = 0;
             sum = 0;
 
             uint64_t size = this->size();
-            for (uint64_t i = 0; i < size; i++)
+            uint64_t pos = this->starting_position_;
+            uint64_t mask = this->circular_buffer_size_ - 1;
+            ByteType type = (ByteType)this->value_byte_type_;
+            switch (type)
             {
-                sum += this->at(i);
-                if (sum >= value)
+            case ByteType::U8:
+                for (uint64_t i = 0; i < size; i++)
                 {
-                    return i;
+                    uint64_t v = this->circular_buffer_[pos & mask];
+                    if (value <= sum + v)
+                    {
+                        return i;
+                    }
+                    pos++;
+                    sum += v;
                 }
+                break;
+            case ByteType::U16:
+                for (uint64_t i = 0; i < size; i++)
+                {
+                    uint64_t v = this->at16(pos & mask);
+                    if (value <= sum + v)
+                    {
+                        return i;
+                    }
+                    pos += 2;
+                    sum += v;
+                }
+                break;
+            case ByteType::U32:
+                for (uint64_t i = 0; i < size; i++)
+                {
+                    uint64_t v = this->at32(pos & mask);
+                    if (value <= sum + v)
+                    {
+                        return i;
+                    }
+                    pos += 4;
+                    sum += v;
+                }
+                break;
+            case ByteType::U64:
+                for (uint64_t i = 0; i < size; i++)
+                {
+                    uint64_t v = this->at64(pos & mask);
+                    if (value <= sum + v)
+                    {
+                        return i;
+                    }
+                    pos += 8;
+                    sum += v;
+
+                }
+                break;
+            default:
+                break;
             }
             return -1;
-
-        }
-        int64_t search2(uint64_t value, uint64_t &sum) const
-        {
-            uint64_t x = 0;
-            sum = 0;
-
-            uint64_t size = this->size();
-            for (uint64_t i = 0; i < size; i++)
-            {
-                uint64_t v = this->at(i);
-                if (value <= sum + v)
-                {
-                    return i;
-                }
-                sum += v;
-            }
-            return -1;
-
         }
 
         void increment(uint64_t pos, int64_t delta)
