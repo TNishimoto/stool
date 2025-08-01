@@ -833,7 +833,14 @@ namespace stool
         T operator[](size_t index) const
         {
             assert(index < this->size());
-            uint64_t pos = this->starting_position_ + (index * this->value_byte_size_);
+            uint64_t pos = this->starting_position_ + (index << (this->value_byte_size_-1));
+            uint64_t posX = this->starting_position_ + (index * this->value_byte_size_);
+            if(pos != posX){
+                std::cout << index << "/" << (int)this->value_byte_size_ << "/" << this->starting_position_ << "/" << pos << "/" << posX << std::endl;
+                throw std::runtime_error("pos != posX");
+            }
+            
+
             uint64_t mask = this->circular_buffer_size_ - 1;
             uint64_t pos2 = pos & mask;
 
@@ -904,8 +911,12 @@ namespace stool
             return sum;
         }
         int64_t search(uint64_t value) const{
-            uint64_t x = 0;
             uint64_t sum = 0;
+            return search(value, sum);
+        }
+        int64_t search(uint64_t value, uint64_t &sum) const{
+            uint64_t x = 0;
+            sum = 0;
             for(ByteArrayDequeIterator it = this->begin(); it != this->end(); ++it){
                 sum += *it;
 
