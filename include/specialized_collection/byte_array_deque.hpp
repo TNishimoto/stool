@@ -834,17 +834,12 @@ namespace stool
         {
             assert(index < this->size());
             uint64_t pos = this->starting_position_ + (index * this->value_byte_size_);
-            if (pos >= this->circular_buffer_size_)
-            {
-                pos -= this->circular_buffer_size_;
-            }
-            uint64_t B = 0;
-            std::memcpy(&B, this->circular_buffer_ + pos, this->value_byte_size_);
+            uint64_t mask = this->circular_buffer_size_ - 1;
+            uint64_t pos2 = pos & mask;
 
-            if (this->value_byte_size_ == 1)
-            {
-                assert(B == this->circular_buffer_[pos]);
-            }
+            uint64_t B = 0;
+            std::memcpy(&B, this->circular_buffer_ + pos2, this->value_byte_size_);
+
 
             return B;
         }
