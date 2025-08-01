@@ -1,0 +1,5 @@
+<map id="stool::VLCDeque::verify" name="stool::VLCDeque::verify">
+<area shape="rect" id="Node000001" title="Verifies the integrity of the variable&#45;length coded deque." alt="" coords="5,13,180,38"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="228,5,377,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,23,214,23,214,28,180,28"/>
+</map>

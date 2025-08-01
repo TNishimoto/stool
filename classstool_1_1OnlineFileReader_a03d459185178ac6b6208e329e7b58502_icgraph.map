@@ -1,0 +1,9 @@
+<map id="stool::OnlineFileReader::get_text_size" name="stool::OnlineFileReader::get_text_size">
+<area shape="rect" id="Node000001" title="Gets the size of a file in bytes from a file stream." alt="" coords="227,69,400,109"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1OnlineFileReader.html#a209833541ef7521e304b9cb2636f8982" title="Extracts the alphabet (unique characters) from a file." alt="" coords="5,5,179,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,68,161,48,162,43,231,63"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1OnlineFileReader.html#adb1cb5579e1543831d091e17abbd1f03" title="Gets the size of a file in bytes from a filename." alt="" coords="5,69,179,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="213,92,179,92,179,87,213,87"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1OnlineFileReader.html#aa2e10f182b52637c8a694ff78d848ce3" title="Constructs an OnlineFileReader with the specified filename." alt="" coords="5,133,179,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="231,116,162,136,161,131,230,111"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="stool::IntegerArrayDeque&lt; T &gt;::IntegerDequeIterator" name="stool::IntegerArrayDeque&lt; T &gt;::IntegerDequeIterator">
+<area shape="rect" id="Node000001" title="Iterator class for IntegerDeque." alt="" coords="5,196,209,236"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitArrayDeque_1_1BitArrayDequeIterator.html" title=" " alt="" coords="21,93,194,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,147,110,196,105,196,105,147"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1BitArrayDeque.html" title="A simple circular buffer&#45;based deque implementation." alt="" coords="29,5,186,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="110,44,110,93,105,93,105,44"/>
+</map>

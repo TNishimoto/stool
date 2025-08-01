@@ -1,0 +1,106 @@
+<map id="stool::SimpleDeque::size" name="stool::SimpleDeque::size">
+<area shape="rect" id="Node000001" title="Get the current number of elements." alt="" coords="1912,623,2061,663"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#a749169627104a3503109bd45a8d00a97" title="Accesses a value at a specific position in the code deque." alt="" coords="1705,200,1856,225"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1979,610,1968,542,1947,454,1913,358,1889,313,1862,270,1836,246,1808,228,1811,223,1840,241,1866,267,1894,310,1918,356,1952,452,1974,541,1984,609"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1VLCDeque.html#a25eaa6647dcbf21752bf593b600889fe" title="Shifts values to the left starting from a given position." alt="" coords="921,485,1115,511"/>
+<area shape="poly" id="edge42_Node000001_Node000007" title=" " alt="" coords="1957,615,1914,572,1862,528,1807,488,1762,458,1714,436,1649,417,1586,405,1536,404,1420,417,1320,431,1221,450,1065,488,1064,483,1220,445,1319,425,1420,411,1535,398,1586,400,1650,411,1716,431,1764,454,1810,483,1866,524,1918,568,1961,611"/>
+<area shape="rect" id="Node000014" href="$classstool_1_1VLCDeque.html#a030d013823b0a29e9ba289248f8898fc" title="Returns an iterator to the end of the deque." alt="" coords="1700,656,1861,681"/>
+<area shape="poly" id="edge17_Node000001_Node000014" title=" " alt="" coords="1899,657,1862,661,1861,656,1898,651"/>
+<area shape="rect" id="Node000017" href="$classstool_1_1VLCDeque.html#a9dd7dd3b1bd6499806a508b28f0ba9ec" title="Removes and returns the last element from the deque." alt="" coords="1169,583,1368,608"/>
+<area shape="poly" id="edge26_Node000001_Node000017" title=" " alt="" coords="1898,640,1368,605,1369,599,1898,635"/>
+<area shape="rect" id="Node000019" href="$classstool_1_1SimpleDeque.html#a2f3c334bee4d0cab53912c8899ac4d95" title="Insert an element at the specified position." alt="" coords="1194,263,1343,303"/>
+<area shape="poly" id="edge23_Node000001_Node000019" title=" " alt="" coords="1981,610,1973,548,1953,471,1938,431,1918,393,1893,359,1862,331,1823,312,1768,297,1701,288,1626,282,1473,279,1344,282,1343,277,1473,274,1626,277,1701,283,1769,292,1825,307,1866,326,1897,356,1923,390,1943,429,1959,469,1978,547,1986,609"/>
+<area shape="rect" id="Node000020" href="$classstool_1_1SimpleDeque.html#a370c1ebe9af33942f4c02a2a6f509051" title="Subscript operator for element access." alt="" coords="1706,982,1855,1022"/>
+<area shape="poly" id="edge24_Node000001_Node000020" title=" " alt="" coords="1984,678,1972,737,1950,813,1916,893,1893,931,1866,965,1841,984,1838,980,1862,961,1889,928,1911,891,1945,812,1967,736,1978,677"/>
+<area shape="rect" id="Node000021" href="$classstool_1_1SimpleDeque.html#a6e797102c83e2b2df8f87400a1a6a426" title="Const subscript operator for element access." alt="" coords="1706,1046,1855,1086"/>
+<area shape="poly" id="edge25_Node000001_Node000021" title=" " alt="" coords="1987,677,1980,750,1961,845,1946,896,1925,946,1899,993,1866,1036,1851,1048,1848,1044,1862,1032,1894,990,1921,944,1941,894,1956,844,1975,749,1982,677"/>
+<area shape="rect" id="Node000022" href="$classstool_1_1VLCDeque.html#ab0d0f0e605a62b1888e394372539eb2e" title="Prints the internal state of the VLCDeque for debugging." alt="" coords="1697,1111,1864,1136"/>
+<area shape="poly" id="edge27_Node000001_Node000022" title=" " alt="" coords="1983,677,1967,774,1942,900,1908,1020,1888,1067,1866,1100,1848,1113,1845,1108,1862,1096,1883,1065,1903,1019,1937,899,1962,773,1978,677"/>
+<area shape="rect" id="Node000023" href="$classstool_1_1SimpleDeque.html#a06d6c825da7c6bb3fbea791fc3551997" title="Add an element to the end of the deque." alt="" coords="1460,541,1609,581"/>
+<area shape="poly" id="edge28_Node000001_Node000023" title=" " alt="" coords="1924,621,1863,602,1797,589,1729,579,1610,567,1610,562,1730,573,1798,583,1865,597,1926,616"/>
+<area shape="rect" id="Node000025" href="$classstool_1_1VLCDeque.html#afdfc25be15ed2a6bc87b7f9a6bdebea0" title="Adds a value to the end of the deque." alt="" coords="1165,484,1372,509"/>
+<area shape="poly" id="edge36_Node000001_Node000025" title=" " alt="" coords="1947,617,1908,592,1863,570,1800,548,1735,532,1602,509,1477,499,1372,496,1373,491,1478,493,1603,504,1736,526,1802,543,1865,565,1910,587,1950,613"/>
+<area shape="rect" id="Node000026" href="$classstool_1_1VLCDeque.html#a16d96ec3c68cc8d74c68330705e5a12f" title="Shifts values to the right starting from a given position." alt="" coords="1186,1061,1351,1101"/>
+<area shape="poly" id="edge43_Node000001_Node000026" title=" " alt="" coords="1983,677,1970,730,1948,796,1914,863,1892,894,1866,921,1843,936,1821,943,1778,944,1737,947,1718,955,1699,972,1684,993,1674,1014,1667,1057,1672,1100,1682,1143,1691,1186,1694,1228,1690,1249,1682,1269,1670,1289,1651,1308,1622,1329,1595,1343,1567,1351,1539,1352,1511,1347,1482,1338,1419,1308,1389,1288,1362,1263,1320,1205,1291,1147,1274,1102,1279,1100,1296,1145,1325,1203,1366,1260,1392,1284,1421,1304,1484,1333,1512,1342,1540,1346,1566,1345,1593,1338,1620,1325,1648,1304,1665,1285,1678,1267,1685,1247,1688,1228,1686,1187,1677,1144,1666,1101,1662,1057,1669,1012,1680,990,1695,968,1715,951,1736,942,1778,939,1820,938,1841,931,1862,917,1888,891,1909,860,1943,794,1965,729,1977,676"/>
+<area shape="rect" id="Node000027" href="$classstool_1_1SimpleDeque.html#aa6f0aa53738517b3e596ed7a50988edf" title="Add an element to the beginning of the deque." alt="" coords="1460,61,1609,101"/>
+<area shape="poly" id="edge37_Node000001_Node000027" title=" " alt="" coords="1984,609,1981,526,1975,472,1965,414,1950,353,1929,294,1900,239,1862,189,1836,165,1806,145,1739,115,1671,96,1609,87,1610,82,1672,91,1741,110,1808,140,1839,161,1866,185,1904,236,1934,292,1955,352,1971,412,1981,471,1986,525,1989,609"/>
+<area shape="rect" id="Node000029" href="$classstool_1_1VLCDeque.html#ab458420438f662791e032cee383ac877" title="Sets a value at a specific code position." alt="" coords="1702,1161,1859,1201"/>
+<area shape="poly" id="edge41_Node000001_Node000029" title=" " alt="" coords="1984,677,1969,784,1944,924,1928,995,1910,1060,1889,1113,1866,1150,1852,1163,1848,1159,1862,1147,1884,1111,1904,1058,1923,994,1939,923,1964,783,1979,677"/>
+<area shape="rect" id="Node000030" href="$classstool_1_1SimpleDeque.html#a8eaa5fa0f1689275c98e08116cf5d447" title="Resize buffer to specified bit size." alt="" coords="1706,1225,1855,1265"/>
+<area shape="poly" id="edge44_Node000001_Node000030" title=" " alt="" coords="1985,677,1972,796,1948,955,1932,1036,1913,1110,1891,1171,1866,1214,1852,1226,1849,1222,1862,1211,1886,1169,1908,1109,1927,1035,1943,954,1967,795,1980,677"/>
+<area shape="rect" id="Node000031" href="$classstool_1_1VLCDeque.html#adf3de5a293ca35b2ed2b771ae80dbc15" title="Returns the number of elements in the deque." alt="" coords="1699,881,1862,907"/>
+<area shape="poly" id="edge45_Node000001_Node000031" title=" " alt="" coords="1963,676,1795,882,1791,879,1958,672"/>
+<area shape="rect" id="Node000039" href="$classstool_1_1VLCDeque.html#adf10b04d9933ce6e53bb3f387c5457fc" title="Verifies the integrity of the variable&#45;length coded deque." alt="" coords="1447,325,1622,351"/>
+<area shape="poly" id="edge59_Node000001_Node000039" title=" " alt="" coords="1979,610,1968,556,1947,490,1932,457,1913,425,1890,396,1862,372,1834,355,1803,342,1736,327,1670,324,1610,328,1610,323,1670,319,1737,322,1804,337,1836,350,1866,368,1894,393,1917,422,1936,454,1952,488,1973,555,1984,609"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1VLCDeque.html#a1535c8131be5b37a28235fafcf9babd1" title="Accesses the value at a given index in the deque." alt="" coords="1459,125,1610,151"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1737,197,1649,164,1604,153,1605,148,1650,159,1739,192"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1VLCDeque.html#ad35a793c1600f133abcfb8f410209fda" title="Returns the value at the front of the deque." alt="" coords="1450,224,1619,249"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="1692,224,1620,231,1619,226,1691,219"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1VLCDeque.html#aa40877a7957a420b563c70e894ef6802" title="Increments a value at a given index by a delta." alt="" coords="5,289,208,315"/>
+<area shape="poly" id="edge14_Node000002_Node000009" title=" " alt="" coords="1766,189,1747,156,1722,117,1688,80,1648,51,1596,27,1550,14,1508,9,1467,9,1380,19,1329,24,1270,26,556,26,518,28,481,35,409,60,341,95,279,138,225,183,179,227,120,291,116,287,175,223,221,179,276,134,338,91,407,55,480,30,518,23,556,21,1270,21,1328,18,1379,14,1467,4,1508,3,1551,9,1598,22,1651,46,1692,76,1726,114,1752,153,1770,186"/>
+<area shape="rect" id="Node000012" href="$classstool_1_1VLCDeque.html#afca92fa5cea3d62686b87292c469e6cb" title="Computes the sum of elements between two indices." alt="" coords="1448,175,1621,200"/>
+<area shape="poly" id="edge15_Node000002_Node000012" title=" " alt="" coords="1691,206,1621,199,1622,193,1691,201"/>
+<area shape="rect" id="Node000013" href="$classstool_1_1VLCDeque.html#a1a378c68919750614a0b2b1d0c708ee2" title="Converts the deque contents to a vector of values." alt="" coords="1459,426,1610,466"/>
+<area shape="poly" id="edge16_Node000002_Node000013" title=" " alt="" coords="1763,238,1715,297,1651,364,1609,399,1568,428,1565,424,1605,395,1648,360,1711,294,1759,235"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1VLCDeque.html#a5a534bfb83a1127738bfc32466e159be" title="Removes and returns the first value from the variable&#45;length code deque." alt="" coords="1188,135,1349,175"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1450,223,1419,214,1395,202,1371,190,1338,178,1340,173,1373,185,1397,197,1421,209,1451,218"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1VLCDeque.html#a0415fa7f22a73085968c6eb698e5c1d8" title="Pops multiple values from the front of the deque." alt="" coords="937,135,1099,175"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1174,158,1099,158,1099,153,1174,153"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="1177,182,1167,189,1133,224,1105,265,1082,308,1063,351,1037,431,1024,486,1019,484,1031,430,1058,350,1077,305,1101,262,1129,221,1164,185,1174,177"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1VLCDeque.html#aa2d61091b7d5b4140b1a85e8fd146af8" title="Removes the value at the specified position." alt="" coords="684,328,871,353"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="984,480,797,356,800,351,987,475"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="727,326,683,314,636,305,522,294,407,290,208,296,208,291,407,285,522,288,636,299,684,309,728,321"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1VLCDeque.html#a5ad08a0c01569f427b58f436f69d5808" title="Sets a new value at the specified position." alt="" coords="479,314,636,354"/>
+<area shape="poly" id="edge9_Node000008_Node000010" title=" " alt="" coords="670,340,636,339,636,334,670,335"/>
+<area shape="poly" id="edge10_Node000010_Node000009" title=" " alt="" coords="465,330,208,312,208,306,465,325"/>
+<area shape="rect" id="Node000011" href="$classstool_1_1VLCDeque.html#a085a9a345d5356f432afb5ff709a0a61" title="Inserts a value at the specified position." alt="" coords="256,365,431,391"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="486,360,431,371,430,366,485,354"/>
+<area shape="poly" id="edge12_Node000011_Node000009" title=" " alt="" coords="289,364,146,317,148,312,291,359"/>
+<area shape="poly" id="edge13_Node000011_Node000010" title=" " alt="" coords="387,359,478,339,479,344,388,364"/>
+<area shape="rect" id="Node000015" href="$classstool_1_1VLCDeque.html#a2119dfc1cbfb47a90d4ee4e38952acee" title="Computes the prefix sum from index i to j." alt="" coords="1420,656,1649,681"/>
+<area shape="poly" id="edge18_Node000014_Node000015" title=" " alt="" coords="1687,671,1650,671,1650,666,1687,666"/>
+<area shape="rect" id="Node000016" href="$classstool_1_1VLCDeque.html#a8fae07f6a6e0fb26383a9ea3b317871e" title="Returns the value at the back of the deque." alt="" coords="1455,705,1614,731"/>
+<area shape="poly" id="edge19_Node000014_Node000016" title=" " alt="" coords="1704,687,1599,708,1598,703,1703,681"/>
+<area shape="poly" id="edge20_Node000016_Node000017" title=" " alt="" coords="1441,704,1419,696,1379,676,1341,653,1283,610,1287,606,1344,648,1381,672,1421,691,1442,699"/>
+<area shape="poly" id="edge22_Node000017_Node000007" title=" " alt="" coords="1189,582,1164,574,1095,543,1040,513,1042,508,1097,538,1166,569,1191,577"/>
+<area shape="rect" id="Node000018" href="$classstool_1_1VLCDeque.html#aa5755159932493f1f4592536719e081e" title="Pops multiple values from the back of the deque." alt="" coords="919,583,1117,608"/>
+<area shape="poly" id="edge21_Node000017_Node000018" title=" " alt="" coords="1156,598,1117,598,1117,593,1156,593"/>
+<area shape="poly" id="edge32_Node000023_Node000017" title=" " alt="" coords="1447,575,1367,585,1366,580,1446,569"/>
+<area shape="poly" id="edge31_Node000023_Node000019" title=" " alt="" coords="1487,535,1452,509,1418,480,1375,434,1336,385,1281,305,1285,302,1341,382,1379,430,1422,476,1456,505,1491,530"/>
+<area shape="rect" id="Node000024" href="$classstool_1_1VLCDeque.html#adc2f44941a1fb02fcd38cf09f0601a01" title="Clears all contents and resets the deque to initial state." alt="" coords="1184,533,1353,559"/>
+<area shape="poly" id="edge29_Node000023_Node000024" title=" " alt="" coords="1446,558,1353,553,1354,548,1447,553"/>
+<area shape="poly" id="edge33_Node000023_Node000025" title=" " alt="" coords="1446,542,1322,512,1323,507,1448,537"/>
+<area shape="poly" id="edge34_Node000023_Node000026" title=" " alt="" coords="1486,590,1452,615,1422,646,1387,701,1358,760,1334,820,1314,880,1288,988,1275,1061,1270,1060,1283,987,1309,879,1329,819,1353,758,1383,698,1418,643,1448,611,1483,586"/>
+<area shape="poly" id="edge30_Node000024_Node000007" title=" " alt="" coords="1188,533,1085,513,1086,508,1189,528"/>
+<area shape="poly" id="edge35_Node000026_Node000011" title=" " alt="" coords="1228,1054,360,393,363,389,1231,1050"/>
+<area shape="poly" id="edge39_Node000027_Node000005" title=" " alt="" coords="1450,107,1421,115,1341,138,1340,133,1419,110,1448,102"/>
+<area shape="poly" id="edge38_Node000027_Node000019" title=" " alt="" coords="1448,98,1422,115,1409,131,1402,147,1398,182,1395,217,1388,235,1374,253,1345,272,1342,267,1370,249,1383,233,1390,216,1393,181,1396,146,1404,128,1418,111,1445,93"/>
+<area shape="rect" id="Node000028" href="$classstool_1_1VLCDeque.html#a413e64fca69ff43c685da3fe23eff873" title="Returns the value at the back of the deque." alt="" coords="1185,199,1353,239"/>
+<area shape="poly" id="edge40_Node000027_Node000028" title=" " alt="" coords="1448,100,1422,115,1406,132,1398,151,1391,170,1374,189,1354,202,1351,197,1370,185,1386,167,1393,149,1401,129,1418,111,1445,96"/>
+<area shape="poly" id="edge54_Node000031_Node000007" title=" " alt="" coords="1753,874,1706,838,1648,803,1586,781,1536,771,1484,764,1419,746,1286,696,1230,667,1164,623,1139,599,1116,573,1036,513,1040,509,1119,569,1143,595,1167,619,1233,662,1288,691,1421,741,1485,758,1536,766,1588,775,1650,798,1709,833,1757,870"/>
+<area shape="poly" id="edge51_Node000031_Node000008" title=" " alt="" coords="1736,879,1649,848,1534,822,1431,808,1253,789,1171,773,1089,744,1048,723,1006,696,962,663,917,622,887,589,861,552,820,474,793,403,779,354,784,353,798,402,825,472,865,550,891,586,921,619,965,659,1009,692,1051,718,1092,739,1172,768,1254,784,1432,802,1535,817,1650,843,1737,874"/>
+<area shape="poly" id="edge58_Node000031_Node000013" title=" " alt="" coords="1765,869,1732,792,1695,695,1683,647,1678,608,1669,572,1647,530,1613,495,1574,468,1577,464,1617,491,1651,527,1674,570,1683,607,1688,646,1700,693,1737,790,1770,867"/>
+<area shape="poly" id="edge56_Node000031_Node000016" title=" " alt="" coords="1762,871,1715,811,1684,779,1648,752,1603,733,1606,728,1651,748,1687,775,1719,808,1766,868"/>
+<area shape="poly" id="edge55_Node000031_Node000026" title=" " alt="" coords="1713,915,1699,928,1685,949,1676,971,1669,1014,1674,1057,1683,1099,1692,1141,1694,1183,1690,1203,1682,1223,1670,1242,1651,1261,1623,1282,1595,1296,1568,1303,1540,1303,1512,1298,1483,1289,1419,1262,1393,1247,1369,1228,1328,1184,1298,1139,1277,1102,1282,1100,1302,1136,1333,1181,1373,1224,1396,1242,1421,1257,1485,1284,1513,1293,1541,1298,1567,1297,1593,1291,1620,1278,1648,1257,1665,1239,1678,1220,1685,1201,1689,1182,1687,1142,1678,1100,1668,1058,1664,1014,1671,969,1680,947,1695,924,1709,912"/>
+<area shape="rect" id="Node000032" href="$classstool_1_1VLCDeque.html#a30914ce97ac0a4e685ef68ca530bc7dd" title="Loads a vector of VLCDeque instances from a byte array." alt="" coords="1452,1143,1617,1183"/>
+<area shape="poly" id="edge46_Node000031_Node000032" title=" " alt="" coords="1714,915,1699,928,1683,953,1676,979,1675,1004,1677,1030,1679,1055,1678,1081,1670,1107,1651,1133,1636,1145,1619,1154,1616,1149,1633,1141,1647,1129,1665,1105,1673,1080,1674,1055,1672,1030,1670,1004,1670,978,1678,951,1695,924,1711,911"/>
+<area shape="rect" id="Node000033" href="$classstool_1_1VLCDeque.html#a6b3ba3d62b85c8869fc7d2302eaf29c6" title="Loads a vector of VLCDeque instances from a file stream." alt="" coords="1452,1207,1617,1247"/>
+<area shape="poly" id="edge47_Node000031_Node000033" title=" " alt="" coords="1714,915,1699,928,1679,962,1671,995,1672,1028,1678,1062,1683,1095,1683,1129,1674,1163,1651,1197,1636,1210,1619,1219,1616,1214,1633,1205,1647,1193,1669,1161,1678,1128,1677,1095,1672,1062,1667,1029,1666,995,1674,960,1695,924,1710,911"/>
+<area shape="rect" id="Node000034" href="$classstool_1_1VLCDeque.html#af606887cc86178be04b716729963efe8" title="Computes the sum of elements between two indices." alt="" coords="1448,881,1621,907"/>
+<area shape="poly" id="edge48_Node000031_Node000034" title=" " alt="" coords="1686,897,1622,897,1622,891,1686,891"/>
+<area shape="rect" id="Node000035" href="$classstool_1_1VLCDeque.html#a5535f8738d52739337cb7ee2f7be7c0b" title="Computes the reverse prefix sum up to index i." alt="" coords="1448,931,1621,956"/>
+<area shape="poly" id="edge50_Node000031_Node000035" title=" " alt="" coords="1704,912,1599,933,1598,928,1703,907"/>
+<area shape="rect" id="Node000036" href="$classstool_1_1VLCDeque.html#a66240cc8436d8806a953d94b73ceb62f" title="Saves a vector of VLCDeque instances to a file stream." alt="" coords="1451,980,1619,1005"/>
+<area shape="poly" id="edge52_Node000031_Node000036" title=" " alt="" coords="1727,914,1699,928,1685,939,1676,950,1666,961,1651,971,1620,983,1618,978,1648,966,1662,957,1672,946,1681,935,1696,924,1724,909"/>
+<area shape="rect" id="Node000037" href="$classstool_1_1VLCDeque.html#a713d23f92f6207de8aeaf50e01d1a03f" title="Saves a vector of VLCDeque instances to a byte array." alt="" coords="1451,1029,1619,1055"/>
+<area shape="poly" id="edge53_Node000031_Node000037" title=" " alt="" coords="1719,915,1699,928,1683,951,1677,974,1670,997,1651,1020,1620,1036,1618,1031,1648,1016,1665,995,1672,972,1678,948,1695,924,1716,910"/>
+<area shape="rect" id="Node000038" href="$classstool_1_1VLCDeque.html#ae8522a2b79b24b3e8a542cbf4bcc0a49" title="Converts the deque contents to a string representation." alt="" coords="1459,1079,1610,1119"/>
+<area shape="poly" id="edge57_Node000031_Node000038" title=" " alt="" coords="1716,915,1699,928,1686,945,1680,962,1677,998,1673,1033,1666,1051,1651,1069,1632,1083,1611,1092,1609,1087,1630,1078,1648,1065,1661,1049,1668,1032,1672,997,1675,961,1682,943,1695,924,1713,911"/>
+<area shape="poly" id="edge49_Node000034_Node000034" title=" " alt="" coords="1578,872,1576,867,1568,864,1535,860,1508,862,1494,867,1492,872,1499,879,1495,883,1486,873,1491,863,1507,857,1535,855,1569,859,1579,863,1583,869"/>
+<area shape="poly" id="edge62_Node000039_Node000005" title=" " alt="" coords="1496,321,1457,295,1418,262,1403,242,1395,223,1387,206,1370,189,1348,176,1351,172,1374,185,1391,203,1400,221,1408,239,1422,259,1460,291,1499,316"/>
+<area shape="poly" id="edge65_Node000039_Node000008" title=" " alt="" coords="1434,341,871,343,871,338,1434,336"/>
+<area shape="poly" id="edge60_Node000039_Node000011" title=" " alt="" coords="1445,355,1250,381,1135,390,1019,394,776,394,591,391,431,385,431,379,591,386,776,389,1019,389,1135,385,1250,375,1445,350"/>
+<area shape="poly" id="edge61_Node000039_Node000017" title=" " alt="" coords="1493,359,1455,383,1422,416,1410,437,1404,457,1402,496,1398,535,1390,554,1374,573,1357,585,1354,580,1370,569,1385,551,1393,533,1397,496,1399,456,1405,434,1418,412,1452,379,1490,355"/>
+<area shape="poly" id="edge63_Node000039_Node000025" title=" " alt="" coords="1502,360,1293,486,1290,482,1499,355"/>
+<area shape="poly" id="edge64_Node000039_Node000028" title=" " alt="" coords="1500,320,1441,287,1371,254,1339,242,1341,237,1373,249,1443,283,1502,316"/>
+</map>

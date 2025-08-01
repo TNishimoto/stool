@@ -1,0 +1,9 @@
+<map id="stool::Byte::count_bits" name="stool::Byte::count_bits">
+<area shape="rect" id="Node000001" title="Counts the number of 1 bits in a 64&#45;bit integer using built&#45;in function." alt="" coords="448,31,615,56"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1LSBByte.html#a3354531ed34a4f6c248fd70a27ee155e" title="Finds the position of the (i+1)&#45;th set bit (1) in a 64&#45;bit integer." alt="" coords="227,5,397,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="434,35,397,30,398,25,434,29"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1MSBByte.html#a2b2758e4a0d58799d4aaf8b8a6afa358" title="Finds the position of the (i+1)&#45;th set bit (1) in a 64&#45;bit integer." alt="" coords="224,55,400,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="434,57,401,60,400,55,434,51"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1LSBByte.html#a63e0d5ef6907abc6d2f1003a0c8907ee" title="Finds the position of the (i+1)&#45;th unset bit (0) in a 64&#45;bit integer." alt="" coords="5,5,176,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="213,21,176,21,176,15,213,15"/>
+</map>

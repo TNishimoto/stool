@@ -1,0 +1,28 @@
+<map id="stool::ByteArrayDeque::insert" name="stool::ByteArrayDeque::insert">
+<area shape="rect" id="Node000001" title="Insert an element at a specific position." alt="" coords="5,106,175,146"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ByteArrayDeque.html#a19d4b87b97f7d7f57ccae63d389a4f22" title="Access element by index with bounds checking." alt="" coords="223,5,413,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,103,168,75,222,48,260,33,261,38,224,52,170,80,124,108"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ByteArrayDeque.html#a0b261e60dcb2c41360043bea06d3320e" title="Add an element to the back of the deque." alt="" coords="233,170,403,210"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,144,233,164,232,169,161,149"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1ByteArrayDeque.html#af09a5e4c7694f2f89335f7dddd0f5565" title="Set a value at a specific index." alt="" coords="461,103,631,143"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="160,103,222,91,318,84,414,91,456,98,455,103,413,97,318,89,223,97,161,109"/>
+<area shape="rect" id="Node000011" href="$classstool_1_1ByteArrayDeque.html#a580fe55c510f7d62b63ac61151c98c74" title="Get the current number of elements." alt="" coords="461,231,631,271"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="113,144,161,184,191,204,224,220,280,236,338,246,448,253,447,258,337,252,278,241,222,224,189,209,158,189,110,148"/>
+<area shape="rect" id="Node000012" href="$classstool_1_1ByteArrayDeque.html#ac09ccf9ac30a64aded975b7e180e5372" title="Add an element to the front of the deque." alt="" coords="233,106,403,146"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="175,123,220,123,220,129,175,129"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1ByteArrayDeque.html#a05dea1f914e628e56a8bc170f3fa12e1" title="Print debug information about the deque." alt="" coords="461,167,631,207"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="403,186,448,186,448,191,403,192"/>
+<area shape="poly" id="edge9_Node000003_Node000010" title=" " alt="" coords="386,167,463,145,465,150,388,173"/>
+<area shape="poly" id="edge10_Node000003_Node000011" title=" " alt="" coords="394,208,459,225,457,230,392,213"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1DebugPrinter.html#a8a9ac6678e749a433424bb139a485832" title="Prints a vector of integers to stdout with a label." alt="" coords="690,135,837,175"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="631,172,676,165,677,171,631,178"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1ByteArrayDeque.html#a25c1e8f266b0b9b2287c1a232f07d3b7" title="Convert the deque to a std::deque." alt="" coords="679,199,848,239"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="631,197,666,202,665,208,631,202"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1DebugPrinter.html#abe1cdb1edd7a7f64ceb6086e985e1605" title="Converts a vector of numeric values to a comma&#45;separated string representation." alt="" coords="923,135,1070,175"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="837,153,910,153,910,158,837,158"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1ByteArrayDeque.html#a71de87f40754758e8859dbbf81a6265d" title="Get iterator to the beginning." alt="" coords="912,253,1081,293"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="849,236,899,248,898,253,848,241"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1ByteArrayDeque.html#afb9e6ed1c6972cfad138c66ebf29fcfd" title="Get iterator to the end." alt="" coords="896,203,1097,228"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="849,215,882,215,882,220,849,221"/>
+<area shape="poly" id="edge12_Node000012_Node000010" title=" " alt="" coords="403,122,448,122,448,127,403,128"/>
+</map>

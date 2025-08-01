@@ -1,0 +1,5 @@
+<map id="stool::ByteArrayDeque::at" name="stool::ByteArrayDeque::at">
+<area shape="rect" id="Node000001" title="Access element by index with bounds checking." alt="" coords="223,13,413,38"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ByteArrayDeque.html#a00193c408182bf392b58d953af8b372a" title="Insert an element at a specific position." alt="" coords="5,5,175,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,28,175,28,175,23,209,23"/>
+</map>

@@ -1,0 +1,9 @@
+var searchData=
+[
+  ['uint8vectorgenerator_0',['UInt8VectorGenerator',['../classstool_1_1UInt8VectorGenerator.html',1,'stool']]],
+  ['universe_1',['universe',['../classstool_1_1EliasFanoVectorBuilder.html#a64f50e846b81cf7f8fecaca3fcbe98d2',1,'stool::EliasFanoVectorBuilder']]],
+  ['update_5fsize_5fif_5fneeded_2',['update_size_if_needed',['../classstool_1_1BitArrayDeque.html#a67e8b7411363d1686f3405a361c8de58',1,'stool::BitArrayDeque::update_size_if_needed()'],['../classstool_1_1ByteArrayDeque.html#a9e958502ad58cb8915fac7fcbf46fa00',1,'stool::ByteArrayDeque::update_size_if_needed()'],['../classstool_1_1IntegerDeque.html#aab8a4ae2408b9885748ee7e6987133d1',1,'stool::IntegerDeque::update_size_if_needed()'],['../classstool_1_1SimpleDeque.html#a0e8ebcc4439ffeba29503945ac8ebcd9',1,'stool::SimpleDeque::update_size_if_needed()']]],
+  ['upper_5fbit_5fsize_3',['upper_bit_size',['../classstool_1_1EliasFanoVectorBuilder.html#a3e328853a927790147b59cef67f512b6',1,'stool::EliasFanoVectorBuilder']]],
+  ['upper_5fbits_4',['upper_bits',['../classstool_1_1EliasFanoVectorBuilder.html#a8e08d8293489da2e66dc7c3bc206d4e4',1,'stool::EliasFanoVectorBuilder']]],
+  ['upper_5fselecter_5',['upper_selecter',['../classstool_1_1EliasFanoVectorBuilder.html#a414998512a8f245eceac59a5eb17b359',1,'stool::EliasFanoVectorBuilder']]]
+];

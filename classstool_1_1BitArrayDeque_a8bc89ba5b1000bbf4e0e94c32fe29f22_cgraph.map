@@ -1,0 +1,16 @@
+<map id="stool::BitArrayDeque::push_front" name="stool::BitArrayDeque::push_front">
+<area shape="rect" id="Node000001" title="Add an element to the beginning of the deque." alt="" coords="5,63,163,103"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitArrayDeque.html#a72daa3106a834b53e6c70d943c8427a2" title="Add an element to the end of the deque." alt="" coords="211,5,368,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,60,203,47,205,52,157,65"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1BitArrayDeque.html#adf0dea2a0ce0281a68700bb9eb065df2" title="Get the current number of elements." alt="" coords="848,59,1005,99"/>
+<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="163,91,286,105,445,117,622,120,712,116,800,108,846,99,847,105,800,113,712,122,622,125,444,122,285,111,163,97"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1BitArrayDeque.html#a67e8b7411363d1686f3405a361c8de58" title="Update buffer size if needed based on current usage." alt="" coords="416,59,595,99"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="163,79,402,77,402,82,163,85"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="368,21,565,24,683,31,800,44,845,53,844,58,800,49,682,36,565,29,368,26"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="369,42,412,53,410,58,368,47"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1BitArrayDeque.html#a9787041ab01d47eb6f0ffcd595d7dfaa" title="Check if the deque is empty." alt="" coords="1053,59,1211,99"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1006,76,1039,76,1039,81,1006,81"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1BitArrayDeque.html#acda6acedd8f99a5e9e02e6fad569baee" title="Reduce buffer size to fit current content." alt="" coords="643,59,800,99"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="595,76,629,76,629,81,595,81"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="800,76,834,76,834,81,800,81"/>
+</map>

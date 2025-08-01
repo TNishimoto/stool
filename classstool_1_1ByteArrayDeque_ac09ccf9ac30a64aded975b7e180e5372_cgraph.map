@@ -1,0 +1,5 @@
+<map id="stool::ByteArrayDeque::push_front" name="stool::ByteArrayDeque::push_front">
+<area shape="rect" id="Node000001" title="Add an element to the front of the deque." alt="" coords="5,5,175,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ByteArrayDeque.html#af09a5e4c7694f2f89335f7dddd0f5565" title="Set a value at a specific index." alt="" coords="223,5,392,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,23,209,23,209,28,175,28"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="stool::ByteArrayDeque::erase" name="stool::ByteArrayDeque::erase">
+<area shape="rect" id="Node000001" title="Erase an element at a specific position." alt="" coords="5,5,175,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ByteArrayDeque.html#a3e3070bf8ad2716b11ed6c117f821943" title="Remove the first element from the deque." alt="" coords="223,5,392,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,23,209,23,209,28,175,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ByteArrayDeque.html#a9e958502ad58cb8915fac7fcbf46fa00" title="Update the size if needed based on current usage." alt="" coords="440,5,619,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="392,23,427,23,427,28,392,28"/>
+</map>

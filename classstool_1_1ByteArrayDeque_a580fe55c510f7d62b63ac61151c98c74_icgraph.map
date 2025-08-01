@@ -1,0 +1,15 @@
+<map id="stool::ByteArrayDeque::size" name="stool::ByteArrayDeque::size">
+<area shape="rect" id="Node000001" title="Get the current number of elements." alt="" coords="440,98,609,138"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ByteArrayDeque.html#a00193c408182bf392b58d953af8b372a" title="Insert an element at a specific position." alt="" coords="5,82,175,122"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="493,90,447,54,420,37,391,24,345,12,308,8,270,13,223,24,193,36,164,51,117,84,114,80,161,47,191,31,222,19,269,7,308,3,346,7,393,19,423,32,451,49,496,86"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ByteArrayDeque.html#a3a1ccff255750d08110450ce12f01aef" title="Access element by index (const version)" alt="" coords="223,34,392,74"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="442,97,375,76,377,71,444,91"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1ByteArrayDeque.html#a0b261e60dcb2c41360043bea06d3320e" title="Add an element to the back of the deque." alt="" coords="223,98,392,138"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="426,121,392,121,392,115,426,115"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1ByteArrayDeque.html#a7c34504d4055870a4e907c018dba7239" title="Shrink the deque to fit its current size." alt="" coords="5,171,175,211"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="434,144,392,153,279,171,176,185,175,179,279,166,392,147,433,138"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1ByteArrayDeque.html#a01405583bcd179b9d68b2192304fb777" title="Convert the deque to a std::vector." alt="" coords="223,213,392,253"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="480,147,393,196,355,215,353,210,391,192,477,143"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="209,113,175,111,175,105,209,108"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="209,217,174,210,175,205,210,211"/>
+</map>
