@@ -43,6 +43,7 @@
 #include "./specialized_collection/bit_array_deque.hpp"
 //#include "./specialized_collection/integer_array_deque.hpp"
 #include "./specialized_collection/byte_array_deque.hpp"
+#include "./specialized_collection/static_array_deque.hpp"
 
 #include "./lz/lz_factor.hpp"
 
