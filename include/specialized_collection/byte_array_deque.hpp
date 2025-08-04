@@ -6,6 +6,13 @@
 #include "../basic/byte.hpp"
 #include "../debug/print.hpp"
 
+#if defined(__ARM_NEON) || defined(__ARM_NEON__)
+#include <arm_neon.h>
+#define USE_NEON 1
+#else
+#define USE_NEON 0
+#endif
+
 namespace stool
 {
 
@@ -21,6 +28,7 @@ namespace stool
     template <typename INDEX_TYPE = uint16_t>
     class ByteArrayDeque
     {
+
         inline static std::vector<int> size_array{0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192};
         enum class ByteType
         {
@@ -1015,7 +1023,43 @@ namespace stool
             uint64_t sum = 0;
             return this->search(value, sum);
         }
-        int64_t search(uint64_t value, uint64_t &sum) const
+        uint64_t sum_8_16bits(uint64_t i) const
+        {
+            uint16_t *buffer = (uint16_t *)this->circular_buffer_;
+            uint64_t starting_pos16 = this->starting_position_ << 2;
+            uint64_t buffer_size = this->circular_buffer_size_ << 2;
+            uint64_t mask = buffer_size - 1;
+            uint64_t xpos = (starting_pos16 + i) & mask;
+            uint64_t sum = 0;
+#if USE_NEON
+            if (i + 8 < buffer_size)
+            {
+                uint32x4_t acc = vdupq_n_u32(0);
+                uint16x8_t vec16 = vld1q_u16(&buffer[xpos]);    // 8要素ロード
+                uint32x4_t lo = vmovl_u16(vget_low_u16(vec16)); // 下位4つを32bitに昇格
+                uint32x4_t hi = vmovl_u16(vget_high_u16(vec16));
+                acc = vaddq_u32(acc, lo);
+                acc = vaddq_u32(acc, hi);
+                sum = vaddvq_u32(acc);
+                return sum;
+            }
+            else
+            {
+                for (uint64_t x = 0; x < 8; x++)
+                {
+                    sum += buffer[(xpos + x) & mask];
+                }
+                return sum;
+            }
+#else
+            for (uint64_t x = 0; x < 8; x++)
+            {
+                sum += buffer[(xpos + x) & mask];
+            }
+            return sum;
+#endif
+        }
+        int64_t naive_search(uint64_t value, uint64_t &sum) const
         {
             sum = 0;
 
@@ -1072,6 +1116,122 @@ namespace stool
                     pos += 8;
                     sum += v;
 
+                }
+                break;
+            default:
+                break;
+            }
+            return -1;
+        }
+        int64_t search(uint64_t value, uint64_t &sum) const
+        {
+            sum = 0;
+
+            uint64_t size = this->size();
+            uint64_t pos = this->starting_position_;
+            uint64_t mask = this->circular_buffer_size_ - 1;
+            ByteType type = (ByteType)this->value_byte_type_;
+
+            #if DEBUG
+            uint64_t _sum = 0;
+            uint64_t _pos = this->naive_search(value, _sum);
+            #endif
+
+
+            switch (type)
+            {
+            case ByteType::U8:
+                for (uint64_t i = 0; i < size; i++)
+                {
+                    uint64_t xpos = pos & mask;
+                    if (xpos + 8 < this->circular_buffer_size_)
+                    {
+                        __builtin_prefetch(&this->circular_buffer_[xpos + 16], 0, 1);
+                    }
+
+                    uint64_t v = this->circular_buffer_[xpos];
+                    if (value <= sum + v)
+                    {
+                        return i;
+                    }
+                    pos++;
+                    sum += v;
+                }
+                break;
+            case ByteType::U16:
+            {
+                uint64_t j = 0;
+                while (j + 8 < size)
+                {
+                    uint64_t v = this->sum_8_16bits(j);
+                    if (value <= sum + v)
+                    {
+                        break;
+                    }
+                    j += 8;
+                    sum += v;
+                }
+                uint8_t width = std::min(8ULL, (uint64_t)size - j);
+
+                uint16_t *buffer = (uint16_t *)this->circular_buffer_;
+                uint64_t starting_pos16 = this->starting_position_ << 2;
+                uint64_t buffer_size = this->circular_buffer_size_ << 2;
+                uint64_t mask16 = buffer_size - 1;
+                uint64_t xpos = starting_pos16 & mask16;
+
+                for (uint16_t x = 0; x < width; x++)
+                {
+                    uint16_t v = buffer[(xpos + j) & mask16];
+                    if (value <= sum + v)
+                    {
+                        #if DEBUG
+                        if(_pos != j){
+                            throw std::runtime_error("Error: _pos != j");
+                        }
+                        if(_sum != sum){
+                            throw std::runtime_error("Error: _sum != sum");
+                        }
+                        #endif
+                        return j;
+                    }
+                    j++;
+                    sum += v;
+                }
+            }
+            break;
+            case ByteType::U32:
+                for (uint64_t i = 0; i < size; i++)
+                {
+                    uint64_t xpos = pos & mask;
+                    if (xpos + 8 < this->circular_buffer_size_)
+                    {
+                        __builtin_prefetch(&this->circular_buffer_[xpos + 16], 0, 1);
+                    }
+                    uint64_t v = this->at32(xpos);
+                    if (value <= sum + v)
+                    {
+                        return i;
+                    }
+                    pos += 4;
+                    sum += v;
+                }
+                break;
+            case ByteType::U64:
+                for (uint64_t i = 0; i < size; i++)
+                {
+                    uint64_t xpos = pos & mask;
+                    if (xpos + 8 < this->circular_buffer_size_)
+                    {
+                        __builtin_prefetch(&this->circular_buffer_[xpos + 16], 0, 1);
+                    }
+
+                    uint64_t v = this->at64(xpos);
+                    if (value <= sum + v)
+                    {
+                        return i;
+                    }
+                    pos += 8;
+                    sum += v;
                 }
                 break;
             default:
