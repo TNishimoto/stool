@@ -899,6 +899,7 @@ namespace stool
             std::cout << "Value byte type: " << (int64_t)this->value_byte_type_ << std::endl;
             std::cout << "Starting position: " << (int64_t)this->starting_position_ << std::endl;
             std::cout << "Deque size: " << (int64_t)this->deque_size_ << std::endl;
+            std::cout << "Sum: " << this->sum_ << std::endl;
             std::cout << "==============================" << std::endl;
         }
 
@@ -1178,8 +1179,12 @@ namespace stool
         }
         int64_t search(uint64_t value, uint64_t &sum) const
         {
+            if(true){
+                return this->naive_search(value, sum);
+            }
             sum = 0;
             uint64_t size = this->size();
+            int64_t search_result = -1;
 
             ByteType type = (ByteType)this->value_byte_type_;
 
@@ -1192,7 +1197,7 @@ namespace stool
             {
             case ByteType::U8:
             {
-                return stool::SIMDFunctions::cyclic_search_8(this->circular_buffer_, this->starting_position_, this->circular_buffer_size_, size, this->sum_ > UINT8_MAX, value, sum);
+                search_result = stool::SIMDFunctions::cyclic_search_8(this->circular_buffer_, this->starting_position_, this->circular_buffer_size_, size, this->sum_ > UINT8_MAX, value, sum);
             }
             break;
             case ByteType::U16:
@@ -1202,7 +1207,7 @@ namespace stool
                 uint16_t *buffer16 = (uint16_t *)this->circular_buffer_;
                 // uint64_t mask16 = buffer_size16 - 1;
 
-                return stool::SIMDFunctions::cyclic_search_16(buffer16, starting_position16, buffer_size16, size, this->sum_ > UINT16_MAX, value, sum);
+                search_result = stool::SIMDFunctions::cyclic_search_16(buffer16, starting_position16, buffer_size16, size, this->sum_ > UINT16_MAX, value, sum);
             }
             break;
             case ByteType::U32:
@@ -1211,7 +1216,7 @@ namespace stool
                 uint64_t buffer_size32 = this->circular_buffer_size_ >> 2;
                 uint32_t *buffer32 = (uint32_t *)this->circular_buffer_;
 
-                return stool::SIMDFunctions::cyclic_search_32(buffer32, starting_position32, buffer_size32, size, this->sum_ > UINT32_MAX, value, sum);
+                search_result = stool::SIMDFunctions::cyclic_search_32(buffer32, starting_position32, buffer_size32, size, this->sum_ > UINT32_MAX, value, sum);
             }
             break;
             case ByteType::U64:
@@ -1230,7 +1235,8 @@ namespace stool
                     uint64_t v = this->at64(xpos);
                     if (value <= sum + v)
                     {
-                        return i;
+                        search_result = i;
+                        break;
                     }
                     pos += 8;
                     sum += v;
@@ -1241,16 +1247,23 @@ namespace stool
                 break;
             }
 #if DEBUG
-            if (_pos != -1)
+            if (_pos != search_result)
             {
-                std::cout << "Error: _pos != -1 / " << _pos << std::endl;
+                std::cout << "Error: _pos != search_result / " << _pos << " " << search_result  << std::endl;
                 std::cout << "value: " << value << " sum: " << sum << ", size: " << this->size() << std::endl;
                 this->print_info();
 
                 throw std::runtime_error("XXXError: _pos != -1");
             }
+            if(sum != _sum){
+                std::cout << "Error: sum != _sum / " << sum << " " << _sum << std::endl;
+                std::cout << "value: " << value << " sum: " << sum << ", size: " << this->size() << std::endl;
+                this->print_info();
+
+                throw std::runtime_error("XXXError: sum != _sum");
+            }
 #endif
-            return -1;
+            return search_result;
         }
 
         void increment(uint64_t pos, int64_t delta)

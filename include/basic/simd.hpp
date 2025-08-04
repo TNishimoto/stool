@@ -18,7 +18,7 @@ namespace stool
     static uint64_t sum_16_8bits_with_no_overflow(uint8_t *buffer, uint64_t pos, [[maybe_unused]] uint64_t buffer_size)
     {
         uint64_t sum = 0;
-        assert(pos + 16 < buffer_size);
+        assert(pos + 16 <= buffer_size);
 
         #if USE_NEON
         uint8x16_t acc = vld1q_u8(&buffer[pos]);
@@ -36,7 +36,7 @@ namespace stool
     static uint64_t sum_16_8bits_with_overflow(uint8_t *buffer, uint64_t pos, [[maybe_unused]] uint64_t buffer_size)
     {
         uint64_t sum = 0;
-        assert(pos + 16 < buffer_size);
+        assert(pos + 16 <= buffer_size);
 
         #if USE_NEON
         uint16x8_t acc = vdupq_n_u16(0);
@@ -60,7 +60,7 @@ namespace stool
     static uint64_t sum_4_32bits_with_no_overflow(uint32_t *buffer, uint64_t pos, [[maybe_unused]] uint64_t buffer_size)
     {
         uint64_t sum = 0;
-        assert(pos + 4 < buffer_size);
+        assert(pos + 4 <= buffer_size);
 
         #if USE_NEON
         uint32x4_t acc = vld1q_u32(&buffer[pos]);
@@ -77,7 +77,7 @@ namespace stool
     static uint64_t sum_4_32bits_with_overflow(uint32_t *buffer, uint64_t pos, [[maybe_unused]] uint64_t buffer_size)
     {
         uint64_t sum = 0;
-        assert(pos + 4 < buffer_size);
+        assert(pos + 4 <= buffer_size);
 
         #if USE_NEON
         uint64x2_t acc = vdupq_n_u64(0);
@@ -105,7 +105,7 @@ namespace stool
         {
 
             uint64_t sum = 0;
-            assert(pos + 8 < buffer_size);
+            assert(pos + 8 <= buffer_size);
 
 #if USE_NEON
             uint16x8_t acc = vld1q_u16(&buffer[pos]);
@@ -136,7 +136,7 @@ namespace stool
         static uint64_t sum_8_16bits_with_overflow(uint16_t *buffer, uint64_t pos, [[maybe_unused]] uint64_t buffer_size)
         {
             uint64_t sum = 0;
-            assert(pos + 8 < buffer_size);
+            assert(pos + 8 <= buffer_size);
 
 #if USE_NEON
             uint32x4_t acc = vdupq_n_u32(0);
@@ -171,14 +171,25 @@ namespace stool
 
         static int64_t cyclic_search_16(uint16_t *buffer, uint64_t starting_position, uint64_t buffer_size, uint64_t element_count, bool overflow_flag, uint64_t value, uint64_t &sum)
         {
-            uint64_t mask16 = buffer_size - 1;
+            uint64_t mask = buffer_size - 1;
             uint64_t j = 0;
 
             if (overflow_flag)
             {
                 while (j + 8 < element_count)
                 {
-                    uint64_t v = stool::SIMDFunctions::sum_8_16bits_with_overflow(buffer, (starting_position + j) & mask16, buffer_size);
+                    uint64_t v = 0;
+                    uint64_t st = (starting_position + j) & mask;
+                    if(st + 8 <= buffer_size){
+                        v = stool::SIMDFunctions::sum_8_16bits_with_overflow(buffer, st, buffer_size);
+
+                    }else{
+                        for(uint64_t i = 0; i < 8; i++){
+                            v += buffer[(st + i) & mask];
+                        }
+                    }
+
+
                     if (value <= sum + v)
                     {
                         break;
@@ -191,7 +202,17 @@ namespace stool
             {
                 while (j + 8 < element_count)
                 {
-                    uint64_t v = stool::SIMDFunctions::sum_8_16bits_with_no_overflow(buffer, (starting_position + j) & mask16, buffer_size);
+                    uint64_t v = 0;
+                    uint64_t st = (starting_position + j) & mask;
+                    if(st + 8 <= buffer_size){
+                        v = stool::SIMDFunctions::sum_8_16bits_with_no_overflow(buffer, st, buffer_size);
+
+                    }else{
+                        for(uint64_t i = 0; i < 8; i++){
+                            v += buffer[(st + i) & mask];
+                        }
+                    }
+
                     if (value <= sum + v)
                     {
                         break;
@@ -204,7 +225,7 @@ namespace stool
 
             for (uint16_t x = 0; x < width; x++)
             {
-                uint16_t v = buffer[(starting_position + j) & mask16];
+                uint16_t v = buffer[(starting_position + j) & mask];
                 if (value <= sum + v)
                 {
                     return j;
@@ -219,11 +240,25 @@ namespace stool
             uint64_t mask = buffer_size - 1;
             uint64_t j = 0;
 
+
+
             if (overflow_flag)
             {
-                while (j + 8 < element_count)
+                while (j + 4 < element_count)
                 {
-                    uint64_t v = stool::SIMDFunctions::sum_4_32bits_with_overflow(buffer, (starting_position + j) & mask, buffer_size);
+                    uint64_t v = 0;
+                    uint64_t st = (starting_position + j) & mask;
+
+                    if(st + 4 <= buffer_size){
+                        v = stool::SIMDFunctions::sum_4_32bits_with_overflow(buffer, st, buffer_size);
+                    }else{
+                        for(uint64_t i = 0; i < 4; i++){
+                            v += buffer[(st + i) & mask];
+                        }
+                    }
+
+                    
+
                     if (value <= sum + v)
                     {
                         break;
@@ -234,9 +269,19 @@ namespace stool
             }
             else
             {
-                while (j + 8 < element_count)
+                while (j + 4 < element_count)
                 {
-                    uint64_t v = stool::SIMDFunctions::sum_4_32bits_with_no_overflow(buffer, (starting_position + j) & mask, buffer_size);
+                    uint64_t v = 0;
+                    uint64_t st = (starting_position + j) & mask;
+                    if(st + 4 <= buffer_size){
+                        v = stool::SIMDFunctions::sum_4_32bits_with_no_overflow(buffer, st, buffer_size);
+                    }else{
+                        for(uint64_t i = 0; i < 4; i++){
+                            v += buffer[(st + i) & mask];
+                        }
+                    }
+
+
                     if (value <= sum + v)
                     {
                         break;
@@ -269,24 +314,42 @@ namespace stool
             {
                 while (j + 16 < element_count)
                 {
-                    uint64_t v = stool::SIMDFunctions::sum_16_8bits_with_overflow(buffer, (starting_position + j) & mask, buffer_size);
+                    uint64_t v = 0;
+                    uint64_t st = (starting_position + j) & mask;
+                    if(st + 16 <= buffer_size){
+                        v = stool::SIMDFunctions::sum_16_8bits_with_overflow(buffer, st, buffer_size);
+                    }else{
+                        for(uint64_t i = 0; i < 16; i++){
+                            v += buffer[(st + i) & mask];
+                        }
+                    }
                     if (value <= sum + v)
                     {
                         break;
                     }
-                    j += 8;
+                    j += 16;
                     sum += v;
                 }
             }
             else{
                 while (j + 16 < element_count)
                 {
-                    uint64_t v = stool::SIMDFunctions::sum_16_8bits_with_no_overflow(buffer, (starting_position + j) & mask, buffer_size);
+                    uint64_t v = 0;
+                    uint64_t st = (starting_position + j) & mask;
+                    if(st + 16 <= buffer_size){
+                        v = stool::SIMDFunctions::sum_16_8bits_with_no_overflow(buffer, st, buffer_size);
+                    }else{
+                        for(uint64_t i = 0; i < 16; i++){
+                            v += buffer[(st + i) & mask];
+                        }
+                    }
+
+
                     if (value <= sum + v)
                     {
                         break;
                     }
-                    j += 8;
+                    j += 16;
                     sum += v;
                 }
             }
