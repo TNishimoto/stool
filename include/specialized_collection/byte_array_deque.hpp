@@ -5,13 +5,7 @@
 #include <cassert>
 #include "../basic/byte.hpp"
 #include "../debug/print.hpp"
-
-#if defined(__ARM_NEON) || defined(__ARM_NEON__)
-#include <arm_neon.h>
-#define USE_NEON 1
-#else
-#define USE_NEON 0
-#endif
+#include "../basic/simd.hpp"
 
 namespace stool
 {
@@ -42,13 +36,12 @@ namespace stool
         using BUFFER_POS = INDEX_TYPE;
         using DEQUE_POS = INDEX_TYPE;
         uint8_t *circular_buffer_ = nullptr;
-        uint64_t _sum = 0;
+        uint64_t sum_ = 0;
         INDEX_TYPE circular_buffer_size_ = 0;
         INDEX_TYPE starting_position_ = 0;
         INDEX_TYPE deque_size_ = 0;
         // uint8_t value_byte_size_ = 1;
         uint8_t value_byte_type_ = 1;
-
 
         static uint64_t get_appropriate_circular_buffer_size_index(int64_t size)
         {
@@ -64,24 +57,13 @@ namespace stool
 
     public:
         /**
-         * @brief Get the maximum possible deque size based on INDEX_TYPE
-         *
-         * @return uint64_t The maximum number of elements that can be stored
-         */
-        static uint64_t max_deque_size()
-        {
-            uint64_t b = stool::LSBByte::get_code_length(std::numeric_limits<INDEX_TYPE>::max());
-            return (1 << (b - 1)) - 1;
-        }
-
-        /**
          * @brief Calculate the total memory usage in bytes
          *
          * @return uint64_t The total size in bytes
          */
         uint64_t size_in_bytes() const
         {
-            return sizeof(this->circular_buffer_size_) + sizeof(this->starting_position_) + sizeof(this->deque_size_) + sizeof(this->circular_buffer_) + (sizeof(uint8_t) * this->circular_buffer_size_);
+            return sizeof(ByteArrayDeque) + (sizeof(uint8_t) * this->circular_buffer_size_);
         }
 
         /**
@@ -94,7 +76,8 @@ namespace stool
               circular_buffer_size_(other.circular_buffer_size_),
               starting_position_(other.starting_position_),
               deque_size_(other.deque_size_),
-              value_byte_type_(other.value_byte_type_)
+              value_byte_type_(other.value_byte_type_),
+              sum_(other.sum_)
         {
             // Reset the source object
             other.circular_buffer_ = nullptr;
@@ -102,18 +85,27 @@ namespace stool
             other.starting_position_ = 0;
             other.deque_size_ = 0;
             other.value_byte_type_ = 0;
+            other.sum_ = 0;
         }
 
         ByteArrayDeque(const std::vector<uint64_t> &items)
         {
             this->clear();
 
+            uint64_t test_sum = 0;
+
             for (uint64_t i = 0; i < items.size(); i++)
             {
                 this->push_back(items[i]);
+                test_sum += items[i];
 
                 assert(this->at(i) == items[i]);
                 assert(this->at(0) == items[0]);
+            }
+
+            if (test_sum != this->sum_)
+            {
+                throw std::runtime_error("ByteArrayDeque, Error: test_sum != sum_");
             }
         }
 
@@ -132,8 +124,16 @@ namespace stool
          */
         void clear()
         {
-            ByteArrayDeque tmp;
-            this->swap(tmp);
+            this->sum_ = 0;
+            this->deque_size_ = 0;
+            this->starting_position_ = 0;
+            this->circular_buffer_size_ = 0;
+            this->value_byte_type_ = 1;
+            if (this->circular_buffer_ != nullptr)
+            {
+                delete[] this->circular_buffer_;
+                this->circular_buffer_ = nullptr;
+            }
         }
 
         /**
@@ -355,6 +355,7 @@ namespace stool
             this->circular_buffer_size_ = 0;
             this->deque_size_ = 0;
             this->value_byte_type_ = 1;
+            this->sum_ = 0;
         }
 
         /**
@@ -439,11 +440,7 @@ namespace stool
         }
         */
 
-        /**
-         * @brief Recompute the deque contents
-         *
-         * Rebuilds the deque from its current elements
-         */
+        /*
         void recompute()
         {
             std::vector<uint64_t> tmp_vec = this->to_vector();
@@ -454,6 +451,7 @@ namespace stool
                 tmp_vec[i++] = x;
             }
         }
+        */
 
         static uint8_t get_byte_size2(uint8_t value_type)
         {
@@ -489,6 +487,9 @@ namespace stool
          */
         void push_back(const T &value)
         {
+#if DEBUG
+            uint64_t tmp_sum = this->sum_;
+#endif
 
             uint64_t new_byte_type = std::max((uint8_t)get_byte_type(value), this->value_byte_type_);
             uint64_t new_capacity_size_index = get_appropriate_circular_buffer_size_index(this->deque_size_ + 1);
@@ -500,6 +501,8 @@ namespace stool
             }
             uint64_t pos = this->size();
             this->deque_size_++;
+            this->sum_ += this->at(pos);
+
             this->set_value(pos, value);
 
             uint64_t deque_total_byte_size = this->deque_size_ << (this->value_byte_type_ - 1);
@@ -511,6 +514,10 @@ namespace stool
                 throw std::invalid_argument("push_back");
             }
             assert(deque_total_byte_size <= this->circular_buffer_size_);
+#if DEBUG
+            assert(tmp_sum + value == this->sum_);
+
+#endif
         }
 
         /**
@@ -520,6 +527,10 @@ namespace stool
          */
         void push_front(const T &value)
         {
+#if DEBUG
+            uint64_t tmp_sum = this->sum_;
+#endif
+
             uint64_t new_byte_type = std::max((uint8_t)get_byte_type(value), this->value_byte_type_);
             uint64_t new_capacity_size_index = get_appropriate_circular_buffer_size_index(this->deque_size_ + 1);
             uint64_t old_capacity_size_index = get_appropriate_circular_buffer_size_index(this->circular_buffer_size_ >> (this->value_byte_type_ - 1));
@@ -534,6 +545,7 @@ namespace stool
             {
                 this->starting_position_ -= value_byte_size;
                 this->deque_size_++;
+                this->sum_ += this->at(0);
                 this->set_value(0, value);
             }
             else if (this->starting_position_ == 0)
@@ -541,12 +553,17 @@ namespace stool
 
                 this->starting_position_ = this->circular_buffer_size_ - value_byte_size;
                 this->deque_size_++;
+                this->sum_ += this->at(0);
                 this->set_value(0, value);
             }
             else
             {
                 throw std::invalid_argument("push_front");
             }
+#if DEBUG
+            assert(tmp_sum + value == this->sum_);
+
+#endif
         }
 
         /**
@@ -554,7 +571,11 @@ namespace stool
          */
         void pop_back()
         {
+
             // std::cout << "POP" << std::endl;
+            uint64_t value = this->at(this->size() - 1);
+            this->sum_ -= value;
+
             this->deque_size_--;
             this->update_size_if_needed();
         }
@@ -565,6 +586,10 @@ namespace stool
         void pop_front()
         {
             uint64_t value_byte_size = get_byte_size2(this->value_byte_type_);
+
+            uint64_t value = this->at(0);
+            this->sum_ -= value;
+
             if (this->starting_position_ + value_byte_size < this->circular_buffer_size_)
             {
                 this->starting_position_ += value_byte_size;
@@ -618,8 +643,6 @@ namespace stool
                 throw std::out_of_range("Position out of range");
             }
 
-            // 容量が足りない場合は容量を増やす
-
             if (position == 0)
             {
                 this->push_front(value);
@@ -649,6 +672,7 @@ namespace stool
                 memmove(this->circular_buffer_ + dst_pos, this->circular_buffer_ + src_pos, move_size);
 
                 this->deque_size_++;
+                this->sum_ += this->at(position);
                 this->set_value(position, value);
             }
 
@@ -664,6 +688,7 @@ namespace stool
         {
             if (position > 0)
             {
+                uint64_t value = this->at(position);
                 uint64_t new_capacity_size_index = get_appropriate_circular_buffer_size_index(this->deque_size_ - 1);
                 uint64_t old_capacity_size_index = get_appropriate_circular_buffer_size_index(this->circular_buffer_size_ >> (this->value_byte_type_ - 1));
 
@@ -680,6 +705,7 @@ namespace stool
                 uint64_t move_size = this->circular_buffer_size_ - src_pos;
 
                 memmove(this->circular_buffer_ + dst_pos, this->circular_buffer_ + src_pos, move_size);
+                this->sum_ -= value;
                 this->deque_size_--;
             }
             else
@@ -716,19 +742,67 @@ namespace stool
             }
         }
 
+        uint64_t naive_psum() const
+        {
+            uint64_t sum = 0;
+            ByteType type = (ByteType)this->value_byte_type_;
+            uint64_t size = this->deque_size_;
+            uint64_t xpos = this->starting_position_;
+            uint64_t mask = this->circular_buffer_size_ - 1;
+
+            if (type == ByteType::U8)
+            {
+                for (uint64_t i = 0; i < size; i++)
+                {
+                    sum += this->circular_buffer_[(xpos + i) & mask];
+                }
+            }
+            else if (type == ByteType::U16)
+            {
+                for (uint64_t i = 0; i < size; i++)
+                {
+                    sum += this->at16(xpos & mask);
+                    xpos += 2;
+                }
+            }
+            else if (type == ByteType::U32)
+            {
+                for (uint64_t i = 0; i < size; i++)
+                {
+                    sum += this->at32(xpos & mask);
+                    xpos += 4;
+                }
+            }
+            else if (type == ByteType::U64)
+            {
+                for (uint64_t i = 0; i < size; i++)
+                {
+                    sum += this->at64(xpos & mask);
+                    xpos += 8;
+                }
+            }
+            return sum;
+        }
+
         void shrink_to_fit2(uint64_t capacity_size_index, uint8_t new_byte_type)
         {
             uint64_t new_byte_size = get_byte_size2(new_byte_type);
             uint64_t new_capacity_byte_size = size_array[capacity_size_index] * new_byte_size;
             uint64_t old_byte_size = get_byte_size2(this->value_byte_type_);
 
+            /*
             if (new_capacity_byte_size > ByteArrayDeque<INDEX_TYPE>::max_deque_size())
             {
                 assert(new_capacity_byte_size > ByteArrayDeque<INDEX_TYPE>::max_deque_size());
 
                 throw std::invalid_argument("shrink_to_fit");
             }
-            else if (old_byte_size != new_byte_size)
+            */
+#if DEBUG
+            uint64_t tmp_sum = this->sum_;
+#endif
+
+            if (old_byte_size != new_byte_size)
             {
                 std::array<uint8_t, 65536> tmp_array;
                 uint64_t i = 0;
@@ -751,6 +825,7 @@ namespace stool
                 this->starting_position_ = 0;
                 this->circular_buffer_size_ = new_capacity_byte_size;
                 this->value_byte_type_ = new_byte_type;
+                this->sum_ = this->naive_psum();
             }
             else if (new_capacity_byte_size > this->circular_buffer_size_ || new_capacity_byte_size < this->circular_buffer_size_)
             {
@@ -778,7 +853,11 @@ namespace stool
                 this->starting_position_ = 0;
                 this->circular_buffer_size_ = new_capacity_byte_size;
                 this->value_byte_type_ = new_byte_type;
+                this->sum_ = this->naive_psum();
             }
+#if DEBUG
+            assert(tmp_sum == this->sum_);
+#endif
         }
 
         /**
@@ -929,6 +1008,9 @@ namespace stool
             uint64_t pos2 = pos & mask;
             uint64_t B = value;
 
+            this->sum_ -= this->at(index);
+            this->sum_ += value;
+
             ByteType v = (ByteType)this->value_byte_type_;
 
             switch (v)
@@ -980,6 +1062,11 @@ namespace stool
 
         uint64_t psum(uint64_t i) const
         {
+            uint64_t size = this->size();
+            if (i + 1 == size)
+            {
+                return this->sum_;
+            }
             uint64_t sum = 0;
 
             uint64_t pos = this->starting_position_;
@@ -1025,52 +1112,7 @@ namespace stool
             uint64_t sum = 0;
             return this->search(value, sum);
         }
-        uint64_t sum_8_16bits(uint64_t i) const
-        {
-            uint16_t *buffer = (uint16_t *)this->circular_buffer_;
-            uint64_t starting_pos16 = this->starting_position_ >> 1;
-            uint64_t buffer_size = this->circular_buffer_size_ >> 1;
-            uint64_t mask = buffer_size - 1;
-            uint64_t xpos = (starting_pos16 + i) & mask;
-            uint64_t sum = 0;
-#if USE_NEON
-            if (i + 8 < buffer_size)
-            {
-                uint32x4_t acc = vdupq_n_u32(0);
-                uint16x8_t vec16 = vld1q_u16(&buffer[xpos]);    // 8要素ロード
-                uint32x4_t lo = vmovl_u16(vget_low_u16(vec16)); // 下位4つを32bitに昇格
-                uint32x4_t hi = vmovl_u16(vget_high_u16(vec16));
-                acc = vaddq_u32(acc, lo);
-                acc = vaddq_u32(acc, hi);
-                sum = vaddvq_u32(acc);
 
-                #if DEBUG
-                uint64_t _sum = 0;
-                for(uint64_t j = 0; j < 8; j++){
-                    _sum += buffer[(xpos + j) & mask];
-                    if(_sum != sum){
-                        throw std::runtime_error("sum_8_16bits, Error: _sum != psum");
-                    }
-                }
-                #endif 
-                return sum;
-            }
-            else
-            {
-                for (uint64_t x = 0; x < 8; x++)
-                {
-                    sum += buffer[(xpos + x) & mask];
-                }
-                return sum;
-            }
-#else
-            for (uint64_t x = 0; x < 8; x++)
-            {
-                sum += buffer[(xpos + x) & mask];
-            }
-            return sum;
-#endif
-        }
         int64_t naive_search(uint64_t value, uint64_t &sum) const
         {
             sum = 0;
@@ -1127,7 +1169,6 @@ namespace stool
                     }
                     pos += 8;
                     sum += v;
-
                 }
                 break;
             default:
@@ -1138,89 +1179,46 @@ namespace stool
         int64_t search(uint64_t value, uint64_t &sum) const
         {
             sum = 0;
-
             uint64_t size = this->size();
-            uint64_t pos = this->starting_position_;
-            uint64_t mask = this->circular_buffer_size_ - 1;
+
             ByteType type = (ByteType)this->value_byte_type_;
 
-            #if DEBUG
+#if DEBUG
             uint64_t _sum = 0;
             uint64_t _pos = this->naive_search(value, _sum);
-            #endif
-
+#endif
 
             switch (type)
             {
             case ByteType::U8:
-                for (uint64_t i = 0; i < size; i++)
-                {
-                    uint64_t xpos = pos & mask;
-                    if (xpos + 8 < this->circular_buffer_size_)
-                    {
-                        __builtin_prefetch(&this->circular_buffer_[xpos + 16], 0, 1);
-                    }
-
-                    uint64_t v = this->circular_buffer_[xpos];
-                    if (value <= sum + v)
-                    {
-                        return i;
-                    }
-                    pos++;
-                    sum += v;
-                }
-                break;
+            {
+                return stool::SIMDFunctions::cyclic_search_8(this->circular_buffer_, this->starting_position_, this->circular_buffer_size_, size, this->sum_ > UINT8_MAX, value, sum);
+            }
+            break;
             case ByteType::U16:
             {
-                uint64_t j = 0;
-                while (j + 8 < size)
-                {
-                    uint64_t v = this->sum_8_16bits(j);
-                    if (value <= sum + v)
-                    {
-                        break;
-                    }
-                    j += 8;
-                    sum += v;
-                }
-                uint8_t width = std::min(8ULL, (uint64_t)size - j);
+                uint64_t starting_position16 = this->starting_position_ >> 1;
+                uint64_t buffer_size16 = this->circular_buffer_size_ >> 1;
+                uint16_t *buffer16 = (uint16_t *)this->circular_buffer_;
+                // uint64_t mask16 = buffer_size16 - 1;
 
-                uint16_t *buffer = (uint16_t *)this->circular_buffer_;
-                uint64_t starting_pos16 = this->starting_position_ >> 1;
-                uint64_t buffer_size = this->circular_buffer_size_ >> 1;
-                uint64_t mask16 = buffer_size - 1;
-                //uint64_t xpos = starting_pos16 & mask16;
-
-                for (uint16_t x = 0; x < width; x++)
-                {
-                    uint16_t v = buffer[(starting_pos16 + j) & mask16];
-                    if (value <= sum + v)
-                    {
-                        return j;
-                    }
-                    j++;
-                    sum += v;
-                }
+                return stool::SIMDFunctions::cyclic_search_16(buffer16, starting_position16, buffer_size16, size, this->sum_ > UINT16_MAX, value, sum);
             }
             break;
             case ByteType::U32:
-                for (uint64_t i = 0; i < size; i++)
-                {
-                    uint64_t xpos = pos & mask;
-                    if (xpos + 8 < this->circular_buffer_size_)
-                    {
-                        __builtin_prefetch(&this->circular_buffer_[xpos + 16], 0, 1);
-                    }
-                    uint64_t v = this->at32(xpos);
-                    if (value <= sum + v)
-                    {
-                        return i;
-                    }
-                    pos += 4;
-                    sum += v;
-                }
-                break;
+            {
+                uint64_t starting_position32 = this->starting_position_ >> 2;
+                uint64_t buffer_size32 = this->circular_buffer_size_ >> 2;
+                uint32_t *buffer32 = (uint32_t *)this->circular_buffer_;
+
+                return stool::SIMDFunctions::cyclic_search_32(buffer32, starting_position32, buffer_size32, size, this->sum_ > UINT32_MAX, value, sum);
+            }
+            break;
             case ByteType::U64:
+            {
+                uint64_t pos = this->starting_position_;
+                uint64_t mask = this->circular_buffer_size_ - 1;
+
                 for (uint64_t i = 0; i < size; i++)
                 {
                     uint64_t xpos = pos & mask;
@@ -1237,19 +1235,21 @@ namespace stool
                     pos += 8;
                     sum += v;
                 }
-                break;
+            }
+            break;
             default:
                 break;
             }
-            #if DEBUG
-            if(_pos != -1){
+#if DEBUG
+            if (_pos != -1)
+            {
                 std::cout << "Error: _pos != -1 / " << _pos << std::endl;
                 std::cout << "value: " << value << " sum: " << sum << ", size: " << this->size() << std::endl;
                 this->print_info();
 
                 throw std::runtime_error("XXXError: _pos != -1");
             }
-            #endif
+#endif
             return -1;
         }
 

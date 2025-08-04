@@ -247,7 +247,7 @@ void psum_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_tria
                 uint64_t psum2 = deque.psum(j);
                 if (psum1 != psum2)
                 {
-                    std::cout << "psum_test error" << std::endl;
+                    std::cout << "psum_test error/" << psum1 << "/" << psum2 << std::endl;
                     throw std::runtime_error("psum_test error");
                 }
             }

@@ -67,7 +67,7 @@ void equal_test(const stool::IntegerArrayDeque<T> &dequeA, const std::vector<T> 
         }
     }
 }
-template<typename T>
+//template<typename T>
 void access_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed)
 {
     std::cout << "access_test"  << std::to_string(sizeof(T))  << std::endl;
@@ -77,8 +77,8 @@ void access_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_tr
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<T> seq = stool::StringGenerator::create_random_sequence<T>(len, alphabet_size, seed++);
-            stool::IntegerArrayDeque<T> deque(seq);
+            std::vector<uint64_t> seq = stool::StringGenerator::create_random_sequence<uint64_t>(len, alphabet_size, seed++);
+            stool::IntegerArrayDeque<uint64_t> deque(seq);
 
             //random_shift(deque, seed++);
 
