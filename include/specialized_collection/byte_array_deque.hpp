@@ -42,11 +42,13 @@ namespace stool
         using BUFFER_POS = INDEX_TYPE;
         using DEQUE_POS = INDEX_TYPE;
         uint8_t *circular_buffer_ = nullptr;
+        uint64_t _sum = 0;
         INDEX_TYPE circular_buffer_size_ = 0;
         INDEX_TYPE starting_position_ = 0;
         INDEX_TYPE deque_size_ = 0;
         // uint8_t value_byte_size_ = 1;
         uint8_t value_byte_type_ = 1;
+
 
         static uint64_t get_appropriate_circular_buffer_size_index(int64_t size)
         {
@@ -1026,8 +1028,8 @@ namespace stool
         uint64_t sum_8_16bits(uint64_t i) const
         {
             uint16_t *buffer = (uint16_t *)this->circular_buffer_;
-            uint64_t starting_pos16 = this->starting_position_ << 2;
-            uint64_t buffer_size = this->circular_buffer_size_ << 2;
+            uint64_t starting_pos16 = this->starting_position_ >> 1;
+            uint64_t buffer_size = this->circular_buffer_size_ >> 1;
             uint64_t mask = buffer_size - 1;
             uint64_t xpos = (starting_pos16 + i) & mask;
             uint64_t sum = 0;
@@ -1041,6 +1043,16 @@ namespace stool
                 acc = vaddq_u32(acc, lo);
                 acc = vaddq_u32(acc, hi);
                 sum = vaddvq_u32(acc);
+
+                #if DEBUG
+                uint64_t _sum = 0;
+                for(uint64_t j = 0; j < 8; j++){
+                    _sum += buffer[(xpos + j) & mask];
+                    if(_sum != sum){
+                        throw std::runtime_error("sum_8_16bits, Error: _sum != psum");
+                    }
+                }
+                #endif 
                 return sum;
             }
             else
@@ -1174,24 +1186,16 @@ namespace stool
                 uint8_t width = std::min(8ULL, (uint64_t)size - j);
 
                 uint16_t *buffer = (uint16_t *)this->circular_buffer_;
-                uint64_t starting_pos16 = this->starting_position_ << 2;
-                uint64_t buffer_size = this->circular_buffer_size_ << 2;
+                uint64_t starting_pos16 = this->starting_position_ >> 1;
+                uint64_t buffer_size = this->circular_buffer_size_ >> 1;
                 uint64_t mask16 = buffer_size - 1;
-                uint64_t xpos = starting_pos16 & mask16;
+                //uint64_t xpos = starting_pos16 & mask16;
 
                 for (uint16_t x = 0; x < width; x++)
                 {
-                    uint16_t v = buffer[(xpos + j) & mask16];
+                    uint16_t v = buffer[(starting_pos16 + j) & mask16];
                     if (value <= sum + v)
                     {
-                        #if DEBUG
-                        if(_pos != j){
-                            throw std::runtime_error("Error: _pos != j");
-                        }
-                        if(_sum != sum){
-                            throw std::runtime_error("Error: _sum != sum");
-                        }
-                        #endif
                         return j;
                     }
                     j++;
@@ -1237,6 +1241,15 @@ namespace stool
             default:
                 break;
             }
+            #if DEBUG
+            if(_pos != -1){
+                std::cout << "Error: _pos != -1 / " << _pos << std::endl;
+                std::cout << "value: " << value << " sum: " << sum << ", size: " << this->size() << std::endl;
+                this->print_info();
+
+                throw std::runtime_error("XXXError: _pos != -1");
+            }
+            #endif
             return -1;
         }
 
