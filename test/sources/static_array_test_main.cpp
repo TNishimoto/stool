@@ -163,7 +163,7 @@ void push_and_pop_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number
 template<uint64_t SIZE>
 void insert_and_erase_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed)
 {
-    std::cout << "insert_and_erase_test/" << alphabet_size << std::endl;
+    std::cout << "insert_and_erase_test/" << SIZE << "/" << alphabet_size << std::endl;
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
 
@@ -336,15 +336,18 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     uint64_t alphabet_size64 = UINT64_MAX;
 
     
+    /*
     access_test<1024>(seq_len, alphabet_size8, number_of_trials, seed);
     access_test<2048>(seq_len, alphabet_size16, number_of_trials, seed);
     access_test<4096>(seq_len, alphabet_size32, number_of_trials, seed);
     access_test<8192>(seq_len, alphabet_size64, number_of_trials, seed);
 
+
     replace_test<1024>(seq_len, alphabet_size8, number_of_trials, seed);
     replace_test<2048>(seq_len, alphabet_size16, number_of_trials, seed);
     replace_test<4096>(seq_len, alphabet_size32, number_of_trials, seed);
     replace_test<8192>(seq_len, alphabet_size64, number_of_trials, seed);
+
 
     push_and_pop_test<1024>(seq_len, alphabet_size8, number_of_trials, seed);
     push_and_pop_test<2048>(seq_len, alphabet_size16, number_of_trials, seed);
@@ -352,12 +355,17 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     push_and_pop_test<8192>(seq_len, alphabet_size64, number_of_trials, seed);
     
 
+    
     insert_and_erase_test<64>(64, alphabet_size8, number_of_trials, seed);
 
+    insert_and_erase_test<256>(256, alphabet_size8, number_of_trials, seed);
     insert_and_erase_test<1024>(seq_len, alphabet_size8, number_of_trials, seed);
     insert_and_erase_test<2048>(seq_len, alphabet_size16, number_of_trials, seed);
     insert_and_erase_test<4096>(seq_len, alphabet_size32, number_of_trials, seed);
     insert_and_erase_test<8192>(seq_len, alphabet_size64, number_of_trials, seed);
+*/
+    
+
 
     psum_test<1024>(seq_len, alphabet_size8, number_of_trials, seed);
     psum_test<2048>(seq_len, alphabet_size16, number_of_trials, seed);

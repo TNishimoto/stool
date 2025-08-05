@@ -22,12 +22,45 @@ namespace stool
     template <uint64_t SIZE = 1024>
     class StaticArrayDeque
     {
+        enum class ByteType
+        {
+            U8 = 1,
+            U16 = 2,
+            U32 = 3,
+            U64 = 4
+        };
+        static constexpr uint64_t BUFFER_SIZE = SIZE * 8;
+        using BufferIndex = uint64_t;
+        using ElementIndex = uint64_t;
 
-        std::array<uint64_t, SIZE> circular_buffer_;
+        std::array<uint8_t, BUFFER_SIZE> circular_buffer_;
         uint64_t starting_position_ = 0;
         uint64_t deque_size_ = 0;
+        uint8_t value_byte_type_ = 1;
 
         static constexpr bool is_power_of_two = (SIZE != 0) && ((SIZE & (SIZE - 1)) == 0);
+
+        static ByteType get_byte_type(uint64_t value)
+        {
+            ByteType new_byte_type = ByteType::U8;
+            if (value <= (uint64_t)UINT8_MAX)
+            {
+                new_byte_type = ByteType::U8;
+            }
+            else if (value <= (uint64_t)UINT16_MAX)
+            {
+                new_byte_type = ByteType::U16;
+            }
+            else if (value <= (uint64_t)UINT32_MAX)
+            {
+                new_byte_type = ByteType::U32;
+            }
+            else
+            {
+                new_byte_type = ByteType::U64;
+            }
+            return new_byte_type;
+        }
 
     public:
         /**
@@ -74,6 +107,7 @@ namespace stool
         {
             this->deque_size_ = 0;
             this->starting_position_ = 0;
+            this->value_byte_type_ = 1;
         }
 
         /**
@@ -350,6 +384,12 @@ namespace stool
                 throw std::out_of_range("Size out of range");
             }
 
+            uint64_t new_byte_type = std::max((uint8_t)get_byte_type(value), this->value_byte_type_);
+            if (new_byte_type != this->value_byte_type_)
+            {
+                this->change_element_byte_type(new_byte_type);
+            }
+
             uint64_t pos = this->size();
             this->deque_size_++;
             this->set_value(pos, value);
@@ -372,15 +412,23 @@ namespace stool
                 throw std::out_of_range("Size out of range");
             }
 
-            if (this->starting_position_ >= 1)
+            uint64_t new_byte_type = std::max((uint8_t)get_byte_type(value), this->value_byte_type_);
+            if (new_byte_type != this->value_byte_type_)
             {
-                this->starting_position_ -= 1;
+                this->change_element_byte_type(new_byte_type);
+            }
+
+            uint64_t value_byte_size = get_byte_size2(this->value_byte_type_);
+
+            if (this->starting_position_ >= value_byte_size)
+            {
+                this->starting_position_ -= value_byte_size;
                 this->deque_size_++;
                 this->set_value(0, value);
             }
             else if (this->starting_position_ == 0)
             {
-                this->starting_position_ = SIZE - 1;
+                this->starting_position_ = BUFFER_SIZE - value_byte_size;
                 this->deque_size_++;
                 this->set_value(0, value);
             }
@@ -388,6 +436,7 @@ namespace stool
             {
                 throw std::invalid_argument("push_front");
             }
+
         }
 
         /**
@@ -412,12 +461,14 @@ namespace stool
                 throw std::out_of_range("Size out of range");
             }
 
-            if (this->starting_position_ + 1 != SIZE)
+            uint64_t value_byte_size = get_byte_size2(this->value_byte_type_);
+
+            if (this->starting_position_ + value_byte_size != BUFFER_SIZE)
             {
-                this->starting_position_ += 1;
+                this->starting_position_ += value_byte_size;
                 this->deque_size_--;
             }
-            else if (this->starting_position_ + 1 == SIZE)
+            else if (this->starting_position_ + value_byte_size == BUFFER_SIZE)
             {
                 this->starting_position_ = 0;
                 this->deque_size_--;
@@ -457,7 +508,7 @@ namespace stool
          * @param position The position to insert at
          * @param value The value to insert
          */
-        void insert(size_t position, uint64_t value)
+        void insert(ElementIndex position, uint64_t value)
         {
             uint64_t size = this->size();
 
@@ -484,12 +535,15 @@ namespace stool
 
                 this->reset_starting_position();
 
-                this->deque_size_++;
-                uint64_t src_pos = position;
-                uint64_t dst_pos = src_pos + 1;
-                uint64_t move_size = this->deque_size_ - dst_pos;
+                uint64_t value_byte_size = get_byte_size2(this->value_byte_type_);
 
-                memmove(&this->circular_buffer_[dst_pos], &this->circular_buffer_[src_pos], move_size * sizeof(uint64_t));
+                this->deque_size_++;
+                uint64_t deque_byte_size = this->deque_size_ << (this->value_byte_type_ - 1);
+                uint64_t src_pos = position << (this->value_byte_type_ - 1);
+                uint64_t dst_pos = src_pos + value_byte_size;
+                uint64_t move_size = deque_byte_size - dst_pos;
+
+                memmove(&this->circular_buffer_[dst_pos], &this->circular_buffer_[src_pos], move_size);
 
                 this->set_value(position, value);
             }
@@ -502,7 +556,7 @@ namespace stool
          *
          * @param position The position of the element to erase
          */
-        void erase(size_t position)
+        void erase(ElementIndex position)
         {
             if (position == 0)
             {
@@ -517,12 +571,18 @@ namespace stool
 
                 this->reset_starting_position();
 
-                uint64_t dst_pos = position;
-                uint64_t src_pos = dst_pos + 1;
-                uint64_t move_size = SIZE - src_pos;
 
-                memmove(&this->circular_buffer_[dst_pos], &this->circular_buffer_[src_pos], move_size * sizeof(uint64_t));
+
+                uint64_t value_byte_size = get_byte_size2(this->value_byte_type_);
+                uint64_t deque_byte_size = this->deque_size_ << (this->value_byte_type_ - 1);
+                uint64_t dst_pos = position << (this->value_byte_type_ - 1);
+                uint64_t src_pos = dst_pos + value_byte_size;
+                uint64_t move_size = deque_byte_size - src_pos;
+
+                memmove(&this->circular_buffer_[dst_pos], &this->circular_buffer_[src_pos], move_size);
                 this->deque_size_--;
+
+
             }
         }
 
@@ -540,15 +600,15 @@ namespace stool
         {
             if (this->starting_position_ != 0)
             {
-                std::array<uint64_t, SIZE> tmp_array;
-                std::memcpy(tmp_array.data(), this->circular_buffer_.data(), SIZE * sizeof(uint64_t));
+                std::array<uint8_t, BUFFER_SIZE> tmp_array;
+                std::memcpy(tmp_array.data(), this->circular_buffer_.data(), BUFFER_SIZE);
 
-                uint64_t prefix_size = SIZE - this->starting_position_;
-                uint64_t suffix_size = SIZE - prefix_size;
-                std::memcpy(this->circular_buffer_.data(), &tmp_array[this->starting_position_], prefix_size * sizeof(uint64_t));
+                uint64_t prefix_size = BUFFER_SIZE - this->starting_position_;
+                uint64_t suffix_size = BUFFER_SIZE - prefix_size;
+                std::memcpy(this->circular_buffer_.data(), &tmp_array[this->starting_position_], prefix_size);
                 if (this->starting_position_ > 0)
                 {
-                    std::memcpy(&this->circular_buffer_[prefix_size], tmp_array.data(), suffix_size * sizeof(uint64_t));
+                    std::memcpy(&this->circular_buffer_[prefix_size], tmp_array.data(), suffix_size);
                 }
                 this->starting_position_ = 0;
             }
@@ -592,17 +652,19 @@ namespace stool
         {
             std::cout << "StaticArrayDeque ===============" << std::endl;
             std::string buffer_str = "";
+            
             /*
-            for (uint64_t t = 0; t < SIZE; t++)
+            for (uint64_t t = 0; t < BUFFER_SIZE; t++)
             {
                 std::bitset<8> p(this->circular_buffer_[t]);
                 buffer_str += p.to_string();
                 buffer_str += " ";
             }
             */
+            
             std::deque<uint64_t> deque_values = this->to_deque();
             stool::DebugPrinter::print_integers(deque_values, "Deque");
-            std::cout << "Buffer: " << buffer_str << std::endl;
+            //std::cout << "Buffer: " << buffer_str << std::endl;
             std::cout << "Buffer size: " << (int64_t)SIZE << std::endl;
             std::cout << "Starting position: " << (int64_t)this->starting_position_ << std::endl;
             std::cout << "Deque size: " << (int64_t)this->deque_size_ << std::endl;
@@ -640,14 +702,9 @@ namespace stool
          * @param index The index of the element
          * @return T The value at the specified index
          */
-        uint64_t operator[](size_t index) const
+        uint64_t operator[](ElementIndex index) const
         {
-            assert(index < this->size());
-            uint64_t pos = this->starting_position_ + index;
-            uint64_t mask = SIZE - 1;
-            return this->circular_buffer_[pos & mask];
-
-            // std::memcpy(&B, this->circular_buffer_ + pos2, value_byte_size);
+            return this->at(index);
         }
 
         /**
@@ -656,11 +713,37 @@ namespace stool
          * @param index The index where to set the value
          * @param value The value to set
          */
-        void set_value(int64_t index, uint64_t value)
+        void set_value(ElementIndex index, uint64_t value)
         {
-            uint64_t pos = this->starting_position_ + index;
-            uint64_t mask = SIZE - 1;
-            this->circular_buffer_[pos & mask] = value;
+            uint64_t new_byte_type = std::max((uint8_t)get_byte_type(value), this->value_byte_type_);
+            if (new_byte_type > this->value_byte_type_)
+            {
+                this->change_element_byte_type(new_byte_type);
+            }
+
+            uint64_t pos = this->starting_position_ + (index << (this->value_byte_type_ - 1));
+            uint64_t mask = BUFFER_SIZE - 1;
+            uint64_t pos2 = pos & mask;
+            uint64_t B = value;
+
+            ByteType v = (ByteType)this->value_byte_type_;
+
+            switch (v)
+            {
+            case ByteType::U8:
+                this->circular_buffer_[pos2] = B;
+                break;
+            case ByteType::U16:
+                std::memcpy(&this->circular_buffer_[pos2], &B, 2);
+                break;
+            case ByteType::U32:
+                std::memcpy(&this->circular_buffer_[pos2], &B, 4);
+                break;
+            case ByteType::U64:
+                std::memcpy(&this->circular_buffer_[pos2], &B, 8);
+
+                break;
+            }
         }
 
         /**
@@ -669,10 +752,85 @@ namespace stool
          * @param i The index of the element
          * @return T The value at the specified index
          */
-        uint64_t at(uint64_t i) const
+        uint64_t at(ElementIndex index) const
         {
-            return (*this)[i];
+            assert(index < this->size());
+            uint64_t pos = this->starting_position_ + (index << (this->value_byte_type_ - 1));
+            uint64_t mask = BUFFER_SIZE - 1;
+            uint64_t pos2 = pos & mask;
+
+            uint64_t B = 0;
+            ByteType v = (ByteType)this->value_byte_type_;
+
+            switch (v)
+            {
+            case ByteType::U8:
+                B = this->circular_buffer_[pos2];
+                break;
+            case ByteType::U16:
+                B = this->at16(pos2);
+                break;
+            case ByteType::U32:
+                B = this->at32(pos2);
+                break;
+            case ByteType::U64:
+                B = this->at64(pos2);
+                break;
+            default:
+                break;
+            }
+            return B;
         }
+        uint64_t at16(BufferIndex pos) const
+        {
+            return static_cast<uint64_t>(this->circular_buffer_[pos + 0]) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 1]) << 8);
+        }
+        uint64_t at32(BufferIndex pos) const
+        {
+            return static_cast<uint64_t>(this->circular_buffer_[pos + 0]) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 1]) << 8) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 2]) << 16) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 3]) << 24);
+        }
+        uint64_t at64(BufferIndex pos) const
+        {
+            return static_cast<uint64_t>(this->circular_buffer_[pos + 0]) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 1]) << 8) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 2]) << 16) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 3]) << 24) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 4]) << 32) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 5]) << 40) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 6]) << 48) |
+                   (static_cast<uint64_t>(this->circular_buffer_[pos + 7]) << 56);
+        }
+
+        static uint8_t get_byte_size2(uint8_t value_type)
+        {
+            return 1 << (value_type - 1);
+        }
+        void change_element_byte_type(uint8_t new_byte_type)
+        {
+            uint64_t new_byte_size = get_byte_size2(new_byte_type);
+            uint64_t old_byte_size = get_byte_size2(this->value_byte_type_);
+
+
+            if (old_byte_size != new_byte_size)
+            {
+                std::array<uint8_t, BUFFER_SIZE> tmp_array;
+                uint64_t i = 0;
+                for (uint64_t it : *this)
+                {
+                    std::memcpy(&tmp_array[i * new_byte_size], &it, new_byte_size);
+                    i++;
+                }
+
+                std::memcpy(this->circular_buffer_.data(), tmp_array.data(), this->deque_size_ * new_byte_size);
+                this->starting_position_ = 0;
+                this->value_byte_type_ = new_byte_type;
+            }
+        }
+
 
         /**
          * @brief Convert the deque to a std::vector
@@ -714,17 +872,60 @@ namespace stool
 
             uint64_t size = this->size();
             uint64_t pos = this->starting_position_;
-            uint64_t mask = SIZE - 1;
-         
-            for (uint64_t x = 0; x < size; x++)
+            uint64_t mask = BUFFER_SIZE - 1;
+            ByteType type = (ByteType)this->value_byte_type_;
+            switch (type)
             {
-                uint64_t v = this->circular_buffer_[pos & mask];
-                if (sum + v >= value)
+            case ByteType::U8:
+                for (uint64_t i = 0; i < size; i++)
                 {
-                    return x;
+                    uint64_t v = this->circular_buffer_[pos & mask];
+                    if (value <= sum + v)
+                    {
+                        return i;
+                    }
+                    pos++;
+                    sum += v;
                 }
-                sum += v;
-                pos++;
+                break;
+            case ByteType::U16:
+                for (uint64_t i = 0; i < size; i++)
+                {
+                    uint64_t v = this->at16(pos & mask);
+                    if (value <= sum + v)
+                    {
+                        return i;
+                    }
+                    pos += 2;
+                    sum += v;
+                }
+                break;
+            case ByteType::U32:
+                for (uint64_t i = 0; i < size; i++)
+                {
+                    uint64_t v = this->at32(pos & mask);
+                    if (value <= sum + v)
+                    {
+                        return i;
+                    }
+                    pos += 4;
+                    sum += v;
+                }
+                break;
+            case ByteType::U64:
+                for (uint64_t i = 0; i < size; i++)
+                {
+                    uint64_t v = this->at64(pos & mask);
+                    if (value <= sum + v)
+                    {
+                        return i;
+                    }
+                    pos += 8;
+                    sum += v;
+                }
+                break;
+            default:
+                break;
             }
             return -1;
         }
