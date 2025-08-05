@@ -340,6 +340,11 @@ namespace stool
          */
         void push_back(uint64_t value)
         {
+            if constexpr (!is_power_of_two)
+            {
+                throw std::invalid_argument("SIZE must be a power of two");
+            }
+
             if (this->deque_size_ + 1 >= SIZE)
             {
                 throw std::out_of_range("Size out of range");
@@ -357,6 +362,11 @@ namespace stool
          */
         void push_front(uint64_t value)
         {
+            if constexpr (!is_power_of_two)
+            {
+                throw std::invalid_argument("SIZE must be a power of two");
+            }
+
             if (this->deque_size_ + 1 >= SIZE)
             {
                 throw std::out_of_range("Size out of range");
@@ -702,14 +712,19 @@ namespace stool
         {
             sum = 0;
 
-            for (uint64_t x = 0; x < this->size(); x++)
+            uint64_t size = this->size();
+            uint64_t pos = this->starting_position_;
+            uint64_t mask = SIZE - 1;
+         
+            for (uint64_t x = 0; x < size; x++)
             {
-                uint64_t v = this->at(x);
+                uint64_t v = this->circular_buffer_[pos & mask];
                 if (sum + v >= value)
                 {
                     return x;
                 }
                 sum += v;
+                pos++;
             }
             return -1;
         }
