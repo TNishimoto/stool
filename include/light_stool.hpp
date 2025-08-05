@@ -44,7 +44,7 @@
 //#include "./specialized_collection/integer_array_deque.hpp"
 #include "./specialized_collection/byte_array_deque.hpp"
 #include "./specialized_collection/static_array_deque.hpp"
-
+#include "./specialized_collection/static_array_deque2.hpp"
 #include "./lz/lz_factor.hpp"
 
 #include "./bwt/backward_isa.hpp"

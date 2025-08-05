@@ -19,9 +19,10 @@ namespace stool
      *
      * @tparam INDEX_TYPE The type used for indexing (uint16_t, uint32_t, uint64_t)
      */
-    template <uint64_t SIZE = 1024>
+    template <uint64_t SIZE = 1024, bool USE_PSUM_ARRAY = false>
     class StaticArrayDeque
     {
+        public:
         enum class ByteType
         {
             U8 = 1,
@@ -32,6 +33,8 @@ namespace stool
         static constexpr uint64_t BUFFER_SIZE = SIZE * 8;
         using BufferIndex = uint64_t;
         using ElementIndex = uint64_t;
+
+        protected:
 
         std::array<uint8_t, BUFFER_SIZE> circular_buffer_;
         uint64_t starting_position_ = 0;
@@ -72,6 +75,8 @@ namespace stool
         {
             return sizeof(StaticArrayDeque);
         }
+
+        
 
         StaticArrayDeque(const std::vector<uint64_t> &items)
         {
@@ -367,6 +372,10 @@ namespace stool
             return this->deque_size_ == 0;
         }
 
+        uint64_t max_size() const {
+            return SIZE;
+        }
+
         /**
          * @brief Add an element to the back of the deque
          *
@@ -387,7 +396,7 @@ namespace stool
             uint64_t new_byte_type = std::max((uint8_t)get_byte_type(value), this->value_byte_type_);
             if (new_byte_type != this->value_byte_type_)
             {
-                this->change_element_byte_type(new_byte_type);
+                this->relocate_buffer(new_byte_type);
             }
 
             uint64_t pos = this->size();
@@ -415,7 +424,8 @@ namespace stool
             uint64_t new_byte_type = std::max((uint8_t)get_byte_type(value), this->value_byte_type_);
             if (new_byte_type != this->value_byte_type_)
             {
-                this->change_element_byte_type(new_byte_type);
+
+                this->relocate_buffer(new_byte_type);
             }
 
             uint64_t value_byte_size = get_byte_size2(this->value_byte_type_);
@@ -436,7 +446,6 @@ namespace stool
             {
                 throw std::invalid_argument("push_front");
             }
-
         }
 
         /**
@@ -533,7 +542,7 @@ namespace stool
             else
             {
 
-                this->reset_starting_position();
+                this->relocate_buffer(this->value_byte_type_);
 
                 uint64_t value_byte_size = get_byte_size2(this->value_byte_type_);
 
@@ -569,9 +578,7 @@ namespace stool
             else
             {
 
-                this->reset_starting_position();
-
-
+                this->relocate_buffer(this->value_byte_type_);
 
                 uint64_t value_byte_size = get_byte_size2(this->value_byte_type_);
                 uint64_t deque_byte_size = this->deque_size_ << (this->value_byte_type_ - 1);
@@ -581,8 +588,6 @@ namespace stool
 
                 memmove(&this->circular_buffer_[dst_pos], &this->circular_buffer_[src_pos], move_size);
                 this->deque_size_--;
-
-
             }
         }
 
@@ -596,21 +601,203 @@ namespace stool
             return this->deque_size_;
         }
 
-        void reset_starting_position()
-        {
-            if (this->starting_position_ != 0)
-            {
-                std::array<uint8_t, BUFFER_SIZE> tmp_array;
-                std::memcpy(tmp_array.data(), this->circular_buffer_.data(), BUFFER_SIZE);
+        uint64_t value_capacity() const {
+            return UINT64_MAX;
+        }
 
-                uint64_t prefix_size = BUFFER_SIZE - this->starting_position_;
-                uint64_t suffix_size = BUFFER_SIZE - prefix_size;
-                std::memcpy(this->circular_buffer_.data(), &tmp_array[this->starting_position_], prefix_size);
-                if (this->starting_position_ > 0)
+        static void reset_starting_position_of_array_deque(std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex old_starting_position, uint64_t element_count, ByteType old_byte_type)
+        {
+            std::array<uint8_t, BUFFER_SIZE> tmp_array;
+
+            uint64_t mask = BUFFER_SIZE - 1;
+            if (old_byte_type == ByteType::U8)
+            {
+                uint64_t old_ending_position = (old_starting_position + element_count - 1) & mask;
+                uint64_t copy_size = old_ending_position - old_starting_position + 1;
+                if (old_starting_position <= old_ending_position)
                 {
-                    std::memcpy(&this->circular_buffer_[prefix_size], tmp_array.data(), suffix_size);
+                    std::memcpy(tmp_array.data(), &array[old_starting_position], copy_size);
                 }
+                else
+                {
+                    uint64_t prefix_size = BUFFER_SIZE - old_starting_position;
+                    uint64_t suffix_size = old_ending_position + 1;
+                    std::memcpy(tmp_array.data(), &array[old_starting_position], prefix_size);
+                    std::memcpy(&tmp_array[prefix_size], &array[0], suffix_size);
+                }
+                std::memcpy(array.data(), tmp_array.data(), element_count);
+            }
+            else if (old_byte_type == ByteType::U16)
+            {
+                uint8_t byte_size = 2;
+
+
+                uint64_t old_ending_position = (old_starting_position + ((element_count - 1) << 1)) & mask;
+
+                if (old_starting_position <= old_ending_position)
+                {
+
+                    std::memcpy(tmp_array.data(), &array[old_starting_position], old_ending_position - old_starting_position + byte_size);
+                }
+                else
+                {
+                    uint64_t prefix_size = BUFFER_SIZE - old_starting_position;
+                    uint64_t suffix_size = old_ending_position + byte_size;
+
+                    std::memcpy(tmp_array.data(), &array[old_starting_position], prefix_size);
+
+                    std::memcpy(&tmp_array[prefix_size], &array[0], suffix_size);
+
+                }
+                std::memcpy(array.data(), tmp_array.data(), element_count << 1);
+            }
+            else if (old_byte_type == ByteType::U32)
+            {
+                uint8_t byte_size = 4;
+                uint64_t old_ending_position = (old_starting_position + ((element_count - 1) << 2)) & mask;
+                if (old_starting_position <= old_ending_position)
+                {
+                    std::memcpy(tmp_array.data(), &array[old_starting_position], old_ending_position - old_starting_position + byte_size);
+                }
+                else
+                {
+                    uint64_t prefix_size = BUFFER_SIZE - old_starting_position;
+                    uint64_t suffix_size = old_ending_position + byte_size;
+                    std::memcpy(tmp_array.data(), &array[old_starting_position], prefix_size);
+                    std::memcpy(&tmp_array[prefix_size], &array[0], suffix_size);
+                }
+                std::memcpy(array.data(), tmp_array.data(), element_count << 2);
+            }
+            else if (old_byte_type == ByteType::U64)
+            {
+                uint8_t byte_size = 8;
+                uint64_t old_ending_position = (old_starting_position + ((element_count - 1) << 3)) & mask;
+                if (old_starting_position <= old_ending_position)
+                {
+                    std::memcpy(tmp_array.data(), &array[old_starting_position], old_ending_position - old_starting_position + byte_size);
+                }
+                else
+                {
+                    uint64_t prefix_size = BUFFER_SIZE - old_starting_position;
+                    uint64_t suffix_size = old_ending_position + byte_size;
+                    std::memcpy(tmp_array.data(), &array[old_starting_position], prefix_size);
+                    std::memcpy(&tmp_array[prefix_size], &array[0], suffix_size);
+                }
+                std::memcpy(array.data(), tmp_array.data(), element_count << 3);
+            }
+            else
+            {
+                throw std::invalid_argument("resize_array");
+            }
+        }
+        static void change_byte_type_of_array_elements(std::array<uint8_t, BUFFER_SIZE> &array, uint64_t element_count, ByteType old_byte_type, ByteType new_byte_type)
+        {
+            std::array<uint8_t, BUFFER_SIZE> tmp_array;
+
+            if (old_byte_type == ByteType::U8)
+            {
+                std::memcpy(tmp_array.data(), &array[0], element_count);
+                if(new_byte_type == ByteType::U16){
+                    uint16_t* p = (uint16_t*)&array;
+                    for(uint64_t i = 0; i < element_count; i++){
+                        p[i] = tmp_array[i];
+                    }
+                }else if(new_byte_type == ByteType::U32){
+                    uint32_t* p = (uint32_t*)&array;
+                    for(uint64_t i = 0; i < element_count; i++){
+                        p[i] = tmp_array[i];
+                    }
+
+                }else if(new_byte_type == ByteType::U64){
+                    uint64_t* p = (uint64_t*)&array;
+                    for(uint64_t i = 0; i < element_count; i++){
+                        p[i] = tmp_array[i];
+                    }
+                }
+            }
+            else if (old_byte_type == ByteType::U16){
+                std::memcpy(tmp_array.data(), &array[0], element_count << 1);
+                uint16_t* tmp_array16 = (uint16_t*)&tmp_array;
+
+                if(new_byte_type == ByteType::U8){
+                    uint8_t* p = (uint8_t*)&array;                 
+                    for(uint64_t i = 0; i < element_count; i++){
+                        p[i] = tmp_array16[i];
+                    }
+                }else if(new_byte_type == ByteType::U32){
+                    uint32_t* p = (uint32_t*)&array;
+                    for(uint64_t i = 0; i < element_count; i++){
+                        p[i] = tmp_array16[i];
+                    }
+                }else if(new_byte_type == ByteType::U64){
+                    uint64_t* p = (uint64_t*)&array;
+                    for(uint64_t i = 0; i < element_count; i++){
+                        p[i] = tmp_array16[i];
+                    }
+                }
+            }
+            else if (old_byte_type == ByteType::U32){
+                std::memcpy(tmp_array.data(), &array[0], element_count << 2);
+                uint32_t* tmp_array32 = (uint32_t*)&tmp_array;
+
+                if(new_byte_type == ByteType::U8){
+                    uint8_t* p = (uint8_t*)&array;
+                    for(uint64_t i = 0; i < element_count; i++){
+                        p[i] = tmp_array32[i];
+                    }
+                }else if(new_byte_type == ByteType::U16){
+                    uint16_t* p = (uint16_t*)&array;
+                    for(uint64_t i = 0; i < element_count; i++){
+                        p[i] = tmp_array32[i];
+                    }
+                }else if(new_byte_type == ByteType::U64){
+                    uint64_t* p = (uint64_t*)&array;
+                    for(uint64_t i = 0; i < element_count; i++){
+                        p[i] = tmp_array32[i];
+                    }
+                }
+            }
+            else if (old_byte_type == ByteType::U64){
+                std::memcpy(tmp_array.data(), &array[0], element_count << 3);
+                uint64_t* tmp_array64 = (uint64_t*)&tmp_array;
+
+                if(new_byte_type == ByteType::U8){
+                    uint8_t* p = (uint8_t*)&array;
+                    for(uint64_t i = 0; i < element_count; i++){
+                        p[i] = tmp_array64[i];
+                    }
+                }else if(new_byte_type == ByteType::U16){
+                    uint16_t* p = (uint16_t*)&array;
+                    for(uint64_t i = 0; i < element_count; i++){
+                        p[i] = tmp_array64[i];
+                    }
+                }else if(new_byte_type == ByteType::U32){
+                    uint32_t* p = (uint32_t*)&array;
+                    for(uint64_t i = 0; i < element_count; i++){
+                        p[i] = tmp_array64[i];
+                    }
+                }
+            }
+            else
+            {
+                throw std::invalid_argument("change_byte_type_of_array_elements");
+            }
+        }
+
+
+        void relocate_buffer(uint8_t new_byte_type)
+        {
+
+            if(this->starting_position_ != 0){
+                reset_starting_position_of_array_deque(this->circular_buffer_, this->starting_position_, this->deque_size_, (ByteType)this->value_byte_type_);
                 this->starting_position_ = 0;
+            }
+
+            if (this->value_byte_type_ != new_byte_type)
+            {
+
+                change_byte_type_of_array_elements(this->circular_buffer_, this->deque_size_, (ByteType)this->value_byte_type_, (ByteType)new_byte_type);
+                this->value_byte_type_ = new_byte_type;
             }
         }
 
@@ -652,7 +839,7 @@ namespace stool
         {
             std::cout << "StaticArrayDeque ===============" << std::endl;
             std::string buffer_str = "";
-            
+
             /*
             for (uint64_t t = 0; t < BUFFER_SIZE; t++)
             {
@@ -661,13 +848,14 @@ namespace stool
                 buffer_str += " ";
             }
             */
-            
+
             std::deque<uint64_t> deque_values = this->to_deque();
             stool::DebugPrinter::print_integers(deque_values, "Deque");
-            //std::cout << "Buffer: " << buffer_str << std::endl;
+            // std::cout << "Buffer: " << buffer_str << std::endl;
             std::cout << "Buffer size: " << (int64_t)SIZE << std::endl;
             std::cout << "Starting position: " << (int64_t)this->starting_position_ << std::endl;
             std::cout << "Deque size: " << (int64_t)this->deque_size_ << std::endl;
+            std::cout << "Value byte type: " << (int64_t)this->value_byte_type_ << std::endl;
             std::cout << "==============================" << std::endl;
         }
 
@@ -694,6 +882,7 @@ namespace stool
             std::swap(this->circular_buffer_, item.circular_buffer_);
             std::swap(this->starting_position_, item.starting_position_);
             std::swap(this->deque_size_, item.deque_size_);
+            std::swap(this->value_byte_type_, item.value_byte_type_);
         }
 
         /**
@@ -705,6 +894,78 @@ namespace stool
         uint64_t operator[](ElementIndex index) const
         {
             return this->at(index);
+        }
+        static uint64_t read_value(const std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t deque_size, uint64_t index, ByteType byte_type){
+            switch (byte_type)
+            {
+            case ByteType::U8:
+            {
+                uint64_t mask = BUFFER_SIZE - 1;
+                return array[(starting_position + index) & mask];
+            }
+            break;
+            case ByteType::U16:
+            {
+                uint16_t *p = (uint16_t *)&array;
+                uint64_t mask = (BUFFER_SIZE >> 1) - 1;
+                uint64_t starting_position16 = starting_position >> 1;
+                return p[(starting_position16 + index) & mask];
+            }
+            break;
+            case ByteType::U32:
+            {
+                uint32_t *p = (uint32_t *)&array;
+                uint64_t mask = (BUFFER_SIZE >> 2) - 1;
+                uint64_t starting_position32 = starting_position >> 2;
+                return p[(starting_position32 + index) & mask];
+            }
+            case ByteType::U64:
+            {
+                uint64_t *p = (uint64_t *)&array;
+                uint64_t mask = (BUFFER_SIZE >> 3) - 1;
+                uint64_t starting_position64 = starting_position >> 3;
+                return p[(starting_position64 + index) & mask];
+            }
+            break;
+            }
+            throw std::invalid_argument("read_value");
+
+        }
+
+        static void write_value(std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t deque_size, uint64_t index, uint64_t value, ByteType byte_type){
+            switch (byte_type)
+            {
+            case ByteType::U8:
+            {
+                uint64_t mask = BUFFER_SIZE - 1;
+                array[(starting_position + index) & mask] = (uint8_t)value;
+            }
+            break;
+            case ByteType::U16:
+            {
+                uint16_t *p = (uint16_t *)&array;
+                uint64_t mask = (BUFFER_SIZE >> 1) - 1;
+                uint64_t starting_position16 = starting_position >> 1;
+                p[(starting_position16 + index) & mask] = (uint16_t)value;
+            }
+            break;
+            case ByteType::U32:
+            {
+                uint32_t *p = (uint32_t *)&array;
+                uint64_t mask = (BUFFER_SIZE >> 2) - 1;
+                uint64_t starting_position32 = starting_position >> 2;
+                p[(starting_position32 + index) & mask] = (uint32_t)value;
+                break;
+            }
+            case ByteType::U64:
+            {
+                uint64_t *p = (uint64_t *)&array;
+                uint64_t mask = (BUFFER_SIZE >> 3) - 1;
+                uint64_t starting_position64 = starting_position >> 3;
+                p[(starting_position64 + index) & mask] = (uint64_t)value;
+            }
+            break;
+            }
         }
 
         /**
@@ -718,32 +979,11 @@ namespace stool
             uint64_t new_byte_type = std::max((uint8_t)get_byte_type(value), this->value_byte_type_);
             if (new_byte_type > this->value_byte_type_)
             {
-                this->change_element_byte_type(new_byte_type);
+                this->relocate_buffer(new_byte_type);
             }
-
-            uint64_t pos = this->starting_position_ + (index << (this->value_byte_type_ - 1));
-            uint64_t mask = BUFFER_SIZE - 1;
-            uint64_t pos2 = pos & mask;
-            uint64_t B = value;
 
             ByteType v = (ByteType)this->value_byte_type_;
-
-            switch (v)
-            {
-            case ByteType::U8:
-                this->circular_buffer_[pos2] = B;
-                break;
-            case ByteType::U16:
-                std::memcpy(&this->circular_buffer_[pos2], &B, 2);
-                break;
-            case ByteType::U32:
-                std::memcpy(&this->circular_buffer_[pos2], &B, 4);
-                break;
-            case ByteType::U64:
-                std::memcpy(&this->circular_buffer_[pos2], &B, 8);
-
-                break;
-            }
+            write_value(this->circular_buffer_, this->starting_position_, this->deque_size_, index, value, v);
         }
 
         /**
@@ -755,32 +995,68 @@ namespace stool
         uint64_t at(ElementIndex index) const
         {
             assert(index < this->size());
-            uint64_t pos = this->starting_position_ + (index << (this->value_byte_type_ - 1));
-            uint64_t mask = BUFFER_SIZE - 1;
-            uint64_t pos2 = pos & mask;
-
             uint64_t B = 0;
             ByteType v = (ByteType)this->value_byte_type_;
 
             switch (v)
             {
             case ByteType::U8:
-                B = this->circular_buffer_[pos2];
+            {
+                uint64_t pos = translate_index8(this->starting_position_, index);
+                uint8_t *p = (uint8_t*)&this->circular_buffer_;
+                B = p[pos];
                 break;
+            }
             case ByteType::U16:
-                B = this->at16(pos2);
+            {
+                uint64_t pos = translate_index16(this->starting_position_, index);
+                uint16_t *p = (uint16_t*)&this->circular_buffer_;
+                B = p[pos];
                 break;
+            }
             case ByteType::U32:
-                B = this->at32(pos2);
+            {
+                uint64_t pos = translate_index32(this->starting_position_, index);
+                uint32_t *p = (uint32_t*)&this->circular_buffer_;
+                B = p[pos];
                 break;
+            }
             case ByteType::U64:
-                B = this->at64(pos2);
+            {
+                uint64_t pos = translate_index64(this->starting_position_, index);
+                uint64_t *p = (uint64_t*)&this->circular_buffer_;
+                B = p[pos];
                 break;
+            }
             default:
                 break;
             }
             return B;
         }
+        static uint64_t translate_index8(BufferIndex starting_position, uint64_t index){
+            uint64_t starting_position8 = starting_position;
+            uint64_t mask = BUFFER_SIZE - 1;
+            return (starting_position8 + index) & mask;
+        }
+
+        static uint64_t translate_index16(BufferIndex starting_position, uint64_t index){
+            uint64_t starting_position16 = starting_position >> 1;
+            uint64_t mask = (BUFFER_SIZE >> 1) - 1;
+            return (starting_position16 + index) & mask;
+        }
+        static uint64_t translate_index32(BufferIndex starting_position, uint64_t index){
+            uint64_t starting_position32 = starting_position >> 2;
+            uint64_t mask = (BUFFER_SIZE >> 2) - 1;
+            return (starting_position32 + index) & mask;
+        }
+        static uint64_t translate_index64(BufferIndex starting_position, uint64_t index){
+            uint64_t starting_position64 = starting_position >> 3;
+            uint64_t mask = (BUFFER_SIZE >> 3) - 1;
+            return (starting_position64 + index) & mask;
+        }
+
+
+
         uint64_t at16(BufferIndex pos) const
         {
             return static_cast<uint64_t>(this->circular_buffer_[pos + 0]) |
@@ -809,11 +1085,11 @@ namespace stool
         {
             return 1 << (value_type - 1);
         }
+        /*
         void change_element_byte_type(uint8_t new_byte_type)
         {
             uint64_t new_byte_size = get_byte_size2(new_byte_type);
             uint64_t old_byte_size = get_byte_size2(this->value_byte_type_);
-
 
             if (old_byte_size != new_byte_size)
             {
@@ -830,7 +1106,7 @@ namespace stool
                 this->value_byte_type_ = new_byte_type;
             }
         }
-
+        */
 
         /**
          * @brief Convert the deque to a std::vector
@@ -954,5 +1230,4 @@ namespace stool
             throw std::runtime_error("unused_size_in_bytes is not supported");
         }
     };
-
 }
