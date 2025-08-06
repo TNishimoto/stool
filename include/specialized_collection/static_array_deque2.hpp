@@ -759,40 +759,130 @@ namespace stool
                 uint64_t psumL = this->sum_starting_index == 0 ? 0 : BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, 0, (ByteType)this->value_byte_type_);
                 if (psumL >= value)
                 {
-                    auto psumLFunc = [&](int64_t i)
+                    auto psumLFunc8 = [&](int64_t i)
                     {
-                        uint64_t value1 = BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, i, (ByteType)this->value_byte_type_);
-                        uint64_t value2 = BASECLASS::read_value(this->circular_buffer_, this->starting_position_, i, (ByteType)this->value_byte_type_);
+                        uint64_t value1 = BASECLASS::read_value8(this->circular_sum_buffer_, this->starting_position_, i);
+                        uint64_t value2 = BASECLASS::read_value8(this->circular_buffer_, this->starting_position_, i);
                         uint64_t psum = psumL - value1 + value2;
                         return psum;
                     };
-
-                    int64_t result = find_lower_bound(0, this->sum_starting_index, psumLFunc, value);
-                    assert(result != -1);
-                    if (result != 0)
+                    auto psumLFunc16 = [&](int64_t i)
                     {
-                        sum = psumLFunc(result - 1);
+                        uint64_t value1 = BASECLASS::read_value16(this->circular_sum_buffer_, this->starting_position_, i);
+                        uint64_t value2 = BASECLASS::read_value16(this->circular_buffer_, this->starting_position_, i);
+                        uint64_t psum = psumL - value1 + value2;
+                        return psum;
+                    };
+                    auto psumLFunc32 = [&](int64_t i)
+                    {
+                        uint64_t value1 = BASECLASS::read_value32(this->circular_sum_buffer_, this->starting_position_, i);
+                        uint64_t value2 = BASECLASS::read_value32(this->circular_buffer_, this->starting_position_, i);
+                        uint64_t psum = psumL - value1 + value2;
+                        return psum;
+                    };
+                    auto psumLFunc64 = [&](int64_t i)
+                    {
+                        uint64_t value1 = BASECLASS::read_value64(this->circular_sum_buffer_, this->starting_position_, i);
+                        uint64_t value2 = BASECLASS::read_value64(this->circular_buffer_, this->starting_position_, i);
+                        uint64_t psum = psumL - value1 + value2;
+                        return psum;
+                    };
+                    int64_t result = -1;
+
+                    ByteType type = (ByteType)this->value_byte_type_;
+                    switch (type)
+                    {
+                    case ByteType::U8:
+                    {
+                        result = find_lower_bound(0, this->sum_starting_index, psumLFunc8, value);
+                        sum = result > 0 ? psumLFunc8(result - 1) : 0;
+                        break;
                     }
+                    case ByteType::U16:
+                    {
+                        result = find_lower_bound(0, this->sum_starting_index, psumLFunc16, value);
+                        sum = result > 0 ? psumLFunc16(result - 1) : 0;
+                        break;
+                    }
+                    case ByteType::U32:
+                    {
+                        result = find_lower_bound(0, this->sum_starting_index, psumLFunc32, value);
+                        sum = result > 0 ? psumLFunc32(result - 1) : 0;
+                        break;
+                    }
+                    case ByteType::U64:
+                    {
+                        result = find_lower_bound(0, this->sum_starting_index, psumLFunc64, value);
+                        sum = result > 0 ? psumLFunc64(result - 1) : 0;
+                        break;
+                    }
+                    default:
+                        throw std::invalid_argument("search");
+                    }
+
+                    assert(result != -1);
                     return result;
                 }
                 else
                 {
-                    auto psumRFunc = [&](int64_t i)
+                    auto psumRFunc8 = [&](int64_t i)
                     {
-                        uint64_t value1 = BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, i, (ByteType)this->value_byte_type_);
+                        uint64_t value1 = BASECLASS::read_value8(this->circular_sum_buffer_, this->starting_position_, i);
                         uint64_t psum = psumL + value1;
                         return psum;
                     };
-                    int64_t result = find_lower_bound(this->sum_starting_index, this->deque_size_, psumRFunc, value);
+                    auto psumRFunc16 = [&](int64_t i)
+                    {
+                        uint64_t value1 = BASECLASS::read_value16(this->circular_sum_buffer_, this->starting_position_, i);
+                        uint64_t psum = psumL + value1;
+                        return psum;
+                    };
+                    auto psumRFunc32 = [&](int64_t i)
+                    {
+                        uint64_t value1 = BASECLASS::read_value32(this->circular_sum_buffer_, this->starting_position_, i);
+                        uint64_t psum = psumL + value1;
+                        return psum;
+                    };
+                    auto psumRFunc64 = [&](int64_t i)
+                    {
+                        uint64_t value1 = BASECLASS::read_value64(this->circular_sum_buffer_, this->starting_position_, i);
+                        uint64_t psum = psumL + value1;
+                        return psum;
+                    };
+
+                    int64_t result = -1;
+                    ByteType type = (ByteType)this->value_byte_type_;
+                    switch (type)
+                    {
+                    case ByteType::U8:
+                    {
+                        result = find_lower_bound(this->sum_starting_index, this->deque_size_, psumRFunc8, value);
+                        sum = result > (int64_t)this->sum_starting_index ? psumRFunc8(result - 1) : psumL;
+                        break;
+                    }
+                    case ByteType::U16:
+                    {
+                        result = find_lower_bound(this->sum_starting_index, this->deque_size_, psumRFunc16, value);
+                        sum = result > (int64_t)this->sum_starting_index ? psumRFunc16(result - 1) : psumL;
+                        break;
+                    }
+                    case ByteType::U32:
+                    {
+                        result = find_lower_bound(this->sum_starting_index, this->deque_size_, psumRFunc32, value);
+                        sum = result > (int64_t)this->sum_starting_index ? psumRFunc32(result - 1) : psumL;
+                        break;
+                    }
+                    case ByteType::U64:
+                    {
+                        result = find_lower_bound(this->sum_starting_index, this->deque_size_, psumRFunc64, value);
+                        sum = result > (int64_t)this->sum_starting_index ? psumRFunc64(result - 1) : psumL;
+                        break;
+                    }
+                    default:
+                        throw std::invalid_argument("search");
+                    }
+
                     assert(result != -1);
-                    if (result > (int64_t)this->sum_starting_index)
-                    {
-                        sum = psumRFunc(result - 1);
-                    }
-                    else
-                    {
-                        sum = psumL;
-                    }
                     return result;
                 }
             }

@@ -480,7 +480,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
 
     std::mt19937_64 mt64(seed);
 
-    uint64_t seq_len = 1000;
+    //uint64_t seq_len = 1000;
     uint64_t number_of_trials = 100;
     uint64_t alphabet_size8 = UINT8_MAX;
     uint64_t alphabet_size16 = UINT16_MAX;

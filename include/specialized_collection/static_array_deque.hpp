@@ -892,36 +892,54 @@ namespace stool
         {
             return this->at(index);
         }
+
+        static uint64_t read_value8(const std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t index){
+            uint64_t mask = BUFFER_SIZE - 1;
+            return array[(starting_position + index) & mask];
+        }
+
+        static uint64_t read_value16(const std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t index){
+            uint16_t *p = (uint16_t *)&array;
+            uint64_t mask = (BUFFER_SIZE >> 1) - 1;
+            uint64_t starting_position16 = starting_position >> 1;
+            return p[(starting_position16 + index) & mask];
+        }
+
+        static uint64_t read_value32(const std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t index){
+            uint32_t *p = (uint32_t *)&array;
+            uint64_t mask = (BUFFER_SIZE >> 2) - 1;
+            uint64_t starting_position32 = starting_position >> 2;
+            return p[(starting_position32 + index) & mask];
+        }
+
+        static uint64_t read_value64(const std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t index){
+            uint64_t *p = (uint64_t *)&array;
+            uint64_t mask = (BUFFER_SIZE >> 3) - 1;
+            uint64_t starting_position64 = starting_position >> 3;
+            return p[(starting_position64 + index) & mask];
+        }
+        
+
         static uint64_t read_value(const std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t index, ByteType byte_type){
             switch (byte_type)
             {
             case ByteType::U8:
             {
-                uint64_t mask = BUFFER_SIZE - 1;
-                return array[(starting_position + index) & mask];
+                return read_value8(array, starting_position, index);
             }
             break;
             case ByteType::U16:
             {
-                uint16_t *p = (uint16_t *)&array;
-                uint64_t mask = (BUFFER_SIZE >> 1) - 1;
-                uint64_t starting_position16 = starting_position >> 1;
-                return p[(starting_position16 + index) & mask];
+                return read_value16(array, starting_position, index);
             }
             break;
             case ByteType::U32:
             {
-                uint32_t *p = (uint32_t *)&array;
-                uint64_t mask = (BUFFER_SIZE >> 2) - 1;
-                uint64_t starting_position32 = starting_position >> 2;
-                return p[(starting_position32 + index) & mask];
+                return read_value32(array, starting_position, index);
             }
             case ByteType::U64:
             {
-                uint64_t *p = (uint64_t *)&array;
-                uint64_t mask = (BUFFER_SIZE >> 3) - 1;
-                uint64_t starting_position64 = starting_position >> 3;
-                return p[(starting_position64 + index) & mask];
+                return read_value64(array, starting_position, index);
             }
             break;
             }
@@ -929,37 +947,56 @@ namespace stool
 
         }
 
+        static void write_value8(std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t index, uint64_t value){
+            uint64_t mask = BUFFER_SIZE - 1;
+            array[(starting_position + index) & mask] = (uint8_t)value;
+        }
+
+        static void write_value16(std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t index, uint64_t value){
+            uint16_t *p = (uint16_t *)&array;
+            uint64_t mask = (BUFFER_SIZE >> 1) - 1;
+            uint64_t starting_position16 = starting_position >> 1;
+            p[(starting_position16 + index) & mask] = (uint16_t)value;
+        }
+
+        static void write_value32(std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t index, uint64_t value){
+            uint32_t *p = (uint32_t *)&array;
+            uint64_t mask = (BUFFER_SIZE >> 2) - 1;
+            uint64_t starting_position32 = starting_position >> 2;
+            p[(starting_position32 + index) & mask] = (uint32_t)value;
+        }
+
+        static void write_value64(std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t index, uint64_t value){
+            uint64_t *p = (uint64_t *)&array;
+            uint64_t mask = (BUFFER_SIZE >> 3) - 1;
+            uint64_t starting_position64 = starting_position >> 3;
+            p[(starting_position64 + index) & mask] = (uint64_t)value;
+        }
+        
+
+        
+
         static void write_value(std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t index, uint64_t value, ByteType byte_type){
             switch (byte_type)
             {
             case ByteType::U8:
             {
-                uint64_t mask = BUFFER_SIZE - 1;
-                array[(starting_position + index) & mask] = (uint8_t)value;
+                write_value8(array, starting_position, index, value);
             }
             break;
             case ByteType::U16:
             {
-                uint16_t *p = (uint16_t *)&array;
-                uint64_t mask = (BUFFER_SIZE >> 1) - 1;
-                uint64_t starting_position16 = starting_position >> 1;
-                p[(starting_position16 + index) & mask] = (uint16_t)value;
+                write_value16(array, starting_position, index, value);
             }
             break;
             case ByteType::U32:
             {
-                uint32_t *p = (uint32_t *)&array;
-                uint64_t mask = (BUFFER_SIZE >> 2) - 1;
-                uint64_t starting_position32 = starting_position >> 2;
-                p[(starting_position32 + index) & mask] = (uint32_t)value;
+                write_value32(array, starting_position, index, value);
                 break;
             }
             case ByteType::U64:
             {
-                uint64_t *p = (uint64_t *)&array;
-                uint64_t mask = (BUFFER_SIZE >> 3) - 1;
-                uint64_t starting_position64 = starting_position >> 3;
-                p[(starting_position64 + index) & mask] = (uint64_t)value;
+                write_value64(array, starting_position, index, value);
             }
             break;
             }
