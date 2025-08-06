@@ -23,16 +23,6 @@ void random_bit_string256(int64_t bit_length, std::vector<uint64_t> &new_pattern
     }
 }
 
-void random_shift(stool::ByteArrayDeque<uint16_t> &bit_deque, uint64_t seed)
-{
-    /*
-    std::mt19937 mt(seed);
-    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
-
-    uint64_t shift_len = get_rand_value(mt) % bit_deque.capacity();
-    bit_deque.get_bit_array_deque_pointer()->change_starting_position(shift_len);
-    */
-}
 
 void equal_test(const stool::ByteArrayDeque<uint16_t> &dequeA, const std::vector<uint64_t> &dequeB)
 {
@@ -170,7 +160,6 @@ void insert_and_erase_test(uint64_t max_len, uint64_t alphabet_size, uint64_t nu
         {
             std::vector<uint64_t> seq = stool::StringGenerator::create_random_sequence<uint64_t>(len, alphabet_size, seed++);
             stool::ByteArrayDeque<uint16_t> deque(seq);
-            random_shift(deque, seed++);
             assert(seq.size() == deque.size());
 
             while ((int64_t)seq.size() < len * 2)

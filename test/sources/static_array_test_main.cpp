@@ -3,17 +3,6 @@
 #include "../../include/light_stool.hpp"
 
 
-template<uint64_t SIZE, bool USE_PSUM_ARRAY>
-void random_shift(stool::StaticArrayDeque<SIZE, USE_PSUM_ARRAY> &bit_deque, uint64_t seed)
-{
-    /*
-    std::mt19937 mt(seed);
-    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
-
-    uint64_t shift_len = get_rand_value(mt) % bit_deque.capacity();
-    bit_deque.get_bit_array_deque_pointer()->change_starting_position(shift_len);
-    */
-}
 
 template<uint64_t SIZE, bool USE_PSUM_ARRAY>
 void equal_test(const stool::StaticArrayDeque<SIZE, USE_PSUM_ARRAY> &dequeA, const std::vector<uint64_t> &dequeB)
@@ -55,9 +44,9 @@ void equal_test(const stool::StaticArrayDeque<SIZE, USE_PSUM_ARRAY> &dequeA, con
 
 }
 template<uint64_t SIZE, bool USE_PSUM_ARRAY>
-void access_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed)
+void access_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
 {
-    std::cout << "access_test/" << SIZE << "/" << USE_PSUM_ARRAY << "/" << alphabet_size << std::endl;
+    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "ACCESS_TEST: \t" << std::flush;
     for (uint64_t i = 0; i < number_of_trials; i++)
     {
         std::cout << "+" << std::flush;
@@ -72,14 +61,13 @@ void access_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_tr
             len *= 2;
         }
     }
-    std::cout << std::endl;
-    std::cout << "access_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
 }
 template<uint64_t SIZE, bool USE_PSUM_ARRAY>
-void replace_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed)
+void replace_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
 {
+    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "REPLACE_TEST: \t" << std::flush;
 
-    std::cout << "replace_test" << std::endl;
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
 
@@ -107,16 +95,15 @@ void replace_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_t
             len *= 2;
         }
     }
-    std::cout << std::endl;
-    std::cout << "replace_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
 }
 
 template<uint64_t SIZE, bool USE_PSUM_ARRAY>
-void push_and_pop_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed)
+void push_and_pop_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed, bool detail_check = false, int message_paragraph = stool::Message::SHOW_MESSAGE)
 {
     stool::StaticArrayDeque<SIZE, USE_PSUM_ARRAY> deque;
     std::vector<uint64_t> seq;
-    std::cout << "push_and_pop_test/" << SIZE << "/" << USE_PSUM_ARRAY << std::endl;
+    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "PUSH_AND_POP_TEST: \t" << std::flush;
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
     for (uint64_t i = 0; i < number_of_trials; i++)
@@ -160,17 +147,20 @@ void push_and_pop_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number
                 deque.pop_front();
                 seq.erase(seq.begin());
             }
-            equal_test(deque, seq);
+            if(detail_check){
+                equal_test(deque, seq);
+            }
         }
+        equal_test(deque, seq);
+
     }
-    std::cout << std::endl;
-    std::cout << "push_and_pop_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
 }
 
 template<uint64_t SIZE, bool USE_PSUM_ARRAY>
-void insert_and_erase_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed)
+void insert_and_erase_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed, bool detail_check = false, int message_paragraph = stool::Message::SHOW_MESSAGE)
 {
-    std::cout << "insert_and_erase_test/" << SIZE << "/" << alphabet_size << std::endl;
+    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "INSERT_AND_ERASE_TEST: \t" << std::flush;
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
 
@@ -182,7 +172,6 @@ void insert_and_erase_test(uint64_t max_len, uint64_t alphabet_size, uint64_t nu
         {
             std::vector<uint64_t> seq = stool::StringGenerator::create_random_sequence<uint64_t>(len, alphabet_size, seed++);
             stool::StaticArrayDeque<SIZE, USE_PSUM_ARRAY> deque(seq);
-            random_shift(deque, seed++);
             assert(seq.size() == deque.size());
 
             while ((int64_t)seq.size() < len)
@@ -195,16 +184,29 @@ void insert_and_erase_test(uint64_t max_len, uint64_t alphabet_size, uint64_t nu
 
                 assert(pos <= deque.size());
 
-                try
-                {
-                    equal_test(deque, seq);
+                if(detail_check){
+                    try
+                    {
+                        equal_test(deque, seq);
+                    }
+                    catch (const std::runtime_error &e)
+                    {
+                        std::cout << "Insert test error/" << pos << "/" << new_value << std::endl;
+                        throw e;
+                    }    
                 }
-                catch (const std::runtime_error &e)
-                {
-                    std::cout << "Insert test error/" << pos << "/" << new_value << std::endl;
-                    throw e;
-                }
+
             }
+
+            try
+            {
+                equal_test(deque, seq);
+            }
+            catch (const std::runtime_error &e)
+            {
+                std::cout << "Insert test error/"  << std::endl;
+                throw e;
+            }    
 
             while (seq.size() > 0)
             {
@@ -212,27 +214,38 @@ void insert_and_erase_test(uint64_t max_len, uint64_t alphabet_size, uint64_t nu
                 seq.erase(seq.begin() + pos);
                 deque.erase(pos);
 
-                try
-                {
-                    equal_test(deque, seq);
+                if(detail_check){
+                    try
+                    {
+                        equal_test(deque, seq);
+                    }
+                    catch (const std::runtime_error &e)
+                    {
+                        std::cout << "Erase test error" << std::endl;
+                        throw e;
+                    }    
                 }
-                catch (const std::runtime_error &e)
-                {
-                    std::cout << "Erase test error" << std::endl;
-                    throw e;
-                }
+
             }
+            try
+            {
+                equal_test(deque, seq);
+            }
+            catch (const std::runtime_error &e)
+            {
+                std::cout << "Erase test error" << std::endl;
+                throw e;
+            }    
 
             len *= 2;
         }
     }
-    std::cout << std::endl;
-    std::cout << "insert_and_erase_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
 }
 template<uint64_t SIZE, bool USE_PSUM_ARRAY>
-void psum_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed)
+void psum_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
 {
-    std::cout << "psum_test" << std::endl;
+    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "PSUM_TEST: \t" << std::flush;
 
     auto compute_psum = [](const std::vector<uint64_t> &seq, uint64_t i) -> uint64_t
     {
@@ -267,14 +280,13 @@ void psum_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_tria
             len *= 2;
         }
     }
-    std::cout << std::endl;
-    std::cout << "psum_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
 }
 
 template<uint64_t SIZE, bool USE_PSUM_ARRAY>
-void search_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed)
+void search_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
 {
-    std::cout << "search_test/" << SIZE << "/" << USE_PSUM_ARRAY << std::endl;
+    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "SEARCH_TEST: \t" << std::flush;
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
 
@@ -316,25 +328,141 @@ void search_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_tr
             len *= 2;
         }
     }
-    std::cout << std::endl;
-    std::cout << "search_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
+}
+
+template<uint64_t SIZE, bool USE_PSUM_ARRAY>
+void random_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed, bool detail_check = false, int message_paragraph = stool::Message::SHOW_MESSAGE)
+{
+    stool::StaticArrayDeque<SIZE, USE_PSUM_ARRAY> deque;
+    std::vector<uint64_t> seq;
+    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "RANDOM_TEST: \t" << std::flush;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
+
+    auto compute_psum = [](const std::vector<uint64_t> &seq, uint64_t i) -> uint64_t
+    {
+        uint64_t sum = 0;
+        for (uint64_t x = 0; x <= i; x++)
+        {
+            sum += seq[x];
+        }
+        return sum;
+    };
+
+
+    auto compute_search = [](const std::vector<uint64_t> &seq, uint64_t value) -> int64_t
+    {
+        uint64_t sum = 0;
+        for (uint64_t x = 0; x < seq.size(); x++)
+        {
+            sum += seq[x];
+            if (sum >= value)
+            {
+                return x;
+            }
+        }
+        return -1;
+    };
+
+    for (uint64_t i = 0; i < number_of_trials; i++)
+    {
+        uint64_t counter = 0;
+        std::vector<uint64_t> seq = stool::StringGenerator::create_random_sequence<uint64_t>(max_len/2, alphabet_size, seed++);
+        stool::StaticArrayDeque<SIZE, USE_PSUM_ARRAY> deque(seq);
+
+        std::cout << "+" << std::flush;
+
+        while (counter < 10000)
+        {
+
+            uint64_t type = get_rand_value(mt) % 10;
+            uint64_t random_pos = get_rand_value(mt) % seq.size();
+            uint64_t random_value = get_rand_value(mt) % alphabet_size;
+
+            if (type == 0 || type == 1)
+            {
+                if(seq.size() < deque.max_size()){
+                    deque.push_back(random_value);
+                    seq.push_back(random_value);    
+                }
+            }
+            else if (type == 2 || type == 3)
+            {
+                if(seq.size() < deque.max_size()){
+
+                    deque.push_front(random_value);
+                    seq.insert(seq.begin(), random_value);    
+                }
+
+            }
+            else if (type == 4 && seq.size() > 0)
+            {
+
+                deque.pop_back();
+                seq.pop_back();
+            }
+            else if (type == 5 && deque.size() > 0)
+            {
+
+                deque.pop_front();
+                seq.erase(seq.begin());
+            }
+            else if (type == 6 && seq.size() < max_len)
+            {
+                seq.insert(seq.begin() + random_pos, random_value);
+                deque.insert(random_pos, random_value);
+            }
+            else if (type == 7 && seq.size() > 0)
+            {
+                seq.erase(seq.begin() + random_pos);
+                deque.erase(random_pos);
+            }
+            else if (type == 8){
+                seq[random_pos] = random_value;
+                deque.set_value(random_pos, random_value);
+            }else{
+
+                uint64_t psum1 = compute_psum(seq, random_pos);
+                uint64_t psum2 = deque.psum(random_pos);
+                if (psum1 != psum2)
+                {
+                    std::cout << "psum_test error/" << psum1 << "/" << psum2 << std::endl;
+                    throw std::runtime_error("psum_test error");
+                }
+
+                uint64_t search1 = compute_search(seq, random_value);
+                uint64_t search2 = deque.search(random_value);
+                if (search1 != search2)
+                {
+                    std::cout << "search_test error/" << search1 << "/" << search2 << std::endl;
+                    throw std::runtime_error("search_test error");
+                }
+            }
+            counter++;
+
+            if(detail_check){
+                equal_test(deque, seq);
+            }
+        }
+        equal_test(deque, seq);
+
+    }
+    std::cout << "[DONE]" << std::endl;
 }
 
 
 template<uint64_t SIZE, bool USE_PSUM_ARRAY>
-void all_test(uint64_t seq_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed){
+void all_test(uint64_t seq_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE){
+    std::cout << stool::Message::get_paragraph_string(message_paragraph) << "TEST: len = " << seq_len <<  ", SIZE =" << SIZE << ", USE_PSUM_ARRAY = " << USE_PSUM_ARRAY <<  ", alphabet_size = " << alphabet_size << ", number_of_trials = " << number_of_trials << ", seed = " << seed << std::endl;
 
-    //std::mt19937_64 mt64(seed);
-
-
-
-    access_test<SIZE, USE_PSUM_ARRAY>(seq_len, alphabet_size, number_of_trials, seed);
-    replace_test<SIZE, USE_PSUM_ARRAY>(seq_len, alphabet_size, number_of_trials, seed);
-    push_and_pop_test<SIZE, USE_PSUM_ARRAY>(seq_len, alphabet_size, number_of_trials, seed);    
-    insert_and_erase_test<SIZE, USE_PSUM_ARRAY>(seq_len, alphabet_size, number_of_trials, seed);
-    psum_test<SIZE, USE_PSUM_ARRAY>(seq_len, alphabet_size, number_of_trials, seed);
-    search_test<SIZE, USE_PSUM_ARRAY>(seq_len, alphabet_size, number_of_trials, seed);
-
+    access_test<SIZE, USE_PSUM_ARRAY>(seq_len, alphabet_size, number_of_trials, seed, message_paragraph+1);
+    replace_test<SIZE, USE_PSUM_ARRAY>(seq_len, alphabet_size, number_of_trials, seed, message_paragraph+1);
+    push_and_pop_test<SIZE, USE_PSUM_ARRAY>(seq_len, alphabet_size, number_of_trials, seed, false, message_paragraph+1);    
+    insert_and_erase_test<SIZE, USE_PSUM_ARRAY>(seq_len, alphabet_size, number_of_trials, seed, false,message_paragraph+1);
+    psum_test<SIZE, USE_PSUM_ARRAY>(seq_len, alphabet_size, number_of_trials, seed, message_paragraph+1);
+    search_test<SIZE, USE_PSUM_ARRAY>(seq_len, alphabet_size, number_of_trials, seed, message_paragraph+1);
+    random_test<SIZE, USE_PSUM_ARRAY>(seq_len, alphabet_size, number_of_trials, seed, false, message_paragraph+1);
 
 }
 
@@ -360,21 +488,18 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     uint64_t alphabet_size64 = (uint64_t)UINT32_MAX * 10000;
 
     
-    /*
-    all_test<256, true>(256, alphabet_size8, number_of_trials, seed);
-
-    all_test<1024, false>(seq_len, alphabet_size8, number_of_trials, seed);
-    all_test<1024, true>(seq_len, alphabet_size8, number_of_trials, seed);
-    all_test<2048, false>(seq_len, alphabet_size16, number_of_trials, seed);
-    all_test<2048, true>(seq_len, alphabet_size16, number_of_trials, seed);
     
+    all_test<256, true>(256, alphabet_size8, number_of_trials, seed, stool::Message::SHOW_MESSAGE);
 
+    all_test<1024, false>(1000, alphabet_size8, number_of_trials, seed, stool::Message::SHOW_MESSAGE);
+    all_test<1024, true>(1000, alphabet_size8, number_of_trials, seed, stool::Message::SHOW_MESSAGE);
+    all_test<2048, false>(2000, alphabet_size16, number_of_trials, seed, stool::Message::SHOW_MESSAGE);
+    all_test<2048, true>(2000, alphabet_size16, number_of_trials, seed, stool::Message::SHOW_MESSAGE);
     
-    all_test<4096, false>(seq_len, alphabet_size32, number_of_trials, seed);
-    */
-    all_test<4096, true>(seq_len, alphabet_size32, number_of_trials, seed);
-    all_test<8192, false>(seq_len, alphabet_size64, number_of_trials, seed);
-    all_test<8192, true>(seq_len, alphabet_size64, number_of_trials, seed);
+    all_test<4096, false>(4000, alphabet_size32, number_of_trials, seed, stool::Message::SHOW_MESSAGE);    
+    all_test<4096, true>(4000, alphabet_size32, number_of_trials, seed, stool::Message::SHOW_MESSAGE);
+    all_test<8192, false>(8000, alphabet_size64, number_of_trials, seed, stool::Message::SHOW_MESSAGE);
+    all_test<8192, true>(8000, alphabet_size64, number_of_trials, seed, stool::Message::SHOW_MESSAGE);
     
     
 

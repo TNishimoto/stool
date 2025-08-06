@@ -310,7 +310,7 @@ namespace stool
             }
 
             ByteType type = (ByteType)this->value_byte_type_;
-            BASECLASS::write_value(this->circular_buffer_, this->starting_position_, this->deque_size_, index, value, type);
+            BASECLASS::write_value(this->circular_buffer_, this->starting_position_, index, value, type);
 
             if (index < this->sum_starting_index)
             {
@@ -442,12 +442,12 @@ namespace stool
 
             uint64_t pos = this->size();
             ByteType type = (ByteType)this->value_byte_type_;
-            uint64_t psumR = this->deque_size_ == 0 ? 0 : BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, this->deque_size_, pos - 1, type);
+            uint64_t psumR = this->deque_size_ == 0 ? 0 : BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, pos - 1, type);
 
             this->deque_size_++;
 
-            BASECLASS::write_value(this->circular_buffer_, this->starting_position_, this->deque_size_, pos, value, type);
-            BASECLASS::write_value(this->circular_sum_buffer_, this->starting_position_, this->deque_size_, pos, psumR + value, type);
+            BASECLASS::write_value(this->circular_buffer_, this->starting_position_, pos, value, type);
+            BASECLASS::write_value(this->circular_sum_buffer_, this->starting_position_, pos, psumR + value, type);
             assert(this->sum_starting_index < this->deque_size_ || this->deque_size_ == 0);
         }
 
@@ -504,7 +504,7 @@ namespace stool
 
             uint64_t value_byte_size = BASECLASS::get_byte_size2(this->value_byte_type_);
             ByteType type = (ByteType)this->value_byte_type_;
-            uint64_t psumL = this->sum_starting_index == 0 ? 0 : BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, this->deque_size_, 0, type);
+            uint64_t psumL = this->sum_starting_index == 0 ? 0 : BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, 0, type);
 
             bool empty_flag = this->deque_size_ == 0;
 
@@ -512,13 +512,13 @@ namespace stool
             {
                 this->starting_position_ -= value_byte_size;
                 this->deque_size_++;
-                BASECLASS::write_value(this->circular_buffer_, this->starting_position_, this->deque_size_, 0, value, type);
+                BASECLASS::write_value(this->circular_buffer_, this->starting_position_, 0, value, type);
             }
             else if (this->starting_position_ == 0)
             {
                 this->starting_position_ = BUFFER_SIZE - value_byte_size;
                 this->deque_size_++;
-                BASECLASS::write_value(this->circular_buffer_, this->starting_position_, this->deque_size_, 0, value, type);
+                BASECLASS::write_value(this->circular_buffer_, this->starting_position_, 0, value, type);
             }
             else
             {
@@ -528,12 +528,12 @@ namespace stool
             if (empty_flag)
             {
                 this->sum_starting_index = 0;
-                BASECLASS::write_value(this->circular_sum_buffer_, this->starting_position_, this->deque_size_, 0, value, type);
+                BASECLASS::write_value(this->circular_sum_buffer_, this->starting_position_, 0, value, type);
             }
             else
             {
                 this->sum_starting_index++;
-                BASECLASS::write_value(this->circular_sum_buffer_, this->starting_position_, this->deque_size_, 0, psumL + value, type);
+                BASECLASS::write_value(this->circular_sum_buffer_, this->starting_position_, 0, psumL + value, type);
             }
 
             assert(this->sum_starting_index < this->deque_size_ || this->deque_size_ == 0);
@@ -612,14 +612,14 @@ namespace stool
             uint64_t value_capacity = UINT64_MAX - current_sum;
             if (value > value_capacity)
             {
-                throw std::out_of_range("static_array_deque::push_back, Value out of range");
+                throw std::out_of_range("static_array_deque::insert, Value out of range");
             }
 
             uint64_t size = this->size();
 
-            if (size + 1 >= SIZE)
+            if (size >= SIZE)
             {
-                throw std::out_of_range("Size out of range");
+                throw std::out_of_range("static_array_deque::insert,Size out of range");
             }
 
             if (position > SIZE + 1)
@@ -659,7 +659,7 @@ namespace stool
 
                 memmove(&this->circular_buffer_[dst_pos], &this->circular_buffer_[src_pos], move_size);
 
-                BASECLASS::write_value(this->circular_buffer_, this->starting_position_, this->deque_size_, position, value, (ByteType)this->value_byte_type_);
+                BASECLASS::write_value(this->circular_buffer_, this->starting_position_, position, value, (ByteType)this->value_byte_type_);
                 this->update_sum_buffer();
             }
 
@@ -756,13 +756,13 @@ namespace stool
             }
             else
             {
-                uint64_t psumL = this->sum_starting_index == 0 ? 0 : BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, this->deque_size_, 0, (ByteType)this->value_byte_type_);
+                uint64_t psumL = this->sum_starting_index == 0 ? 0 : BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, 0, (ByteType)this->value_byte_type_);
                 if (psumL >= value)
                 {
                     auto psumLFunc = [&](int64_t i)
                     {
-                        uint64_t value1 = BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, this->deque_size_, i, (ByteType)this->value_byte_type_);
-                        uint64_t value2 = BASECLASS::read_value(this->circular_buffer_, this->starting_position_, this->deque_size_, i, (ByteType)this->value_byte_type_);
+                        uint64_t value1 = BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, i, (ByteType)this->value_byte_type_);
+                        uint64_t value2 = BASECLASS::read_value(this->circular_buffer_, this->starting_position_, i, (ByteType)this->value_byte_type_);
                         uint64_t psum = psumL - value1 + value2;
                         return psum;
                     };
@@ -779,13 +779,13 @@ namespace stool
                 {
                     auto psumRFunc = [&](int64_t i)
                     {
-                        uint64_t value1 = BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, this->deque_size_, i, (ByteType)this->value_byte_type_);
+                        uint64_t value1 = BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, i, (ByteType)this->value_byte_type_);
                         uint64_t psum = psumL + value1;
                         return psum;
                     };
                     int64_t result = find_lower_bound(this->sum_starting_index, this->deque_size_, psumRFunc, value);
                     assert(result != -1);
-                    if (result > this->sum_starting_index)
+                    if (result > (int64_t)this->sum_starting_index)
                     {
                         sum = psumRFunc(result - 1);
                     }
@@ -821,7 +821,7 @@ namespace stool
             std::deque<uint64_t> sum_buffer_values;
             for (uint64_t i = 0; i < this->deque_size_; i++)
             {
-                uint64_t value = BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, this->deque_size_, i, (ByteType)this->value_byte_type_);
+                uint64_t value = BASECLASS::read_value(this->circular_sum_buffer_, this->starting_position_, i, (ByteType)this->value_byte_type_);
                 sum_buffer_values.push_back(value);
             }
 
@@ -835,6 +835,23 @@ namespace stool
             std::cout << "Sum starting index: " << (int64_t)this->sum_starting_index << std::endl;
             stool::DebugPrinter::print_integers(sum_buffer_values, "SUM");
             std::cout << "==============================" << std::endl;
+        }
+
+        uint64_t size_in_bytes(bool only_extra_bytes = false) const
+        {
+            if(only_extra_bytes){
+                return 0;
+            }else{
+                return sizeof(StaticArrayDeque<SIZE, true>);
+            }
+        }
+
+        uint64_t unused_size_in_bytes() const
+        {
+            uint64_t value_byte_size = get_byte_size2(this->value_byte_type_);
+            uint64_t size = this->size();
+            uint64_t used_size = size * value_byte_size;
+            return (BUFFER_SIZE - used_size) * 2;
         }
     };
 }

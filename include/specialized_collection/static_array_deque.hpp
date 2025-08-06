@@ -86,12 +86,9 @@ namespace stool
             }
             this->clear();
 
-            uint64_t test_sum = 0;
-
             for (uint64_t i = 0; i < items.size(); i++)
             {
                 this->push_back(items[i]);
-                test_sum += items[i];
             }
         }
 
@@ -388,9 +385,9 @@ namespace stool
                 throw std::invalid_argument("SIZE must be a power of two");
             }
 
-            if (this->deque_size_ + 1 >= SIZE)
+            if (this->deque_size_  >= SIZE)
             {
-                throw std::out_of_range("Size out of range");
+                throw std::out_of_range("push_back, Size out of range");
             }
 
             uint64_t new_byte_type = std::max((uint8_t)get_byte_type(value), this->value_byte_type_);
@@ -416,9 +413,9 @@ namespace stool
                 throw std::invalid_argument("SIZE must be a power of two");
             }
 
-            if (this->deque_size_ + 1 >= SIZE)
+            if (this->deque_size_  >= SIZE)
             {
-                throw std::out_of_range("Size out of range");
+                throw std::out_of_range("push_front, Size out of range");
             }
 
             uint64_t new_byte_type = std::max((uint8_t)get_byte_type(value), this->value_byte_type_);
@@ -455,7 +452,7 @@ namespace stool
         {
             if (this->deque_size_ == 0)
             {
-                throw std::out_of_range("Size out of range");
+                throw std::out_of_range("pop_back, Size out of range");
             }
             this->deque_size_--;
         }
@@ -467,7 +464,7 @@ namespace stool
         {
             if (this->deque_size_ == 0)
             {
-                throw std::out_of_range("Size out of range");
+                throw std::out_of_range("pop_front, Size out of range");
             }
 
             uint64_t value_byte_size = get_byte_size2(this->value_byte_type_);
@@ -521,9 +518,9 @@ namespace stool
         {
             uint64_t size = this->size();
 
-            if (size + 1 >= SIZE)
+            if (size  >= SIZE)
             {
-                throw std::out_of_range("Size out of range");
+                throw std::out_of_range("insert, Size out of range");
             }
 
             if (position > SIZE + 1)
@@ -895,7 +892,7 @@ namespace stool
         {
             return this->at(index);
         }
-        static uint64_t read_value(const std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t deque_size, uint64_t index, ByteType byte_type){
+        static uint64_t read_value(const std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t index, ByteType byte_type){
             switch (byte_type)
             {
             case ByteType::U8:
@@ -932,7 +929,7 @@ namespace stool
 
         }
 
-        static void write_value(std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t deque_size, uint64_t index, uint64_t value, ByteType byte_type){
+        static void write_value(std::array<uint8_t, BUFFER_SIZE> &array, BufferIndex starting_position, uint64_t index, uint64_t value, ByteType byte_type){
             switch (byte_type)
             {
             case ByteType::U8:
@@ -983,7 +980,7 @@ namespace stool
             }
 
             ByteType v = (ByteType)this->value_byte_type_;
-            write_value(this->circular_buffer_, this->starting_position_, this->deque_size_, index, value, v);
+            write_value(this->circular_buffer_, this->starting_position_, index, value, v);
         }
 
         /**
@@ -1222,12 +1219,19 @@ namespace stool
 
         uint64_t size_in_bytes(bool only_extra_bytes = false) const
         {
-            throw std::runtime_error("size_in_bytes is not supported");
+            if(only_extra_bytes){
+                return 0;
+            }else{
+                return sizeof(StaticArrayDeque<SIZE, USE_PSUM_ARRAY>);
+            }
         }
 
         uint64_t unused_size_in_bytes() const
         {
-            throw std::runtime_error("unused_size_in_bytes is not supported");
+            uint64_t value_byte_size = get_byte_size2(this->value_byte_type_);
+            uint64_t size = this->size();
+            uint64_t used_size = size * value_byte_size;
+            return BUFFER_SIZE - used_size;
         }
     };
 }
