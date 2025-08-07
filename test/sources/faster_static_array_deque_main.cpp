@@ -10,6 +10,8 @@ void equal_test(const stool::FasterStaticArrayDeque<SIZE> &dequeA, const std::ve
     if (dequeA.size() != dequeB.size())
     {
         std::cout << std::endl;
+        std::cout << "dequeA.size() = " << dequeA.size() << std::endl;
+        std::cout << "dequeB.size() = " << dequeB.size() << std::endl;
 
         throw std::runtime_error("equal_test is incorrect (size is different)");
     }
@@ -191,9 +193,12 @@ void insert_and_erase_test(uint64_t max_len, uint64_t alphabet_size, uint64_t nu
                 throw e;
             }    
 
+
             while (seq.size() > 0)
             {
                 uint64_t pos = get_rand_value(mt) % seq.size();
+
+
                 seq.erase(seq.begin() + pos);
                 deque.erase(pos);
 
@@ -440,7 +445,7 @@ void all_test(uint64_t seq_len, uint64_t alphabet_size, uint64_t number_of_trial
     access_test<SIZE>(seq_len, alphabet_size, number_of_trials, seed, message_paragraph+1);
     replace_test<SIZE>(seq_len, alphabet_size, number_of_trials, seed, message_paragraph+1);
     push_and_pop_test<SIZE>(seq_len, alphabet_size, number_of_trials, seed, false, message_paragraph+1);    
-    insert_and_erase_test<SIZE>(seq_len, alphabet_size, number_of_trials, seed, false,message_paragraph+1);
+    insert_and_erase_test<SIZE>(seq_len, alphabet_size, number_of_trials, seed, true,message_paragraph+1);
     psum_test<SIZE>(seq_len, alphabet_size, number_of_trials, seed, message_paragraph+1);
     search_test<SIZE>(seq_len, alphabet_size, number_of_trials, seed, message_paragraph+1);
     random_test<SIZE>(seq_len, alphabet_size, number_of_trials, seed, false, message_paragraph+1);

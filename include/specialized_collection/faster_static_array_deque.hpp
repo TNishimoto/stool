@@ -19,22 +19,25 @@ namespace stool
      *
      * @tparam INDEX_TYPE The type used for indexing (uint16_t, uint32_t, uint64_t)
      */
-    template <uint64_t SIZE = 1024>
+    template <uint64_t MAX_ELEMENT_COUNT = 1024>
     class FasterStaticArrayDeque
     {
         public:
 
         using BufferIndex = uint64_t;
         using ElementIndex = uint64_t;
+        static constexpr uint64_t BUFFER_SIZE = MAX_ELEMENT_COUNT * 2;
 
         protected:
 
-        std::array<uint64_t, SIZE> circular_buffer_;
+
+
+        std::array<uint64_t, BUFFER_SIZE> circular_buffer_;
         uint64_t starting_position_ = 0;
         uint64_t deque_size_ = 0;
         uint64_t psum_ = 0;
 
-        static constexpr bool is_power_of_two = (SIZE != 0) && ((SIZE & (SIZE - 1)) == 0);
+        static constexpr bool is_power_of_two = (MAX_ELEMENT_COUNT != 0) && ((MAX_ELEMENT_COUNT & (MAX_ELEMENT_COUNT - 1)) == 0);
 
 
     public:
@@ -69,7 +72,7 @@ namespace stool
          */
         size_t capacity() const
         {
-            return SIZE;
+            return MAX_ELEMENT_COUNT;
         }
 
         /**
@@ -78,7 +81,7 @@ namespace stool
         void clear()
         {
             this->deque_size_ = 0;
-            this->starting_position_ = 0;
+            this->starting_position_ = BUFFER_SIZE / 2;
             this->psum_ = 0;
         }
 
@@ -288,9 +291,7 @@ namespace stool
          */
         FasterStaticArrayDeque()
         {
-            this->starting_position_ = 0;
-            this->deque_size_ = 0;
-            this->psum_ = 0;
+            this->clear();
         }
 
         /**
@@ -310,7 +311,7 @@ namespace stool
          */
         FasterStaticArrayDequeIterator begin() const
         {
-            return FasterStaticArrayDequeIterator(const_cast<FasterStaticArrayDeque<SIZE> *>(this), 0);
+            return FasterStaticArrayDequeIterator(const_cast<FasterStaticArrayDeque<MAX_ELEMENT_COUNT> *>(this), 0);
         }
 
         /**
@@ -320,7 +321,7 @@ namespace stool
          */
         FasterStaticArrayDequeIterator end() const
         {
-            return FasterStaticArrayDequeIterator(const_cast<FasterStaticArrayDeque<SIZE> *>(this), this->deque_size_);
+            return FasterStaticArrayDequeIterator(const_cast<FasterStaticArrayDeque<MAX_ELEMENT_COUNT> *>(this), this->deque_size_);
         }
 
 
@@ -335,7 +336,7 @@ namespace stool
         }
 
         uint64_t max_size() const {
-            return SIZE;
+            return MAX_ELEMENT_COUNT;
         }
 
         /**
@@ -350,15 +351,19 @@ namespace stool
                 throw std::invalid_argument("SIZE must be a power of two");
             }
 
-            if (this->deque_size_  >= SIZE)
+            if (this->deque_size_  >= MAX_ELEMENT_COUNT)
             {
                 throw std::out_of_range("push_back, Size out of range");
             }
-            uint64_t mask = SIZE - 1;
-            uint64_t pos = this->size();
-            this->deque_size_++;
-            this->circular_buffer_[(this->starting_position_ + pos) & mask] = value;
+
+            if(this->starting_position_ + this->deque_size_ >= BUFFER_SIZE){
+                this->starting_position_= reset_starting_position_of_array_deque(this->circular_buffer_, this->starting_position_, this->deque_size_); 
+            }
+            uint64_t pos = this->starting_position_ + this->deque_size_;
+            this->circular_buffer_[pos] = value;
             this->psum_ += value;
+            this->deque_size_++;
+
         }
 
         /**
@@ -373,16 +378,20 @@ namespace stool
                 throw std::invalid_argument("SIZE must be a power of two");
             }
 
-            if (this->deque_size_  >= SIZE)
+            if (this->deque_size_  >= MAX_ELEMENT_COUNT)
             {
                 throw std::out_of_range("push_front, Size out of range");
             }
 
-            this->starting_position_ = (this->starting_position_ - 1) & (SIZE - 1);
-            this->deque_size_++;
-            this->circular_buffer_[this->starting_position_] = value;
-            this->psum_ += value;
 
+            if(this->starting_position_ == 0){
+                this->starting_position_= reset_starting_position_of_array_deque(this->circular_buffer_, this->starting_position_, this->deque_size_); 
+            }
+            uint64_t pos = this->starting_position_ - 1;
+            this->circular_buffer_[pos] = value;
+            this->psum_ += value;
+            this->deque_size_++;
+            this->starting_position_ = pos;
         }
 
         /**
@@ -394,9 +403,9 @@ namespace stool
             {
                 throw std::out_of_range("pop_back, Size out of range");
             }
-            uint64_t mask = SIZE - 1;
-            uint64_t pos = this->size() - 1;
-            this->psum_ -= this->circular_buffer_[(this->starting_position_ + pos) & mask];
+
+            uint64_t pos = this->starting_position_ + this->deque_size_ - 1;
+            this->psum_ -= this->circular_buffer_[pos];
             this->deque_size_--;
         }
 
@@ -410,9 +419,13 @@ namespace stool
                 throw std::out_of_range("pop_front, Size out of range");
             }
 
-            this->psum_ -= this->circular_buffer_[this->starting_position_];
-            this->starting_position_ = (this->starting_position_ + 1) & (SIZE - 1);
-            this->deque_size_--;
+            if(this->deque_size_ >= 2){
+                this->psum_ -= this->circular_buffer_[this->starting_position_];
+                this->deque_size_--;
+                this->starting_position_++;    
+            }else{
+                this->clear();
+            }
         }
 
         /**
@@ -448,12 +461,12 @@ namespace stool
         {
             uint64_t size = this->size();
 
-            if (size  >= SIZE)
+            if (size  >= MAX_ELEMENT_COUNT)
             {
                 throw std::out_of_range("insert, Size out of range");
             }
 
-            if (position > SIZE + 1)
+            if (position > this->deque_size_ + 1)
             {
                 throw std::out_of_range("Position out of range");
             }
@@ -470,18 +483,19 @@ namespace stool
             }
             else
             {
-                reset_starting_position_of_array_deque(this->circular_buffer_, this->starting_position_, this->deque_size_);
-                this->starting_position_ = 0;
-
-
-                this->deque_size_++;
-                uint64_t src_pos = position;
-                uint64_t dst_pos = src_pos + 1;
-                uint64_t move_size = this->deque_size_ - dst_pos;
+                if(this->starting_position_ + this->deque_size_ >= BUFFER_SIZE){
+                    this->starting_position_= reset_starting_position_of_array_deque(this->circular_buffer_, this->starting_position_, this->deque_size_);
+                }
+                
+                uint64_t dst_pos = this->starting_position_ + position + 1;
+                uint64_t src_pos = this->starting_position_ + position;
+                uint64_t move_size = this->deque_size_ - position;
 
                 memmove(&this->circular_buffer_[dst_pos], &this->circular_buffer_[src_pos], move_size * sizeof(uint64_t));
-                this->circular_buffer_[position] = value;
+
+                this->circular_buffer_[src_pos] = value;
                 this->psum_ += value;
+                this->deque_size_++;
                 assert(this->at(position) == value);
 
             }
@@ -495,6 +509,10 @@ namespace stool
          */
         void erase(ElementIndex position)
         {
+            if(position >= this->deque_size_){
+                throw std::out_of_range("erase, Position out of range");
+            }
+
             if (position == 0)
             {
                 this->pop_front();
@@ -505,26 +523,22 @@ namespace stool
             }
             else
             {
-                uint64_t value = this->circular_buffer_[(this->starting_position_ + position) & (SIZE - 1)];
 
-                reset_starting_position_of_array_deque(this->circular_buffer_, this->starting_position_, this->deque_size_);
-                this->starting_position_ = 0;
-
-
-                uint64_t dst_pos = position;
-                uint64_t src_pos = dst_pos + 1;
-                uint64_t move_size = this->deque_size_ - src_pos;
+                uint64_t dst_pos = this->starting_position_ + position;
+                uint64_t src_pos = this->starting_position_ + position + 1;
+                uint64_t value = this->circular_buffer_[dst_pos];
+                uint64_t move_size = this->deque_size_ - position;
 
                 memmove(&this->circular_buffer_[dst_pos], &this->circular_buffer_[src_pos], move_size * sizeof(uint64_t));
-                this->deque_size_--;
+
                 this->psum_ -= value;
+                this->deque_size_--;
             }
         }
         void set_value(uint64_t index, uint64_t value)
         {
-            uint64_t mask = SIZE - 1;
-            uint64_t old_value = this->circular_buffer_[(this->starting_position_ + index) & mask];
-            this->circular_buffer_[(this->starting_position_ + index) & mask] = value;
+            uint64_t old_value = this->circular_buffer_[this->starting_position_ + index];
+            this->circular_buffer_[this->starting_position_ + index] = value;
             this->psum_ -= old_value;
             this->psum_ += value;
         }
@@ -543,25 +557,14 @@ namespace stool
             return UINT64_MAX;
         }
 
-        static void reset_starting_position_of_array_deque(std::array<uint64_t, SIZE> &array, BufferIndex old_starting_position, uint64_t element_count)
+        static uint64_t reset_starting_position_of_array_deque(std::array<uint64_t, BUFFER_SIZE> &array, BufferIndex old_starting_position, uint64_t element_count)
         {
-            std::array<uint64_t, SIZE> tmp_array;
+            uint64_t center_position = BUFFER_SIZE / 2;
+            uint64_t new_starting_position = center_position - (element_count / 2);
 
-            uint64_t mask = SIZE - 1;
+            std::memmove(&array[new_starting_position], &array[old_starting_position], element_count * sizeof(uint64_t));
 
-            uint64_t old_ending_position = (old_starting_position + element_count - 1) & mask;
-            if (old_starting_position <= old_ending_position)
-            {
-                std::memcpy(tmp_array.data(), &array[old_starting_position], (old_ending_position - old_starting_position + 1) * sizeof(uint64_t));
-            }
-            else
-            {
-                uint64_t prefix_size = SIZE - old_starting_position;
-                uint64_t suffix_size = old_ending_position + 1;
-                std::memcpy(tmp_array.data(), &array[old_starting_position], prefix_size * sizeof(uint64_t));
-                std::memcpy(&tmp_array[prefix_size], &array[0], suffix_size * sizeof(uint64_t));
-            }
-            std::memcpy(array.data(), tmp_array.data(), element_count * sizeof(uint64_t));
+            return new_starting_position;
 
         }
 
@@ -604,7 +607,7 @@ namespace stool
             std::deque<uint64_t> deque_values = this->to_deque();
             stool::DebugPrinter::print_integers(deque_values, "Deque");
             // std::cout << "Buffer: " << buffer_str << std::endl;
-            std::cout << "Buffer size: " << (int64_t)SIZE << std::endl;
+            std::cout << "Buffer size: " << (int64_t)MAX_ELEMENT_COUNT << std::endl;
             std::cout << "Starting position: " << (int64_t)this->starting_position_ << std::endl;
             std::cout << "Deque size: " << (int64_t)this->deque_size_ << std::endl;
             std::cout << "==============================" << std::endl;
@@ -643,8 +646,7 @@ namespace stool
          */
         uint64_t at(ElementIndex index) const
         {
-            uint64_t mask = SIZE - 1;
-            return this->circular_buffer_[(this->starting_position_ + index) & mask];
+            return this->circular_buffer_[this->starting_position_ + index];
         }
 
 
@@ -668,12 +670,10 @@ namespace stool
 
         uint64_t psum(uint64_t i) const
         {
-            uint64_t mask = SIZE - 1;
             uint64_t sum = 0;
-
             for (uint64_t x = 0; x <= i; x++)
             {
-                sum += this->circular_buffer_[(this->starting_position_ + x) & mask];
+                sum += this->circular_buffer_[this->starting_position_ + x];
             }
             return sum;
         }
@@ -689,16 +689,14 @@ namespace stool
             uint64_t size = this->size();
 
             if(value <= psum && size > 0){
-                uint64_t mask = SIZE - 1;
                 uint64_t i = 0;
-
-                uint64_t v = this->circular_buffer_[(this->starting_position_ + i) & mask];
+                uint64_t v = this->circular_buffer_[this->starting_position_ + i];
                         
                 while (sum + v < value)
                 {
                     i++;
                     sum += v;
-                    v = this->circular_buffer_[(this->starting_position_ + i) & mask];
+                    v = this->circular_buffer_[this->starting_position_ + i];
                     assert(i < size);
                 }
                 return i;    
@@ -713,15 +711,13 @@ namespace stool
 
         void increment(uint64_t pos, int64_t delta)
         {
-            uint64_t mask = SIZE - 1;
-            this->circular_buffer_[(this->starting_position_ + pos) & mask] += delta;
+            this->circular_buffer_[this->starting_position_ + pos] += delta;
             this->psum_ += delta;
         }
 
         void decrement(uint64_t pos, int64_t delta)
         {
-            uint64_t mask = SIZE - 1;
-            this->circular_buffer_[(this->starting_position_ + pos) & mask] -= delta;
+            this->circular_buffer_[this->starting_position_ + pos] -= delta;
             this->psum_ -= delta;
         }
         uint64_t psum() const
@@ -734,13 +730,13 @@ namespace stool
             if(only_extra_bytes){
                 return 0;
             }else{
-                return sizeof(FasterStaticArrayDeque<SIZE>);
+                return sizeof(FasterStaticArrayDeque<MAX_ELEMENT_COUNT>);
             }
         }
 
         uint64_t unused_size_in_bytes() const
         {
-            return (SIZE - this->size()) * sizeof(uint64_t);
+            return (MAX_ELEMENT_COUNT - this->size()) * sizeof(uint64_t);
         }
     };
 }
