@@ -46,6 +46,7 @@
 #include "./specialized_collection/static_array_deque.hpp"
 #include "./specialized_collection/static_array_deque2.hpp"
 #include "./specialized_collection/naive_array.hpp"
+#include "./specialized_collection/faster_static_array_deque.hpp"
 
 #include "./lz/lz_factor.hpp"
 

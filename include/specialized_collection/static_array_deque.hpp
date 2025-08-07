@@ -1253,6 +1253,15 @@ namespace stool
         {
             this->set_value(pos, this->at(pos) - delta);
         }
+        uint64_t psum() const
+        {
+            uint64_t size = this->size();
+            if(size == 0){
+                return 0;
+            }else{
+                return this->psum(size-1);
+            }
+        }
 
         uint64_t size_in_bytes(bool only_extra_bytes = false) const
         {

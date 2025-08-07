@@ -26,7 +26,6 @@ namespace stool
     protected:
         std::array<uint64_t, SIZE> circular_buffer_;
         std::array<uint64_t, SIZE> circular_sum_buffer_;
-
         uint64_t deque_size_ = 0;
 
         static constexpr bool is_power_of_two = (SIZE != 0) && ((SIZE & (SIZE - 1)) == 0);
@@ -354,17 +353,30 @@ namespace stool
 
         int64_t search(uint64_t value, uint64_t &sum) const
         {
+
             uint64_t size = this->size();
-            for (uint64_t i = 0; i < size; i++)
+            uint64_t i = 0;
+
+            uint64_t v = this->circular_buffer_[i];
+                        
+            while (sum + v < value)
             {
-                uint64_t v = this->circular_sum_buffer_[i];
-                if (value <= v)
-                {
-                    return i;
-                }
-                sum = v;
+                i++;
+                sum += v;
+                v = this->circular_buffer_[i];
+                assert(i < size);
             }
-            return -1;
+            
+            sum = i > 0 ? this->circular_sum_buffer_[i-1] : 0;
+
+            return i;
+        }
+        uint64_t psum() const
+        {
+            if(this->deque_size_ == 0){
+                return 0;
+            }
+            return this->circular_sum_buffer_[this->deque_size_-1];
         }
 
         void increment(uint64_t pos, int64_t delta)

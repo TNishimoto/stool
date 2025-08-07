@@ -71,3 +71,6 @@ target_link_libraries(byte_array_deque_test.out sdsl)
 
 add_executable(static_array_deque_test.out sources/static_array_test_main.cpp)
 target_link_libraries(static_array_deque_test.out sdsl)
+
+add_executable(faster_static_array_deque_test.out sources/faster_static_array_deque_main.cpp)
+target_link_libraries(faster_static_array_deque_test.out sdsl)
