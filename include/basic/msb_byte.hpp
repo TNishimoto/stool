@@ -265,6 +265,7 @@ namespace stool
 
                 write_64bit_string(bits_array, array_size, bits, zblock_index, zbit_index, 64 - xbit_index, false);
             }
+            fill(bits_array, bit_index, offset_bit_index, false);
 
         }
         template <typename T>
@@ -398,7 +399,8 @@ namespace stool
             }
         }
 
-        static void fill(std::vector<uint64_t> &bits, uint64_t pos, uint64_t len, bool b)
+        template <typename T>
+        static void fill(T &bits, uint64_t pos, uint64_t len, bool b)
         {
             uint64_t current_block_index = pos / 64;
             uint64_t current_bit_index = pos % 64;

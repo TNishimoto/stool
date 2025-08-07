@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 endif(CPP_STATIC)
 
 set(CMAKE_CXX_FLAGS_DEBUG  "-g -O0 -DDEBUG")
-set(CMAKE_CXX_FLAGS_RELEASE  "-O3 -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE  "-O3 -DNDEBUG  -Rpass=loop-vectorize")
 
 #SDSL lib and include directory are here
 #Please modify it appropriately.
@@ -66,14 +66,14 @@ target_link_libraries(bit_deque_test.out sdsl)
 #add_executable(integer_deque_test.out sources/integer_deque_test_main.cpp)
 #target_link_libraries(integer_deque_test.out sdsl)
 
-add_executable(byte_array_deque_test.out sources/byte_array_deque_main.cpp)
-target_link_libraries(byte_array_deque_test.out sdsl)
+#add_executable(byte_array_deque_test.out sources/byte_array_deque_main.cpp)
+#target_link_libraries(byte_array_deque_test.out sdsl)
 
-add_executable(static_array_deque_test.out sources/static_array_test_main.cpp)
-target_link_libraries(static_array_deque_test.out sdsl)
+#add_executable(static_array_deque_test.out sources/static_array_test_main.cpp)
+#target_link_libraries(static_array_deque_test.out sdsl)
 
-add_executable(faster_static_array_deque_test.out sources/faster_static_array_deque_main.cpp)
-target_link_libraries(faster_static_array_deque_test.out sdsl)
+#add_executable(faster_static_array_deque_test.out sources/faster_static_array_deque_main.cpp)
+#target_link_libraries(faster_static_array_deque_test.out sdsl)
 
-add_executable(naive_array_test.out sources/naive_array_test_main.cpp)
-target_link_libraries(naive_array_test.out sdsl)
+#add_executable(naive_array_test.out sources/naive_array_test_main.cpp)
+#target_link_libraries(naive_array_test.out sdsl)

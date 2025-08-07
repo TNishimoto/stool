@@ -13,6 +13,29 @@ std::string to_string(const std::vector<bool> &bv, bool use_partition = false){
     return s;
 }
 
+uint64_t compute_rank1(const std::vector<bool> &bv, uint64_t i){
+    uint64_t rank = 0;
+    for(uint64_t j = 0; j <= i; j++){
+        if(bv[j]){
+            rank++;
+        }
+    }
+    return rank;
+}
+int64_t compute_select1(const std::vector<bool> &bv, uint64_t i){
+    uint64_t count = 0;
+    uint64_t e = i+1;
+    for(uint64_t j = 0; j < bv.size(); j++){
+        if(bv[j]){
+            count++;
+        }
+        if(count == e){
+            return j;
+        }
+    }
+    return -1;
+}
+
 void random_bit_string256(int64_t bit_length, std::vector<uint64_t> &new_pattern, std::bitset<256> &bs, uint64_t seed){
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
@@ -20,11 +43,14 @@ void random_bit_string256(int64_t bit_length, std::vector<uint64_t> &new_pattern
     bs.reset();
     uint64_t i = 0;
 
+
+
     while(bit_length > 0){
-        new_pattern.push_back(get_rand_value(mt));
+        uint64_t new_value = get_rand_value(mt);
+        new_pattern.push_back(new_value);
         uint64_t len = std::min((uint64_t)bit_length, 64ULL);
         for(uint64_t j = 0; j < len; j++){
-            bs[i] = (new_pattern[i] >> (63 - j)) & 1;
+            bs[i] = (new_value >> (63 - j)) & 1;
             i++;
             bit_length--;
         }
@@ -67,8 +93,21 @@ void random_shift(stool::BitArrayDeque &bit_deque, uint64_t seed){
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
 
+    uint64_t num1 = bit_deque.rank1();
+
     uint64_t shift_len = get_rand_value(mt) % bit_deque.capacity();
     bit_deque.change_starting_position(shift_len);
+
+    if(bit_deque.size() > 0){
+        if(num1 != bit_deque.rank1(0, bit_deque.size() - 1)){
+            std::cout << "random_shift error" << std::endl;
+            std::cout << "num1 = " << num1 << std::endl;
+            std::cout << "bit_deque.rank1(0, bit_deque.size() - 1) = " << bit_deque.rank1(0, bit_deque.size() - 1) << std::endl;
+            bit_deque.print_info();
+            throw std::runtime_error("random_shift error");
+        }
+    }
+
 }
 
 
@@ -84,7 +123,7 @@ void equal_test(const stool::BitArrayDeque &bv, const std::vector<bool> &naive_b
 
         throw std::runtime_error("equal_test is incorrect (size is different)");
     }
-
+    
     for (uint64_t i = 0; i < naive_bv.size(); i++)
     {
 
@@ -102,10 +141,21 @@ void equal_test(const stool::BitArrayDeque &bv, const std::vector<bool> &naive_b
             throw std::runtime_error("equal_test is incorrect");
         }
     }
+
+    if(naive_bv.size() > 0){
+        uint64_t num1_naive = compute_rank1(naive_bv, naive_bv.size() - 1);
+        uint64_t num1 = bv.rank1();
+        if(num1 != num1_naive){
+            std::cout << "num1 = " << num1 << " != " << num1_naive << std::endl;
+            std::cout << "naive_bv = " << to_string(naive_bv, true) << std::endl;
+            std::cout << "      bv = " << bv.to_string(true) << std::endl;
+            throw std::runtime_error("equal_test is incorrect (num1 is different)");
+        }    
+    }
 }
 void access_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
 {
-    std::cout << "access_test" << std::endl;
+    std::cout << "ACCESS_TEST \t" << std::flush;
     for (uint64_t i = 0; i < number_of_trials; i++)
     {
         std::cout << "+" << std::flush;
@@ -121,12 +171,11 @@ void access_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
             len *= 2;
         }
     }
-    std::cout << std::endl;
-    std::cout << "access_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
 }
 void select_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
 {
-    std::cout << "select_test" << std::endl;
+    std::cout << "SELECT_TEST \t" << std::flush;
     for (uint64_t i = 0; i < number_of_trials; i++)
     {
         std::cout << "+" << std::flush;
@@ -167,12 +216,11 @@ void select_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
             len *= 2;
         }
     }
-    std::cout << std::endl;
-    std::cout << "select_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
 }
 void rank_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
 {
-    std::cout << "rank_test" << std::endl;
+    std::cout << "RANK_TEST \t" << std::flush;
 
     for (uint64_t i = 0; i < number_of_trials; i++)
     {
@@ -205,15 +253,14 @@ void rank_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
             len *= 2;
         }
     }
-    std::cout << std::endl;
-    std::cout << "rank_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
 }
 
-void push_and_pop_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
+void push_and_pop_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, bool detail_check = true)
 {
+    std::cout << "PUSH_AND_POP_TEST \t" << std::flush;
     stool::BitArrayDeque bit_deque;
     std::vector<bool> naive_bv;
-    std::cout << "push_and_pop_test" << std::endl;
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
     for (uint64_t i = 0; i < number_of_trials; i++)
@@ -244,19 +291,22 @@ void push_and_pop_test(uint64_t max_len, uint64_t number_of_trials, uint64_t see
                 naive_bv.erase(naive_bv.begin());
             }
 
+            if(detail_check){
+                equal_test(bit_deque, naive_bv);
+            }
+
         }
         equal_test(bit_deque, naive_bv);
 
     }
-    std::cout << std::endl;
-    std::cout << "push_and_pop_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
 }
 
-void push64_and_pop64_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
+void push64_and_pop64_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, bool detail_check = true)
 {
+    std::cout << "PUSH64_AND_POP64_TEST \t" << std::flush;
     stool::BitArrayDeque bit_deque;
     std::vector<bool> naive_bv;
-    std::cout << "push64_and_pop64_test" << std::endl;
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
     for (uint64_t i = 0; i < number_of_trials; i++)
@@ -298,18 +348,19 @@ void push64_and_pop64_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
                     naive_bv.erase(naive_bv.begin());
                 }
             }
-            equal_test(bit_deque, naive_bv);
-
+            if(detail_check){
+                equal_test(bit_deque, naive_bv);
+            }
         }
+        equal_test(bit_deque, naive_bv);
 
     }
-    std::cout << std::endl;
-    std::cout << "push64_and_pop64_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
 }
-void replace_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
+void replace_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, bool detail_check = true)
 {
 
-    std::cout << "replace_test" << std::endl;
+    std::cout << "REPLACE_TEST \t" << std::flush;
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
     
@@ -338,19 +389,22 @@ void replace_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
                 }
                 
                 bit_deque.replace_64bit_string(j, new_value, plen);
+
+                if(detail_check){
+                    equal_test(bit_deque, bv);
+                }
             }
 
             equal_test(bit_deque, bv);
             len *= 2;
         }
     }
-    std::cout << std::endl;
-    std::cout << "replace_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
 }
 
-void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
+void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, bool detail_check = true)
 {
-    std::cout << "insert_and_erase_test" << std::endl;
+    std::cout << "INSERT_AND_ERASE_TEST \t" << std::flush;
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
     
@@ -360,52 +414,75 @@ void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
         int64_t len = 1;
         while (len < (int64_t)max_len)
         {
+
             std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
             stool::BitArrayDeque bit_deque(bv);
-            random_shift(bit_deque, seed++);
-            assert(bv.size() == bit_deque.size());
 
-            while((int64_t)bv.size() < len){
+            random_shift(bit_deque, seed++);
+            equal_test(bit_deque, bv);
+
+            assert(bv.size() == bit_deque.size());
+            
+            //while((int64_t)bv.size() < 50){
+            while((int64_t)bv.size() < (int64_t)max_len){
                 uint64_t new_value = get_rand_value(mt);
                 int64_t plen = (get_rand_value(mt) % 64) + 1;
                 uint64_t pos = get_rand_value(mt) % (bv.size() + 1);
 
+
                 std::string bv_str = to_string(bv);
                 std::bitset<64> bs(new_value);
+
 
                 std::string s = bs.to_string();
                 while((int64_t)s.size() > plen){
                     s.pop_back();
                 }
 
+
+                assert(pos <= bit_deque.size());
+
+
                 for(int64_t k = plen-1; k >= 0; k--){
                     bv.insert(bv.begin() + pos, s[k] == '1');
                 }
 
 
-                assert(pos <= bit_deque.size());
+
+
                 bit_deque.insert_64bit_string(pos, new_value, plen);
 
+                if(detail_check){
+                    equal_test(bit_deque, bv);
+
+                }
 
 
             }
+
             equal_test(bit_deque, bv);
 
             
             while(bv.size() > 0){
+
                 uint64_t pos = get_rand_value(mt) % bv.size();
                 bv.erase(bv.begin() + pos);
+
+
                 bit_deque.erase(pos);
 
-                try{
-                    equal_test(bit_deque, bv);
-                }
-                catch(const std::runtime_error& e){
-                    std::cout << "Erase test error" << std::endl;
-                    std::cout << "len = " << len << std::endl;
-                    std::cout << "pos = " << pos << std::endl;
-                    std::cout << "bv size = " << bv.size() << std::endl;
-                    throw e;
+
+                if(detail_check){
+                    try{
+                        equal_test(bit_deque, bv);
+                    }
+                    catch(const std::runtime_error& e){
+                        std::cout << "Erase test error" << std::endl;
+                        std::cout << "len = " << len << std::endl;
+                        std::cout << "pos = " << pos << std::endl;
+                        std::cout << "bv size = " << bv.size() << std::endl;
+                        throw e;
+                    }    
                 }
             }
             
@@ -414,13 +491,12 @@ void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
             len *= 2;
         }
     }
-    std::cout << std::endl;
-    std::cout << "insert_and_erase_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
 }
 
-void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
+void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, bool detail_check = true)
 {
-    std::cout << "insert64_and_erase64_test" << std::endl;
+    std::cout << "INSERT64_AND_ERASE64_TEST \t" << std::flush;
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
     
@@ -435,7 +511,7 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
             random_shift(bit_deque, seed++);
             assert(bv.size() == bit_deque.size());
 
-            while((int64_t)bv.size() < len){
+            while((int64_t)bv.size() < (int64_t)max_len){
 
                 uint64_t new_pattern_size = get_rand_value(mt) % 257;
                 std::vector<uint64_t> new_pattern;
@@ -451,18 +527,36 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
 
                 assert(pos <= bit_deque.size());
                 bit_deque.insert_64bit_string(pos, new_pattern, new_pattern_size);
+
+                if(detail_check){
+                    try{
+                        equal_test(bit_deque, bv);
+                    }
+                    catch(const std::runtime_error& e){
+                        std::cout << "Insert64 test error" << std::endl;
+                        std::cout << "\t len = " << len << std::endl;
+                        std::cout << "\t pos = " << pos << std::endl;
+                        std::cout << "\t new_pattern_size = " << new_pattern_size << std::endl;
+                        std::cout << "\t new_pattern_bs = " << new_pattern_bs.to_string() << std::endl;
+                        std::cout << "\t bv size = " << bv.size() << std::endl;
+                        throw e;
+                    }
+                        
+                }    
             }
+
 
             try{
                 equal_test(bit_deque, bv);
             }
             catch(const std::runtime_error& e){
-                std::cout << "Erase test error" << std::endl;
+                std::cout << "Insert test error" << std::endl;
                 std::cout << "len = " << len << std::endl;
                 //std::cout << "pos = " << pos << std::endl;
                 std::cout << "bv size = " << bv.size() << std::endl;
                 throw e;
             }
+
 
             while(bv.size() > 0){
                 int64_t pos = get_rand_value(mt) % bv.size();
@@ -477,6 +571,20 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
 
                 bit_deque.erase(pos, new_pattern_size);
 
+                if(detail_check){
+                    if(detail_check){
+                        try{
+                            equal_test(bit_deque, bv);
+                        }
+                        catch(const std::runtime_error& e){
+                            std::cout << "Erase test error" << std::endl;
+                            std::cout << "bv size = " << bv.size() << std::endl;
+                            throw e;
+                        }                            
+                    }
+        
+                }
+
             }
             
             
@@ -484,8 +592,101 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
             len *= 2;
         }
     }
-    std::cout << std::endl;
-    std::cout << "insert64_and_erase64_test is done." << std::endl;
+    std::cout << "[DONE]" << std::endl;
+}
+void random_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, bool detail_check = false)
+{
+    stool::BitArrayDeque bit_deque;
+    std::vector<bool> seq;
+    std::cout << "RANDOM_TEST: \t" << std::flush;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
+
+
+    for (uint64_t i = 0; i < number_of_trials; i++)
+    {
+        uint64_t counter = 0;
+        std::vector<bool> seq = stool::StringGenerator::create_random_bit_vector(max_len/2, seed++);
+        stool::BitArrayDeque bit_deque(seq);
+
+        std::cout << "+" << std::flush;
+
+        while (counter < 10000)
+        {
+
+            uint64_t type = get_rand_value(mt) % 10;
+            uint64_t random_pos = get_rand_value(mt) % seq.size();
+            bool random_bit = get_rand_value(mt) % 2;
+
+            if (type == 0 || type == 1)
+            {
+                bit_deque.push_back(random_bit);
+                seq.push_back(random_bit);    
+            }
+            else if (type == 2 || type == 3)
+            {
+                bit_deque.push_front(random_bit);
+                seq.insert(seq.begin(), random_bit);    
+            }
+            else if (type == 4 && seq.size() > 0)
+            {
+                bit_deque.pop_back();
+                seq.pop_back();
+            }
+            else if (type == 5 && bit_deque.size() > 0)
+            {
+                bit_deque.pop_front();
+                seq.erase(seq.begin());
+            }
+            else if (type == 6 && seq.size() < max_len)
+            {
+                bit_deque.insert(random_pos, random_bit);
+                seq.insert(seq.begin() + random_pos, random_bit);
+            }
+            else if (type == 7 && seq.size() > 0)
+            {
+                seq.erase(seq.begin() + random_pos);
+                bit_deque.erase(random_pos);
+            }
+            else if (type == 8){
+                seq[random_pos] = random_bit;
+                bit_deque.replace(random_pos, random_bit);
+            }else{
+
+                uint64_t rank1A = compute_rank1(seq, random_pos);
+                uint64_t rank1B = bit_deque.rank1(random_pos);
+                if (rank1A != rank1B)
+                {
+                    std::cout << "rank_test error/" << rank1A << "/" << rank1B << std::endl;
+                    throw std::runtime_error("rank_test error");
+                }
+
+                int64_t select1A = compute_select1(seq, random_pos);
+                int64_t select1B = bit_deque.select1(random_pos);
+                if (select1A != select1B)
+                {
+                    std::cout << "select_test error/" << select1A << "/" << select1B << std::endl;
+                    throw std::runtime_error("select_test error");
+                }
+            }
+            counter++;
+
+            if(detail_check){
+                try{
+                    equal_test(bit_deque, seq);
+                }catch(const std::runtime_error& e){
+                    std::cout << "random_test error" << std::endl;
+                    std::cout << "type = " << type << std::endl;
+                    std::cout << "seq = " << to_string(seq, true) << std::endl;
+                    std::cout << "bit_deque = " << bit_deque.to_string(true) << std::endl;
+                    throw e;
+                }
+            }
+        }
+        equal_test(bit_deque, seq);
+
+    }
+    std::cout << "[DONE]" << std::endl;
 }
 
 
@@ -510,12 +711,11 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     access_test(seq_len, number_of_trials, seed);
     rank_test(seq_len, number_of_trials, seed);
     select_test(seq_len, number_of_trials, seed);
-    push_and_pop_test(seq_len, number_of_trials, seed);
-    push64_and_pop64_test(seq_len, number_of_trials, seed);
-    replace_test(seq_len, number_of_trials, seed);
+    push_and_pop_test(seq_len, number_of_trials, seed, false);
+    push64_and_pop64_test(seq_len, number_of_trials, seed, false);
+    replace_test(seq_len, number_of_trials, seed, false);
     
-    
-    insert_and_erase_test(seq_len*3, number_of_trials, seed);
-    insert64_and_erase64_test(seq_len*3, number_of_trials, seed);
-    
+    insert_and_erase_test(seq_len*3, number_of_trials, seed, false);
+    insert64_and_erase64_test(seq_len*3, number_of_trials, seed, false);
+    random_test(seq_len, number_of_trials, seed, false);
 }
