@@ -1235,9 +1235,8 @@ namespace stool
             }
 
             uint64_t size = this->size();
-            uint64_t num1 = this->rank1(size - 1);
 
-            if (i + 1 > num1)
+            if (i + 1 > this->num1_)
             {
                 return -1;
             }
