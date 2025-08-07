@@ -22,6 +22,18 @@ uint64_t compute_rank1(const std::vector<bool> &bv, uint64_t i){
     }
     return rank;
 }
+
+uint64_t compute_rank0(const std::vector<bool> &bv, uint64_t i){
+
+    uint64_t rank = 0;
+    for(uint64_t j = 0; j <= i; j++){
+        if(!bv[j]){
+            rank++;
+        }
+    }
+    return rank;
+}
+
 int64_t compute_select1(const std::vector<bool> &bv, uint64_t i){
     uint64_t count = 0;
     uint64_t e = i+1;
@@ -58,37 +70,6 @@ void random_bit_string256(int64_t bit_length, std::vector<uint64_t> &new_pattern
 
     
 }
-
-uint64_t rank1(const std::vector<bool> &bv, uint64_t i)
-{
-    uint64_t rank = 0;
-    for (uint64_t j = 0; j <= i; j++)
-    {
-        if (bv[j])
-        {
-            rank++;
-        }
-    }
-    return rank;
-}
-
-uint64_t select1(const std::vector<bool> &bv, uint64_t x)
-{
-    uint64_t count = 0;
-    for (uint64_t j = 0; j < bv.size(); j++)
-    {
-        if (bv[j])
-        {
-            count++;
-        }
-        if (count == x)
-        {
-            return j;
-        }
-    }
-    throw std::runtime_error("select1 is incorrect");
-}
-
 void random_shift(stool::BitArrayDeque &bit_deque, uint64_t seed){
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
@@ -182,28 +163,32 @@ void select_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<uint64_t> selecter_array;
+            std::vector<uint64_t> selecter_array1;
+            std::vector<uint64_t> selecter_array0;
 
             std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
+
             for (uint64_t j = 0; j < len; j++)
             {
                 if (bv[j])
                 {
-                    selecter_array.push_back(j);
+                    selecter_array1.push_back(j);
+                }else{
+                    selecter_array0.push_back(j);
                 }
             }
             stool::BitArrayDeque bit_deque(bv);
 
-            for (uint64_t j = 0; j < selecter_array.size(); j++)
+            for (uint64_t j = 0; j < selecter_array1.size(); j++)
             {
                 if(j % 10 == 0){
                     random_shift(bit_deque, seed++);
                 }
                 int64_t bit_deque_select = bit_deque.select1(j);
 
-                if (bit_deque_select != (int64_t)selecter_array[j])
+                if (bit_deque_select != (int64_t)selecter_array1[j])
                 {
-                    std::cout << "select1(" << j << ") = " << bit_deque_select << " != " << selecter_array[j] << std::endl;
+                    std::cout << "select1(" << j << ") = " << bit_deque_select << " != " << selecter_array1[j] << std::endl;
                     std::cout << "naive_bv = " << to_string(bv) << std::endl;
                     bit_deque.print_info();
         
@@ -211,6 +196,25 @@ void select_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
                     std::cout << "block_index = " << pair.first << ", bit_index = " << (int)pair.second << std::endl;
 
                     throw std::runtime_error("select1 is incorrect");
+                }
+            }
+            for (uint64_t j = 0; j < selecter_array0.size(); j++)
+            {
+                if(j % 10 == 0){
+                    random_shift(bit_deque, seed++);
+                }
+                int64_t bit_deque_select = bit_deque.select0(j);
+ 
+                if (bit_deque_select != (int64_t)selecter_array0[j])
+                {
+                    std::cout << "select0(" << j << ") = " << bit_deque_select << " != " << selecter_array0[j] << std::endl;
+                    std::cout << "naive_bv = " << to_string(bv) << std::endl;
+                    bit_deque.print_info();
+        
+                    auto pair = bit_deque.get_block_index_and_bit_index(i);
+                    std::cout << "block_index = " << pair.first << ", bit_index = " << (int)pair.second << std::endl;
+
+                    throw std::runtime_error("select0 is incorrect");
                 }
             }
             len *= 2;
@@ -237,9 +241,9 @@ void rank_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
                     random_shift(bit_deque, seed++);
                 }
                 
-                if (bit_deque.rank1(j) != rank1(bv, j))
+                if (bit_deque.rank1(j) != compute_rank1(bv, j))
                 {
-                    std::cout << "rank1(" << j << ") = " << bit_deque.rank1(j) << " != " << rank1(bv, j) << std::endl;
+                    std::cout << "rank1(" << j << ") = " << bit_deque.rank1(j) << " != " << compute_rank1(bv, j) << std::endl;
 
                     std::cout << "naive_bv = " << to_string(bv) << std::endl;
                     bit_deque.print_info();
@@ -249,6 +253,20 @@ void rank_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
 
                     throw std::runtime_error("rank1 is incorrect");
                 }
+
+                if (bit_deque.rank0(j) != compute_rank0(bv, j))
+                {
+                    std::cout << "rank0(" << j << ") = " << bit_deque.rank0(j) << " != " << compute_rank0(bv, j) << std::endl;
+
+                    std::cout << "naive_bv = " << to_string(bv) << std::endl;
+                    bit_deque.print_info();
+        
+                    auto pair = bit_deque.get_block_index_and_bit_index(i);
+                    std::cout << "block_index = " << pair.first << ", bit_index = " << (int)pair.second << std::endl;
+
+                    throw std::runtime_error("rank0 is incorrect");
+                }
+
             }
             len *= 2;
         }
@@ -718,4 +736,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     insert_and_erase_test(seq_len*3, number_of_trials, seed, false);
     insert64_and_erase64_test(seq_len*3, number_of_trials, seed, false);
     random_test(seq_len, number_of_trials, seed, false);
+    
+
+    
+    
 }

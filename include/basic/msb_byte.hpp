@@ -4,10 +4,65 @@
 
 namespace stool
 {
+    namespace __MSB_BYTE{
+        inline static constexpr int8_t get_1bit_position(uint8_t value, int rank) {
+            int count = 0;
+            for (int bit = 0; bit < 8; ++bit) {
+                if (value & (1 << (7-bit))) {
+                    if (count == rank) return bit;
+                    ++count;
+                }
+            }
+            return -1;
+        }
+        inline static constexpr int8_t get_0bit_position(uint8_t value, int rank) {
+            int count = 0;
+            for (int bit = 0; bit < 8; ++bit) {
+                if (!(value & (1 << (7-bit))) ) {
+                    if (count == rank) return bit;
+                    ++count;
+                }
+            }
+            return -1;
+        }
+        
+        inline static constexpr std::array<std::array<int8_t, 8>, 256> build_lookup_table_for_select1() {
+            std::array<std::array<int8_t, 8>, 256> table{};
+        
+            for (int i = 0; i < 256; ++i) {
+                for (int j = 0; j < 8; ++j) {
+                    table[i][j] = get_1bit_position(static_cast<uint8_t>(i), j);
+                }
+            }
+        
+            return table;
+        }
+        inline static constexpr std::array<std::array<int8_t, 8>, 256> build_lookup_table_for_select0() {
+            std::array<std::array<int8_t, 8>, 256> table{};
+        
+            for (int i = 0; i < 256; ++i) {
+                for (int j = 0; j < 8; ++j) {
+                    table[i][j] = get_0bit_position(static_cast<uint8_t>(i), j);
+                }
+            }
+        
+            return table;
+        }
+
+        
+        inline static constexpr std::array<std::array<int8_t, 8>, 256> select1_table = stool::__MSB_BYTE::build_lookup_table_for_select1();    
+        inline static constexpr std::array<std::array<int8_t, 8>, 256> select0_table = stool::__MSB_BYTE::build_lookup_table_for_select0();    
+    }
+
+
     class MSBByte
     {
 
     public:
+
+
+
+
         /*!
          * @brief Counts the number of 1 bits in S[0..i] for a given bit sequence S.
          *
@@ -469,19 +524,9 @@ namespace stool
                 if (counter + c >= nth)
                 {
                     uint64_t pos = (7 - i) * 8;
-
-                    for (uint64_t j = 0; j < 8; j++)
-                    {
-                        if (get_bit(bits, pos + j))
-                        {
-                            counter++;
-                            if (counter == nth)
-                            {
-                                return pos + j;
-                            }
-                        }
-                    }
-                    return -1;
+                    uint8_t bits8 = (bits >> (56 - pos)) & UINT8_MAX;
+                    uint64_t X = pos + __MSB_BYTE::select1_table[bits8][(nth-counter-1)];
+                    return X;
                 }
                 counter += c;
             }
@@ -501,19 +546,9 @@ namespace stool
                 if (counter + c >= nth)
                 {
                     uint64_t pos = (7 - i) * 8;
-
-                    for (uint64_t j = 0; j < 8; j++)
-                    {
-                        if (!get_bit(bits, pos + j))
-                        {
-                            counter++;
-                            if (counter == nth)
-                            {
-                                return pos + j;
-                            }
-                        }
-                    }
-                    return -1;
+                    uint8_t bits8 = (bits >> (56 - pos)) & UINT8_MAX;
+                    uint64_t X = pos + __MSB_BYTE::select0_table[bits8][(nth-counter-1)];
+                    return X;
                 }
                 counter += c;
             }

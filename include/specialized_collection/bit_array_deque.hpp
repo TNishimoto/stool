@@ -1226,6 +1226,15 @@ namespace stool
         {
             return this->rank1(this->first_block_index_, this->first_bit_index_, i + 1);
         }
+        uint64_t rank0(uint64_t i) const
+        {
+            return (i + 1) - this->rank1(i);
+        }
+        uint64_t rank0() const
+        {
+            return this->size() - this->rank1();
+        }
+
         int64_t select1(uint64_t i) const
         {
             if (this->empty())
