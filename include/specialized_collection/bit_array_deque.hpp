@@ -1106,15 +1106,7 @@ namespace stool
         }
         uint64_t psum() const
         {
-            uint64_t size = this->size();
-            if (size == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return this->rank1(size - 1);
-            }
+            return this->rank1();
         }
 
         uint64_t psum(uint64_t i) const
