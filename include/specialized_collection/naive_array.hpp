@@ -205,7 +205,7 @@ namespace stool
             }
 
             std::vector<uint64_t> tmp;
-            for (uint64_t i = 0; i < this->deque_size_ - 1; i++)
+            for (uint64_t i = 1; i < this->deque_size_ ; i++)
             {
                 tmp.push_back(this->circular_buffer_[i]);
             }
