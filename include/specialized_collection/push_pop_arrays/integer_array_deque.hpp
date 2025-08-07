@@ -3,7 +3,7 @@
 #include <deque>
 #include <bitset>
 #include <cassert>
-#include "./bit_array_deque.hpp"
+#include "../bit_array_deque.hpp"
 
 namespace stool
 {

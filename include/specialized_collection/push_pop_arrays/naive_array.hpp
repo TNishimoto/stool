@@ -3,9 +3,9 @@
 #include <deque>
 #include <bitset>
 #include <cassert>
-#include "../basic/byte.hpp"
-#include "../debug/print.hpp"
-#include "../basic/simd.hpp"
+#include "../../basic/byte.hpp"
+#include "../../debug/print.hpp"
+#include "../../basic/simd.hpp"
 
 namespace stool
 {
@@ -25,8 +25,9 @@ namespace stool
     public:
     protected:
         std::array<uint64_t, SIZE> circular_buffer_;
-        std::array<uint64_t, SIZE> circular_sum_buffer_;
+        //std::array<uint64_t, SIZE> circular_sum_buffer_;
         uint64_t deque_size_ = 0;
+        uint64_t psum_ = 0;
 
         static constexpr bool is_power_of_two = (SIZE != 0) && ((SIZE & (SIZE - 1)) == 0);
 
@@ -80,7 +81,7 @@ namespace stool
          */
         NaiveArray()
         {
-            this->deque_size_ = 0;
+            this->clear();
         }
 
         /**
@@ -93,12 +94,6 @@ namespace stool
             this->clear();
         }
 
-        /*
-        uint64_t get_buffer_bit() const
-        {
-            return stool::LSBByte::get_code_length(this->circular_buffer_size_ / this->value_byte_size_);
-        }
-        */
 
         /**
          * @brief Check if the deque is empty
@@ -113,25 +108,6 @@ namespace stool
         uint64_t max_size() const
         {
             return SIZE;
-        }
-
-        void update_sum_buffer()
-        {
-            uint64_t sum = 0;
-            for (uint64_t i = 0; i < this->deque_size_; i++)
-            {
-                sum += this->circular_buffer_[i];
-                this->circular_sum_buffer_[i] = sum;
-            }
-        }
-        void update_buffer(std::vector<uint64_t> &seq)
-        {
-            for (uint64_t i = 0; i < seq.size(); i++)
-            {
-                this->circular_buffer_[i] = seq[i];
-            }
-            this->deque_size_ = seq.size();
-            this->update_sum_buffer();
         }
 
         /**
@@ -153,7 +129,8 @@ namespace stool
 
             this->circular_buffer_[this->deque_size_] = value;
             this->deque_size_++;
-            this->update_sum_buffer();
+            this->psum_ += value;
+            //this->update_sum_buffer();
         }
 
         /**
@@ -173,13 +150,12 @@ namespace stool
                 throw std::out_of_range("push_front, Size out of range");
             }
 
-            std::vector<uint64_t> tmp;
-            tmp.push_back(value);
-            for (uint64_t i = 0; i < this->deque_size_; i++)
-            {
-                tmp.push_back(this->circular_buffer_[i]);
-            }
-            this->update_buffer(tmp);
+            uint64_t src = 0;
+            uint64_t dst = 1;
+            std::memmove(&this->circular_buffer_[dst], &this->circular_buffer_[src], this->deque_size_ * sizeof(uint64_t));
+            this->circular_buffer_[src] = value;
+            this->psum_ += value;
+            this->deque_size_++;
         }
 
         /**
@@ -191,7 +167,9 @@ namespace stool
             {
                 throw std::out_of_range("pop_back, Size out of range");
             }
+            uint64_t value = this->circular_buffer_[this->deque_size_-1];
             this->deque_size_--;
+            this->psum_ -= value;
         }
 
         /**
@@ -204,12 +182,18 @@ namespace stool
                 throw std::out_of_range("pop_front, Size out of range");
             }
 
-            std::vector<uint64_t> tmp;
-            for (uint64_t i = 1; i < this->deque_size_ ; i++)
-            {
-                tmp.push_back(this->circular_buffer_[i]);
+            if(this->deque_size_ > 1){
+                uint64_t value = this->circular_buffer_[0];
+                this->psum_ -= value;
+    
+                uint64_t src = 1;
+                uint64_t dst = 0;
+                std::memmove(&this->circular_buffer_[dst], &this->circular_buffer_[src], (this->deque_size_ - 1) * sizeof(uint64_t));    
+                this->deque_size_--;
+            }else{
+                this->clear();
             }
-            this->update_buffer(tmp);
+
         }
         uint64_t size() const
         {
@@ -226,17 +210,41 @@ namespace stool
         {
             uint64_t size = this->size();
 
-            std::vector<uint64_t> tmp;
-            for (uint64_t i = 0; i < position; i++)
+            if (size  >= SIZE)
             {
-                tmp.push_back(this->circular_buffer_[i]);
+                throw std::out_of_range("insert, Size out of range");
             }
-            tmp.push_back(value);
-            for (uint64_t i = position; i < this->deque_size_; i++)
+
+            if (position > this->deque_size_ + 1)
             {
-                tmp.push_back(this->circular_buffer_[i]);
+                throw std::out_of_range("Position out of range");
             }
-            this->update_buffer(tmp);
+
+            if (position == 0)
+            {
+                this->push_front(value);
+                assert(this->at(position) == value);
+            }
+            else if (position == size)
+            {
+                this->push_back(value);
+                assert(this->at(position) == value);
+            }
+            else
+            {
+                
+                uint64_t dst_pos = position + 1;
+                uint64_t src_pos = position;
+                uint64_t move_size = this->deque_size_ - position;
+
+                memmove(&this->circular_buffer_[dst_pos], &this->circular_buffer_[src_pos], move_size * sizeof(uint64_t));
+
+                this->circular_buffer_[src_pos] = value;
+                this->psum_ += value;
+                this->deque_size_++;
+                assert(this->at(position) == value);
+
+            }
         }
 
         /**
@@ -256,16 +264,17 @@ namespace stool
             }
             else
             {
-                std::vector<uint64_t> tmp;
-                for (uint64_t i = 0; i < position; i++)
-                {
-                    tmp.push_back(this->circular_buffer_[i]);
-                }
-                for (uint64_t i = position + 1; i < this->deque_size_; i++)
-                {
-                    tmp.push_back(this->circular_buffer_[i]);
-                }
-                this->update_buffer(tmp);
+
+
+                uint64_t dst_pos = position;
+                uint64_t src_pos = position + 1;
+                uint64_t value = this->circular_buffer_[dst_pos];
+                uint64_t move_size = this->deque_size_ - position;
+
+                memmove(&this->circular_buffer_[dst_pos], &this->circular_buffer_[src_pos], move_size * sizeof(uint64_t));
+
+                this->psum_ -= value;
+                this->deque_size_--;
             }
         }
 
@@ -280,6 +289,13 @@ namespace stool
          */
         void print_info() const
         {
+            std::cout << "psum = " << this->psum_ << std::endl;
+            std::cout << "deque_size = " << this->deque_size_ << std::endl;
+            std::cout << "circular_buffer = ";
+            for(uint64_t i = 0; i < this->deque_size_; i++){
+                std::cout << this->circular_buffer_[i] << " ";
+            }
+            std::cout << std::endl;
         }
 
         /**
@@ -303,7 +319,8 @@ namespace stool
         void swap(NaiveArray &item)
         {
             std::swap(this->circular_buffer_, item.circular_buffer_);
-            std::swap(this->circular_sum_buffer_, item.circular_sum_buffer_);
+            //std::swap(this->circular_sum_buffer_, item.circular_sum_buffer_);
+            std::swap(this->psum_, item.psum_);
             std::swap(this->deque_size_, item.deque_size_);
         }
 
@@ -326,8 +343,10 @@ namespace stool
          */
         void set_value(uint64_t index, uint64_t value)
         {
+            uint64_t old_value = this->circular_buffer_[index];
+            this->psum_ -= old_value;
+            this->psum_ += value;
             this->circular_buffer_[index] = value;
-            this->update_sum_buffer();
         }
 
         /**
@@ -343,7 +362,16 @@ namespace stool
 
         uint64_t psum(uint64_t i) const
         {
-            return this->circular_sum_buffer_[i];
+            uint64_t sum = 0;
+            uint64_t size = this->size();
+            if(i < size){
+                for(uint64_t x = 0; x <= i; x++){
+                    sum += this->circular_buffer_[x];
+                }    
+            }else{
+                throw std::out_of_range("psum, Index out of range");
+            }
+            return sum;
         }
         int64_t search(uint64_t value) const
         {
@@ -356,27 +384,32 @@ namespace stool
 
             uint64_t size = this->size();
             uint64_t i = 0;
+            sum = 0;
 
-            uint64_t v = this->circular_buffer_[i];
-                        
-            while (sum + v < value)
-            {
-                i++;
-                sum += v;
-                v = this->circular_buffer_[i];
-                assert(i < size);
-            }
             
-            sum = i > 0 ? this->circular_sum_buffer_[i-1] : 0;
 
-            return i;
+            if(value > this->psum_ || size == 0)
+            {
+                return -1;
+            }else{
+                uint64_t v = this->circular_buffer_[i];
+                        
+                while (sum + v < value)
+                {
+                    i++;
+                    sum += v;
+                    v = this->circular_buffer_[i];
+                    assert(i < size);
+                }
+                    
+                return i;    
+            }
+
+
         }
         uint64_t psum() const
         {
-            if(this->deque_size_ == 0){
-                return 0;
-            }
-            return this->circular_sum_buffer_[this->deque_size_-1];
+            return this->psum_;
         }
 
         void increment(uint64_t pos, int64_t delta)
@@ -391,14 +424,19 @@ namespace stool
             this->set_value(pos, value - delta);
         }
 
+
         uint64_t size_in_bytes(bool only_extra_bytes = false) const
         {
-            return 0;
+            if(only_extra_bytes){
+                return 0;
+            }else{
+                return sizeof(NaiveArray<SIZE>);
+            }
         }
 
         uint64_t unused_size_in_bytes() const
         {
-            return 0;
+            return (SIZE - this->size()) * sizeof(uint64_t);
         }
     };
 }

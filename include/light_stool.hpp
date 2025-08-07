@@ -43,10 +43,11 @@
 #include "./specialized_collection/bit_array_deque.hpp"
 //#include "./specialized_collection/integer_array_deque.hpp"
 #include "./specialized_collection/byte_array_deque.hpp"
-#include "./specialized_collection/static_array_deque.hpp"
-#include "./specialized_collection/static_array_deque2.hpp"
-#include "./specialized_collection/naive_array.hpp"
-#include "./specialized_collection/faster_static_array_deque.hpp"
+#include "./specialized_collection/push_pop_arrays/static_array_deque.hpp"
+#include "./specialized_collection/push_pop_arrays/static_array_deque2.hpp"
+#include "./specialized_collection/push_pop_arrays/naive_array.hpp"
+#include "./specialized_collection/push_pop_arrays/faster_static_array_deque.hpp"
+#include "./specialized_collection/push_pop_arrays/integer_array_deque.hpp"
 
 #include "./lz/lz_factor.hpp"
 
