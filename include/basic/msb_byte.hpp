@@ -180,51 +180,7 @@ namespace stool
             }
         }
 
-        static void block_shift_right(std::vector<uint64_t> &bits, uint64_t block_size)
-        {
-            for (int64_t i = bits.size() - 1; i >= (int64_t)(bits.size() - block_size); i--)
-            {
-                bits[i] = 0;
-            }
 
-            for (int64_t i = bits.size() - block_size - 1; i >= 0; i--)
-            {
-                bits[i + block_size] = bits[i];
-                bits[i] = 0;
-            }
-        }
-
-        template <typename T>
-        static void move_block_right(T &bits_array, uint64_t block_index, uint64_t offset_block_index, uint8_t offset_bit_index, uint64_t array_size)
-        {
-            assert(offset_bit_index < 64);
-
-            uint64_t start_index = block_index + offset_block_index;
-            if (offset_bit_index == 0)
-            {
-                if (start_index < array_size)
-                {
-                    bits_array[start_index] = bits_array[block_index];
-                }
-            }
-            else
-            {
-                uint64_t end_index = start_index + 1;
-
-                uint64_t leftBlock = bits_array[block_index];
-                uint64_t rightBlock = bits_array[block_index] << (64 - offset_bit_index);
-
-                if (end_index < array_size)
-                {
-                    bits_array[end_index] = MSBByte::write_prefix(bits_array[end_index], offset_bit_index, rightBlock);
-                }
-
-                if (start_index < array_size)
-                {
-                    bits_array[start_index] = MSBByte::write_suffix(bits_array[start_index], 64 - offset_bit_index, leftBlock);
-                }
-            }
-        }
         template <typename T>
         static void write_64bit_string(T &bits_array, uint64_t array_size, uint64_t bits, uint64_t block_index, uint8_t bit_index, uint8_t len, bool is_cyclic)
         {
@@ -258,36 +214,6 @@ namespace stool
             }
         }
 
-        template <typename T>
-        static void move_block_left(T &bits_array, uint64_t block_index, uint64_t offset_block_index, uint8_t offset_bit_index, uint64_t array_size)
-        {
-            assert(offset_bit_index < 64);
-            uint64_t end_index = block_index - offset_block_index;
-            if (offset_bit_index == 0)
-            {
-                if (end_index < array_size)
-                {
-                    bits_array[end_index] = bits_array[block_index];
-                }
-            }
-            else
-            {
-                uint64_t start_index = end_index - 1;
-
-                uint64_t leftBlock = bits_array[block_index];
-                uint64_t rightBlock = bits_array[block_index] << offset_bit_index;
-
-                if (end_index < array_size)
-                {
-                    bits_array[end_index] = MSBByte::write_prefix(bits_array[end_index], 64 - offset_bit_index, rightBlock);
-                }
-
-                if (start_index < array_size)
-                {
-                    bits_array[start_index] = MSBByte::write_suffix(bits_array[start_index], offset_bit_index, leftBlock);
-                }
-            }
-        }
 
         template <typename T, uint64_t BUFFER_SIZE>
         static void move_suffix_blocks_to_a_right_bit_position(T &bits_array, uint64_t block_index, uint64_t dst_bit_index, uint64_t array_size){
@@ -390,14 +316,14 @@ namespace stool
 
                     bits_array[block_index] = (bits_array[block_index] >> R_size) << R_size; 
 
-                    for(int64_t i = block_index+1; i < dst_block_index;i++){
+                    for(uint64_t i = block_index+1; i < dst_block_index;i++){
                         bits_array[i] = 0;
                     }
 
     
                 }else{
                     std::memmove(&bits_array[dst_block_index], &bits_array[block_index], dst_block_size * sizeof(uint64_t));
-                    for(int64_t i = block_index; i < dst_block_index;i++){
+                    for(uint64_t i = block_index; i < dst_block_index;i++){
                         bits_array[i] = 0;
                     }    
                 }
@@ -425,7 +351,7 @@ namespace stool
         template <typename T, uint64_t BUFFER_SIZE>
         static void move_suffix_blocks_to_a_block_position(T &bits_array, uint64_t block_index, uint8_t bit_index, uint64_t dst_block_index, uint8_t dst_bit_index, uint64_t array_size)
         {
-            uint64_t block_size = array_size - block_index;
+            //uint64_t block_size = array_size - block_index;
 
             if(block_index < dst_block_index){
                 move_suffix_blocks_to_a_block_position<T, BUFFER_SIZE>(bits_array, block_index, bit_index, dst_block_index, array_size);
@@ -477,131 +403,6 @@ namespace stool
 
 
 
-        template <typename T>
-        static void block_shift_right(T &bits_array, uint64_t bit_index, uint64_t offset_bit_index, uint64_t array_size)
-        {
-            int64_t xblock_index = bit_index / 64;
-            int64_t xbit_index = bit_index % 64;
-
-            int64_t yblock_index = offset_bit_index / 64;
-            int64_t ybit_index = offset_bit_index % 64;
-
-            if (xbit_index == 0)
-            {
-                for (int64_t i = array_size - 1; i >= xblock_index; i--)
-                {
-                    move_block_right(bits_array, i, yblock_index, ybit_index, array_size);
-                }
-            }
-            else
-            {
-                for (int64_t i = array_size - 1; i >= xblock_index + 1; i--)
-                {
-                    move_block_right(bits_array, i, yblock_index, ybit_index, array_size);
-                }
-
-                uint64_t zblock_index = (bit_index + offset_bit_index) / 64;
-                uint64_t zbit_index = (bit_index + offset_bit_index) % 64;
-
-                assert(zblock_index < array_size);
-
-                uint64_t bits = bits_array[xblock_index] << xbit_index;
-
-
-
-
-                write_64bit_string(bits_array, array_size, bits, zblock_index, zbit_index, 64 - xbit_index, false);
-            }
-            fill(bits_array, bit_index, offset_bit_index, false);
-
-        }
-        template <typename T>
-        static void block_shift_left(T &bits_array, int64_t bit_index, int64_t offset_bit_index, int64_t array_size)
-        {
-            int64_t xblock_index = bit_index / 64;
-            int64_t xbit_index = bit_index % 64;
-
-            int64_t yblock_index = offset_bit_index / 64;
-            int64_t ybit_index = offset_bit_index % 64;
-
-            if (xbit_index == 0)
-            {
-                for (int64_t i = xblock_index; i < array_size; i++)
-                {
-                    move_block_left(bits_array, i, yblock_index, ybit_index, array_size);
-                }
-            }
-            else
-            {
-                uint64_t zblock_index = (bit_index - offset_bit_index) / 64;
-                uint64_t zbit_index = (bit_index - offset_bit_index) % 64;
-
-                uint64_t bits = bits_array[xblock_index] << xbit_index;
-                write_64bit_string(bits_array, array_size, bits, zblock_index, zbit_index, 64 - xbit_index, false);
-
-                for (int64_t i = xblock_index + 1; i < array_size; i++)
-                {
-                    move_block_left(bits_array, i, yblock_index, ybit_index, array_size);
-                }
-            }
-        }
-
-        static void block_shift_left(std::vector<uint64_t> &bits, uint64_t block_size)
-        {
-            for (int64_t i = 0; i < (int64_t)block_size; i++)
-            {
-                bits[i] = 0;
-            }
-            for (int64_t i = (int64_t)block_size; i < (int64_t)bits.size(); i++)
-            {
-                bits[i - block_size] = bits[i];
-                bits[i] = 0;
-            }
-        }
-
-        static void shift_right(std::vector<uint64_t> &bits, uint64_t len)
-        {
-            if (len >= 64)
-            {
-                block_shift_right(bits, len / 64);
-                len = len % 64;
-            }
-            if (bits.size() == 0)
-            {
-                return;
-            }
-
-            bits[bits.size() - 1] = bits[bits.size() - 1] >> len;
-
-            for (int64_t i = bits.size() - 2; i >= 0; i--)
-            {
-                uint64_t suf = bits[i] << (64 - len);
-                bits[i + 1] = bits[i + 1] | suf;
-                bits[i] = bits[i] >> len;
-            }
-        }
-
-        static void shift_left(std::vector<uint64_t> &bits, uint64_t len)
-        {
-            if (len >= 64)
-            {
-                block_shift_left(bits, len / 64);
-                len = len % 64;
-            }
-            if (bits.size() == 0)
-            {
-                return;
-            }
-
-            bits[0] = bits[0] << len;
-
-            for (int64_t i = 1; i < (int64_t)bits.size(); i++)
-            {
-                uint64_t pref = bits[i] >> (64 - len);
-                bits[i - 1] = bits[i - 1] | pref;
-                bits[i] = bits[i] << len;
-            }
-        }
 
         static uint64_t fill(uint64_t bits, uint64_t pos, uint64_t len, bool b)
         {

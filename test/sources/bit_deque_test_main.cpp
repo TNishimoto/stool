@@ -48,6 +48,14 @@ int64_t compute_select1(const std::vector<bool> &bv, uint64_t i){
     return -1;
 }
 
+template<uint64_t N>
+void print_bitset(const std::bitset<N> &bs){
+    for(uint64_t i = 0; i < N; i++){
+        std::cout << bs[i];
+    }
+    std::cout << std::endl;
+}
+
 void random_bit_string256(int64_t bit_length, std::vector<uint64_t> &new_pattern, std::bitset<256> &bs, uint64_t seed){
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
@@ -66,9 +74,7 @@ void random_bit_string256(int64_t bit_length, std::vector<uint64_t> &new_pattern
             i++;
             bit_length--;
         }
-    }
-
-    
+    }    
 }
 void random_shift(stool::BitArrayDeque &bit_deque, uint64_t seed){
     std::mt19937 mt(seed);
@@ -464,21 +470,23 @@ void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
                 uint64_t pos = get_rand_value(mt) % (bv.size() + 1);
 
 
-                std::string bv_str = to_string(bv);
-                std::bitset<64> bs(new_value);
+                //std::string bv_str = to_string(bv);
+                std::string new_value_str = stool::Byte::to_string(new_value);
 
 
+                /*
                 std::string s = bs.to_string();
                 while((int64_t)s.size() > plen){
                     s.pop_back();
                 }
+                */
 
 
                 assert(pos <= bit_deque.size());
 
 
-                for(int64_t k = plen-1; k >= 0; k--){
-                    bv.insert(bv.begin() + pos, s[k] == '1');
+                for(int64_t k = 0; k < plen; k++){
+                    bv.insert(bv.begin() + pos + k, new_value_str[k] == '1');
                 }
 
 
@@ -495,7 +503,7 @@ void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
                         std::cout << "pos = " << pos << std::endl;
                         std::cout << "plen = " << plen << std::endl;
                         std::cout << "bv size = " << bv.size() << std::endl;
-                        std::cout << "pattern = " << s << std::endl;
+                        std::cout << "pattern = " << stool::Byte::to_string(new_value).substr(0, plen) << std::endl;
                         throw e;
                     }
 
@@ -556,7 +564,7 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
             assert(bv.size() == bit_deque.size());
 
 
-            while((int64_t)bv.size() < (int64_t)max_len){
+            while((int64_t)bv.size() < (int64_t) len * 2){
 
                 uint64_t new_pattern_size = get_rand_value(mt) % 257;
                 std::vector<uint64_t> new_pattern;
@@ -566,8 +574,8 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
 
                 uint64_t pos = get_rand_value(mt) % (bv.size() + 1);
 
-                for(int64_t k = new_pattern_size-1; k >= 0; k--){
-                    bv.insert(bv.begin() + pos, new_pattern_bs[k]);
+                for(uint64_t k = 0; k < new_pattern_size; k++){
+                    bv.insert(bv.begin() + pos + k, new_pattern_bs[k]);
                 }
 
                 assert(pos <= bit_deque.size());
@@ -582,7 +590,8 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
                         std::cout << "\t len = " << len << std::endl;
                         std::cout << "\t pos = " << pos << std::endl;
                         std::cout << "\t new_pattern_size = " << new_pattern_size << std::endl;
-                        std::cout << "\t new_pattern_bs = " << new_pattern_bs.to_string() << std::endl;
+                        std::cout << "\t new_pattern_bs = ";
+                        print_bitset<256>(new_pattern_bs);
                         std::cout << "\t bv size = " << bv.size() << std::endl;
                         throw e;
                     }
@@ -595,7 +604,7 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
                 equal_test(bit_deque, bv);
             }
             catch(const std::runtime_error& e){
-                std::cout << "Insert test error" << std::endl;
+                std::cout << "Insert64 test error(1)" << std::endl;
                 std::cout << "len = " << len << std::endl;
                 //std::cout << "pos = " << pos << std::endl;
                 std::cout << "bv size = " << bv.size() << std::endl;
@@ -755,6 +764,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     
     
     
+    
     access_test(seq_len, number_of_trials, seed);
     rank_test(seq_len, number_of_trials, seed);
     select_test(seq_len, number_of_trials, seed);
@@ -762,6 +772,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     push64_and_pop64_test(seq_len, number_of_trials, seed, false);
     replace_test(seq_len, number_of_trials, seed, false);     
     insert_and_erase_test(seq_len*3, number_of_trials, seed, false);
+    
     
     insert64_and_erase64_test(seq_len*3, number_of_trials, seed, false);
     random_test(seq_len, number_of_trials, seed, false);
