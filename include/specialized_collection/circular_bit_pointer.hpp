@@ -34,6 +34,24 @@ namespace stool
         {
             assert(this->bit_index_ < 64);
             assert(x >= 0);
+
+            this->block_index_ += x / 64;
+            this->bit_index_ += x % 64;
+
+            if(this->bit_index_ >= 64){
+                this->bit_index_ -= 64;
+                this->block_index_++;
+
+                assert(this->bit_index_ < 64);
+            }
+
+            if(this->block_index_ >= this->circular_buffer_size_){
+                this->block_index_ -= this->circular_buffer_size_;
+                assert(this->block_index_ < this->circular_buffer_size_);
+            }
+
+            /*
+
             while (x > 0)
             {
                 if (this->bit_index_ + x < 64)
@@ -52,11 +70,41 @@ namespace stool
                         this->block_index_ = 0;
                     }
                 }
-            }
+            }            
             assert(x == 0);
+            */
         }
         void subtract(int64_t x)
         {
+            int64_t offset_index = x / 64;
+            int64_t offset_bit_index = x % 64;
+
+            int64_t o_index = (int64_t)this->block_index_ - offset_index;
+            int64_t o_bit_index = (int64_t)this->bit_index_ - offset_bit_index;
+
+            if(o_bit_index >= 0){
+                this->bit_index_ = o_bit_index;
+            }else{
+                assert(o_index >= -63);
+                this->bit_index_ = 64 + o_bit_index;
+                o_index--;
+            }
+
+            if(o_index >= 0){
+                this->block_index_ = o_index;
+            }else{
+                assert(this->circular_buffer_size_ >= -o_index);
+                this->block_index_ = this->circular_buffer_size_ + o_index;
+            }
+
+            /*
+
+            this->block_index_ -= offset_index;
+            this->bit_index_ -= offset_bit_index;
+
+            if(this->bit_index_ < 0){
+
+
             while (x > 0)
             {
                 if (x <= (int64_t)this->bit_index_)
@@ -81,6 +129,7 @@ namespace stool
                     }
                 }
             }
+            */
         }
 
         template <typename T>

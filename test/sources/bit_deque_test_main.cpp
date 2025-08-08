@@ -458,7 +458,7 @@ void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
             assert(bv.size() == bit_deque.size());
             
             //while((int64_t)bv.size() < 50){
-            while((int64_t)bv.size() < (int64_t)max_len){
+            while((int64_t)bv.size() < (int64_t)(len*2)){
                 uint64_t new_value = get_rand_value(mt);
                 int64_t plen = (get_rand_value(mt) % 64) + 1;
                 uint64_t pos = get_rand_value(mt) % (bv.size() + 1);
@@ -487,7 +487,17 @@ void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
                 bit_deque.insert_64bit_string(pos, new_value, plen);
 
                 if(detail_check){
-                    equal_test(bit_deque, bv);
+                    try{
+                        equal_test(bit_deque, bv);                        
+                    }catch(const std::runtime_error& e){
+                        std::cout << "Insert test error" << std::endl;
+                        std::cout << "len = " << len << std::endl;
+                        std::cout << "pos = " << pos << std::endl;
+                        std::cout << "plen = " << plen << std::endl;
+                        std::cout << "bv size = " << bv.size() << std::endl;
+                        std::cout << "pattern = " << s << std::endl;
+                        throw e;
+                    }
 
                 }
 
@@ -544,6 +554,7 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
             stool::BitArrayDeque bit_deque(bv);
             random_shift(bit_deque, seed++);
             assert(bv.size() == bit_deque.size());
+
 
             while((int64_t)bv.size() < (int64_t)max_len){
 
@@ -743,15 +754,15 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     
     
     
+    
     access_test(seq_len, number_of_trials, seed);
     rank_test(seq_len, number_of_trials, seed);
     select_test(seq_len, number_of_trials, seed);
     push_and_pop_test(seq_len, number_of_trials, seed, false);
     push64_and_pop64_test(seq_len, number_of_trials, seed, false);
-    replace_test(seq_len, number_of_trials, seed, false);
-   
-    
+    replace_test(seq_len, number_of_trials, seed, false);     
     insert_and_erase_test(seq_len*3, number_of_trials, seed, false);
+    
     insert64_and_erase64_test(seq_len*3, number_of_trials, seed, false);
     random_test(seq_len, number_of_trials, seed, false);
     

@@ -517,7 +517,6 @@ namespace stool
 
                 std::array<uint64_t, TMP_BUFFER_SIZE> tmp_array;
                 std::memcpy(this->circular_buffer_, tmp, (std::min(old_size, new_size)) * sizeof(uint64_t));
-
             }
 
             // assert(this->size() == old_size);
@@ -891,6 +890,10 @@ namespace stool
         template <typename T>
         void replace_64bit_string_sequence(uint64_t position, const T &values, uint64_t bit_size)
         {
+            if(bit_size){
+                return;
+            }
+
             CircularBitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
             bp.add(position);
             uint64_t i = 0;
@@ -968,8 +971,6 @@ namespace stool
             {
                 throw std::invalid_argument("Error: insert64()");
             }
-
-            
         }
         template <typename T>
         void insert_64bit_string(size_t position, const T &values, uint64_t bit_size)
@@ -998,7 +999,7 @@ namespace stool
             uint64_t size = this->size();
             if (position + len == size)
             {
-                                this->pop_back(len);
+                this->pop_back(len);
             }
             else if (position == 0)
             {
@@ -1067,9 +1068,12 @@ namespace stool
             std::cout << "capacity = " << this->capacity() << std::endl;
             std::cout << "circular_buffer_size = " << this->circular_buffer_size_ << std::endl;
 
-            if(this->circular_buffer_ != nullptr){
+            if (this->circular_buffer_ != nullptr)
+            {
                 std::cout << "Circular Buffer: " << this->get_circular_buffer_bit_string() << std::endl;
-            }else{
+            }
+            else
+            {
                 std::cout << "Circular Buffer: nullptr" << std::endl;
             }
             std::cout << "Content: " << this->to_string() << std::endl;
@@ -1456,34 +1460,28 @@ namespace stool
             }
             else
             {
-#if DEBUG
-                {
-                    uint64_t xnum1 = this->rank1(this->size() - 1);
-                    if (this->num1_ != xnum1)
-                    {
-                        assert(false);
-                    }
-                }
-#endif
 
                 this->update_size_if_needed(size + len);
                 this->reset_starting_position();
 
-#if DEBUG
-                {
-                    uint64_t xnum1 = this->rank1(this->size() - 1);
-                    if (this->num1_ != xnum1)
-                    {
-                        assert(false);
-                    }
-                }
-#endif
 
-                stool::MSBByte::block_shift_right(this->circular_buffer_, position, len, this->circular_buffer_size_);
+                CircularBitPointer src_bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+                CircularBitPointer dst_bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+                src_bp.add(position);
+                dst_bp.add(position + len);
+
+
+
+                stool::MSBByte::move_suffix_blocks_to_a_block_position<uint64_t*, TMP_BUFFER_SIZE>(this->circular_buffer_, src_bp.block_index_, src_bp.bit_index_, dst_bp.block_index_, dst_bp.bit_index_, this->circular_buffer_size_);
+
+                //stool::MSBByte::block_shift_right(this->circular_buffer_, position, len, this->circular_buffer_size_);
+                
                 CircularBitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
                 bp.add(len);
                 this->last_block_index_ = bp.block_index_;
                 this->last_bit_index_ = bp.bit_index_;
+
+
 
 #if DEBUG
                 uint64_t xnum1 = this->rank1(this->size() - 1);
@@ -1522,9 +1520,21 @@ namespace stool
                 int64_t posL = (int64_t)position - (int64_t)len;
                 uint64_t removed_num1 = this->rank1(posL, position - 1);
 
+
                 this->reset_starting_position();
 
-                stool::MSBByte::block_shift_left(this->circular_buffer_, position, len, this->circular_buffer_size_);
+                CircularBitPointer bpDST(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+                bpDST.add(posL);
+
+                CircularBitPointer bpSRC(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+                bpSRC.add(position);
+
+                assert(bpDST.block_index_ <= bpSRC.block_index_);
+
+                stool::MSBByte::move_suffix_blocks_to_a_block_position<uint64_t*, TMP_BUFFER_SIZE>(this->circular_buffer_, bpSRC.block_index_, bpSRC.bit_index_, bpDST.block_index_, bpDST.bit_index_, this->circular_buffer_size_);
+
+                // stool::MSBByte::block_shift_left(this->circular_buffer_, position, len, this->circular_buffer_size_);
+
                 this->num1_ -= removed_num1;
 
                 CircularBitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
@@ -1554,53 +1564,53 @@ namespace stool
 
         void reset_starting_position()
         {
-            if(this->first_block_index_ == 0 && this->first_bit_index_ == 0){
+            if (this->first_block_index_ == 0 && this->first_bit_index_ == 0)
+            {
                 return;
             }
-            
+
             uint64_t size = this->size();
 
             if (size > 0)
             {
                 assert(this->num1_ == this->rank1(0, this->size() - 1));
 
-                #if DEBUG
+#if DEBUG
                 {
-                    if(this->size() == 3006){
+                    if (this->size() == 3006)
+                    {
                         this->print_info();
                     }
                 }
-                #endif
-
-
+#endif
 
                 std::array<uint64_t, TMP_BUFFER_SIZE> tmp_array;
                 CircularBitPointer start_bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
                 CircularBitPointer end_bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
-                
 
                 if (start_bp.get_position_on_circular_buffer() <= end_bp.get_position_on_circular_buffer())
                 {
                     uint64_t block_count = end_bp.block_index_ - start_bp.block_index_ + 1;
                     std::memcpy(&tmp_array[0], &this->circular_buffer_[start_bp.block_index_], block_count * sizeof(uint64_t));
-                    stool::MSBByte::move_suffix_blocks_to_a_block_position(tmp_array, 0, start_bp.bit_index_, 0, this->circular_buffer_size_);
+                    stool::MSBByte::move_suffix_blocks_to_a_block_position<std::array<uint64_t, TMP_BUFFER_SIZE>, TMP_BUFFER_SIZE>(tmp_array, 0, start_bp.bit_index_, 0, this->circular_buffer_size_);
                 }
                 else
                 {
 
-                    if(this->circular_buffer_size_ == 1 && start_bp.block_index_ == 0 && end_bp.block_index_ == 0){
+                    if (this->circular_buffer_size_ == 1 && start_bp.block_index_ == 0 && end_bp.block_index_ == 0)
+                    {
                         uint64_t blockL = this->circular_buffer_[0] << start_bp.bit_index_;
                         uint8_t blockLsize = 64 - start_bp.bit_index_;
                         uint64_t blockR = this->circular_buffer_[0] >> blockLsize;
                         tmp_array[0] = blockL | blockR;
                     }
-                    else{
+                    else
+                    {
                         uint64_t suffix_block_count = this->circular_buffer_size_ - start_bp.block_index_;
                         uint64_t prefix_block_count = end_bp.block_index_ + 1;
                         std::memcpy(&tmp_array[0], &this->circular_buffer_[start_bp.block_index_], suffix_block_count * sizeof(uint64_t));
                         std::memcpy(&tmp_array[suffix_block_count], &this->circular_buffer_[0], prefix_block_count * sizeof(uint64_t));
-                        stool::MSBByte::move_suffix_blocks_to_a_block_position(tmp_array, 0, start_bp.bit_index_, 0, prefix_block_count + suffix_block_count);    
-
+                        stool::MSBByte::move_suffix_blocks_to_a_block_position<std::array<uint64_t, TMP_BUFFER_SIZE>, TMP_BUFFER_SIZE>(tmp_array, 0, start_bp.bit_index_, 0, prefix_block_count + suffix_block_count);
                     }
                 }
                 std::memcpy(this->circular_buffer_, tmp_array.data(), this->circular_buffer_size_ * sizeof(uint64_t));
@@ -1608,13 +1618,14 @@ namespace stool
                 this->first_block_index_ = 0;
                 this->first_bit_index_ = 0;
                 CircularBitPointer new_bp(this->circular_buffer_size_, 0, 0);
-                new_bp.add(size-1);
+                new_bp.add(size - 1);
                 this->last_block_index_ = new_bp.block_index_;
                 this->last_bit_index_ = new_bp.bit_index_;
 
-                #if DEBUG
+#if DEBUG
                 {
-                    if(this->num1_ != this->rank1(0, this->size() - 1)){
+                    if (this->num1_ != this->rank1(0, this->size() - 1))
+                    {
                         std::cout << "reset_starting_position error @@@@@@@@@@@@@@@@@" << std::endl;
                         std::cout << "this->num1_ = " << this->num1_ << std::endl;
                         std::cout << "this->rank1(0, this->size() - 1) = " << this->rank1(0, this->size() - 1) << std::endl;
@@ -1622,16 +1633,15 @@ namespace stool
                         assert(false);
                     }
                 }
-                #endif
+#endif
             }
             else
             {
                 this->first_block_index_ = 0;
                 this->first_bit_index_ = 0;
                 this->last_block_index_ = UINT16_MAX;
-                this->last_bit_index_ = UINT8_MAX;                
+                this->last_bit_index_ = UINT8_MAX;
             }
-
         }
         /*
         void special_copy(std::array<uint64_t, TMP_BUFFER_SIZE> &tmp_array, uint64_t old_first_block_index, uint64_t old_first_bit_index, uint64_t old_buffer_size, uint64_t bit_size)
@@ -1695,14 +1705,14 @@ namespace stool
             std::vector<bool> bv = this->to_bit_vector();
             int64_t p = new_starting_position % bv.size();
 
-
             this->clear();
 
             uint64_t counter = 0;
             for (uint64_t i = p; i < bv.size(); i++)
             {
                 this->push_back(bv[i]);
-                if(bv[i]){
+                if (bv[i])
+                {
                     counter++;
                 }
                 assert(this->num1_ == counter);
@@ -1711,13 +1721,12 @@ namespace stool
             for (int64_t i = p - 1; i >= 0; i--)
             {
                 this->push_front(bv[i]);
-                if(bv[i]){
+                if (bv[i])
+                {
                     counter++;
                 }
                 assert(this->num1_ == counter);
             }
-
-
         }
 
         /**
