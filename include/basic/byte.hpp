@@ -187,6 +187,13 @@ namespace stool
 			}
 			return s;
 		}
+        template <typename T>
+        static void print(T &bits, uint64_t array_size){
+			for(uint64_t i = 0; i < array_size; i++){
+				std::cout << to_bit_string(bits[i]) << " ";
+			}
+			std::cout << std::endl;
+        }
 
 	};
 

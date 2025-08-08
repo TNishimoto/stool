@@ -74,10 +74,22 @@ void random_shift(stool::BitArrayDeque &bit_deque, uint64_t seed){
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
 
+
     uint64_t num1 = bit_deque.rank1();
+
+
+    if(num1 != bit_deque.rank1(0, bit_deque.size() - 1)){
+        std::cout << "random_shift error[x]" << std::endl;
+        std::cout << "num1 = " << num1 << std::endl;
+        std::cout << "bit_deque.rank1(0, bit_deque.size() - 1) = " << bit_deque.rank1(0, bit_deque.size() - 1) << std::endl;
+        bit_deque.print_info();
+        throw std::runtime_error("random_shift error");
+    }
+
 
     uint64_t shift_len = get_rand_value(mt) % bit_deque.capacity();
     bit_deque.__change_starting_position_for_debug(shift_len);
+
 
     if(bit_deque.size() > 0){
         if(num1 != bit_deque.rank1(0, bit_deque.size() - 1)){
@@ -88,6 +100,7 @@ void random_shift(stool::BitArrayDeque &bit_deque, uint64_t seed){
             throw std::runtime_error("random_shift error");
         }
     }
+
 
 }
 
@@ -144,9 +157,12 @@ void access_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
         while (len < max_len)
         {
             std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
+
             stool::BitArrayDeque bit_deque(bv);
 
+
             random_shift(bit_deque, seed++);
+
 
             equal_test(bit_deque, bv);
             len *= 2;
@@ -726,12 +742,14 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     uint64_t number_of_trials = 100;
     
     
+    
     access_test(seq_len, number_of_trials, seed);
     rank_test(seq_len, number_of_trials, seed);
     select_test(seq_len, number_of_trials, seed);
     push_and_pop_test(seq_len, number_of_trials, seed, false);
     push64_and_pop64_test(seq_len, number_of_trials, seed, false);
     replace_test(seq_len, number_of_trials, seed, false);
+   
     
     insert_and_erase_test(seq_len*3, number_of_trials, seed, false);
     insert64_and_erase64_test(seq_len*3, number_of_trials, seed, false);

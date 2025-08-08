@@ -32,6 +32,8 @@ namespace stool
 
         void add(int64_t x)
         {
+            assert(this->bit_index_ < 64);
+            assert(x >= 0);
             while (x > 0)
             {
                 if (this->bit_index_ + x < 64)
