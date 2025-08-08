@@ -1,0 +1,7 @@
+<map id="stool::StaticArrayDeque&lt; SIZE, true &gt;::set_value" name="stool::StaticArrayDeque&lt; SIZE, true &gt;::set_value">
+<area shape="rect" id="Node000001" title="Set a value at a specific index." alt="" coords="5,5,192,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1StaticArrayDeque.html#a1ec7e858b0ac88f1f1592a77c7dd56fd" title="Access element by index with bounds checking." alt="" coords="240,13,437,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,23,226,23,226,28,192,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1StaticArrayDeque.html#a520d082bdb81ae86d0699a50d2709153" title="Get the current number of elements." alt="" coords="485,5,661,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="437,23,472,23,472,28,437,28"/>
+</map>

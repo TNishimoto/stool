@@ -1,0 +1,5 @@
+<map id="stool::IntegerArrayDeque::capacity" name="stool::IntegerArrayDeque::capacity">
+<area shape="rect" id="Node000001" title="Get the current capacity of the deque." alt="" coords="5,5,191,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitArrayDeque.html#a92ab473dec3e4007e508b6e13d5070ff" title="Get the current buffer capacity." alt="" coords="239,5,396,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,23,225,23,225,28,191,28"/>
+</map>

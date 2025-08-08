@@ -1,0 +1,24 @@
+<map id="stool::BitArrayDeque::shrink_to_fit" name="stool::BitArrayDeque::shrink_to_fit">
+<area shape="rect" id="Node000001" title="Reduce buffer size to fit current content." alt="" coords="699,101,856,141"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitArrayDeque.html#a5040c685a4d32b65e48c42523c2776e5" title="Remove all elements from the deque." alt="" coords="483,69,640,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="684,110,640,104,641,98,685,105"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1BitArrayDeque.html#a67e8b7411363d1686f3405a361c8de58" title="Update buffer size if needed based on current usage." alt="" coords="472,133,651,173"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="686,138,651,143,650,137,685,132"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1IntegerArrayDeque.html#af368961df2e2cfdf2b1c1df1041691ce" title="Clear all elements from the deque." alt="" coords="239,5,424,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="475,68,403,48,404,43,476,63"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1BitArrayDeque.html#a4a7d3e26961f9196c47b89a7d505ae33" title="Remove the last element from the deque." alt="" coords="253,133,410,173"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="476,116,404,136,403,131,475,110"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1BitArrayDeque.html#afe66ae3ceb791b715c3a5a85d193b9b8" title="Remove the first element from the deque." alt="" coords="253,69,410,109"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="469,92,410,92,410,87,469,87"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1IntegerArrayDeque.html#abaffa8d19007f184118be8bd3966ea33" title="Remove the last element from the deque." alt="" coords="5,133,191,173"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="239,156,191,156,191,151,239,151"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1IntegerArrayDeque.html#a6a52c75aa2e2646f6d0255f91ccc126c" title="Remove the first element from the deque." alt="" coords="5,69,191,109"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="239,92,191,92,191,87,239,87"/>
+<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="458,156,410,156,410,151,458,151"/>
+<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="475,132,403,112,404,107,476,127"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1BitArrayDeque.html#a72daa3106a834b53e6c70d943c8427a2" title="Add an element to the end of the deque." alt="" coords="253,248,410,288"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="516,183,425,232,384,250,382,245,423,227,513,178"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1BitArrayDeque.html#a8bc89ba5b1000bbf4e0e94c32fe29f22" title="Add an element to the beginning of the deque." alt="" coords="19,223,177,263"/>
+<area shape="poly" id="edge12_Node000008_Node000010" title=" " alt="" coords="466,179,425,188,177,233,176,228,423,183,465,174"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="239,261,177,254,177,249,240,255"/>
+</map>

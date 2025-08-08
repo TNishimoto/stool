@@ -1,0 +1,30 @@
+var indexSectionsWithContent =
+{
+  0: "_abcdefghijlmnoprstuvwz~",
+  1: "abcdefilmnoprstuvw",
+  2: "r",
+  3: "abcdefghilmnoprstuvwz~",
+  4: "_acfijlmnrstu",
+  5: "dirv"
+};
+
+var indexSectionNames =
+{
+  0: "all",
+  1: "classes",
+  2: "files",
+  3: "functions",
+  4: "variables",
+  5: "typedefs"
+};
+
+var indexSectionLabels =
+{
+  0: "All",
+  1: "Classes",
+  2: "Files",
+  3: "Functions",
+  4: "Variables",
+  5: "Typedefs"
+};
+

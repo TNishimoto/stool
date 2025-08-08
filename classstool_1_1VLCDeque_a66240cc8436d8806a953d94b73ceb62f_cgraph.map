@@ -1,0 +1,11 @@
+<map id="stool::VLCDeque::save" name="stool::VLCDeque::save">
+<area shape="rect" id="Node000001" title="Saves a vector of VLCDeque instances to a file stream." alt="" coords="5,46,173,71"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#ac60c9493b7ae05341afec2f1f24e1d41" title="Saves a VLCDeque instance to a byte array." alt="" coords="221,17,389,42"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,45,208,40,208,45,174,50"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1VLCDeque.html#adf3de5a293ca35b2ed2b771ae80dbc15" title="Returns the number of elements in the deque." alt="" coords="224,70,387,95"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="174,65,211,69,210,75,173,71"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#aa3c4c3760e1f327dc9940c06238891b2" title="Save deque to a byte vector." alt="" coords="437,5,587,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="390,25,423,24,423,30,390,30"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="437,69,587,109"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="387,83,423,84,423,89,387,88"/>
+</map>

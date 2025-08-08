@@ -1,0 +1,7 @@
+<map id="stool::LSBByte::select1" name="stool::LSBByte::select1">
+<area shape="rect" id="Node000001" title="Finds the position of the (i+1)&#45;th set bit (1) in a 64&#45;bit integer." alt="" coords="5,31,176,56"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Byte.html#a501c9ed6b0fc7c43bdafbc2a7dc5e5b9" title="Counts the number of 1 bits in a 64&#45;bit integer using built&#45;in function." alt="" coords="225,5,392,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,31,211,27,212,32,177,36"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1LSBByte.html#a495b8cbd80ae3bee90f97bd8d506e4d0" title="Checks if a specific bit is set in a 64&#45;bit integer." alt="" coords="224,55,393,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,50,210,54,210,59,176,55"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="stool::EliasFanoVector::begin" name="stool::EliasFanoVector::begin">
+<area shape="rect" id="Node000001" title="Returns an iterator pointing to the first element." alt="" coords="217,5,381,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1EliasFanoVector.html#ad8d1c19877318a21ccb1878d59709424" title="Computes the rank of a value (number of elements less than the value)" alt="" coords="5,5,169,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,28,169,28,169,23,204,23"/>
+</map>
