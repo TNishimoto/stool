@@ -502,7 +502,7 @@ namespace stool
             int64_t appropriate_size_index = BitArrayDeque::get_appropriate_circular_buffer_size_index(new_size);
 
             //uint64_t old_buffer_size = this->circular_buffer_size_;
-            uint64_t old_size = this->size();
+            uint64_t old_size = this->circular_buffer_size_;
 
             if (appropriate_size_index + 1 < current_size_index || appropriate_size_index > current_size_index)
             {
@@ -516,7 +516,11 @@ namespace stool
                 this->circular_buffer_size_ = new_size;
 
                 //std::array<uint64_t, TMP_BUFFER_SIZE> tmp_array;
-                std::memcpy(this->circular_buffer_, tmp, (std::min(old_size, new_size)) * sizeof(uint64_t));
+                uint64_t copy_size = std::min(old_size, new_size);
+
+                if(copy_size > 0){
+                    std::memcpy(&this->circular_buffer_[0], &tmp[0], copy_size * sizeof(uint64_t));
+                }
 
                 delete[] tmp;
             }
@@ -956,8 +960,8 @@ namespace stool
 
                     {
                         uint64_t last_block_size = end_bp.bit_index_+1;
-                        CircularBitPointer start_value_bp(UINT16_MAX, 0, 0);
-                        CircularBitPointer end_value_bp(UINT16_MAX, 0, 0);
+                        CircularBitPointer start_value_bp(values.size(), 0, 0);
+                        CircularBitPointer end_value_bp(values.size(), 0, 0);
                         start_value_bp.add(bit_size - last_block_size);
                         end_value_bp.add(bit_size-1);
                         uint64_t pattern = start_value_bp.read64(values);
@@ -1049,8 +1053,8 @@ namespace stool
 
                     {
                         uint64_t last_block_size = end_bp.bit_index_+1;
-                        CircularBitPointer start_value_bp(UINT16_MAX, 0, 0);
-                        CircularBitPointer end_value_bp(UINT16_MAX, 0, 0);
+                        CircularBitPointer start_value_bp(values.size(), 0, 0);
+                        CircularBitPointer end_value_bp(values.size(), 0, 0);
                         start_value_bp.add(bit_size - last_block_size);
                         end_value_bp.add(bit_size-1);
                         uint64_t pattern = start_value_bp.read64(values);
@@ -1271,6 +1275,7 @@ namespace stool
         void swap(BitArrayDeque &item)
         {
             std::swap(this->circular_buffer_, item.circular_buffer_);
+            std::swap(this->num1_, item.num1_);
             std::swap(this->circular_buffer_size_, item.circular_buffer_size_);
             std::swap(this->first_block_index_, item.first_block_index_);
             std::swap(this->last_block_index_, item.last_block_index_);

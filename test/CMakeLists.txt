@@ -11,7 +11,7 @@ else(CPP_STATIC)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 endif(CPP_STATIC)
 
-set(CMAKE_CXX_FLAGS_DEBUG  "-g -O0 -DDEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG  "-g -O0 -DDEBUG  -fsanitize=address -fno-omit-frame-pointer")
 set(CMAKE_CXX_FLAGS_RELEASE  "-O3 -DNDEBUG  -Rpass=loop-vectorize")
 
 #SDSL lib and include directory are here
