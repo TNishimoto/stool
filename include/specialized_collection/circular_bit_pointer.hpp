@@ -25,7 +25,7 @@ namespace stool
             this->block_index_ = block_index;
             this->bit_index_ = bit_index;
         }
-        uint64_t get_position() const
+        uint64_t get_position_on_circular_buffer() const
         {
             return this->block_index_ * 64 + this->bit_index_;
         }
@@ -90,7 +90,7 @@ namespace stool
                 return bits[this->block_index_];
             }
             else if (this->block_index_ + 1 < this->circular_buffer_size_)
-            {                
+            {
                 // uint64_t Lsize = 64 - this->bit_index_;
                 assert(this->block_index_ + 1 < this->circular_buffer_size_);
 
@@ -100,7 +100,7 @@ namespace stool
             }
             else
             {
-                assert(this->block_index_  < this->circular_buffer_size_);
+                assert(this->block_index_ < this->circular_buffer_size_);
 
                 // uint64_t Lsize = 64 - this->bit_index_;
                 uint64_t L = bits[block_index_] << this->bit_index_;
@@ -112,7 +112,7 @@ namespace stool
         template <typename T>
         void write64(T &bits, uint64_t value)
         {
-            assert(this->block_index_  < this->circular_buffer_size_);
+            assert(this->block_index_ < this->circular_buffer_size_);
 
             if (this->bit_index_ == 0)
             {
@@ -133,7 +133,7 @@ namespace stool
         {
             if (this->bit_index_ + len <= 64)
             {
-                assert(this->block_index_  < this->circular_buffer_size_);
+                assert(this->block_index_ < this->circular_buffer_size_);
 
                 bits[this->block_index_] = stool::MSBByte::write_bits(bits[this->block_index_], this->bit_index_, len, value);
             }
@@ -160,5 +160,7 @@ namespace stool
                 }
             }
         }
+
+        
     };
 }

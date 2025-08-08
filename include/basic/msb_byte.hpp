@@ -286,6 +286,83 @@ namespace stool
         }
 
         template <typename T>
+        static void move_suffix_blocks_to_a_block_position(T &bits_array, uint64_t block_index, uint8_t bit_index, uint64_t dst_block_index, uint64_t array_size)
+        {
+            uint64_t block_size = array_size - block_index;
+
+            if(block_index > dst_block_index){
+                if(bit_index == 0){
+                    std::memmove(&bits_array[dst_block_index], &bits_array[block_index], block_size * sizeof(uint64_t));
+                }else{
+                    for(uint64_t i = 0; i + 1 < block_size; i++){
+                        uint64_t prefix = bits_array[block_index + i] << bit_index;
+                        uint8_t prefix_len = 64 - bit_index;
+                        uint64_t suffix = bits_array[block_index + i + 1] >> prefix_len;
+                        uint64_t new_block = prefix | suffix;
+                        bits_array[dst_block_index + i] = new_block;
+                    }
+
+                    {
+                        uint64_t prefix = bits_array[block_index + block_size - 1] << bit_index;
+                        bits_array[dst_block_index + block_size - 1] = prefix;
+                    }
+                }
+            }else if(block_index < dst_block_index){
+                throw std::runtime_error("block_index < dst_block_index");                    
+            }else{
+                if(bit_index == 0){
+                    return;
+                }else{
+                    for(uint64_t i = 0; i + 1 < block_size; i++){
+                        uint64_t prefix = bits_array[block_index + i] << bit_index;
+                        uint8_t prefix_len = 64 - bit_index;
+                        uint64_t suffix = bits_array[block_index + i + 1] >> prefix_len;
+                        uint64_t new_block = prefix | suffix;
+                        bits_array[block_index] = new_block;
+                    }
+
+                    {
+                        uint64_t prefix = bits_array[block_index + block_size - 1] << bit_index;
+                        bits_array[block_index + block_size - 1] = prefix;
+                    }
+                }
+            }
+
+
+            if(bit_index == 0){
+            }else{
+
+            }
+            assert(offset_bit_index < 64);
+            uint64_t end_index = block_index - offset_block_index;
+            if (offset_bit_index == 0)
+            {
+                if (end_index < array_size)
+                {
+                    bits_array[end_index] = bits_array[block_index];
+                }
+            }
+            else
+            {
+                uint64_t start_index = end_index - 1;
+
+                uint64_t leftBlock = bits_array[block_index];
+                uint64_t rightBlock = bits_array[block_index] << offset_bit_index;
+
+                if (end_index < array_size)
+                {
+                    bits_array[end_index] = MSBByte::write_prefix(bits_array[end_index], 64 - offset_bit_index, rightBlock);
+                }
+
+                if (start_index < array_size)
+                {
+                    bits_array[start_index] = MSBByte::write_suffix(bits_array[start_index], offset_bit_index, leftBlock);
+                }
+            }
+        }
+
+
+        template <typename T>
         static void block_shift_right(T &bits_array, uint64_t bit_index, uint64_t offset_bit_index, uint64_t array_size)
         {
             int64_t xblock_index = bit_index / 64;

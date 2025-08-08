@@ -77,7 +77,7 @@ void random_shift(stool::BitArrayDeque &bit_deque, uint64_t seed){
     uint64_t num1 = bit_deque.rank1();
 
     uint64_t shift_len = get_rand_value(mt) % bit_deque.capacity();
-    bit_deque.change_starting_position(shift_len);
+    bit_deque.__change_starting_position_for_debug(shift_len);
 
     if(bit_deque.size() > 0){
         if(num1 != bit_deque.rank1(0, bit_deque.size() - 1)){
