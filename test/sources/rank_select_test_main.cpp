@@ -16,6 +16,80 @@
 #include <sdsl/wt_algorithm.hpp>
 #pragma GCC diagnostic pop
 
+
+int64_t compute_select1(const std::vector<bool> &bv, uint64_t i){
+    uint64_t count = 0;
+    uint64_t e = i+1;
+    for(uint64_t j = 0; j < bv.size(); j++){
+        if(bv[j]){
+            count++;
+        }
+        if(count == e){
+            return j;
+        }
+    }
+    return -1;
+}
+int64_t compute_select0(const std::vector<bool> &bv, uint64_t i){
+    uint64_t count = 0;
+    uint64_t e = i+1;
+    for(uint64_t j = 0; j < bv.size(); j++){
+        if(!bv[j]){
+            count++;
+        }
+        if(count == e){
+            return j;
+        }
+    }
+    return -1;
+}
+
+int64_t compute_rev_select1(const std::vector<bool> &bv, uint64_t i){
+    uint64_t count = 0;
+    uint64_t e = i+1;
+    for(uint64_t j = bv.size()-1; j >= 0; j--){
+        if(bv[j]){
+            count++;
+        }
+        if(count == e){
+            return j;
+        }
+    }
+    return -1;
+}
+int64_t compute_rev_select0(const std::vector<bool> &bv, uint64_t i){
+    uint64_t count = 0;
+    uint64_t e = i+1;
+    for(uint64_t j = bv.size()-1; j >= 0; j--){
+        if(!bv[j]){
+            count++;
+        }
+        if(count == e){
+            return j;
+        }
+    }
+    return -1;
+}
+
+
+/*
+int64_t compute_rev_select1(const std::vector<bool> &bv, uint64_t i){
+    uint64_t count = 0;
+    uint64_t e = i+1;
+    for(uint64_t j = 0; j < bv.size(); j++){
+        if(bv[j]){
+            count++;
+        }
+        if(count == e){
+            return j;
+        }
+    }
+    return -1;
+}
+*/
+
+
+
 void rank_test(std::vector<uint8_t> &text, stool::WT &wt)
 {
     uint64_t CHARMAX = UINT8_MAX + 1;
@@ -36,33 +110,7 @@ void rank_test(std::vector<uint8_t> &text, stool::WT &wt)
     }
 }
 
-int main()
-{
-    /*
-    std::vector<uint64_t> r = create_random_integer_vector(30000, 3000);
-    stool::Printer::print(r);
-
-    stool::ValueArray va;
-    va.set(r, true);
-
-    std::vector<uint64_t> r2;
-    va.decode(r2);
-    stool::Printer::print(r2);
-
-    stool::EliasFanoVector efs;
-    efs.construct(&r2);
-
-    stool::EliasFanoVector efs2(std::move(efs));
-
-    std::vector<uint64_t> r3 = efs2.to_vector();
-    stool::Printer::print(r3);
-
-    std::vector<uint64_t> r4;
-    for (auto it : efs2)
-        r4.push_back(it);
-    stool::Printer::print(r4);
-
-    */
+void c_run_sum_test(){
 
     uint64_t seed = 0;
     std::vector<uint8_t> alph{ 1, 2, 3, 4, 5, 6, 7, 8};    
@@ -80,6 +128,85 @@ int main()
     construct_im(wt, text);
 
     rank_test(seq, wt);
+}
+
+void bit_select_test(uint64_t seed, uint64_t max_counter){
+    std::cout << "bit_select_test: " << std::flush;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+
+    for(uint64_t i = 0; i < max_counter; i++){
+        if(i % 100 == 0){
+            std::cout << "+" << std::flush;
+        }
+        uint64_t random_value = get_rand_value(mt);
+        uint64_t rank1 = stool::Byte::count_bits(random_value);
+        uint64_t rank0 = 64 - rank1;
+
+        std::vector<bool> bv;
+        for(uint64_t j = 0; j < 64; j++){
+            bv.push_back(random_value & (1ULL << (63 - j)));
+        }
+
+        std::vector<uint64_t> select1_results;
+        std::vector<uint64_t> select0_results;
+
+        std::vector<uint64_t> select1_results_test;
+        std::vector<uint64_t> select0_results_test;
+
+        std::vector<uint64_t> rev_select1_results;
+        std::vector<uint64_t> rev_select0_results;
+
+        std::vector<uint64_t> rev_select1_results_test;
+        std::vector<uint64_t> rev_select0_results_test;
+
+
+        for(uint64_t j = 0; j < rank1; j++){
+            select1_results.push_back(compute_select1(bv, j));
+            select1_results_test.push_back(stool::MSBByte::select1(random_value, j));
+        }
+        stool::EqualChecker::equal_check(select1_results, select1_results_test, "select1_results");
+
+        for(uint64_t j = 0; j < rank0; j++){
+            select0_results.push_back(compute_select0(bv, j));
+            select0_results_test.push_back(stool::MSBByte::select0(random_value, j));
+        }
+        stool::EqualChecker::equal_check(select0_results, select0_results_test, "select0_results");
+
+        for(uint64_t j = 0; j < rank1; j++){
+            rev_select1_results.push_back(compute_rev_select1(bv, j));
+            int64_t p = stool::LSBByte::select1(random_value, j);
+            if(p != -1){
+                rev_select1_results_test.push_back(63 - p);
+            }else{
+                rev_select1_results_test.push_back(-1);
+            }
+        }
+        stool::EqualChecker::equal_check(rev_select1_results, rev_select1_results_test, "rev_select1_results");
+        
+        for(uint64_t j = 0; j < rank0; j++){
+            rev_select0_results.push_back(compute_rev_select0(bv, j));
+            int64_t p = stool::LSBByte::select0(random_value, j);
+            if(p != -1){
+                rev_select0_results_test.push_back(63 - p);
+            }else{
+                rev_select0_results_test.push_back(-1);
+            }
+        }
+        stool::EqualChecker::equal_check(rev_select0_results, rev_select0_results_test, "rev_select0_results");
+        
+
+    }
+    std::cout << "[DONE]" << std::endl;
+}
+
+
+int main()
+{
+    bit_select_test(0, 10000);
+    
+    //c_run_sum_test();
+
 
     // rankTest();
 }

@@ -37,17 +37,10 @@
 #include "./specialized_collection/value_array.hpp"
 #include "./specialized_collection/vlc_deque.hpp"
 #include "./specialized_collection/naive_dynamic_string.hpp"
-#include "./specialized_collection/short_bit_vector.hpp"
-#include "./specialized_collection/short_elias_fano_vector.hpp"
-#include "./specialized_collection/short_integer_vector.hpp"
-#include "./specialized_collection/bit_array_deque.hpp"
-//#include "./specialized_collection/integer_array_deque.hpp"
-#include "./specialized_collection/byte_array_deque.hpp"
-#include "./specialized_collection/push_pop_arrays/static_array_deque.hpp"
-#include "./specialized_collection/push_pop_arrays/static_array_deque2.hpp"
+
+#include "./specialized_collection/push_pop_arrays/bit_array_deque.hpp"
 #include "./specialized_collection/push_pop_arrays/naive_array.hpp"
-#include "./specialized_collection/push_pop_arrays/faster_static_array_deque.hpp"
-#include "./specialized_collection/push_pop_arrays/integer_array_deque.hpp"
+#include "./specialized_collection/push_pop_arrays/vlc_array_deque.hpp"
 
 #include "./lz/lz_factor.hpp"
 

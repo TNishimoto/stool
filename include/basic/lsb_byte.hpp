@@ -3,6 +3,34 @@
 
 namespace stool
 {
+    namespace __LSB_BYTE{
+        inline static constexpr int8_t get_1bit_position(uint8_t value, int rank) {
+            int count = 0;
+            for (int bit = 0; bit < 8; ++bit) {
+                if (value & (1 << bit)) {
+                    if (count == rank) return bit;
+                    ++count;
+                }
+            }
+            return -1;
+        }
+        
+        inline static constexpr std::array<std::array<int8_t, 8>, 256> build_lookup_table_for_select1() {
+            std::array<std::array<int8_t, 8>, 256> table{};
+        
+            for (int i = 0; i < 256; ++i) {
+                for (int j = 0; j < 8; ++j) {
+                    table[i][j] = get_1bit_position(static_cast<uint8_t>(i), j);
+                }
+            }
+        
+            return table;
+        }
+
+        
+        inline static constexpr std::array<std::array<int8_t, 8>, 256> select1_table = stool::__LSB_BYTE::build_lookup_table_for_select1();    
+    }
+
     class LSBByte
     {
         public:
@@ -124,6 +152,7 @@ namespace stool
          * @param i The zero-based index of the set bit to find (finds i+1 th occurrence)
          * @return The position (0-63) of the (i+1)-th set bit, or -1 if not found
          */
+        /*
         static int64_t select1(uint64_t bits, uint64_t i)
         {
             uint64_t nth = i + 1;
@@ -150,6 +179,30 @@ namespace stool
                         }
                     }
                     return -1;
+                }
+                counter += c;
+            }
+            return -1;
+        }
+        */
+
+        static int64_t select1(uint64_t bits, uint64_t i)
+        {
+            uint64_t nth = i + 1;
+            uint64_t mask = UINT8_MAX;
+            uint64_t counter = 0;
+            for (int64_t i = 0; i < 8; i++)
+            {
+                uint64_t bs = i * 8;
+                uint64_t mask2 = mask << bs;
+                uint64_t v = bits & mask2;
+                uint64_t c = Byte::count_bits(v);
+                if (counter + c >= nth)
+                {
+                    uint64_t pos = bs;
+                    uint8_t bits8 = (bits >> bs) & UINT8_MAX;
+                    uint64_t X = pos + __LSB_BYTE::select1_table[bits8][(nth-counter-1)];
+                    return X;
                 }
                 counter += c;
             }

@@ -16,6 +16,7 @@ namespace stool
             }
             return -1;
         }
+        /*
         inline static constexpr int8_t get_0bit_position(uint8_t value, int rank) {
             int count = 0;
             for (int bit = 0; bit < 8; ++bit) {
@@ -26,6 +27,7 @@ namespace stool
             }
             return -1;
         }
+        */
         
         inline static constexpr std::array<std::array<int8_t, 8>, 256> build_lookup_table_for_select1() {
             std::array<std::array<int8_t, 8>, 256> table{};
@@ -38,21 +40,10 @@ namespace stool
         
             return table;
         }
-        inline static constexpr std::array<std::array<int8_t, 8>, 256> build_lookup_table_for_select0() {
-            std::array<std::array<int8_t, 8>, 256> table{};
-        
-            for (int i = 0; i < 256; ++i) {
-                for (int j = 0; j < 8; ++j) {
-                    table[i][j] = get_0bit_position(static_cast<uint8_t>(i), j);
-                }
-            }
-        
-            return table;
-        }
 
         
         inline static constexpr std::array<std::array<int8_t, 8>, 256> select1_table = stool::__MSB_BYTE::build_lookup_table_for_select1();    
-        inline static constexpr std::array<std::array<int8_t, 8>, 256> select0_table = stool::__MSB_BYTE::build_lookup_table_for_select0();    
+        //inline static constexpr std::array<std::array<int8_t, 8>, 256> select0_table = stool::__MSB_BYTE::build_lookup_table_for_select0();    
     }
 
 
@@ -528,25 +519,7 @@ namespace stool
         }
         static int64_t select0(uint64_t bits, uint64_t i)
         {
-            uint64_t nth = i + 1;
-            uint64_t mask = UINT8_MAX;
-            uint64_t counter = 0;
-            for (int64_t i = 7; i >= 0; i--)
-            {
-                uint64_t bs = i * 8;
-                uint64_t mask2 = mask << bs;
-                uint64_t v = bits & mask2;
-                uint64_t c = 8 -Byte::count_bits(v);
-                if (counter + c >= nth)
-                {
-                    uint64_t pos = (7 - i) * 8;
-                    uint8_t bits8 = (bits >> (56 - pos)) & UINT8_MAX;
-                    uint64_t X = pos + __MSB_BYTE::select0_table[bits8][(nth-counter-1)];
-                    return X;
-                }
-                counter += c;
-            }
-            return -1;
+            return select1(~bits, i);
         }
 
         static std::string to_bit_string(uint64_t x, uint64_t bit_size)

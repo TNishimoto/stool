@@ -30,6 +30,17 @@ namespace stool
             return this->block_index_ * 64 + this->bit_index_;
         }
 
+        uint64_t get_distance(const CircularBitPointer &base_pointer) const {
+            uint64_t pos = this->get_position_on_circular_buffer();
+            uint64_t base_pos = base_pointer.get_position_on_circular_buffer();
+            if(pos >= base_pos){
+                return pos - base_pos;
+            }else{
+                uint64_t dist = (this->circular_buffer_size_ * 64) - base_pos;
+                return pos + dist;
+            }
+        }
+
         void add(int64_t x)
         {
             assert(this->bit_index_ < 64);
@@ -50,29 +61,6 @@ namespace stool
                 assert(this->block_index_ < this->circular_buffer_size_);
             }
 
-            /*
-
-            while (x > 0)
-            {
-                if (this->bit_index_ + x < 64)
-                {
-                    this->bit_index_ += x;
-                    x = 0;
-                }
-                else
-                {
-                    uint64_t diff = 64 - this->bit_index_;
-                    x -= diff;
-                    this->bit_index_ = 0;
-                    this->block_index_++;
-                    if (this->block_index_ == this->circular_buffer_size_)
-                    {
-                        this->block_index_ = 0;
-                    }
-                }
-            }            
-            assert(x == 0);
-            */
         }
         void subtract(int64_t x)
         {
@@ -96,40 +84,6 @@ namespace stool
                 assert(this->circular_buffer_size_ >= -o_index);
                 this->block_index_ = this->circular_buffer_size_ + o_index;
             }
-
-            /*
-
-            this->block_index_ -= offset_index;
-            this->bit_index_ -= offset_bit_index;
-
-            if(this->bit_index_ < 0){
-
-
-            while (x > 0)
-            {
-                if (x <= (int64_t)this->bit_index_)
-                {
-                    this->bit_index_ -= x;
-                    x = 0;
-                }
-                else
-                {
-                    uint64_t diff = this->bit_index_ + 1;
-                    x -= diff;
-
-                    if (this->block_index_ != 0)
-                    {
-                        this->bit_index_ = 63;
-                        this->block_index_--;
-                    }
-                    else
-                    {
-                        this->bit_index_ = 63;
-                        this->block_index_ = this->circular_buffer_size_ - 1;
-                    }
-                }
-            }
-            */
         }
 
         template <typename T>

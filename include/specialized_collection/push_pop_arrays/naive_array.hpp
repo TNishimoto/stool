@@ -3,9 +3,9 @@
 #include <deque>
 #include <bitset>
 #include <cassert>
+#include <cstring>
 #include "../../basic/byte.hpp"
 #include "../../debug/print.hpp"
-#include "../../basic/simd.hpp"
 
 namespace stool
 {
