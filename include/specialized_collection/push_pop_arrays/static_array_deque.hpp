@@ -274,7 +274,7 @@ namespace stool
              * @param n The offset
              * @return const T& Const reference to the element at offset n
              */
-            const uint64_t &operator[](difference_type n) const
+            uint64_t operator[](difference_type n) const
             {
                 int16_t sum = (int16_t)this->_m_idx + (int16_t)n;
                 return (*this->_m_deq)[sum];

@@ -362,7 +362,7 @@ namespace stool
                 uint64_t size = this->efs->size();
                 if (this->index < size)
                 {
-                    if (this->index + 1 == size)
+                    if ((uint64_t)(this->index + 1) == size)
                     {
                         this->index = UINT16_MAX;
                         this->upper_value = UINT16_MAX;
