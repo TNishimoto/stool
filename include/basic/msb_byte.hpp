@@ -1,6 +1,7 @@
 #pragma once
 #include "./lsb_byte.hpp"
 #include <cassert>
+#include <cstring>
 
 namespace stool
 {

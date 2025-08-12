@@ -221,7 +221,7 @@ namespace stool
                     sum += v;
                 }
             }
-            uint8_t width = std::min(8ULL, (uint64_t)element_count - j);
+            uint8_t width = std::min((uint64_t)8, (uint64_t)element_count - j);
 
             for (uint16_t x = 0; x < width; x++)
             {
@@ -290,7 +290,7 @@ namespace stool
                     sum += v;
                 }
             }
-            uint8_t width = std::min(4ULL, (uint64_t)element_count - j);
+            uint8_t width = std::min((uint64_t)4, (uint64_t)element_count - j);
 
             for (uint16_t x = 0; x < width; x++)
             {
@@ -353,7 +353,7 @@ namespace stool
                     sum += v;
                 }
             }
-            uint8_t width = std::min(16ULL, (uint64_t)element_count - j);
+            uint8_t width = std::min((uint64_t)16, (uint64_t)element_count - j);
 
             for (uint16_t x = 0; x < width; x++)
             {

@@ -3,10 +3,10 @@
 #include <deque>
 #include <bitset>
 #include <cassert>
+#include <cstring>
 #include "../basic/byte.hpp"
 #include "../basic/lsb_byte.hpp"
 #include "../basic/msb_byte.hpp"
-
 #include "../debug/print.hpp"
 
 namespace stool

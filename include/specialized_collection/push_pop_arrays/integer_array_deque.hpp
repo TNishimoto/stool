@@ -298,7 +298,7 @@ namespace stool
 
         void shrink_to_fit()
         {
-            this->deque.shrink_to_fit();
+            //this->deque.shrink_to_fit();
         }
 
         /**
