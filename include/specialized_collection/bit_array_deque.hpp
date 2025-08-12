@@ -1887,7 +1887,7 @@ namespace stool
 
             this->clear();
 
-            uint64_t counter = 0;
+            [[maybe_unused]] uint64_t counter = 0;
             for (uint64_t i = p; i < bv.size(); i++)
             {
                 this->push_back(bv[i]);
