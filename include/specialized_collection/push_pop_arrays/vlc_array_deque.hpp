@@ -47,10 +47,14 @@ namespace stool
             {
                 return m_vlc_deque->at(this->m_bp, this->m_code_len);
             }
+            bool is_end() const{
+                uint64_t size = this->m_vlc_deque->size();
+                return this->m_idx >= size;
+            }
 
             VLCArrayDequeIterator &operator++()
             {
-                if (m_idx == UINT64_MAX)
+                if (this->is_end())
                 {
                     throw std::invalid_argument("VLCArrayDequeIterator::operator++: The iterator is at the beginning of the deque");
                 }
@@ -80,7 +84,7 @@ namespace stool
                 }
                 else
                 {
-                    this->m_idx = UINT64_MAX;
+                    this->m_idx = this->m_vlc_deque->size();
                     this->m_code_len = UINT8_MAX;
                 }
                 return *this;
@@ -95,7 +99,39 @@ namespace stool
 
             VLCArrayDequeIterator &operator--()
             {
-                throw std::invalid_argument("VLCArrayDequeIterator::operator--: Not implemented");
+                uint64_t size = this->m_vlc_deque->size();
+                if(size == 0){
+                    throw std::invalid_argument("VLCArrayDequeIterator::operator--: The deque is empty");
+                }else if(this->m_idx == 0){
+                    throw std::invalid_argument("VLCArrayDequeIterator::operator--: m_idx == 0");
+                }else if(this->m_idx < size){
+                    this->m_idx--;
+
+                    CircularBitPointer copy_bp = this->m_bp;
+                    CircularBitPointer base_bp = this->m_vlc_deque->value_length_deque.get_circular_bit_pointer_at_head();
+                    copy_bp.subtract(1);
+                    uint64_t dist_p = copy_bp.get_distance(base_bp) + 1;
+                    dist_p = std::min(dist_p, 64ULL);
+
+                    uint64_t bits = this->m_vlc_deque->value_length_deque.read_prev_64bit(copy_bp);
+                    uint64_t gap = 64 - dist_p;
+
+                    uint64_t code_len = stool::LSBByte::select1(bits, 0) - gap + 1;
+                    this->m_code_len = code_len;
+                    this->m_bp.subtract(code_len);                        
+                }else{
+                    this->m_idx--;
+
+                    uint64_t bits = this->m_vlc_deque->value_length_deque.read_last_64bit();
+                    uint64_t x_size = this->m_vlc_deque->value_length_deque.size();
+                    x_size = std::min(x_size, 64ULL);
+                    uint64_t gap = 64 - x_size;
+
+                    uint64_t code_len = stool::LSBByte::select1(bits, 0) - gap + 1;
+                    this->m_code_len = code_len;
+                    this->m_bp = this->m_vlc_deque->value_length_deque.get_circular_bit_pointer_at_tail();
+                    this->m_bp.subtract(code_len - 1);
+                }
 
                 return *this;
             }
@@ -459,8 +495,9 @@ namespace stool
          */
         VLCArrayDequeIterator end() const
         {
+            uint64_t size = this->size();
             CircularBitPointer bp = this->value_length_deque.get_circular_bit_pointer_at_head();
-            return VLCArrayDequeIterator(const_cast<VLCArrayDeque *>(this), UINT64_MAX, bp, UINT8_MAX);
+            return VLCArrayDequeIterator(const_cast<VLCArrayDeque *>(this), size, bp, UINT8_MAX);
         }
 
         /**

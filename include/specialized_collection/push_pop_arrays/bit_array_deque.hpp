@@ -1528,15 +1528,24 @@ namespace stool
             }
         }
         uint64_t read_last_64bit() const{
-            uint64_t size = this->size();
-            if(size >= 64){
-                if(this->last_bit_index_ == 63){
-                    return this->circular_buffer_[this->last_block_index_];
+            CircularBitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
+            return this->read_prev_64bit(bp);
+        }
+        CircularBitPointer get_circular_bit_pointer_at_tail() const{
+            return CircularBitPointer(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
+        }
+        uint64_t read_prev_64bit(const CircularBitPointer &bp) const{
+            CircularBitPointer start_bp = this->get_circular_bit_pointer_at_head();
+            uint64_t prev_size = bp.get_distance(start_bp) + 1;
+
+            if(prev_size >= 64){
+                if(bp.bit_index_ == 0){
+                    return this->circular_buffer_[bp.block_index_];
                 }else{
-                    uint64_t L_index = this->last_block_index_ > 0 ? this->last_block_index_ - 1 : this->circular_buffer_size_ - 1;
-                    uint64_t RLen = this->last_bit_index_ + 1;
+                    uint64_t L_index = bp.block_index_ > 0 ? bp.block_index_ - 1 : this->circular_buffer_size_ - 1;
+                    uint64_t RLen = bp.bit_index_;
                     uint64_t LLen = 64 - RLen;
-                    uint64_t R = (this->circular_buffer_[this->last_block_index_] >> (64 - RLen)) << (64 - RLen);
+                    uint64_t R = (this->circular_buffer_[bp.block_index_] >> (64 - RLen)) << (64 - RLen);
                     R = R >> LLen;
                     
                     uint64_t L = (this->circular_buffer_[L_index] << (64 - LLen)) >> (64 - LLen);                    
@@ -1545,9 +1554,10 @@ namespace stool
                 }
             }else{
                 uint64_t fst_bits = this->read_64_bit_string();
-                return (fst_bits >> (64 - size)) << (64 - size);
+                return (fst_bits >> (64 - prev_size)) << (64 - prev_size);
             }
         }
+
         int64_t rev_select1(uint64_t i) const
         {
             uint64_t sum = this->rank1();
