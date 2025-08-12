@@ -569,6 +569,11 @@ namespace stool
             uint64_t prev_size = this->size();
 #endif
             uint64_t size = this->size();
+            if(size + 1 > MAX_BIT_LENGTH){
+                throw std::invalid_argument("Error: push_back()");
+            }
+
+
             this->update_size_if_needed(size + 1);
 
             if (size == 0)
@@ -620,8 +625,14 @@ namespace stool
          */
         void push_front(bool value)
         {
+
             uint64_t size = this->size();
+            if(size + 1 > MAX_BIT_LENGTH){
+                throw std::invalid_argument("Error: push_front()");
+            }
+
             this->update_size_if_needed(size + 1);
+
 
             if (size == 0)
             {
@@ -749,6 +760,12 @@ namespace stool
             if (len == 0)
                 return;
             uint64_t size = this->size();
+            if(size + len > MAX_BIT_LENGTH){
+                throw std::invalid_argument("Error: push_back64()");
+            }
+
+
+
             this->update_size_if_needed(size + len);
 
             uint64_t num1 = stool::MSBByte::count_bits(value, len - 1);
@@ -785,6 +802,10 @@ namespace stool
             if (len == 0)
                 return;
             uint64_t size = this->size();
+            if(size + len > MAX_BIT_LENGTH){
+                throw std::invalid_argument("Error: push_front64()");
+            }
+
             this->update_size_if_needed(size + len);
             if (size == 0)
             {
@@ -1154,6 +1175,10 @@ namespace stool
         void insert_64bit_string(size_t position, uint64_t value, uint64_t len)
         {
             uint64_t size = this->size();
+            if(size + len > MAX_BIT_LENGTH){
+                throw std::invalid_argument("Error: insert_64bit_string()");
+            }
+
             if (position == size)
             {
                 this->push_back64(value, len);
@@ -1539,16 +1564,18 @@ namespace stool
             uint64_t prev_size = bp.get_distance(start_bp) + 1;
 
             if(prev_size >= 64){
-                if(bp.bit_index_ == 0){
+                if(bp.bit_index_ == 63){
                     return this->circular_buffer_[bp.block_index_];
                 }else{
                     uint64_t L_index = bp.block_index_ > 0 ? bp.block_index_ - 1 : this->circular_buffer_size_ - 1;
-                    uint64_t RLen = bp.bit_index_;
+                    uint64_t RLen = bp.bit_index_ + 1;
                     uint64_t LLen = 64 - RLen;
                     uint64_t R = (this->circular_buffer_[bp.block_index_] >> (64 - RLen)) << (64 - RLen);
                     R = R >> LLen;
+
                     
-                    uint64_t L = (this->circular_buffer_[L_index] << (64 - LLen)) >> (64 - LLen);                    
+                    uint64_t L = this->circular_buffer_[L_index] << (64 - LLen);                    
+
                     return R | L;
 
                 }

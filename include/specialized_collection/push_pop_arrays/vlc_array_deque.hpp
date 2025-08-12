@@ -105,6 +105,7 @@ namespace stool
                 }else if(this->m_idx == 0){
                     throw std::invalid_argument("VLCArrayDequeIterator::operator--: m_idx == 0");
                 }else if(this->m_idx < size){
+
                     this->m_idx--;
 
                     CircularBitPointer copy_bp = this->m_bp;
@@ -119,6 +120,7 @@ namespace stool
                     uint64_t code_len = stool::LSBByte::select1(bits, 0) - gap + 1;
                     this->m_code_len = code_len;
                     this->m_bp.subtract(code_len);                        
+
                 }else{
                     this->m_idx--;
 
@@ -127,10 +129,13 @@ namespace stool
                     x_size = std::min(x_size, 64ULL);
                     uint64_t gap = 64 - x_size;
 
+
                     uint64_t code_len = stool::LSBByte::select1(bits, 0) - gap + 1;
                     this->m_code_len = code_len;
                     this->m_bp = this->m_vlc_deque->value_length_deque.get_circular_bit_pointer_at_tail();
                     this->m_bp.subtract(code_len - 1);
+
+
                 }
 
                 return *this;
@@ -217,11 +222,21 @@ namespace stool
             uint64_t len = i + 1;
             uint64_t sum = 0;
             VLCArrayDequeIterator it = this->end();
+            assert(len <= this->size());
+
+
             for (size_t x = 0; x < len; x++)
             {
-                --it;
+                --it;                
                 sum += *it;
+
+             
+                assert(*it == this->at(this->size() - x - 1));
+
+
             }
+
+
             return sum;
         }
         /**
@@ -463,6 +478,7 @@ namespace stool
                 uint64_t v = this->pop_back();
                 r[len - i - 1] = v;
             }
+
             return r;
         }
 
@@ -1147,6 +1163,7 @@ namespace stool
             std::cout << "============================" << std::endl;
             std::cout << "Length Code: \t" << this->value_length_deque.to_string() << std::endl;
             std::cout << "Value Code: \t" << this->code_deque.to_string() << std::endl;
+            std::cout << "values: \t" << this->to_string() << std::endl;
             std::cout << "============================" << std::endl;
         }
         void print_info() const
@@ -1167,7 +1184,7 @@ namespace stool
         void increment(uint64_t i, int64_t delta)
         {
             std::pair<uint64_t, uint64_t> pair = this->at_pair(i);
-            uint64_t new_value = pair.first + delta;
+            uint64_t new_value = pair.first + delta;            
             this->set_value(i, new_value, pair.first, pair.second);
         }
 

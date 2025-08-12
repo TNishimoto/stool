@@ -297,6 +297,15 @@ namespace stool
             }
             std::cout << std::endl;
         }
+        std::string to_string() const
+        {
+            std::string r = "[";
+            for(uint64_t i = 0; i < this->deque_size_; i++){
+                r += std::to_string(this->circular_buffer_[i]) + " ";
+            }
+            r += "]";
+            return r;
+        }
 
         /**
          * @brief Reserve space for a specific capacity and byte size
