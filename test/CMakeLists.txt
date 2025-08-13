@@ -61,12 +61,14 @@ target_link_libraries(short_integer_vector_test.out sdsl)
 add_executable(rank_select_test.out sources/rank_select_test_main.cpp)
 target_link_libraries(rank_select_test.out sdsl)
 
-
 add_executable(bit_deque_test.out sources/bit_deque_test_main.cpp)
 target_link_libraries(bit_deque_test.out sdsl)
 
 add_executable(vlc_array_deque_test.out sources/vlc_array_deque_test_main.cpp)
 target_link_libraries(vlc_array_deque_test.out sdsl)
+
+add_executable(naive_bit_vector_test.out sources/naive_bit_vector_test_main.cpp)
+target_link_libraries(naive_bit_vector_test.out sdsl)
 
 #add_executable(integer_deque_test.out sources/integer_deque_test_main.cpp)
 #target_link_libraries(integer_deque_test.out sdsl)
