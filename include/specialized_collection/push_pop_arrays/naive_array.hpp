@@ -394,10 +394,6 @@ namespace stool
             uint64_t size = this->size();
             uint64_t i = 0;
 
-            uint64_t half = this->psum_ / 2;
-
-            
-
             if(value > this->psum_ || size == 0)
             {
                 return -1;
