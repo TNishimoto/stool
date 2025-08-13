@@ -393,14 +393,18 @@ namespace stool
 
             uint64_t size = this->size();
             uint64_t i = 0;
-            sum = 0;
+
+            uint64_t half = this->psum_ / 2;
 
             
 
             if(value > this->psum_ || size == 0)
             {
                 return -1;
-            }else{
+            }
+            else{
+            
+                sum = 0;
                 uint64_t v = this->circular_buffer_[i];
                         
                 while (sum + v < value)
@@ -412,7 +416,8 @@ namespace stool
                 }
                     
                 return i;    
-            }
+            }    
+            
 
 
         }
