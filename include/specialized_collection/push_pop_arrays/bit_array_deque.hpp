@@ -1499,8 +1499,9 @@ namespace stool
         }
         */
 
-        int64_t select1X(uint64_t i) const
+        int64_t select1(uint64_t i) const
         {
+            //int64_t true_result = this->select1__(i);
             if (this->empty())
             {
                 return -1;
@@ -1525,14 +1526,16 @@ namespace stool
                             uint64_t fst_block_size = 64 - this->first_bit_index_;
                             uint8_t bit_count = stool::Byte::count_bits(fst_block);
 
-                            if (bit_count > counter)
+                            if (bit_count < counter)
                             {
                                 counter -= bit_count;
                                 gap += fst_block_size;
                             }
                             else
                             {
-                                return stool::MSBByte::select1(fst_block, counter - 1);
+                                uint64_t result = stool::MSBByte::select1(fst_block, counter - 1);
+                                //assert(result == true_result);
+                                return result;
                             }
                         }
 
@@ -1541,23 +1544,29 @@ namespace stool
                             uint64_t block = this->circular_buffer_[j];
                             uint8_t bit_count = stool::Byte::count_bits(block);
 
-                            if (bit_count > counter)
+                            if (bit_count < counter)
                             {
                                 counter -= bit_count;
                                 gap += 64;
                             }
                             else
                             {
-                                return stool::MSBByte::select1(block, counter - 1) + gap;
+                                uint64_t result = stool::MSBByte::select1(block, counter - 1) + gap;
+                                //assert(result == true_result);
+                                return result;
                             }
                         }
 
-                        return stool::MSBByte::select1(this->circular_buffer_[this->last_block_index_], counter - 1) + gap;
+                        uint64_t result = stool::MSBByte::select1(this->circular_buffer_[this->last_block_index_], counter - 1) + gap;
+                        //assert(result == true_result);
+                        return result;
                     }
                     else
                     {
                         uint64_t fst_block = this->circular_buffer_[this->first_block_index_] << this->first_bit_index_;
-                        return stool::MSBByte::select1(fst_block, counter - 1);
+                        uint64_t result = stool::MSBByte::select1(fst_block, counter - 1);
+                        //assert(result == true_result);
+                        return result;
                     }
                 }
                 else
@@ -1568,14 +1577,16 @@ namespace stool
                         uint64_t fst_block_size = 64 - this->first_bit_index_;
                         uint8_t bit_count = stool::Byte::count_bits(fst_block);
 
-                        if (bit_count > counter)
+                        if (bit_count < counter)
                         {
                             counter -= bit_count;
                             gap += fst_block_size;
                         }
                         else
                         {
-                            return stool::MSBByte::select1(fst_block, counter - 1);
+                            uint64_t result = stool::MSBByte::select1(fst_block, counter - 1);
+                            //assert(result == true_result);
+                            return result;
                         }
                     }
 
@@ -1584,14 +1595,16 @@ namespace stool
                         uint64_t block = this->circular_buffer_[j];
                         uint8_t bit_count = stool::Byte::count_bits(block);
 
-                        if (bit_count > counter)
+                        if (bit_count < counter)
                         {
                             counter -= bit_count;
                             gap += 64;
                         }
                         else
                         {
-                            return stool::MSBByte::select1(block, counter - 1) + gap;
+                            uint64_t result = stool::MSBByte::select1(block, counter - 1) + gap;
+                            //assert(result == true_result);
+                            return result;
                         }
                     }
                     for (uint64_t j = 0; j < this->last_block_index_; j++)
@@ -1599,22 +1612,26 @@ namespace stool
                         uint64_t block = this->circular_buffer_[j];
                         uint8_t bit_count = stool::Byte::count_bits(block);
 
-                        if (bit_count > counter)
+                        if (bit_count < counter)
                         {
                             counter -= bit_count;
                             gap += 64;
                         }
                         else
                         {
-                            return stool::MSBByte::select1(block, counter - 1) + gap;
+                            uint64_t result = stool::MSBByte::select1(block, counter - 1) + gap;
+                            //assert(result == true_result);
+                            return result;
                         }
                     }
-                    return stool::MSBByte::select1(this->circular_buffer_[this->last_block_index_], counter - 1) + gap;
+                    uint64_t result = stool::MSBByte::select1(this->circular_buffer_[this->last_block_index_], counter - 1) + gap;
+                    return result;
                 }
             }
         }
-
-        int64_t select1(uint64_t i) const
+        
+        /*
+        int64_t select1__(uint64_t i) const
         {
             if (this->empty())
             {
@@ -1698,6 +1715,8 @@ namespace stool
                 }
             }
         }
+        */
+        
         uint64_t read_last_64bit() const{
             CircularBitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
             return this->read_prev_64bit(bp);
