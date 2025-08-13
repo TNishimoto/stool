@@ -517,6 +517,25 @@ namespace stool
             }
             return -1;
         }
+        template <typename T>
+        static uint64_t read_64bit_string(T &bit_array, uint64_t block_index, uint64_t bit_index, uint64_t array_size){
+            if (bit_index == 0)
+            {
+                return bit_array[block_index];
+            }
+            else if (block_index + 1 < array_size)
+            {
+
+                uint64_t L = bit_array[block_index] << bit_index;
+                uint64_t R = bit_array[block_index + 1] >> (64 - bit_index);
+                return L | R;
+            }
+            else
+            {
+                uint64_t L = bit_array[block_index] << bit_index;
+                return L;
+            }
+        }
 
         static int64_t select1_for_8bits(uint8_t bits, uint8_t i)
         {

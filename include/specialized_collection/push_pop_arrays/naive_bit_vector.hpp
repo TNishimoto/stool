@@ -870,6 +870,13 @@ namespace stool
             return this->bit_count_;
         }
 
+        uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index) const{
+            return stool::MSBByte::read_64bit_string(this->buffer_, block_index, bit_index, this->buffer_size_);
+        }
+        uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index, uint64_t code_len) const{
+            return stool::MSBByte::read_64bit_string(this->buffer_, block_index, bit_index, this->buffer_size_) >> (64 - code_len);
+        }
+
         std::string get_buffer_bit_string() const
         {
             std::vector<uint64_t> bits;
@@ -1092,6 +1099,39 @@ namespace stool
                 uint64_t result = stool::MSBByte::select1(this->buffer_[last_block_index], counter - 1) + gap;
                 // assert(result == true_result);
                 return result;
+            }
+        }
+        int64_t select1_successor(uint64_t i) const{
+
+            uint64_t block_index = (i+1) / 64;
+            uint8_t bit_index = (i+1) % 64;
+
+            {
+                uint64_t bits = this->buffer_[block_index] << bit_index;
+                uint64_t bit_count = stool::Byte::count_bits(bits);
+                if(bit_count > 0){
+                    return stool::MSBByte::select1(bits, 0) + (i + 1);
+                }
+
+            }
+            uint64_t gap = 64 - bit_index;
+            uint64_t last_block_index = this->bit_count_ / 64;
+            uint64_t last_bit_index = this->bit_count_ % 64;
+
+            for(uint64_t j = block_index + 1; j < last_block_index; j++){
+                uint64_t bits = this->buffer_[j];
+                uint64_t bit_count = stool::Byte::count_bits(bits);
+                if(bit_count > 0){
+                    return stool::MSBByte::select1(bits, 0) + (i + 1) + gap + ((j - (block_index + 1)) * 64);
+                }
+            }
+
+            uint64_t last_bits = (this->buffer_[last_block_index] >> (63 - last_bit_index)) << (63 - last_bit_index);
+            uint64_t bit_count = stool::Byte::count_bits(last_bits);
+            if(bit_count > 0){
+                return stool::MSBByte::select1(last_bits, 0) + (i + 1) + gap + ((last_block_index - (block_index + 1)) * 64);
+            }else{
+                return -1;
             }
         }
 
