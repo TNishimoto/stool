@@ -926,14 +926,25 @@ namespace stool
         }
         std::pair<uint64_t, uint64_t> at_pair(uint64_t i) const
         {
-            if (i >= this->size())
+            uint64_t size = this->size();
+            if (i >= size)
             {
                 throw std::invalid_argument("VLCArrayDeque::at: The index is out of range");
             }
             uint64_t p = this->value_length_deque.select1(i);
-            uint64_t q = i + 1 < this->size() ? this->value_length_deque.select1(i + 1) : this->value_length_deque.size();
+            uint64_t q = 0;
+            if(i + 1 < size){
+                CircularBitPointer bp1 = this->value_length_deque.get_circular_bit_pointer_at_head();
+                bp1.add(p+1);
+                uint64_t bits = this->value_length_deque.read_64_bit_string(bp1);
+                q = p + 1 + stool::MSBByte::select1(bits, 0);
+            }else{
+                q = this->value_length_deque.size();
+            }
+            
+            //uint64_t q = i + 1 < this->size() ? this->value_length_deque.select1(i + 1) : this->value_length_deque.size();
             uint64_t code_len = q - p;
-            CircularBitPointer bp = this->value_length_deque.get_circular_bit_pointer_at_head();
+            CircularBitPointer bp = this->code_deque.get_circular_bit_pointer_at_head();
             bp.add(p);
             uint64_t value = this->at(bp, code_len);
 
