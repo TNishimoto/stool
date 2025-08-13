@@ -112,7 +112,7 @@ namespace stool
                     CircularBitPointer base_bp = this->m_vlc_deque->value_length_deque.get_circular_bit_pointer_at_head();
                     copy_bp.subtract(1);
                     uint64_t dist_p = copy_bp.get_distance(base_bp) + 1;
-                    dist_p = std::min(dist_p, 64ULL);
+                    dist_p = std::min(dist_p, (uint64_t)64ULL);
 
                     uint64_t bits = this->m_vlc_deque->value_length_deque.read_prev_64bit(copy_bp);
                     uint64_t gap = 64 - dist_p;
@@ -126,7 +126,7 @@ namespace stool
 
                     uint64_t bits = this->m_vlc_deque->value_length_deque.read_last_64bit();
                     uint64_t x_size = this->m_vlc_deque->value_length_deque.size();
-                    x_size = std::min(x_size, 64ULL);
+                    x_size = std::min(x_size, (uint64_t)64ULL);
                     uint64_t gap = 64 - x_size;
 
 
