@@ -4,6 +4,14 @@
 namespace stool
 {
 
+    /*
+    struct Copy16{
+        std::array<uint64_t, 16> values;
+        uint8_t size;
+        uint8_t last_block_length;
+    };
+    */
+
     /**
      * @brief A simple circular buffer-based deque implementation
      *
@@ -1444,6 +1452,151 @@ namespace stool
             return this->size() - this->rank1();
         }
 
+        /*
+        void copy_16(CircularBitPointer &bp, Copy16 &output) const {
+            if(bp.bit_index_ == 0){
+
+                if(bp.block_index_ + 15 < this->circular_buffer_size_){
+                    for(uint64_t i = 0; i < 16; i++){
+                        output.values[i] = this->circular_buffer_[bp.block_index_ + i];
+                    }
+                }else{
+                    uint64_t R_size = this->circular_buffer_size_ - bp.block_index_;
+                    uint64_t L_size = 16 - R_size;
+                    L_size = std::min(L_size, (uint64_t)this->circular_buffer_size_);
+                    for(uint64_t i = 0; i < R_size; i++){
+                        output.values[i] = this->circular_buffer_[bp.block_index_ + i];
+                    }
+                    for(uint64_t i = 0; i < L_size; i++){
+                        output.values[i + R_size] = this->circular_buffer_[i];
+                    }
+                }
+
+                CircularBitPointer bp2 = bp;
+                bp2.add(16 * 64);
+            }else{
+                if(bp.block_index_ == this->last_bit_index_ && bp.bit_index_ <= this->last_block_index_){
+
+                }
+            }
+        }
+        */
+
+        int64_t select1X(uint64_t i) const
+        {
+            if (this->empty())
+            {
+                return -1;
+            }
+
+            uint64_t size = this->size();
+
+            if (i + 1 > this->num1_)
+            {
+                return -1;
+            }
+            else
+            {
+                int64_t counter = i + 1;
+                if (!this->is_cyclic())
+                {
+                    if (this->first_block_index_ != this->last_block_index_)
+                    {
+                        uint64_t gap = 0;
+                        {
+                            uint64_t fst_block = this->circular_buffer_[this->first_block_index_] << this->first_bit_index_;
+                            uint64_t fst_block_size = 64 - this->first_bit_index_;
+                            uint8_t bit_count = stool::Byte::count_bits(fst_block);
+
+                            if (bit_count > counter)
+                            {
+                                counter -= bit_count;
+                                gap += fst_block_size;
+                            }
+                            else
+                            {
+                                return stool::MSBByte::select1(fst_block, counter - 1);
+                            }
+                        }
+
+                        for (uint64_t j = this->first_block_index_ + 1; j < this->last_block_index_; j++)
+                        {
+                            uint64_t block = this->circular_buffer_[j];
+                            uint8_t bit_count = stool::Byte::count_bits(block);
+
+                            if (bit_count > counter)
+                            {
+                                counter -= bit_count;
+                                gap += 64;
+                            }
+                            else
+                            {
+                                return stool::MSBByte::select1(block, counter - 1) + gap;
+                            }
+                        }
+
+                        return stool::MSBByte::select1(this->circular_buffer_[this->last_block_index_], counter - 1) + gap;
+                    }
+                    else
+                    {
+                        uint64_t fst_block = this->circular_buffer_[this->first_block_index_] << this->first_bit_index_;
+                        return stool::MSBByte::select1(fst_block, counter - 1);
+                    }
+                }
+                else
+                {
+                    uint64_t gap = 0;
+                    {
+                        uint64_t fst_block = this->circular_buffer_[this->first_block_index_] << this->first_bit_index_;
+                        uint64_t fst_block_size = 64 - this->first_bit_index_;
+                        uint8_t bit_count = stool::Byte::count_bits(fst_block);
+
+                        if (bit_count > counter)
+                        {
+                            counter -= bit_count;
+                            gap += fst_block_size;
+                        }
+                        else
+                        {
+                            return stool::MSBByte::select1(fst_block, counter - 1);
+                        }
+                    }
+
+                    for (uint64_t j = this->first_block_index_ + 1; j < this->circular_buffer_size_; j++)
+                    {
+                        uint64_t block = this->circular_buffer_[j];
+                        uint8_t bit_count = stool::Byte::count_bits(block);
+
+                        if (bit_count > counter)
+                        {
+                            counter -= bit_count;
+                            gap += 64;
+                        }
+                        else
+                        {
+                            return stool::MSBByte::select1(block, counter - 1) + gap;
+                        }
+                    }
+                    for (uint64_t j = 0; j < this->last_block_index_; j++)
+                    {
+                        uint64_t block = this->circular_buffer_[j];
+                        uint8_t bit_count = stool::Byte::count_bits(block);
+
+                        if (bit_count > counter)
+                        {
+                            counter -= bit_count;
+                            gap += 64;
+                        }
+                        else
+                        {
+                            return stool::MSBByte::select1(block, counter - 1) + gap;
+                        }
+                    }
+                    return stool::MSBByte::select1(this->circular_buffer_[this->last_block_index_], counter - 1) + gap;
+                }
+            }
+        }
+
         int64_t select1(uint64_t i) const
         {
             if (this->empty())
@@ -1459,6 +1612,7 @@ namespace stool
             }
             else
             {
+                
                 int64_t counter = i + 1;
                 uint64_t block_index = this->first_block_index_;
                 uint64_t bit_index = this->first_bit_index_;
@@ -1527,32 +1681,40 @@ namespace stool
                 }
             }
         }
-        uint64_t read_last_64bit() const{
+        uint64_t read_last_64bit() const
+        {
             CircularBitPointer bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
             return this->read_prev_64bit(bp);
         }
-        CircularBitPointer get_circular_bit_pointer_at_tail() const{
+        CircularBitPointer get_circular_bit_pointer_at_tail() const
+        {
             return CircularBitPointer(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
         }
-        uint64_t read_prev_64bit(const CircularBitPointer &bp) const{
+        uint64_t read_prev_64bit(const CircularBitPointer &bp) const
+        {
             CircularBitPointer start_bp = this->get_circular_bit_pointer_at_head();
             uint64_t prev_size = bp.get_distance(start_bp) + 1;
 
-            if(prev_size >= 64){
-                if(bp.bit_index_ == 0){
+            if (prev_size >= 64)
+            {
+                if (bp.bit_index_ == 0)
+                {
                     return this->circular_buffer_[bp.block_index_];
-                }else{
+                }
+                else
+                {
                     uint64_t L_index = bp.block_index_ > 0 ? bp.block_index_ - 1 : this->circular_buffer_size_ - 1;
                     uint64_t RLen = bp.bit_index_;
                     uint64_t LLen = 64 - RLen;
                     uint64_t R = (this->circular_buffer_[bp.block_index_] >> (64 - RLen)) << (64 - RLen);
                     R = R >> LLen;
-                    
-                    uint64_t L = (this->circular_buffer_[L_index] << (64 - LLen)) >> (64 - LLen);                    
-                    return R | L;
 
+                    uint64_t L = (this->circular_buffer_[L_index] << (64 - LLen)) >> (64 - LLen);
+                    return R | L;
                 }
-            }else{
+            }
+            else
+            {
                 uint64_t fst_bits = this->read_64_bit_string();
                 return (fst_bits >> (64 - prev_size)) << (64 - prev_size);
             }
@@ -1623,7 +1785,7 @@ namespace stool
                             return (size - 1) - gap - p;
                         }
                     }
-                    uint64_t gap1 =  ((last_block_index_  - (start_bp.block_index_ + 1)) * 64) + last_bp.bit_index_ + 1;
+                    uint64_t gap1 = ((last_block_index_ - (start_bp.block_index_ + 1)) * 64) + last_bp.bit_index_ + 1;
 
                     {
                         uint64_t bits = this->circular_buffer_[start_bp.block_index_];
@@ -1631,14 +1793,13 @@ namespace stool
                         int64_t p = stool::LSBByte::select1(bits, counter1 - 1);
                         assert(p != -1);
 
-                        return (size - 1) -gap1 - p;
+                        return (size - 1) - gap1 - p;
                     }
                 }
                 else
                 {
                     {
                         uint64_t bits = this->circular_buffer_[last_bp.block_index_] >> (63 - last_bp.bit_index_);
-
 
                         uint64_t byte_count1 = stool::Byte::count_bits(bits);
                         if (byte_count1 < counter1)
@@ -1668,12 +1829,12 @@ namespace stool
                             int64_t p = stool::LSBByte::select1(bits, counter1 - 1);
                             assert(p != -1);
 
-                            return (size - 1) -gap - p;
+                            return (size - 1) - gap - p;
                         }
                     }
-                    uint64_t gap1 =  (last_block_index_  * 64) + last_bp.bit_index_ + 1;
+                    uint64_t gap1 = (last_block_index_ * 64) + last_bp.bit_index_ + 1;
 
-                    for (int64_t x = this->circular_buffer_size_ - 1; x >= start_bp.block_index_+1; x--)
+                    for (int64_t x = this->circular_buffer_size_ - 1; x >= start_bp.block_index_ + 1; x--)
                     {
                         uint64_t bits = this->circular_buffer_[x];
                         uint64_t byte_count1 = stool::Byte::count_bits(bits);
@@ -1687,7 +1848,7 @@ namespace stool
                             int64_t p = stool::LSBByte::select1(bits, counter1 - 1);
                             assert(p != -1);
 
-                            return (size - 1) -gap - p;
+                            return (size - 1) - gap - p;
                         }
                     }
 
@@ -1800,6 +1961,241 @@ namespace stool
             }
             return bv;
         }
+
+        static uint8_t _process_block(uint64_t block, std::array<uint8_t, 64> &output)
+        {
+            uint64_t x = 0;
+            for (uint64_t i = 0; i < 8; i++)
+            {
+                uint8_t block8 = (block >> (64 - (i + 1) * 8)) & UINT8_MAX;
+                uint8_t block8_count = stool::Byte::count_bits(block8);
+
+                uint64_t x_pos = MSBByte::select1_for_8bits(block8, 0) != -1 ? MSBByte::select1_for_8bits(block8, 0) : 8;
+                if (x_pos != 8)
+                {
+                    output[x] += x_pos;
+                    x++;
+                    for (uint64_t j = 0; j + 1 < block8_count; j++)
+                    {
+                        uint8_t next_x_pos = MSBByte::select1_for_8bits(block8, j + 1);
+                        output[x] = next_x_pos - x_pos;
+                        x++;
+                        x_pos = next_x_pos;
+                    }
+                    output[x] += 8 - x_pos;
+                }
+                else
+                {
+                    output[x] += 8;
+                }
+            }
+            return x + 1;
+        }
+
+        /*
+        template <uint64_t MAX_SEQUENCE_LENGTH>
+        bool special_psum(std::array<uint8_t, MAX_SEQUENCE_LENGTH> &length_array, uint64_t array_size) const
+        {
+
+        }
+        */
+
+        template <uint64_t MAX_SEQUENCE_LENGTH>
+        bool special_process16(uint64_t i, std::array<uint8_t, MAX_SEQUENCE_LENGTH> &output) const
+        {
+            if (this->empty())
+            {
+                return 0;
+            }
+            std::array<uint8_t, 64> tmp_output;
+            uint64_t x = 0;
+
+            if (!this->is_cyclic())
+            {
+                if (this->first_block_index_ != this->last_block_index_)
+                {
+                    {
+                        uint64_t fst_block = this->circular_buffer_[this->first_block_index_] << this->first_bit_index_;
+                        uint64_t fst_block_size = 64 - this->first_bit_index_;
+                        uint8_t tmp_size = _process_block(fst_block, tmp_output);
+                        tmp_output[tmp_size - 1] -= (64 - fst_block_size);
+
+                        for (uint64_t i = 0; i < tmp_size; i++)
+                        {
+                            output[x] = tmp_output[i];
+                        }
+                        x += tmp_size - 1;
+
+                        if (x >= i + 1)
+                        {
+                            return true;
+                        }
+                    }
+
+                    for (uint64_t j = this->first_block_index_ + 1; j < this->last_block_index_; j++)
+                    {
+                        uint64_t block = this->circular_buffer_[j];
+                        uint8_t tmp_size = _process_block(block, tmp_output);
+
+                        output[x] += tmp_output[0];
+                        for (uint64_t k = 1; k < tmp_size; k++)
+                        {
+                            output[x + i] = tmp_output[k];
+                        }
+                        x += tmp_size - 1;
+
+                        if (x >= i + 1)
+                        {
+                            return true;
+                        }
+                    }
+
+                    {
+                        uint64_t last_block_size = this->last_bit_index_ + 1;
+                        uint64_t last_block = (this->circular_buffer_[this->first_block_index_] >> (64 - last_block_size)) << (64 - last_block_size);
+                        uint8_t tmp_size = _process_block(last_block, tmp_output);
+                        tmp_output[tmp_size - 1] -= (64 - last_block_size);
+
+                        for (uint64_t i = 0; i < tmp_size; i++)
+                        {
+                            output[x] = tmp_output[i];
+                        }
+                        x += tmp_size - 1;
+
+                        if (x >= i + 1)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                else
+                {
+                    uint64_t fst_block_size = this->last_bit_index_ - this->first_bit_index_ + 1;
+                    uint64_t fst_block = this->circular_buffer_[this->first_block_index_] << this->first_bit_index_;
+                    fst_block = (fst_block >> (64 - fst_block_size)) << (64 - fst_block_size);
+                    uint8_t tmp_size = _process_block(fst_block, tmp_output);
+                    tmp_output[tmp_size - 1] -= (64 - fst_block_size);
+
+                    for (uint64_t i = 0; i < tmp_size; i++)
+                    {
+                        output[x] = tmp_output[i];
+                    }
+                    x += tmp_size - 1;
+
+                    if (x >= i + 1)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                {
+                    uint64_t fst_block = this->circular_buffer_[this->first_block_index_] << this->first_bit_index_;
+                    uint64_t fst_block_size = 64 - this->first_bit_index_;
+                    uint8_t tmp_size = _process_block(fst_block, tmp_output);
+                    tmp_output[tmp_size - 1] -= (64 - fst_block_size);
+
+                    for (uint64_t i = 0; i < tmp_size; i++)
+                    {
+                        output[x] = tmp_output[i];
+                    }
+                    x += tmp_size - 1;
+
+                    if (x >= i + 1)
+                    {
+                        return true;
+                    }
+                }
+
+                for (uint64_t j = this->first_block_index_ + 1; j < this->circular_buffer_size_; j++)
+                {
+                    uint64_t block = this->circular_buffer_[j];
+                    uint8_t tmp_size = _process_block(block, tmp_output);
+
+                    output[x] += tmp_output[0];
+                    for (uint64_t k = 1; k < tmp_size; k++)
+                    {
+                        output[x + i] = tmp_output[k];
+                    }
+                    x += tmp_size - 1;
+
+                    if (x >= i + 1)
+                    {
+                        return true;
+                    }
+                }
+
+                for (uint64_t j = 0; j < this->last_block_index_; j++)
+                {
+                    uint64_t block = this->circular_buffer_[j];
+                    uint8_t tmp_size = _process_block(block, tmp_output);
+
+                    output[x] += tmp_output[0];
+                    for (uint64_t k = 1; k < tmp_size; k++)
+                    {
+                        output[x + i] = tmp_output[k];
+                    }
+                    x += tmp_size - 1;
+
+                    if (x >= i + 1)
+                    {
+                        return true;
+                    }
+                }
+
+                {
+
+                    uint64_t last_block_size = this->last_bit_index_ + 1;
+                    uint64_t last_block = (this->circular_buffer_[this->first_block_index_] >> (64 - last_block_size)) << (64 - last_block_size);
+                    uint8_t tmp_size = _process_block(last_block, tmp_output);
+                    tmp_output[tmp_size - 1] -= (64 - last_block_size);
+
+                    for (uint64_t i = 0; i < tmp_size; i++)
+                    {
+                        output[x] = tmp_output[i];
+                    }
+                    x += tmp_size - 1;
+
+                    if (x >= i + 1)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        /*
+
+        template <uint64_t MAX_SEQUENCE_LENGTH>
+        uint64_t special_read16(CircularBitPointer &bp, std::array<uint64_t, 16> &output)
+        {
+            if(bp.bit_index_ == 0){
+                CircularBitPointer start_bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
+                CircularBitPointer end_bp(this->circular_buffer_size_, this->last_block_index_, this->last_bit_index_);
+                uint64_t dist1 = bp.get_distance(start_bp);
+                uint64_t dist2 = end_bp.get_distance(start_bp);
+
+                if(start_bp.block_index_ == end_bp.block_index_){
+
+                }else{}
+
+
+
+            }else{
+
+            }
+        }
+
+
+
+        */
 
         void increment(uint64_t i, int64_t delta)
         {

@@ -224,6 +224,13 @@ namespace stool
             }
             return sum;
         }
+
+        uint64_t snatch(uint64_t i, std::array<uint8_t, MAX_SEQUENCE_LENGTH> &output){
+
+
+        }
+
+
         /**
          * @brief Computes the reverse prefix sum up to index i
          *
@@ -234,7 +241,17 @@ namespace stool
          * @param i Number of elements from the end to sum
          * @return Sum of the last i+1 elements
          */
-        uint64_t psum(uint64_t i) const noexcept
+
+         uint64_t psum2(uint64_t i) const noexcept
+         {
+            std::array<uint8_t, MAX_SEQUENCE_LENGTH> output;
+            this->value_length_deque.special_process16(i, output);
+            
+
+         }
+ 
+
+         uint64_t psum(uint64_t i) const noexcept
         {
             assert(i < this->size());
 
@@ -263,6 +280,7 @@ namespace stool
                 return sum;
             }
         }
+        
 
         /**
          * @brief Computes the sum of elements between two indices

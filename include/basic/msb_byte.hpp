@@ -517,6 +517,11 @@ namespace stool
             }
             return -1;
         }
+
+        static int64_t select1_for_8bits(uint8_t bits, uint8_t i)
+        {
+            return __MSB_BYTE::select1_table[bits][i];
+        }
         static int64_t select0(uint64_t bits, uint64_t i)
         {
             return select1(~bits, i);
