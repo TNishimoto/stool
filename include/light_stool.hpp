@@ -40,8 +40,8 @@
 
 #include "./specialized_collection/push_pop_arrays/bit_array_deque.hpp"
 #include "./specialized_collection/push_pop_arrays/naive_array.hpp"
-#include "./specialized_collection/push_pop_arrays/vlc_array_deque.hpp"
 #include "./specialized_collection/push_pop_arrays/naive_bit_vector.hpp"
+#include "./specialized_collection/push_pop_arrays/naive_vlc_array.hpp"
 
 #include "./lz/lz_factor.hpp"
 

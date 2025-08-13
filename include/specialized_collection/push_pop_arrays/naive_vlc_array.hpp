@@ -2,7 +2,7 @@
 #include <vector>
 #include <deque>
 #include <bitset>
-#include "./bit_array_deque.hpp"
+#include "./naive_bit_vector.hpp"
 
 namespace stool
 {
@@ -16,12 +16,12 @@ namespace stool
      * representation for space efficiency.
      */
     template <uint64_t MAX_SEQUENCE_LENGTH = 8092>
-    class VLCArrayDeque
+    class NaiveVLCArray
     {
         inline static const uint64_t MAX_BIT_LENGTH = MAX_SEQUENCE_LENGTH * 8;
 
-        BitArrayDeque<MAX_BIT_LENGTH> value_length_deque;
-        BitArrayDeque<MAX_BIT_LENGTH> code_deque;
+        NaiveBitVector<MAX_BIT_LENGTH> value_length_deque;
+        NaiveBitVector<MAX_BIT_LENGTH> code_deque;
         uint64_t psum_ = 0;
 
         /**
@@ -30,9 +30,9 @@ namespace stool
          *
          * Allows iteration over the decoded integer values stored in VLCDeque.
          */
-        class VLCArrayDequeIterator
+        class NaiveVLCArrayIterator
         {
-            VLCArrayDeque *m_vlc_deque;
+            NaiveVLCArray *m_vlc_deque;
             uint64_t m_idx;
             CircularBitPointer m_bp;
             uint8_t m_code_len;
@@ -41,7 +41,7 @@ namespace stool
             using iterator_category = std::bidirectional_iterator_tag;
             using difference_type = std::ptrdiff_t;
 
-            VLCArrayDequeIterator(VLCArrayDeque *_vlc_deque, uint64_t _idx, CircularBitPointer _bp, uint8_t _code_len) : m_vlc_deque(_vlc_deque), m_idx(_idx), m_bp(_bp), m_code_len(_code_len) {}
+            NaiveVLCArrayIterator(NaiveVLCArray *_vlc_deque, uint64_t _idx, CircularBitPointer _bp, uint8_t _code_len) : m_vlc_deque(_vlc_deque), m_idx(_idx), m_bp(_bp), m_code_len(_code_len) {}
 
             uint64_t operator*() const
             {
@@ -52,11 +52,11 @@ namespace stool
                 return this->m_idx >= size;
             }
 
-            VLCArrayDequeIterator &operator++()
+            NaiveVLCArrayIterator &operator++()
             {
                 if (this->is_end())
                 {
-                    throw std::invalid_argument("VLCArrayDequeIterator::operator++: The iterator is at the beginning of the deque");
+                    throw std::invalid_argument("NaiveVLCArrayIterator::operator++: The iterator is at the beginning of the deque");
                 }
 
 
@@ -90,20 +90,20 @@ namespace stool
                 return *this;
             }
 
-            VLCArrayDequeIterator operator++(int)
+            NaiveVLCArrayIterator operator++(int)
             {
-                VLCArrayDequeIterator temp = *this;
+                NaiveVLCArrayIterator temp = *this;
                 ++(*this);
                 return temp;
             }
 
-            VLCArrayDequeIterator &operator--()
+            NaiveVLCArrayIterator &operator--()
             {
                 uint64_t size = this->m_vlc_deque->size();
                 if(size == 0){
-                    throw std::invalid_argument("VLCArrayDequeIterator::operator--: The deque is empty");
+                    throw std::invalid_argument("NaiveVLCArrayIterator::operator--: The deque is empty");
                 }else if(this->m_idx == 0){
-                    throw std::invalid_argument("VLCArrayDequeIterator::operator--: m_idx == 0");
+                    throw std::invalid_argument("NaiveVLCArrayIterator::operator--: m_idx == 0");
                 }else if(this->m_idx < size){
 
                     this->m_idx--;
@@ -141,33 +141,33 @@ namespace stool
                 return *this;
             }
 
-            VLCArrayDequeIterator operator--(int)
+            NaiveVLCArrayIterator operator--(int)
             {
 
-                VLCArrayDequeIterator temp = *this;
+                NaiveVLCArrayIterator temp = *this;
                 --(*this);
                 return temp;
             }
 
-            bool operator==(const VLCArrayDequeIterator &other) const { return m_idx == other.m_idx; }
-            bool operator!=(const VLCArrayDequeIterator &other) const { return m_idx != other.m_idx; }
-            bool operator<(const VLCArrayDequeIterator &other) const { return m_idx < other.m_idx; }
-            bool operator>(const VLCArrayDequeIterator &other) const { return m_idx > other.m_idx; }
-            bool operator<=(const VLCArrayDequeIterator &other) const { return m_idx <= other.m_idx; }
-            bool operator>=(const VLCArrayDequeIterator &other) const { return m_idx >= other.m_idx; }
+            bool operator==(const NaiveVLCArrayIterator &other) const { return m_idx == other.m_idx; }
+            bool operator!=(const NaiveVLCArrayIterator &other) const { return m_idx != other.m_idx; }
+            bool operator<(const NaiveVLCArrayIterator &other) const { return m_idx < other.m_idx; }
+            bool operator>(const NaiveVLCArrayIterator &other) const { return m_idx > other.m_idx; }
+            bool operator<=(const NaiveVLCArrayIterator &other) const { return m_idx <= other.m_idx; }
+            bool operator>=(const NaiveVLCArrayIterator &other) const { return m_idx >= other.m_idx; }
         };
 
     public:
-        VLCArrayDeque()
+        NaiveVLCArray()
         {
             this->clear();
             assert(this->verify());
         }
-        VLCArrayDeque &operator=(const VLCArrayDeque &) = delete;
-        VLCArrayDeque(VLCArrayDeque &&) noexcept = default;
-        VLCArrayDeque &operator=(VLCArrayDeque &&) noexcept = default;
+        NaiveVLCArray &operator=(const NaiveVLCArray &) = delete;
+        NaiveVLCArray(NaiveVLCArray &&) noexcept = default;
+        NaiveVLCArray &operator=(NaiveVLCArray &&) noexcept = default;
 
-        VLCArrayDeque(std::vector<uint64_t> &values)
+        NaiveVLCArray(std::vector<uint64_t> &values)
         {
             this->clear();
             for (uint64_t v : values)
@@ -197,7 +197,7 @@ namespace stool
             }
             else
             {
-                return sizeof(VLCArrayDeque) + this->value_length_deque.size_in_bytes(true) + this->code_deque.size_in_bytes(true);
+                return sizeof(NaiveVLCArray) + this->value_length_deque.size_in_bytes(true) + this->code_deque.size_in_bytes(true);
             }
         }
 
@@ -221,7 +221,7 @@ namespace stool
 
             uint64_t len = i + 1;
             uint64_t sum = 0;
-            VLCArrayDequeIterator it = this->end();
+            NaiveVLCArrayIterator it = this->end();
             assert(len <= this->size());
 
 
@@ -505,7 +505,7 @@ namespace stool
          *
          * @return Iterator to the first element
          */
-        VLCArrayDequeIterator begin() const
+        NaiveVLCArrayIterator begin() const
         {
             uint64_t size = this->size();
             if (size == 0)
@@ -518,7 +518,7 @@ namespace stool
                 uint64_t p = 0;
                 uint64_t q = size > 1 ? this->value_length_deque.select1(1) : this->value_length_deque.size();
                 uint64_t code_len = q - p;
-                return VLCArrayDequeIterator(const_cast<VLCArrayDeque *>(this), 0, bp, code_len);
+                return NaiveVLCArrayIterator(const_cast<NaiveVLCArray *>(this), 0, bp, code_len);
             }
         }
 
@@ -527,11 +527,11 @@ namespace stool
          *
          * @return Iterator to the end of the deque
          */
-        VLCArrayDequeIterator end() const
+        NaiveVLCArrayIterator end() const
         {
             uint64_t size = this->size();
             CircularBitPointer bp = this->value_length_deque.get_circular_bit_pointer_at_head();
-            return VLCArrayDequeIterator(const_cast<VLCArrayDeque *>(this), size, bp, UINT8_MAX);
+            return NaiveVLCArrayIterator(const_cast<NaiveVLCArray *>(this), size, bp, UINT8_MAX);
         }
 
         /**
@@ -543,7 +543,7 @@ namespace stool
          *
          * @param item Another VLCDeque whose contents will be swapped with this one
          */
-        void swap(VLCArrayDeque &item)
+        void swap(NaiveVLCArray &item)
         {
             std::swap(this->psum_, item.psum_);
             this->value_length_deque.swap(item.value_length_deque);
@@ -799,7 +799,7 @@ namespace stool
             }
             else
             {
-                throw std::invalid_argument("VLCArrayDeque::head: The deque is empty");
+                throw std::invalid_argument("NaiveVLCArray::head: The deque is empty");
             }
         }
 
@@ -829,7 +829,7 @@ namespace stool
             }
             else
             {
-                throw std::invalid_argument("VLCArrayDeque::head: The deque is empty");
+                throw std::invalid_argument("NaiveVLCArray::head: The deque is empty");
             }
         }
 
@@ -853,7 +853,7 @@ namespace stool
         {
             if (this->size() == 0)
             {
-                throw std::invalid_argument("VLCArrayDeque::pop_back: The deque is empty");
+                throw std::invalid_argument("NaiveVLCArray::pop_back: The deque is empty");
             }
             uint64_t p = this->value_length_deque.rev_select1(0);
             uint64_t q = this->value_length_deque.size();
@@ -890,7 +890,7 @@ namespace stool
         {
             if (this->size() == 0)
             {
-                throw std::invalid_argument("VLCArrayDeque::pop_back: The deque is empty");
+                throw std::invalid_argument("NaiveVLCArray::pop_back: The deque is empty");
             }
             assert(this->value_length_deque.select1(0) == 0);
             uint64_t p = 0;
@@ -929,7 +929,7 @@ namespace stool
             uint64_t size = this->size();
             if (i >= size)
             {
-                throw std::invalid_argument("VLCArrayDeque::at: The index is out of range");
+                throw std::invalid_argument("NaiveVLCArray::at: The index is out of range");
             }
             uint64_t p = this->value_length_deque.select1(i);
             uint64_t q = 0;
@@ -1046,7 +1046,7 @@ namespace stool
 
             if (pos > size)
             {
-                throw std::invalid_argument("VLCArrayDeque::insert: The position is out of range");
+                throw std::invalid_argument("NaiveVLCArray::insert: The position is out of range");
             }
 
             if (pos == size)
@@ -1089,7 +1089,7 @@ namespace stool
 
             if (pos >= size)
             {
-                throw std::invalid_argument("VLCArrayDeque::insert: The position is out of range");
+                throw std::invalid_argument("NaiveVLCArray::insert: The position is out of range");
             }
 
             if (pos + 1 == size)
@@ -1223,7 +1223,7 @@ namespace stool
          * @param item The VLCDeque instance to measure
          * @return Number of bytes used by the VLCDeque
          */
-        static uint64_t get_byte_size(const VLCArrayDeque &item)
+        static uint64_t get_byte_size(const NaiveVLCArray &item)
         {
             uint64_t bytes = sizeof(item.value_length_deque) + sizeof(item.code_deque);
             return bytes;
@@ -1235,12 +1235,12 @@ namespace stool
          * @param items Vector of VLCDeque instances to measure
          * @return Total number of bytes used by all VLCDeque instances
          */
-        static uint64_t get_byte_size(const std::vector<VLCArrayDeque> &items)
+        static uint64_t get_byte_size(const std::vector<NaiveVLCArray> &items)
         {
             uint64_t bytes = sizeof(uint64_t);
             for (auto &it : items)
             {
-                bytes += VLCArrayDeque::get_byte_size(it);
+                bytes += NaiveVLCArray::get_byte_size(it);
             }
             return bytes;
         }
@@ -1254,7 +1254,7 @@ namespace stool
          * @param output The output byte array to write to
          * @param pos Current position in the output array, updated after writing
          */
-        static void save(const VLCArrayDeque &item, std::vector<uint8_t> &output, uint64_t &pos)
+        static void save(const NaiveVLCArray &item, std::vector<uint8_t> &output, uint64_t &pos)
         {
             std::memcpy(output.data() + pos, &item.psum_, sizeof(item.psum_));
             pos += sizeof(item.psum_);
@@ -1270,7 +1270,7 @@ namespace stool
          * @param item The VLCDeque instance to save
          * @param os The output file stream to write to
          */
-        static void save(const VLCArrayDeque &item, std::ofstream &os)
+        static void save(const NaiveVLCArray &item, std::ofstream &os)
         {
             os.write(reinterpret_cast<const char *>(&item.psum_), sizeof(item.psum_));
             BitArrayDeque<MAX_BIT_LENGTH>::save(item.value_length_deque, os);
@@ -1287,7 +1287,7 @@ namespace stool
          * @param output The output byte array to write to
          * @param pos Current position in the output array, updated after writing
          */
-        static void save(const std::vector<VLCArrayDeque> &items, std::vector<uint8_t> &output, uint64_t &pos)
+        static void save(const std::vector<NaiveVLCArray> &items, std::vector<uint8_t> &output, uint64_t &pos)
         {
             uint64_t size = items.size();
             std::memcpy(output.data() + pos, &size, sizeof(size));
@@ -1295,7 +1295,7 @@ namespace stool
 
             for (auto &it : items)
             {
-                VLCArrayDeque::save(it, output, pos);
+                NaiveVLCArray::save(it, output, pos);
             }
         }
 
@@ -1308,13 +1308,13 @@ namespace stool
          * @param items Vector of VLCDeque instances to save
          * @param os The output file stream to write to
          */
-        static void save(const std::vector<VLCArrayDeque> &items, std::ofstream &os)
+        static void save(const std::vector<NaiveVLCArray> &items, std::ofstream &os)
         {
             uint64_t size = items.size();
             os.write(reinterpret_cast<const char *>(&size), sizeof(size));
             for (auto &it : items)
             {
-                VLCArrayDeque::save(it, os);
+                NaiveVLCArray::save(it, os);
             }
         }
 
@@ -1328,9 +1328,9 @@ namespace stool
          * @param pos Current position in the input array, updated after reading
          * @return The deserialized VLCDeque instance
          */
-        static VLCArrayDeque load(const std::vector<uint8_t> &data, uint64_t &pos)
+        static NaiveVLCArray load(const std::vector<uint8_t> &data, uint64_t &pos)
         {
-            VLCArrayDeque r;
+            NaiveVLCArray r;
             BitArrayDeque<MAX_BIT_LENGTH> tmp1 = BitArrayDeque<MAX_BIT_LENGTH>::load(data, pos);
             BitArrayDeque<MAX_BIT_LENGTH> tmp2 = BitArrayDeque<MAX_BIT_LENGTH>::load(data, pos);
             r.value_length_deque.swap(tmp1);
@@ -1347,9 +1347,9 @@ namespace stool
          * @param ifs The input file stream to read from
          * @return The deserialized VLCDeque instance
          */
-        static VLCArrayDeque load(std::ifstream &ifs)
+        static NaiveVLCArray load(std::ifstream &ifs)
         {
-            VLCArrayDeque r;
+            NaiveVLCArray r;
             BitArrayDeque<MAX_BIT_LENGTH> tmp1 = BitArrayDeque<MAX_BIT_LENGTH>::load(ifs);
             BitArrayDeque<MAX_BIT_LENGTH> tmp2 = BitArrayDeque<MAX_BIT_LENGTH>::load(ifs);
 
@@ -1367,16 +1367,16 @@ namespace stool
          * @param pos Current position in the input array, updated after reading
          * @return Vector containing the deserialized VLCDeque instances
          */
-        static std::vector<VLCArrayDeque> load_vector(const std::vector<uint8_t> &data, uint64_t &pos)
+        static std::vector<NaiveVLCArray> load_vector(const std::vector<uint8_t> &data, uint64_t &pos)
         {
             uint64_t size;
             std::memcpy(&size, data.data() + pos, sizeof(size));
             pos += sizeof(size);
 
-            std::vector<VLCArrayDeque> r;
+            std::vector<NaiveVLCArray> r;
             for (uint64_t i = 0; i < size; i++)
             {
-                r.push_back(VLCArrayDeque::load(data, pos));
+                r.push_back(NaiveVLCArray::load(data, pos));
             }
             return r;
         }
@@ -1390,15 +1390,15 @@ namespace stool
          * @param ifs The input file stream to read from
          * @return Vector containing the deserialized VLCDeque instances
          */
-        static std::vector<VLCArrayDeque> load_vector(std::ifstream &ifs)
+        static std::vector<NaiveVLCArray> load_vector(std::ifstream &ifs)
         {
             uint64_t size = 0;
             ifs.read(reinterpret_cast<char *>(&size), sizeof(size));
 
-            std::vector<VLCArrayDeque> r;
+            std::vector<NaiveVLCArray> r;
             for (uint64_t i = 0; i < size; i++)
             {
-                r.push_back(VLCArrayDeque::load(ifs));
+                r.push_back(NaiveVLCArray::load(ifs));
             }
             return r;
         }
