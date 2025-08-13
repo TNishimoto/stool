@@ -89,7 +89,7 @@ namespace stool
 
             BitArrayDequeIterator &operator--()
             {
-                if (this->index > 1)
+                if (this->index >= 1)
                 {
                     this->index--;
                     CircularBitPointer bp(this->_m_deq->circular_buffer_size_, this->block_index, this->bit_index);

@@ -23,40 +23,33 @@ namespace stool
         public:
             const NaiveBitVector *_m_deq;
             uint16_t index;
-            uint16_t block_index;
             uint16_t size = 0;
-            uint8_t bit_index;
+
+            //uint16_t block_index;
+            //uint8_t bit_index;
 
             using iterator_category = std::random_access_iterator_tag;
             using value_type = bool;
             using difference_type = std::ptrdiff_t;
 
-            NaiveBitVectorIterator() : _m_deq(nullptr), index(UINT16_MAX), block_index(UINT16_MAX), size(UINT16_MAX), bit_index(UINT8_MAX)
+            NaiveBitVectorIterator() : _m_deq(nullptr), index(UINT16_MAX)
             {
             }
 
-            NaiveBitVectorIterator(const NaiveBitVector *_deque, uint16_t _index, uint16_t _block_index, uint8_t _bit_index, uint16_t _size) : _m_deq(_deque), index(_index), block_index(_block_index), size(_size), bit_index(_bit_index) {}
+            NaiveBitVectorIterator(const NaiveBitVector *_deque, uint16_t _index, uint16_t _size) : _m_deq(_deque), index(_index), size(_size) {}
 
             bool operator*() const
             {
-                return ((*_m_deq).buffer_[this->block_index] >> (63 - this->bit_index)) & 1;
+                uint64_t block_index = this->index / 64;
+                uint64_t bit_index = this->index % 64;
+                return ((*_m_deq).buffer_[block_index] >> (63 - bit_index)) & 1;
             }
 
             NaiveBitVectorIterator &operator++()
             {
-                if (this->index + 1 < this->size)
+                if (this->index + 1 <= this->size)
                 {
                     this->index++;
-                    CircularBitPointer bp(this->_m_deq->buffer_size_, this->block_index, this->bit_index);
-                    bp.add(1);
-                    this->block_index = bp.block_index_;
-                    this->bit_index = bp.bit_index_;
-                }
-                else if (this->index + 1 == this->size)
-                {
-                    this->index = UINT16_MAX;
-                    this->block_index = UINT16_MAX;
-                    this->bit_index = UINT8_MAX;
                 }
                 else
                 {
@@ -76,13 +69,9 @@ namespace stool
 
             NaiveBitVectorIterator &operator--()
             {
-                if (this->index > 1)
+                if (this->index >= 1)
                 {
                     this->index--;
-                    CircularBitPointer bp(this->_m_deq->buffer_size_, this->block_index, this->bit_index);
-                    bp.subtract(1);
-                    this->block_index = bp.block_index_;
-                    this->bit_index = bp.bit_index_;
                 }
                 else
                 {
@@ -101,41 +90,31 @@ namespace stool
 
             NaiveBitVectorIterator operator+(difference_type n) const
             {
-                CircularBitPointer bp(this->_m_deq->buffer_size_, this->block_index, this->bit_index);
-                bp.add(n);
-                if (this->index + n < this->size)
+                if (this->index + n <= this->size)
                 {
-                    return NaiveBitVectorIterator(this->_m_deq, this->index + n, bp.block_index_, bp.bit_index_, this->size);
+                    return NaiveBitVectorIterator(this->_m_deq, this->index + n, this->size);
                 }
                 else
                 {
-                    return NaiveBitVectorIterator(this->_m_deq, UINT16_MAX, UINT16_MAX, UINT8_MAX, this->size);
+                    throw std::invalid_argument("Error: NaiveBitVectorIterator::operator+()");
                 }
             }
 
             NaiveBitVectorIterator &operator+=(difference_type n)
             {
-                CircularBitPointer bp(this->_m_deq->buffer_size_, this->block_index, this->bit_index);
-                bp.add(n);
                 this->index += n;
-                this->block_index = bp.block_index_;
-                this->bit_index = bp.bit_index_;
-                if (this->index >= this->size)
+                if (this->index > this->size)
                 {
-                    this->index = UINT16_MAX;
-                    this->block_index = UINT16_MAX;
-                    this->bit_index = UINT8_MAX;
+                    throw std::invalid_argument("Error: NaiveBitVectorIterator::operator+()");
                 }
                 return *this;
             }
 
             NaiveBitVectorIterator operator-(difference_type n) const
             {
-                CircularBitPointer bp(this->_m_deq->buffer_size_, this->block_index, this->bit_index);
-                bp.subtract(n);
-                if (n <= this->index)
+                if (this->index >= n)
                 {
-                    return NaiveBitVectorIterator(this->_m_deq, this->index - n, bp.block_index_, bp.bit_index_, this->size);
+                    return NaiveBitVectorIterator(this->_m_deq, this->index - n, this->size);
                 }
                 else
                 {
@@ -149,17 +128,15 @@ namespace stool
                 {
                     throw std::invalid_argument("Error: NaiveBitVectorIterator::operator-()");
                 }
-                CircularBitPointer bp(this->_m_deq->buffer_size_, this->block_index, this->bit_index);
-                bp.subtract(n);
                 this->index -= n;
-                this->block_index = bp.block_index_;
-                this->bit_index = bp.bit_index_;
                 return *this;
             }
 
             uint64_t read_64bit_MSB_string() const
             {
-                CircularBitPointer bp(this->_m_deq->buffer_size_, this->block_index, this->bit_index);
+                uint64_t block_index = this->index / 64;
+                uint8_t bit_index = this->index % 64;
+                CircularBitPointer bp(this->_m_deq->buffer_size_, block_index, bit_index);
                 return bp.read64(this->_m_deq->buffer_);
             }
 
