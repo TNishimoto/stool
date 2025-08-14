@@ -37,20 +37,20 @@ namespace stool
         NaiveVLCArray *m_vlc_deque;
         uint16_t m_idx;
         uint16_t bit_idx;
+        uint16_t m_size;
         uint8_t m_code_len;
 
         using iterator_category = std::bidirectional_iterator_tag;
             using difference_type = std::ptrdiff_t;
 
-            NaiveVLCArrayIterator(NaiveVLCArray *_vlc_deque, uint64_t _idx, uint16_t _bit_idx, uint8_t _code_len) : m_vlc_deque(_vlc_deque), m_idx(_idx), bit_idx(_bit_idx), m_code_len(_code_len) {}
+            NaiveVLCArrayIterator(NaiveVLCArray *_vlc_deque, uint64_t _idx, uint16_t _bit_idx, uint8_t _code_len, uint16_t _size) : m_vlc_deque(_vlc_deque), m_idx(_idx), bit_idx(_bit_idx), m_code_len(_code_len), m_size(_size) {}
 
             uint64_t operator*() const
             {
                 return m_vlc_deque->at(this->bit_idx, this->m_code_len);
             }
             bool is_end() const{
-                uint64_t size = this->m_vlc_deque->size();
-                return this->m_idx >= size;
+                return this->m_idx >= m_size;
             }
 
             NaiveVLCArrayIterator &operator++()
@@ -68,7 +68,7 @@ namespace stool
 
                 
 
-                if (this->m_idx + 1 < this->m_vlc_deque->size())
+                if (this->m_idx + 1 < this->m_size)
                 {
                     this->m_idx++;
                     this->bit_idx += this->m_code_len;
@@ -558,7 +558,7 @@ namespace stool
 
 
 
-                return NaiveVLCArrayIterator(const_cast<NaiveVLCArray *>(this), 0, 0, code_len);
+                return NaiveVLCArrayIterator(const_cast<NaiveVLCArray *>(this), 0, 0, code_len, size);
             }
         }
 
@@ -570,7 +570,7 @@ namespace stool
         NaiveVLCArrayIterator end() const
         {
             uint64_t size = this->size();
-            return NaiveVLCArrayIterator(const_cast<NaiveVLCArray *>(this), size, this->value_length_deque.size(), UINT8_MAX);
+            return NaiveVLCArrayIterator(const_cast<NaiveVLCArray *>(this), size, this->value_length_deque.size(), UINT8_MAX, size);
         }
 
         /**
