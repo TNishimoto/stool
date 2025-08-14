@@ -151,8 +151,10 @@ void bit_select_test(uint64_t seed, uint64_t max_counter){
         std::vector<uint64_t> select1_results;
         std::vector<uint64_t> select0_results;
 
-        std::vector<uint64_t> select1_results_test;
-        std::vector<uint64_t> select0_results_test;
+        std::vector<uint64_t> select1_results_msb_test;
+        std::vector<uint64_t> select0_results_msb_test;
+        std::vector<uint64_t> select1_results_lsb_test;
+        std::vector<uint64_t> select0_results_lsb_test;
 
         std::vector<uint64_t> rev_select1_results;
         std::vector<uint64_t> rev_select0_results;
@@ -161,17 +163,33 @@ void bit_select_test(uint64_t seed, uint64_t max_counter){
         std::vector<uint64_t> rev_select0_results_test;
 
 
+        select1_results_lsb_test.resize(rank1);
         for(uint64_t j = 0; j < rank1; j++){
             select1_results.push_back(compute_select1(bv, j));
-            select1_results_test.push_back(stool::MSBByte::select1(random_value, j));
+            select1_results_msb_test.push_back(stool::MSBByte::select1(random_value, j));
+            select1_results_lsb_test[rank1 - 1 - j] = 63 - stool::LSBByte::select1(random_value, j);
         }
-        stool::EqualChecker::equal_check(select1_results, select1_results_test, "select1_results");
+        try{
+            stool::EqualChecker::equal_check(select1_results, select1_results_msb_test, "select1_resultsA");
+        }
+        catch(const std::exception& e){
+            std::cout << "select1_resultsA: " << e.what() << std::endl;
+            std::cout << "select1_results: " << stool::Byte::to_bit_string(random_value) << std::endl;
+            std::cout << "select1_results: " << stool::DebugPrinter::to_integer_string(select1_results) << std::endl;
+            std::cout << "select1_results_msb_test: " << stool::DebugPrinter::to_integer_string(select1_results_msb_test) << std::endl;
 
+            throw e;
+        }
+        stool::EqualChecker::equal_check(select1_results, select1_results_lsb_test, "select1_resultsB");
+
+        select0_results_lsb_test.resize(rank0);
         for(uint64_t j = 0; j < rank0; j++){
             select0_results.push_back(compute_select0(bv, j));
-            select0_results_test.push_back(stool::MSBByte::select0(random_value, j));
+            select0_results_msb_test.push_back(stool::MSBByte::select0(random_value, j));
+            select0_results_lsb_test[rank0 - 1 - j] = 63 - stool::LSBByte::select0(random_value, j);
         }
-        stool::EqualChecker::equal_check(select0_results, select0_results_test, "select0_results");
+        stool::EqualChecker::equal_check(select0_results, select0_results_msb_test, "select0_resultsA");
+        stool::EqualChecker::equal_check(select0_results, select0_results_lsb_test, "select0_resultsB");
 
         for(uint64_t j = 0; j < rank1; j++){
             rev_select1_results.push_back(compute_rev_select1(bv, j));

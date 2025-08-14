@@ -1178,7 +1178,7 @@ namespace stool
                     int64_t gap2 = (((block_index - 1) - j) * 64);
                     int64_t result = i - 1 - gap - gap2 - stool::LSBByte::select1(bits);
                     assert(result >= 0);
-                    assert(result <= this->size());
+                    assert(result <= (int64_t)this->size());
                     return result;
                 }
             }

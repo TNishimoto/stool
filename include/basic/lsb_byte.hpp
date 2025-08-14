@@ -186,7 +186,7 @@ namespace stool
         }
         */
 
-        static int64_t select1(uint64_t bits, uint64_t i)
+        static int64_t old_select1(uint64_t bits, uint64_t i)
         {
             uint64_t nth = i + 1;
             uint64_t mask = UINT8_MAX;
@@ -208,6 +208,83 @@ namespace stool
             }
             return -1;
         }
+        static int64_t select1(uint64_t bits, uint64_t i)
+        {
+            #if defined(__BMI2__)
+            int64_t result = -1;
+            uint64_t nth = i + 1;
+            uint64_t mask = UINT8_MAX;
+            uint64_t counter = 0;
+            for (int64_t i = 7; i >= 0; i--)
+            {
+                uint64_t bs = i * 8;
+                uint64_t mask2 = mask << bs;
+                uint64_t v = bits & mask2;
+                uint64_t c = Byte::count_bits(v);
+                if (counter + c >= nth)
+                {
+                    uint64_t pos = (7 - i) * 8;
+                    uint8_t bits8 = (bits >> (56 - pos)) & UINT8_MAX;
+                    result = pos + __MSB_BYTE::select1_table[bits8][(nth - counter - 1)];
+                    break;
+                }
+                counter += c;
+            }
+
+            unsigned cnt = count_bits(bits);
+            if ((i + 1) >= cnt)
+                return -1;                                              // 存在しない
+            uint64_t src = 1ull << (i + 1);                             // r番目の1を表す単一ビット
+            uint64_t bit = _pdep_u64(src, bits);                        // xの中の該当位置に配置
+            uint64_t _result = static_cast<int>(std::countr_zero(bit)); // その位置を返す
+            assert(_result == result);
+            return _result;
+
+#else
+
+            // 事前チェック（総1数 < i+1 は失敗）
+            // sの最終バイト = 総1数 なので、本当は後段だけで検出できるが、
+            // 早期終了しておくと無駄を抑えられる（popcountは1命令）。
+            if (i >= static_cast<unsigned>(Byte::count_bits(bits)))
+                return -1;
+
+            // 1) byte popcount（各バイトに 0..8）
+            uint64_t b = bits - ((bits & 0xAAAAAAAAAAAAAAAAULL) >> 1);
+            b = (b & 0x3333333333333333ULL) + ((b >> 2) & 0x3333333333333333ULL);
+            b = (b + (b >> 4)) & 0x0F0F0F0F0F0F0F0FULL;
+
+            // 2) byte prefix sums
+            constexpr uint64_t L8 = 0x0101010101010101ULL;
+            uint64_t s = b * L8; // 各バイト: 先頭からの累積個数
+
+            // 3) 最初に累積 >= i+1 となるバイトを検出
+            constexpr uint64_t H8 = 0x8080808080808080ULL;
+            uint64_t rank = static_cast<uint64_t>(i + 1) * L8;
+            uint64_t mask = ((s | H8) - rank) & H8; // 各バイトのMSBが (s_byte >= rank_byte) なら1
+
+            // 万一該当なし（理論上ここには来ない）は -1
+            if (mask == 0){
+                assert(old_select1(bits, i) == -1);
+                return -1;
+            }
+
+            int byte_index = __builtin_ctzll(mask) / 8;
+
+            // 4) バイト内ランク r とバイト値
+            uint64_t sb = (byte_index == 0) ? 0 : ((s >> ((byte_index - 1) * 8)) & 0xFF);
+            unsigned r = i - static_cast<unsigned>(sb);
+            uint8_t byte = static_cast<uint8_t>(bits >> (byte_index * 8));
+
+            // 5) バイト内 select（テーブル）
+            int bit_in_byte = __LSB_BYTE::select1_table[byte][r];
+            int64_t result = static_cast<int64_t>(byte_index * 8 + bit_in_byte);
+
+            assert(result == old_select1(bits, i));
+            return result;
+#endif
+        }
+
+
 
         static int64_t select1(uint64_t bits)
         {

@@ -1507,7 +1507,7 @@ namespace stool
                 return -1;
             }
 
-            uint64_t size = this->size();
+            //uint64_t size = this->size();
 
             if (i + 1 > this->num1_)
             {

@@ -43,7 +43,7 @@ namespace stool
         using iterator_category = std::bidirectional_iterator_tag;
             using difference_type = std::ptrdiff_t;
 
-            NaiveVLCArrayIterator(NaiveVLCArray *_vlc_deque, uint64_t _idx, uint16_t _bit_idx, uint8_t _code_len, uint16_t _size) : m_vlc_deque(_vlc_deque), m_idx(_idx), bit_idx(_bit_idx), m_code_len(_code_len), m_size(_size) {}
+            NaiveVLCArrayIterator(NaiveVLCArray *_vlc_deque, uint64_t _idx, uint16_t _bit_idx, uint8_t _code_len, uint16_t _size) : m_vlc_deque(_vlc_deque), m_idx(_idx), bit_idx(_bit_idx), m_size(_size), m_code_len(_code_len) {}
 
             uint64_t operator*() const
             {
@@ -278,10 +278,6 @@ namespace stool
             return sum;
         }
 
-        uint64_t snatch(uint64_t i, std::array<uint8_t, MAX_SEQUENCE_LENGTH> &output){
-
-
-        }
 
 
         /**
