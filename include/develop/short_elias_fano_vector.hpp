@@ -1,5 +1,6 @@
 #pragma once
-#include "./short_bit_vector.hpp"
+//#include "./short_bit_vector.hpp"
+#include "../specialized_collection/push_pop_arrays/naive_bit_vector.hpp"
 
 namespace stool
 {
@@ -8,7 +9,7 @@ namespace stool
     {
 
     private:
-        stool::ShortBitVector sbv;
+        stool::NaiveBitVector<50000> sbv;
 
     public:
         ShortEliasFanoVector()
@@ -33,7 +34,7 @@ namespace stool
 
         void clear(){
             this->sbv.clear();
-            this->sbv.push_back(16, 0);
+            this->sbv.push_back64(0, 16);
         }
 
         void swap(ShortEliasFanoVector &item){
@@ -46,7 +47,7 @@ namespace stool
             this->sbv.clear();
             uint64_t n = size_of_array;
             uint64_t size_bits = (n << 48);
-            this->sbv.push_back(16, size_bits);
+            this->sbv.push_back64(size_bits, 16);
 
             uint64_t u = 0;
             for (uint64_t i = 0; i < n; i++)
@@ -110,7 +111,7 @@ namespace stool
                     uint64_t lower_value = get_lower_value(values[i], bit_size, upper_bit_size);
                     uint64_t lower_value_bits = lower_value << (64 - lower_bit_size);
 
-                    this->sbv.push_back(lower_bit_size, lower_value_bits);
+                    this->sbv.push_back64(lower_value_bits, lower_bit_size);
  
                 }
             }
@@ -118,8 +119,8 @@ namespace stool
         size_t capacity() const{
             return this->sbv.capacity();
         }
-        void reserve(size_t new_capacity){
-            this->sbv.reserve(new_capacity);
+        void reserve([[maybe_unused]] size_t new_capacity){
+            //this->sbv.reserve(new_capacity);
         }
         uint64_t size_in_bytes(bool only_extra_bytes = false) const
         {
@@ -212,7 +213,8 @@ namespace stool
 
         uint64_t size() const
         {
-            uint64_t m = this->sbv.copy_to(0, 16);
+            uint64_t m = this->sbv.read_64bit_string(0, 0);
+            //uint64_t m = this->sbv.copy_to(0, 16);
 
             return m >> 48;
         }
@@ -274,7 +276,13 @@ namespace stool
         {
             uint64_t size = this->size();
             uint64_t lower_bit_size = (this->sbv.size() - starting_position_of_lower_value_bits) / size;
-            uint64_t lower_value_bits = this->sbv.copy_to(starting_position_of_lower_value_bits + (i * lower_bit_size), lower_bit_size);
+
+            uint64_t block_index = (starting_position_of_lower_value_bits + (i * lower_bit_size)) / 64;
+            uint64_t bit_index = (starting_position_of_lower_value_bits + (i * lower_bit_size)) % 64;
+
+            uint64_t lower_value_bits = this->sbv.read_64bit_string(block_index, bit_index, lower_bit_size);
+
+            //uint64_t lower_value_bits = this->sbv.copy_to(starting_position_of_lower_value_bits + (i * lower_bit_size), lower_bit_size);
 
             uint64_t v = lower_value_bits >> (64 - lower_bit_size);
 
@@ -370,7 +378,8 @@ namespace stool
                     }
                     else
                     {
-                        uint64_t next_upper_value_index = this->efs->sbv.successor1(this->upper_value_index);
+                        //uint64_t next_upper_value_index = this->efs->sbv.successor1(this->upper_value_index);
+                        uint64_t next_upper_value_index = this->efs->sbv.select1_successor(this->upper_value_index);
 
                         this->upper_value += next_upper_value_index - this->upper_value_index - 1;
                         this->upper_value_index = next_upper_value_index;

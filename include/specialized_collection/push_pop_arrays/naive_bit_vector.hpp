@@ -573,6 +573,7 @@ namespace stool
             uint64_t size = this->size();
             if (size + len > MAX_BIT_LENGTH)
             {
+                std::cout << "Error: push_back64() " << size << " " << len << " " << MAX_BIT_LENGTH << std::endl;
                 throw std::invalid_argument("Error: push_back64()");
             }
 
@@ -1204,6 +1205,12 @@ namespace stool
                 uint64_t mask = UINT64_MAX << (64 - bitsize);
                 return bits & mask;
             }
+        }
+        uint64_t read_64bit_string(uint64_t block_index, uint8_t bit_index, uint8_t code_len) const
+        {
+            uint64_t mask = UINT64_MAX << (64 - code_len);
+            return this->read_64bit_string(block_index, bit_index) & mask;
+
         }
 
         uint64_t read_prev_64bit(uint64_t block_index, uint8_t bit_index) const
