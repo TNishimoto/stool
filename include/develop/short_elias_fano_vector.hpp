@@ -46,10 +46,27 @@ namespace stool
         template <size_t N>
         void build(const std::array<uint64_t, N> &values, uint64_t size_of_array)
         {
-            this->sbv.clear();
+
+            #if DEBUG
+            for(uint64_t i = 0; i + 1 < size_of_array; i++){
+                assert(values[i] <= values[i + 1]);
+            }
+            #endif
+            
+            std::array<uint64_t, BIT_VECTOR_SIZE> bit64_array;
+            uint64_t num1 = 0;
+
+
+            //this->sbv.clear();
             uint64_t n = size_of_array;
             uint64_t size_bits = (n << 48);
-            this->sbv.push_back64(size_bits, 16);
+
+            uint64_t block_index = 0;
+            uint8_t bit_index = 0;
+            //this->sbv.push_back64(size_bits, 16);
+            num1 += stool::Byte::count_bits(size_bits);
+            bit64_array[block_index] = size_bits;
+            bit_index += 16;
 
             uint64_t u = 0;
             for (uint64_t i = 0; i < n; i++)
@@ -80,27 +97,47 @@ namespace stool
                         {
                             for (uint64_t x = 1; x <= current_upper_value_num; x++)
                             {
-                                this->sbv.push_back(true);
+                                bit64_array[block_index] = stool::MSBByte::write_bit(bit64_array[block_index], bit_index, true);
+                                bit_index++;
+                                if(bit_index == 64){
+                                    block_index++;
+                                    bit_index = 0;
+                                    num1++;
+                                }
+
+                                //this->sbv.push_back(true);
                             }
-                            this->sbv.push_back(false);
+
+                            bit64_array[block_index] = stool::MSBByte::write_bit(bit64_array[block_index], bit_index, false);
+                            bit_index++;
+                            if(bit_index == 64){
+                                block_index++;
+                                bit_index = 0;
+                            }
+
+                            //this->sbv.push_back(false);
                             current_upper_value++;
                             current_upper_value_num = 0;
                         }
-                        else if (current_upper_value == upper_value)
+                        else
                         {
                             current_upper_value_num++;
                             i++;
-                        }
-                        else
-                        {
-                            throw std::runtime_error("Error in ShortEliasFanoVector::build: The input sequence is not sorted");
                         }
                     }
                     if (current_upper_value_num > 0)
                     {
                         for (uint64_t x = 1; x <= current_upper_value_num; x++)
                         {
-                            this->sbv.push_back(true);
+                            bit64_array[block_index] = stool::MSBByte::write_bit(bit64_array[block_index], bit_index, true);
+                            bit_index++;
+                            if(bit_index == 64){
+                                block_index++;
+                                bit_index = 0;
+                                num1++;
+                            }
+
+                            //this->sbv.push_back(true);
                         }
                         current_upper_value++;
                         current_upper_value_num = 0;
@@ -113,10 +150,20 @@ namespace stool
                     uint64_t lower_value = get_lower_value(values[i], bit_size, upper_bit_size);
                     uint64_t lower_value_bits = lower_value << (64 - lower_bit_size);
 
-                    this->sbv.push_back64(lower_value_bits, lower_bit_size);
+                    stool::MSBByte::write_64bit_string(bit64_array, BIT_VECTOR_SIZE, lower_value_bits, block_index, bit_index, lower_bit_size, false);
+                    bit_index += lower_bit_size;
+                    num1 += stool::Byte::count_bits(lower_value_bits);
+                    if(bit_index >= 64){
+                        block_index++;
+                        bit_index = bit_index - 64;
+                    }
+
+                    //this->sbv.push_back64(lower_value_bits, lower_bit_size);
  
                 }
             }
+            uint64_t total_bit_size = bit_index + (block_index * 64);
+            this->sbv.initialize(bit64_array, total_bit_size, num1, block_index + 1);
         }
         size_t capacity() const{
             return this->sbv.capacity();
