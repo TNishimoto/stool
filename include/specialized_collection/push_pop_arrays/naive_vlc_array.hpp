@@ -32,13 +32,14 @@ namespace stool
          */
         class NaiveVLCArrayIterator
         {
-            NaiveVLCArray *m_vlc_deque;
-            uint16_t m_idx;
-            uint16_t bit_idx;
-            uint8_t m_code_len;
 
         public:
-            using iterator_category = std::bidirectional_iterator_tag;
+        NaiveVLCArray *m_vlc_deque;
+        uint16_t m_idx;
+        uint16_t bit_idx;
+        uint8_t m_code_len;
+
+        using iterator_category = std::bidirectional_iterator_tag;
             using difference_type = std::ptrdiff_t;
 
             NaiveVLCArrayIterator(NaiveVLCArray *_vlc_deque, uint64_t _idx, uint16_t _bit_idx, uint8_t _code_len) : m_vlc_deque(_vlc_deque), m_idx(_idx), bit_idx(_bit_idx), m_code_len(_code_len) {}
@@ -58,6 +59,8 @@ namespace stool
                 {
                     throw std::invalid_argument("NaiveVLCArrayIterator::operator++: The iterator is at the beginning of the deque");
                 }
+                assert(this->m_idx < this->m_vlc_deque->size());
+                assert(this->m_code_len <= 64);
 
 
                 // CircularBitPointer base_bp = this->m_vlc_deque->value_length_deque.get_circular_bit_pointer_at_head();
@@ -70,8 +73,15 @@ namespace stool
                     this->m_idx++;
                     this->bit_idx += this->m_code_len;
 
-                    uint64_t q = this->m_vlc_deque->value_length_deque.select1_successor(this->bit_idx);
-                    uint64_t _code_len = q - this->bit_idx;
+                    int64_t q = this->m_vlc_deque->value_length_deque.select1_successor(this->bit_idx);
+                    assert(q >= -1);
+                    assert(q <= (int64_t)this->m_vlc_deque->value_length_deque.size());
+
+
+                    uint64_t _code_len = q == -1 ? (this->m_vlc_deque->value_length_deque.size() - this->bit_idx) : (q - this->bit_idx);
+
+                    assert(_code_len <= 64);
+
                     this->m_code_len = _code_len;
 
 
@@ -81,8 +91,10 @@ namespace stool
                 {
                     this->m_idx = this->m_vlc_deque->size();
                     this->bit_idx = this->m_vlc_deque->value_length_deque.size();
+
                     this->m_code_len = UINT8_MAX;
                 }
+
                 
                 return *this;
             }
@@ -96,7 +108,33 @@ namespace stool
 
             NaiveVLCArrayIterator &operator--()
             {
-                throw std::invalid_argument("NaiveVLCArrayIterator::operator--: Not implemented");
+                uint64_t size = this->m_vlc_deque->size();
+                if(size == 0 || this->m_idx == 0){
+                    throw std::invalid_argument("NaiveVLCArrayIterator::operator--: The deque is empty");
+                }
+                if(this->m_idx >= size){
+                    this->m_idx = size - 1;
+                    int64_t p = this->m_vlc_deque->value_length_deque.select1_predecessor(this->m_vlc_deque->value_length_deque.size());
+                    uint64_t new_code_len = this->bit_idx - p;
+                    this->bit_idx = p;
+
+                    this->m_code_len = new_code_len;
+
+                }
+                else{
+                    this->m_idx--;
+                    int64_t p = this->m_vlc_deque->value_length_deque.select1_predecessor(this->bit_idx);
+                    uint64_t new_code_len = this->bit_idx - p;
+
+                    this->bit_idx = p;
+                    this->m_code_len = new_code_len;
+
+                }
+
+                
+                
+
+
                 /*
                 uint64_t size = this->m_vlc_deque->size();
                 if(size == 0){
@@ -225,12 +263,12 @@ namespace stool
             assert(len <= this->size());
 
 
+
             for (size_t x = 0; x < len; x++)
             {
                 --it;                
                 sum += *it;
 
-             
                 assert(*it == this->at(this->size() - x - 1));
 
 
@@ -514,10 +552,12 @@ namespace stool
             }
             else
             {
-                CircularBitPointer bp = this->value_length_deque.get_circular_bit_pointer_at_head();
                 uint64_t p = 0;
                 uint64_t q = size > 1 ? this->value_length_deque.select1(1) : this->value_length_deque.size();
                 uint64_t code_len = q - p;
+
+
+
                 return NaiveVLCArrayIterator(const_cast<NaiveVLCArray *>(this), 0, 0, code_len);
             }
         }
@@ -820,9 +860,9 @@ namespace stool
                 uint64_t q = this->value_length_deque.size();
                 uint64_t code_len = q - p;
 
-                CircularBitPointer bp = this->value_length_deque.get_circular_bit_pointer_at_head();
-                bp.add(p);
-                uint64_t v = this->code_deque.read_64_bit_string(bp);
+                uint64_t block_index = p / 64;
+                uint64_t bit_index = p % 64;
+                uint64_t v = this->code_deque.read_64_bit_string(block_index, bit_index);
                 uint64_t value = v >> (64 - code_len);
                 return value;
             }
@@ -858,10 +898,9 @@ namespace stool
             uint64_t q = this->value_length_deque.size();
             uint64_t code_len = q - p;
 
-            CircularBitPointer bp = this->value_length_deque.get_circular_bit_pointer_at_head();
-            bp.add(p);
-            uint64_t v = this->code_deque.read_64_bit_string(bp);
-            uint64_t value = v >> (64 - code_len);
+            uint64_t block_index = p / 64;
+            uint64_t bit_index = p % 64;
+            uint64_t value = this->code_deque.read_as_64bit_integer(block_index, bit_index, code_len);
 
             this->code_deque.pop_back(code_len);
             this->value_length_deque.pop_back(code_len);
@@ -896,9 +935,9 @@ namespace stool
             uint64_t q = this->size() > 1 ? this->value_length_deque.select1(1) : this->value_length_deque.size();
             uint64_t code_len = q - p;
 
-            CircularBitPointer bp = this->value_length_deque.get_circular_bit_pointer_at_head();
-            bp.add(p);
-            uint64_t v = this->code_deque.read_64_bit_string(bp);
+            uint64_t block_index = p / 64;
+            uint64_t bit_index = p % 64;
+            uint64_t v = this->code_deque.read_64bit_string(block_index, bit_index);
             uint64_t value = v >> (64 - code_len);
 
             assert(this->code_deque.size() >= code_len);
@@ -933,9 +972,9 @@ namespace stool
             uint64_t p = this->value_length_deque.select1(i);
             uint64_t q = 0;
             if(i + 1 < size){
-                CircularBitPointer bp1 = this->value_length_deque.get_circular_bit_pointer_at_head();
-                bp1.add(p+1);
-                uint64_t bits = this->value_length_deque.read_64_bit_string(bp1);
+                uint64_t block_index = (p+1) / 64;
+                uint64_t bit_index = (p+1) % 64;
+                uint64_t bits = this->value_length_deque.read_64bit_string(block_index, bit_index);
                 q = p + 1 + stool::MSBByte::select1(bits, 0);
             }else{
                 q = this->value_length_deque.size();

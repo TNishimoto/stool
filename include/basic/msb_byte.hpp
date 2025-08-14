@@ -517,6 +517,14 @@ namespace stool
             }
             return -1;
         }
+        static int64_t select1(uint64_t bits)
+        {
+            if(bits != 0){
+                return __builtin_clzll(bits);
+            }else{
+                return -1;
+            }
+        }
         template <typename T>
         static uint64_t read_64bit_string(T &bit_array, uint64_t block_index, uint64_t bit_index, uint64_t array_size){
             if (bit_index == 0)
@@ -554,6 +562,28 @@ namespace stool
                 s.pop_back();
             }
             return s;
+        }
+
+        template <typename T>
+        static void write_bits(T &bits, uint64_t value, uint64_t len, uint16_t block_index, uint8_t bit_index, uint64_t array_size) 
+        {
+            if (bit_index + len <= 64)
+            {
+                bits[block_index] = stool::MSBByte::write_bits(bits[block_index], bit_index, len, value);
+            }
+            else
+            {
+                uint64_t Lvalue = value;
+                uint64_t Rvalue = value << (64 - bit_index);
+
+                uint64_t diff = 64 - bit_index;
+
+                bits[block_index] = stool::MSBByte::write_bits(bits[block_index], bit_index, diff, Lvalue);
+
+                assert(block_index + 1 < array_size);
+                bits[block_index + 1] = stool::MSBByte::write_bits(bits[block_index + 1], 0, len - diff, Rvalue);
+
+            }
         }
 
     };

@@ -209,6 +209,16 @@ namespace stool
             return -1;
         }
 
+        static int64_t select1(uint64_t bits)
+        {
+            if(bits != 0){
+                return __builtin_ffsll(bits) - 1;
+            }else{
+                return -1;
+            }
+        }
+
+
         /*!
          * @brief Finds the position of the (i+1)-th unset bit (0) in a 64-bit integer
          *

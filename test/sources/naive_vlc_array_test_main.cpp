@@ -69,12 +69,7 @@ void equal_test(const stool::NaiveVLCArray<> &bv, const std::vector<uint64_t> &n
         if (bv.at(i) != naive_bv[i])
         {
             std::cout << std::endl;
-            std::cout << "naive_bv = " << stool::DebugPrinter::to_integer_string(naive_bv) << std::endl;
-            //std::cout << "      bv = " << stool::DebugPrinter::to_integer_string(bv.to_vector()) << std::endl;
-    
-            //std::cout << "naive_bv = " << to_string(naive_bv, true) << std::endl;
-            //std::cout << "      bv = " << bv.to_string(true) << std::endl;
-    
+            std::cout << "naive_bv = " << stool::DebugPrinter::to_integer_string(naive_bv) << std::endl;    
             std::cout << "bv.at(" << i << ") = " << bv.at(i) << " != " << naive_bv[i] << std::endl;
 
             //bv.print_info();
