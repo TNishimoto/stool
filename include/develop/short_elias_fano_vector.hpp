@@ -12,8 +12,6 @@ namespace stool
         static constexpr uint64_t MAX_BIT_LENGTH = 50000;
         static constexpr uint64_t BIT_VECTOR_SIZE = (MAX_BIT_LENGTH / 64) + 1;
         stool::NaiveBitVector<MAX_BIT_LENGTH> sbv;
-        uint16_t size_;
-        uint8_t lower_bit_size_;
 
     public:
         ShortEliasFanoVector()
@@ -38,14 +36,11 @@ namespace stool
 
         void clear(){
             this->sbv.clear();
-            this->size_ = 0;
-            this->lower_bit_size_ = 0;
+            this->sbv.push_back64(0, 16);
         }
 
         void swap(ShortEliasFanoVector &item){
             this->sbv.swap(item.sbv);
-            std::swap(this->size_, item.size_);
-            std::swap(this->lower_bit_size_, item.lower_bit_size_);
         }
 
         template <size_t N>
@@ -53,11 +48,8 @@ namespace stool
         {
             this->sbv.clear();
             uint64_t n = size_of_array;
-            this->size_ = n;
-            /*
             uint64_t size_bits = (n << 48);
             this->sbv.push_back64(size_bits, 16);
-            */
 
             uint64_t u = 0;
             for (uint64_t i = 0; i < n; i++)
@@ -116,7 +108,6 @@ namespace stool
                 }
 
                 uint64_t lower_bit_size = bit_size - upper_bit_size;
-                this->lower_bit_size_ = lower_bit_size;
                 for (uint64_t i = 0; i < n; i++)
                 {
                     uint64_t lower_value = get_lower_value(values[i], bit_size, upper_bit_size);
@@ -224,8 +215,10 @@ namespace stool
 
         uint64_t size() const
         {
+            uint64_t m = this->sbv.read_64bit_string(0, 0);
+            //uint64_t m = this->sbv.copy_to(0, 16);
 
-            return this->size_;
+            return m >> 48;
         }
         std::vector<uint64_t> to_vector() const
         {
@@ -239,12 +232,14 @@ namespace stool
 
         uint64_t get_upepr_value_index(uint64_t i) const
         {
-            uint64_t j = this->sbv.select1(i);
+            uint64_t gap1 = this->sbv.rank1(15);
+            uint64_t j = this->sbv.select1(gap1 + i);
             return j;
         }
         uint64_t get_upepr_value([[maybe_unused]] uint64_t i, uint64_t upper_value_index) const
         {
-            uint64_t zero_count = this->sbv.rank0(upper_value_index);
+            uint64_t gap0 = this->sbv.rank0(15);
+            uint64_t zero_count = this->sbv.rank0(upper_value_index) - gap0;
             return zero_count;
         }
 
@@ -257,6 +252,7 @@ namespace stool
         uint64_t get_starting_position_of_lower_value_bits() const
         {
             uint64_t size = this->size();
+            uint64_t gap1 = this->sbv.rank1(15);
 
             if (size == 0)
             {
@@ -264,17 +260,24 @@ namespace stool
             }
             else if (size == 1)
             {
-                return 0;
+                return 16;
             }
             else
             {
-                return this->sbv.select1(size - 1) + 1;
+                return this->sbv.select1(gap1 + size - 1) + 1;
             }
+        }
+        uint64_t get_lower_bit_size() const
+        {
+            uint64_t size = this->size();
+            uint64_t starting_position = this->get_starting_position_of_lower_value_bits();
+            uint64_t lower_bit_size = (this->sbv.size() - starting_position) / size;
+            return lower_bit_size;
         }
         uint64_t get_lower_value(uint64_t i, uint64_t starting_position_of_lower_value_bits) const
         {
             uint64_t size = this->size();
-            uint64_t lower_bit_size = this->lower_bit_size_;
+            uint64_t lower_bit_size = (this->sbv.size() - starting_position_of_lower_value_bits) / size;
 
             uint64_t block_index = (starting_position_of_lower_value_bits + (i * lower_bit_size)) / 64;
             uint64_t bit_index = (starting_position_of_lower_value_bits + (i * lower_bit_size)) % 64;
@@ -298,7 +301,7 @@ namespace stool
             }
             else
             {
-                uint64_t lower_bit_size = this->lower_bit_size_;
+                uint64_t lower_bit_size = (this->sbv.size() - starting_position_of_lower_value_bits) / size;
                 uint64_t lower_value = this->get_lower_value(i, starting_position_of_lower_value_bits);
 
                 return (upper_value << lower_bit_size) | lower_value;
