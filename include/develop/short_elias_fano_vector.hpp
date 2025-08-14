@@ -324,6 +324,7 @@ namespace stool
         uint64_t get_lower_value(uint64_t i, uint64_t starting_position_of_lower_value_bits) const
         {
             uint64_t size = this->size();
+            assert(size > 0);
             uint64_t lower_bit_size = (this->sbv.size() - starting_position_of_lower_value_bits) / size;
 
             uint64_t block_index = (starting_position_of_lower_value_bits + (i * lower_bit_size)) / 64;
@@ -374,7 +375,52 @@ namespace stool
         uint64_t unused_size_in_bytes() const
         {
             return this->sbv.unused_size_in_bytes();
-        }        
+        }
+
+        template<std::size_t N>
+        void decode_upper_bits(std::array<uint8_t, N> &output_upper_array) const{
+            std::array<uint8_t, N> upper_index_array;
+
+            uint64_t size = this->size();
+            assert(size <= N);
+
+            if(size > 0){
+                uint64_t fst_upper_value_index = this->get_upepr_value_index(0);
+                upper_index_array[0] = fst_upper_value_index;
+                uint64_t tmp_upper_index = fst_upper_value_index;
+
+                for(uint64_t i = 1; i < size; i++){
+                    tmp_upper_index = this->sbv.select1_successor(tmp_upper_index);    
+                    upper_index_array[i] = tmp_upper_index;
+                }
+
+                uint64_t fst_upper_value = this->get_upepr_value(0, fst_upper_value_index);
+                output_upper_array[0] = fst_upper_value;
+                for(uint64_t i = 1; i < size; i++){
+                    output_upper_array[i] = output_upper_array[i-1] + (upper_index_array[i] - upper_index_array[i-1] - 1);
+                }
+    
+            }
+
+        }
+        template<std::size_t N>
+        void decode_lower_bits(std::array<uint64_t, N> &output_lower_array) const{
+            uint64_t size = this->size();
+            uint64_t starting_position_of_lower_value_bits = this->get_starting_position_of_lower_value_bits();
+            uint64_t lower_bit_size = (this->sbv.size() - starting_position_of_lower_value_bits) / size;
+            assert(size <= N);
+
+            for(uint64_t i = 0; i < size; i++){
+                uint64_t pos = starting_position_of_lower_value_bits + (i * lower_bit_size);
+                uint64_t block_index = pos / 64;
+                uint64_t bit_index = pos % 64;
+                uint64_t lower_value_bits = this->sbv.read_as_64bit_integer(block_index, bit_index, lower_bit_size);
+                output_lower_array[i] = lower_value_bits;
+            }
+
+
+        }
+
 
         class iterator
         {

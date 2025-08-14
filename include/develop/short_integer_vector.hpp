@@ -7,6 +7,7 @@ namespace stool
     class ShortIntegerVector
         {
             ShortEliasFanoVector ef;
+            static constexpr uint64_t MAX_SEQUENCE_LENGTH = 300;
 
         public:
             ShortIntegerVector()
@@ -120,7 +121,47 @@ namespace stool
 
             void insert(uint64_t pos, uint64_t value)
             {
+                assert(this->size() < MAX_SEQUENCE_LENGTH);
+
                 std::array<uint64_t, 4096> array;
+                if(this->size() == 0){
+                    array[0] = value;
+                    this->ef.build(array, 1);
+                }else{
+                    std::array<uint8_t, 4096> upper_array;
+                    std::array<uint64_t, 4096> lower_array;
+                    uint64_t lower_bit_size = this->ef.get_lower_bit_size();
+                    uint64_t size = this->size();
+    
+                    this->ef.decode_upper_bits(upper_array);
+                    this->ef.decode_lower_bits(lower_array);
+    
+    
+                    for(uint64_t i = 0; i < pos; i++){
+                        array[i] = lower_array[i] | (upper_array[i] << lower_bit_size);
+
+                        assert(array[i] == this->ef.at(i));
+                    }
+    
+                    if(pos == 0){
+                        array[pos] = value;
+                    }else{
+                        array[pos] = value + array[pos-1];
+                    }
+    
+                    for(uint64_t i = pos; i < size; i++){
+                        array[i+1] = ((lower_array[i] | (upper_array[i] << lower_bit_size))) + value;
+
+
+                        assert(array[i+1] == this->ef.at(i) + value);
+
+                    }
+                    this->ef.build(array, size+1);
+
+                }
+
+
+                /*
 
                 if(pos < this->size()){
                     uint64_t x = 0;
@@ -143,6 +184,7 @@ namespace stool
                     uint64_t new_value = this->psum() + value;
                     this->ef.insert(new_value);
                 }
+                */
             }
             void remove(uint64_t pos)
             {
@@ -169,6 +211,8 @@ namespace stool
             }
             void push_front(std::vector<uint64_t> &new_items)
             {
+                assert(this->size() < MAX_SEQUENCE_LENGTH);
+
                 std::array<uint64_t, 4096> array;
 
                 uint64_t x = 0;
@@ -185,6 +229,8 @@ namespace stool
             }
             void push_front(uint64_t new_item)
             {
+                assert(this->size() < MAX_SEQUENCE_LENGTH);
+
                 std::array<uint64_t, 4096> array;
 
                 uint64_t x = 0;
@@ -201,6 +247,8 @@ namespace stool
 
             void push_back(std::vector<uint64_t> &new_items)
             {
+                assert(this->size() < MAX_SEQUENCE_LENGTH);
+
                 std::array<uint64_t, 4096> array;
                 uint64_t last_value = 0;
 
@@ -220,6 +268,8 @@ namespace stool
             }
             void push_back(uint64_t value)
             {
+                assert(this->size() < MAX_SEQUENCE_LENGTH);
+
                 std::array<uint64_t, 4096> array;
                 uint64_t last_value = 0;
 
@@ -233,6 +283,7 @@ namespace stool
             }
             std::vector<uint64_t> pop_front(uint64_t len)
             {
+
                 std::vector<uint64_t> tmp1;
                 tmp1.resize(len);
 

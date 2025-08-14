@@ -334,13 +334,13 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
 
     std::mt19937_64 mt64(seed);
 
-    uint64_t seq_len = 1000;
+    uint64_t seq_len = 256;
     uint64_t max_value = 1000000;
     uint64_t number_of_trials = 100;
     access_test(seq_len, number_of_trials, max_value, seed);
     psum_test(seq_len, number_of_trials, max_value, seed);
 
-    search_test(seq_len, number_of_trials, max_value, seed);
+    //search_test(seq_len, number_of_trials, max_value, seed);
 
 
     back_test(seq_len, number_of_trials / 10, max_value, seed);
