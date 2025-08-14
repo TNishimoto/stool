@@ -9,7 +9,15 @@ namespace stool
     {
 
     private:
-        stool::NaiveBitVector<50000> sbv;
+        static constexpr uint64_t MAX_BIT_LENGTH = 50000;
+        static constexpr uint64_t BIT_VECTOR_SIZE = (MAX_BIT_LENGTH / 64) + 1;
+
+
+        stool::NaiveBitVector<MAX_BIT_LENGTH> upper_sbv;
+        stool::NaiveBitVector<MAX_BIT_LENGTH> lower_sbv;
+
+        uint16_t size_ = 0;
+        uint8_t lower_bit_size_ = 0;
 
     public:
         ShortEliasFanoVector()
@@ -33,21 +41,30 @@ namespace stool
         }
 
         void clear(){
-            this->sbv.clear();
-            this->sbv.push_back64(0, 16);
+            this->upper_sbv.clear();
+            this->lower_sbv.clear();
+            this->size_ = 0;
+            //this->sbv.push_back64(0, 16);
         }
 
         void swap(ShortEliasFanoVector &item){
-            this->sbv.swap(item.sbv);
+            this->upper_sbv.swap(item.upper_sbv);
+            this->lower_sbv.swap(item.lower_sbv);
+            std::swap(this->size_, item.size_);
         }
 
         template <size_t N>
         void build(const std::array<uint64_t, N> &values, uint64_t size_of_array)
         {
-            this->sbv.clear();
+            this->upper_sbv.clear();
+            this->lower_sbv.clear();
+            this->size_ = size_of_array;
             uint64_t n = size_of_array;
+
+            /*
             uint64_t size_bits = (n << 48);
             this->sbv.push_back64(size_bits, 16);
+            */
 
             uint64_t u = 0;
             for (uint64_t i = 0; i < n; i++)
@@ -78,9 +95,9 @@ namespace stool
                         {
                             for (uint64_t x = 1; x <= current_upper_value_num; x++)
                             {
-                                this->sbv.push_back(true);
+                                this->upper_sbv.push_back(true);
                             }
-                            this->sbv.push_back(false);
+                            this->upper_sbv.push_back(false);
                             current_upper_value++;
                             current_upper_value_num = 0;
                         }
@@ -98,39 +115,43 @@ namespace stool
                     {
                         for (uint64_t x = 1; x <= current_upper_value_num; x++)
                         {
-                            this->sbv.push_back(true);
+                            this->upper_sbv.push_back(true);
                         }
                         current_upper_value++;
                         current_upper_value_num = 0;
                     }
                 }
 
+
+
                 uint64_t lower_bit_size = bit_size - upper_bit_size;
+                this->lower_bit_size_ = lower_bit_size;
                 for (uint64_t i = 0; i < n; i++)
                 {
                     uint64_t lower_value = get_lower_value(values[i], bit_size, upper_bit_size);
                     uint64_t lower_value_bits = lower_value << (64 - lower_bit_size);
 
-                    this->sbv.push_back64(lower_value_bits, lower_bit_size);
+                    this->lower_sbv.push_back64(lower_value_bits, lower_bit_size);
  
                 }
             }
         }
         size_t capacity() const{
-            return this->sbv.capacity();
+            return this->upper_sbv.capacity() + this->lower_sbv.capacity();
         }
         void reserve([[maybe_unused]] size_t new_capacity){
             //this->sbv.reserve(new_capacity);
         }
         uint64_t size_in_bytes(bool only_extra_bytes = false) const
         {
-            return this->sbv.size_in_bytes(only_extra_bytes);
+            return this->upper_sbv.size_in_bytes(only_extra_bytes) + this->lower_sbv.size_in_bytes(only_extra_bytes);
         }
 
 
         void print_color_bits() const
         {
             uint64_t starting_position_of_lower_value_bits = this->get_starting_position_of_lower_value_bits();
+            /*
             std::string s = this->sbv.to_string();
             std::cout << "EF: " << std::flush;
             for (uint64_t i = 0; i < this->sbv.size(); i++)
@@ -150,6 +171,7 @@ namespace stool
                 std::cout << s[i] << std::flush;
             }
             std::cout << "\e[m" << std::endl;
+            */
         }
 
         void build(const std::vector<uint64_t> &values)
@@ -213,10 +235,7 @@ namespace stool
 
         uint64_t size() const
         {
-            uint64_t m = this->sbv.read_64bit_string(0, 0);
-            //uint64_t m = this->sbv.copy_to(0, 16);
-
-            return m >> 48;
+            return this->size_;
         }
         std::vector<uint64_t> to_vector() const
         {
@@ -230,14 +249,12 @@ namespace stool
 
         uint64_t get_upepr_value_index(uint64_t i) const
         {
-            uint64_t gap1 = this->sbv.rank1(15);
-            uint64_t j = this->sbv.select1(gap1 + i);
+            uint64_t j = this->upper_sbv.select1(i);
             return j;
         }
         uint64_t get_upepr_value([[maybe_unused]] uint64_t i, uint64_t upper_value_index) const
         {
-            uint64_t gap0 = this->sbv.rank0(15);
-            uint64_t zero_count = this->sbv.rank0(upper_value_index) - gap0;
+            uint64_t zero_count = this->upper_sbv.rank0(upper_value_index);
             return zero_count;
         }
 
@@ -250,7 +267,7 @@ namespace stool
         uint64_t get_starting_position_of_lower_value_bits() const
         {
             uint64_t size = this->size();
-            uint64_t gap1 = this->sbv.rank1(15);
+            //uint64_t gap1 = this->sbv.rank1(15);
 
             if (size == 0)
             {
@@ -262,25 +279,18 @@ namespace stool
             }
             else
             {
-                return this->sbv.select1(gap1 + size - 1) + 1;
+                return this->upper_sbv.select1(size - 1) + 1;
             }
         }
-        uint64_t get_lower_bit_size() const
+        uint64_t get_lower_value(uint64_t i) const
         {
             uint64_t size = this->size();
-            uint64_t starting_position = this->get_starting_position_of_lower_value_bits();
-            uint64_t lower_bit_size = (this->sbv.size() - starting_position) / size;
-            return lower_bit_size;
-        }
-        uint64_t get_lower_value(uint64_t i, uint64_t starting_position_of_lower_value_bits) const
-        {
-            uint64_t size = this->size();
-            uint64_t lower_bit_size = (this->sbv.size() - starting_position_of_lower_value_bits) / size;
+            uint64_t lower_bit_size = this->lower_bit_size_;
 
-            uint64_t block_index = (starting_position_of_lower_value_bits + (i * lower_bit_size)) / 64;
-            uint64_t bit_index = (starting_position_of_lower_value_bits + (i * lower_bit_size)) % 64;
+            uint64_t block_index = (i * lower_bit_size) / 64;
+            uint64_t bit_index = (i * lower_bit_size) % 64;
 
-            uint64_t lower_value_bits = this->sbv.read_64bit_string(block_index, bit_index, lower_bit_size);
+            uint64_t lower_value_bits = this->lower_sbv.read_64bit_string(block_index, bit_index, lower_bit_size);
 
             //uint64_t lower_value_bits = this->sbv.copy_to(starting_position_of_lower_value_bits + (i * lower_bit_size), lower_bit_size);
 
@@ -289,18 +299,18 @@ namespace stool
             return v;
         }
 
-        uint64_t at(uint64_t i, uint16_t upper_value, uint16_t starting_position_of_lower_value_bits) const
+        uint64_t at(uint64_t i, uint16_t upper_value) const
         {
             uint64_t size = this->size();
             if (size == 1)
             {
-                uint64_t lower_value = this->get_lower_value(i, starting_position_of_lower_value_bits);
+                uint64_t lower_value = this->get_lower_value(i);
                 return lower_value;
             }
             else
             {
-                uint64_t lower_bit_size = (this->sbv.size() - starting_position_of_lower_value_bits) / size;
-                uint64_t lower_value = this->get_lower_value(i, starting_position_of_lower_value_bits);
+                uint64_t lower_bit_size = this->lower_bit_size_;
+                uint64_t lower_value = this->get_lower_value(i);
 
                 return (upper_value << lower_bit_size) | lower_value;
             }
@@ -309,10 +319,9 @@ namespace stool
         uint64_t at(uint64_t i) const
         {
 
-            uint64_t starting_position_of_lower_value_bits = this->get_starting_position_of_lower_value_bits();
             uint64_t upper_value = this->get_upepr_value(i);
 
-            return this->at(i, upper_value, starting_position_of_lower_value_bits);
+            return this->at(i, upper_value);
         }
         int64_t successor(uint64_t i) const{
             for(auto it = this->begin(); it != this->end(); it++){
@@ -324,7 +333,7 @@ namespace stool
         }
         uint64_t unused_size_in_bytes() const
         {
-            return this->sbv.unused_size_in_bytes();
+            return this->upper_sbv.unused_size_in_bytes() + this->lower_sbv.unused_size_in_bytes();
         }        
 
         class iterator
@@ -335,7 +344,6 @@ namespace stool
             uint16_t index = 0;
             uint16_t upper_value = 0;
             uint16_t upper_value_index = 0;
-            uint16_t starting_position_of_lower_value_bits = 0;
 
             using iterator_category = std::forward_iterator_tag; ///< Iterator category
             using value_type = uint64_t;                         ///< Value type
@@ -349,20 +357,18 @@ namespace stool
                     this->index = UINT16_MAX;
                     this->upper_value = UINT16_MAX;
                     this->upper_value_index = UINT16_MAX;
-                    this->starting_position_of_lower_value_bits = UINT16_MAX;
                 }
                 else
                 {
                     this->index = _index;
                     this->upper_value_index = this->efs->get_upepr_value_index(_index);
                     this->upper_value = this->efs->get_upepr_value(_index, this->upper_value_index);
-                    this->starting_position_of_lower_value_bits = this->efs->get_starting_position_of_lower_value_bits();
                 }
             }
 
             uint64_t operator*() const
             {
-                return this->efs->at(this->index, this->upper_value, this->starting_position_of_lower_value_bits);
+                return this->efs->at(this->index, this->upper_value);
             }
 
             iterator &operator++()
@@ -379,7 +385,7 @@ namespace stool
                     else
                     {
                         //uint64_t next_upper_value_index = this->efs->sbv.successor1(this->upper_value_index);
-                        uint64_t next_upper_value_index = this->efs->sbv.select1_successor(this->upper_value_index);
+                        uint64_t next_upper_value_index = this->efs->upper_sbv.select1_successor(this->upper_value_index);
 
                         this->upper_value += next_upper_value_index - this->upper_value_index - 1;
                         this->upper_value_index = next_upper_value_index;

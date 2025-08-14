@@ -374,6 +374,15 @@ namespace stool
             this->buffer_size_ = 2;
         }
 
+        template <typename T>
+        void initialize(const T &bit64_array, uint64_t bit_size, uint64_t num1, uint64_t array_size)
+        {
+            this->update_size_if_needed(bit_size);
+            std::memcpy(this->buffer_, &bit64_array[0], array_size * sizeof(uint64_t));
+            this->bit_count_ = bit_size;
+            this->num1_ = num1;
+        }
+
         /**
          * @brief Constructor with specified buffer size
          *
