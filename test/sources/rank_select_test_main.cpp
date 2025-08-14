@@ -6,16 +6,17 @@
 #include <iterator>
 // #include "../../include/io.hpp"
 // #include "../../include/cmdline.h"
-#include "../../include/stool.hpp"
+#include "../../include/light_stool.hpp"
 
 
+/*
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-copy-with-user-provided-copy" // suppress specific warning
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #include <sdsl/wavelet_trees.hpp>
 #include <sdsl/wt_algorithm.hpp>
 #pragma GCC diagnostic pop
-
+*/
 
 int64_t compute_select1(const std::vector<bool> &bv, uint64_t i){
     uint64_t count = 0;
@@ -89,7 +90,7 @@ int64_t compute_rev_select1(const std::vector<bool> &bv, uint64_t i){
 */
 
 
-
+/*
 void rank_test(std::vector<uint8_t> &text, stool::WT &wt)
 {
     uint64_t CHARMAX = UINT8_MAX + 1;
@@ -129,6 +130,7 @@ void c_run_sum_test(){
 
     rank_test(seq, wt);
 }
+*/
 
 void bit_select_test(uint64_t seed, uint64_t max_counter){
     std::cout << "bit_select_test: " << std::flush;

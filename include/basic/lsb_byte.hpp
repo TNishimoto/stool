@@ -1,5 +1,11 @@
 #pragma once
 #include "./byte.hpp"
+#if defined(__x86_64__) || defined(_M_X64)
+  #if defined(__BMI2__)
+    #include <immintrin.h>   // これで _pdep_u64 が宣言される
+    // （必要なら）#include <bmi2intrin.h> でもOK
+  #endif
+#endif
 
 namespace stool
 {
@@ -211,33 +217,16 @@ namespace stool
         static int64_t select1(uint64_t bits, uint64_t i)
         {
             #if defined(__BMI2__)
-            int64_t result = -1;
-            uint64_t nth = i + 1;
-            uint64_t mask = UINT8_MAX;
-            uint64_t counter = 0;
-            for (int64_t i = 7; i >= 0; i--)
-            {
-                uint64_t bs = i * 8;
-                uint64_t mask2 = mask << bs;
-                uint64_t v = bits & mask2;
-                uint64_t c = Byte::count_bits(v);
-                if (counter + c >= nth)
-                {
-                    uint64_t pos = (7 - i) * 8;
-                    uint8_t bits8 = (bits >> (56 - pos)) & UINT8_MAX;
-                    result = pos + __MSB_BYTE::select1_table[bits8][(nth - counter - 1)];
-                    break;
-                }
-                counter += c;
-            }
+            
 
-            unsigned cnt = count_bits(bits);
-            if ((i + 1) >= cnt)
+            unsigned cnt = Byte::count_bits(bits);
+            if (i >= cnt)
                 return -1;                                              // 存在しない
-            uint64_t src = 1ull << (i + 1);                             // r番目の1を表す単一ビット
+            uint64_t src = 1ull << i;                             // r番目の1を表す単一ビット
             uint64_t bit = _pdep_u64(src, bits);                        // xの中の該当位置に配置
-            uint64_t _result = static_cast<int>(std::countr_zero(bit)); // その位置を返す
-            assert(_result == result);
+            uint64_t _result = static_cast<int>(LSBByte::select1(bit)); // その位置を返す
+
+            assert(_result == old_select1(bits, i));
             return _result;
 
 #else

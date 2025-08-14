@@ -16,11 +16,12 @@ set(CMAKE_CXX_FLAGS_RELEASE  "-O3 -DNDEBUG  -Rpass=loop-vectorize")
 
 #SDSL lib and include directory are here
 #Please modify it appropriately.
-find_library(SDSL_LIBRARY_DIR sdsl REQUIRED)
-find_path(SDSL_INCLUDE_DIR sdsl REQUIRED)
 
-LINK_DIRECTORIES(${SDSL_LIBRARY_DIR})
-include_directories(${SDSL_INCLUDE_DIR})
+#find_library(SDSL_LIBRARY_DIR sdsl REQUIRED)
+#find_path(SDSL_INCLUDE_DIR sdsl REQUIRED)
+
+#LINK_DIRECTORIES(${SDSL_LIBRARY_DIR})
+#include_directories(${SDSL_INCLUDE_DIR})
 
 #[[
 
@@ -59,16 +60,20 @@ target_link_libraries(short_integer_vector_test.out sdsl)
 ]]
 
 add_executable(rank_select_test.out sources/rank_select_test_main.cpp)
-target_link_libraries(rank_select_test.out sdsl)
+message(STATUS "CMAKE_SYSTEM_PROCESSOR = ${CMAKE_SYSTEM_PROCESSOR}")
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64)$")
+    target_compile_options(rank_select_test.out PRIVATE -mbmi2)
+    message(STATUS "64-bit architecture.")
+else()
+    message(STATUS "Not a 64-bit architecture.")
+endif()
+
 
 add_executable(bit_deque_test.out sources/bit_deque_test_main.cpp)
-target_link_libraries(bit_deque_test.out sdsl)
 
 add_executable(naive_bit_vector_test.out sources/naive_bit_vector_test_main.cpp)
-target_link_libraries(naive_bit_vector_test.out sdsl)
 
 add_executable(naive_vlc_array_test.out sources/naive_vlc_array_test_main.cpp)
-target_link_libraries(naive_vlc_array_test.out sdsl)
 
 
 #add_executable(integer_deque_test.out sources/integer_deque_test_main.cpp)
