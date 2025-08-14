@@ -971,7 +971,7 @@ namespace stool
                 uint64_t block_index = (p+1) / 64;
                 uint64_t bit_index = (p+1) % 64;
                 uint64_t bits = this->value_length_deque.read_64bit_string(block_index, bit_index);
-                q = p + 1 + stool::MSBByte::select1(bits, 0);
+                q = p + 1 + stool::MSBByte::select1(bits);
             }else{
                 q = this->value_length_deque.size();
             }
