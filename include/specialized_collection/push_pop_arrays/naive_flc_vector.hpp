@@ -405,6 +405,43 @@ namespace stool
                 this->insert(0, value);
             }
         }
+        void push_back(const std::vector<uint64_t> &new_items)
+        {
+            for (uint64_t v : new_items)
+            {
+                this->push_back(v);
+            }
+        }
+        void push_front(const std::vector<uint64_t> &new_items)
+        {
+            uint64_t max_value = 0;
+            uint64_t x_sum = 0;
+            uint64_t x_size = new_items.size();
+            for (uint64_t v : new_items)
+            {
+                if (v > max_value)
+                {
+                    max_value = v;
+                }
+                x_sum += v;
+            }
+            uint8_t code_length_candidate = NaiveFLCVector::get_code_length(max_value);
+            uint64_t new_code_length = std::max(this->code_length_, code_length_candidate);
+            this->shift_right(0, x_size, new_code_length);
+
+            for (uint64_t i = 0; i < x_size; i++)
+            {
+                uint64_t block_index = (i * new_code_length) / 64;
+                uint64_t bit_index = (i * new_code_length) % 64;
+                uint64_t value = new_items[i] << (64 - new_code_length);
+                this->buffer_[block_index] = stool::MSBByte::write_bits(this->buffer_[block_index], bit_index, new_code_length, value);
+            }
+
+            this->psum_ += x_sum;
+
+            
+        }
+
 
         /**
          * @brief Remove the last element from the deque
