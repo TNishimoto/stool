@@ -1,0 +1,8 @@
+<map id="stool::IntegerDeque::get_byte_size" name="stool::IntegerDeque::get_byte_size">
+<area shape="rect" id="Node000001" title="Determine the appropriate byte size for a value." alt="" coords="403,5,553,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1IntegerDeque.html#aeb51cc6fee201e35ce8c0cfc96131470" title="Insert an element at a specific position." alt="" coords="5,5,156,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="389,25,355,24,204,24,156,25,156,20,204,19,355,19,389,19"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1IntegerDeque.html#a2872e2660998e4d993af29db6456668f" title="Add an element to the back of the deque." alt="" coords="204,33,355,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="390,40,355,45,354,40,389,35"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="190,43,156,39,157,33,191,38"/>
+</map>

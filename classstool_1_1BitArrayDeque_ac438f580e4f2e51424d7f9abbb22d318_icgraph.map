@@ -1,0 +1,11 @@
+<map id="stool::BitArrayDeque::at" name="stool::BitArrayDeque::at">
+<area shape="rect" id="Node000001" title="Get element at specified position." alt="" coords="444,45,623,70"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitArrayDeque.html#af489b3dad3c2921507a5dbcfc2a79d41" title="Remove the last element from the deque." alt="" coords="239,5,396,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="433,45,396,40,396,34,434,40"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1BitArrayDeque.html#a0d71fbc3440a51f7d3200c29195d42a1" title="Remove the first element from the deque." alt="" coords="239,69,396,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="434,75,396,80,396,75,433,69"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1IntegerArrayDeque.html#abaffa8d19007f184118be8bd3966ea33" title="Remove the last element from the deque." alt="" coords="5,5,191,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="225,28,191,28,191,23,225,23"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1IntegerArrayDeque.html#a6a52c75aa2e2646f6d0255f91ccc126c" title="Remove the first element from the deque." alt="" coords="5,69,191,109"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="225,92,191,92,191,87,225,87"/>
+</map>

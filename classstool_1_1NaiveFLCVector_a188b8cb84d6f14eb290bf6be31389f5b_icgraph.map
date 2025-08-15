@@ -1,0 +1,20 @@
+<map id="stool::NaiveFLCVector::size" name="stool::NaiveFLCVector::size">
+<area shape="rect" id="Node000001" title="Get the current number of elements." alt="" coords="453,191,619,231"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveFLCVector.html#acec621e1453cdcd6da4cdccfa257feb5" title="Get element at specified position." alt="" coords="219,26,405,51"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="511,181,465,126,436,98,404,73,363,54,365,49,407,68,439,94,469,122,515,178"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveFLCVector.html#a9705f66bcf3196f6743bd7f7a61bf5a6" title="Remove the last element from the deque." alt="" coords="5,69,171,109"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="503,183,459,147,432,130,404,117,345,100,284,91,225,87,171,86,171,81,225,81,285,85,347,95,406,112,435,126,462,142,506,178"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveFLCVector.html#a6ac814c24ae228e141f1c3daff68e736" title="Loads a vector of VLCDeque instances from a byte array." alt="" coords="229,127,395,167"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="451,189,382,169,383,164,453,184"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveFLCVector.html#ac8b70e9c66101d34694a8fd8f659eb66" title="Loads a vector of VLCDeque instances from a file stream." alt="" coords="229,191,395,231"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="439,213,395,213,395,208,439,208"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1NaiveFLCVector.html#a5a0399b3bf1d2ebeb50de3a51ba1da81" title="Add an element to the end of the deque." alt="" coords="229,255,395,295"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="453,237,383,257,382,252,451,232"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1NaiveFLCVector.html#aa7ec5abc6ff24f11f91788e742ebef9a" title="Saves a vector of VLCDeque instances to a file stream." alt="" coords="229,319,395,359"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="503,242,459,276,407,309,380,321,378,316,404,304,456,272,500,238"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1NaiveFLCVector.html#a9f339ba1974d2424019aaa6b7caa4d30" title="Saves a vector of VLCDeque instances to a byte array." alt="" coords="229,383,395,423"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="519,244,473,309,442,343,407,373,385,385,383,380,404,368,438,339,469,306,514,241"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveFLCVector.html#a82c599daef55e8b32b58c2321d1aff72" title="Increments a value at a given index by a delta." alt="" coords="5,5,171,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="204,35,171,33,171,28,205,30"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="242,57,171,73,170,68,241,52"/>
+</map>

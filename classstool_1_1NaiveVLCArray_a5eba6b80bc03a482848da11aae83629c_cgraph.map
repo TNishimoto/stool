@@ -1,0 +1,32 @@
+<map id="stool::NaiveVLCArray::remove" name="stool::NaiveVLCArray::remove">
+<area shape="rect" id="Node000001" title="Removes the value at the specified position." alt="" coords="5,127,165,167"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveVLCArray.html#ac79bd9e0c285250f3e7d15ac6f8c3793" title="Accesses the value at a given index in the deque." alt="" coords="213,26,393,51"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,124,160,96,212,68,248,53,250,58,214,73,163,101,118,129"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveVLCArray.html#af3f6ba1544030e5c4bede424e700fd0e" title="Removes and returns the last element from the deque." alt="" coords="223,127,383,167"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,144,210,144,210,149,166,149"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1NaiveVLCArray.html#a9e26c50b147583978075c5778c75ed23" title="Returns the number of elements in the deque." alt="" coords="441,184,601,224"/>
+<area shape="poly" id="edge17_Node000001_Node000009" title=" " alt="" coords="158,164,214,176,324,190,427,198,427,203,324,195,213,181,157,169"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1NaiveVLCArray.html#a6f469815f60387e99f069f78553cf80c" title="Verifies the integrity of the variable&#45;length coded deque." alt="" coords="441,5,601,45"/>
+<area shape="poly" id="edge18_Node000001_Node000010" title=" " alt="" coords="161,124,393,60,439,47,441,52,394,65,162,129"/>
+<area shape="rect" id="Node000011" href="$classstool_1_1NaiveVLCArray.html#a0465384ba8f21a0d0a78cbf7f6273bac" title="Removes and returns the first value from the variable&#45;length code deque." alt="" coords="223,244,383,284"/>
+<area shape="poly" id="edge11_Node000001_Node000011" title=" " alt="" coords="120,165,215,220,245,236,243,240,212,225,117,169"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveBitVector.html#a4874de95eebf31d6cabb8d88e944ba20" title="Remove the last element from the deque." alt="" coords="442,69,601,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="379,124,431,110,432,115,381,129"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1NaiveBitVector.html#ad1bc5c560634ef782de943bf003eb3a1" title="Get the current number of elements." alt="" coords="660,233,819,273"/>
+<area shape="poly" id="edge8_Node000003_Node000008" title=" " alt="" coords="384,141,489,147,546,155,602,170,645,191,698,224,695,228,643,196,600,174,545,161,488,152,383,147"/>
+<area shape="poly" id="edge9_Node000003_Node000009" title=" " alt="" coords="381,164,432,178,431,183,379,169"/>
+<area shape="poly" id="edge10_Node000003_Node000010" title=" " alt="" coords="359,124,392,106,406,93,415,81,425,68,440,55,449,50,452,54,443,59,429,72,419,84,410,97,395,110,361,129"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveBitVector.html#a7ca81532484bf4cdf5335ac833f95f5b" title="Get element at specified position." alt="" coords="649,77,829,102"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="601,87,636,87,636,92,601,92"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveBitVector.html#a82dd521b43e4980beadf9e3928e3b5ef" title="Remove all elements from the deque." alt="" coords="660,141,819,181"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="583,107,666,134,664,139,582,112"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="574,107,603,126,619,143,628,159,637,174,651,191,692,224,689,228,647,195,633,177,624,161,615,146,600,130,571,112"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1NaiveBitVector.html#a83f4b3502882fe4447f5ae92b11520af" title="Reduce buffer size to fit current content." alt="" coords="877,141,1036,181"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="819,159,864,159,864,164,819,164"/>
+<area shape="poly" id="edge15_Node000011_Node000008" title=" " alt="" coords="367,281,442,297,521,305,601,297,640,288,678,276,680,281,642,293,602,303,521,310,441,303,366,287"/>
+<area shape="poly" id="edge16_Node000011_Node000009" title=" " alt="" coords="376,241,434,225,436,230,378,246"/>
+<area shape="rect" id="Node000012" href="$classstool_1_1NaiveBitVector.html#ad60296202ad4806c3c9fbb00664be4d7" title="Remove the first element from the deque." alt="" coords="442,248,601,288"/>
+<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="384,263,428,264,428,269,384,268"/>
+<area shape="poly" id="edge13_Node000012_Node000006" title=" " alt="" coords="574,245,600,234,691,186,693,191,602,238,576,250"/>
+<area shape="poly" id="edge14_Node000012_Node000008" title=" " alt="" coords="601,260,646,257,646,262,601,265"/>
+</map>

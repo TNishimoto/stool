@@ -1,0 +1,24 @@
+<map id="stool::StaticArrayDeque::size" name="stool::StaticArrayDeque::size">
+<area shape="rect" id="Node000001" title="Get the current number of elements." alt="" coords="485,177,661,217"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1StaticArrayDeque.html#a1ec7e858b0ac88f1f1592a77c7dd56fd" title="Access element by index with bounds checking." alt="" coords="240,77,437,102"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="527,172,436,124,384,105,386,100,438,119,530,168"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1StaticArrayDeque_3_01SIZE_00_01true_01_4.html#aec231182be8e90b9d6d0be99d02168eb" title="Erase an element at a specific position." alt="" coords="11,5,187,45"/>
+<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="548,168,501,114,470,87,436,66,374,44,309,30,245,24,187,23,187,17,245,19,309,25,376,38,438,62,474,83,505,110,552,164"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1StaticArrayDeque.html#a517934d282751f432ce4f74b4d7c70c2" title="Insert an element at a specific position." alt="" coords="11,197,187,237"/>
+<area shape="poly" id="edge8_Node000001_Node000004" title=" " alt="" coords="488,177,437,168,338,158,295,159,241,168,217,176,193,188,160,200,159,195,191,183,215,171,239,163,295,154,338,152,438,163,489,172"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1StaticArrayDeque.html#a5fd4f435c4ce36775b1d59995b85dcdd" title="Erase an element at a specific position." alt="" coords="251,177,427,217"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="471,200,427,200,427,195,471,195"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1StaticArrayDeque.html#ab91b43a7cac1a2735a384186aea5d0e8" title="Add an element to the back of the deque." alt="" coords="251,241,427,281"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="487,224,413,244,412,239,486,218"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1StaticArrayDeque_3_01SIZE_00_01true_01_4.html#a6e51f97b405c1303723a73ce7b9f3ab3" title="Add an element to the back of the deque." alt="" coords="243,305,435,345"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="540,228,493,263,439,296,411,308,409,303,436,291,490,258,537,224"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1StaticArrayDeque.html#aafe314b3ff68094042fcf139aef7fb25" title="Convert the deque to a std::vector." alt="" coords="251,369,427,409"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="555,231,507,296,475,330,439,360,417,372,414,367,436,355,472,326,503,292,551,228"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="276,76,174,48,175,43,278,70"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="268,109,242,123,227,139,218,154,210,171,194,187,173,200,170,195,190,183,205,168,214,152,222,136,238,119,265,105"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1StaticArrayDeque.html#aad91de8ebaca09a9b0e4982c0ea54524" title="Access element by index (const version)" alt="" coords="11,69,187,109"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="226,92,187,92,187,87,226,87"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1StaticArrayDeque_3_01SIZE_00_01true_01_4.html#a0393d42c0e380b2c4d54bacc147c2c85" title="Set a value at a specific index." alt="" coords="5,133,192,173"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="278,108,175,136,174,131,276,103"/>
+<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="237,245,186,236,187,231,238,240"/>
+</map>

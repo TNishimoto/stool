@@ -1,0 +1,7 @@
+<map id="stool::IntegerArrayDeque::size" name="stool::IntegerArrayDeque::size">
+<area shape="rect" id="Node000001" title="Get the current number of elements." alt="" coords="5,5,191,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitArrayDeque.html#acf6d27366e7c29f97aa387f0334ee31c" title="Get the current number of elements." alt="" coords="239,5,396,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,23,225,23,225,28,191,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1BitArrayDeque.html#a9d2355e463aceb5fd48429e071997004" title="Check if the deque is empty." alt="" coords="444,5,601,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="396,23,430,23,430,28,396,28"/>
+</map>

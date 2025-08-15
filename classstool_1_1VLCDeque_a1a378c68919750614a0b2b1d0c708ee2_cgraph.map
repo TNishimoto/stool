@@ -1,0 +1,12 @@
+<map id="stool::VLCDeque::to_values" name="stool::VLCDeque::to_values">
+<area shape="rect" id="Node000001" title="Converts the deque contents to a vector of values." alt="" coords="5,45,156,85"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#a749169627104a3503109bd45a8d00a97" title="Accesses a value at a specific position in the code deque." alt="" coords="210,27,361,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,53,196,48,197,54,156,59"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1VLCDeque.html#adf3de5a293ca35b2ed2b771ae80dbc15" title="Returns the number of elements in the deque." alt="" coords="204,77,367,102"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="156,71,191,76,190,81,156,77"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1VLCDeque.html#a8b13c7a594736c4d4e1bf4b5d794693e" title="Removes a range of bits from a pair of 64&#45;bit codes." alt="" coords="415,5,596,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="361,32,401,30,401,35,361,38"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="431,69,580,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="343,50,418,67,417,72,342,55"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="367,87,417,87,417,92,367,92"/>
+</map>

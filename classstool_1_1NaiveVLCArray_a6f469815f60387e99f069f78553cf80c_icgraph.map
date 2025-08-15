@@ -1,0 +1,16 @@
+<map id="stool::NaiveVLCArray::verify" name="stool::NaiveVLCArray::verify">
+<area shape="rect" id="Node000001" title="Verifies the integrity of the variable&#45;length coded deque." alt="" coords="421,127,581,167"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveVLCArray.html#acf0eb91b79c0714e38978c23499ad98a" title="Inserts a value at the specified position." alt="" coords="213,5,373,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="463,120,420,90,372,60,348,48,350,43,375,55,423,85,466,116"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveVLCArray.html#af3f6ba1544030e5c4bede424e700fd0e" title="Removes and returns the last element from the deque." alt="" coords="213,69,373,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="415,126,366,112,367,107,416,120"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveVLCArray.html#a5eba6b80bc03a482848da11aae83629c" title="Removes the value at the specified position." alt="" coords="5,127,165,167"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="408,149,165,149,165,144,408,144"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveVLCArray.html#a792a2c14c0bf7fe8bedd8c12b42b5407" title="Adds a value to the end of the deque." alt="" coords="213,184,373,224"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="416,173,367,187,366,181,415,168"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1NaiveVLCArray.html#a77f5b48914b4c2a00832b05d26acb3e8" title="Returns the value at the back of the deque." alt="" coords="213,248,373,288"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="466,177,423,208,375,238,350,250,348,246,372,234,420,204,463,173"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveVLCArray.html#aeda51dbe07c0f97a5f6b49672ab35bb8" title="Pops multiple values from the back of the deque." alt="" coords="5,63,165,103"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="199,89,166,88,166,83,200,84"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="208,116,159,129,158,124,207,110"/>
+</map>

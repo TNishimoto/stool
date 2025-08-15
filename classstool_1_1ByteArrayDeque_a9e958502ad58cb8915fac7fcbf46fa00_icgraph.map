@@ -1,0 +1,9 @@
+<map id="stool::ByteArrayDeque::update_size_if_needed" name="stool::ByteArrayDeque::update_size_if_needed">
+<area shape="rect" id="Node000001" title="Update the size if needed based on current usage." alt="" coords="440,37,619,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ByteArrayDeque.html#a2924898a1520675f122e8cce8dd52a51" title="Remove the last element from the deque." alt="" coords="223,5,392,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="426,45,392,40,393,35,427,40"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ByteArrayDeque.html#a3e3070bf8ad2716b11ed6c117f821943" title="Remove the first element from the deque." alt="" coords="223,69,392,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="427,75,393,80,392,75,426,70"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1ByteArrayDeque.html#a197d3f51d4c399e29c29d2a61e693eb6" title="Erase an element at a specific position." alt="" coords="5,69,175,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="209,92,175,92,175,87,209,87"/>
+</map>

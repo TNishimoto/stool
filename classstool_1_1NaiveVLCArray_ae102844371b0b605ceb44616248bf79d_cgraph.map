@@ -1,0 +1,7 @@
+<map id="stool::NaiveVLCArray::clear" name="stool::NaiveVLCArray::clear">
+<area shape="rect" id="Node000001" title="Clears all contents and resets the deque to initial state." alt="" coords="5,5,165,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a82dd521b43e4980beadf9e3928e3b5ef" title="Remove all elements from the deque." alt="" coords="213,5,372,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,23,199,23,199,28,166,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#a83f4b3502882fe4447f5ae92b11520af" title="Reduce buffer size to fit current content." alt="" coords="420,5,579,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="372,23,406,23,406,28,372,28"/>
+</map>

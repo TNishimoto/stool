@@ -1,0 +1,5 @@
+<map id="stool::StaticArrayDeque&lt; SIZE, USE_PSUM_ARRAY &gt;::StaticArrayDequeIterator" name="stool::StaticArrayDeque&lt; SIZE, USE_PSUM_ARRAY &gt;::StaticArrayDequeIterator">
+<area shape="rect" id="Node000001" title="Iterator class for IntegerDeque." alt="" coords="7,108,214,163"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1StaticArrayDeque.html" title="A specialized deque implementation for storing integers with variable byte sizes." alt="" coords="5,5,216,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,59,113,108,108,108,108,59"/>
+</map>

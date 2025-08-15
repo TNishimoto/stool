@@ -1,0 +1,5 @@
+<map id="stool::SortString::lcp" name="stool::SortString::lcp">
+<area shape="rect" id="Node000001" title="Computes the Longest Common Prefix (LCP) of two strings." alt="" coords="189,13,343,38"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SortString.html#a1a9e51d7016ee63630754ef7eff2ddab" title="Computes the Longest Common Prefix (LCP) and lexicographical comparison of two strings." alt="" coords="5,5,141,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,28,141,28,141,23,176,23"/>
+</map>

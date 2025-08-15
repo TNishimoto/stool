@@ -1,0 +1,13 @@
+<map id="stool::NaiveVLCArray::insert" name="stool::NaiveVLCArray::insert">
+<area shape="rect" id="Node000001" title="Inserts a value at the specified position." alt="" coords="5,149,165,189"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveVLCArray.html#a14321a02b9593ed9c44d4592583fda81" title="Pushes multiple values to the back of the deque." alt="" coords="213,29,373,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,147,157,113,212,79,225,73,227,77,215,84,160,118,114,151"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveVLCArray.html#a57e70be15c4d4e9ed048df78806adb58" title="Pushes multiple values to the front of the deque." alt="" coords="213,117,373,157"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="165,154,199,149,200,154,166,160"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveVLCArray.html#a9e26c50b147583978075c5778c75ed23" title="Returns the number of elements in the deque." alt="" coords="213,181,373,221"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="166,179,200,184,199,190,165,184"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveVLCArray.html#a6f469815f60387e99f069f78553cf80c" title="Verifies the integrity of the variable&#45;length coded deque." alt="" coords="213,245,373,285"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="126,187,214,231,229,238,227,242,212,236,123,192"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="254,30,252,20,258,10,272,5,293,3,318,6,331,13,328,18,316,11,293,8,273,10,261,15,257,21,259,28"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="254,118,252,108,258,98,272,93,293,91,318,94,331,101,328,106,316,99,293,96,273,98,261,103,257,109,259,116"/>
+</map>

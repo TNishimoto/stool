@@ -1,0 +1,5 @@
+<map id="stool::NaiveVLCArray::swap" name="stool::NaiveVLCArray::swap">
+<area shape="rect" id="Node000001" title="Swaps the contents of this deque with another VLCDeque." alt="" coords="5,5,165,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a867c3d28d0ed9aa12f258eb9adaf72f7" title="Swap contents with another NaiveBitVector." alt="" coords="213,5,372,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,23,199,23,199,28,166,28"/>
+</map>
