@@ -1258,10 +1258,9 @@ namespace stool
          * @param item The VLCDeque instance to measure
          * @return Number of bytes used by the VLCDeque
          */
-        static uint64_t get_byte_size(const NaiveVLCArray &item)
+        static uint64_t get_byte_size([[maybe_unused]] const NaiveVLCArray &item)
         {
-            uint64_t bytes = sizeof(item.value_length_deque) + sizeof(item.code_deque);
-            return bytes;
+            throw std::runtime_error("NaiveVLCArray::get_byte_size is not implemented");
         }
 
         /**

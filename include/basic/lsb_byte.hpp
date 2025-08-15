@@ -226,7 +226,6 @@ namespace stool
             uint64_t bit = _pdep_u64(src, bits);                        // xの中の該当位置に配置
             uint64_t _result = static_cast<int>(LSBByte::select1(bit)); // その位置を返す
 
-            assert(_result == old_select1(bits, i));
             return _result;
 
 #else

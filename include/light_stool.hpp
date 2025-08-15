@@ -42,6 +42,7 @@
 #include "./specialized_collection/push_pop_arrays/naive_array.hpp"
 #include "./specialized_collection/push_pop_arrays/naive_bit_vector.hpp"
 #include "./specialized_collection/push_pop_arrays/naive_vlc_array.hpp"
+#include "./specialized_collection/push_pop_arrays/naive_flc_vector.hpp"
 
 #include "./lz/lz_factor.hpp"
 

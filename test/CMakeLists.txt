@@ -79,6 +79,8 @@ add_executable(short_elias_fano_test.out sources/develop/short_elias_fano_test_m
 
 add_executable(short_integer_vector_test.out sources/develop/short_integer_vector_test_main.cpp)
 
+add_executable(naive_flc_vector_test.out sources/naive_flc_vector_test_main.cpp)
+
 #add_executable(integer_deque_test.out sources/integer_deque_test_main.cpp)
 #target_link_libraries(integer_deque_test.out sdsl)
 

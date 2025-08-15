@@ -602,6 +602,25 @@ namespace stool
             }
         }
 
+        static uint64_t read_64bit_string(uint64_t block, uint64_t bit_index, uint64_t code_len)
+        {
+            uint64_t mask = UINT64_MAX << (64 - code_len);
+            uint64_t value = (block << bit_index) & mask;
+            return value;
+
+        }
+        static uint64_t read_as_64bit_integer(uint64_t block, uint8_t bit_index, uint64_t code_len)
+        {
+            uint64_t end_bit_index = bit_index + code_len - 1;
+            uint64_t mask = UINT64_MAX >> (64 - code_len);
+
+            uint64_t value = block >> (63 - end_bit_index);
+            value = value & mask;
+
+            return value;
+        }
+
+
         static int64_t select1_for_8bits(uint8_t bits, uint8_t i)
         {
             return __MSB_BYTE::select1_table[bits][i];
