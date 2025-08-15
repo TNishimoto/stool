@@ -321,7 +321,6 @@ namespace stool
                 uint64_t new_size = size_array[appropriate_size_index];
                 this->buffer_ = new uint64_t[new_size];
                 uint64_t old_code_length = this->code_length_;
-
                 for (uint64_t i = 0; i < this->size_; i++)
                 {
                     uint64_t old_block_index = (i * old_code_length) / 64;
@@ -427,6 +426,7 @@ namespace stool
             }
             uint8_t code_length_candidate = NaiveFLCVector::get_code_length(max_value);
             uint64_t new_code_length = std::max(this->code_length_, code_length_candidate);
+
             this->shift_right(0, x_size, new_code_length);
 
             for (uint64_t i = 0; i < x_size; i++)
@@ -434,6 +434,7 @@ namespace stool
                 uint64_t block_index = (i * new_code_length) / 64;
                 uint64_t bit_index = (i * new_code_length) % 64;
                 uint64_t value = new_items[i] << (64 - new_code_length);
+                assert(block_index < this->buffer_size_);
                 this->buffer_[block_index] = stool::MSBByte::write_bits(this->buffer_[block_index], bit_index, new_code_length, value);
             }
 
@@ -641,37 +642,27 @@ namespace stool
         {
             uint64_t size = this->size();
 
-            if (size == 0)
+            this->shrink_to_fit(size + len, new_code_length);
+            uint64_t move_size = size - position;
+            uint64_t new_size = size + len;
+            for (uint64_t i = 0; i < move_size; i++)
             {
-                for (uint64_t i = 0; i < len; i++)
-                {
-                    this->push_back(0);
-                }
+                uint64_t new_block_index = ((new_size - i - 1) * this->code_length_) / 64;
+                uint64_t new_bit_index = ((new_size - i - 1) * this->code_length_) % 64;
+                uint64_t old_block_index = ((size - i - 1) * this->code_length_) / 64;
+                uint64_t old_bit_index = ((size - i - 1) * this->code_length_) % 64;
+
+                uint64_t value = stool::MSBByte::read_64bit_string(this->buffer_[old_block_index], old_bit_index, this->code_length_);
+                this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, this->code_length_, value);
             }
-            else
+            for (uint64_t i = 0; i < len; i++)
             {
-                this->shrink_to_fit(size + len, new_code_length);
-                uint64_t move_size = size - position;
-                uint64_t new_size = size + len;
-                for (uint64_t i = 0; i < move_size; i++)
-                {
-                    uint64_t new_block_index = ((new_size - i - 1) * this->code_length_) / 64;
-                    uint64_t new_bit_index = ((new_size - i - 1) * this->code_length_) % 64;
-                    uint64_t old_block_index = ((size - i - 1) * this->code_length_) / 64;
-                    uint64_t old_bit_index = ((size - i - 1) * this->code_length_) % 64;
-
-                    uint64_t value = stool::MSBByte::read_64bit_string(this->buffer_[old_block_index], old_bit_index, this->code_length_);
-                    this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, this->code_length_, value);
-                }
-                for (uint64_t i = 0; i < len; i++)
-                {
-                    uint64_t new_block_index = ((position + i) * this->code_length_) / 64;
-                    uint64_t new_bit_index = ((position + i) * this->code_length_) % 64;
-                    this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, this->code_length_, 0);
-                }
-
-                this->size_ += len;
+                uint64_t new_block_index = ((position + i) * this->code_length_) / 64;
+                uint64_t new_bit_index = ((position + i) * this->code_length_) % 64;
+                this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, this->code_length_, 0);
             }
+
+            this->size_ += len;
         }
         void shift_left(uint64_t position, uint64_t len)
         {
