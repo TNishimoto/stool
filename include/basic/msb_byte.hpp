@@ -77,60 +77,24 @@ namespace stool
 
         static uint64_t write_suffix(uint64_t bits, uint8_t len, uint64_t suffix_bits)
         {
-            if (len < 64)
-            {
-                uint64_t mask1 = UINT64_MAX << len;
-                uint64_t result = (bits & mask1) | (suffix_bits >> (64 - len));
-
-                return result;
-            }
-            else
-            {
-                return suffix_bits;
-            }
+            assert(len <= 64 && len > 0);
+            uint64_t maskA = (UINT64_MAX >> len);
+            uint64_t maskB = ~maskA;
+            return (bits & maskB) | (suffix_bits & maskA);
         }
         static uint64_t write_prefix(uint64_t bits, uint8_t len, uint64_t prefix_bits)
         {
-
-            if (len < 64 && len > 0)
-            {
-                uint64_t mask1 = UINT64_MAX >> len;
-                uint64_t mask2 = UINT64_MAX << (64 - len);
-
-                uint64_t result = (bits & mask1) | (prefix_bits & mask2);
-
-                return result;
-            }
-            else if (len == 0)
-            {
-                return bits;
-            }
-            else
-            {
-                return prefix_bits;
-            }
+            assert(len <= 64 && len > 0);
+            uint64_t maskA = (UINT64_MAX << (64 - len));
+            uint64_t maskB = ~maskA;
+            return (bits & maskB) | (prefix_bits & maskA);
         }
         static uint64_t write_bits(uint64_t bits, uint8_t pos, uint8_t len, uint64_t new_bits)
         {
-            if (pos != 0)
-            {
-                if (pos + len < 64)
-                {
-                    uint64_t mask1 = UINT64_MAX << (64 - pos);
-                    uint64_t mask2 = UINT64_MAX >> (pos + len);
-                    uint64_t mask3 = UINT64_MAX << (64 - len - pos);
-
-                    return (bits & (mask1 | mask2)) | ((new_bits >> pos) & mask3);
-                }
-                else
-                {
-                    return write_suffix(bits, len, new_bits);
-                }
-            }
-            else
-            {
-                return write_prefix(bits, len, new_bits);
-            }
+            assert(pos + len <= 64);
+            uint64_t maskA = (UINT64_MAX >> pos) & (UINT64_MAX << (64 - len - pos));
+            uint64_t maskB = ~maskA;
+            return (bits & maskB) | ((new_bits >> pos) & maskA);
         }
 
         static uint64_t shift_right(uint64_t code, uint8_t pos, uint8_t len)
@@ -602,14 +566,14 @@ namespace stool
             }
         }
 
-        static uint64_t read_64bit_string(uint64_t block, uint64_t bit_index, uint64_t code_len)
+        static uint64_t read_64bit_string(uint64_t block, uint8_t bit_index, uint8_t code_len)
         {
             uint64_t mask = UINT64_MAX << (64 - code_len);
             uint64_t value = (block << bit_index) & mask;
             return value;
 
         }
-        static uint64_t read_as_64bit_integer(uint64_t block, uint8_t bit_index, uint64_t code_len)
+        static uint64_t read_as_64bit_integer(uint64_t block, uint8_t bit_index, uint8_t code_len)
         {
             uint64_t end_bit_index = bit_index + code_len - 1;
             uint64_t mask = UINT64_MAX >> (64 - code_len);

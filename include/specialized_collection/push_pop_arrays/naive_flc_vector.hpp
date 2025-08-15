@@ -7,6 +7,7 @@
 namespace stool
 {
 
+    template<bool USE_PSUM = true>
     class NaiveFLCVector
     {
         inline static std::vector<int> size_array{1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 18, 22, 27, 33, 40, 48, 58, 70, 84, 101, 122, 147, 177, 213, 256, 308, 370, 444, 533, 640, 768, 922, 1107, 1329, 1595, 1914, 2297, 2757, 3309, 3971, 4766};
@@ -17,13 +18,13 @@ namespace stool
         uint64_t psum_;
         uint16_t size_;
         uint16_t buffer_size_;
-        uint8_t code_length_;
+        uint8_t code_type_;
 
         // INDEX_TYPE deque_size_;
 
-        static uint64_t get_appropriate_buffer_size_index(int64_t num_elements, uint64_t code_length)
+        static uint64_t get_appropriate_buffer_size_index2(int64_t num_elements, uint8_t code_type)
         {
-            uint64_t total_code_size = num_elements * code_length;
+            uint64_t total_code_size = num_elements << code_type;
 
             for (uint64_t i = 0; i < size_array.size(); i++)
             {
@@ -35,35 +36,36 @@ namespace stool
             }
             throw std::runtime_error("size is too large");
         }
-        static uint8_t get_code_length(uint64_t value)
+
+        static uint8_t get_code_type(uint64_t value)
         {
             if (value <= 2)
             {
-                return 1;
+                return 0;
             }
             else if (value <= 4)
             {
-                return 2;
+                return 1;
             }
             else if (value <= 16)
             {
-                return 4;
+                return 2;
             }
             else if (value <= UINT8_MAX)
             {
-                return 8;
+                return 3;
             }
             else if (value <= UINT16_MAX)
             {
-                return 16;
+                return 4;
             }
             else if (value <= UINT32_MAX)
             {
-                return 32;
+                return 5;
             }
             else
             {
-                return 64;
+                return 6;
             }
         }
 
@@ -117,7 +119,7 @@ namespace stool
         NaiveFLCVector(const NaiveFLCVector &other) noexcept
         {
             this->buffer_size_ = other.buffer_size_;
-            this->code_length_ = other.code_length_;
+            this->code_type_ = other.code_type_;
             this->size_ = other.size_;
             this->psum_ = other.psum_;
             this->buffer_ = new uint64_t[this->buffer_size_];
@@ -127,7 +129,7 @@ namespace stool
         NaiveFLCVector(uint64_t buffer_size) noexcept
         {
             this->buffer_size_ = buffer_size;
-            this->code_length_ = 1;
+            this->code_type_ = 0;
             this->size_ = 0;
             this->psum_ = 0;
             this->buffer_ = new uint64_t[this->buffer_size_];
@@ -159,12 +161,12 @@ namespace stool
               psum_(other.psum_),
               size_(other.size_),
               buffer_size_(other.buffer_size_),
-              code_length_(other.code_length_)
+              code_type_(other.code_type_)
         {
             // Reset the source object
             other.buffer_ = nullptr;
             other.buffer_size_ = 0;
-            other.code_length_ = 0;
+            other.code_type_ = 0;
             other.size_ = 0;
             other.psum_ = 0;
         }
@@ -181,13 +183,13 @@ namespace stool
             {
                 this->buffer_ = other.buffer_;
                 this->buffer_size_ = other.buffer_size_;
-                this->code_length_ = other.code_length_;
+                this->code_type_ = other.code_type_;
                 this->size_ = other.size_;
                 this->psum_ = other.psum_;
 
                 other.buffer_ = nullptr;
                 other.buffer_size_ = 0;
-                other.code_length_ = 0;
+                other.code_type_ = 0;
                 other.size_ = 0;
                 other.psum_ = 0;
             }
@@ -201,14 +203,8 @@ namespace stool
          */
         size_t capacity() const
         {
-            if (this->code_length_ == 0)
-            {
-                return this->buffer_size_ * 64;
-            }
-            else
-            {
-                return (this->buffer_size_ * 64) / this->code_length_;
-            }
+            uint64_t code_length = 1ULL << this->code_type_;
+            return (this->buffer_size_ * 64) / code_length;
         }
 
         /**
@@ -218,8 +214,8 @@ namespace stool
         {
             this->size_ = 0;
             this->psum_ = 0;
-            this->code_length_ = 1;
-            this->shrink_to_fit(0, 1);
+            this->code_type_ = 0;
+            this->shrink_to_fit(0, this->code_type_);
         }
         bool empty() const
         {
@@ -247,7 +243,7 @@ namespace stool
             this->buffer_[0] = 0;
             this->buffer_[1] = 0;
             this->size_ = 0;
-            this->code_length_ = 0;
+            this->code_type_ = 0;
             this->psum_ = 0;
             this->buffer_size_ = 2;
         }
@@ -280,14 +276,15 @@ namespace stool
          *
          * Resizes the buffer to the minimum size needed to hold current elements.
          */
-        void shrink_to_fit(int64_t new_element_count, uint8_t new_code_length)
+        void shrink_to_fit(int64_t new_element_count, uint8_t new_code_type)
         {
-            assert(new_code_length == 1 || new_code_length == 2 || new_code_length == 4 || new_code_length == 8 || new_code_length == 16 || new_code_length == 32 || new_code_length == 64);
+            assert(new_code_type <= 6);
+            uint8_t new_code_length = 1ULL << new_code_type;
 
             int64_t current_size_index = this->get_current_buffer_size_index();
-            int64_t appropriate_size_index = NaiveFLCVector::get_appropriate_buffer_size_index(new_element_count, new_code_length);
+            int64_t appropriate_size_index = NaiveFLCVector::get_appropriate_buffer_size_index2(new_element_count, new_code_type);
 
-            if (this->code_length_ == new_code_length)
+            if (this->code_type_ == new_code_type)
             {
 
                 if (appropriate_size_index + 1 < current_size_index || appropriate_size_index > current_size_index)
@@ -320,13 +317,15 @@ namespace stool
                 assert(appropriate_size_index < (int64_t)size_array.size());
                 uint64_t new_size = size_array[appropriate_size_index];
                 this->buffer_ = new uint64_t[new_size];
-                uint64_t old_code_length = this->code_length_;
+                uint64_t old_code_length = 1ULL << this->code_type_;
                 for (uint64_t i = 0; i < this->size_; i++)
                 {
-                    uint64_t old_block_index = (i * old_code_length) / 64;
-                    uint64_t new_block_index = (i * new_code_length) / 64;
-                    uint64_t old_bit_index = (i * old_code_length) % 64;
-                    uint64_t new_bit_index = (i * new_code_length) % 64;
+                    uint64_t old_pos = i << this->code_type_;
+                    uint64_t new_pos = i << new_code_type;
+                    uint64_t old_block_index = old_pos / 64;
+                    uint64_t new_block_index = new_pos / 64;
+                    uint64_t old_bit_index = old_pos % 64;
+                    uint64_t new_bit_index = new_pos % 64;
 
                     uint64_t old_value = stool::MSBByte::read_as_64bit_integer(tmp[old_block_index], old_bit_index, old_code_length);
                     old_value = old_value << (64 - new_code_length);
@@ -334,24 +333,11 @@ namespace stool
                 }
                 delete[] tmp;
 
-                this->code_length_ = new_code_length;
+                this->code_type_ = new_code_type;
                 this->buffer_size_ = new_size;
             }
         }
 
-        uint64_t get_max_value() const
-        {
-            uint64_t max_value = 0;
-            for (uint64_t i = 0; i < this->size_; i++)
-            {
-                uint64_t value = this->at(i);
-                if (value > max_value)
-                {
-                    max_value = value;
-                }
-            }
-            return max_value;
-        }
 
         /**
          * @brief Add an element to the end of the deque
@@ -368,17 +354,19 @@ namespace stool
                 throw std::invalid_argument("Error: push_back()");
             }
 
-            uint8_t code_length_candidate = NaiveFLCVector::get_code_length(value);
-            uint64_t new_code_length = std::max(this->code_length_, code_length_candidate);
-            assert(new_code_length > 0);
+            uint8_t code_type_candidate = NaiveFLCVector::get_code_type(value);
+            uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
+            assert(new_code_type <= 6);
 
-            this->shrink_to_fit(size + 1, new_code_length);
+            this->shrink_to_fit(size + 1, new_code_type);
+            uint64_t code_length = 1ULL << new_code_type;
+            uint64_t pos = this->size_ << new_code_type;
 
-            uint64_t block_index = (this->size_ * this->code_length_) / 64;
-            uint64_t bit_index = (this->size_ * this->code_length_) % 64;
+            uint64_t block_index = pos / 64;
+            uint64_t bit_index = pos % 64;
 
-            uint64_t write_value = value << (64 - this->code_length_);
-            this->buffer_[block_index] = stool::MSBByte::write_bits(this->buffer_[block_index], bit_index, this->code_length_, write_value);
+            uint64_t write_value = value << (64 - code_length);
+            this->buffer_[block_index] = stool::MSBByte::write_bits(this->buffer_[block_index], bit_index, code_length, write_value);
 
             this->size_++;
             this->psum_ += value;
@@ -392,17 +380,7 @@ namespace stool
          */
         void push_front(uint64_t value)
         {
-
-            uint64_t size = this->size();
-            if (size == 0)
-            {
-                this->push_back(value);
-            }
-            else
-            {
-
-                this->insert(0, value);
-            }
+            this->insert(0, value);
         }
         void push_back(const std::vector<uint64_t> &new_items)
         {
@@ -424,18 +402,22 @@ namespace stool
                 }
                 x_sum += v;
             }
-            uint8_t code_length_candidate = NaiveFLCVector::get_code_length(max_value);
-            uint64_t new_code_length = std::max(this->code_length_, code_length_candidate);
+            uint8_t code_type_candidate = NaiveFLCVector::get_code_type(max_value);
+            uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
+            assert(new_code_type <= 6);
 
-            this->shift_right(0, x_size, new_code_length);
+            this->shift_right(0, x_size, new_code_type);
+            uint64_t code_length = 1ULL << new_code_type;
+
 
             for (uint64_t i = 0; i < x_size; i++)
             {
-                uint64_t block_index = (i * new_code_length) / 64;
-                uint64_t bit_index = (i * new_code_length) % 64;
-                uint64_t value = new_items[i] << (64 - new_code_length);
+                uint64_t pos = i << new_code_type;
+                uint64_t block_index = pos / 64;
+                uint64_t bit_index = pos % 64;
+                uint64_t value = new_items[i] << (64 - code_length);
                 assert(block_index < this->buffer_size_);
-                this->buffer_[block_index] = stool::MSBByte::write_bits(this->buffer_[block_index], bit_index, new_code_length, value);
+                this->buffer_[block_index] = stool::MSBByte::write_bits(this->buffer_[block_index], bit_index, code_length, value);
             }
 
             this->psum_ += x_sum;
@@ -463,7 +445,7 @@ namespace stool
             else
             {
                 uint64_t value = this->at(size - 1);
-                this->shrink_to_fit(size - 1, this->code_length_);
+                this->shrink_to_fit(size - 1, this->code_type_);
 
                 this->psum_ -= value;
                 this->size_--;
@@ -476,21 +458,7 @@ namespace stool
          */
         uint64_t pop_front()
         {
-            uint64_t size = this->size();
-            if (size == 0)
-            {
-                throw std::invalid_argument("Error: pop_back()");
-            }
-            else if (size == 1)
-            {
-                uint64_t value = this->at(0);
-                this->clear();
-                return value;
-            }
-            else
-            {
-                return this->remove(0);
-            }
+            return this->remove(0);
         }
 
         std::vector<uint64_t> pop_back(uint64_t len)
@@ -509,11 +477,13 @@ namespace stool
         {
             std::vector<uint64_t> r;
             r.resize(len, UINT64_MAX);
+            uint64_t code_length = 1ULL << this->code_type_;
             for (uint64_t i = 0; i < len; i++)
             {
-                uint64_t block_index = (i * this->code_length_) / 64;
-                uint64_t bit_index = (i * this->code_length_) % 64;
-                uint64_t value = stool::MSBByte::read_as_64bit_integer(this->buffer_[block_index], bit_index, this->code_length_);
+                uint64_t pos = i << this->code_type_;
+                uint64_t block_index = pos / 64;
+                uint64_t bit_index = pos % 64;
+                uint64_t value = stool::MSBByte::read_as_64bit_integer(this->buffer_[block_index], bit_index, code_length);
                 r[i] = value;
             }
             this->remove(0, len);
@@ -540,7 +510,7 @@ namespace stool
             std::swap(this->buffer_, item.buffer_);
             std::swap(this->psum_, item.psum_);
             std::swap(this->buffer_size_, item.buffer_size_);
-            std::swap(this->code_length_, item.code_length_);
+            std::swap(this->code_type_, item.code_type_);
         }
 
         uint64_t psum() const
@@ -575,12 +545,14 @@ namespace stool
 
             uint64_t sum = 0;
             uint64_t size = this->size();
+            uint64_t code_length = 1ULL << this->code_type_;
 
             for (uint64_t x = 0; x <= i; x++)
             {
-                uint64_t block_index = ((size - x - 1) * this->code_length_) / 64;
-                uint64_t bit_index = ((size - x - 1) * this->code_length_) % 64;
-                uint64_t value = stool::MSBByte::read_as_64bit_integer(this->buffer_[block_index], bit_index, this->code_length_);
+                uint64_t pos = (size - x - 1) << this->code_type_;
+                uint64_t block_index = pos / 64;
+                uint64_t bit_index = pos % 64;
+                uint64_t value = stool::MSBByte::read_as_64bit_integer(this->buffer_[block_index], bit_index, code_length);
                 sum += value;
             }
 
@@ -621,9 +593,11 @@ namespace stool
          */
         uint64_t operator[](size_t index) const
         {
-            uint64_t block_index = (index * this->code_length_) / 64;
-            uint64_t bit_index = (index * this->code_length_) % 64;
-            return stool::MSBByte::read_as_64bit_integer(this->buffer_[block_index], bit_index, this->code_length_);
+            uint64_t code_length = 1ULL << this->code_type_;
+            uint64_t pos = index << this->code_type_;
+            uint64_t block_index = pos / 64;
+            uint64_t bit_index = pos % 64;
+            return stool::MSBByte::read_as_64bit_integer(this->buffer_[block_index], bit_index, code_length);
         }
 
         /**
@@ -638,28 +612,33 @@ namespace stool
             return (*this)[i];
         }
 
-        void shift_right(uint64_t position, uint64_t len, uint64_t new_code_length)
+        void shift_right(uint64_t position, uint64_t len, uint64_t new_code_type)
         {
             uint64_t size = this->size();
+            uint64_t code_length = 1ULL << new_code_type;
 
-            this->shrink_to_fit(size + len, new_code_length);
+            this->shrink_to_fit(size + len, new_code_type);
             uint64_t move_size = size - position;
             uint64_t new_size = size + len;
+
             for (uint64_t i = 0; i < move_size; i++)
             {
-                uint64_t new_block_index = ((new_size - i - 1) * this->code_length_) / 64;
-                uint64_t new_bit_index = ((new_size - i - 1) * this->code_length_) % 64;
-                uint64_t old_block_index = ((size - i - 1) * this->code_length_) / 64;
-                uint64_t old_bit_index = ((size - i - 1) * this->code_length_) % 64;
+                uint64_t new_pos = (new_size - i - 1) << new_code_type;
+                uint64_t old_pos = (size - i - 1) << new_code_type;
+                uint64_t new_block_index = new_pos / 64;
+                uint64_t new_bit_index = new_pos % 64;
+                uint64_t old_block_index = old_pos / 64;
+                uint64_t old_bit_index = old_pos % 64;
 
-                uint64_t value = stool::MSBByte::read_64bit_string(this->buffer_[old_block_index], old_bit_index, this->code_length_);
-                this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, this->code_length_, value);
+                uint64_t value = stool::MSBByte::read_64bit_string(this->buffer_[old_block_index], old_bit_index, code_length);
+                this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, code_length, value);
             }
             for (uint64_t i = 0; i < len; i++)
             {
-                uint64_t new_block_index = ((position + i) * this->code_length_) / 64;
-                uint64_t new_bit_index = ((position + i) * this->code_length_) % 64;
-                this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, this->code_length_, 0);
+                uint64_t new_pos = (position + i) << new_code_type;
+                uint64_t new_block_index = new_pos / 64;
+                uint64_t new_bit_index = new_pos % 64;
+                this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, code_length, 0);
             }
 
             this->size_ += len;
@@ -670,18 +649,21 @@ namespace stool
             uint64_t removed_sum = this->psum(position - len, position - 1);
             uint64_t new_size = size - len;
             uint64_t move_size = size - position;
+            uint64_t code_length = 1ULL << this->code_type_;
 
             for (uint64_t i = 0; i < move_size; i++)
             {
-                uint64_t new_block_index = ((position - len + i) * this->code_length_) / 64;
-                uint64_t new_bit_index = ((position - len + i) * this->code_length_) % 64;
-                uint64_t old_block_index = ((position + i) * this->code_length_) / 64;
-                uint64_t old_bit_index = ((position + i) * this->code_length_) % 64;
+                uint64_t new_pos = (position - len + i) << this->code_type_;
+                uint64_t old_pos = (position + i) << this->code_type_;
+                uint64_t new_block_index = new_pos / 64;
+                uint64_t new_bit_index = new_pos % 64;
+                uint64_t old_block_index = old_pos / 64;
+                uint64_t old_bit_index = old_pos % 64;
 
-                uint64_t value = stool::MSBByte::read_64bit_string(this->buffer_[old_block_index], old_bit_index, this->code_length_);
-                this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, this->code_length_, value);
+                uint64_t value = stool::MSBByte::read_64bit_string(this->buffer_[old_block_index], old_bit_index, code_length);
+                this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, code_length, value);
             }
-            this->shrink_to_fit(new_size, this->code_length_);
+            this->shrink_to_fit(new_size, this->code_type_);
             this->psum_ -= removed_sum;
             this->size_ -= len;
         }
@@ -705,16 +687,17 @@ namespace stool
             }
             else
             {
+                uint8_t code_type_candidate = NaiveFLCVector::get_code_type(value);
+                uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
+                assert(new_code_type <= 6);
+                uint64_t code_length = 1ULL << new_code_type;
+                this->shift_right(pos, 1, new_code_type);
 
-                uint8_t code_length_candidate = NaiveFLCVector::get_code_length(value);
-                uint64_t new_code_length = std::max(this->code_length_, code_length_candidate);
-                assert(new_code_length > 0);
-                this->shift_right(pos, 1, new_code_length);
-
-                uint64_t new_block_index = ((pos) * this->code_length_) / 64;
-                uint64_t new_bit_index = ((pos) * this->code_length_) % 64;
-                uint64_t write_value = value << (64 - this->code_length_);
-                this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, this->code_length_, write_value);
+                uint64_t new_pos = pos << new_code_type;
+                uint64_t new_block_index = new_pos / 64;
+                uint64_t new_bit_index = new_pos % 64;
+                uint64_t write_value = value << (64 - code_length);
+                this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, code_length, write_value);
                 this->psum_ += value;
             }
         }
@@ -749,21 +732,23 @@ namespace stool
         
         }
 
-        void set_value(uint64_t pos, uint64_t value)
+        void set_value(uint64_t position, uint64_t value)
         {
-            assert(pos < this->size());
+            assert(position < this->size());
 
-            uint8_t code_length_candidate = NaiveFLCVector::get_code_length(value);
-            uint64_t new_code_length = std::max(this->code_length_, code_length_candidate);
-            if (new_code_length != this->code_length_)
+            uint8_t code_type_candidate = NaiveFLCVector::get_code_type(value);
+            uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
+            if (new_code_type != this->code_type_)
             {
-                this->shrink_to_fit(this->size(), new_code_length);
+                this->shrink_to_fit(this->size(), new_code_type);
             }
+            uint64_t code_length = 1ULL << new_code_type;
 
-            uint64_t block_index = (pos * this->code_length_) / 64;
-            uint8_t bit_index = (pos * this->code_length_) % 64;
+            uint64_t new_pos = position << new_code_type;
+            uint64_t block_index = new_pos / 64;
+            uint8_t bit_index = new_pos % 64;
 
-            uint64_t old_value = stool::MSBByte::read_as_64bit_integer(this->buffer_[block_index], bit_index, this->code_length_);
+            uint64_t old_value = stool::MSBByte::read_as_64bit_integer(this->buffer_[block_index], bit_index, code_length);
             if (value > old_value)
             {
                 this->psum_ += old_value - value;
@@ -773,8 +758,8 @@ namespace stool
                 this->psum_ += value - old_value;
             }
 
-            uint64_t write_value = value << (64 - this->code_length_);
-            this->buffer_[block_index] = stool::MSBByte::write_bits(this->buffer_[block_index], bit_index, this->code_length_, write_value);
+            uint64_t write_value = value << (64 - code_length);
+            this->buffer_[block_index] = stool::MSBByte::write_bits(this->buffer_[block_index], bit_index, code_length, write_value);
         }
 
         std::string get_buffer_bit_string() const
@@ -829,7 +814,7 @@ namespace stool
             std::cout << "size = " << this->size() << std::endl;
             std::cout << "capacity = " << this->capacity() << std::endl;
             std::cout << "buffer_size = " << this->buffer_size_ << std::endl;
-            std::cout << "code_length = " << (int)this->code_length_ << std::endl;
+            std::cout << "code_type = " << (int)this->code_type_ << std::endl;
             std::cout << "psum = " << this->psum_ << std::endl;
 
             if (this->buffer_ != nullptr)
@@ -869,7 +854,7 @@ namespace stool
          */
         static uint64_t get_byte_size(const NaiveFLCVector &item)
         {
-            uint64_t bytes = sizeof(item.psum_) + sizeof(item.size_) + sizeof(item.buffer_size_) + sizeof(item.code_length_) + (sizeof(uint64_t) * item.buffer_size_);
+            uint64_t bytes = sizeof(item.psum_) + sizeof(item.size_) + sizeof(item.buffer_size_) + sizeof(item.code_type_) + (sizeof(uint64_t) * item.buffer_size_);
             return bytes;
         }
 
@@ -902,7 +887,7 @@ namespace stool
             os.write(reinterpret_cast<const char *>(&item.psum_), sizeof(item.psum_));
             os.write(reinterpret_cast<const char *>(&item.size_), sizeof(item.size_));
             os.write(reinterpret_cast<const char *>(&item.buffer_size_), sizeof(item.buffer_size_));
-            os.write(reinterpret_cast<const char *>(&item.code_length_), sizeof(item.code_length_));
+            os.write(reinterpret_cast<const char *>(&item.code_type_), sizeof(item.code_type_));
             os.write(reinterpret_cast<const char *>(item.buffer_), sizeof(uint64_t) * item.buffer_size_);
         }
         static void save(const NaiveFLCVector &item, std::vector<uint8_t> &output, uint64_t &pos)
@@ -913,8 +898,8 @@ namespace stool
             pos += sizeof(item.size_);
             std::memcpy(output.data() + pos, &item.buffer_size_, sizeof(item.buffer_size_));
             pos += sizeof(item.buffer_size_);
-            std::memcpy(output.data() + pos, &item.code_length_, sizeof(item.code_length_));
-            pos += sizeof(item.code_length_);
+            std::memcpy(output.data() + pos, &item.code_type_, sizeof(item.code_type_));
+            pos += sizeof(item.code_type_);
             std::memcpy(output.data() + pos, item.buffer_, sizeof(uint64_t) * item.buffer_size_);
             pos += sizeof(uint64_t) * item.buffer_size_;
         }
@@ -979,8 +964,8 @@ namespace stool
             pos += sizeof(r.size_);
             std::memcpy(&r.buffer_size_, data.data() + pos, sizeof(r.buffer_size_));
             pos += sizeof(r.buffer_size_);
-            std::memcpy(&r.code_length_, data.data() + pos, sizeof(r.code_length_));
-            pos += sizeof(r.code_length_);
+            std::memcpy(&r.code_type_, data.data() + pos, sizeof(r.code_type_));
+            pos += sizeof(r.code_type_);
             std::memcpy(r.buffer_, data.data() + pos, sizeof(uint64_t) * r.buffer_size_);
             pos += sizeof(uint64_t) * r.buffer_size_;
 
@@ -1000,17 +985,17 @@ namespace stool
             uint16_t _psum;
             uint16_t _size;
             uint16_t _buffer_size;
-            uint8_t _code_length;
+            uint8_t _code_type;
             ifs.read(reinterpret_cast<char *>(&_psum), sizeof(uint16_t));
             ifs.read(reinterpret_cast<char *>(&_size), sizeof(uint16_t));
             ifs.read(reinterpret_cast<char *>(&_buffer_size), sizeof(uint16_t));
-            ifs.read(reinterpret_cast<char *>(&_code_length), sizeof(uint8_t));
+            ifs.read(reinterpret_cast<char *>(&_code_type), sizeof(uint8_t));
 
             NaiveFLCVector r(_buffer_size);
             r.psum_ = _psum;
             r.size_ = _size;
             r.buffer_size_ = _buffer_size;
-            r.code_length_ = _code_length;
+            r.code_type_ = _code_type;
             ifs.read(reinterpret_cast<char *>(r.buffer_), sizeof(uint64_t) * (size_t)_buffer_size);
 
             return r;

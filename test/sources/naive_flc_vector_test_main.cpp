@@ -49,7 +49,7 @@ void print_bitset(const std::bitset<N> &bs){
     std::cout << std::endl;
 }
 
-void equal_test(const stool::NaiveFLCVector &bv, const std::vector<uint64_t> &naive_bv)
+void equal_test(const stool::NaiveFLCVector<> &bv, const std::vector<uint64_t> &naive_bv)
 {
     if(naive_bv.size() != bv.size()){
         std::cout << std::endl;
@@ -98,7 +98,7 @@ void access_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials
         {
             std::vector<uint64_t> values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
 
-            stool::NaiveFLCVector value_deque(values);
+            stool::NaiveFLCVector<> value_deque(values);
 
             equal_test(value_deque, values);
             len *= 2;
@@ -119,7 +119,7 @@ void psum_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, 
         while (len < max_len)
         {
             std::vector<uint64_t> values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
-            stool::NaiveFLCVector value_deque(values);
+            stool::NaiveFLCVector<> value_deque(values);
 
             uint64_t psum = 0;
 
@@ -169,7 +169,7 @@ void search_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials
         while (len < max_len)
         {
             std::vector<uint64_t> values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
-            stool::NaiveFLCVector value_deque(values);
+            stool::NaiveFLCVector<> value_deque(values);
 
 
             for(uint64_t i = 0; i < len;i++){
@@ -197,7 +197,7 @@ void search_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials
 void push_and_pop_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed, bool detail_check = true)
 {
     std::cout << "PUSH_AND_POP_TEST \t" << std::flush;
-    stool::NaiveFLCVector value_deque;
+    stool::NaiveFLCVector<> value_deque;
     std::vector<uint64_t> naive_bv;
     std::mt19937 mt(seed);
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
@@ -256,7 +256,7 @@ void insert_and_erase_test(uint64_t max_len, uint64_t max_value, uint64_t number
         {
 
             std::vector<uint64_t> values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
-            stool::NaiveFLCVector value_deque(values);
+            stool::NaiveFLCVector<> value_deque(values);
 
             
             while((int64_t)values.size() < (int64_t)(len*2)){
@@ -330,7 +330,7 @@ void replace_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trial
         while (len < max_len)
         {
             std::vector<uint64_t> values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
-            stool::NaiveFLCVector value_deque(values);
+            stool::NaiveFLCVector<> value_deque(values);
 
 
             for(uint64_t j = 0; j < len; j++){
@@ -355,7 +355,7 @@ void replace_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trial
 
 void random_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t max_counter, uint64_t seed, bool detail_check = false)
 {
-    stool::NaiveFLCVector value_deque;
+    stool::NaiveFLCVector<> value_deque;
     std::vector<uint64_t> seq;
     std::cout << "RANDOM_TEST: \t" << std::flush;
     std::mt19937 mt(seed);
@@ -366,7 +366,7 @@ void random_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials
     {
         uint64_t counter = 0;
         std::vector<uint64_t> seq = stool::StringGenerator::create_random_integer_sequence(max_len/2, max_value, seed++);
-        stool::NaiveFLCVector value_deque(seq);
+        stool::NaiveFLCVector<> value_deque(seq);
 
         std::cout << "+" << std::flush;
 
