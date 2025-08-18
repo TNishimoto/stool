@@ -299,7 +299,7 @@ namespace stool
               num1_(other.num1_),
               buffer_size_(other.buffer_size_)
 
-              {
+        {
             // Reset the source object
             other.buffer_ = nullptr;
             other.bit_count_ = 0;
@@ -476,8 +476,6 @@ namespace stool
             // assert(this->size() == old_size);
         }
 
-
-
         /**
          * @brief Add an element to the end of the deque
          *
@@ -578,6 +576,7 @@ namespace stool
 
         void push_back64(uint64_t value, uint8_t len = 64)
         {
+            assert(len <= 64);
             if (len == 0)
                 return;
             uint64_t size = this->size();
@@ -600,9 +599,47 @@ namespace stool
             {
                 uint64_t next_block_index = (this->bit_count_) / 64;
                 uint8_t next_bit_index = (this->bit_count_) % 64;
-                stool::MSBByte::write_bits(this->buffer_, value, len, next_block_index, next_bit_index, this->buffer_size_);
+
+                if (next_bit_index + len <= 64)
+                {
+                    this->buffer_[next_block_index] = stool::MSBByte::write_bits(this->buffer_[next_block_index], next_bit_index, len, value);
+                }
+                else
+                {
+                    uint64_t pref_len = 64 - next_bit_index;
+                    uint64_t suf_len = len - pref_len;
+                    this->buffer_[next_block_index] = stool::MSBByte::write_bits(this->buffer_[next_block_index], next_bit_index, pref_len, value);
+                    this->buffer_[next_block_index + 1] = stool::MSBByte::write_bits(this->buffer_[next_block_index + 1], 0, suf_len, value << pref_len);
+                }
+
+                // stool::MSBByte::write_bits(this->buffer_, value, len, next_block_index, next_bit_index, this->buffer_size_);
             }
             this->bit_count_ += len;
+        }
+        template <typename T>
+        void push_back64(const T &bits64_array, uint64_t bit_count, [[maybe_unused]] uint64_t array_size)
+        {
+            if (bit_count == 0)
+                return;
+
+            uint64_t size = this->size();
+            if (size + bit_count > MAX_BIT_LENGTH)
+            {
+                throw std::invalid_argument("Error: push_back64()");
+            }
+            uint64_t old_size = this->size();
+
+            this->shift_right(old_size, bit_count);
+
+            this->replace_64bit_string_sequence(old_size, bits64_array, bit_count, array_size);
+        }
+        uint64_t *get_buffer_pointer() const
+        {
+            return this->buffer_;
+        }
+        uint64_t get_buffer_size() const
+        {
+            return this->buffer_size_;
         }
 
         void push_front64(uint64_t value, uint8_t len = 64)
@@ -617,6 +654,22 @@ namespace stool
                 this->insert_64bit_string(0, value, len);
             }
         }
+        template <typename T>
+        void push_front64(const T &bits64_array, uint64_t bit_count, [[maybe_unused]] uint64_t array_size)
+        {
+            if (bit_count == 0)
+                return;
+
+            uint64_t size = this->size();
+            if (size + bit_count > MAX_BIT_LENGTH)
+            {
+                throw std::invalid_argument("Error: push_front64()");
+            }
+
+            this->shift_right(0, bit_count);
+            this->replace_64bit_string_sequence(0, bits64_array, bit_count, array_size);
+        }
+
         void pop_back(uint64_t len)
         {
 
@@ -654,6 +707,28 @@ namespace stool
 
         void pop_front(uint64_t len)
         {
+            if (len == 1)
+            {
+                this->pop_front();
+            }
+            else
+            {
+                this->erase(0, len);
+            }
+        }
+        template<typename T>
+        void pop_front(uint64_t len, T &output_bits64_array, [[maybe_unused]]uint64_t array_size)
+        {
+            if(len == 0){
+                return;
+            }
+            if(len > this->size()){
+                throw std::invalid_argument("Error: pop_front()");
+            }
+            uint64_t block_size = (len-1) / 64 + 1;
+            for(uint64_t i = 0; i < block_size; i++){
+                output_bits64_array[i] = this->buffer_[i];
+            }
 
             if (len == 1)
             {
@@ -664,6 +739,7 @@ namespace stool
                 this->erase(0, len);
             }
         }
+
 
         void replace(uint64_t position, bool value)
         {
@@ -697,7 +773,7 @@ namespace stool
         }
 
         template <typename T>
-        void replace_64bit_string_sequence(uint64_t position, const T &values, uint64_t bit_size)
+        void replace_64bit_string_sequence(uint64_t position, const T &values, uint64_t bit_size, uint64_t array_size)
         {
             if (bit_size == 0)
             {
@@ -709,10 +785,8 @@ namespace stool
             uint64_t end_block_index = (position + bit_size - 1) / 64;
             uint64_t end_bit_index = (position + bit_size - 1) % 64;
 
-
             uint64_t blockL_size = start_bit_index;
             uint64_t blockR_size = 64 - start_bit_index;
-
 
             if (start_block_index == end_block_index)
             {
@@ -767,8 +841,8 @@ namespace stool
 
                 {
                     uint64_t last_block_size = end_bit_index + 1;
-                    CircularBitPointer start_value_bp(values.size(), 0, 0);
-                    CircularBitPointer end_value_bp(values.size(), 0, 0);
+                    CircularBitPointer start_value_bp(array_size, 0, 0);
+                    CircularBitPointer end_value_bp(array_size, 0, 0);
                     start_value_bp.add(bit_size - last_block_size);
                     end_value_bp.add(bit_size - 1);
                     uint64_t pattern = start_value_bp.read64(values);
@@ -792,7 +866,7 @@ namespace stool
         }
         void insert_64bit_string(size_t position, uint64_t value, uint64_t len)
         {
-            
+
             uint64_t size = this->size();
             if (size + len > MAX_BIT_LENGTH)
             {
@@ -803,7 +877,6 @@ namespace stool
             {
                 this->push_back64(value, len);
                 assert(this->num1_ == this->rank1(0, this->size() - 1));
-
             }
             else if (position < size)
             {
@@ -869,6 +942,10 @@ namespace stool
         {
             assert(block_index < this->buffer_size_);
             return stool::MSBByte::read_64bit_string(this->buffer_, block_index, bit_index, this->buffer_size_) >> (64 - code_len);
+        }
+        uint64_t read_as_64bit_integer(uint16_t block_index) const
+        {
+            return this->buffer_[block_index];
         }
 
         std::string get_buffer_bit_string() const
@@ -1014,7 +1091,7 @@ namespace stool
             {
                 return 0;
             }
-            CircularBitPointer start_bp(this->buffer_size_, block_index, bit_index);            
+            CircularBitPointer start_bp(this->buffer_size_, block_index, bit_index);
             CircularBitPointer end_bp(this->buffer_size_, block_index, bit_index);
             end_bp.add(len - 1);
 
@@ -1104,10 +1181,12 @@ namespace stool
             uint64_t last_block_index = (this->bit_count_ - 1) / 64;
             uint64_t last_bit_index = (this->bit_count_ - 1) % 64;
 
-            if(i+1 >= this->size()){
+            if (i + 1 >= this->size())
+            {
                 return -1;
             }
-            else if(block_index == last_block_index){
+            else if (block_index == last_block_index)
+            {
                 uint64_t bits = this->buffer_[block_index] << bit_index;
                 uint64_t bit_size = last_bit_index - bit_index + 1;
                 bits = (bits >> (64 - bit_size)) << (64 - bit_size);
@@ -1118,10 +1197,14 @@ namespace stool
                     assert(result > i);
                     assert(result <= this->size());
                     return result;
-                }else{
+                }
+                else
+                {
                     return -1;
                 }
-            }else{
+            }
+            else
+            {
                 {
                     uint64_t bits = this->buffer_[block_index] << bit_index;
                     uint64_t bit_count = stool::Byte::count_bits(bits);
@@ -1134,7 +1217,7 @@ namespace stool
                     }
                 }
                 uint64_t gap = 64 - bit_index;
-    
+
                 for (uint64_t j = block_index + 1; j < last_block_index; j++)
                 {
                     uint64_t bits = this->buffer_[j];
@@ -1144,21 +1227,21 @@ namespace stool
                         uint64_t result = stool::MSBByte::select1(bits) + (i + 1) + gap + ((j - (block_index + 1)) * 64);
                         assert(result > i);
                         assert(result <= this->size());
-    
+
                         return result;
                     }
                 }
-    
+
                 uint64_t last_bits = (this->buffer_[last_block_index] >> (63 - last_bit_index)) << (63 - last_bit_index);
                 uint64_t bit_count = stool::Byte::count_bits(last_bits);
                 uint64_t gap2 = block_index + 1 < last_block_index ? (last_block_index - (block_index + 1)) : 0;
                 if (bit_count > 0)
                 {
                     uint64_t result = stool::MSBByte::select1(last_bits) + (i + 1) + gap + (gap2 * 64);
-    
+
                     assert(result > i);
                     assert(result <= this->size());
-    
+
                     return result;
                 }
                 else
@@ -1166,10 +1249,6 @@ namespace stool
                     return -1;
                 }
             }
-
-            
-
-            
         }
         int64_t select1_predecessor(uint64_t i) const
         {
@@ -1202,8 +1281,6 @@ namespace stool
                 }
             }
             return -1;
-
-
         }
 
         uint64_t read_last_64bit() const
@@ -1216,9 +1293,12 @@ namespace stool
         {
             uint64_t pos = block_index * 64 + bit_index;
             uint64_t bits = stool::MSBByte::read_64bit_string(this->buffer_, block_index, bit_index, this->buffer_size_);
-            if(pos + 64 <= this->bit_count_){
+            if (pos + 64 <= this->bit_count_)
+            {
                 return bits;
-            }else{
+            }
+            else
+            {
                 uint64_t bitsize = this->bit_count_ - pos;
                 uint64_t mask = UINT64_MAX << (64 - bitsize);
                 return bits & mask;
@@ -1228,7 +1308,6 @@ namespace stool
         {
             uint64_t mask = UINT64_MAX << (64 - code_len);
             return this->read_64bit_string(block_index, bit_index) & mask;
-
         }
 
         uint64_t read_prev_64bit(uint64_t block_index, uint8_t bit_index) const
@@ -1402,7 +1481,7 @@ namespace stool
                 {
                     if (len >= 64)
                     {
-                        this->push_back64(0, len);
+                        this->push_back64(0, 64);
                         len -= 64;
                     }
                     else
@@ -1419,7 +1498,7 @@ namespace stool
 
                 stool::MSBByte::shift_right(this->buffer_, position, len, this->buffer_size_);
                 this->bit_count_ += len;
-                
+
                 assert(this->num1_ == this->rank1(0, this->size() - 1));
 
                 /*
@@ -1430,8 +1509,6 @@ namespace stool
 
                 stool::MSBByte::move_suffix_blocks_to_a_block_position<uint64_t *, TMP_BUFFER_SIZE>(this->buffer_, src_block_index, src_bit_index, dst_block_index, dst_bit_index, this->buffer_size_);
                 */
-
-
             }
         }
         void shift_left(uint64_t position, uint64_t len)
