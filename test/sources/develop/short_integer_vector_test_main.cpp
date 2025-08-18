@@ -61,7 +61,7 @@ void psum_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, 
         auto psum_func = [](const std::vector<uint64_t> &items, int64_t i)
         {
             uint64_t sum = 0;
-            for (uint64_t k = 0; k <= i; k++)
+            for (int64_t k = 0; k <= i; k++)
             {
                 sum += items[k];
             }
@@ -94,7 +94,7 @@ void psum_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, 
                 }
             }
 
-            for (int64_t j = 0; j < len; j++)
+            for (int64_t j = 0; j < (int64_t)len; j++)
             {
                 uint64_t psum1 = reverse_psum_func(items, j);
                 uint64_t psum2 = short_ef.reverse_psum(len - j - 1);
@@ -122,8 +122,8 @@ void search_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value
     std::uniform_int_distribution<> rand_value(0, UINT32_MAX);
     auto search_func = [](const std::vector<uint64_t> &items, int64_t i) -> int64_t
     {
-        uint64_t sum = 0;
-        for (uint64_t k = 0; k <= i; k++)
+        int64_t sum = 0;
+        for (int64_t k = 0; k <= i; k++)
         {
             sum += items[k];
             if(sum >= i){
@@ -329,7 +329,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     p.add<uint>("seed", 's', "seed", false, 0);
 
     p.parse_check(argc, argv);
-    uint64_t mode = p.get<uint>("mode");
+    //uint64_t mode = p.get<uint>("mode");
     uint64_t seed = p.get<uint>("seed");
 
     std::mt19937_64 mt64(seed);

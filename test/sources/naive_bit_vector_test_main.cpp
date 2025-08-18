@@ -23,6 +23,29 @@ uint64_t compute_rank1(const std::vector<bool> &bv, uint64_t i){
     return rank;
 }
 
+uint64_t shift_right(std::vector<bool> &bv, uint64_t shift_pos, uint64_t shift_bitsize){
+    bv.resize(bv.size() + shift_bitsize);
+    uint64_t suffix_len = bv.size() - shift_pos;
+    uint64_t move_len = suffix_len - shift_bitsize;
+    for(int64_t i = move_len-1; i >= 0; i--){
+        bv[shift_pos + i + shift_bitsize] = bv[shift_pos + i];
+    }
+    for(uint64_t i = 0; i < shift_bitsize; i++){
+        bv[shift_pos + i] = false;
+    }
+}
+uint64_t shift_left(std::vector<bool> &bv, uint64_t shift_pos, uint64_t shift_bitsize){
+
+    uint64_t suffix_len = bv.size() - shift_pos;
+    for(uint64_t i = 0; i < suffix_len; i++){
+        bv[shift_pos + i - shift_bitsize] = bv[shift_pos + i];
+    }
+    for(uint64_t i = 0; i < shift_bitsize; i++){
+        bv[bv.size() - i - 1] = false;
+    }
+    bv.resize(bv.size() - shift_bitsize);
+
+}
 
 
 uint64_t compute_rank0(const std::vector<bool> &bv, uint64_t i){
@@ -288,6 +311,53 @@ void rank_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
     std::cout << "[DONE]" << std::endl;
 }
     
+void shift_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, bool detail_check = true){
+    std::cout << "SHIFT_TEST \t" << std::flush;
+    stool::NaiveBitVector<> bit_deque;
+    std::vector<bool> naive_bv;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
+    for (uint64_t i = 0; i < number_of_trials; i++)
+    {
+        std::cout << "+" << std::flush;
+        for(uint64_t len = 4; len < max_len; len *= 2){
+            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
+            stool::NaiveBitVector<> bit_deque(bv);
+
+            uint64_t shift_pos = get_rand_value(mt) % len;
+            uint64_t shift_bitsize = get_rand_value(mt) % (len - shift_pos);
+
+            
+            bit_deque.shift_right(shift_pos, shift_bitsize);
+            shift_right(bv, shift_pos, shift_bitsize);
+
+            equal_test(bit_deque, bv);
+
+
+            
+            uint64_t shift_pos2 = get_rand_value(mt) % bv.size();
+            if(shift_pos2 > 0){
+                uint64_t shift_bitsize2 = get_rand_value(mt) % shift_pos2;
+
+
+                bit_deque.shift_left(shift_pos2, shift_bitsize2);
+                shift_left(bv, shift_pos2, shift_bitsize2);
+    
+                equal_test(bit_deque, bv);
+            }
+            
+
+
+
+
+        }
+
+        
+
+    }
+    std::cout << "[DONE]" << std::endl;
+}
+
 
     
 
@@ -300,7 +370,7 @@ void push_and_pop_test(uint64_t max_len, uint64_t number_of_trials, uint64_t see
     std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
     for (uint64_t i = 0; i < number_of_trials; i++)
     {
-
+    
         
         bit_deque.clear();
         naive_bv.clear();
@@ -576,6 +646,7 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
 
                 random_bit_string256(new_pattern_size, new_pattern, new_pattern_bs, seed++);
 
+
                 uint64_t pos = get_rand_value(mt) % (bv.size() + 1);
 
                 for(uint64_t k = 0; k < new_pattern_size; k++){
@@ -622,6 +693,7 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
                 if(pos + new_pattern_size > (int64_t)bv.size()){
                     new_pattern_size = bv.size() - pos;
                 }
+                auto copy_bv = bv;
 
                 for(int64_t j = 0; j < new_pattern_size; j++){
                     bv.erase(bv.begin() + pos);
@@ -635,6 +707,9 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
                             equal_test(bit_deque, bv);
                         }
                         catch(const std::runtime_error& e){
+                            std::cout << "bv before update \t " << to_string(copy_bv, true) << std::endl;
+                            std::cout << "pos: " << pos << std::endl;
+                            std::cout << "new_pattern_size: " << new_pattern_size << std::endl;
                             std::cout << "Erase test error" << std::endl;
                             std::cout << "bv size = " << bv.size() << std::endl;
                             throw e;
@@ -773,15 +848,18 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     
     
     
+    shift_test(seq_len, number_of_trials*10, seed, false);    
     access_test(seq_len, number_of_trials, seed);
     rank_test(seq_len, number_of_trials, seed);
     select_test(seq_len, number_of_trials, seed);
     insert_and_erase_test(seq_len*3, number_of_trials, seed, false);
     replace_test(seq_len, number_of_trials, seed, false);     
-    insert64_and_erase64_test(seq_len*3, number_of_trials, seed, false);
     push_and_pop_test(seq_len, number_of_trials, seed, false);
     push64_and_pop64_test(seq_len, number_of_trials, seed, false);
+    insert64_and_erase64_test(seq_len*3, number_of_trials, seed, true);
+
     random_test(seq_len, number_of_trials, seed, false);
+    
         
 
     

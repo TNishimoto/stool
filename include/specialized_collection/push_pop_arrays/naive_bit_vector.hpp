@@ -670,6 +670,7 @@ namespace stool
         }
         void replace_64bit_string(uint64_t position, uint64_t value, uint64_t len)
         {
+            assert(this->num1_ == this->rank1(0, this->size() - 1));
             if (position + len > this->size())
             {
                 throw std::invalid_argument("Error: replace()");
@@ -710,6 +711,7 @@ namespace stool
 
             uint64_t blockL_size = start_bit_index;
             uint64_t blockR_size = 64 - start_bit_index;
+
 
             if (start_block_index == end_block_index)
             {
@@ -771,6 +773,7 @@ namespace stool
                     uint64_t pattern = start_value_bp.read64(values);
                     uint64_t old_block = this->buffer_[end_block_index];
                     uint64_t removed_num = stool::Byte::count_bits(old_block);
+                    assert(last_block_size <= 64 && last_block_size > 0);
                     uint64_t new_block = stool::MSBByte::write_prefix(old_block, last_block_size, pattern);
                     uint64_t added_num = stool::Byte::count_bits(new_block);
                     this->num1_ += added_num;
@@ -788,6 +791,7 @@ namespace stool
         }
         void insert_64bit_string(size_t position, uint64_t value, uint64_t len)
         {
+            
             uint64_t size = this->size();
             if (size + len > MAX_BIT_LENGTH)
             {
@@ -797,9 +801,13 @@ namespace stool
             if (position == size)
             {
                 this->push_back64(value, len);
+                assert(this->num1_ == this->rank1(0, this->size() - 1));
+
             }
             else if (position < size)
             {
+                assert(this->num1_ == this->rank1(0, this->size() - 1));
+
                 this->shift_right(position, len);
 
                 assert(position + len <= this->size());
@@ -1408,17 +1416,21 @@ namespace stool
 
                 this->update_size_if_needed(size + len);
 
+                stool::MSBByte::shift_right(this->buffer_, position, len, this->buffer_size_);
+                this->bit_count_ += len;
+                
+                assert(this->num1_ == this->rank1(0, this->size() - 1));
+
+                /*
                 uint64_t src_block_index = position / 64;
                 uint64_t src_bit_index = position % 64;
                 uint64_t dst_block_index = (position + len) / 64;
                 uint64_t dst_bit_index = (position + len) % 64;
 
-
                 stool::MSBByte::move_suffix_blocks_to_a_block_position<uint64_t *, TMP_BUFFER_SIZE>(this->buffer_, src_block_index, src_bit_index, dst_block_index, dst_bit_index, this->buffer_size_);
+                */
 
-                // stool::MSBByte::block_shift_right(this->buffer_, position, len, this->buffer_size_);
 
-                this->bit_count_ += len;
             }
         }
         void shift_left(uint64_t position, uint64_t len)
@@ -1443,6 +1455,9 @@ namespace stool
                 int64_t posL = (int64_t)position - (int64_t)len;
                 uint64_t removed_num1 = this->rank1(posL, position - 1);
 
+                stool::MSBByte::shift_left(this->buffer_, position, len, this->buffer_size_);
+
+                /*
                 uint64_t dst_block_index = posL / 64;
                 uint64_t dst_bit_index = posL % 64;
                 uint64_t src_block_index = position / 64;
@@ -1451,13 +1466,14 @@ namespace stool
                 assert(dst_block_index <= src_block_index);
 
                 stool::MSBByte::move_suffix_blocks_to_a_block_position<uint64_t *, TMP_BUFFER_SIZE>(this->buffer_, src_block_index, src_bit_index, dst_block_index, dst_bit_index, this->buffer_size_);
+                */
 
                 // stool::MSBByte::block_shift_left(this->buffer_, position, len, this->buffer_size_);
 
                 this->num1_ -= removed_num1;
                 this->bit_count_ -= len;
 
-                this->update_size_if_needed(size + len);
+                this->update_size_if_needed(size - len);
             }
         }
 

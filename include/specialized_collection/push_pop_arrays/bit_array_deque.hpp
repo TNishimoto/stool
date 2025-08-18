@@ -2271,7 +2271,9 @@ namespace stool
                 src_bp.add(position);
                 dst_bp.add(position + len);
 
-                stool::MSBByte::move_suffix_blocks_to_a_block_position<uint64_t *, TMP_BUFFER_SIZE>(this->circular_buffer_, src_bp.block_index_, src_bp.bit_index_, dst_bp.block_index_, dst_bp.bit_index_, this->circular_buffer_size_);
+                throw std::runtime_error("shift_right is not implemented");
+
+                //stool::MSBByte::move_suffix_blocks_to_a_block_position<uint64_t *, TMP_BUFFER_SIZE>(this->circular_buffer_, src_bp.block_index_, src_bp.bit_index_, dst_bp.block_index_, dst_bp.bit_index_, this->circular_buffer_size_);
 
                 // stool::MSBByte::block_shift_right(this->circular_buffer_, position, len, this->circular_buffer_size_);
 
@@ -2327,7 +2329,8 @@ namespace stool
 
                 assert(bpDST.block_index_ <= bpSRC.block_index_);
 
-                stool::MSBByte::move_suffix_blocks_to_a_block_position<uint64_t *, TMP_BUFFER_SIZE>(this->circular_buffer_, bpSRC.block_index_, bpSRC.bit_index_, bpDST.block_index_, bpDST.bit_index_, this->circular_buffer_size_);
+                throw std::runtime_error("shift_right is not implemented");
+                //stool::MSBByte::move_suffix_blocks_to_a_block_position<uint64_t *, TMP_BUFFER_SIZE>(this->circular_buffer_, bpSRC.block_index_, bpSRC.bit_index_, bpDST.block_index_, bpDST.bit_index_, this->circular_buffer_size_);
 
                 // stool::MSBByte::block_shift_left(this->circular_buffer_, position, len, this->circular_buffer_size_);
 
@@ -2379,7 +2382,9 @@ namespace stool
                 {
                     uint64_t block_count = end_bp.block_index_ - start_bp.block_index_ + 1;
                     std::memcpy(&tmp_array[0], &this->circular_buffer_[start_bp.block_index_], block_count * sizeof(uint64_t));
-                    stool::MSBByte::move_suffix_blocks_to_a_block_position<std::array<uint64_t, TMP_BUFFER_SIZE>, TMP_BUFFER_SIZE>(tmp_array, 0, start_bp.bit_index_, 0, this->circular_buffer_size_);
+                    throw std::runtime_error("shift_right is not implemented");
+
+                    //stool::MSBByte::move_suffix_blocks_to_a_block_position<std::array<uint64_t, TMP_BUFFER_SIZE>, TMP_BUFFER_SIZE>(tmp_array, 0, start_bp.bit_index_, 0, this->circular_buffer_size_);
                 }
                 else
                 {
@@ -2397,7 +2402,9 @@ namespace stool
                         uint64_t prefix_block_count = end_bp.block_index_ + 1;
                         std::memcpy(&tmp_array[0], &this->circular_buffer_[start_bp.block_index_], suffix_block_count * sizeof(uint64_t));
                         std::memcpy(&tmp_array[suffix_block_count], &this->circular_buffer_[0], prefix_block_count * sizeof(uint64_t));
-                        stool::MSBByte::move_suffix_blocks_to_a_block_position<std::array<uint64_t, TMP_BUFFER_SIZE>, TMP_BUFFER_SIZE>(tmp_array, 0, start_bp.bit_index_, 0, prefix_block_count + suffix_block_count);
+                        throw std::runtime_error("shift_right is not implemented");
+
+                        //stool::MSBByte::move_suffix_blocks_to_a_block_position<std::array<uint64_t, TMP_BUFFER_SIZE>, TMP_BUFFER_SIZE>(tmp_array, 0, start_bp.bit_index_, 0, prefix_block_count + suffix_block_count);
                     }
                 }
                 std::memcpy(this->circular_buffer_, tmp_array.data(), this->circular_buffer_size_ * sizeof(uint64_t));

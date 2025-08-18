@@ -78,16 +78,16 @@ namespace stool
         static uint64_t write_suffix(uint64_t bits, uint8_t len, uint64_t suffix_bits)
         {
             assert(len <= 64 && len > 0);
-            uint64_t maskA = (UINT64_MAX >> len);
-            uint64_t maskB = ~maskA;
-            return (bits & maskB) | (suffix_bits & maskA);
+            uint64_t maskR = (UINT64_MAX >> (64 - len));
+            uint64_t maskL = ~maskR;
+            return (bits & maskL) | ((suffix_bits >> (64 - len)) & maskR);
         }
         static uint64_t write_prefix(uint64_t bits, uint8_t len, uint64_t prefix_bits)
         {
             assert(len <= 64 && len > 0);
-            uint64_t maskA = (UINT64_MAX << (64 - len));
-            uint64_t maskB = ~maskA;
-            return (bits & maskB) | (prefix_bits & maskA);
+            uint64_t maskL = (UINT64_MAX << (64 - len));
+            uint64_t maskR = ~maskL;
+            return (bits & maskR) | (prefix_bits & maskL);
         }
         static uint64_t write_bits(uint64_t bits, uint8_t pos, uint8_t len, uint64_t new_bits)
         {
@@ -99,26 +99,42 @@ namespace stool
 
         static uint64_t shift_right(uint64_t code, uint8_t pos, uint8_t len)
         {
-            if (len > 0)
-            {
-                uint64_t pref = (code >> (63 - pos)) << (63 - pos);
+            assert(len > 0 && len <= 64);
 
-                uint64_t suf_start_pos = pos + len;
-                if (suf_start_pos == 64)
-                {
-                    return pref;
-                }
-                else
-                {
-                    uint64_t suf = (code << suf_start_pos) >> suf_start_pos;
-                    return pref | suf;
-                }
-            }
-            else
-            {
-                return code;
+            if(pos + len >= 64){
+                uint64_t mask = ~(UINT64_MAX >> pos);
+                return code & mask;
+            }else{
+                if(pos > 0){
+                    uint64_t tmp = code >> len;
+
+                    uint64_t maskL = UINT64_MAX << (64 - pos);
+                    uint64_t maskR = UINT64_MAX >> (pos + len);
+                    return (code & maskL) | (tmp & maskR);
+    
+                }else{
+                    return code >> len;
+                }    
             }
         }
+        static uint64_t shift_left(uint64_t code, uint8_t pos, uint8_t len)
+        {
+            assert(len > 0 && len <= 64);
+
+            if(len >= pos || pos == 0){
+                return code << len;
+            }else{
+                uint64_t strL = code;
+                uint64_t strR = code << len;
+                uint64_t maskL = UINT64_MAX << (64 - (pos - len));
+                uint64_t maskR = UINT64_MAX >> (pos - len);
+
+                return (strL & maskL) | (strR & maskR);
+
+
+            }
+        }
+
         static void replace(std::vector<uint64_t> &bits, uint64_t i, bool b)
         {
             uint64_t block_index = i / 64;
@@ -166,6 +182,7 @@ namespace stool
                     {
                         next_block_index = 0;
                         assert(next_block_index < array_size);
+                        assert(right_len <= 64 && right_len > 0);
                         bits_array[next_block_index] = MSBByte::write_prefix(bits_array[next_block_index], right_len, right_bits);
                     }
                     else
@@ -176,11 +193,13 @@ namespace stool
                 else
                 {
                     assert(next_block_index < array_size);
+                    assert(right_len <= 64 && right_len > 0);
                     bits_array[next_block_index] = MSBByte::write_prefix(bits_array[next_block_index], right_len, right_bits);
                 }
             }
         }
 
+        /*
         template <typename T, uint64_t BUFFER_SIZE>
         static void move_suffix_blocks_to_a_right_bit_position(T &bits_array, uint64_t block_index, uint64_t dst_bit_index, uint64_t array_size)
         {
@@ -217,6 +236,8 @@ namespace stool
                 return;
             }
         }
+        */
+        /*
 
         template <typename T, uint64_t BUFFER_SIZE>
         static void move_suffix_blocks_to_a_left_bit_position(T &bits_array, uint64_t block_index, uint64_t dst_bit_index, uint64_t array_size)
@@ -246,7 +267,9 @@ namespace stool
                 std::memmove(&bits_array[block_index - 1], &bits_array[block_index], block_size * sizeof(uint64_t));
             }
         }
+        */
 
+        /*
         template <typename T, uint64_t BUFFER_SIZE>
         static void move_suffix_blocks_to_a_block_position(T &bits_array, uint64_t block_index, uint8_t bit_index, uint64_t dst_block_index, uint64_t array_size)
         {
@@ -337,6 +360,9 @@ namespace stool
                 }
             }
         }
+        */
+
+        /*
 
         template <typename T, uint64_t BUFFER_SIZE>
         static void move_suffix_blocks_to_a_block_position(T &bits_array, uint64_t block_index, uint8_t bit_index, uint64_t dst_block_index, uint8_t dst_bit_index, uint64_t array_size)
@@ -366,13 +392,21 @@ namespace stool
                     if (copy_start_index < array_size)
                     {
                         move_suffix_blocks_to_a_right_bit_position<T, BUFFER_SIZE>(bits_array, copy_start_index, diff, array_size);
-                        bits_array[copy_start_index] = stool::MSBByte::write_prefix(bits_array[copy_start_index], diff, W);
+                        assert(diff <= 64);
+                        if(diff > 0){
+                            bits_array[copy_start_index] = stool::MSBByte::write_prefix(bits_array[copy_start_index], diff, W);
+                        }
                     }
 
                     uint64_t block_suffix = (block << bit_index) >> dst_bit_index;
                     uint64_t block_prefix_size = bit_index;
-                    uint64_t new_block = stool::MSBByte::write_prefix(block_suffix, block_prefix_size, block);
-                    bits_array[block_index] = new_block;
+                    assert(block_prefix_size <= 64);
+                    if(block_prefix_size > 0){
+                        uint64_t new_block = stool::MSBByte::write_prefix(block_suffix, block_prefix_size, block);
+                        bits_array[block_index] = new_block;    
+                    }else{
+                        bits_array[block_index] = block_suffix; 
+                    }
                 }
                 else if (bit_index > dst_bit_index)
                 {
@@ -401,6 +435,7 @@ namespace stool
                 }
             }
         }
+        */
 
         static uint64_t fill(uint64_t bits, uint64_t pos, uint64_t len, bool b)
         {
@@ -624,6 +659,144 @@ namespace stool
                 bits[block_index + 1] = stool::MSBByte::write_bits(bits[block_index + 1], 0, len - diff, Rvalue);
             }
         }
+
+        
+        static void shift_right(uint64_t* bits, uint64_t shift_pos, uint64_t shift_bitsize, uint64_t array_size){
+            uint64_t block_index = shift_pos / 64;
+            uint64_t bit_index = shift_pos % 64;
+
+            uint64_t dst_block_index = (shift_pos + shift_bitsize) / 64;
+            uint64_t dst_bit_index = (shift_pos + shift_bitsize) % 64;
+
+            uint64_t curry_bitsize = 0;
+            uint64_t mid_block_index = 0;
+
+
+            if(dst_block_index >= array_size){
+                throw std::runtime_error("shift_rightX: dst_block_index >= array_size");
+                return;            
+            }else if(bit_index <= dst_bit_index){
+                curry_bitsize = dst_bit_index - bit_index;
+                mid_block_index = dst_block_index;
+                //uint64_t shift_block_size = dst_block_index - block_index;
+                uint64_t suffix_block_size = array_size - dst_block_index;
+                std::memmove(&bits[dst_block_index], &bits[block_index], suffix_block_size * sizeof(uint64_t));
+
+            }else{
+
+                mid_block_index = dst_block_index - 1;
+                curry_bitsize = dst_bit_index + 64 - bit_index;
+                //uint64_t shift_block_size = (dst_block_index - 1) - block_index;
+                uint64_t suffix_block_size = array_size - (dst_block_index - 1);
+                std::memmove(&bits[dst_block_index-1], &bits[block_index], suffix_block_size * sizeof(uint64_t));
+            }
+
+            if(curry_bitsize > 0){
+                assert(curry_bitsize < 64);
+
+                uint64_t curried_bits = bits[mid_block_index];
+                {
+                    bits[mid_block_index] = stool::MSBByte::shift_right(bits[mid_block_index], bit_index, curry_bitsize);
+
+                }
+
+
+                for(uint64_t i = mid_block_index+1; i < array_size;i++){
+                    uint64_t L = curried_bits << (64 - curry_bitsize);
+                    uint64_t R = bits[i] >> curry_bitsize;                    
+                    curried_bits = bits[i];
+                    bits[i] = L | R;
+                }
+            }
+            fill(bits, shift_pos, shift_bitsize, false);
+        }
+        static void shift_left(uint64_t* bits, uint64_t shift_pos, uint64_t shift_bitsize, uint64_t array_size){
+            if(shift_bitsize > shift_pos){
+                throw std::runtime_error("shift_leftX: shift_bitsize > shift_pos");
+                return;            
+            }
+            
+            uint64_t block_index = shift_pos / 64;
+            uint64_t bit_index = shift_pos % 64;
+
+            uint64_t dst_block_index = (shift_pos - shift_bitsize) / 64;
+            uint64_t dst_bit_index = (shift_pos - shift_bitsize) % 64;
+
+            uint64_t curry_bitsize = 0;
+            uint64_t mid_block_index = 0;
+            uint64_t prefix_block_size = array_size - block_index;
+
+
+
+            if(bit_index >= dst_bit_index){
+                curry_bitsize = bit_index - dst_bit_index;
+                mid_block_index = dst_block_index;
+                //uint64_t shift_block_size = block_index - dst_block_index;
+                uint64_t tmp = bits[dst_block_index]; 
+                std::memmove(&bits[dst_block_index], &bits[block_index], prefix_block_size * sizeof(uint64_t));
+
+                uint64_t maskL = dst_bit_index > 0 ? (UINT64_MAX << (64 - dst_bit_index)) : 0ULL;
+                uint64_t maskR = UINT64_MAX >> bit_index;
+                bits[dst_block_index] = (tmp & maskL) | ((bits[dst_block_index] & maskR) << curry_bitsize);
+
+            }else{
+
+                mid_block_index = dst_block_index + 1;
+                curry_bitsize = bit_index + (64 - dst_bit_index);
+                //uint64_t shift_block_size = block_index - (dst_block_index + 1);
+                std::memmove(&bits[dst_block_index+1], &bits[block_index], prefix_block_size * sizeof(uint64_t));
+            }
+
+
+
+            if(curry_bitsize > 0){
+                assert(curry_bitsize < 64);
+                assert(mid_block_index + prefix_block_size - 1 < array_size);
+
+                uint64_t curried_bits = bits[mid_block_index + prefix_block_size - 1];
+
+                if(mid_block_index + prefix_block_size - 1 != dst_block_index)
+                {
+                    bits[mid_block_index + prefix_block_size - 1] = bits[mid_block_index + prefix_block_size - 1] << curry_bitsize;
+                }
+
+
+                for(int64_t i = mid_block_index + prefix_block_size - 2; i >= (int64_t)(dst_block_index+1);i--){
+                    assert(i < (int64_t)array_size);
+                    uint64_t L = bits[i] << curry_bitsize;
+                    uint64_t R = curried_bits >> (64 - curry_bitsize);                    
+                    curried_bits = bits[i];
+                    bits[i] = L | R;
+                }
+
+                if(bit_index >= dst_bit_index){
+
+                    uint64_t L = bits[dst_block_index];
+                    uint64_t R = curried_bits >> (64 - curry_bitsize);                    
+                    bits[dst_block_index] = L | R;
+                }else{
+                    uint64_t Lsize = 64 - dst_bit_index;
+                    uint64_t Rsize = curry_bitsize - Lsize;
+                    assert(dst_bit_index > 0);
+
+                    uint64_t maskL = UINT64_MAX << Lsize;
+                    uint64_t maskR = UINT64_MAX << (64 - Lsize);
+
+                    uint64_t L = bits[dst_block_index] & maskL;
+                    uint64_t R = (curried_bits << Rsize) & maskR;                    
+                    bits[dst_block_index] = L | (R >> (64 - Lsize));
+                }
+
+            }
+
+            uint64_t len1 = (array_size * 64) - shift_pos;
+            uint64_t xpos = shift_pos - shift_bitsize + len1;
+            uint64_t xlen = (array_size * 64) - xpos;
+            fill(bits, xpos, xlen, false);
+
+        }
+
+        
     };
 
 } // namespace stool
