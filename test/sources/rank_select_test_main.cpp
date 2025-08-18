@@ -71,6 +71,244 @@ int64_t compute_rev_select0(const std::vector<bool> &bv, uint64_t i){
     }
     return -1;
 }
+int64_t compute_rank1(const std::vector<bool> &bv, uint64_t i){
+    uint64_t count = 0;
+    for(uint64_t j = 0; j <= i; j++){
+        if(bv[j]){
+            count++;
+        }
+    }
+    return count;
+}
+
+void packed_psum1_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
+    std::cout << "packed_psum1_test: " << std::flush;
+    std::vector<bool> bits;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+
+    for(uint64_t i = 0; i < max_counter; i++){
+        std::vector<uint64_t> bit_seq;
+        std::vector<bool> bits;
+        std::cout << "+" << std::flush;
+        for(uint64_t j = 0; j < ((seq_size / 64)+1); j++){
+            bit_seq.push_back(get_rand_value(mt));
+        }
+        for(auto x : bit_seq){
+            for(uint64_t j = 0; j < 64; j++){
+                bits.push_back(x & (1ULL << (63 - j)));
+            }
+        }
+        for(uint64_t j = 0; j < seq_size; j++){
+            uint64_t p = stool::PackedPsum::psum(bit_seq.data(), j, stool::PackedBitType::BIT_1, bit_seq.size());
+            uint64_t q = compute_rank1(bits, j);
+            if(p != q){
+                std::cout << j << "/" << p << "/" << q << std::endl;
+                throw std::runtime_error("rank1 error");
+            }
+        }
+    }
+    std::cout << "[DONE]" << std::endl;
+}
+
+void packed_psum2_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
+    std::cout << "packed_psum2_test: " << std::flush;
+    std::vector<bool> bits;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+
+    for(uint64_t i = 0; i < max_counter; i++){
+        std::vector<uint64_t> packed_bits;
+        std::vector<uint64_t> values;
+        std::cout << "+" << std::flush;
+        for(uint64_t j = 0; j < ((seq_size / 32)+1); j++){
+            packed_bits.push_back(get_rand_value(mt));
+        }
+        for(auto x : packed_bits){
+            uint64_t mask = UINT64_MAX << 62;
+            for(uint64_t j = 0; j < 32; j++){
+                uint64_t value = (x & (mask >> (2 * j))) >> (62 - (2*j));
+                values.push_back(value);
+            }
+        }
+        for(uint64_t j = 0; j < seq_size; j++){
+            uint64_t p = stool::PackedPsum::psum(packed_bits.data(), j, stool::PackedBitType::BIT_2, packed_bits.size());
+            uint64_t q = std::accumulate(values.begin(), values.begin() + (j+1), 0LL);
+            if(p != q){                
+                std::cout << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                stool::DebugPrinter::print_integers(values, "values");
+                std::cout << j << "/" << p << "/" << q << std::endl;
+                throw std::runtime_error("psum2 error");
+            }
+        }
+    }
+    std::cout << "[DONE]" << std::endl;
+}
+void packed_psum4_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
+    std::cout << "packed_psum4_test: " << std::flush;
+    std::vector<bool> bits;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+
+    for(uint64_t i = 0; i < max_counter; i++){
+        std::vector<uint64_t> packed_bits;
+        std::vector<uint64_t> values;
+        std::cout << "+" << std::flush;
+        for(uint64_t j = 0; j < ((seq_size / 16)+1); j++){
+            packed_bits.push_back(get_rand_value(mt));
+        }
+        for(auto x : packed_bits){
+            uint64_t mask = UINT64_MAX << 60;
+            for(uint64_t j = 0; j < 16; j++){
+                uint64_t value = (x & (mask >> (4 * j))) >> (60 - (4*j));
+                values.push_back(value);
+            }
+        }
+        for(uint64_t j = 0; j < seq_size; j++){
+            uint64_t p = stool::PackedPsum::psum(packed_bits.data(), j, stool::PackedBitType::BIT_4, packed_bits.size());
+            uint64_t q = std::accumulate(values.begin(), values.begin() + (j+1), 0LL);
+            if(p != q){                
+                std::cout << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                stool::DebugPrinter::print_integers(values, "values");
+                std::cout << j << "/" << p << "/" << q << std::endl;
+                throw std::runtime_error("psum4 error");
+            }
+        }
+    }
+    std::cout << "[DONE]" << std::endl;
+}
+void packed_psum8_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
+    std::cout << "packed_psum8_test: " << std::flush;
+    std::vector<bool> bits;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+
+    for(uint64_t i = 0; i < max_counter; i++){
+        std::vector<uint64_t> packed_bits;
+        std::vector<uint64_t> values;
+        std::cout << "+" << std::flush;
+        for(uint64_t j = 0; j < ((seq_size / 8)+1); j++){
+            packed_bits.push_back(get_rand_value(mt));
+        }
+        for(auto x : packed_bits){
+            uint64_t mask = UINT64_MAX << 56;
+            for(uint64_t j = 0; j < 8; j++){
+                uint64_t value = (x & (mask >> (8 * j))) >> (56 - (8*j));
+                values.push_back(value);
+            }
+        }
+        for(uint64_t j = 0; j < seq_size; j++){
+            uint64_t p = stool::PackedPsum::psum(packed_bits.data(), j, stool::PackedBitType::BIT_8, packed_bits.size());
+            uint64_t q = std::accumulate(values.begin(), values.begin() + (j+1), 0LL);
+            if(p != q){                
+                std::cout << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                stool::DebugPrinter::print_integers(values, "values");
+                std::cout << j << "/" << p << "/" << q << std::endl;
+                throw std::runtime_error("psum8 error");
+            }
+        }
+    }
+    std::cout << "[DONE]" << std::endl;
+}
+void packed_psum16_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
+    std::cout << "packed_psum16_test: " << std::flush;
+    std::vector<bool> bits;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+
+    for(uint64_t i = 0; i < max_counter; i++){
+        std::vector<uint64_t> packed_bits;
+        std::vector<uint64_t> values;
+        std::cout << "+" << std::flush;
+        for(uint64_t j = 0; j < ((seq_size / 4)+1); j++){
+            packed_bits.push_back(get_rand_value(mt));
+        }
+        for(auto x : packed_bits){
+            uint64_t mask = UINT64_MAX << 48;
+            for(uint64_t j = 0; j < 4; j++){
+                uint64_t value = (x & (mask >> (16 * j))) >> (48 - (16*j));
+                values.push_back(value);
+            }
+        }
+        for(uint64_t j = 0; j < seq_size; j++){
+            uint64_t p = stool::PackedPsum::psum(packed_bits.data(), j, stool::PackedBitType::BIT_16, packed_bits.size());
+            uint64_t q = std::accumulate(values.begin(), values.begin() + (j+1), 0LL);
+            if(p != q){                
+                std::cout << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                stool::DebugPrinter::print_integers(values, "values");
+                std::cout << j << "/" << p << "/" << q << std::endl;
+                throw std::runtime_error("psum16 error");
+            }
+        }
+    }
+    std::cout << "[DONE]" << std::endl;
+}
+
+void packed_psum32_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
+    std::cout << "1packed_psum32_test: " << std::flush;
+    std::vector<bool> bits;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+
+    for(uint64_t i = 0; i < max_counter; i++){
+        std::vector<uint64_t> packed_bits;
+        std::vector<uint64_t> values;
+        std::cout << "+" << std::flush;
+        for(uint64_t j = 0; j < ((seq_size / 2)+1); j++){
+            packed_bits.push_back(get_rand_value(mt));
+        }
+        for(auto x : packed_bits){
+            uint64_t mask = UINT64_MAX << 32;
+            for(uint64_t j = 0; j < 2; j++){
+                uint64_t value = (x & (mask >> (32 * j))) >> (32 - (32*j));
+                values.push_back(value);
+            }
+        }
+        for(uint64_t j = 0; j < seq_size; j++){
+            uint64_t p = stool::PackedPsum::psum(packed_bits.data(), j, stool::PackedBitType::BIT_32, packed_bits.size());
+            uint64_t q = std::accumulate(values.begin(), values.begin() + (j+1), 0LL);
+            if(p != q){                
+                std::cout << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                stool::DebugPrinter::print_integers(values, "values");
+                std::cout << j << "/" << p << "/" << q << std::endl;
+                throw std::runtime_error("psum32 error");
+            }
+        }
+    }
+    std::cout << "[DONE]" << std::endl;
+}
+void packed_psum64_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
+    std::cout << "1packed_psum64_test: " << std::flush;
+    std::vector<bool> bits;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+
+    for(uint64_t i = 0; i < max_counter; i++){
+        std::vector<uint64_t> packed_bits;
+        std::cout << "+" << std::flush;
+        for(uint64_t j = 0; j < seq_size; j++){
+            packed_bits.push_back(get_rand_value(mt) % (1ULL << 48) );
+        }
+        for(uint64_t j = 0; j < seq_size; j++){
+
+            uint64_t p = stool::PackedPsum::psum(packed_bits.data(), j, stool::PackedBitType::BIT_64, packed_bits.size());
+            uint64_t q = std::accumulate(packed_bits.begin(), packed_bits.begin() + (j+1), 0LL);
+            if(p != q){                
+                std::cout << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                stool::DebugPrinter::print_integers(packed_bits, "packed_bits");
+                std::cout << j << "/" << p << "/" << q << std::endl;
+                throw std::runtime_error("psum64 error");
+            }
+        }
+    }
+    std::cout << "[DONE]" << std::endl;
+}
 
 
 /*
@@ -224,7 +462,13 @@ void bit_select_test(uint64_t seed, uint64_t max_counter){
 int main()
 {
     bit_select_test(0, 10000);
-    
+    packed_psum1_test(1000, 100, 0);
+    packed_psum2_test(1000, 100, 0);
+    packed_psum4_test(1000, 100, 0);
+    packed_psum8_test(1000, 100, 0);
+    packed_psum16_test(1000, 100, 0);
+    packed_psum32_test(1000, 100, 0);
+    packed_psum64_test(1000, 100, 0);
     //c_run_sum_test();
 
 
