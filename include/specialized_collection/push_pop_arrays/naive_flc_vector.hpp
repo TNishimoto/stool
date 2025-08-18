@@ -507,7 +507,8 @@ namespace stool
         }
         int64_t search(uint64_t x) const noexcept
         {
-
+            return stool::PackedPsum::search(this->buffer_, x, (stool::PackedBitType)this->code_type_, this->psum_, this->buffer_size_);
+            /*
             uint64_t sum = 0;
             uint64_t i = 0;
 
@@ -531,6 +532,7 @@ namespace stool
                 }
                 return -1;
             }
+            */
         }
         /**
          * @brief Const subscript operator for element access
