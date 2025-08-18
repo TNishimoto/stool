@@ -295,15 +295,16 @@ namespace stool
          */
         NaiveBitVector(NaiveBitVector &&other) noexcept
             : buffer_(other.buffer_),
+              bit_count_(other.bit_count_),
               num1_(other.num1_),
-              buffer_size_(other.buffer_size_),
-              bit_count_(other.bit_count_)
-        {
+              buffer_size_(other.buffer_size_)
+
+              {
             // Reset the source object
             other.buffer_ = nullptr;
-            other.buffer_size_ = 0;
-            other.num1_ = 0;
             other.bit_count_ = 0;
+            other.num1_ = 0;
+            other.buffer_size_ = 0;
         }
 
         /**

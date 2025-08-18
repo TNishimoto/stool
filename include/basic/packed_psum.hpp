@@ -775,9 +775,9 @@ namespace stool
                 v = sum2x32bits(bits[k]);
             }
 
-            uint64_t diff = i - sum;
+            //uint64_t diff = i - sum;
             uint64_t L = bits[k] >> 32;
-            uint64_t R = bits[k] & 0xFFFFFFFF;
+            //uint64_t R = bits[k] & 0xFFFFFFFF;
             if (sum + L >= i)
             {
                 return (k * 2);

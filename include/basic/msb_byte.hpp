@@ -640,7 +640,7 @@ namespace stool
         }
 
         template <typename T>
-        static void write_bits(T &bits, uint64_t value, uint64_t len, uint16_t block_index, uint8_t bit_index, uint64_t array_size)
+        static void write_bits(T &bits, uint64_t value, uint64_t len, uint16_t block_index, uint8_t bit_index, [[maybe_unused]] uint64_t array_size)
         {
             if (bit_index + len <= 64)
             {
