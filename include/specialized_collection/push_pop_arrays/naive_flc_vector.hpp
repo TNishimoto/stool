@@ -1,7 +1,7 @@
 #pragma once
 #include "../../basic/byte.hpp"
 #include "../../basic/lsb_byte.hpp"
-#include "../../basic/msb_byte.hpp"
+#include "../../basic/packed_psum.hpp"
 #include "../../debug/print.hpp"
 
 namespace stool
@@ -36,39 +36,6 @@ namespace stool
             }
             throw std::runtime_error("size is too large");
         }
-
-        static uint8_t get_code_type(uint64_t value)
-        {
-            if (value <= 2)
-            {
-                return 0;
-            }
-            else if (value <= 4)
-            {
-                return 1;
-            }
-            else if (value <= 16)
-            {
-                return 2;
-            }
-            else if (value <= UINT8_MAX)
-            {
-                return 3;
-            }
-            else if (value <= UINT16_MAX)
-            {
-                return 4;
-            }
-            else if (value <= UINT32_MAX)
-            {
-                return 5;
-            }
-            else
-            {
-                return 6;
-            }
-        }
-
         int64_t get_current_buffer_size_index() const
         {
             if (this->buffer_size_ == 0)
@@ -354,7 +321,7 @@ namespace stool
                 throw std::invalid_argument("Error: push_back()");
             }
 
-            uint8_t code_type_candidate = NaiveFLCVector::get_code_type(value);
+            uint8_t code_type_candidate = (uint8_t)stool::PackedPsum::get_code_type(value);
             uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
             assert(new_code_type <= 6);
 
@@ -402,7 +369,7 @@ namespace stool
                 }
                 x_sum += v;
             }
-            uint8_t code_type_candidate = NaiveFLCVector::get_code_type(max_value);
+            uint8_t code_type_candidate = (uint8_t)stool::PackedPsum::get_code_type(max_value);
             uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
             assert(new_code_type <= 6);
 
@@ -520,43 +487,23 @@ namespace stool
 
         uint64_t psum(uint64_t i) const
         {
-            uint64_t sum = 0;
-            for (uint64_t x = 0; x <= i; x++)
-            {
-                sum += this->at(x);
-            }
+            uint64_t sum = stool::PackedPsum::psum(this->buffer_, i, (stool::PackedBitType)this->code_type_, this->buffer_size_);
             return sum;
         }
         uint64_t psum(uint64_t i, uint64_t j) const
         {
-            assert(i <= j);
-            assert(j < this->size());
-            uint64_t sum = 0;
-            for (uint64_t x = i; x <= j; x++)
-            {
-                assert(x < this->size());
-                sum += this->at(x);
-            }
+            uint64_t sum = stool::PackedPsum::psum(this->buffer_, i, j, (stool::PackedBitType)this->code_type_, this->buffer_size_);
             return sum;
         }
 
         uint64_t reverse_psum(uint64_t i) const
         {
-
-            uint64_t sum = 0;
             uint64_t size = this->size();
-            uint64_t code_length = 1ULL << this->code_type_;
-
-            for (uint64_t x = 0; x <= i; x++)
-            {
-                uint64_t pos = (size - x - 1) << this->code_type_;
-                uint64_t block_index = pos / 64;
-                uint64_t bit_index = pos % 64;
-                uint64_t value = stool::MSBByte::read_as_64bit_integer(this->buffer_[block_index], bit_index, code_length);
-                sum += value;
+            if(size == 0){
+                return 0;
+            }else{
+                return this->psum(size - i - 1, size - 1);
             }
-
-            return sum;
         }
         int64_t search(uint64_t x) const noexcept
         {
@@ -687,7 +634,7 @@ namespace stool
             }
             else
             {
-                uint8_t code_type_candidate = NaiveFLCVector::get_code_type(value);
+                uint8_t code_type_candidate = (uint8_t)stool::PackedPsum::get_code_type(value);
                 uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
                 assert(new_code_type <= 6);
                 uint64_t code_length = 1ULL << new_code_type;
@@ -736,7 +683,7 @@ namespace stool
         {
             assert(position < this->size());
 
-            uint8_t code_type_candidate = NaiveFLCVector::get_code_type(value);
+            uint8_t code_type_candidate = (uint8_t)stool::PackedPsum::get_code_type(value);
             uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
             if (new_code_type != this->code_type_)
             {
