@@ -337,6 +337,17 @@ namespace stool
 
             this->size_++;
             this->psum_ += value;
+
+            #ifdef DEBUG
+            uint64_t v = this->at(this->size() - 1);
+            if(v != value){
+                std::cout << "push_back: " << v << " != " << value << std::endl;
+                std::cout << "new_code_type: " << new_code_type << std::endl;
+                std::cout << "code_candidate: " << code_type_candidate << std::endl;
+
+            }
+            assert(v == value);
+            #endif
         }
 
         /**
@@ -348,6 +359,10 @@ namespace stool
         void push_front(uint64_t value)
         {
             this->insert(0, value);
+            #ifdef DEBUG
+            uint64_t v = this->at(0);
+            assert(v == value);
+            #endif
         }
         void push_back(const std::vector<uint64_t> &new_items)
         {
@@ -355,6 +370,13 @@ namespace stool
             {
                 this->push_back(v);
             }
+
+            #ifdef DEBUG
+            for(uint64_t i = 0; i < new_items.size(); i++){
+                uint64_t v = this->at(this->size() + i - new_items.size());
+                assert(v == new_items[i]);
+            }
+            #endif
         }
         void push_front(const std::vector<uint64_t> &new_items)
         {
@@ -389,6 +411,12 @@ namespace stool
 
             this->psum_ += x_sum;
 
+            #ifdef DEBUG
+            for(uint64_t i = 0; i < new_items.size(); i++){
+                uint64_t v = this->at(i);
+                assert(v == new_items[i]);
+            }
+            #endif
             
         }
 

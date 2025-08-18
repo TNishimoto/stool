@@ -22,15 +22,15 @@ namespace stool
     public:
         static PackedBitType get_code_type(uint64_t value)
         {
-            if (value <= 2)
+            if (value <= 1)
             {
                 return PackedBitType::BIT_1;
             }
-            else if (value <= 4)
+            else if (value <= 3)
             {
                 return PackedBitType::BIT_2;
             }
-            else if (value <= 16)
+            else if (value <= 15)
             {
                 return PackedBitType::BIT_4;
             }
