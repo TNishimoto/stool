@@ -504,6 +504,7 @@ namespace stool
         {
             std::swap(this->buffer_, item.buffer_);
             std::swap(this->psum_, item.psum_);
+            std::swap(this->size_, item.size_);
             std::swap(this->buffer_size_, item.buffer_size_);
             std::swap(this->code_type_, item.code_type_);
         }

@@ -147,7 +147,14 @@ namespace stool
             }
             bool is_end() const
             {
-                return this->index == UINT16_MAX;
+                return this->index == this->size;
+            }
+            uint64_t read_64bits_string() const {
+                uint64_t block_index = this->index / 64;
+                uint64_t bit_index = this->index % 64;
+                uint64_t value = this->_m_deq->read_64bit_string(block_index, bit_index);
+
+                return value;
             }
 
             /**
@@ -1588,15 +1595,12 @@ namespace stool
          */
         static void save(const NaiveBitVector &item, std::vector<uint8_t> &output, uint64_t &pos)
         {
-            throw std::runtime_error("Not implemented");
-
-            std::memcpy(output.data() + pos, &item.buffer_size_, sizeof(item.buffer_size_));
-            pos += sizeof(item.buffer_size_);
             std::memcpy(output.data() + pos, &item.bit_count_, sizeof(item.bit_count_));
             pos += sizeof(item.bit_count_);
             std::memcpy(output.data() + pos, &item.num1_, sizeof(item.num1_));
             pos += sizeof(item.num1_);
-
+            std::memcpy(output.data() + pos, &item.buffer_size_, sizeof(item.buffer_size_));
+            pos += sizeof(item.buffer_size_);
             std::memcpy(output.data() + pos, item.buffer_, item.buffer_size_ * sizeof(uint64_t));
             pos += item.buffer_size_ * sizeof(uint64_t);
         }
@@ -1609,9 +1613,9 @@ namespace stool
          */
         static void save(const NaiveBitVector &item, std::ofstream &os)
         {
-            os.write(reinterpret_cast<const char *>(&item.buffer_size_), sizeof(item.buffer_size_));
             os.write(reinterpret_cast<const char *>(&item.bit_count_), sizeof(item.bit_count_));
             os.write(reinterpret_cast<const char *>(&item.num1_), sizeof(item.num1_));
+            os.write(reinterpret_cast<const char *>(&item.buffer_size_), sizeof(item.buffer_size_));
             os.write(reinterpret_cast<const char *>(item.buffer_), item.buffer_size_ * sizeof(uint64_t));
         }
 
@@ -1624,17 +1628,16 @@ namespace stool
          */
         static NaiveBitVector load(const std::vector<uint8_t> &data, uint64_t &pos)
         {
-            throw std::runtime_error("Not implemented");
 
-            uint16_t _buffer_size;
             uint16_t _bit_count;
             uint16_t _num1;
+            uint16_t _buffer_size;
 
-            std::memcpy(&_buffer_size, data.data() + pos, sizeof(uint16_t));
-            pos += sizeof(uint16_t);
             std::memcpy(&_bit_count, data.data() + pos, sizeof(uint16_t));
             pos += sizeof(uint16_t);
             std::memcpy(&_num1, data.data() + pos, sizeof(uint16_t));
+            pos += sizeof(uint16_t);
+            std::memcpy(&_buffer_size, data.data() + pos, sizeof(uint16_t));
             pos += sizeof(uint16_t);
 
             NaiveBitVector r(_buffer_size);
@@ -1656,13 +1659,13 @@ namespace stool
          */
         static NaiveBitVector load(std::ifstream &ifs)
         {
-            uint16_t _buffer_size;
             uint16_t _bit_count;
             uint16_t _num1;
+            uint16_t _buffer_size;
 
-            ifs.read(reinterpret_cast<char *>(&_buffer_size), sizeof(uint16_t));
             ifs.read(reinterpret_cast<char *>(&_bit_count), sizeof(uint16_t));
             ifs.read(reinterpret_cast<char *>(&_num1), sizeof(uint16_t));
+            ifs.read(reinterpret_cast<char *>(&_buffer_size), sizeof(uint16_t));
 
             NaiveBitVector r(_buffer_size);
             r.bit_count_ = _bit_count;
@@ -1764,7 +1767,7 @@ namespace stool
         {
             if (!this->empty())
             {
-                return NaiveBitVectorIterator(this, 0, 0, 0, this->size());
+                return NaiveBitVectorIterator(this, 0, this->size());
             }
             else
             {
@@ -1773,7 +1776,7 @@ namespace stool
         }
         NaiveBitVectorIterator end() const
         {
-            return NaiveBitVectorIterator(this, UINT16_MAX, UINT16_MAX, UINT8_MAX, this->size());
+            return NaiveBitVectorIterator(this, this->size(), this->size());
         }
     };
 }

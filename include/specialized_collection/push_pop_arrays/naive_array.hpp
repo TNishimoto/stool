@@ -72,6 +72,9 @@ namespace stool
         void clear()
         {
             this->deque_size_ = 0;
+            this->psum_ = 0;
+            assert(this->verify());
+
         }
 
         /**
@@ -131,6 +134,8 @@ namespace stool
             this->deque_size_++;
             this->psum_ += value;
             //this->update_sum_buffer();
+            assert(this->verify());
+
         }
 
         /**
@@ -156,6 +161,8 @@ namespace stool
             this->circular_buffer_[src] = value;
             this->psum_ += value;
             this->deque_size_++;
+            assert(this->verify());
+
         }
 
         /**
@@ -170,6 +177,8 @@ namespace stool
             uint64_t value = this->circular_buffer_[this->deque_size_-1];
             this->deque_size_--;
             this->psum_ -= value;
+            assert(this->verify());
+
         }
 
         /**
@@ -193,6 +202,7 @@ namespace stool
             }else{
                 this->clear();
             }
+            assert(this->verify());
 
         }
         uint64_t size() const
@@ -245,6 +255,8 @@ namespace stool
                 assert(this->at(position) == value);
 
             }
+            assert(this->verify());
+
         }
 
         /**
@@ -276,6 +288,8 @@ namespace stool
                 this->psum_ -= value;
                 this->deque_size_--;
             }
+            assert(this->verify());
+
         }
 
 
@@ -301,7 +315,10 @@ namespace stool
         {
             std::string r = "[";
             for(uint64_t i = 0; i < this->deque_size_; i++){
-                r += std::to_string(this->circular_buffer_[i]) + " ";
+                r += std::to_string(this->circular_buffer_[i]);
+                if(i < this->deque_size_ - 1){
+                    r += ", ";
+                }
             }
             r += "]";
             return r;
@@ -331,6 +348,8 @@ namespace stool
             //std::swap(this->circular_sum_buffer_, item.circular_sum_buffer_);
             std::swap(this->psum_, item.psum_);
             std::swap(this->deque_size_, item.deque_size_);
+            assert(this->verify());
+
         }
 
         /**
@@ -356,6 +375,8 @@ namespace stool
             this->psum_ -= old_value;
             this->psum_ += value;
             this->circular_buffer_[index] = value;
+            assert(this->verify());
+
         }
 
         /**
@@ -390,6 +411,7 @@ namespace stool
 
         int64_t search(uint64_t value, uint64_t &sum) const
         {
+            assert(this->verify());
 
             uint64_t size = this->size();
             uint64_t i = 0;
@@ -420,6 +442,18 @@ namespace stool
         uint64_t psum() const
         {
             return this->psum_;
+        }
+        bool verify() const{
+            uint64_t sum = 0;
+            for(uint64_t i = 0; i < this->size(); i++){
+                sum += this->circular_buffer_[i];
+            }
+            if(sum != this->psum_){
+                std::cout << "sum: " << sum << " != psum: " << this->psum_ << std::endl;
+                throw std::invalid_argument("verify, psum error");
+            }
+
+            return true;
         }
 
         void increment(uint64_t pos, int64_t delta)
