@@ -571,11 +571,18 @@ namespace stool
          */
         uint64_t operator[](size_t index) const
         {
-            uint64_t code_length = 1ULL << this->code_type_;
+            //PackedBitType code_type = (PackedBitType)this->code_type_;
+            uint8_t code_length = 1ULL << this->code_type_;
             uint64_t pos = index << this->code_type_;
             uint64_t block_index = pos / 64;
             uint64_t bit_index = pos % 64;
-            return stool::MSBByte::read_as_64bit_integer(this->buffer_[block_index], bit_index, code_length);
+            uint64_t block = this->buffer_[block_index];            
+            uint64_t end_bit_index = bit_index + code_length - 1;
+            uint64_t mask = UINT64_MAX >> (64 - code_length);
+
+            uint64_t value = block >> (63 - end_bit_index);
+            value = value & mask;
+            return value;
         }
 
         /**
