@@ -780,7 +780,7 @@ namespace stool
         }
 
         template <typename T>
-        void replace_64bit_string_sequence(uint64_t position, const T &values, uint64_t bit_size, uint64_t array_size)
+        void replace_64bit_string_sequence(uint64_t position, const T &bits64_array, uint64_t bit_size, uint64_t array_size)
         {
             if (bit_size == 0)
             {
@@ -799,7 +799,7 @@ namespace stool
             {
                 uint64_t old_block = this->buffer_[start_block_index];
                 uint64_t removed_num = stool::Byte::count_bits(old_block);
-                uint64_t new_block = stool::MSBByte::write_bits(old_block, start_bit_index, bit_size, values[0]);
+                uint64_t new_block = stool::MSBByte::write_bits(old_block, start_bit_index, bit_size, bits64_array[0]);
                 uint64_t added_num = stool::Byte::count_bits(new_block);
                 this->num1_ += added_num;
                 this->num1_ -= removed_num;
@@ -810,7 +810,7 @@ namespace stool
                 {
                     uint64_t old_block = this->buffer_[start_block_index];
                     uint64_t removed_num = stool::Byte::count_bits(old_block);
-                    uint64_t new_block = stool::MSBByte::write_suffix(old_block, blockR_size, values[0]);
+                    uint64_t new_block = stool::MSBByte::write_suffix(old_block, blockR_size, bits64_array[0]);
                     uint64_t added_num = stool::Byte::count_bits(new_block);
                     this->num1_ += added_num;
                     this->num1_ -= removed_num;
@@ -823,7 +823,7 @@ namespace stool
                     {
                         uint64_t old_block = this->buffer_[i];
                         uint64_t removed_num = stool::Byte::count_bits(old_block);
-                        uint64_t new_block = values[i - start_block_index];
+                        uint64_t new_block = bits64_array[i - start_block_index];
                         uint64_t added_num = stool::Byte::count_bits(new_block);
                         this->num1_ += added_num;
                         this->num1_ -= removed_num;
@@ -836,8 +836,8 @@ namespace stool
                     {
                         uint64_t old_block = this->buffer_[i];
                         uint64_t removed_num = stool::Byte::count_bits(old_block);
-                        uint64_t blockL = values[(i - 1) - start_block_index] << blockR_size;
-                        uint64_t blockR = values[i - start_block_index] >> blockL_size;
+                        uint64_t blockL = bits64_array[(i - 1) - start_block_index] << blockR_size;
+                        uint64_t blockR = bits64_array[i - start_block_index] >> blockL_size;
                         uint64_t new_block = blockL | blockR;
                         uint64_t added_num = stool::Byte::count_bits(new_block);
                         this->num1_ += added_num;
@@ -852,7 +852,7 @@ namespace stool
                     CircularBitPointer end_value_bp(array_size, 0, 0);
                     start_value_bp.add(bit_size - last_block_size);
                     end_value_bp.add(bit_size - 1);
-                    uint64_t pattern = start_value_bp.read64(values);
+                    uint64_t pattern = start_value_bp.read64(bits64_array);
                     uint64_t old_block = this->buffer_[end_block_index];
                     uint64_t removed_num = stool::Byte::count_bits(old_block);
                     assert(last_block_size <= 64 && last_block_size > 0);
@@ -900,11 +900,11 @@ namespace stool
             }
         }
         template <typename T>
-        void insert_64bit_string(size_t position, const T &values, uint64_t bit_size)
+        void insert_64bit_string(size_t position, const T &bits64_array, uint64_t bit_size, uint64_t array_size)
         {
             this->shift_right(position, bit_size);
 
-            this->replace_64bit_string_sequence(position, values, bit_size);
+            this->replace_64bit_string_sequence(position, bits64_array, bit_size, array_size);
         }
 
         void erase(size_t position)

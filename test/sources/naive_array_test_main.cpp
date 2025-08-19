@@ -301,7 +301,7 @@ void search_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_tr
         while (len < max_len)
         {
             std::vector<uint64_t> seq = stool::StringGenerator::create_random_sequence<uint64_t>(len, alphabet_size, seed++);
-            stool::FasterStaticArrayDeque<SIZE> deque(seq);
+            stool::NaiveArray<SIZE> deque(seq);
 
             for (uint64_t j = 0; j < len; j++)
             {
@@ -324,7 +324,7 @@ void search_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_tr
 template<uint64_t SIZE>
 void random_test(uint64_t max_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed, bool detail_check = false, int message_paragraph = stool::Message::SHOW_MESSAGE)
 {
-    stool::FasterStaticArrayDeque<SIZE> deque;
+    stool::NaiveArray<SIZE> deque;
     std::vector<uint64_t> seq;
     std::cout << stool::Message::get_paragraph_string(message_paragraph) << "RANDOM_TEST: \t" << std::flush;
     std::mt19937 mt(seed);

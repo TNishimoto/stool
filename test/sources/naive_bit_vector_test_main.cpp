@@ -654,7 +654,7 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
                 }
 
                 assert(pos <= bit_deque.size());
-                bit_deque.insert_64bit_string(pos, new_pattern, new_pattern_size);
+                bit_deque.insert_64bit_string(pos, new_pattern, new_pattern_size, new_pattern.size());
 
                 if(detail_check){
                     try{
@@ -732,7 +732,7 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
     
 void random_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, bool detail_check = false)
 {
-    stool::BitArrayDeque<> bit_deque;
+    stool::NaiveBitVector<> bit_deque;
     std::vector<bool> seq;
     std::cout << "RANDOM_TEST: \t" << std::flush;
     std::mt19937 mt(seed);

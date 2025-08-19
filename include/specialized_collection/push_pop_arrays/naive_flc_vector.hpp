@@ -69,7 +69,7 @@ namespace stool
             }
             else
             {
-                return sizeof(NaiveFLCVector) + (sizeof(uint64_t) * this->buffer_size_);
+                return sizeof(uint64_t) + sizeof(uint16_t) + sizeof(uint16_t) + sizeof(uint8_t) + (sizeof(uint64_t) * this->buffer_size_);
             }
         }
 
@@ -846,6 +846,12 @@ namespace stool
         }
         static void save(const NaiveFLCVector &item, std::vector<uint8_t> &output, uint64_t &pos)
         {
+            uint64_t bytes = item.size_in_bytes();
+            if(output.size() < pos + bytes){
+                output.resize(pos + bytes);
+            }
+
+
             std::memcpy(output.data() + pos, &item.psum_, sizeof(item.psum_));
             pos += sizeof(item.psum_);
             std::memcpy(output.data() + pos, &item.size_, sizeof(item.size_));
@@ -911,17 +917,29 @@ namespace stool
          */
         static NaiveFLCVector load(const std::vector<uint8_t> &data, uint64_t &pos)
         {
-            NaiveFLCVector r;
-            std::memcpy(&r.psum_, data.data() + pos, sizeof(r.psum_));
-            pos += sizeof(r.psum_);
-            std::memcpy(&r.size_, data.data() + pos, sizeof(r.size_));
-            pos += sizeof(r.size_);
-            std::memcpy(&r.buffer_size_, data.data() + pos, sizeof(r.buffer_size_));
-            pos += sizeof(r.buffer_size_);
-            std::memcpy(&r.code_type_, data.data() + pos, sizeof(r.code_type_));
-            pos += sizeof(r.code_type_);
+            uint64_t _psum;
+            uint16_t _size;
+            uint16_t _buffer_size;
+            uint8_t _code_type;
+
+            std::memcpy(&_psum, data.data() + pos, sizeof(_psum));
+            pos += sizeof(_psum);
+            std::memcpy(&_size, data.data() + pos, sizeof(_size));
+            pos += sizeof(_size);
+            std::memcpy(&_buffer_size, data.data() + pos, sizeof(_buffer_size));
+            pos += sizeof(_buffer_size);
+            std::memcpy(&_code_type, data.data() + pos, sizeof(_code_type));
+            pos += sizeof(_code_type);
+
+            NaiveFLCVector r(_buffer_size);
+            r.psum_ = _psum;
+            r.size_ = _size;
+            r.buffer_size_ = _buffer_size;
+            r.code_type_ = _code_type;
+            
             std::memcpy(r.buffer_, data.data() + pos, sizeof(uint64_t) * r.buffer_size_);
-            pos += sizeof(uint64_t) * r.buffer_size_;
+            pos += sizeof(uint64_t) * r.buffer_size_; 
+
 
             return r;
         }
@@ -936,14 +954,14 @@ namespace stool
          */
         static NaiveFLCVector load(std::ifstream &ifs)
         {
-            uint16_t _psum;
+            uint64_t _psum;
             uint16_t _size;
             uint16_t _buffer_size;
             uint8_t _code_type;
-            ifs.read(reinterpret_cast<char *>(&_psum), sizeof(uint16_t));
-            ifs.read(reinterpret_cast<char *>(&_size), sizeof(uint16_t));
-            ifs.read(reinterpret_cast<char *>(&_buffer_size), sizeof(uint16_t));
-            ifs.read(reinterpret_cast<char *>(&_code_type), sizeof(uint8_t));
+            ifs.read(reinterpret_cast<char *>(&_psum), sizeof(_psum));
+            ifs.read(reinterpret_cast<char *>(&_size), sizeof(_size));
+            ifs.read(reinterpret_cast<char *>(&_buffer_size), sizeof(_buffer_size));
+            ifs.read(reinterpret_cast<char *>(&_code_type), sizeof(_code_type));
 
             NaiveFLCVector r(_buffer_size);
             r.psum_ = _psum;
