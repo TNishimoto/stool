@@ -1464,7 +1464,7 @@ namespace stool
             return bv;
         }
 
-        /*
+        
         void increment(uint64_t i, int64_t delta)
         {
             if (delta >= 1)
@@ -1476,7 +1476,7 @@ namespace stool
                 this->replace(i, false);
             }
         }
-            */
+    
 
         void shift_right(uint64_t position, uint64_t len)
         {
