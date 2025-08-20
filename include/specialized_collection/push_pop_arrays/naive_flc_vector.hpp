@@ -1226,6 +1226,17 @@ namespace stool
             }
             return r;
         }
+        template <typename VEC>
+        void to_values(VEC &output_vec) const
+        {
+            output_vec.clear();
+            output_vec.resize(this->size());
+            for (uint64_t i = 0; i < this->size(); i++)
+            {
+                output_vec[i] = this->at(i);
+            }
+        }
+
 
         /**
          * @brief Get iterator to the first element
