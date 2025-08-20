@@ -550,6 +550,8 @@ namespace stool
             }
             assert(v == value);
             #endif
+
+            assert(this->verify());
         }
 
         /**
@@ -565,6 +567,8 @@ namespace stool
             uint64_t v = this->at(0);
             assert(v == value);
             #endif
+
+            assert(this->verify());
         }
         void push_back(const std::vector<uint64_t> &new_items)
         {
@@ -573,6 +577,7 @@ namespace stool
                 this->push_back(v);
             }
 
+            assert(this->verify());
             #ifdef DEBUG
             for(uint64_t i = 0; i < new_items.size(); i++){
                 uint64_t v = this->at(this->size() + i - new_items.size());
@@ -613,6 +618,7 @@ namespace stool
 
             this->psum_ += x_sum;
 
+            assert(this->verify());
             #ifdef DEBUG
             for(uint64_t i = 0; i < new_items.size(); i++){
                 uint64_t v = this->at(i);
@@ -646,6 +652,8 @@ namespace stool
 
                 this->psum_ -= value;
                 this->size_--;
+
+                assert(this->verify());
                 return value;
             }
         }
@@ -655,7 +663,9 @@ namespace stool
          */
         uint64_t pop_front()
         {
-            return this->remove(0);
+            uint64_t value = this->remove(0);
+            assert(this->verify());
+            return value;
         }
 
         std::vector<uint64_t> pop_back(uint64_t len)
@@ -667,6 +677,7 @@ namespace stool
                 uint64_t v = this->pop_back();
                 r[len - i - 1] = v;
             }
+            assert(this->verify());
 
             return r;
         }
@@ -684,6 +695,7 @@ namespace stool
                 r[i] = value;
             }
             this->remove(0, len);
+            assert(this->verify());
             return r;
         }
 
@@ -724,6 +736,16 @@ namespace stool
         uint64_t psum(uint64_t i, uint64_t j) const
         {
             uint64_t sum = stool::PackedPsum::psum(this->buffer_, i, j, (stool::PackedBitType)this->code_type_, this->buffer_size_);
+
+            #if DEBUG
+            uint64_t true_sum = 0;
+            for(uint64_t k = i; k <= j; k++){
+                true_sum += this->at(k);
+            }
+            if(true_sum != sum){
+                std::cout << "psum(" << i << ", " << j << ") = " << sum << ", true_sum = " << true_sum << std::endl;
+            }
+            #endif 
             return sum;
         }
 
@@ -732,7 +754,14 @@ namespace stool
             uint64_t size = this->size();
             if(size == 0){
                 return 0;
-            }else{
+            }else if(i+1 == size){
+                assert(this->verify());
+                assert(this->psum() == this->psum(size - i - 1, size - 1));
+                return this->psum(size - i - 1, size - 1);
+
+                //return this->psum();
+            }
+            else{
                 return this->psum(size - i - 1, size - 1);
             }
         }
@@ -811,6 +840,7 @@ namespace stool
             uint64_t bit_length = len << new_code_type;
 
             stool::MSBByte::shift_right(this->buffer_, bit_position, bit_length, this->buffer_size_);
+            assert(this->verify());
 
 
         }
@@ -828,6 +858,7 @@ namespace stool
             this->shrink_to_fit(new_size, this->code_type_);
             this->psum_ -= removed_sum;
             this->size_ -= len;
+            assert(this->verify());
 
         }
 
@@ -863,6 +894,8 @@ namespace stool
                 this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, code_length, write_value);
                 this->psum_ += value;
             }
+            assert(this->verify());
+
         }
         uint64_t remove(uint64_t pos)
         {
@@ -884,6 +917,8 @@ namespace stool
                 this->shift_left(pos + 1, 1);
                 return value;
             }
+            assert(this->verify());
+
         }
         void remove(uint64_t pos, uint64_t len)
         {
@@ -892,7 +927,8 @@ namespace stool
             }else{
                 this->shift_left(pos + len, len);
             }
-        
+            assert(this->verify());
+
         }
 
         void set_value(uint64_t position, uint64_t value)
@@ -914,15 +950,19 @@ namespace stool
             uint64_t old_value = stool::MSBByte::read_as_64bit_integer(this->buffer_[block_index], bit_index, code_length);
             if (value > old_value)
             {
-                this->psum_ += old_value - value;
+                this->psum_ += value - old_value;
             }
             else
             {
-                this->psum_ += value - old_value;
+                this->psum_ -= old_value - value;
             }
 
             uint64_t write_value = value << (64 - code_length);
             this->buffer_[block_index] = stool::MSBByte::write_bits(this->buffer_[block_index], bit_index, code_length, write_value);
+
+
+            assert(this->verify());
+
         }
 
         std::string get_buffer_bit_string() const
@@ -1007,6 +1047,7 @@ namespace stool
         {
             uint64_t new_value = this->at(i) + delta;
             this->set_value(i, new_value);
+            assert(this->verify());
         }
 
         /**
@@ -1256,6 +1297,17 @@ namespace stool
         NaiveFLCVectorIterator end() const
         {
             return NaiveFLCVectorIterator(const_cast<NaiveFLCVector *>(this), this->size());
+        }
+        bool verify() const{
+            uint64_t true_sum = 0;
+            for(uint64_t i = 0; i < this->size(); i++){
+                true_sum += this->at(i);
+            }
+            if(true_sum != this->psum()){
+                std::cout << "psum = " << this->psum() << ", true_sum = " << true_sum << std::endl;
+                throw std::runtime_error("Error: verify");
+            }
+            return true;
         }
         
     };
