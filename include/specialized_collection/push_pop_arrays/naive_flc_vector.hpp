@@ -277,7 +277,10 @@ namespace stool
 
         uint64_t unused_size_in_bytes() const
         {
-            return (this->buffer_size_ - this->size_) * sizeof(uint64_t);
+            uint64_t buffer_bytes = this->buffer_size_ * sizeof(uint64_t);
+            uint64_t bitsize = 1ULL << this->code_type_;
+            uint64_t item_bytes = (this->size_ * bitsize) / 8;
+            return buffer_bytes - item_bytes;
         }
 
         /**
