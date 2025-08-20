@@ -22,6 +22,208 @@ namespace stool
 
         // INDEX_TYPE deque_size_;
 
+
+        class NaiveFLCVectorIterator
+        {
+
+        public:
+            NaiveFLCVector *_m_deq;
+            uint64_t _m_idx;
+
+            using iterator_category = std::random_access_iterator_tag;
+            using difference_type = std::ptrdiff_t;
+            
+            /**
+             * @brief Construct an iterator
+             * 
+             * @param _deque Pointer to the deque
+             * @param _idx Index position
+             */
+            NaiveFLCVectorIterator(NaiveFLCVector *_deque, uint64_t _idx) : _m_deq(_deque), _m_idx(_idx) {}
+
+            bool is_end() const {
+                return this->_m_idx >= this->_m_deq->size();
+            }
+
+            /**
+             * @brief Dereference operator
+             * 
+             * @return T The element at the current position
+             */
+            uint64_t operator*() const
+            {
+                return (*_m_deq)[this->_m_idx];
+            }
+
+            /*
+            uint64_t get_deque_position() const
+            {
+                return this->_m_deq->get_deque_position(this->_m_idx);
+            }
+            */
+
+            /**
+             * @brief Pre-increment operator
+             * 
+             * @return SimpleDequeIterator& Reference to the incremented iterator
+             */
+            NaiveFLCVectorIterator &operator++()
+            {
+                ++this->_m_idx;
+                return *this;
+            }
+
+            /**
+             * @brief Post-increment operator
+             * 
+             * @return SimpleDequeIterator Copy of the iterator before increment
+             */
+            NaiveFLCVectorIterator operator++(int)
+            {
+                NaiveFLCVectorIterator temp = *this;
+
+                ++(*this);
+                return temp;
+            }
+
+            /**
+             * @brief Pre-decrement operator
+             * 
+             * @return SimpleDequeIterator& Reference to the decremented iterator
+             */
+            NaiveFLCVectorIterator &operator--()
+            {
+                --this->_m_idx;
+                return *this;
+            }
+
+            /**
+             * @brief Post-decrement operator
+             * 
+             * @return SimpleDequeIterator Copy of the iterator before decrement
+             */
+            NaiveFLCVectorIterator operator--(int)
+            {
+                NaiveFLCVectorIterator temp = *this;
+                --(*this);
+                return temp;
+            }
+            
+            /**
+             * @brief Addition operator for random access
+             * 
+             * @param n Number of positions to advance
+             * @return SimpleDequeIterator Iterator at the new position
+             */
+            NaiveFLCVectorIterator operator+(difference_type n) const
+            {
+                int16_t sum = (int16_t)this->_m_idx + (int16_t)n;
+                return NaiveFLCVectorIterator(this->_m_deq, sum);
+            }
+            
+            /**
+             * @brief Compound addition assignment
+             * 
+             * @param n Number of positions to advance
+             * @return SimpleDequeIterator& Reference to this iterator
+             */
+            NaiveFLCVectorIterator &operator+=(difference_type n)
+            {
+                this->_m_idx += n;
+                return *this;
+            }
+            
+            /**
+             * @brief Subtraction operator for random access
+             * 
+             * @param n Number of positions to retreat
+             * @return SimpleDequeIterator Iterator at the new position
+             */
+            NaiveFLCVectorIterator operator-(difference_type n) const
+            {
+                int16_t sum = (int16_t)this->_m_idx - (int16_t)n;
+                return NaiveFLCVectorIterator(this->_m_deq, sum);
+            }
+            
+            /**
+             * @brief Compound subtraction assignment
+             * 
+             * @param n Number of positions to retreat
+             * @return SimpleDequeIterator& Reference to this iterator
+             */
+            NaiveFLCVectorIterator &operator-=(difference_type n)
+            {
+                this->_m_idx -= n;
+                return *this;
+            }
+
+            /**
+             * @brief Difference between two iterators
+             * 
+             * @param other The other iterator
+             * @return difference_type Number of positions between iterators
+             */
+            difference_type operator-(const NaiveFLCVectorIterator &other) const
+            {
+                return (int16_t)this->_m_idx - (int16_t)other._m_idx;
+            }
+
+            /**
+             * @brief Subscript operator for random access
+             * 
+             * @param n Offset from current position
+             * @return T& Reference to the element at offset n
+             */
+            uint64_t &operator[](difference_type n)
+            {
+                int16_t sum = (int16_t)this->_m_idx + (int16_t)n;
+                return (*this->_m_deq)[sum];
+            }
+
+            /**
+             * @brief Const subscript operator for random access
+             * 
+             * @param n Offset from current position
+             * @return const T& Const reference to the element at offset n
+             */
+            const uint64_t &operator[](difference_type n) const
+            {
+                int16_t sum = (int16_t)this->_m_idx + (int16_t)n;
+                return (*this->_m_deq)[sum];
+            }
+            
+            /**
+             * @brief Equality comparison
+             */
+            bool operator==(const NaiveFLCVectorIterator &other) const { return _m_idx == other._m_idx; }
+            
+            /**
+             * @brief Inequality comparison
+             */
+            bool operator!=(const NaiveFLCVectorIterator &other) const { return _m_idx != other._m_idx; }
+            
+            /**
+             * @brief Less than comparison
+             */
+            bool operator<(const NaiveFLCVectorIterator &other) const { return this->_m_idx < other._m_idx; }
+            
+            /**
+             * @brief Greater than comparison
+             */
+            bool operator>(const NaiveFLCVectorIterator &other) const { return this->_m_idx > other._m_idx; }
+            
+            /**
+             * @brief Less than or equal comparison
+             */
+            bool operator<=(const NaiveFLCVectorIterator &other) const { return this->_m_idx <= other._m_idx; }
+            
+            /**
+             * @brief Greater than or equal comparison
+             */
+            bool operator>=(const NaiveFLCVectorIterator &other) const { return this->_m_idx >= other._m_idx; }
+        };
+
+
         static uint64_t get_appropriate_buffer_size_index2(int64_t num_elements, uint8_t code_type)
         {
             uint64_t total_code_size = num_elements << code_type;
@@ -1024,5 +1226,26 @@ namespace stool
             }
             return r;
         }
+
+        /**
+         * @brief Get iterator to the first element
+         * 
+         * @return SimpleDequeIterator Iterator pointing to the beginning
+         */
+        NaiveFLCVectorIterator begin() const
+        {
+            return NaiveFLCVectorIterator(const_cast<NaiveFLCVector *>(this), 0);
+        }
+        
+        /**
+         * @brief Get iterator past the last element
+         * 
+         * @return SimpleDequeIterator Iterator pointing past the end
+         */
+        NaiveFLCVectorIterator end() const
+        {
+            return NaiveFLCVectorIterator(const_cast<NaiveFLCVector *>(this), this->size());
+        }
+        
     };
 }
