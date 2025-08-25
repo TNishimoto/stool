@@ -74,6 +74,13 @@ namespace stool
 				return __builtin_clzll(x);
 			}
 		}
+		static int count_trailing_zeros(uint64_t x){
+			if(x == 0){
+				return -1;
+			}else{
+				return __builtin_ctzll(x);
+			}
+		}
 
 		/*!
 		 * @brief Counts the number of 1 bits in a 64-bit integer using built-in function
