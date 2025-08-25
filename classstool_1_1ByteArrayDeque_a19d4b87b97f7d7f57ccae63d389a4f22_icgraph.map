@@ -1,0 +1,23 @@
+<map id="stool::ByteArrayDeque::at" name="stool::ByteArrayDeque::at">
+<area shape="rect" id="Node000001" title="Access element by index with bounds checking." alt="" coords="657,185,848,210"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ByteArrayDeque.html#a197d3f51d4c399e29c29d2a61e693eb6" title="Erase an element at a specific position." alt="" coords="223,35,392,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="723,178,672,143,608,110,554,93,497,79,392,63,392,58,498,74,555,87,610,106,675,138,726,174"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ByteArrayDeque.html#a00193c408182bf392b58d953af8b372a" title="Insert an element at a specific position." alt="" coords="5,264,175,304"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="644,193,552,191,446,194,334,205,223,225,171,244,126,266,124,261,169,239,222,220,333,200,446,189,552,186,644,188"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1ByteArrayDeque.html#a2924898a1520675f122e8cce8dd52a51" title="Remove the last element from the deque." alt="" coords="440,120,609,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="688,184,604,163,605,157,689,179"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1ByteArrayDeque.html#a3e3070bf8ad2716b11ed6c117f821943" title="Remove the first element from the deque." alt="" coords="440,5,609,45"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="729,176,677,123,608,66,575,48,578,43,611,62,680,119,733,172"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1ByteArrayDeque.html#a0b261e60dcb2c41360043bea06d3320e" title="Add an element to the back of the deque." alt="" coords="223,235,392,275"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="644,214,610,219,393,247,392,241,609,213,643,209"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1ByteArrayDeque.html#ac09ccf9ac30a64aded975b7e180e5372" title="Add an element to the front of the deque." alt="" coords="223,349,392,389"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="738,223,716,252,687,286,651,318,610,344,556,363,499,374,443,379,392,379,392,374,443,374,499,369,555,358,608,339,648,314,683,282,712,249,733,220"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1ByteArrayDeque.html#af09a5e4c7694f2f89335f7dddd0f5565" title="Set a value at a specific index." alt="" coords="440,289,609,329"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="715,219,611,270,568,292,566,287,608,266,712,214"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="427,41,392,46,392,41,426,36"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="209,271,175,275,174,270,209,265"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="242,347,141,307,143,302,244,342"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="426,306,175,292,175,286,426,301"/>
+<area shape="poly" id="edge12_Node000008_Node000006" title=" " alt="" coords="431,288,387,277,388,272,432,283"/>
+<area shape="poly" id="edge13_Node000008_Node000007" title=" " alt="" coords="439,336,381,352,380,347,438,331"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="stool::NaiveVLCArray::push_front" name="stool::NaiveVLCArray::push_front">
+<area shape="rect" id="Node000001" title="Pushes multiple values to the front of the deque." alt="" coords="213,29,373,69"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="328,18,316,11,293,8,273,10,261,15,257,21,259,28,254,30,252,20,258,10,272,5,293,3,318,6,331,13"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveVLCArray.html#acf0eb91b79c0714e38978c23499ad98a" title="Inserts a value at the specified position." alt="" coords="5,29,165,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,52,166,52,166,47,200,47"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="stool::StaticArrayDeque::erase" name="stool::StaticArrayDeque::erase">
+<area shape="rect" id="Node000001" title="Erase an element at a specific iterator position." alt="" coords="229,29,405,69"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="355,18,342,11,317,8,296,10,283,15,278,21,281,28,275,30,273,20,280,10,295,5,317,3,343,6,358,13"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1StaticArrayDeque_3_01SIZE_00_01true_01_4.html#a123c25e05110f1a71333293ea7854c48" title="Erase an element at a specific iterator position." alt="" coords="5,29,181,69"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="215,52,182,52,182,47,215,47"/>
+</map>

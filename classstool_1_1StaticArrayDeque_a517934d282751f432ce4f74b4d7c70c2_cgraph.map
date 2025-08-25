@@ -1,0 +1,17 @@
+<map id="stool::StaticArrayDeque::insert" name="stool::StaticArrayDeque::insert">
+<area shape="rect" id="Node000001" title="Insert an element at a specific position." alt="" coords="5,106,181,146"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1StaticArrayDeque.html#a1ec7e858b0ac88f1f1592a77c7dd56fd" title="Access element by index with bounds checking." alt="" coords="229,5,427,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,103,173,75,228,48,268,32,270,37,230,52,175,80,128,108"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1StaticArrayDeque.html#a520d082bdb81ae86d0699a50d2709153" title="Get the current number of elements." alt="" coords="475,49,651,89"/>
+<area shape="poly" id="edge9_Node000001_Node000003" title=" " alt="" coords="169,103,229,91,349,77,461,70,461,75,350,82,230,97,170,109"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1StaticArrayDeque.html#ab91b43a7cac1a2735a384186aea5d0e8" title="Add an element to the back of the deque." alt="" coords="240,106,416,146"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="182,123,226,123,226,129,182,129"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1StaticArrayDeque.html#ad66ad2fabe6b73646149cd1c84af9eb7" title="Set a value at a specific index." alt="" coords="475,163,651,203"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="170,143,230,155,350,170,461,177,461,182,349,175,229,161,169,149"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1StaticArrayDeque.html#a4d6dd7fbaf5fc04f00a2c7680bdd4bf4" title="Add an element to the front of the deque." alt="" coords="240,221,416,261"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="128,144,231,200,261,213,259,218,228,204,126,148"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="388,28,462,44,460,49,387,33"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="410,103,466,89,467,95,411,109"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="411,143,467,157,466,163,410,149"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="410,218,466,204,467,209,411,223"/>
+</map>

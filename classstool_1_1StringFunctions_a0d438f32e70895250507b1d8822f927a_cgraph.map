@@ -1,0 +1,5 @@
+<map id="stool::StringFunctions::LCE" name="stool::StringFunctions::LCE">
+<area shape="rect" id="Node000001" title="Computes the Longest Common Extension (LCE) between two suffixes of a string." alt="" coords="5,5,200,31"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1StringFunctions.html#a5c969f7ee3ad4079015e9cb31e4c3f30" title="Computes the Longest Common Extension (LCE) between a text and a pattern." alt="" coords="248,5,443,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,15,234,15,234,21,200,21"/>
+</map>

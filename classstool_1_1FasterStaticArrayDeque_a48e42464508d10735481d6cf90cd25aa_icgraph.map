@@ -1,0 +1,5 @@
+<map id="stool::FasterStaticArrayDeque::to_deque" name="stool::FasterStaticArrayDeque::to_deque">
+<area shape="rect" id="Node000001" title="Convert the deque to a std::deque." alt="" coords="227,5,400,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1FasterStaticArrayDeque.html#a6c9ffda708a64e8ad923d48fee1f1367" title="Print debug information about the deque." alt="" coords="5,5,179,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,28,179,28,179,23,213,23"/>
+</map>

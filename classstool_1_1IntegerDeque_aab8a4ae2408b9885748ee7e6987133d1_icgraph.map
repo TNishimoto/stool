@@ -1,0 +1,18 @@
+<map id="stool::IntegerDeque::update_size_if_needed" name="stool::IntegerDeque::update_size_if_needed">
+<area shape="rect" id="Node000001" title="Update the size if needed based on current usage." alt="" coords="403,133,581,173"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1IntegerDeque.html#abb7d1a028919abd2af72e21a5ba8aa7c" title="Erase an element at a specific position." alt="" coords="5,9,156,49"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="467,123,419,70,388,46,354,27,304,13,253,8,203,10,157,15,156,10,202,4,253,3,305,8,356,22,391,41,423,67,471,120"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1IntegerDeque.html#aeb51cc6fee201e35ce8c0cfc96131470" title="Insert an element at a specific position." alt="" coords="5,229,156,269"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="471,186,423,239,391,264,356,283,327,292,297,296,237,295,180,285,132,271,133,266,181,280,237,290,297,291,326,287,354,278,388,259,419,235,467,182"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1IntegerDeque.html#a48b98dee39505f979f2c276b15269fd1" title="Remove the last element from the deque." alt="" coords="204,101,355,141"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="388,140,355,134,355,129,389,134"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1IntegerDeque.html#aa78a149610eab06806fa02f052b024b6" title="Remove the first element from the deque." alt="" coords="204,37,355,77"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="435,129,354,91,327,79,329,74,356,86,438,124"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1IntegerDeque.html#a2872e2660998e4d993af29db6456668f" title="Add an element to the back of the deque." alt="" coords="204,229,355,269"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="438,181,356,219,329,231,327,226,354,214,435,176"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1IntegerDeque.html#a67eda36443693c02c854e710bbc000de" title="Add an element to the front of the deque." alt="" coords="204,165,355,205"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="389,171,355,176,355,171,388,165"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="190,47,156,42,157,36,191,41"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="191,251,156,251,156,246,191,246"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="204,211,144,231,142,226,203,206"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="stool::IO::load" name="stool::IO::load">
+<area shape="rect" id="Node000001" title="Loads data from a file into a vector." alt="" coords="5,5,117,31"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1IO.html#a305bc1dcd60b15d95b36303644be1c84" title="Loads data from a binary stream into a vector." alt="" coords="165,5,277,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,15,152,15,152,21,118,21"/>
+</map>

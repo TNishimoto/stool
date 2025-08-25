@@ -1,0 +1,9 @@
+<map id="stool::FasterStaticArrayDeque::begin" name="stool::FasterStaticArrayDeque::begin">
+<area shape="rect" id="Node000001" title="Get iterator to the beginning." alt="" coords="448,37,621,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1FasterStaticArrayDeque.html#a48e42464508d10735481d6cf90cd25aa" title="Convert the deque to a std::deque." alt="" coords="227,5,400,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="434,45,400,40,401,35,435,40"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1FasterStaticArrayDeque.html#acffd5f7f68259ed682a8be32f9dbc46b" title="Convert the deque to a std::vector." alt="" coords="227,69,400,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="435,74,401,79,400,74,434,69"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1FasterStaticArrayDeque.html#a6c9ffda708a64e8ad923d48fee1f1367" title="Print debug information about the deque." alt="" coords="5,5,179,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="213,28,179,28,179,23,213,23"/>
+</map>

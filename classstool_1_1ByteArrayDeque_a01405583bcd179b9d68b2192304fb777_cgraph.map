@@ -1,0 +1,9 @@
+<map id="stool::ByteArrayDeque::to_vector" name="stool::ByteArrayDeque::to_vector">
+<area shape="rect" id="Node000001" title="Convert the deque to a std::vector." alt="" coords="5,63,175,103"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ByteArrayDeque.html#a71de87f40754758e8859dbbf81a6265d" title="Get iterator to the beginning." alt="" coords="239,5,408,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,60,227,46,229,51,173,65"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ByteArrayDeque.html#afb9e6ed1c6972cfad138c66ebf29fcfd" title="Get iterator to the end." alt="" coords="223,70,424,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="175,80,209,80,209,85,175,85"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1ByteArrayDeque.html#a580fe55c510f7d62b63ac61151c98c74" title="Get the current number of elements." alt="" coords="239,120,408,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="173,100,229,114,227,119,171,105"/>
+</map>
