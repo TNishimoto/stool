@@ -24,9 +24,10 @@ namespace stool{
 
             stool::NaiveDynamicString naive_text;
             for(char c: _text){
-                test_text.push_back(c);
                 naive_text.push_back(c);
             }
+            test_text.build_from_text(_text, alphabet);
+
 
             for(uint64_t i = 0; i < number_of_access;i++){
                 uint64_t nth = get_rand_uni_int(mt64) % (naive_text.size());
@@ -41,7 +42,7 @@ namespace stool{
         }
 
         template <typename TEXT>
-        static void access_character_test1(TEXT &test_text, uint64_t max_text_size, uint64_t number_of_access, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
+        static void access_character_test(TEXT &test_text, uint64_t max_text_size, uint64_t number_of_access, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Access Character Test: " << std::endl;
             for (uint64_t type = 0; type <= stool::UInt8VectorGenerator::get_max_alphabet_type(); type++)

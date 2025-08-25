@@ -36,6 +36,8 @@ namespace stool
                 uint64_t nth = get_rand_uni_int(mt64) % (naive_text.size() + 1);
                 naive_text.insert(nth, c);
                 test_text.insert(nth, c);
+
+                assert(test_text.size() == naive_text.size());
             }
 
             std::string test_str = test_text.to_string();
@@ -75,11 +77,10 @@ namespace stool
             std::vector<uint8_t> _text = stool::UInt8VectorGenerator::create_random_sequence(text_size, alphabet, seed);
 
             test_text.clear();
-            test_text.set_alphabet(alphabet);
+            test_text.build_from_text(_text, alphabet);
 
             stool::NaiveDynamicString naive_text;
             for(char c: _text){
-                test_text.push_back(c);
                 naive_text.push_back(c);
             }
 
