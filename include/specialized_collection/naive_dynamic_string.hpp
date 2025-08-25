@@ -26,6 +26,9 @@ namespace stool
         {
             this->text.push_back('$');
         }
+        void clear(){
+            this->text.clear();
+        }
         
         /**
          * @brief Append a character to the end of the string
@@ -45,6 +48,10 @@ namespace stool
             this->text.pop_back();
         }
 
+        void remove(uint64_t pos){
+            this->text.erase(this->text.begin() + pos);
+        }
+
         /**
          * @brief Insert a character at a specific position
          * @param pos The position where to insert the character (0-based index)
@@ -56,6 +63,17 @@ namespace stool
         void insert_char(uint64_t pos, int64_t character)
         {
             this->text.insert(this->text.begin() + pos, character);
+        }
+        void insert(uint64_t pos, uint8_t c){
+            this->text.insert(this->text.begin() + pos, c);
+        }
+        std::string to_string() const{
+            std::string s;
+            for (auto it : this->text)
+            {
+                s.push_back(it);
+            }
+            return s;
         }
         
         /**
