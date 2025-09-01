@@ -33,7 +33,7 @@ namespace stool
                 naive_text.insert(nth, c);
                 test_text.insert(nth, c);
 
-                assert(test_text.size() == naive_text.size());
+                assert((uint64_t)test_text.size() == (uint64_t)naive_text.size());
             }
 
             std::string test_str = test_text.to_string();
