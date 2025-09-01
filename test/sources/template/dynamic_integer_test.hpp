@@ -525,7 +525,7 @@ namespace stool
             std::cout << "[DONE]" << std::endl;
         }
 
-        template <typename INTEGER_CONTAINER>
+        template <typename INTEGER_CONTAINER, bool USE_QUERY = true>
         static void random_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t max_counter, uint64_t seed, bool detail_check = false)
         {
             std::cout << "RANDOM_TEST: \t" << std::flush;
@@ -587,23 +587,25 @@ namespace stool
                     }
                     else
                     {
-                        if (naive_values.size() > 1)
-                        {
-                            uint64_t psum1A = compute_psum(naive_values, random_pos);
-                            uint64_t psum1B = test_container.psum(random_pos);
-                            if (psum1A != psum1B)
+                        if constexpr(USE_QUERY){
+                            if (naive_values.size() > 1)
                             {
-                                std::cout << "psum_test error/" << psum1A << "/" << psum1B << std::endl;
-                                throw std::runtime_error("psum_test error");
-                            }
-
-                            int64_t search1A = compute_search(naive_values, random_pos);
-                            int64_t search1B = test_container.search(random_pos);
-                            if (search1A != search1B)
-                            {
-                                std::cout << "search_test error/" << search1A << "/" << search1B << std::endl;
-                                throw std::runtime_error("search_test error");
-                            }
+                                uint64_t psum1A = compute_psum(naive_values, random_pos);
+                                uint64_t psum1B = test_container.psum(random_pos);
+                                if (psum1A != psum1B)
+                                {
+                                    std::cout << "psum_test error/" << psum1A << "/" << psum1B << std::endl;
+                                    throw std::runtime_error("psum_test error");
+                                }
+    
+                                int64_t search1A = compute_search(naive_values, random_pos);
+                                int64_t search1B = test_container.search(random_pos);
+                                if (search1A != search1B)
+                                {
+                                    std::cout << "search_test error/" << search1A << "/" << search1B << std::endl;
+                                    throw std::runtime_error("search_test error");
+                                }
+                            }    
                         }
                     }
                     counter++;
