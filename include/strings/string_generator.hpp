@@ -216,12 +216,12 @@ namespace stool
 		static std::vector<uint64_t> create_random_integer_sequence(uint64_t len, uint64_t max_value, int64_t seed)
 		{
 			std::mt19937 mt(seed);
-			std::uniform_int_distribution<> rand100(0, max_value);
+			std::uniform_int_distribution<uint64_t> get_rand_value(0, max_value);
 			std::vector<uint64_t> r;
 
 			for (size_t i = 0; i < len; i++)
 			{
-				r.push_back(rand100(mt));
+				r.push_back(get_rand_value(mt));
 			}
 			return r;
 		}

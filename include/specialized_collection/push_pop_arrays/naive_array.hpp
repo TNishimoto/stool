@@ -113,6 +113,11 @@ namespace stool
             return SIZE;
         }
 
+        static NaiveArray build(const std::vector<uint64_t> &items){
+            NaiveArray deque(items);
+            return deque;
+        }
+
         /**
          * @brief Add an element to the back of the deque
          *
@@ -258,6 +263,11 @@ namespace stool
             assert(this->verify());
 
         }
+        void remove(uint64_t position)
+        {
+            this->erase(position);
+        }
+
 
         /**
          * @brief Erase an element at a specific position
@@ -466,6 +476,16 @@ namespace stool
         {
             uint64_t value = this->circular_buffer_[pos];
             this->set_value(pos, value - delta);
+        }
+
+        std::vector<uint64_t> to_vector() const
+        {
+            std::vector<uint64_t> r;
+            for(uint64_t i = 0; i < this->size(); i++){
+                r.push_back(this->circular_buffer_[i]);
+            }
+            return r;
+
         }
 
 

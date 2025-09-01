@@ -7,17 +7,13 @@
 #include <chrono>
 #include <random>
 #include <bitset>
-#include "../../include/light_stool.hpp"
-
+#include "../../../include/light_stool.hpp"
 
 namespace stool
 {
     class DynamicStringTest
     {
     public:
-
-
-
         template <typename TEXT>
         static void insert_character_test(TEXT &test_text, const std::vector<uint8_t> &alphabet, uint64_t number_of_insertion, uint64_t seed)
         {
@@ -73,14 +69,14 @@ namespace stool
             std::mt19937_64 mt64(seed);
             std::uniform_int_distribution<uint64_t> get_rand_uni_int(0, UINT64_MAX);
 
-
             std::vector<uint8_t> _text = stool::UInt8VectorGenerator::create_random_sequence(text_size, alphabet, seed);
 
             test_text.clear();
             test_text.build_from_text(_text, alphabet);
 
             stool::NaiveDynamicString naive_text;
-            for(char c: _text){
+            for (char c : _text)
+            {
                 naive_text.push_back(c);
             }
 
@@ -98,7 +94,8 @@ namespace stool
                 }
             }
 
-            if(test_text.size() != 0){
+            if (test_text.size() != 0)
+            {
                 std::cout << "Error: test_text.size() != 0" << std::endl;
             }
         }
@@ -123,6 +120,8 @@ namespace stool
             }
             std::cout << "[DONE]" << std::endl;
         }
+
+        
     };
 
 } // namespace name

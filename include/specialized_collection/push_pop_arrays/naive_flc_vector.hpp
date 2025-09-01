@@ -394,6 +394,12 @@ namespace stool
             return this->size_ == 0;
         }
 
+        static NaiveFLCVector build(const std::vector<uint64_t> &values){
+            NaiveFLCVector flc_vector(values);
+            return flc_vector;
+
+        }
+
         /**
          * @brief Default constructor
          *
