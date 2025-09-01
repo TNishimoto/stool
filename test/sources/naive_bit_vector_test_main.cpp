@@ -23,7 +23,7 @@ uint64_t compute_rank1(const std::vector<bool> &bv, uint64_t i){
     return rank;
 }
 
-uint64_t shift_right(std::vector<bool> &bv, uint64_t shift_pos, uint64_t shift_bitsize){
+void shift_right(std::vector<bool> &bv, uint64_t shift_pos, uint64_t shift_bitsize){
     bv.resize(bv.size() + shift_bitsize);
     uint64_t suffix_len = bv.size() - shift_pos;
     uint64_t move_len = suffix_len - shift_bitsize;
@@ -34,7 +34,7 @@ uint64_t shift_right(std::vector<bool> &bv, uint64_t shift_pos, uint64_t shift_b
         bv[shift_pos + i] = false;
     }
 }
-uint64_t shift_left(std::vector<bool> &bv, uint64_t shift_pos, uint64_t shift_bitsize){
+void shift_left(std::vector<bool> &bv, uint64_t shift_pos, uint64_t shift_bitsize){
 
     uint64_t suffix_len = bv.size() - shift_pos;
     for(uint64_t i = 0; i < suffix_len; i++){
@@ -311,7 +311,7 @@ void rank_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
     std::cout << "[DONE]" << std::endl;
 }
     
-void shift_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, bool detail_check = true){
+void shift_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, [[maybe_unused]] bool detail_check = true){
     std::cout << "SHIFT_TEST \t" << std::flush;
     stool::NaiveBitVector<> bit_deque;
     std::vector<bool> naive_bv;

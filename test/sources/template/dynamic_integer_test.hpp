@@ -284,7 +284,7 @@ namespace stool
                     naive_values.clear();
                     INTEGER_CONTAINER test_container = INTEGER_CONTAINER::build(naive_values);
 
-                    for (uint64_t x = 0; x < len; x++)
+                    for (int64_t x = 0; x < len; x++)
                     {
                         uint64_t new_value = get_rand_value(mt) % max_value;
                         uint64_t pos = get_rand_value(mt) % (naive_values.size() + 1);
@@ -338,7 +338,7 @@ namespace stool
                     std::vector<uint64_t> naive_values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
                     INTEGER_CONTAINER test_container = INTEGER_CONTAINER::build(naive_values);
 
-                    for (uint64_t x = 0; x < len; x++)
+                    for (int64_t x = 0; x < len; x++)
                     {
                         uint64_t pos = get_rand_value(mt) % naive_values.size();
                         naive_values.erase(naive_values.begin() + pos);
@@ -390,7 +390,7 @@ namespace stool
                     std::vector<uint64_t> naive_values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
                     INTEGER_CONTAINER test_container = INTEGER_CONTAINER::build(naive_values);
 
-                    for (uint64_t x = 0; x < len; x++)
+                    for (int64_t x = 0; x < len; x++)
                     {
 
                         uint64_t new_value = get_rand_value(mt) % max_value;

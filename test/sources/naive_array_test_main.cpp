@@ -485,9 +485,10 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
 
     //uint64_t seq_len = 1000;
     uint64_t number_of_trials = 100;
-    uint64_t alphabet_size8 = UINT8_MAX;
-    uint64_t alphabet_size16 = UINT16_MAX;
-    uint64_t alphabet_size32 = UINT32_MAX;
+    //uint64_t alphabet_size8 = UINT8_MAX;
+    //uint64_t alphabet_size16 = UINT16_MAX;
+    //uint64_t alphabet_size32 = UINT32_MAX;
+
     uint64_t alphabet_size64 = (uint64_t)UINT32_MAX * 10000;
 
     
