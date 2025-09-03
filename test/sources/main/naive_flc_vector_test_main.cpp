@@ -1,7 +1,7 @@
 #include <cassert>
 #include <chrono>
-#include "../../include/light_stool.hpp"
-#include "template/dynamic_integer_test.hpp"
+#include "../../../include/light_stool.hpp"
+#include "../template/dynamic_integer_test.hpp"
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
 {

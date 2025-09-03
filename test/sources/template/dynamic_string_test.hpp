@@ -8,7 +8,7 @@
 #include <random>
 #include <bitset>
 #include "../../../include/light_stool.hpp"
-#include "../string_test.hpp"
+#include "./string_test.hpp"
 
 namespace stool
 {

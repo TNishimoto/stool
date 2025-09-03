@@ -59,7 +59,7 @@ target_link_libraries(short_integer_vector_test.out sdsl)
 
 ]]
 
-add_executable(rank_select_test.out sources/rank_select_test_main.cpp)
+add_executable(rank_select_test.out sources/main/rank_select_test_main.cpp)
 message(STATUS "CMAKE_SYSTEM_PROCESSOR = ${CMAKE_SYSTEM_PROCESSOR}")
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64)$")
     target_compile_options(rank_select_test.out PRIVATE -mbmi2)
@@ -71,9 +71,9 @@ endif()
 
 #add_executable(bit_deque_test.out sources/bit_deque_test_main.cpp)
 
-add_executable(naive_bit_vector_test.out sources/naive_bit_vector_test_main.cpp)
-add_executable(naive_flc_vector_test.out sources/naive_flc_vector_test_main.cpp)
-add_executable(naive_array_test.out sources/naive_array_test_main.cpp)
+add_executable(naive_bit_vector_test.out sources/main/naive_bit_vector_test_main.cpp)
+add_executable(naive_flc_vector_test.out sources/main/naive_flc_vector_test_main.cpp)
+add_executable(naive_array_test.out sources/main/naive_array_test_main.cpp)
 
 #add_executable(naive_vlc_array_test.out sources/naive_vlc_array_test_main.cpp)
 

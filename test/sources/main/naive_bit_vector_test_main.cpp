@@ -1,6 +1,6 @@
 #include <cassert>
 #include <chrono>
-#include "../../include/light_stool.hpp"
+#include "../../../include/light_stool.hpp"
 
 std::string to_string(const std::vector<bool> &bv, bool use_partition = false){
     std::string s;
