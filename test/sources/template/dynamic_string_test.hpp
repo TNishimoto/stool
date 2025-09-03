@@ -189,7 +189,8 @@ namespace stool
                     }
                     else
                     {
-                        stool::StringTest::locate_query_test(test_text, naive_text.text, 5, 100, seed++);
+                        std::vector<uint64_t> sa = stool::StringFunctions::construct_naive_suffix_array(naive_text.text);
+                        stool::StringTest::locate_query_test(test_text, naive_text.text, sa,5, 100, seed++);
                     }
                     counter++;
 

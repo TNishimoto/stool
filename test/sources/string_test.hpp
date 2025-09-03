@@ -72,6 +72,52 @@ namespace stool
         }
 
         template <typename TEXT>
+        static void locate_query_test(TEXT &test_text, const std::vector<uint8_t> &original_text, const std::vector<uint64_t> &sa, uint64_t number_of_queries, uint64_t max_query_length, uint64_t seed, [[maybe_unused]]int message_paragraph = stool::Message::SHOW_MESSAGE)
+        {
+            std::mt19937_64 mt64(seed);
+            for (uint64_t i = 0; i < number_of_queries; i++)
+            {
+                uint64_t pos = mt64() % original_text.size();
+                uint64_t pattern_length = mt64() % (original_text.size() - pos) + 1;
+
+                if (pattern_length > max_query_length)
+                {
+                    pattern_length = max_query_length;
+                }
+
+                std::vector<uint8_t> pattern = std::vector<uint8_t>(original_text.begin() + pos, original_text.begin() + pos + pattern_length);
+
+                std::vector<uint64_t> occurrences = stool::StringFunctionsOnSA::locate_query(original_text, pattern, sa);
+                std::vector<uint64_t> test_occurrences = test_text.locate_query(pattern);
+
+                std::sort(occurrences.begin(), occurrences.end());
+                std::sort(test_occurrences.begin(), test_occurrences.end());
+                try
+                {
+                    stool::EqualChecker::equal_check(occurrences, test_occurrences, "locate_query_test");
+                }
+                catch (const std::exception &e)
+                {
+                    std::cout << std::endl;
+                    std::string text_str = std::string(original_text.begin(), original_text.end());
+                    std::string pattern_str = std::string(pattern.begin(), pattern.end());
+
+                    std::cout << "Text: " << text_str << std::endl;
+                    std::cout << "Pattern: " << pattern_str << std::endl;
+                    std::cout << std::endl;
+
+                    stool::DebugPrinter::print_integers(occurrences, "occurrences");
+                    stool::DebugPrinter::print_integers(test_occurrences, "test_occurrences");
+
+                    test_text.print_info();
+                    throw std::runtime_error("Error: locate_query_test failed");
+                }
+            }
+        };
+
+        /*
+
+        template <typename TEXT>
         static void locate_query_test(TEXT &test_text, const std::vector<uint8_t> &original_text, uint64_t number_of_queries, uint64_t max_query_length, uint64_t seed, [[maybe_unused]]int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
             std::mt19937_64 mt64(seed);
@@ -116,10 +162,12 @@ namespace stool
                 }
             }
         };
+        */
 
         template <typename TEST_TEXT>
         static void locate_query_test(uint64_t max_len, uint64_t alphabet_type, [[maybe_unused]] uint64_t number_of_trials, uint64_t number_of_pattern_trials, 
-            std::function<void(TEST_TEXT&, const std::vector<uint8_t>&, const std::vector<uint8_t>&)> builder_function, uint64_t seed)
+            std::function<void(TEST_TEXT&, const std::vector<uint8_t>&, const std::vector<uint8_t>&)> builder_function, 
+            std::function<std::vector<uint64_t>(const std::vector<uint8_t>&)> sa_builder_function, uint64_t seed)
         {
             std::cout << "LOCATE_QUERY_TEST \t" << std::endl;
             TEST_TEXT test_index;
@@ -135,8 +183,10 @@ namespace stool
                     builder_function(test_index, text, alphabet);
     
                     uint64_t max_query_length = len / 2;
+
+                    std::vector<uint64_t> sa = sa_builder_function(text);
     
-                    locate_query_test(test_index, text, number_of_pattern_trials, max_query_length, seed);
+                    locate_query_test(test_index, text, sa, number_of_pattern_trials, max_query_length, seed);
     
                 }
                 std::cout << std::endl;
