@@ -100,18 +100,19 @@ namespace stool
                 }
                 catch (const std::exception &e)
                 {
+                    std::cout << std::endl;
                     std::string text_str = std::string(original_text.begin(), original_text.end());
                     std::string pattern_str = std::string(pattern.begin(), pattern.end());
 
-                    std::cout << "text_str = " << text_str << std::endl;
-                    std::cout << "pattern_str = " << pattern_str << std::endl;
-
+                    std::cout << "Text: " << text_str << std::endl;
+                    std::cout << "Pattern: " << pattern_str << std::endl;
                     std::cout << std::endl;
 
                     stool::DebugPrinter::print_integers(occurrences, "occurrences");
                     stool::DebugPrinter::print_integers(test_occurrences, "test_occurrences");
-                    throw std::runtime_error("ERROR");
-                    return;
+
+                    test_text.print_info();
+                    throw std::runtime_error("Error: locate_query_test failed");
                 }
             }
         };
