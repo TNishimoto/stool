@@ -165,7 +165,6 @@ namespace stool
 
         template <typename TEST_TEXT>
         static void locate_query_test_using_text_file(std::string text_file_path, uint64_t number_of_pattern_trials, uint64_t max_query_length,
-                                                      std::function<void(TEST_TEXT &, const std::vector<uint8_t> &, const std::vector<uint8_t> &)> builder_function,
                                                       std::function<std::vector<uint64_t>(const std::vector<uint8_t> &)> sa_builder_function, uint64_t seed)
         {
             std::cout << "LOCATE_QUERY_TEST \t" << std::endl;
@@ -178,9 +177,8 @@ namespace stool
 
             auto alphabet = stool::StringFunctions::get_alphabet(text);
 
-            TEST_TEXT test_index;
             std::cout << "Building test index..." << std::flush;
-            builder_function(test_index, text, alphabet);
+            TEST_TEXT test_index = TEST_TEXT::build_from_text(text, alphabet, stool::Message::SHOW_MESSAGE);
             std::cout << "[DONE]" << std::endl;
 
             std::cout << "Building suffix array..." << std::flush;
