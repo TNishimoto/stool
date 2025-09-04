@@ -38,6 +38,15 @@ namespace stool
             this->text.push_back(c);
         }
         
+        static NaiveDynamicString build_from_text(const std::vector<uint8_t> &text, [[maybe_unused]] const std::vector<uint8_t> &alphabet){
+            NaiveDynamicString r;
+            for (uint8_t c : text)
+            {
+                r.push_back(c);
+            }
+            return r;
+        }
+        
         /**
          * @brief Remove the last character from the string
          * 
@@ -52,6 +61,10 @@ namespace stool
             this->text.erase(this->text.begin() + pos);
         }
 
+        uint8_t access_text(uint64_t pos) const{
+            return this->text[pos];
+        }
+
         /**
          * @brief Insert a character at a specific position
          * @param pos The position where to insert the character (0-based index)
@@ -60,20 +73,24 @@ namespace stool
          * Inserts the specified character at the given position, shifting all
          * subsequent characters to the right.
          */
-        void insert_char(uint64_t pos, int64_t character)
+        void insert_string(uint64_t pos, int64_t character)
         {
             this->text.insert(this->text.begin() + pos, character);
         }
         void insert(uint64_t pos, uint8_t c){
             this->text.insert(this->text.begin() + pos, c);
         }
-        std::string to_string() const{
+        std::string get_text_str() const{
             std::string s;
             for (auto it : this->text)
             {
                 s.push_back(it);
             }
             return s;
+        }
+
+        std::vector<uint8_t> get_text() const{
+            return this->text;
         }
         
         /**
@@ -110,7 +127,7 @@ namespace stool
          * Removes the character at the specified position, shifting all
          * subsequent characters to the left.
          */
-        void delete_char(uint64_t pos)
+        void delete_substring(uint64_t pos)
         {
             this->text.erase(this->text.begin() + pos);
         }
