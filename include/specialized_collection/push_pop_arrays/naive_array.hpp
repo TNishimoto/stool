@@ -487,6 +487,10 @@ namespace stool
             return r;
 
         }
+        uint64_t reverse_psum([[maybe_unused]] uint64_t i) const
+        {
+            throw std::runtime_error("reverse_psum is not supported for NaiveArray");
+        }
 
 
         uint64_t size_in_bytes(bool only_extra_bytes = false) const

@@ -8,12 +8,205 @@
 #include <random>
 #include <bitset>
 #include "../../../include/light_stool.hpp"
+#include "./load_and_save_test.hpp"
+#include "./build_test.hpp"
+#include "./update_test.hpp"
+#include "./query_test.hpp"
 
 namespace stool
 {
+
+    template <typename INTEGER_CONTAINER>
     class DynamicIntegerTest
     {
     public:
+        std::vector<uint64_t> _inputs;
+        std::vector<uint64_t> _naive_values;
+        uint64_t _max_value;
+        uint64_t _seed;
+
+        DynamicIntegerTest()
+        {
+        }
+
+        std::function<INTEGER_CONTAINER(uint64_t, int64_t)> builder_function = [&](uint64_t i, [[maybe_unused]] int64_t message_paragraph)
+        {
+            if (i == 0 || _inputs[i] != _inputs[i - 1])
+            {
+                std::cout << stool::Message::get_paragraph_string(message_paragraph) << "len = " << _inputs[i] << ": " << std::flush;
+            }
+
+            uint64_t len = _inputs[i];
+            auto tmp = stool::StringGenerator::create_random_integer_sequence(len, _max_value, _seed++);
+            _naive_values.swap(tmp);
+            INTEGER_CONTAINER test_container = INTEGER_CONTAINER::build(_naive_values);
+            std::cout << "+" << std::flush;
+
+            if (i == _inputs.size() - 1 || _inputs[i] != _inputs[i + 1])
+            {
+                std::cout << std::endl;
+            }
+            return test_container;
+        };
+        std::function<bool(INTEGER_CONTAINER &, uint64_t, int64_t)> equal_check_function = [&](INTEGER_CONTAINER &obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
+        {
+            std::vector<uint64_t> test_values = obj.to_vector();
+            stool::EqualChecker::equal_check(_naive_values, test_values, "EQUAL_CHECK_FUNCTION");
+            return true;
+        };
+
+        std::function<bool(INTEGER_CONTAINER &, INTEGER_CONTAINER &)> equal_check_function3 = [&](INTEGER_CONTAINER &obj1, INTEGER_CONTAINER &obj2)
+        {
+            std::vector<uint64_t> test_values = obj1.to_vector();
+            std::vector<uint64_t> correct_values = obj2.to_vector();
+            stool::EqualChecker::equal_check(correct_values, test_values, "EQUAL_CHECK_FUNCTION");
+            return true;
+        };
+
+        std::function<INTEGER_CONTAINER(uint64_t, int64_t)> test_builder_function = [&](uint64_t i, [[maybe_unused]] int64_t message_paragraph)
+        {
+            if (i == 0 || _inputs[i] != _inputs[i - 1])
+            {
+                std::cout << stool::Message::get_paragraph_string(message_paragraph) << "len = " << _inputs[i] << ": " << std::flush;
+            }
+
+            uint64_t len = _inputs[i];
+            auto tmp = stool::StringGenerator::create_random_integer_sequence(len, _max_value, _seed++);
+            _naive_values.swap(tmp);
+            INTEGER_CONTAINER test_container = INTEGER_CONTAINER::build(_naive_values);
+            std::cout << "+" << std::flush;
+
+            if (i == _inputs.size() - 1 || _inputs[i] != _inputs[i + 1])
+            {
+                std::cout << std::endl;
+            }
+            return test_container;
+        };
+
+        std::function<std::vector<uint64_t>(uint64_t, int64_t)> correct_builder_function = [&](uint64_t i, [[maybe_unused]] int64_t message_paragraph)
+        {
+            std::vector<uint64_t> obj;
+            for (uint64_t x = 0; x < _inputs[i]; x++)
+            {
+                obj.push_back(_naive_values[x]);
+            }
+            return obj;
+        };
+
+        std::function<void(INTEGER_CONTAINER &, std::vector<uint64_t> &, uint64_t, int64_t)> insert_function = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
+        {
+            std::mt19937 mt(_seed++);
+            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+            uint64_t new_value = get_rand_value(mt) % _max_value;
+            uint64_t pos = get_rand_value(mt) % (correct_obj.size() + 1);
+
+            correct_obj.insert(correct_obj.begin() + pos, new_value);
+            test_obj.insert(pos, new_value);
+        };
+
+        std::function<void(INTEGER_CONTAINER &, std::vector<uint64_t> &, uint64_t, int64_t)> remove_function = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
+        {
+            std::mt19937 mt(_seed++);
+            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+            if (correct_obj.size() > 0)
+            {
+                uint64_t pos = get_rand_value(mt) % (correct_obj.size());
+
+                correct_obj.erase(correct_obj.begin() + pos);
+                test_obj.remove(pos);
+            }
+        };
+
+        std::function<void(INTEGER_CONTAINER &, std::vector<uint64_t> &, uint64_t, int64_t)> replace_function = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
+        {
+            std::mt19937 mt(_seed++);
+            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+            uint64_t pos = get_rand_value(mt) % (correct_obj.size());
+            uint64_t new_value = get_rand_value(mt) % _max_value;
+
+            correct_obj[pos] = new_value;
+            test_obj.set_value(pos, new_value);
+        };
+
+        std::function<void(INTEGER_CONTAINER &, std::vector<uint64_t> &, uint64_t, int64_t)> push_back_function = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
+        {
+            std::mt19937 mt(_seed++);
+            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+            uint64_t new_value = get_rand_value(mt) % _max_value;
+
+            correct_obj.push_back(new_value);
+            test_obj.push_back(new_value);
+        };
+
+        std::function<void(INTEGER_CONTAINER &, std::vector<uint64_t> &, uint64_t, int64_t)> pop_back_function = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
+        {
+            std::mt19937 mt(_seed++);
+            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+            if (correct_obj.size() > 0)
+            {
+                correct_obj.pop_back();
+                test_obj.pop_back();
+            }
+        };
+
+        std::function<bool(INTEGER_CONTAINER &, std::vector<uint64_t> &)> equal_check_function2 = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj)
+        {
+            std::vector<uint64_t> test_values = test_obj.to_vector();
+            stool::EqualChecker::equal_check(correct_obj, test_values, "INSERT_TEST");
+            return true;
+        };
+
+        std::function<void(INTEGER_CONTAINER &, std::vector<uint64_t> &, uint64_t, int64_t)> psum_function = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
+        {
+            std::mt19937 mt(_seed++);
+            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+
+            uint64_t pos = get_rand_value(mt) % (correct_obj.size());
+            uint64_t psum1 = DynamicIntegerTest::compute_psum(correct_obj, pos);
+            uint64_t psum2 = test_obj.psum(pos);
+            if (psum1 != psum2)
+            {
+                std::cout << "psum_test error" << std::endl;
+                std::cout << "psum1 = " << psum1 << std::endl;
+
+                throw std::runtime_error("psum_test error");
+            }
+        };
+
+        std::function<void(INTEGER_CONTAINER &, std::vector<uint64_t> &, uint64_t, int64_t)> reverse_psum_function = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
+        {
+            std::mt19937 mt(_seed++);
+            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+
+            uint64_t pos = get_rand_value(mt) % (correct_obj.size());
+            uint64_t psum1 = DynamicIntegerTest::compute_reverse_psum(correct_obj, pos);
+            uint64_t psum2 = test_obj.reverse_psum(pos);
+            if (psum1 != psum2)
+            {
+                std::cout << "reverse_psum_test error" << std::endl;
+                std::cout << "psum1 = " << psum1 << std::endl;
+
+                throw std::runtime_error("reverse_psum_test error");
+            }
+        };
+
+        std::function<void(INTEGER_CONTAINER &, std::vector<uint64_t> &, uint64_t, int64_t)> search_function = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
+        {
+            std::mt19937 mt(_seed++);
+            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+
+            uint64_t value = get_rand_value(mt) % this->_max_value;
+            uint64_t pos1 = DynamicIntegerTest::compute_search(correct_obj, value);
+            uint64_t pos2 = test_obj.search(value);
+            if (pos1 != pos2)
+            {
+                std::cout << "search_test error" << std::endl;
+                std::cout << "pos1 = " << pos1 << std::endl;
+
+                throw std::runtime_error("search_test error");
+            }
+        };
+
         static uint64_t compute_psum(const std::vector<uint64_t> &bv, uint64_t i)
         {
             uint64_t sum = 0;
@@ -33,6 +226,25 @@ namespace stool
             return sum;
         }
 
+        static uint64_t compute_reverse_psum(const std::vector<uint64_t> &bv, uint64_t i)
+        {
+            uint64_t sum = 0;
+
+            if (i >= bv.size())
+            {
+                std::cout << "compute_psum error" << std::endl;
+                std::cout << "i = " << i << std::endl;
+                std::cout << "bv.size() = " << bv.size() << std::endl;
+                throw std::runtime_error("compute_psum error");
+            }
+
+            for (uint64_t j = 0; j <= i; j++)
+            {
+                sum += bv[bv.size() - j - 1];
+            }
+            return sum;
+        }
+
         static int64_t compute_search(const std::vector<uint64_t> &bv, uint64_t value)
         {
             uint64_t sum = 0;
@@ -47,487 +259,202 @@ namespace stool
             return -1;
         }
 
-        template <typename INTEGER_CONTAINER>
-        static void build_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed)
+        void build_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed)
         {
-            std::cout << "BUILD_TEST \t" << std::endl;
-            uint64_t len = 1;
-
-            while (len < max_len)
+            this->_max_value = max_value;
+            this->_seed = seed;
+            this->_inputs.clear();
+            for (uint64_t len = 16; len < max_len; len *= 2)
             {
-                std::cout << "\t" << "len: " << len << ": " << std::flush;
-                for (uint64_t i = 0; i < number_of_trials; i++)
+                for (uint64_t x = 0; x < number_of_trials; x++)
                 {
-                    std::cout << "+" << std::flush;
-
-                    std::vector<uint64_t> values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
-                    INTEGER_CONTAINER test_container = INTEGER_CONTAINER::build(values);
-                    std::vector<uint64_t> test_values = test_container.to_vector();
-                    stool::EqualChecker::equal_check(values, test_values, "BUILD_TEST");
+                    this->_inputs.push_back(len);
                 }
-                std::cout << std::endl;
-                len *= 2;
             }
-            std::cout << "[DONE]" << std::endl;
+            stool::BuildTest::build_test(this->_inputs.size(), builder_function, equal_check_function, stool::Message::SHOW_MESSAGE);
         }
 
-        template <typename INTEGER_CONTAINER>
-        static void reverse_psum_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed)
-        {
-
-            std::cout << "REVERSE_PSUM_TEST \t" << std::endl;
-
-            uint64_t len = 1;
-            while (len < max_len)
+        void reverse_psum_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed){
+            this->_max_value = max_value;
+            this->_seed = seed;
+            this->_inputs.clear();
+            for (uint64_t len = 16; len < max_len; len *= 2)
             {
-                std::cout << "\t" << "len: " << len << ": " << std::flush;
-                
-                for (uint64_t i = 0; i < number_of_trials; i++)
+                for (uint64_t x = 0; x < number_of_trials; x++)
                 {
-                    std::cout << "+" << std::flush;
-
-                    std::vector<uint64_t> naive_values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
-                    INTEGER_CONTAINER test_values = INTEGER_CONTAINER::build(naive_values);
-
-                    uint64_t rpsum = 0;
-
-                    for (uint64_t i = 0; i < len; i++)
-                    {
-                        rpsum += naive_values[len - i - 1];
-                        if (test_values.reverse_psum(i) != rpsum)
-                        {
-                            std::cout << "reverse_psum error" << std::endl;
-                            std::cout << "rpsum = " << rpsum << std::endl;
-                            std::cout << "test_values.psum(i) = " << test_values.psum(i) << std::endl;
-                            throw std::runtime_error("psum error");
-                        }
-                    }
+                    this->_inputs.push_back(len);
                 }
-                std::cout << std::endl;
-
-                len *= 2;
             }
-
-            std::cout << "[DONE]" << std::endl;
+            stool::QueryTest::query_test("REVERSE_PSUM", this->_inputs.size(), number_of_trials, this->test_builder_function, this->correct_builder_function, this->reverse_psum_function, stool::Message::SHOW_MESSAGE);
+        }
+        void psum_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed){
+            this->_max_value = max_value;
+            this->_seed = seed;
+            this->_inputs.clear();
+            for (uint64_t len = 16; len < max_len; len *= 2)
+            {
+                for (uint64_t x = 0; x < number_of_trials; x++)
+                {
+                    this->_inputs.push_back(len);
+                }
+            }
+            stool::QueryTest::query_test("PSUM", this->_inputs.size(), number_of_trials, this->test_builder_function, this->correct_builder_function, this->psum_function, stool::Message::SHOW_MESSAGE);
         }
 
-        template <typename INTEGER_CONTAINER>
-        static void psum_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed)
-        {
-            std::cout << "PSUM_TEST \t" << std::endl;
-
-            if(UINT64_MAX / max_value <= max_len){
-                throw std::runtime_error("max_value is too large");
-
-            }
-
-
-            uint64_t len = 1;
-            while (len < max_len)
+        void search_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed){
+            this->_max_value = max_value;
+            this->_seed = seed;
+            this->_inputs.clear();
+            for (uint64_t len = 16; len < max_len; len *= 2)
             {
-                std::cout << "\t" << "len: " << len << ": " << std::flush;
-                for (uint64_t i = 0; i < number_of_trials; i++)
+                for (uint64_t x = 0; x < number_of_trials; x++)
                 {
-                    std::cout << "+" << std::flush;
-
-                    std::vector<uint64_t> naive_values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
-                    INTEGER_CONTAINER test_values = INTEGER_CONTAINER::build(naive_values);
-
-                    uint64_t psum = 0;
-
-                    for (uint64_t i = 0; i < len; i++)
-                    {
-                        psum += naive_values[i];
-                        if (test_values.psum(i) != psum)
-                        {
-                            std::cout << "psum error" << std::endl;
-                            std::cout << "psum = " << psum << std::endl;
-                            std::cout << "i = " << i << std::endl;
-                            std::cout << "test_values.psum(i) = " << test_values.psum(i) << std::endl;
-
-                            test_values.print_info();
-                            throw std::runtime_error("psum error");
-                        }
-                    }
+                    this->_inputs.push_back(len);
                 }
-                std::cout << std::endl;
-                len *= 2;
             }
-
-            std::cout << "[DONE]" << std::endl;
-        }
-        template <typename INTEGER_CONTAINER>
-        static void search_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed)
-        {
-            std::cout << "SEARCH_TEST \t" << std::endl;
-            std::mt19937 mt(seed);
-            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
-
-            std::cout << "max_len = " << max_len << std::endl;
-            std::cout << "max_value = " << max_value << std::endl;
-            std::cout << "UINT64_MAX / max_value = " << UINT64_MAX / max_value << std::endl;
-
-            if(UINT64_MAX / max_value <= max_len){
-                throw std::runtime_error("max_value is too large");
-
-            }
-
-
-            uint64_t len = 1;
-            while (len < max_len)
-            {
-                std::cout << "\t" << "len: " << len << ": " << std::flush;
-                for (uint64_t i = 0; i < number_of_trials; i++)
-                {
-                    std::cout << "+" << std::flush;
-
-                    std::vector<uint64_t> naive_values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
-                    INTEGER_CONTAINER test_values = INTEGER_CONTAINER::build(naive_values);
-
-                    for (uint64_t i = 0; i < len; i++)
-                    {
-                        uint64_t value = get_rand_value(mt) % max_value;
-                        int64_t search_result1 = test_values.search(value);
-                        int64_t search_result2 = DynamicIntegerTest::compute_search(naive_values, value);
-
-                        if (search_result1 != search_result2)
-                        {
-                            std::cout << "search error" << std::endl;
-                            std::cout << "search_result[TEST   ] = " << search_result1 << std::endl;
-                            std::cout << "search_result[CORRECT] = " << search_result2 << std::endl;
-
-                            stool::DebugPrinter::print_integers(naive_values, "naive_values");
-                            stool::DebugPrinter::print_integers(test_values.to_vector(), "test_values");
-
-
-                            throw std::runtime_error("search error");
-                        }
-                    }
-                }
-                std::cout << std::endl;
-                len *= 2;
-            }
-
-            std::cout << "[DONE]" << std::endl;
+            stool::QueryTest::query_test("SEARCH", this->_inputs.size(), number_of_trials, this->test_builder_function, this->correct_builder_function, this->search_function, stool::Message::SHOW_MESSAGE);
         }
 
-        template <typename INTEGER_CONTAINER>
-        static void push_and_pop_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed, bool detail_check = true)
+        void insert_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, bool detail_check, uint64_t seed)
         {
-            std::cout << "PUSH_AND_POP_TEST \t" << std::flush;
-            std::vector<uint64_t> naive_values;
-            std::mt19937 mt(seed);
-            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT32_MAX);
-            for (uint64_t i = 0; i < number_of_trials; i++)
+            this->_max_value = max_value;
+            this->_seed = seed;
+            this->_inputs.clear();
+
+            for (uint64_t len = 16; len < max_len; len *= 2)
             {
-                naive_values.clear();
-                INTEGER_CONTAINER test_container = INTEGER_CONTAINER::build(naive_values);
-
-                std::cout << "+" << std::flush;
-                while (naive_values.size() < max_len)
+                for (uint64_t x = 0; x < number_of_trials; x++)
                 {
-
-                    uint64_t value = get_rand_value(mt) % max_value;
-                    uint64_t type = get_rand_value(mt) % 5;
-
-                    if (type == 0 || type == 1)
-                    {
-                        test_container.push_back(value);
-                        naive_values.push_back(value);
-                    }
-                    else if (type == 2 || type == 3)
-                    {
-                        test_container.push_front(value);
-                        naive_values.insert(naive_values.begin(), value);
-                    }
-                    else if (type == 4 && naive_values.size() > 0)
-                    {
-                        test_container.pop_back();
-                        naive_values.pop_back();
-                    }
-                    else if (type == 5 && test_container.size() > 0)
-                    {
-                        test_container.pop_front();
-                        naive_values.erase(naive_values.begin());
-                    }
-
-                    if (detail_check)
-                    {
-                        std::vector<uint64_t> test_values = test_container.to_vector();
-                        stool::EqualChecker::equal_check(naive_values, test_values, "PUSH_AND_POP_TEST");
-                    }
+                    _inputs.push_back(len);
                 }
-
-                std::vector<uint64_t> test_values = test_container.to_vector();
-                stool::EqualChecker::equal_check(naive_values, test_values, "PUSH_AND_POP_TEST");
-            }
-            std::cout << "[DONE]" << std::endl;
-        }
-
-        template <typename INTEGER_CONTAINER>
-        static void insert_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed, bool detail_check = true)
-        {
-            std::cout << "INSERT_TEST \t" << std::endl;
-            std::mt19937 mt(seed);
-            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
-            std::vector<uint64_t> naive_values;
-
-            int64_t len = 1;
-
-            while (len < (int64_t)max_len)
-            {
-                std::cout << "\t" << "len: " << len << ": " << std::flush;
-
-                for (uint64_t i = 0; i < number_of_trials; i++)
-                {
-                    std::cout << "+" << std::flush;
-                    naive_values.clear();
-                    INTEGER_CONTAINER test_container = INTEGER_CONTAINER::build(naive_values);
-
-                    for (int64_t x = 0; x < len; x++)
-                    {
-                        uint64_t new_value = get_rand_value(mt) % max_value;
-                        uint64_t pos = get_rand_value(mt) % (naive_values.size() + 1);
-
-                        naive_values.insert(naive_values.begin() + pos, new_value);
-                        test_container.insert(pos, new_value);
-
-                        if (detail_check)
-                        {
-                            try
-                            {
-                                std::vector<uint64_t> test_values = test_container.to_vector();
-                                stool::EqualChecker::equal_check(naive_values, test_values, "INSERT_TEST");
-                            }
-                            catch (const std::runtime_error &e)
-                            {
-                                std::cout << "Insert test error" << std::endl;
-                                std::cout << "len = " << len << std::endl;
-                                std::cout << "pos = " << pos << std::endl;
-                                throw e;
-                            }
-                        }
-                    }
-                    std::vector<uint64_t> test_values = test_container.to_vector();
-                    stool::EqualChecker::equal_check(naive_values, test_values, "INSERT_TEST");
-                }
-                std::cout << std::endl;
-                len *= 2;
             }
 
-            std::cout << "[DONE]" << std::endl;
+            stool::UpdateTest::update_test<INTEGER_CONTAINER, std::vector<uint64_t>>("INSERT", _inputs.size(), number_of_trials,
+                                                                                     this->test_builder_function, this->correct_builder_function, this->insert_function, this->equal_check_function2, detail_check);
         }
 
-        template <typename INTEGER_CONTAINER>
-        static void remove_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed, bool detail_check = true)
+        void remove_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, bool detail_check, uint64_t seed)
         {
+            this->_max_value = max_value;
+            this->_seed = seed;
+            this->_inputs.clear();
 
-            std::cout << "REMOVE_TEST \t" << std::endl;
-            std::mt19937 mt(seed);
-            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
-
-            int64_t len = 1;
-
-            while (len < (int64_t)max_len)
+            for (uint64_t len = 16; len < max_len; len *= 2)
             {
-                std::cout << "\t" << "len: " << len << ": " << std::flush;
-
-                for (uint64_t i = 0; i < number_of_trials; i++)
+                for (uint64_t x = 0; x < number_of_trials; x++)
                 {
-                    std::cout << "+" << std::flush;
-                    std::vector<uint64_t> naive_values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
-                    INTEGER_CONTAINER test_container = INTEGER_CONTAINER::build(naive_values);
-
-                    for (int64_t x = 0; x < len; x++)
-                    {
-                        uint64_t pos = get_rand_value(mt) % naive_values.size();
-                        naive_values.erase(naive_values.begin() + pos);
-                        test_container.remove(pos);
-
-                        if (detail_check)
-                        {
-                            try
-                            {
-                                std::vector<uint64_t> test_values = test_container.to_vector();
-                                stool::EqualChecker::equal_check(naive_values, test_values, "REMOVE_TEST");
-                            }
-                            catch (const std::runtime_error &e)
-                            {
-                                std::cout << "Erase test error" << std::endl;
-                                std::cout << "len = " << len << std::endl;
-                                std::cout << "pos = " << pos << std::endl;
-                                throw e;
-                            }
-                        }
-                    }
-                    std::vector<uint64_t> test_values = test_container.to_vector();
-                    stool::EqualChecker::equal_check(naive_values, test_values, "REMOVE_TEST");
+                    this->_inputs.push_back(len);
                 }
-                std::cout << std::endl;
-                len *= 2;
             }
 
-            std::cout << "[DONE]" << std::endl;
+            stool::UpdateTest::update_test<INTEGER_CONTAINER, std::vector<uint64_t>>("REMOVE", _inputs.size(), number_of_trials,
+                                                                                     this->test_builder_function, this->correct_builder_function, this->remove_function, this->equal_check_function2, detail_check);
         }
 
-        template <typename INTEGER_CONTAINER>
-        static void replace_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed, bool detail_check = true)
+        void replace_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, bool detail_check, uint64_t seed)
         {
+            this->_max_value = max_value;
+            this->_seed = seed;
+            this->_inputs.clear();
 
-            std::cout << "REPLACE_TEST \t" << std::endl;
-            std::mt19937 mt(seed);
-            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
-
-            int64_t len = 1;
-
-            while (len < (int64_t)max_len)
+            for (uint64_t len = 16; len < max_len; len *= 2)
             {
-                std::cout << "\t" << "len: " << len << ": " << std::flush;
-
-                for (uint64_t i = 0; i < number_of_trials; i++)
+                for (uint64_t x = 0; x < number_of_trials; x++)
                 {
-                    std::cout << "+" << std::flush;
-                    std::vector<uint64_t> naive_values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
-                    INTEGER_CONTAINER test_container = INTEGER_CONTAINER::build(naive_values);
-
-                    for (int64_t x = 0; x < len; x++)
-                    {
-
-                        uint64_t new_value = get_rand_value(mt) % max_value;
-                        naive_values[x] = new_value;
-                        test_container.set_value(x, new_value);
-
-                        if (detail_check)
-                        {
-                            try
-                            {
-                                std::vector<uint64_t> test_values = test_container.to_vector();
-                                stool::EqualChecker::equal_check(naive_values, test_values, "REPLACE_TEST");
-                            }
-                            catch (const std::runtime_error &e)
-                            {
-                                std::cout << "Replace test error" << std::endl;
-                                std::cout << "len = " << len << std::endl;
-                                std::cout << "pos = " << x << std::endl;
-                                throw e;
-                            }
-                        }
-                    }
-                    std::vector<uint64_t> test_values = test_container.to_vector();
-                    stool::EqualChecker::equal_check(naive_values, test_values, "REPLACE_TEST");
+                    this->_inputs.push_back(len);
                 }
-                std::cout << std::endl;
-                len *= 2;
             }
-            std::cout << "[DONE]" << std::endl;
+
+            stool::UpdateTest::update_test<INTEGER_CONTAINER, std::vector<uint64_t>>("REPLACE", _inputs.size(), number_of_trials,
+                                                                                     this->test_builder_function, this->correct_builder_function, this->replace_function, this->equal_check_function2, detail_check);
         }
 
-        template <typename INTEGER_CONTAINER>
-        static void load_write_file_test(uint64_t max_element_count, uint64_t max_value, uint64_t trial_count, uint64_t seed, [[maybe_unused]] bool detailed_check)
+        void push_back_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, bool detail_check, uint64_t seed)
         {
-            std::cout << "LOAD_AND_WRITE_FILE_TEST: " << std::endl;
-            std::mt19937_64 mt64(seed);
-            std::uniform_int_distribution<uint64_t> get_rand_uni_int(0, UINT64_MAX);
+            this->_max_value = max_value;
+            this->_seed = seed;
+            this->_inputs.clear();
+
+            for (uint64_t len = 16; len < max_len; len *= 2)
+            {
+                for (uint64_t x = 0; x < number_of_trials; x++)
+                {
+                    this->_inputs.push_back(len);
+                }
+            }
+
+            stool::UpdateTest::update_test<INTEGER_CONTAINER, std::vector<uint64_t>>("PUSH_BACK", _inputs.size(), number_of_trials,
+                                                                                     this->test_builder_function, this->correct_builder_function, this->push_back_function, this->equal_check_function2, detail_check);
+        }
+
+        void pop_back_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, bool detail_check, uint64_t seed)
+        {
+
+            this->_max_value = max_value;
+            this->_seed = seed;
+            this->_inputs.clear();
+
+            for (uint64_t len = 16; len < max_len; len *= 2)
+            {
+                for (uint64_t x = 0; x < number_of_trials; x++)
+                {
+                    this->_inputs.push_back(len);
+                }
+            }
+
+            stool::UpdateTest::update_test<INTEGER_CONTAINER, std::vector<uint64_t>>("POP_BACK", _inputs.size(), number_of_trials,
+                                                                                     this->test_builder_function, this->correct_builder_function, this->pop_back_function, this->equal_check_function2, detail_check);
+        }
+
+        
+
+        void load_and_save_file_test(uint64_t max_element_count, uint64_t max_value, uint64_t trial_count, [[maybe_unused]] bool detailed_check, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
+        {
+            this->_max_value = max_value;
+            this->_seed = seed;
+            this->_inputs.clear();
 
             for (uint64_t len = 16; len < max_element_count; len *= 2)
             {
-                std::cout << "\t" << "len: " << len << ": " << std::flush;
-
-
                 for (uint64_t x = 0; x < trial_count; x++)
                 {
-                    std::cout << "+" << std::flush;
-
-                    std::vector<uint64_t> naive_values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
-                    INTEGER_CONTAINER test_container1 = INTEGER_CONTAINER::build(naive_values);
-
-                    {
-                        std::ofstream os;
-                        os.open("flc_vector.bits", std::ios::binary);
-                        if (!os)
-                        {
-                            std::cerr << "Error: Could not open file for writing." << std::endl;
-                            throw std::runtime_error("File open error");
-                        }
-                        INTEGER_CONTAINER::save(test_container1, os);
-                    }
-
-                    INTEGER_CONTAINER test_container2;
-
-                    {
-                        std::ifstream ifs;
-                        ifs.open("flc_vector.bits", std::ios::binary);
-                        if (!ifs)
-                        {
-                            std::cerr << "Error: Could not open file for reading." << std::endl;
-                            throw std::runtime_error("File open error");
-                        }
-
-                        auto tmp = INTEGER_CONTAINER::load(ifs);
-                        test_container2.swap(tmp);
-                    }
-                    std::remove("flc_vector.bits");
-
-                    if (naive_values.size() != test_container2.size())
-                    {
-                        test_container2.print_info();
-                        assert(false);
-                        throw -1;
-                    }
-
-                    std::vector<uint64_t> test_values = test_container2.to_vector();
-                    stool::EqualChecker::equal_check(naive_values, test_values, "LOAD_WRITE_FILE_TEST");
+                    this->_inputs.push_back(len);
                 }
-                std::cout << std::endl;
-                len *= 2;
             }
-            std::cout << "[DONE]" << std::endl;
+
+
+            
+
+            stool::LoadAndSaveTest::load_and_save_file_test(this->_inputs.size(), builder_function, equal_check_function3, "flc_vector.bits", message_paragraph);
         }
 
-        template <typename INTEGER_CONTAINER>
-        static void load_write_bits_test(uint64_t max_element_count, uint64_t max_value, uint64_t trial_count, uint64_t seed, [[maybe_unused]] bool detailed_check)
+        void load_and_save_bytes_test(uint64_t max_element_count, uint64_t max_value, uint64_t trial_count, [[maybe_unused]] bool detailed_check, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
-            std::cout << "LOAD_AND_WRITE_BITS_TEST: " << std::endl;
-            std::mt19937_64 mt64(seed);
-            std::uniform_int_distribution<uint64_t> get_rand_uni_int(0, UINT64_MAX);
+            this->_max_value = max_value;
+            this->_seed = seed;
+            this->_inputs.clear();
 
             for (uint64_t len = 16; len < max_element_count; len *= 2)
             {
-                std::cout << "\t" << "len: " << len << ": " << std::flush;
-
                 for (uint64_t x = 0; x < trial_count; x++)
                 {
-                    std::cout << "+" << std::flush;
-
-                    std::vector<uint64_t> naive_values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
-                    INTEGER_CONTAINER test_container1 = INTEGER_CONTAINER::build(naive_values);
-
-                    std::vector<uint8_t> bytes;
-                    uint64_t pos = 0;
-                    INTEGER_CONTAINER::save(test_container1, bytes, pos);
-                    pos = 0;
-
-                    INTEGER_CONTAINER test_container2 = INTEGER_CONTAINER::load(bytes, pos);
-
-                    if (naive_values.size() != test_container2.size())
-                    {
-                        test_container2.print_info();
-                        assert(false);
-                        throw -1;
-                    }
-
-                    std::vector<uint64_t> test_values = test_container2.to_vector();
-                    stool::EqualChecker::equal_check(naive_values, test_values, "LOAD_WRITE_FILE_TEST");
+                    this->_inputs.push_back(len);
                 }
-                std::cout << std::endl;
-                len *= 2;
             }
-            std::cout << "[DONE]" << std::endl;
+
+
+
+            stool::LoadAndSaveTest::load_and_save_bytes_test(this->_inputs.size(), builder_function, equal_check_function3, message_paragraph);
         }
 
-        template <typename INTEGER_CONTAINER, bool USE_QUERY = true>
-        static void random_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t max_counter, uint64_t seed, bool detail_check = false)
+        template <bool USE_QUERY = true>
+        void random_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t max_counter, bool detail_check, uint64_t seed)
         {
+            this->_max_value = max_value;
+            this->_seed = seed;
+            this->_inputs.clear();
+
+
             std::cout << "RANDOM_TEST: \t" << std::flush;
             std::mt19937 mt(seed);
             std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
@@ -544,68 +471,34 @@ namespace stool
                 {
 
                     uint64_t type = get_rand_value(mt) % 10;
-                    uint64_t random_pos = naive_values.size() > 0 ? (get_rand_value(mt) % naive_values.size()) : 0;
-                    uint64_t random_value = get_rand_value(mt) % max_value;
 
                     if (type == 0 || type == 1)
                     {
-                        test_container.push_back(random_value);
-                        naive_values.push_back(random_value);
+                        this->push_back_function(test_container, naive_values, i, stool::Message::SHOW_MESSAGE);
                     }
                     else if (type == 2 || type == 3)
                     {
-                        test_container.push_front(random_value);
-                        naive_values.insert(naive_values.begin(), random_value);
+                        this->pop_back_function(test_container, naive_values, i, stool::Message::SHOW_MESSAGE);
                     }
-                    else if (type == 4 && naive_values.size() > 0)
+                    else if (type == 4)
                     {
-                        test_container.pop_back();
-                        naive_values.pop_back();
+                        this->insert_function(test_container, naive_values, i, stool::Message::SHOW_MESSAGE);
                     }
-                    else if (type == 5 && test_container.size() > 0)
+                    else if (type == 5)
                     {
-                        test_container.pop_front();
-                        naive_values.erase(naive_values.begin());
-                    }
-                    else if (type == 6 && naive_values.size() < max_len)
-                    {
-                        test_container.insert(random_pos, random_value);
-                        naive_values.insert(naive_values.begin() + random_pos, random_value);
-                    }
-                    else if (type == 7 && naive_values.size() > 0)
-                    {
-                        naive_values.erase(naive_values.begin() + random_pos);
-                        test_container.remove(random_pos);
+                        this->remove_function(test_container, naive_values, i, stool::Message::SHOW_MESSAGE);
                     }
                     else if (type == 8)
                     {
-                        if (random_pos < naive_values.size())
-                        {
-                            naive_values[random_pos] = random_value;
-                            test_container.set_value(random_pos, random_value);
-                        }
+                        this->replace_function(test_container, naive_values, i, stool::Message::SHOW_MESSAGE);
                     }
                     else
                     {
-                        if constexpr(USE_QUERY){
-                            if (naive_values.size() > 1)
-                            {
-                                uint64_t psum1A = compute_psum(naive_values, random_pos);
-                                uint64_t psum1B = test_container.psum(random_pos);
-                                if (psum1A != psum1B)
-                                {
-                                    std::cout << "psum_test error/" << psum1A << "/" << psum1B << std::endl;
-                                    throw std::runtime_error("psum_test error");
-                                }
-    
-                                int64_t search1A = compute_search(naive_values, random_pos);
-                                int64_t search1B = test_container.search(random_pos);
-                                if (search1A != search1B)
-                                {
-                                    std::cout << "search_test error/" << search1A << "/" << search1B << std::endl;
-                                    throw std::runtime_error("search_test error");
-                                }
-                            }    
+                        if constexpr (USE_QUERY)
+                        {
+                            this->psum_function(test_container, naive_values, i, stool::Message::SHOW_MESSAGE);
+                            this->search_function(test_container, naive_values, i, stool::Message::SHOW_MESSAGE);
+                            this->reverse_psum_function(test_container, naive_values, i, stool::Message::SHOW_MESSAGE);
                         }
                     }
                     counter++;
@@ -630,5 +523,6 @@ namespace stool
             }
             std::cout << "[DONE]" << std::endl;
         }
+            
     };
 }

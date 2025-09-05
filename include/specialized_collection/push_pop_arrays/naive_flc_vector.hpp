@@ -1095,7 +1095,7 @@ namespace stool
          * @param item The VLCDeque instance to save
          * @param os The output file stream to write to
          */
-        static void save(const NaiveFLCVector &item, std::ofstream &os)
+        static void store_to_file(const NaiveFLCVector &item, std::ofstream &os)
         {
             os.write(reinterpret_cast<const char *>(&item.psum_), sizeof(item.psum_));
             os.write(reinterpret_cast<const char *>(&item.size_), sizeof(item.size_));
@@ -1103,7 +1103,7 @@ namespace stool
             os.write(reinterpret_cast<const char *>(&item.code_type_), sizeof(item.code_type_));
             os.write(reinterpret_cast<const char *>(item.buffer_), sizeof(uint64_t) * item.buffer_size_);
         }
-        static void save(const NaiveFLCVector &item, std::vector<uint8_t> &output, uint64_t &pos)
+        static void store_to_bytes(const NaiveFLCVector &item, std::vector<uint8_t> &output, uint64_t &pos)
         {
             uint64_t bytes = item.size_in_bytes();
             if(output.size() < pos + bytes){
@@ -1133,7 +1133,7 @@ namespace stool
          * @param output The output byte array to write to
          * @param pos Current position in the output array, updated after writing
          */
-        static void save(const std::vector<NaiveFLCVector> &items, std::vector<uint8_t> &output, uint64_t &pos)
+        static void store_to_bytes(const std::vector<NaiveFLCVector> &items, std::vector<uint8_t> &output, uint64_t &pos)
         {
             uint64_t size = items.size();
             std::memcpy(output.data() + pos, &size, sizeof(size));
@@ -1141,7 +1141,7 @@ namespace stool
 
             for (auto &it : items)
             {
-                NaiveFLCVector::save(it, output, pos);
+                NaiveFLCVector::store_to_bytes(it, output, pos);
             }
         }
 
@@ -1154,13 +1154,13 @@ namespace stool
          * @param items Vector of VLCDeque instances to save
          * @param os The output file stream to write to
          */
-        static void save(const std::vector<NaiveFLCVector> &items, std::ofstream &os)
+        static void store_to_file(const std::vector<NaiveFLCVector> &items, std::ofstream &os)
         {
             uint64_t size = items.size();
             os.write(reinterpret_cast<const char *>(&size), sizeof(size));
             for (auto &it : items)
             {
-                NaiveFLCVector::save(it, os);
+                NaiveFLCVector::store_to_file(it, os);
             }
         }
 
@@ -1174,7 +1174,7 @@ namespace stool
          * @param pos Current position in the input array, updated after reading
          * @return The deserialized VLCDeque instance
          */
-        static NaiveFLCVector load(const std::vector<uint8_t> &data, uint64_t &pos)
+        static NaiveFLCVector load_from_bytes(const std::vector<uint8_t> &data, uint64_t &pos)
         {
             uint64_t _psum;
             uint16_t _size;
@@ -1211,7 +1211,7 @@ namespace stool
          * @param ifs The input file stream to read from
          * @return The deserialized VLCDeque instance
          */
-        static NaiveFLCVector load(std::ifstream &ifs)
+        static NaiveFLCVector load_from_file(std::ifstream &ifs)
         {
             uint64_t _psum;
             uint16_t _size;
@@ -1250,7 +1250,7 @@ namespace stool
             std::vector<NaiveFLCVector> r;
             for (uint64_t i = 0; i < size; i++)
             {
-                r.push_back(NaiveFLCVector::load(data, pos));
+                r.push_back(NaiveFLCVector::load_from_bytes(data, pos));
             }
             return r;
         }
@@ -1272,7 +1272,7 @@ namespace stool
             std::vector<NaiveFLCVector> r;
             for (uint64_t i = 0; i < size; i++)
             {
-                r.push_back(NaiveFLCVector::load(ifs));
+                r.push_back(NaiveFLCVector::load_from_file(ifs));
             }
             return r;
         }

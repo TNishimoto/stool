@@ -21,20 +21,23 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     uint64_t number_of_trials = 100;
     uint64_t max_value = 1000000;
 
+    stool::DynamicIntegerTest<stool::NaiveFLCVector<>> test;
 
-    stool::DynamicIntegerTest::build_test<stool::NaiveFLCVector<>>(seq_len, max_value, number_of_trials, seed);
-    stool::DynamicIntegerTest::psum_test<stool::NaiveFLCVector<>>(seq_len, max_value, number_of_trials, seed);
-    stool::DynamicIntegerTest::reverse_psum_test<stool::NaiveFLCVector<>>(seq_len, max_value, number_of_trials, seed);
-    stool::DynamicIntegerTest::search_test<stool::NaiveFLCVector<>>(seq_len, max_value, number_of_trials, seed);
-    stool::DynamicIntegerTest::load_write_file_test<stool::NaiveFLCVector<>>(seq_len, max_value, number_of_trials, seed, false);
-    stool::DynamicIntegerTest::load_write_bits_test<stool::NaiveFLCVector<>>(seq_len, max_value, number_of_trials, seed, false);
+    test.build_test(seq_len, max_value, number_of_trials, seed);
+    test.psum_test(seq_len, max_value, number_of_trials, seed);
+    test.reverse_psum_test(seq_len, max_value, number_of_trials, seed);
+    test.search_test(seq_len, max_value, number_of_trials, seed);
+    test.load_and_save_file_test(seq_len, max_value, number_of_trials, false, seed);
+    test.load_and_save_bytes_test(seq_len, max_value, number_of_trials, false, seed);
 
+    test.push_back_test(seq_len, max_value, number_of_trials, false, seed);
+    test.pop_back_test(seq_len, max_value, number_of_trials, false, seed);
+    test.insert_test(seq_len, max_value, number_of_trials, false, seed);
+    test.remove_test(seq_len, max_value, number_of_trials, false, seed);
+    test.replace_test(seq_len, max_value, number_of_trials, false, seed);
+    test.random_test<true>(seq_len, max_value, number_of_trials, 100, false, seed);
 
-    stool::DynamicIntegerTest::push_and_pop_test<stool::NaiveFLCVector<>>(seq_len, max_value, number_of_trials, seed, false);    
-    stool::DynamicIntegerTest::insert_test<stool::NaiveFLCVector<>>(seq_len, max_value, number_of_trials, seed, false);
-    stool::DynamicIntegerTest::remove_test<stool::NaiveFLCVector<>>(seq_len, max_value, number_of_trials, seed, false);
-    stool::DynamicIntegerTest::replace_test<stool::NaiveFLCVector<>>(seq_len, max_value, number_of_trials, seed, false);
-    stool::DynamicIntegerTest::random_test<stool::NaiveFLCVector<>>(seq_len, max_value, number_of_trials, 100, seed, false);
+    //stool::DynamicIntegerTest::random_test<stool::NaiveFLCVector<>>(seq_len, max_value, number_of_trials, 100, seed, false);
 
   
 

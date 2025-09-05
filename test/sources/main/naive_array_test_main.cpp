@@ -445,6 +445,20 @@ template<uint64_t SIZE>
 void all_test(uint64_t seq_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE){
     std::cout << stool::Message::get_paragraph_string(message_paragraph) << "TEST: len = " << seq_len <<  ", SIZE =" << SIZE  <<  ", alphabet_size = " << alphabet_size << ", number_of_trials = " << number_of_trials << ", seed = " << seed << std::endl;
 
+    stool::DynamicIntegerTest<stool::NaiveArray<SIZE>> test;
+
+    test.build_test(seq_len, alphabet_size, number_of_trials, seed);
+    test.psum_test(seq_len, alphabet_size, number_of_trials, seed);
+    test.search_test(seq_len, alphabet_size, number_of_trials, seed);
+    test.push_back_test(seq_len, alphabet_size, number_of_trials, false, seed);    
+    test.pop_back_test(seq_len, alphabet_size, number_of_trials, false, seed);
+
+    test.insert_test(seq_len, alphabet_size, number_of_trials, false, seed);
+    test.remove_test(seq_len, alphabet_size, number_of_trials, false, seed);
+    test.replace_test(seq_len, alphabet_size, number_of_trials, false, seed);
+    test.template random_test<false>(seq_len, alphabet_size, number_of_trials, 100, false, seed);
+
+    /*
     stool::DynamicIntegerTest::build_test<stool::NaiveArray<SIZE>>(seq_len, alphabet_size, number_of_trials, seed);
     stool::DynamicIntegerTest::psum_test<stool::NaiveArray<SIZE>>(seq_len, alphabet_size, number_of_trials, seed);
     stool::DynamicIntegerTest::search_test<stool::NaiveArray<SIZE>>(seq_len, alphabet_size, number_of_trials, seed);
@@ -454,6 +468,7 @@ void all_test(uint64_t seq_len, uint64_t alphabet_size, uint64_t number_of_trial
     stool::DynamicIntegerTest::remove_test<stool::NaiveArray<SIZE>>(seq_len, alphabet_size, number_of_trials, seed, false);
     stool::DynamicIntegerTest::replace_test<stool::NaiveArray<SIZE>>(seq_len, alphabet_size, number_of_trials, seed, false);
     stool::DynamicIntegerTest::random_test<stool::NaiveArray<SIZE>>(seq_len, alphabet_size, number_of_trials, seed, false);
+    */
 
 
 
