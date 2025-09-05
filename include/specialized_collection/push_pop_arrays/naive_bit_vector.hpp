@@ -1593,7 +1593,7 @@ namespace stool
          * @param output Vector to store the serialized data
          * @param pos Current position in the output vector (will be updated)
          */
-        static void save(const NaiveBitVector &item, std::vector<uint8_t> &output, uint64_t &pos)
+        static void store_to_bytes(const NaiveBitVector &item, std::vector<uint8_t> &output, uint64_t &pos)
         {
             std::memcpy(output.data() + pos, &item.bit_count_, sizeof(item.bit_count_));
             pos += sizeof(item.bit_count_);
@@ -1611,7 +1611,7 @@ namespace stool
          * @param item The deque to save
          * @param os Output file stream
          */
-        static void save(const NaiveBitVector &item, std::ofstream &os)
+        static void store_to_file(const NaiveBitVector &item, std::ofstream &os)
         {
             os.write(reinterpret_cast<const char *>(&item.bit_count_), sizeof(item.bit_count_));
             os.write(reinterpret_cast<const char *>(&item.num1_), sizeof(item.num1_));
@@ -1626,7 +1626,7 @@ namespace stool
          * @param pos Current position in the data vector (will be updated)
          * @return NaiveBitVector The loaded deque
          */
-        static NaiveBitVector load(const std::vector<uint8_t> &data, uint64_t &pos)
+        static NaiveBitVector load_from_bytes(const std::vector<uint8_t> &data, uint64_t &pos)
         {
 
             uint16_t _bit_count;
@@ -1657,7 +1657,7 @@ namespace stool
          * @param ifs Input file stream
          * @return NaiveBitVector The loaded deque
          */
-        static NaiveBitVector load(std::ifstream &ifs)
+        static NaiveBitVector load_from_file(std::ifstream &ifs)
         {
             uint16_t _bit_count;
             uint16_t _num1;
@@ -1744,7 +1744,7 @@ namespace stool
             output.resize(size);
             for (uint64_t i = 0; i < size; i++)
             {
-                output[i] = NaiveBitVector::load(data, pos);
+                output[i] = NaiveBitVector::load_from_bytes(data, pos);
             }
             return output;
         }
@@ -1757,7 +1757,7 @@ namespace stool
             output.resize(size);
             for (uint64_t i = 0; i < size; i++)
             {
-                output[i] = NaiveBitVector::load(ifs);
+                output[i] = NaiveBitVector::load_from_file(ifs);
             }
 
             return output;

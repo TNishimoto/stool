@@ -16,7 +16,7 @@
 namespace stool
 {
 
-    template <typename INTEGER_CONTAINER>
+    template <typename INTEGER_CONTAINER, bool SUPPORT_PSUM, bool SUPPORT_SEARCH>
     class DynamicIntegerTest
     {
     public:
@@ -158,52 +158,73 @@ namespace stool
 
         std::function<void(INTEGER_CONTAINER &, std::vector<uint64_t> &, uint64_t, int64_t)> psum_function = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
         {
-            std::mt19937 mt(_seed++);
-            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
-
-            uint64_t pos = get_rand_value(mt) % (correct_obj.size());
-            uint64_t psum1 = DynamicIntegerTest::compute_psum(correct_obj, pos);
-            uint64_t psum2 = test_obj.psum(pos);
-            if (psum1 != psum2)
+            if constexpr (SUPPORT_PSUM)
             {
-                std::cout << "psum_test error" << std::endl;
-                std::cout << "psum1 = " << psum1 << std::endl;
+                std::mt19937 mt(_seed++);
+                std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
 
-                throw std::runtime_error("psum_test error");
+                uint64_t pos = get_rand_value(mt) % (correct_obj.size());
+                uint64_t psum1 = DynamicIntegerTest::compute_psum(correct_obj, pos);
+                uint64_t psum2 = test_obj.psum(pos);
+                if (psum1 != psum2)
+                {
+                    std::cout << "psum_test error" << std::endl;
+                    std::cout << "psum1 = " << psum1 << std::endl;
+
+                    throw std::runtime_error("psum_test error");
+                }
+            }
+            else
+            {
+                throw std::runtime_error("psum_test is not supported");
             }
         };
 
         std::function<void(INTEGER_CONTAINER &, std::vector<uint64_t> &, uint64_t, int64_t)> reverse_psum_function = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
         {
-            std::mt19937 mt(_seed++);
-            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
-
-            uint64_t pos = get_rand_value(mt) % (correct_obj.size());
-            uint64_t psum1 = DynamicIntegerTest::compute_reverse_psum(correct_obj, pos);
-            uint64_t psum2 = test_obj.reverse_psum(pos);
-            if (psum1 != psum2)
+            if constexpr (SUPPORT_PSUM)
             {
-                std::cout << "reverse_psum_test error" << std::endl;
-                std::cout << "psum1 = " << psum1 << std::endl;
+                std::mt19937 mt(_seed++);
+                std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
 
-                throw std::runtime_error("reverse_psum_test error");
+                uint64_t pos = get_rand_value(mt) % (correct_obj.size());
+                uint64_t psum1 = DynamicIntegerTest::compute_reverse_psum(correct_obj, pos);
+                uint64_t psum2 = test_obj.reverse_psum(pos);
+                if (psum1 != psum2)
+                {
+                    std::cout << "reverse_psum_test error" << std::endl;
+                    std::cout << "psum1 = " << psum1 << std::endl;
+
+                    throw std::runtime_error("reverse_psum_test error");
+                }
+            }
+            else
+            {
+                throw std::runtime_error("reverse_psum_test is not supported");
             }
         };
 
         std::function<void(INTEGER_CONTAINER &, std::vector<uint64_t> &, uint64_t, int64_t)> search_function = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
         {
-            std::mt19937 mt(_seed++);
-            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
-
-            uint64_t value = get_rand_value(mt) % this->_max_value;
-            uint64_t pos1 = DynamicIntegerTest::compute_search(correct_obj, value);
-            uint64_t pos2 = test_obj.search(value);
-            if (pos1 != pos2)
+            if constexpr (SUPPORT_SEARCH)
             {
-                std::cout << "search_test error" << std::endl;
-                std::cout << "pos1 = " << pos1 << std::endl;
+                std::mt19937 mt(_seed++);
+                std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
 
-                throw std::runtime_error("search_test error");
+                uint64_t value = get_rand_value(mt) % this->_max_value;
+                uint64_t pos1 = DynamicIntegerTest::compute_search(correct_obj, value);
+                uint64_t pos2 = test_obj.search(value);
+                if (pos1 != pos2)
+                {
+                    std::cout << "search_test error" << std::endl;
+                    std::cout << "pos1 = " << pos1 << std::endl;
+
+                    throw std::runtime_error("search_test error");
+                }
+            }
+            else
+            {
+                throw std::runtime_error("search_test is not supported");
             }
         };
 
@@ -274,7 +295,8 @@ namespace stool
             stool::BuildTest::build_test(this->_inputs.size(), builder_function, equal_check_function, stool::Message::SHOW_MESSAGE);
         }
 
-        void reverse_psum_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed){
+        void reverse_psum_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed)
+        {
             this->_max_value = max_value;
             this->_seed = seed;
             this->_inputs.clear();
@@ -287,7 +309,8 @@ namespace stool
             }
             stool::QueryTest::query_test("REVERSE_PSUM", this->_inputs.size(), number_of_trials, this->test_builder_function, this->correct_builder_function, this->reverse_psum_function, stool::Message::SHOW_MESSAGE);
         }
-        void psum_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed){
+        void psum_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed)
+        {
             this->_max_value = max_value;
             this->_seed = seed;
             this->_inputs.clear();
@@ -301,7 +324,8 @@ namespace stool
             stool::QueryTest::query_test("PSUM", this->_inputs.size(), number_of_trials, this->test_builder_function, this->correct_builder_function, this->psum_function, stool::Message::SHOW_MESSAGE);
         }
 
-        void search_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed){
+        void search_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed)
+        {
             this->_max_value = max_value;
             this->_seed = seed;
             this->_inputs.clear();
@@ -406,8 +430,6 @@ namespace stool
                                                                                      this->test_builder_function, this->correct_builder_function, this->pop_back_function, this->equal_check_function2, detail_check);
         }
 
-        
-
         void load_and_save_file_test(uint64_t max_element_count, uint64_t max_value, uint64_t trial_count, [[maybe_unused]] bool detailed_check, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
             this->_max_value = max_value;
@@ -421,9 +443,6 @@ namespace stool
                     this->_inputs.push_back(len);
                 }
             }
-
-
-            
 
             stool::LoadAndSaveTest::load_and_save_file_test(this->_inputs.size(), builder_function, equal_check_function3, "flc_vector.bits", message_paragraph);
         }
@@ -442,8 +461,6 @@ namespace stool
                 }
             }
 
-
-
             stool::LoadAndSaveTest::load_and_save_bytes_test(this->_inputs.size(), builder_function, equal_check_function3, message_paragraph);
         }
 
@@ -453,7 +470,6 @@ namespace stool
             this->_max_value = max_value;
             this->_seed = seed;
             this->_inputs.clear();
-
 
             std::cout << "RANDOM_TEST: \t" << std::flush;
             std::mt19937 mt(seed);
@@ -523,6 +539,5 @@ namespace stool
             }
             std::cout << "[DONE]" << std::endl;
         }
-            
     };
 }
