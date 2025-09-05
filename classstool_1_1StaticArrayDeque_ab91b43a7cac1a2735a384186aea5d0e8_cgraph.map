@@ -1,0 +1,7 @@
+<map id="stool::StaticArrayDeque::push_back" name="stool::StaticArrayDeque::push_back">
+<area shape="rect" id="Node000001" title="Add an element to the back of the deque." alt="" coords="5,37,181,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1StaticArrayDeque.html#ad66ad2fabe6b73646149cd1c84af9eb7" title="Set a value at a specific index." alt="" coords="229,5,405,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,42,215,37,216,42,182,47"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1StaticArrayDeque.html#a520d082bdb81ae86d0699a50d2709153" title="Get the current number of elements." alt="" coords="229,69,405,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,67,216,72,215,77,181,73"/>
+</map>

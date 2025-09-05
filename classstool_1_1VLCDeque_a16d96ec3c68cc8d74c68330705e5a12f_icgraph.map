@@ -1,0 +1,11 @@
+<map id="stool::VLCDeque::shift_right" name="stool::VLCDeque::shift_right">
+<area shape="rect" id="Node000001" title="Shifts values to the right starting from a given position." alt="" coords="684,26,849,66"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#a085a9a345d5356f432afb5ff709a0a61" title="Inserts a value at the specified position." alt="" coords="461,33,636,59"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="670,49,636,49,636,43,670,43"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1VLCDeque.html#aa40877a7957a420b563c70e894ef6802" title="Increments a value at a given index by a delta." alt="" coords="5,5,208,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="491,32,413,17,307,11,208,13,208,7,308,5,414,11,492,27"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1VLCDeque.html#a5ad08a0c01569f427b58f436f69d5808" title="Sets a new value at the specified position." alt="" coords="256,26,413,66"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="447,58,414,57,414,52,447,52"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="427,34,461,34,461,40,427,40"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="242,37,208,33,209,28,243,32"/>
+</map>

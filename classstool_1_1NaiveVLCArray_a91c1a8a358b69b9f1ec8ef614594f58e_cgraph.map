@@ -1,0 +1,7 @@
+<map id="stool::NaiveVLCArray::load" name="stool::NaiveVLCArray::load">
+<area shape="rect" id="Node000001" title="Loads a VLCDeque instance from a file stream." alt="" coords="5,37,165,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitArrayDeque.html#a6581e99b3a7877e45c66ceae85641f08" title="Load deque from a byte vector." alt="" coords="214,5,371,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,42,200,37,201,42,166,48"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#a867c3d28d0ed9aa12f258eb9adaf72f7" title="Swap contents with another NaiveBitVector." alt="" coords="213,69,372,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,67,200,72,199,78,165,72"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="stool::ByteArrayDeque::push_front" name="stool::ByteArrayDeque::push_front">
+<area shape="rect" id="Node000001" title="Add an element to the front of the deque." alt="" coords="5,24,175,64"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ByteArrayDeque.html#a19d4b87b97f7d7f57ccae63d389a4f22" title="Access element by index with bounds checking." alt="" coords="440,36,631,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,22,222,10,307,3,392,10,439,18,482,29,481,34,438,23,392,15,307,8,223,15,161,27"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ByteArrayDeque.html#a0cea5d94ea8c4e4a8fc849872487508f" title="Shrink the deque to fit its current size." alt="" coords="223,24,392,64"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="175,42,209,42,209,47,175,47"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1ByteArrayDeque.html#af09a5e4c7694f2f89335f7dddd0f5565" title="Set a value at a specific index." alt="" coords="223,88,392,128"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="159,62,227,82,225,87,158,67"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="384,86,473,62,474,67,385,91"/>
+</map>
