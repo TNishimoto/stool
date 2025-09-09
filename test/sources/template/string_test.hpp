@@ -110,16 +110,23 @@ namespace stool
         template <typename TEXT>
         static void locate_query_test(TEXT &test_text, const std::vector<uint8_t> &original_text, const std::vector<uint64_t> &sa, uint64_t number_of_queries, uint64_t max_query_length, uint64_t seed, [[maybe_unused]] int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
+            if(original_text.size() == 0){
+                throw std::runtime_error("Error: original_text.size() == 0");
+
+            }
             std::mt19937_64 mt64(seed);
             for (uint64_t i = 0; i < number_of_queries; i++)
             {
                 uint64_t pos = mt64() % original_text.size();
-                uint64_t pattern_length = mt64() % (original_text.size() - pos) + 1;
+                uint64_t pattern_length = (mt64() % (original_text.size() - pos)) + 1;
 
                 if (pattern_length > max_query_length)
                 {
                     pattern_length = max_query_length;
                 }
+
+
+                assert(pos + pattern_length <= original_text.size());
 
                 std::vector<uint8_t> pattern = std::vector<uint8_t>(original_text.begin() + pos, original_text.begin() + pos + pattern_length);
                 locate_query_test(test_text, original_text, sa, pattern);
@@ -193,6 +200,7 @@ namespace stool
                 {
                     for (uint64_t i = 0; i < number_of_pattern_trials; i++)
                     {
+                        std::cout << "+" << std::flush;
 
                         uint64_t pos = mt64() % (text.size() - len);
 

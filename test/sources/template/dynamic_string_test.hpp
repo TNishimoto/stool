@@ -431,6 +431,65 @@ namespace stool
         }
 
         template <typename TEXT, typename NAIVE_TEXT, bool USE_ACCESS, bool USE_LOCATE>
+        static void random_test(TEXT &text_index, NAIVE_TEXT &original_text, const std::vector<uint8_t> &alphabet, uint64_t number_of_queries, bool use_end_marker, bool detailed_check, uint64_t seed, [[maybe_unused]] int message_paragraph = stool::Message::SHOW_MESSAGE)
+        {
+            std::cout << "RANDOM_TEST: \t" << std::endl;
+            std::mt19937 mt(seed);
+            std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+
+            for (uint64_t i = 0; i < number_of_queries; i++)
+            {
+                assert(text_index.size() == original_text.size());
+
+                uint64_t type = get_rand_value(mt) % 6;
+                if (type == 0 || type == 1)
+                {
+                    std::cout << "I" << std::flush;
+                    insert_character_test(text_index, original_text, alphabet, 5, use_end_marker ,detailed_check, seed++);
+                }
+                else if (type == 2 || type == 3)
+                {
+                    std::cout << "R" << std::flush;
+                    remove_character_test<TEXT, NAIVE_TEXT>(text_index, original_text, 1, use_end_marker ,detailed_check, seed++);
+                }
+                else if (type == 4)
+                {
+                    if constexpr (USE_ACCESS)
+                    {
+                        std::cout << "A" << std::flush;
+                        stool::StringTest::access_character_test(text_index, original_text.text, 5, seed++);
+                    }
+                }
+                else
+                {
+                    if constexpr (USE_LOCATE)
+                    {
+                        std::cout << "L" << std::flush;
+
+                        std::vector<uint8_t> current_text = original_text.get_text();
+                        std::vector<uint64_t> sa = stool::StringFunctions::construct_naive_suffix_array(current_text);
+                        stool::StringTest::locate_query_test(text_index, original_text.text, sa, 5, 100, seed++);
+                    }
+                }
+                if (detailed_check)
+                {
+                    std::string test_str = text_index.get_text_str();
+                    std::string naive_str = original_text.get_text_str();
+                    stool::EqualChecker::equal_check(test_str, naive_str);
+                }
+            }
+
+            std::string test_str = text_index.get_text_str();
+            std::string naive_str = original_text.get_text_str();
+            stool::EqualChecker::equal_check(test_str, naive_str);
+
+            std::cout << std::endl;
+            std::cout << "[DONE]" << std::endl;
+
+        }
+
+
+        template <typename TEXT, typename NAIVE_TEXT, bool USE_ACCESS, bool USE_LOCATE>
         static void random_test(uint64_t text_size, uint64_t alphabet_type, uint64_t number_of_queries, uint64_t number_of_trials, bool use_end_marker, bool detailed_check, uint64_t seed, [[maybe_unused]] int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
 
@@ -441,7 +500,6 @@ namespace stool
             for (uint64_t i = 0; i < number_of_trials; i++)
             {
                 std::cout << stool::Message::get_paragraph_string(message_paragraph + 1) << i << ": " << std::flush;
-                uint64_t counter = 0;
 
                 std::vector<uint8_t> alphabet = stool::UInt8VectorGenerator::create_alphabet(alphabet_type);
                 std::vector<uint8_t> _text = stool::UInt8VectorGenerator::create_random_sequence(text_size, alphabet, seed++);
@@ -455,50 +513,7 @@ namespace stool
                 NAIVE_TEXT naive_text = NAIVE_TEXT::build_from_text(_text, alphabet);
                 TEXT test_text = TEXT::build_from_text(_text, alphabet);
 
-                while (counter < number_of_queries)
-                {
-                    std::cout << "+" << std::flush;
-
-                    uint64_t type = get_rand_value(mt) % 6;
-                    if (type == 0 || type == 1)
-                    {
-                        insert_character_test(test_text, naive_text, alphabet, 5, use_end_marker ,detailed_check, seed++);
-                    }
-                    else if (type == 2 || type == 3)
-                    {
-                        remove_character_test(test_text, naive_text, 1, use_end_marker ,detailed_check, seed++);
-                    }
-                    else if (type == 4)
-                    {
-                        if constexpr (USE_ACCESS)
-                        {
-                            stool::StringTest::access_character_test(test_text, naive_text.text, 5, seed++);
-                        }
-                    }
-                    else
-                    {
-                        if constexpr (USE_LOCATE)
-                        {
-                            std::vector<uint8_t> current_text = naive_text.get_text();
-                            std::vector<uint64_t> sa = stool::StringFunctions::construct_naive_suffix_array(current_text);
-                            stool::StringTest::locate_query_test(test_text, naive_text.text, sa, 5, 100, seed++);
-                        }
-                    }
-                    counter++;
-
-                    if (detailed_check)
-                    {
-                        std::string test_str = test_text.get_text_str();
-                        std::string naive_str = naive_text.get_text_str();
-                        stool::EqualChecker::equal_check(test_str, naive_str);
-                    }
-                }
-
-                std::string test_str = test_text.get_text_str();
-                std::string naive_str = naive_text.get_text_str();
-                stool::EqualChecker::equal_check(test_str, naive_str);
-
-                std::cout << std::endl;
+                random_test<TEXT, NAIVE_TEXT, USE_ACCESS, USE_LOCATE>(test_text, naive_text, alphabet, number_of_queries, use_end_marker, detailed_check, seed++, stool::Message::add_message_paragraph(message_paragraph));
             }
             std::cout << "[DONE]" << std::endl;
         }
