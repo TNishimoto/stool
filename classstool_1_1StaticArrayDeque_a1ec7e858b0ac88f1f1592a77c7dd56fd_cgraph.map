@@ -1,0 +1,5 @@
+<map id="stool::StaticArrayDeque::at" name="stool::StaticArrayDeque::at">
+<area shape="rect" id="Node000001" title="Access element by index with bounds checking." alt="" coords="5,13,203,38"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1StaticArrayDeque.html#a520d082bdb81ae86d0699a50d2709153" title="Get the current number of elements." alt="" coords="251,5,427,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,23,237,23,237,28,203,28"/>
+</map>

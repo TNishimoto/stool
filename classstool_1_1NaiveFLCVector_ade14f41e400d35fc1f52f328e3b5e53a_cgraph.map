@@ -1,0 +1,5 @@
+<map id="stool::NaiveFLCVector::get_byte_size" name="stool::NaiveFLCVector::get_byte_size">
+<area shape="rect" id="Node000001" title="Calculates the total memory size in bytes of a vector of VLCDeque instances." alt="" coords="5,5,171,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveFLCVector.html#a68ec812fc4d19c0d22143fdc6abbfc9e" title="Calculates the memory size in bytes of a VLCDeque instance." alt="" coords="219,5,384,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,23,205,23,205,28,171,28"/>
+</map>

@@ -1,0 +1,43 @@
+<map id="stool::NaiveVLCArray::size" name="stool::NaiveVLCArray::size">
+<area shape="rect" id="Node000001" title="Returns the number of elements in the deque." alt="" coords="452,418,612,458"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveVLCArray.html#a3fb2d516c745d422a008ed332629032e" title="Returns an iterator to the first element of the deque." alt="" coords="5,13,165,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="529,404,525,329,518,281,508,231,492,180,469,131,440,87,402,51,376,34,347,22,285,10,223,9,166,16,165,11,223,4,286,5,349,17,378,29,406,46,444,84,474,129,497,178,513,229,523,280,530,328,534,404"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveVLCArray.html#a7f2e3f2cb485cb98bc2ad3d044c06bbb" title="Returns an iterator to the end of the deque." alt="" coords="213,61,404,87"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="525,405,514,342,492,262,476,221,456,180,432,142,402,108,371,89,374,84,406,104,436,138,461,177,481,218,497,261,519,341,530,404"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveVLCArray.html#ac4a0110419ea8b710d8dae768dc58ab9" title="Computes the prefix sum from index i to j." alt="" coords="5,95,165,135"/>
+<area shape="poly" id="edge16_Node000001_Node000004" title=" " alt="" coords="524,405,513,348,491,278,475,242,455,209,431,178,402,152,376,136,347,123,285,108,222,104,166,106,165,101,222,98,285,103,348,118,378,131,406,148,435,174,460,206,480,240,496,276,518,346,529,404"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveVLCArray.html#a80971514b60a5a038b492c66625b7d7d" title="Returns the value at the front of the deque." alt="" coords="229,162,389,202"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="518,405,501,362,477,311,444,260,402,216,384,204,387,200,406,212,448,257,481,309,506,360,523,403"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveVLCArray.html#acf0eb91b79c0714e38978c23499ad98a" title="Inserts a value at the specified position." alt="" coords="229,226,389,266"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="511,407,467,343,437,309,402,280,382,268,384,264,406,276,440,305,471,340,515,404"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1NaiveVLCArray.html#a4cf77efe037223fe579b4a9a8e28ad3b" title="Loads a vector of VLCDeque instances from a byte array." alt="" coords="229,290,389,330"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="497,411,453,377,403,344,377,332,379,328,405,340,457,372,500,407"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1NaiveVLCArray.html#abcdb34e13d8f22dbd83857514b72ba26" title="Loads a vector of VLCDeque instances from a file stream." alt="" coords="229,354,389,394"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="448,417,378,396,380,391,449,411"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1NaiveVLCArray.html#af3f6ba1544030e5c4bede424e700fd0e" title="Removes and returns the last element from the deque." alt="" coords="229,418,389,458"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="438,441,389,441,389,435,438,435"/>
+<area shape="rect" id="Node000011" href="$classstool_1_1NaiveVLCArray.html#a5eba6b80bc03a482848da11aae83629c" title="Removes the value at the specified position." alt="" coords="5,475,165,515"/>
+<area shape="poly" id="edge15_Node000001_Node000011" title=" " alt="" coords="448,464,404,473,279,488,166,495,165,490,278,482,404,467,447,458"/>
+<area shape="rect" id="Node000012" href="$classstool_1_1NaiveVLCArray.html#a0465384ba8f21a0d0a78cbf7f6273bac" title="Removes and returns the first value from the variable&#45;length code deque." alt="" coords="229,533,389,573"/>
+<area shape="poly" id="edge12_Node000001_Node000012" title=" " alt="" coords="490,467,405,516,364,535,362,530,403,512,488,463"/>
+<area shape="rect" id="Node000014" href="$classstool_1_1NaiveVLCArray.html#a131c8a9ec98a61c4f8973a0f249ad585" title="Saves a vector of VLCDeque instances to a file stream." alt="" coords="229,597,389,637"/>
+<area shape="poly" id="edge17_Node000001_Node000014" title=" " alt="" coords="513,471,468,529,439,560,405,587,384,599,381,594,403,582,435,556,464,526,509,468"/>
+<area shape="rect" id="Node000015" href="$classstool_1_1NaiveVLCArray.html#af4f89779883c64cd5f6650e2c213ebd6" title="Saves a vector of VLCDeque instances to a byte array." alt="" coords="229,661,389,701"/>
+<area shape="poly" id="edge18_Node000001_Node000015" title=" " alt="" coords="522,472,504,513,479,561,447,609,406,651,387,663,384,658,402,646,442,605,475,558,500,510,517,470"/>
+<area shape="rect" id="Node000016" href="$classstool_1_1NaiveVLCArray.html#afd8eb8631b8ce5f075cbcb9dcff2faa1" title="Returns the value at the back of the deque." alt="" coords="229,725,389,765"/>
+<area shape="poly" id="edge19_Node000001_Node000016" title=" " alt="" coords="527,472,513,525,489,590,454,656,432,687,406,715,388,727,385,722,402,711,428,684,450,654,484,588,508,523,522,471"/>
+<area shape="rect" id="Node000017" href="$classstool_1_1NaiveVLCArray.html#a1f6a11a9b6ffeba87e10ef2f31ce395c" title="Converts the deque contents to a string representation." alt="" coords="229,789,389,829"/>
+<area shape="poly" id="edge20_Node000001_Node000017" title=" " alt="" coords="530,472,520,536,498,618,482,661,462,704,436,743,406,779,390,791,387,786,402,775,432,740,457,701,477,659,493,617,515,535,525,471"/>
+<area shape="rect" id="Node000019" href="$classstool_1_1NaiveVLCArray.html#a104e00b5810602f204354f4dd39c2045" title="Converts the deque contents to a vector of values." alt="" coords="229,853,389,893"/>
+<area shape="poly" id="edge22_Node000001_Node000019" title=" " alt="" coords="533,472,526,548,507,646,490,699,469,751,441,799,406,842,391,854,387,850,402,839,436,796,464,748,485,697,501,645,520,547,527,472"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="225,61,165,50,166,45,226,56"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="226,92,166,103,165,98,225,87"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1NaiveVLCArray.html#aeda51dbe07c0f97a5f6b49672ab35bb8" title="Pops multiple values from the back of the deque." alt="" coords="5,411,165,451"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="215,438,165,436,166,431,215,432"/>
+<area shape="poly" id="edge11_Node000009_Node000011" title=" " alt="" coords="218,464,164,478,163,473,216,459"/>
+<area shape="poly" id="edge14_Node000012_Node000011" title=" " alt="" coords="216,532,163,518,164,513,218,526"/>
+<area shape="rect" id="Node000013" href="$classstool_1_1NaiveVLCArray.html#a43273c461644f5d3fc37219f4ae0caf6" title="Pops multiple values from the front of the deque." alt="" coords="5,539,165,579"/>
+<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="215,558,166,560,165,554,215,553"/>
+<area shape="rect" id="Node000018" href="$classstool_1_1NaiveVLCArray.html#a100ab15d382a27f1400c43fb1b1930c5" title="Prints the internal state of the VLCDeque for debugging." alt="" coords="5,789,165,829"/>
+<area shape="poly" id="edge21_Node000017_Node000018" title=" " alt="" coords="215,811,166,811,166,806,215,806"/>
+</map>

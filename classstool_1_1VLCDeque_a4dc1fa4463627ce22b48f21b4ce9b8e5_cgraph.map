@@ -1,0 +1,5 @@
+<map id="stool::VLCDeque::swap" name="stool::VLCDeque::swap">
+<area shape="rect" id="Node000001" title="Swaps the contents of this deque with another VLCDeque." alt="" coords="5,13,176,38"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#ac3cd487dbf32feb1a75ed6f5a19b8474" title="Swap contents with another SimpleDeque." alt="" coords="224,5,373,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,23,210,23,210,28,176,28"/>
+</map>

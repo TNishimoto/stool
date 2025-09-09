@@ -1,0 +1,7 @@
+<map id="stool::SimpleDeque::to_deque" name="stool::SimpleDeque::to_deque">
+<area shape="rect" id="Node000001" title="Convert to std::deque." alt="" coords="5,35,155,75"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#a114406dc09d4243c08f72023feb8e520" title="Get iterator to the first element." alt="" coords="219,5,368,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,42,204,35,205,40,155,47"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#aea416dcf4131e5ad7f65e13a44bd088b" title="Get iterator past the last element." alt="" coords="203,70,384,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="155,62,189,66,189,72,155,67"/>
+</map>

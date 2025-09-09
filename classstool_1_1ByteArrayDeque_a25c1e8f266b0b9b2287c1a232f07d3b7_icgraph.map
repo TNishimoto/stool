@@ -1,0 +1,9 @@
+<map id="stool::ByteArrayDeque::to_deque" name="stool::ByteArrayDeque::to_deque">
+<area shape="rect" id="Node000001" title="Convert the deque to a std::deque." alt="" coords="657,5,827,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ByteArrayDeque.html#a05dea1f914e628e56a8bc170f3fa12e1" title="Print debug information about the deque." alt="" coords="440,5,609,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="644,28,609,28,609,23,644,23"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ByteArrayDeque.html#a0b261e60dcb2c41360043bea06d3320e" title="Add an element to the back of the deque." alt="" coords="223,5,392,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="426,28,392,28,392,23,426,23"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1ByteArrayDeque.html#a00193c408182bf392b58d953af8b372a" title="Insert an element at a specific position." alt="" coords="5,5,175,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="209,28,175,28,175,23,209,23"/>
+</map>

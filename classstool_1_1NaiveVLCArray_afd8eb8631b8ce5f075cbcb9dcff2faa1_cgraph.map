@@ -1,0 +1,7 @@
+<map id="stool::NaiveVLCArray::tail" name="stool::NaiveVLCArray::tail">
+<area shape="rect" id="Node000001" title="Returns the value at the back of the deque." alt="" coords="5,37,165,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveVLCArray.html#a9e26c50b147583978075c5778c75ed23" title="Returns the number of elements in the deque." alt="" coords="213,5,373,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,42,199,37,200,42,166,48"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#ad1bc5c560634ef782de943bf003eb3a1" title="Get the current number of elements." alt="" coords="214,69,373,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,67,201,72,200,78,165,72"/>
+</map>

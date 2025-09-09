@@ -1,0 +1,15 @@
+<map id="stool::VLCDeque::print" name="stool::VLCDeque::print">
+<area shape="rect" id="Node000001" title="Prints the internal state of the VLCDeque for debugging." alt="" coords="5,95,172,120"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Printer.html#abc59c6f02a73f5bbf8143dccb629573a" title="Prints a vector to stdout." alt="" coords="224,5,367,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,92,219,41,240,33,242,38,221,46,115,97"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="221,55,370,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,92,207,86,207,92,172,97"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1SimpleDeque.html#ad0f737224160e8d5ea44d0b5616d163e" title="Convert to std::deque." alt="" coords="221,119,370,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="172,117,207,123,207,128,171,123"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1VLCDeque.html#aa8eabbd4d06f95a632a706a63e303898" title="Converts the contents to a vector." alt="" coords="220,183,371,223"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="116,118,221,169,235,175,233,180,219,174,114,123"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1SimpleDeque.html#a114406dc09d4243c08f72023feb8e520" title="Get iterator to the first element." alt="" coords="435,91,584,131"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="370,127,421,120,422,125,371,132"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1SimpleDeque.html#aea416dcf4131e5ad7f65e13a44bd088b" title="Get iterator past the last element." alt="" coords="419,156,600,181"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="371,147,405,152,405,157,370,152"/>
+</map>

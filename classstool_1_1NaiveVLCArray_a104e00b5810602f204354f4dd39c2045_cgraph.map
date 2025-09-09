@@ -1,0 +1,7 @@
+<map id="stool::NaiveVLCArray::to_values" name="stool::NaiveVLCArray::to_values">
+<area shape="rect" id="Node000001" title="Converts the deque contents to a vector of values." alt="" coords="5,27,165,67"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveVLCArray.html#ac79bd9e0c285250f3e7d15ac6f8c3793" title="Accesses the value at a given index in the deque." alt="" coords="213,5,393,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,34,199,29,200,35,166,39"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveVLCArray.html#a9e26c50b147583978075c5778c75ed23" title="Returns the number of elements in the deque." alt="" coords="223,55,383,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,55,210,61,209,66,165,60"/>
+</map>

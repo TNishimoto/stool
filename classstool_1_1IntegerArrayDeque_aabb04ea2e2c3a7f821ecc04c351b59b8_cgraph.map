@@ -1,0 +1,7 @@
+<map id="stool::IntegerArrayDeque::size_in_bytes" name="stool::IntegerArrayDeque::size_in_bytes">
+<area shape="rect" id="Node000001" title="Calculate the total memory usage in bytes." alt="" coords="5,5,191,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitArrayDeque.html#aec7aecbbe62a66d4bc6ab0a1a2fcf00b" title="Calculate the total memory usage in bytes." alt="" coords="239,5,396,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,23,225,23,225,28,191,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1BitArrayDeque.html#a85186e2c165f011adc302141853ed11c" title="Default constructor." alt="" coords="444,5,601,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="396,23,430,23,430,28,396,28"/>
+</map>

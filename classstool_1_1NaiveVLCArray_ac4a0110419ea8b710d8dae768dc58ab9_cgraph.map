@@ -1,0 +1,12 @@
+<map id="stool::NaiveVLCArray::reverse_psum" name="stool::NaiveVLCArray::reverse_psum">
+<area shape="rect" id="Node000001" title="Computes the prefix sum from index i to j." alt="" coords="5,49,165,89"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveVLCArray.html#ac79bd9e0c285250f3e7d15ac6f8c3793" title="Accesses the value at a given index in the deque." alt="" coords="219,5,399,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,48,238,31,239,36,166,53"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveVLCArray.html#a7f2e3f2cb485cb98bc2ad3d044c06bbb" title="Returns an iterator to the end of the deque." alt="" coords="213,107,404,132"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,84,239,101,238,106,165,89"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveVLCArray.html#a9e26c50b147583978075c5778c75ed23" title="Returns the number of elements in the deque." alt="" coords="452,49,612,89"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="166,66,438,66,438,71,166,71"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="365,104,438,87,439,92,366,109"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveBitVector.html#ad1bc5c560634ef782de943bf003eb3a1" title="Get the current number of elements." alt="" coords="453,113,611,153"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="404,122,439,124,439,130,404,128"/>
+</map>

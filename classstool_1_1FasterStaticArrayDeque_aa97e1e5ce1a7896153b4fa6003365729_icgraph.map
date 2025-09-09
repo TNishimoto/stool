@@ -1,0 +1,9 @@
+<map id="stool::FasterStaticArrayDeque::size" name="stool::FasterStaticArrayDeque::size">
+<area shape="rect" id="Node000001" title="Get the current number of elements." alt="" coords="227,69,400,109"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1FasterStaticArrayDeque.html#adf2899a5a40ad18250994a5ec7b0c3d5" title="Erase an element at a specific position." alt="" coords="5,5,179,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,68,161,48,162,43,231,63"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1FasterStaticArrayDeque.html#a9b19a39901e8238313b42c5f3c442d53" title="Insert an element at a specific position." alt="" coords="5,69,179,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="213,92,179,92,179,87,213,87"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1FasterStaticArrayDeque.html#acffd5f7f68259ed682a8be32f9dbc46b" title="Convert the deque to a std::vector." alt="" coords="5,133,179,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="231,116,162,136,161,131,230,111"/>
+</map>

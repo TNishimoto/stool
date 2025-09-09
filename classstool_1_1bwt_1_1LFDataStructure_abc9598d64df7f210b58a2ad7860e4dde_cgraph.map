@@ -1,0 +1,5 @@
+<map id="stool::bwt::LFDataStructure::construct_suffix_array" name="stool::bwt::LFDataStructure::construct_suffix_array">
+<area shape="rect" id="Node000001" title="Constructs the suffix array from the BWT." alt="" coords="5,5,204,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1bwt_1_1BWTFunctions.html#aed17c6b193a04c89c826c15ba1d8ba6f" title="Computes the LF (Last&#45;to&#45;First) mapping for a given position." alt="" coords="252,13,461,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,23,238,23,238,28,204,28"/>
+</map>

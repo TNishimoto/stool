@@ -1,0 +1,5 @@
+<map id="stool::BitArrayDeque::update_size_if_needed" name="stool::BitArrayDeque::update_size_if_needed">
+<area shape="rect" id="Node000001" title="Update buffer size if needed based on current usage." alt="" coords="5,5,184,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1BitArrayDeque.html#ab78c0fd6cce9f5e8dac2b870fd89cf47" title="Reduce buffer size to fit current content." alt="" coords="232,5,389,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,23,218,23,218,28,184,28"/>
+</map>
