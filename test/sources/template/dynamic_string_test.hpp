@@ -439,7 +439,7 @@ namespace stool
 
             for (uint64_t i = 0; i < number_of_queries; i++)
             {
-                assert(text_index.size() == original_text.size());
+                assert((uint64_t)text_index.size() == (uint64_t)original_text.size());
 
                 uint64_t type = get_rand_value(mt) % 6;
                 if (type == 0 || type == 1)

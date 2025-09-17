@@ -225,7 +225,7 @@ namespace stool
                     std::cerr << "Error: Could not open file for writing." << std::endl;
                     throw std::runtime_error("File open error");
                 }
-                TEXT::save(test_text, os, stool::Message::NO_MESSAGE);    
+                TEXT::store_to_file(test_text, os, stool::Message::NO_MESSAGE);    
     
             }
 
@@ -240,7 +240,7 @@ namespace stool
                     throw std::runtime_error("File open error");
                 }
     
-                TEXT tmp = TEXT::build_from_data(ifs, stool::Message::NO_MESSAGE);
+                TEXT tmp = TEXT::load_from_file(ifs, stool::Message::NO_MESSAGE);
                 test_text2.swap(tmp);
 
             }
