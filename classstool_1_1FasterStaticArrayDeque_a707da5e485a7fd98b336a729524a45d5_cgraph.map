@@ -1,0 +1,7 @@
+<map id="stool::FasterStaticArrayDeque::size_in_bytes" name="stool::FasterStaticArrayDeque::size_in_bytes">
+<area shape="rect" id="Node000001" title="Calculate the total memory usage in bytes." alt="" coords="5,5,179,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1FasterStaticArrayDeque.html#ac6c81be9df51f4968871b3f180ba422d" title="Default constructor." alt="" coords="227,5,452,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,23,213,23,213,28,179,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1FasterStaticArrayDeque.html#abe6c7bb1a28c2a3123793e0ca5fa45ae" title="Clear all elements from the deque." alt="" coords="500,5,673,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="452,23,486,23,486,28,452,28"/>
+</map>

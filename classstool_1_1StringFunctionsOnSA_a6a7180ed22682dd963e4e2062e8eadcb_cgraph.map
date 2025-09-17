@@ -1,0 +1,5 @@
+<map id="stool::StringFunctionsOnSA::compute_sa_interval" name="stool::StringFunctionsOnSA::compute_sa_interval">
+<area shape="rect" id="Node000001" title="Computes the suffix array interval for a given pattern." alt="" coords="5,5,189,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1LCPInterval.html#a058e525a1b23118fae0c112b8aef1877" title="Computes all LCP intervals from an LCP array." alt="" coords="237,5,415,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,23,224,23,224,28,190,28"/>
+</map>

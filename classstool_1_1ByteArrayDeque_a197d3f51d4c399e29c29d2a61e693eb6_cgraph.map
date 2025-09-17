@@ -1,0 +1,13 @@
+<map id="stool::ByteArrayDeque::erase" name="stool::ByteArrayDeque::erase">
+<area shape="rect" id="Node000001" title="Erase an element at a specific position." alt="" coords="5,55,175,95"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ByteArrayDeque.html#a19d4b87b97f7d7f57ccae63d389a4f22" title="Access element by index with bounds checking." alt="" coords="440,5,631,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,53,222,41,327,28,426,20,427,25,328,33,223,46,165,58"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ByteArrayDeque.html#a0cea5d94ea8c4e4a8fc849872487508f" title="Shrink the deque to fit its current size." alt="" coords="451,119,620,159"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="167,93,223,105,334,120,437,130,436,135,333,125,222,110,165,98"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1ByteArrayDeque.html#a3e3070bf8ad2716b11ed6c117f821943" title="Remove the first element from the deque." alt="" coords="223,55,392,95"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="175,73,209,73,209,78,175,78"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="387,53,470,31,472,37,388,58"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="380,93,451,113,449,118,379,98"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1ByteArrayDeque.html#a9e958502ad58cb8915fac7fcbf46fa00" title="Update the size if needed based on current usage." alt="" coords="446,55,625,95"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="393,73,432,73,432,78,393,78"/>
+</map>

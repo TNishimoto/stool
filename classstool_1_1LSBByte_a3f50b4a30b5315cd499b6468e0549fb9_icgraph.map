@@ -1,0 +1,7 @@
+<map id="stool::LSBByte::zero_pad" name="stool::LSBByte::zero_pad">
+<area shape="rect" id="Node000001" title="Pads zeros in a specified range within a 64&#45;bit integer." alt="" coords="429,13,612,38"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#a2f837a939d1fcbac615dc309ecc15306" title="Inserts zero bits into a 64&#45;bit code at a specified position." alt="" coords="211,13,381,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="416,28,381,28,381,23,416,23"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1VLCDeque.html#ab458420438f662791e032cee383ac877" title="Sets a value at a specific code position." alt="" coords="5,5,163,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="196,28,163,28,163,23,196,23"/>
+</map>

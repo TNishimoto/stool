@@ -1,0 +1,7 @@
+<map id="stool::ValueArray::decode" name="stool::ValueArray::decode">
+<area shape="rect" id="Node000001" title="Decodes the ValueArray to a vector of the specified type." alt="" coords="5,37,145,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ValueArray.html#a4c2ce789d9747e6a103f92fa6be34c8b" title="Decodes the ValueArray to a vector of the specified type." alt="" coords="193,5,333,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,43,179,37,180,42,146,48"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ValueArray.html#a68ab6b7980013147a71a17cf9fa787c7" title="Translates a vector from type X to type Y." alt="" coords="193,69,333,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="146,67,180,72,179,78,145,72"/>
+</map>
