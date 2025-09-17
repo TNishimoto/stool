@@ -240,7 +240,7 @@ namespace stool
                     throw std::runtime_error("File open error");
                 }
     
-                TEXT tmp = TEXT::build_from_data(ifs, stool::Message::NO_MESSAGE);
+                TEXT tmp = TEXT::load_from_file(ifs);
                 test_text2.swap(tmp);
 
             }
