@@ -532,7 +532,7 @@ namespace stool
                 throw std::invalid_argument("Error: push_back()");
             }
 
-            uint8_t code_type_candidate = (uint8_t)stool::PackedPsum::get_code_type(value);
+            uint8_t code_type_candidate = (uint8_t)stool::PackedPSum::get_code_type(value);
             uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
             assert(new_code_type <= 6);
 
@@ -607,7 +607,7 @@ namespace stool
                 }
                 x_sum += v;
             }
-            uint8_t code_type_candidate = (uint8_t)stool::PackedPsum::get_code_type(max_value);
+            uint8_t code_type_candidate = (uint8_t)stool::PackedPSum::get_code_type(max_value);
             uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
             assert(new_code_type <= 6);
 
@@ -739,12 +739,12 @@ namespace stool
 
         uint64_t psum(uint64_t i) const
         {
-            uint64_t sum = stool::PackedPsum::psum(this->buffer_, i, (stool::PackedBitType)this->code_type_, this->buffer_size_);
+            uint64_t sum = stool::PackedPSum::psum(this->buffer_, i, (stool::PackedPSum::PackedBitType)this->code_type_, this->buffer_size_);
             return sum;
         }
         uint64_t psum(uint64_t i, uint64_t j) const
         {
-            uint64_t sum = stool::PackedPsum::psum(this->buffer_, i, j, (stool::PackedBitType)this->code_type_, this->buffer_size_);
+            uint64_t sum = stool::PackedPSum::psum(this->buffer_, i, j, (stool::PackedPSum::PackedBitType)this->code_type_, this->buffer_size_);
 
             #if DEBUG
             uint64_t true_sum = 0;
@@ -776,7 +776,7 @@ namespace stool
         }
         int64_t search(uint64_t x) const noexcept
         {
-            return stool::PackedPsum::search(this->buffer_, x, (stool::PackedBitType)this->code_type_, this->psum_, this->buffer_size_);
+            return stool::PackedPSum::search(this->buffer_, x, (stool::PackedPSum::PackedBitType)this->code_type_, this->psum_, this->buffer_size_);
             /*
             uint64_t sum = 0;
             uint64_t i = 0;
@@ -890,7 +890,7 @@ namespace stool
             }
             else
             {
-                uint8_t code_type_candidate = (uint8_t)stool::PackedPsum::get_code_type(value);
+                uint8_t code_type_candidate = (uint8_t)stool::PackedPSum::get_code_type(value);
                 uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
                 assert(new_code_type <= 6);
                 uint64_t code_length = 1ULL << new_code_type;
@@ -944,7 +944,7 @@ namespace stool
         {
             assert(position < this->size());
 
-            uint8_t code_type_candidate = (uint8_t)stool::PackedPsum::get_code_type(value);
+            uint8_t code_type_candidate = (uint8_t)stool::PackedPSum::get_code_type(value);
             uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
             if (new_code_type != this->code_type_)
             {

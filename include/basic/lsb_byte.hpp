@@ -37,6 +37,25 @@ namespace stool
         inline static constexpr std::array<std::array<int8_t, 8>, 256> select1_table = stool::__LSB_BYTE::build_lookup_table_for_select1();    
     }
 
+    /*!
+     * @brief A class for handling least significant bit (LSB) operations on bytes
+     * 
+     * This class provides utility functions for manipulating and analyzing bits
+     * in byte-level data, focusing on operations related to the least significant bits.
+     * It includes functionality for:
+     * - Bit manipulation (getting, setting, inserting bits)
+     * - Bit counting and position finding
+     * - Lookup table based optimizations for common operations
+     * 
+     * The class is particularly useful for:
+     * - Bit-level data structures
+     * - Compression algorithms
+     * - Low-level bit manipulation tasks
+     * 
+     * @note This implementation includes optimized lookup tables and bit manipulation techniques
+     *       for improved performance on byte-level operations
+     */
+
     class LSBByte
     {
         public:
