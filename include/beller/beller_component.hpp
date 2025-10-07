@@ -5,6 +5,24 @@ namespace stool
 {
     namespace beller
     {
+        /*!
+         * @brief A component class for Beller's LCP array construction algorithm
+         * 
+         * BellerComponent implements core functionality for Beller's algorithm to construct
+         * the LCP (Longest Common Prefix) array. It provides:
+         * - Interval queue management for each character
+         * - LCP interval computation and tracking
+         * - Efficient character occurrence handling
+         * - Progress checking and state management
+         * 
+         * The class is particularly useful for:
+         * - LCP array construction from BWT
+         * - Suffix array interval processing
+         * - Memory-efficient text indexing
+         * 
+         * @note This implementation uses queues and vectors for efficient interval tracking
+         *       and supports generic index types through templates
+         */
         class BellerComponent
         {
         public:

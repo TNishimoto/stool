@@ -53,6 +53,25 @@ namespace stool
         // inline static constexpr std::array<std::array<int8_t, 8>, 256> select0_table = stool::__MSB_BYTE::build_lookup_table_for_select0();
     }
 
+    /*!
+     * @brief A class for handling most significant bit (MSB) operations on bytes
+     * 
+     * This class provides utility functions for manipulating and analyzing bits
+     * in byte-level data, focusing on operations related to the most significant bits.
+     * It includes functionality for:
+     * - Bit counting and position finding
+     * - Bit manipulation (reading, writing, shifting bits)
+     * - Lookup table based optimizations for common operations
+     * 
+     * The class is particularly useful for:
+     * - Big-endian bit processing
+     * - MSB-first bit manipulation tasks
+     * - Bit-level data structures requiring MSB operations
+     * 
+     * @note This implementation includes optimized lookup tables and bit manipulation techniques
+     *       for improved performance on MSB-oriented byte operations
+     */
+
     class MSBByte
     {
 

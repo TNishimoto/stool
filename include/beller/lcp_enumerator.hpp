@@ -12,6 +12,23 @@ namespace stool
 {
     namespace beller
     {
+        /*!
+         * @brief A class for enumerating LCP (Longest Common Prefix) values
+         * 
+         * LCPEnumerator provides functionality for iterating over LCP values in a text sequence.
+         * It includes:
+         * - Forward iteration over LCP intervals
+         * - Access to LCP values and their positions
+         * - Integration with BellerComponent for efficient computation
+         * 
+         * The class is particularly useful for:
+         * - LCP array construction
+         * - Text pattern matching
+         * - Suffix array based algorithms
+         * 
+         * @note This implementation uses BellerComponent internally for LCP computation
+         *       and provides an iterator interface for convenient access
+         */
         class LCPEnumerator
         {
             BellerComponent component;

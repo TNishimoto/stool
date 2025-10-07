@@ -5,6 +5,23 @@
 
 namespace stool
 {
+    /*!
+     * @brief A class for handling Run-Length Encoded BWT I/O operations
+     * 
+     * RLEIO provides functionality for reading and writing Run-Length Encoded 
+     * Burrows-Wheeler Transform (RLBWT) data. It includes methods for:
+     * - Converting BWT to RLBWT format
+     * - Processing BWT data from files and memory
+     * - Handling run-length encoding operations
+     * 
+     * The class is particularly useful for:
+     * - Efficient storage and processing of compressed BWT data
+     * - Converting between different BWT representations
+     * - File I/O operations with RLBWT data
+     * 
+     * @note This implementation includes progress monitoring and timing features
+     *       for large-scale operations
+     */
     class RLEIO
     {
     public:

@@ -16,6 +16,23 @@ namespace stool
 {
     namespace beller
     {
+        /*!
+         * @brief A small helper component for Beller's LCP array construction algorithm
+         * 
+         * BellerSmallComponent provides auxiliary functionality for the main Beller algorithm
+         * implementation. It includes:
+         * - Tracking of last processed indices and bounds
+         * - Occurrence flag management
+         * - Character occurrence set maintenance
+         * 
+         * The class is particularly useful for:
+         * - State tracking during LCP computation
+         * - Character occurrence bookkeeping
+         * - Efficient interval bound management
+         * 
+         * @note This implementation is designed to work closely with BellerComponent
+         *       for efficient LCP array construction
+         */
 
         struct BellerSmallComponent
         {

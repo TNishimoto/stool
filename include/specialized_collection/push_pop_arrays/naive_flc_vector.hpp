@@ -6,6 +6,22 @@
 
 namespace stool
 {
+    /*!
+     * @brief A vector implementation using fixed-length codes for integer storage
+     * 
+     * NaiveFLCVector is a specialized vector class that stores integers using fixed-length codes (FLC).
+     * It provides efficient storage and access for integers by adaptively choosing appropriate bit widths.
+     * The class supports:
+     * - Dynamic resizing of storage as elements are added/removed
+     * - Efficient bit-level operations for reading/writing elements
+     * - Optional prefix sum maintenance for quick range queries
+     * - Iterator-based access to elements
+     * 
+     * The implementation uses a buffer of 64-bit words to store the encoded integers,
+     * with automatic code length selection based on the magnitude of stored values.
+     * 
+     * @tparam USE_PSUM Boolean parameter to enable/disable prefix sum maintenance
+     */
 
     template<bool USE_PSUM = true>
     class NaiveFLCVector

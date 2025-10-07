@@ -9,6 +9,23 @@
 
 namespace stool
 {
+    /*!
+     * @brief A data structure for efficient interval searching in text sequences
+     * 
+     * IntervalSearchDataStructure provides functionality for searching intervals in text sequences
+     * using wavelet tree based data structures. It includes methods for:
+     * - Finding character intervals in text ranges
+     * - Computing occurrence counts of characters
+     * - Efficient range queries using wavelet trees
+     * 
+     * The class is particularly useful for:
+     * - Pattern matching applications
+     * - Text indexing and searching
+     * - Suffix array interval computations
+     * 
+     * @note This implementation uses SDSL wavelet trees for efficient querying
+     *       and supports generic character types through templates
+     */
     template <typename CHAR>
     class IntervalSearchDataStructure
     {

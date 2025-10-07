@@ -10,6 +10,24 @@ namespace stool
 {
     namespace beller
     {
+        /*!
+         * @brief A class for enumerating LCP (Longest Common Prefix) intervals
+         * 
+         * LCPIntervalEnumerator provides functionality for iterating over LCP intervals in a text sequence.
+         * It includes:
+         * - Forward iteration over LCP intervals
+         * - Access to interval bounds and LCP values
+         * - Integration with BellerComponent for efficient computation
+         * 
+         * The class is particularly useful for:
+         * - LCP interval tree construction
+         * - Text pattern matching
+         * - Suffix array based algorithms
+         * - Finding repeating substrings
+         * 
+         * @note This implementation uses BellerComponent internally for LCP interval computation
+         *       and provides an iterator interface for convenient access to intervals
+         */
         class LCPIntervalEnumerator
         {
             BellerComponent component;

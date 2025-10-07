@@ -7,6 +7,26 @@
 
 namespace stool
 {
+    /*!
+     * @brief A simple bit vector implementation with push/pop operations
+     * 
+     * This class provides a basic bit vector data structure that supports dynamic
+     * push and pop operations. It stores bits in an array of 64-bit integers and
+     * maintains counts of total bits and set bits (1s).
+     * 
+     * Key features:
+     * - Dynamic resizing based on predefined size thresholds
+     * - O(1) push/pop operations at the end
+     * - Bit-level access and manipulation
+     * - Memory efficient storage using 64-bit blocks
+     * 
+     * The implementation is particularly suited for:
+     * - Small to medium sized bit sequences
+     * - Applications requiring frequent append/remove operations
+     * - Cases where simple bit vector functionality is sufficient
+     * 
+     * @tparam MAX_BIT_LENGTH Maximum number of bits that can be stored (default: 8092)
+     */
 
     template <uint64_t MAX_BIT_LENGTH = 8092>
     class NaiveBitVector
