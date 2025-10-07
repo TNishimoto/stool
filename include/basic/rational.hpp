@@ -5,7 +5,7 @@
 namespace stool
 {
     /*! 
-    * @brief Class for representing and manipulating rational numbers
+    * @brief Class for representing and manipulating rational numbers [Unchecked AI's Comment]
     *
     * This class provides functionality for working with rational numbers (fractions)
     * represented as pairs of integers (numerator/denominator). It includes methods

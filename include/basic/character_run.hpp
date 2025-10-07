@@ -5,7 +5,7 @@
 namespace stool
 {
     /**
-     * @brief Represents a run of consecutive identical characters
+     * @brief Represents a run of consecutive identical characters [Unchecked AI's Comment]
      * 
      * This struct holds information about a run-length encoded character sequence,
      * storing the character value and the length of the run.

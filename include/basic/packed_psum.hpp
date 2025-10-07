@@ -8,7 +8,7 @@ namespace stool
 {
 
     /*!
-     * @brief A class for managing packed partial sums with variable bit widths
+     * @brief A class for managing packed partial sums with variable bit widths [Unchecked AI's Comment]
      * 
      * This class provides functionality to store and process sequences of integers using bit packing techniques.
      * It supports different bit widths (1,2,4,8,16,32,64) to efficiently store values based on their magnitude.

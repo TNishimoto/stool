@@ -11,7 +11,7 @@ namespace stool
 {
 
 	/*!
-	* @brief Class for calculating logarithmic values
+	* @brief Class for calculating logarithmic values [Unchecked AI's Comment]
 	*
 	* This class provides static methods for calculating logarithmic values,
 	* particularly logarithms base 2. It includes iterative methods for

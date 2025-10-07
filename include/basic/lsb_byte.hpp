@@ -38,7 +38,7 @@ namespace stool
     }
 
     /*!
-     * @brief A class for handling least significant bit (LSB) operations on bytes
+     * @brief A class for handling least significant bit (LSB) operations on bytes [Unchecked AI's Comment]
      * 
      * This class provides utility functions for manipulating and analyzing bits
      * in byte-level data, focusing on operations related to the least significant bits.

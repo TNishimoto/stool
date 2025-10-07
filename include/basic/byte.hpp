@@ -8,7 +8,7 @@
 namespace stool
 {
 	/*!
-	 * @brief Utility class for byte operations
+	 * @brief Utility class for byte operations [Unchecked AI's Comment]
 	 *
 	 * This class provides static methods for low-level byte manipulations
 	 * including bit operations, bit counting, and bit insertion operations.
