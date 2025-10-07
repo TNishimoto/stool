@@ -4,7 +4,6 @@
 #include "../../basic/msb_byte.hpp"
 #include "../../debug/print.hpp"
 
-#include "../../basic/circular_bit_pointer.hpp"
 
 namespace stool
 {
@@ -848,11 +847,17 @@ namespace stool
 
                 {
                     uint64_t last_block_size = end_bit_index + 1;
+
+                    /*
                     CircularBitPointer start_value_bp(array_size, 0, 0);
                     CircularBitPointer end_value_bp(array_size, 0, 0);
                     start_value_bp.add(bit_size - last_block_size);
                     end_value_bp.add(bit_size - 1);
                     uint64_t pattern = start_value_bp.read64(bits64_array);
+                    */
+                    uint64_t __block_index = (bit_size - last_block_size) / 64;
+                    uint64_t __bit_index = (bit_size - last_block_size) % 64;
+                    uint64_t pattern = stool::MSBByte::read_64bit_string(bits64_array, __block_index, __bit_index, array_size);
                     uint64_t old_block = this->buffer_[end_block_index];
                     uint64_t removed_num = stool::Byte::count_bits(old_block);
                     assert(last_block_size <= 64 && last_block_size > 0);
@@ -1092,34 +1097,17 @@ namespace stool
 
         uint64_t rank1(uint16_t block_index, uint8_t bit_index, uint16_t len) const
         {
-            uint64_t num = 0;
 
             if (len == 0)
             {
                 return 0;
             }
-            CircularBitPointer start_bp(this->buffer_size_, block_index, bit_index);
-            CircularBitPointer end_bp(this->buffer_size_, block_index, bit_index);
-            end_bp.add(len - 1);
 
-            {
-                uint64_t block = this->buffer_[start_bp.block_index_];
-                uint64_t R = start_bp.block_index_ != end_bp.block_index_ ? stool::Byte::count_bits(block) : stool::MSBByte::count_bits(block, end_bp.bit_index_);
-                uint64_t L = start_bp.bit_index_ == 0 ? 0 : stool::MSBByte::count_bits(block, start_bp.bit_index_ - 1);
-                num += R - L;
-            }
-
-            for (uint64_t i = start_bp.block_index_ + 1; i < end_bp.block_index_; i++)
-            {
-                num += stool::Byte::count_bits(this->buffer_[i]);
-            }
-
-            if (start_bp.block_index_ != end_bp.block_index_)
-            {
-                num += stool::MSBByte::count_bits(this->buffer_[end_bp.block_index_], end_bp.bit_index_);
-            }
+            std::pair<uint64_t, uint8_t> end_bpX = stool::MSBByte::add_bit_length(block_index, bit_index, len-1);
+            uint64_t num = stool::MSBByte::rank1(this->buffer_, block_index, bit_index, end_bpX.first, end_bpX.second, this->buffer_size_);
 
             return num;
+            
         }
 
         uint64_t rank1(uint64_t i) const

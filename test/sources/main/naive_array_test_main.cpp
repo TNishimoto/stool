@@ -445,7 +445,7 @@ template<uint64_t SIZE>
 void all_test(uint64_t seq_len, uint64_t alphabet_size, uint64_t number_of_trials, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE){
     std::cout << stool::Message::get_paragraph_string(message_paragraph) << "TEST: len = " << seq_len <<  ", SIZE =" << SIZE  <<  ", alphabet_size = " << alphabet_size << ", number_of_trials = " << number_of_trials << ", seed = " << seed << std::endl;
 
-    stool::DynamicIntegerTest<stool::NaiveArray<SIZE>> test;
+    stool::DynamicIntegerTest<stool::NaiveArray<SIZE>, true, true> test;
 
     test.build_test(seq_len, alphabet_size, number_of_trials, seed);
     test.psum_test(seq_len, alphabet_size, number_of_trials, seed);

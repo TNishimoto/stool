@@ -21,7 +21,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
     uint64_t number_of_trials = 100;
     uint64_t max_value = 1000000;
 
-    stool::DynamicIntegerTest<stool::NaiveFLCVector<>> test;
+    stool::DynamicIntegerTest<stool::NaiveFLCVector<>, true, true> test;
 
     test.build_test(seq_len, max_value, number_of_trials, seed);
     test.psum_test(seq_len, max_value, number_of_trials, seed);

@@ -629,6 +629,63 @@ namespace stool
             return select1(~bits, i);
         }
 
+        template <typename T>
+        static uint64_t rank1(T &bit_array, uint64_t start_block_index, uint8_t start_bit_index, uint64_t end_block_index, uint8_t end_bit_index, [[maybe_unused]] uint64_t array_size){
+            uint64_t num = 0;
+
+            assert(start_block_index <= end_block_index);
+
+            
+            if(start_block_index == end_block_index){
+                assert(start_bit_index <= end_bit_index);
+                uint64_t block = bit_array[start_block_index];
+                uint64_t R = stool::MSBByte::count_bits(block, end_bit_index);
+
+                if(start_bit_index != 0){
+                    uint64_t L = stool::MSBByte::count_bits(block, start_bit_index - 1);
+                    num += R - L;
+                }else{
+                    num += R;
+                }
+            }
+            else{
+
+                if(start_bit_index != 0){
+                    uint64_t block = bit_array[start_block_index];
+                    uint64_t R = start_block_index != end_block_index ? stool::Byte::count_bits(block) : stool::MSBByte::count_bits(block, end_bit_index);
+                    uint64_t L = stool::MSBByte::count_bits(block, start_bit_index - 1);
+                    num += R - L;
+                }else{
+                    num += stool::Byte::count_bits(bit_array[start_block_index]);
+                }
+
+    
+                for (uint64_t i = start_block_index + 1; i < end_block_index; i++)
+                {
+                    num += stool::Byte::count_bits(bit_array[i]);
+                }
+
+                {
+                    num += stool::MSBByte::count_bits(bit_array[end_block_index], end_bit_index);
+                }
+    
+            }
+            return num;
+        }
+
+        static std::pair<uint64_t, uint8_t> add_bit_length(uint64_t block_index, uint64_t bit_index, uint64_t bit_length){
+            block_index += bit_length / 64;
+            bit_index += bit_length % 64;
+
+            if(bit_index >= 64){
+                bit_index -= 64;
+                block_index++;
+            }
+
+            return std::make_pair(block_index, bit_index);
+
+        }
+
         static std::string to_bit_string(uint64_t x, uint64_t bit_size)
         {
             std::string s = Byte::to_bit_string(x);
