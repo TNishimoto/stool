@@ -13,17 +13,7 @@ namespace stool
 {
 	
 	/**
-	 * @brief A utility class for constructing various string processing arrays [Unchecked AI's Comment] 
-	 * 
-	 * The ArrayConstructor class provides static methods for building essential
-	 * data structures used in string processing and bioinformatics, including:
-	 * - Inverse Suffix Array (ISA)
-	 * - Longest Common Prefix (LCP) array
-	 * - Burrows-Wheeler Transform (BWT)
-	 * - Differential Suffix Array (DSA)
-	 * 
-	 * This class is designed to work with different character types and index types
-	 * through template parameters, making it flexible for various applications.
+	 * @brief A utility class for constructing various arrays (e.g., ISA, LCP array, BWT) [in progress] 
 	 */
 	class ArrayConstructor
 	{
@@ -31,18 +21,14 @@ namespace stool
 		
 
 		/*!
-		 * @brief Constructs the Inverse Suffix Array (ISA) from a Suffix Array
-		 *
-		 * This function builds the Inverse Suffix Array from a given Suffix Array.
-		 * The ISA maps each suffix position to its rank in the sorted order of suffixes.
-		 * For each position i in the text, ISA[SA[i]] = i.
+		 * @brief Constructs the Inverse Suffix Array (ISA) from a text and its suffix array
 		 *
 		 * @tparam CHAR The character type of the text (defaults to uint8_t)
 		 * @tparam INDEX The index type for positions (defaults to uint64_t)
 		 * @param text The input text
-		 * @param sa The suffix array of the text
-		 * @param message_paragraph Controls output verbosity (-1 for no output)
-		 * @return The constructed Inverse Suffix Array
+		 * @param sa text's suffix array
+		 * @param message_paragraph The flag of outputted log (-1 for no output)
+		 * @return ISA
 		 */
 		template <typename CHAR = uint8_t, typename INDEX = uint64_t>
 		static std::vector<INDEX> construct_ISA(const std::vector<CHAR> &text, const std::vector<INDEX> &sa, int message_paragraph = stool::Message::SHOW_MESSAGE)
@@ -77,7 +63,7 @@ namespace stool
 		}
 
 		/*!
-		 * @brief Constructs the Longest Common Prefix (LCP) array from a Suffix Array and Inverse Suffix Array
+		 * @brief Constructs the Longest Common Prefix (LCP) array from a Suffix Array and Inverse Suffix Array [Unchecked AI's Comment] 
 		 *
 		 * This function computes the LCP array for a given text using its suffix array and inverse suffix array.
 		 * The LCP array stores the length of the longest common prefix between consecutive suffixes in the sorted order.
@@ -153,7 +139,7 @@ namespace stool
 		}
 
 		/*!
-		 * @brief Constructs the LCP array from a Suffix Array
+		 * @brief Constructs the LCP array from a Suffix Array [Unchecked AI's Comment] 
 		 *
 		 * This function constructs the LCP array from a given Suffix Array.
 		 * It first constructs the Inverse Suffix Array (ISA) and then uses it to compute the LCP array.
@@ -176,7 +162,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Constructs the Differential Suffix Array (DSA) from a Suffix Array
+		 * @brief Constructs the Differential Suffix Array (DSA) from a Suffix Array [Unchecked AI's Comment] 
 		 * 
 		 * The Differential Suffix Array stores the differences between consecutive
 		 * elements in the suffix array. For position i, DSA[i] = SA[i] - SA[i-1]
@@ -225,7 +211,7 @@ namespace stool
 		}
 
 		/*!
-		 * @brief Constructs the Burrows-Wheeler Transform (BWT) from a Suffix Array
+		 * @brief Constructs the Burrows-Wheeler Transform (BWT) from a Suffix Array [Unchecked AI's Comment] 
 		 *
 		 * This function computes the Burrows-Wheeler Transform of a given text using its suffix array.
 		 * For each position i in the suffix array, it takes the character at position (sa[i] - 1)
@@ -279,7 +265,7 @@ namespace stool
 		}
 
 		/*!
-		 * @brief Constructs the Inverse Suffix Array (ISA) from a text and its suffix array
+		 * @brief Constructs the Inverse Suffix Array (ISA) from a text and its suffix array [Unchecked AI's Comment] 
 		 *
 		 * The Inverse Suffix Array maps each position in the text to its corresponding position
 		 * in the suffix array. For each position i in the text, ISA[SA[i]] = i.
@@ -305,7 +291,7 @@ namespace stool
 		}
 
 		/*!
-		 * @brief Constructs the Longest Common Prefix (LCP) array from a text and its suffix array
+		 * @brief Constructs the Longest Common Prefix (LCP) array from a text and its suffix array [Unchecked AI's Comment] 
 		 *
 		 * This function computes the LCP array for a given text using its suffix array and inverse suffix array.
 		 * The LCP array stores the length of the longest common prefix between consecutive suffixes in the sorted order.
