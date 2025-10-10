@@ -1,0 +1,9 @@
+<map id="stool::RMQSparseTable::build" name="stool::RMQSparseTable::build">
+<area shape="rect" id="Node000001" title="Builds the sparse table from the given array." alt="" coords="5,35,176,75"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1RMQSparseTable.html#a629a8ba486ab70037ea3468995833241" title="Clears the sparse table." alt="" coords="224,5,395,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,41,210,36,211,41,176,46"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1Log.html#afd811b0800a41e2daca706807111d3f3" title="Calculates the base&#45;2 logarithm of an integer [Unchecked AI&#39;s Comment]." alt="" coords="234,70,385,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,63,221,69,220,74,176,68"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1LSBByte.html#ae41593bd6df2ae9c0c86a96ca710f01d" title="Gets the length of a code by finding the position of the leftmost 1 bit [Unchecked AI&#39;s Comment]." alt="" coords="443,63,588,103"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="385,80,429,80,429,85,385,85"/>
+</map>

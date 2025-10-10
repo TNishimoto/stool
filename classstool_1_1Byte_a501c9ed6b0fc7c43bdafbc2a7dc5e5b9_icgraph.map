@@ -1,0 +1,31 @@
+<map id="stool::Byte::count_bits" name="stool::Byte::count_bits">
+<area shape="rect" id="Node000001" title="Counts the number of 1 bits in a 64&#45;bit integer using built&#45;in function [Unchecked AI&#39;s Comment]." alt="" coords="665,181,832,206"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1LSBByte.html#aaf0d2a7372b1550e93c1768c5d8cbfa2" title="Finds the position of the (i+1)&#45;th set bit (1) in a 64&#45;bit integer [Unchecked AI&#39;s Comment]." alt="" coords="457,29,601,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="722,173,675,132,616,90,581,72,583,67,619,86,678,128,726,169"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1PackedPSum.html#abe239fa57cfec48b34f4b61732b56007" title="Computes partial sum of 1&#45;bit values up to position i [Unchecked AI&#39;s Comment]." alt="" coords="241,5,393,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="710,177,616,134,568,119,529,110,489,100,440,84,392,60,366,48,368,43,394,55,442,79,491,95,530,104,569,114,618,130,712,172"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1PackedPSum.html#a0d78706c8f25b8ec615860932266cab6" title="Computes partial sum of 1&#45;bit values between positions i and j [Unchecked AI&#39;s Comment]." alt="" coords="453,309,605,349"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="724,217,676,254,619,293,582,312,579,307,616,288,673,250,720,213"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1PackedPSum.html#a0a00adda85686f96541852470b4a809f" title="Searches for the position where cumulative sum reaches target for 1&#45;bit values [Unchecked AI&#39;s Commen..." alt="" coords="241,261,393,301"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="711,214,667,233,618,249,560,262,501,271,394,281,393,276,500,266,559,257,617,244,665,228,709,209"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1MSBByte.html#a2b2758e4a0d58799d4aaf8b8a6afa358" title="Finds the position of the (i+1)&#45;th set bit (1) in a 64&#45;bit integer [Unchecked AI&#39;s Comment]." alt="" coords="441,209,617,234"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="652,208,618,213,617,207,651,203"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1PackedPSum.html#aad4c7b5ebbfac3bf028c4eb85d584a50" title="Computes the sum of 32 2&#45;bit values packed in a 64&#45;bit word [Unchecked AI&#39;s Comment]." alt="" coords="453,144,605,184"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="651,183,605,177,606,171,652,178"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1PackedPSum.html#ade60f5243749a7af99a03f392942112d" title="Generic partial sum function up to position i [Unchecked AI&#39;s Comment]." alt="" coords="5,17,193,42"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="228,30,194,30,193,25,228,24"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1PackedPSum.html#ada659f6f01d3a8286301f8264a55344a" title="Generic partial sum function between positions i and j [Unchecked AI&#39;s Comment]." alt="" coords="5,73,193,98"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="231,52,147,75,145,70,230,47"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1PackedPSum.html#a3faa91bbd32df5fa2ec52a8a25dc5e85" title="Generic search function for finding cumulative sum position [Unchecked AI&#39;s Comment]." alt="" coords="23,229,175,269"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="227,271,175,263,176,258,228,266"/>
+<area shape="poly" id="edge9_Node000009_Node000007" title=" " alt="" coords="471,240,389,264,388,259,470,235"/>
+<area shape="rect" id="Node000011" href="$classstool_1_1PackedPSum.html#ad3a0d2a22c351a17fa52a927131359e7" title="Computes partial sum of 2&#45;bit values up to position i [Unchecked AI&#39;s Comment]." alt="" coords="241,69,393,109"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="458,142,374,112,376,107,460,137"/>
+<area shape="rect" id="Node000012" href="$classstool_1_1PackedPSum.html#a4dde0854c40eef7d251f510d7f0874fd" title="Computes partial sum of 2&#45;bit values between positions i and j [Unchecked AI&#39;s Comment]." alt="" coords="241,133,393,173"/>
+<area shape="poly" id="edge14_Node000010_Node000012" title=" " alt="" coords="440,162,393,160,394,154,440,157"/>
+<area shape="rect" id="Node000013" href="$classstool_1_1PackedPSum.html#a8507e965f2904b2c740fc137b51da753" title="Searches for the position where cumulative sum reaches target for 2&#45;bit values [Unchecked AI&#39;s Commen..." alt="" coords="241,197,393,237"/>
+<area shape="poly" id="edge15_Node000010_Node000013" title=" " alt="" coords="440,189,394,201,393,196,439,184"/>
+<area shape="poly" id="edge12_Node000011_Node000004" title=" " alt="" coords="230,68,145,45,147,39,231,63"/>
+<area shape="poly" id="edge13_Node000011_Node000005" title=" " alt="" coords="228,90,193,90,194,84,228,85"/>
+<area shape="poly" id="edge16_Node000013_Node000008" title=" " alt="" coords="228,233,176,241,175,236,227,228"/>
+</map>

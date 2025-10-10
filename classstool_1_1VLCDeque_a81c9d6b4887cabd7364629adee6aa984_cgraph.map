@@ -1,0 +1,5 @@
+<map id="stool::VLCDeque::load" name="stool::VLCDeque::load">
+<area shape="rect" id="Node000001" title="Loads a VLCDeque instance from a byte array." alt="" coords="5,13,171,38"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#aa2acbb3621434705301ef1672009721b" title="Load deque from a byte vector." alt="" coords="219,5,368,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,23,205,23,205,28,171,28"/>
+</map>

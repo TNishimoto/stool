@@ -1,0 +1,5 @@
+<map id="stool::PackedPSum::search2x32bits" name="stool::PackedPSum::search2x32bits">
+<area shape="rect" id="Node000001" title="Searches for the position where cumulative sum reaches target for 32&#45;bit values [Unchecked AI&#39;s Comme..." alt="" coords="205,5,357,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1PackedPSum.html#a3faa91bbd32df5fa2ec52a8a25dc5e85" title="Generic search function for finding cumulative sum position [Unchecked AI&#39;s Comment]." alt="" coords="5,5,157,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,28,158,28,158,23,191,23"/>
+</map>

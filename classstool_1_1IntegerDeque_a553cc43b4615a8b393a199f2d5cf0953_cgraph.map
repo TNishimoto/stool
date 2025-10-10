@@ -1,0 +1,12 @@
+<map id="stool::IntegerDeque::recompute" name="stool::IntegerDeque::recompute">
+<area shape="rect" id="Node000001" title="Recompute the deque contents." alt="" coords="5,39,156,79"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1IntegerDeque.html#a54c0c89c8181ec4df704187841356c69" title="Get the current number of elements." alt="" coords="419,5,569,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,50,405,30,405,35,157,55"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1IntegerDeque.html#a2c96dbb746e2da384e70f131d0c78e71" title="Convert the deque to a std::vector." alt="" coords="204,67,355,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,67,191,72,190,77,156,72"/>
+<area shape="poly" id="edge5_Node000003_Node000002" title=" " alt="" coords="349,64,410,47,411,52,351,69"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1IntegerDeque.html#ad2b18aaf6cc43aa5ebab0355bef76b12" title="Get iterator to the beginning." alt="" coords="419,69,569,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="355,85,405,86,405,91,355,90"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1IntegerDeque.html#a65d7bfcda6b6fe0e8fbbc8407bb15e9e" title="Get iterator to the end." alt="" coords="403,134,585,159"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="352,104,403,119,435,128,434,133,402,124,350,109"/>
+</map>

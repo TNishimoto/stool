@@ -1,0 +1,9 @@
+<map id="stool::RMQSparseTable::rmq_index" name="stool::RMQSparseTable::rmq_index">
+<area shape="rect" id="Node000001" title="Finds the index of the minimum element in the range [i, j]." alt="" coords="552,27,723,67"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1RMQSparseTable.html#a153aa1a3cafa191539abfa3d5b3c2cc5" title="Finds the minimum value in the range [i, j]." alt="" coords="297,5,503,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="538,38,503,33,503,28,539,32"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1RMQSmallSparseTable.html#a9b496a75acd9d4bbc2da217eb4f187ff" title="Finds the index of the minimum element in the range [i, j] of the array." alt="" coords="296,55,504,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="539,62,504,66,504,60,538,56"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1RMQSmallSparseTable.html#af51ed7e712f7eb60f5ddd6b97d0abc74" title="Returns the minimum element in the range [i, j] of the array." alt="" coords="5,63,248,88"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="282,78,248,78,248,73,282,73"/>
+</map>

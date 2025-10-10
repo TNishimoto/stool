@@ -1,0 +1,7 @@
+<map id="stool::PackedPSum::find_prefix_ge_y_nib16x4_branchless" name="stool::PackedPSum::find_prefix_ge_y_nib16x4_branchless">
+<area shape="rect" id="Node000001" title="Finds the first position where prefix sum &gt;= y for 16&#45;bit values (branchless) [Unchecked AI&#39;s Comment..." alt="" coords="405,5,592,60"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1PackedPSum.html#a7fa89ba4a30a5806724a942dc7efc081" title="Searches for the position where cumulative sum reaches target for 16&#45;bit values [Unchecked AI&#39;s Comme..." alt="" coords="205,13,357,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="392,35,357,35,357,30,392,30"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1PackedPSum.html#a3faa91bbd32df5fa2ec52a8a25dc5e85" title="Generic search function for finding cumulative sum position [Unchecked AI&#39;s Comment]." alt="" coords="5,13,157,53"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="191,35,158,35,158,30,191,30"/>
+</map>

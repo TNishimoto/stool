@@ -1,0 +1,14 @@
+<map id="stool::NaiveBitVector::size" name="stool::NaiveBitVector::size">
+<area shape="rect" id="Node000001" title="Get the current number of elements." alt="" coords="419,133,577,173"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a4874de95eebf31d6cabb8d88e944ba20" title="Remove the last element from the deque." alt="" coords="212,5,371,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="462,126,419,92,369,60,346,48,348,43,372,55,422,88,465,122"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#ad60296202ad4806c3c9fbb00664be4d7" title="Remove the first element from the deque." alt="" coords="212,69,371,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="419,132,356,112,357,107,421,127"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveBitVector.html#add74141cc3b8f9268de8f1069ff70e30" title="Print debug information about the deque." alt="" coords="212,133,371,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="405,156,371,156,371,151,405,151"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveBitVector.html#a73ef5ac89c5b811257b2dd45d263d474" title="Add an element to the end of the deque." alt="" coords="212,197,371,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="421,180,357,200,356,195,419,175"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveBitVector.html#a11d1406779fe7cc4d5ed99c306667b7d" title="Add an element to the beginning of the deque." alt="" coords="5,227,164,267"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="470,186,427,222,400,239,372,252,319,264,264,269,212,268,164,264,165,258,212,263,264,264,318,259,370,247,398,234,424,218,467,181"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="199,233,164,238,164,233,198,228"/>
+</map>

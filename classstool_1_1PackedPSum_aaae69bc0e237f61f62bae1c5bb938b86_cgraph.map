@@ -1,0 +1,5 @@
+<map id="stool::PackedPSum::psum8x8bits" name="stool::PackedPSum::psum8x8bits">
+<area shape="rect" id="Node000001" title="Computes partial sum of 8&#45;bit values up to position i [Unchecked AI&#39;s Comment]." alt="" coords="5,5,157,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1PackedPSum.html#ad27c07215b669b7049c524885349816b" title="Computes the sum of 8 8&#45;bit values packed in a 64&#45;bit word [Unchecked AI&#39;s Comment]." alt="" coords="205,5,357,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,23,191,23,191,28,158,28"/>
+</map>

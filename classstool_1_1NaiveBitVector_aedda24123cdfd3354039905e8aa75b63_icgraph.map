@@ -1,0 +1,7 @@
+<map id="stool::NaiveBitVector::update_size_if_needed" name="stool::NaiveBitVector::update_size_if_needed">
+<area shape="rect" id="Node000001" title="Update buffer size if needed based on current usage." alt="" coords="419,5,597,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a73ef5ac89c5b811257b2dd45d263d474" title="Add an element to the end of the deque." alt="" coords="212,5,371,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="405,28,371,28,371,23,405,23"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#a11d1406779fe7cc4d5ed99c306667b7d" title="Add an element to the beginning of the deque." alt="" coords="5,5,164,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="198,28,164,28,164,23,198,23"/>
+</map>

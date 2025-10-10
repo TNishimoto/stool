@@ -1,0 +1,7 @@
+<map id="stool::PackedPSum::psum1x64bits" name="stool::PackedPSum::psum1x64bits">
+<area shape="rect" id="Node000001" title="Computes partial sum of 64&#45;bit values up to position i [Unchecked AI&#39;s Comment]." alt="" coords="241,23,393,63"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1PackedPSum.html#ade60f5243749a7af99a03f392942112d" title="Generic partial sum function up to position i [Unchecked AI&#39;s Comment]." alt="" coords="5,5,193,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,36,193,32,194,26,228,30"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1PackedPSum.html#ada659f6f01d3a8286301f8264a55344a" title="Generic partial sum function between positions i and j [Unchecked AI&#39;s Comment]." alt="" coords="5,55,193,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,56,194,60,193,54,227,51"/>
+</map>
