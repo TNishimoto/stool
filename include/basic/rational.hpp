@@ -31,7 +31,7 @@ namespace stool
         uint64_t denominator;
 
         /*! 
-        * @brief Constructs a Rational number
+        * @brief Constructs a Rational number [Unchecked AI's Comment]
         * 
         * This constructor initializes the numerator and denominator of the rational number
         * and reduces it to its simplest form.
@@ -56,7 +56,7 @@ namespace stool
         }
 
         /*! 
-        * @brief Returns the integer part of the rational number
+        * @brief Returns the integer part of the rational number [Unchecked AI's Comment]
         * 
         * This function returns the integer part of the rational number by performing
         * integer division of the numerator by the denominator.
@@ -70,7 +70,7 @@ namespace stool
         }
 
         /*! 
-        * @brief Displays the rational number in the form of numerator/denominator
+        * @brief Displays the rational number in the form of numerator/denominator [Unchecked AI's Comment]
         * 
         * This function prints the rational number in the format "numerator/denominator"
         * to the standard output stream.
@@ -83,7 +83,7 @@ namespace stool
         /*! 
         * @brief Converts the rational number to a double
         * 
-        * This function returns the double representation of the rational number
+        * This function returns the double representation of the rational number [Unchecked AI's Comment]
         * by dividing the numerator by the denominator.
         *
         * @return The double representation of the rational number
@@ -94,7 +94,7 @@ namespace stool
         }
 
         /*! 
-        * @brief Compares two rational numbers for equality
+        * @brief Compares two rational numbers for equality [Unchecked AI's Comment]
         * 
         * This function checks if two rational numbers are equal by comparing their
         * numerators and denominators.
@@ -108,7 +108,7 @@ namespace stool
         }
 
         /*! 
-        * @brief Compares two rational numbers for less than
+        * @brief Compares two rational numbers for less than [Unchecked AI's Comment]
         * 
         * This function checks if the current rational number is less than another
         * rational number by comparing their numerators and denominators.
@@ -122,7 +122,7 @@ namespace stool
         }
 
         /*! 
-        * @brief Compares two rational numbers for greater than
+        * @brief Compares two rational numbers for greater than [Unchecked AI's Comment]
         * 
         * This function checks if the current rational number is greater than another
         * rational number by comparing their numerators and denominators.
@@ -136,7 +136,7 @@ namespace stool
         }
 
         /*! 
-        * @brief Compares two rational numbers for less than or equal to
+        * @brief Compares two rational numbers for less than or equal to [Unchecked AI's Comment]
         * 
         * This function checks if the current rational number is less than or equal to another
         * rational number by comparing their numerators and denominators.
@@ -150,7 +150,7 @@ namespace stool
         }
 
         /*! 
-        * @brief Compares two rational numbers for greater than or equal to
+        * @brief Compares two rational numbers for greater than or equal to [Unchecked AI's Comment]
         * 
         * This function checks if the current rational number is greater than or equal to another
         * rational number by comparing their numerators and denominators.
@@ -164,7 +164,7 @@ namespace stool
         }
 
         /*! 
-        * @brief Subtracts two rational numbers
+        * @brief Subtracts two rational numbers [Unchecked AI's Comment]
         * 
         * This function subtracts another rational number from the current one by
         * calculating the difference of their numerators and denominators.
@@ -180,7 +180,7 @@ namespace stool
         }
 
         /*! 
-        * @brief Adds two rational numbers
+        * @brief Adds two rational numbers [Unchecked AI's Comment]
         * 
         * This function adds another rational number to the current one by
         * calculating the sum of their numerators and denominators.
@@ -196,7 +196,7 @@ namespace stool
         }
 
         /*! 
-        * @brief Converts the rational number to a string
+        * @brief Converts the rational number to a string [Unchecked AI's Comment]
         * 
         * This function returns the string representation of the rational number.
         * If the second argument is true, it returns the string in the form of "p(r)"

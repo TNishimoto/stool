@@ -17,23 +17,10 @@ namespace stool
 	 */
 	class Byte
 	{
-	private:
-		/*
-		inline static int64_t numofbits4(int64_t bits)
-		{
-			int64_t num;
-
-			num = (bits >> 1) & 03333333333;
-			num = bits - num - ((num >> 1) & 03333333333);
-			num = ((num + (num >> 3)) & 0707070707) % 077;
-
-			return num;
-		}
-		*/
 
 	public:
 		/*!
-		 * @brief Counts the number of 1 bits in a 32-bit integer using bit manipulation
+		 * @brief Counts the number of 1 bits in a 32-bit integer using bit manipulation [Unchecked AI's Comment]
 		 *
 		 * This method implements a bit counting algorithm that uses bit manipulation
 		 * operations to count the number of set bits (1s) in a 32-bit integer.
@@ -54,7 +41,7 @@ namespace stool
 		}
 
 		/*!
-		 * @brief Counts the number of trailing zeros in a 64-bit integer
+		 * @brief Counts the number of trailing zeros in a 64-bit integer [Unchecked AI's Comment]
 		 *
 		 * This method determines the number of trailing zeros (0 bits) at the least significant end
 		 * of a 64-bit unsigned integer using the built-in __builtin_ctzll function. For a non-zero input,
@@ -83,7 +70,7 @@ namespace stool
 		}
 
 		/*!
-		 * @brief Counts the number of 1 bits in a 64-bit integer using built-in function
+		 * @brief Counts the number of 1 bits in a 64-bit integer using built-in function [Unchecked AI's Comment]
 		 *
 		 * This method uses the built-in __builtin_popcountll function to efficiently count
 		 * the number of set bits (1s) in a 64-bit integer. The built-in function is typically
@@ -104,7 +91,7 @@ namespace stool
 			return pref;
 		}
 		/*!
-		 * @brief Pads zeros at the head of a 64-bit integer
+		 * @brief Pads zeros at the head of a 64-bit integer [Unchecked AI's Comment]
 		 *
 		 * This method takes a 64-bit integer and a length parameter, and sets all bits
 		 * before the specified length to zero, preserving only the rightmost 'len' bits.
@@ -123,7 +110,7 @@ namespace stool
 		}
 
 		/*!
-		 * @brief Converts a 64-bit integer code to a binary string representation
+		 * @brief Converts a 64-bit integer code to a binary string representation [Unchecked AI's Comment]
 		 *
 		 * This method takes a 64-bit unsigned integer and converts it to a string
 		 * containing its binary representation. It uses std::bitset to perform the

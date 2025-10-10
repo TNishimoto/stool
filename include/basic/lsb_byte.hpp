@@ -60,7 +60,7 @@ namespace stool
     {
         public:
         /*!
-         * @brief Checks if a specific bit is set in a 64-bit integer
+         * @brief Checks if a specific bit is set in a 64-bit integer [Unchecked AI's Comment]
          *
          * This method examines a specific bit position in a 64-bit integer value
          * and returns true if that bit is set (1) or false if it is unset (0).
@@ -76,7 +76,7 @@ namespace stool
             return ((x >> nth) & 0x00000001) > 0;
         }
         /*!
-         * @brief Inserts a bit at a specified position in a 64-bit integer
+         * @brief Inserts a bit at a specified position in a 64-bit integer [Unchecked AI's Comment]
          *
          * This method inserts a new bit at the specified position in a 64-bit integer,
          * shifting the existing bits to accommodate the insertion. The bits to the left
@@ -109,7 +109,7 @@ namespace stool
         }
 
         /*!
-         * @brief Writes a bit at a specified position in a 64-bit integer
+         * @brief Writes a bit at a specified position in a 64-bit integer [Unchecked AI's Comment]
          *
          * This method overwrites a bit at the specified position in a 64-bit integer
          * with a new value. Unlike insert_bit which shifts bits to make room for insertion,
@@ -141,7 +141,7 @@ namespace stool
         }
 
         /*!
-         * @brief Removes a bit at a specified position and shifts bits to fill the gap
+         * @brief Removes a bit at a specified position and shifts bits to fill the gap [Unchecked AI's Comment]
          *
          * This method removes a bit at the specified position in a 64-bit integer
          * and shifts all bits after that position one position to the left to fill
@@ -170,7 +170,7 @@ namespace stool
         }
 
         /*!
-         * @brief Finds the position of the (i+1)-th set bit (1) in a 64-bit integer
+         * @brief Finds the position of the (i+1)-th set bit (1) in a 64-bit integer [Unchecked AI's Comment]
          *
          * Return the position of the (i+1)-th 1 in the given bits if such bit exists; otherwise return -1.
          * @param bits The 64-bit integer to search
@@ -304,7 +304,7 @@ namespace stool
 
 
         /*!
-         * @brief Finds the position of the (i+1)-th unset bit (0) in a 64-bit integer
+         * @brief Finds the position of the (i+1)-th unset bit (0) in a 64-bit integer [Unchecked AI's Comment]
          *
          * Return the position of the (i+1)-th 0 in the given bits if such bit exists; otherwise return -1.
          * @param bits The 64-bit integer to search
@@ -317,7 +317,7 @@ namespace stool
         }
 
          /*!
-		* @brief Pads zeros in a specified range within a 64-bit integer
+		* @brief Pads zeros in a specified range within a 64-bit integer [Unchecked AI's Comment]
 		*
 		* This method takes a 64-bit integer, a starting position, and a length parameter,
 		* and sets all bits within the specified range to zero while preserving bits outside
@@ -351,7 +351,7 @@ namespace stool
 			}
 		}
 		/*!
-		* @brief Gets the length of a code by finding the position of the leftmost 1 bit
+		* @brief Gets the length of a code by finding the position of the leftmost 1 bit [Unchecked AI's Comment]
 		*
 		* This method determines the effective length of a 64-bit integer code by finding
 		* the position of the leftmost (most significant) 1 bit. It uses the built-in

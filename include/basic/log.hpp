@@ -30,7 +30,7 @@ namespace stool
 	public:
 
 		/*!
-		* @brief Calculates the number of times log2 can be applied to a number
+		* @brief Calculates the number of times log2 can be applied to a number [Unchecked AI's Comment]
 		*
 		* This method determines how many times the logarithm base 2 can be iteratively
 		* applied to a given number before reaching 1 or less. For example, if n=16:
@@ -46,7 +46,7 @@ namespace stool
 			return log2_iterate(n, 0);
 		}
 		/*!
-		* @brief Helper method for log_iterate that recursively applies log2
+		* @brief Helper method for log_iterate that recursively applies log2 [Unchecked AI's Comment]
 		*
 		* This method recursively calculates how many times log2 can be applied to a number
 		* before reaching 1 or less. It maintains a counter parameter m to track the number
@@ -79,7 +79,7 @@ namespace stool
 		}
 
 		/*!
-		* @brief Calculates the base-2 logarithm of an integer
+		* @brief Calculates the base-2 logarithm of an integer [Unchecked AI's Comment]
 		*
 		* This method computes the floor of the base-2 logarithm of a given positive integer.
 		* For example, log2(8)=3, log2(7)=2. The method uses a binary search approach by 

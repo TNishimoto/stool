@@ -12,7 +12,7 @@ namespace stool
     public:
 
         /*! 
-        * @brief Searches for the predecessor of an element in an array
+        * @brief Searches for the predecessor of an element in an array [Unchecked AI's Comment]
         * 
         * This function returns the index of the largest element less than or equal to 
         * the given value in the provided array. It uses linear search by scanning
@@ -40,7 +40,7 @@ namespace stool
 
 
         /*! 
-        * @brief Searches for the successor of an element in an array
+        * @brief Searches for the successor of an element in an array [Unchecked AI's Comment]
         * 
         * This function returns the index of the smallest element greater than or equal to
         * the given value in the provided array. It uses linear search by scanning

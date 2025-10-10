@@ -22,7 +22,7 @@ namespace stool
     {
     public:
         /**
-         * @brief Enumeration of supported bit widths for packed storage
+         * @brief Enumeration of supported bit widths for packed storage [Unchecked AI's Comment]
          * 
          * Defines the available bit widths for packing integer values.
          * Each type corresponds to a specific number of bits used per value.
@@ -39,7 +39,7 @@ namespace stool
         };
 
         /**
-         * @brief Determines the optimal bit width for storing a given value
+         * @brief Determines the optimal bit width for storing a given value [Unchecked AI's Comment]
          * 
          * Analyzes the input value and returns the minimum bit width required
          * to store it efficiently. This helps optimize storage by using the
@@ -90,7 +90,7 @@ namespace stool
         }
 
         /**
-         * @brief Computes the sum of 32 2-bit values packed in a 64-bit word
+         * @brief Computes the sum of 32 2-bit values packed in a 64-bit word [Unchecked AI's Comment]
          * 
          * Efficiently calculates the sum of thirty-two 2-bit values stored
          * in a single 64-bit integer using bit manipulation techniques.
@@ -132,7 +132,7 @@ namespace stool
             return (bytes * 0x0101010101010101ULL) >> 56;
         }
         /**
-         * @brief Computes the sum of 8 8-bit values packed in a 64-bit word
+         * @brief Computes the sum of 8 8-bit values packed in a 64-bit word [Unchecked AI's Comment]
          * 
          * Efficiently calculates the sum of eight 8-bit values (bytes)
          * stored in a single 64-bit integer.
@@ -151,7 +151,7 @@ namespace stool
         }
 
         /**
-         * @brief Computes the sum of 4 16-bit values packed in a 64-bit word
+         * @brief Computes the sum of 4 16-bit values packed in a 64-bit word [Unchecked AI's Comment]
          * 
          * Efficiently calculates the sum of four 16-bit values
          * stored in a single 64-bit integer.
@@ -168,7 +168,7 @@ namespace stool
             return static_cast<uint32_t>(x);
         }
         /**
-         * @brief Computes the sum of 2 32-bit values packed in a 64-bit word
+         * @brief Computes the sum of 2 32-bit values packed in a 64-bit word [Unchecked AI's Comment]
          * 
          * Efficiently calculates the sum of two 32-bit values
          * stored in a single 64-bit integer.
@@ -186,7 +186,7 @@ namespace stool
         }
 
         /**
-         * @brief Computes partial sum of 1-bit values up to position i
+         * @brief Computes partial sum of 1-bit values up to position i [Unchecked AI's Comment]
          * 
          * Calculates the sum of all 1-bit values from position 0 to i (inclusive)
          * in a packed bit array. This is equivalent to counting set bits.
@@ -214,7 +214,7 @@ namespace stool
             return sum;
         }
         /**
-         * @brief Computes partial sum of 1-bit values between positions i and j
+         * @brief Computes partial sum of 1-bit values between positions i and j [Unchecked AI's Comment]
          * 
          * Calculates the sum of all 1-bit values from position i to j (inclusive)
          * in a packed bit array.
@@ -261,7 +261,7 @@ namespace stool
         }
 
         /**
-         * @brief Computes partial sum of 2-bit values up to position i
+         * @brief Computes partial sum of 2-bit values up to position i [Unchecked AI's Comment]
          * 
          * Calculates the sum of all 2-bit values from position 0 to i (inclusive)
          * in a packed bit array.
@@ -289,7 +289,7 @@ namespace stool
             return sum;
         }
         /**
-         * @brief Computes partial sum of 2-bit values between positions i and j
+         * @brief Computes partial sum of 2-bit values between positions i and j [Unchecked AI's Comment]
          * 
          * Calculates the sum of all 2-bit values from position i to j (inclusive)
          * in a packed bit array.
@@ -336,7 +336,7 @@ namespace stool
         }
 
         /**
-         * @brief Computes partial sum of 4-bit values up to position i
+         * @brief Computes partial sum of 4-bit values up to position i [Unchecked AI's Comment]
          * 
          * Calculates the sum of all 4-bit values from position 0 to i (inclusive)
          * in a packed bit array.
@@ -364,7 +364,7 @@ namespace stool
             return sum;
         }
         /**
-         * @brief Computes partial sum of 4-bit values between positions i and j
+         * @brief Computes partial sum of 4-bit values between positions i and j [Unchecked AI's Comment]
          * 
          * Calculates the sum of all 4-bit values from position i to j (inclusive)
          * in a packed bit array.
@@ -411,7 +411,7 @@ namespace stool
         }
 
         /**
-         * @brief Computes partial sum of 8-bit values up to position i
+         * @brief Computes partial sum of 8-bit values up to position i [Unchecked AI's Comment]
          * 
          * Calculates the sum of all 8-bit values from position 0 to i (inclusive)
          * in a packed bit array.
@@ -439,7 +439,7 @@ namespace stool
             return sum;
         }
         /**
-         * @brief Computes partial sum of 8-bit values between positions i and j
+         * @brief Computes partial sum of 8-bit values between positions i and j [Unchecked AI's Comment]
          * 
          * Calculates the sum of all 8-bit values from position i to j (inclusive)
          * in a packed bit array.
@@ -486,7 +486,7 @@ namespace stool
         }
 
         /**
-         * @brief Computes partial sum of 16-bit values up to position i
+         * @brief Computes partial sum of 16-bit values up to position i [Unchecked AI's Comment]
          * 
          * Calculates the sum of all 16-bit values from position 0 to i (inclusive)
          * in a packed bit array.
@@ -514,7 +514,7 @@ namespace stool
             return sum;
         }
         /**
-         * @brief Computes partial sum of 16-bit values between positions i and j
+         * @brief Computes partial sum of 16-bit values between positions i and j [Unchecked AI's Comment]
          * 
          * Calculates the sum of all 16-bit values from position i to j (inclusive)
          * in a packed bit array.
@@ -561,7 +561,7 @@ namespace stool
         }
 
         /**
-         * @brief Computes partial sum of 32-bit values up to position i
+         * @brief Computes partial sum of 32-bit values up to position i [Unchecked AI's Comment]
          * 
          * Calculates the sum of all 32-bit values from position 0 to i (inclusive)
          * in a packed bit array.
@@ -589,9 +589,9 @@ namespace stool
             return sum;
         }
         /**
-         * @brief Computes partial sum of 32-bit values between positions i and j
+         * @brief Computes partial sum of 32-bit values between positions i and j [Unchecked AI's Comment]
          * 
-         * Calculates the sum of all 32-bit values from position i to j (inclusive)
+         * Calculates the sum of all 32-bit values from position i to j (in clusive)
          * in a packed bit array.
          * 
          * @param bits Pointer to array of 64-bit words containing packed 32-bit values
@@ -636,7 +636,7 @@ namespace stool
         }
 
         /**
-         * @brief Computes partial sum of 64-bit values up to position i
+         * @brief Computes partial sum of 64-bit values up to position i [Unchecked AI's Comment]
          * 
          * Calculates the sum of all 64-bit values from position 0 to i (inclusive)
          * in an array.
@@ -658,7 +658,7 @@ namespace stool
             return sum;
         }
         /**
-         * @brief Computes partial sum of 64-bit values between positions i and j
+         * @brief Computes partial sum of 64-bit values between positions i and j [Unchecked AI's Comment]
          * 
          * Calculates the sum of all 64-bit values from position i to j (inclusive)
          * in an array.
@@ -682,7 +682,7 @@ namespace stool
         }
 
         /**
-         * @brief Generic partial sum function up to position i
+         * @brief Generic partial sum function up to position i [Unchecked AI's Comment]
          * 
          * Computes the partial sum from position 0 to i based on the specified
          * bit type. This function dispatches to the appropriate specialized
@@ -720,7 +720,7 @@ namespace stool
             throw std::invalid_argument("Invalid bit type");
         }
         /**
-         * @brief Generic partial sum function between positions i and j
+         * @brief Generic partial sum function between positions i and j [Unchecked AI's Comment]
          * 
          * Computes the partial sum from position i to j based on the specified
          * bit type. This function dispatches to the appropriate specialized
@@ -760,7 +760,7 @@ namespace stool
         }
 
         /**
-         * @brief Finds the first position where prefix sum >= y for 2-bit values (branchless)
+         * @brief Finds the first position where prefix sum >= y for 2-bit values (branchless) [Unchecked AI's Comment]
          * 
          * Efficiently searches for the first position in a 64-bit word containing
          * thirty-two 2-bit values where the prefix sum reaches or exceeds the target value y.
@@ -832,7 +832,7 @@ namespace stool
         }
 
         /**
-         * @brief Finds the first position where prefix sum >= y for 4-bit values (branchless)
+         * @brief Finds the first position where prefix sum >= y for 4-bit values (branchless) [Unchecked AI's Comment]
          * 
          * Efficiently searches for the first position in a 64-bit word containing
          * sixteen 4-bit values where the prefix sum reaches or exceeds the target value y.
@@ -887,7 +887,7 @@ namespace stool
             return (p & ~mf) | (16u & mf);
         }
         /**
-         * @brief Finds the first position where prefix sum >= y for 8-bit values (branchless)
+         * @brief Finds the first position where prefix sum >= y for 8-bit values (branchless) [Unchecked AI's Comment]
          * 
          * Efficiently searches for the first position in a 64-bit word containing
          * eight 8-bit values where the prefix sum reaches or exceeds the target value y.
@@ -937,7 +937,7 @@ namespace stool
         }
 
         /**
-         * @brief Finds the first position where prefix sum >= y for 16-bit values (branchless)
+         * @brief Finds the first position where prefix sum >= y for 16-bit values (branchless) [Unchecked AI's Comment]
          * 
          * Efficiently searches for the first position in a 64-bit word containing
          * four 16-bit values where the prefix sum reaches or exceeds the target value y.
@@ -968,7 +968,7 @@ namespace stool
             return (uint32_t)__builtin_ctz(m);
         }
         /**
-         * @brief Searches for the position where cumulative sum reaches target for 1-bit values
+         * @brief Searches for the position where cumulative sum reaches target for 1-bit values [Unchecked AI's Comment]
          * 
          * Finds the position in a packed 1-bit array where the cumulative sum
          * first reaches or exceeds the target value i. This is equivalent to
@@ -1006,7 +1006,7 @@ namespace stool
             return (k * 64) + f;
         }
         /**
-         * @brief Searches for the position where cumulative sum reaches target for 2-bit values
+         * @brief Searches for the position where cumulative sum reaches target for 2-bit values [Unchecked AI's Comment]
          * 
          * Finds the position in a packed 2-bit array where the cumulative sum
          * first reaches or exceeds the target value i.
@@ -1041,7 +1041,7 @@ namespace stool
             return (k * 32) + f;
         }
         /**
-         * @brief Searches for the position where cumulative sum reaches target for 4-bit values
+         * @brief Searches for the position where cumulative sum reaches target for 4-bit values [Unchecked AI's Comment]
          * 
          * Finds the position in a packed 4-bit array where the cumulative sum
          * first reaches or exceeds the target value i.
@@ -1077,7 +1077,7 @@ namespace stool
         }
 
         /**
-         * @brief Searches for the position where cumulative sum reaches target for 8-bit values
+         * @brief Searches for the position where cumulative sum reaches target for 8-bit values [Unchecked AI's Comment]
          * 
          * Finds the position in a packed 8-bit array where the cumulative sum
          * first reaches or exceeds the target value i.
@@ -1113,7 +1113,7 @@ namespace stool
         }
 
         /**
-         * @brief Searches for the position where cumulative sum reaches target for 16-bit values
+         * @brief Searches for the position where cumulative sum reaches target for 16-bit values [Unchecked AI's Comment]
          * 
          * Finds the position in a packed 16-bit array where the cumulative sum
          * first reaches or exceeds the target value i.
@@ -1148,7 +1148,7 @@ namespace stool
             return (k * 4) + f;
         }
         /**
-         * @brief Searches for the position where cumulative sum reaches target for 32-bit values
+         * @brief Searches for the position where cumulative sum reaches target for 32-bit values [Unchecked AI's Comment]
          * 
          * Finds the position in a packed 32-bit array where the cumulative sum
          * first reaches or exceeds the target value i.
@@ -1191,7 +1191,7 @@ namespace stool
             }
         }
         /**
-         * @brief Searches for the position where cumulative sum reaches target for 64-bit values
+         * @brief Searches for the position where cumulative sum reaches target for 64-bit values [Unchecked AI's Comment]
          * 
          * Finds the position in a 64-bit array where the cumulative sum
          * first reaches or exceeds the target value i.
@@ -1223,7 +1223,7 @@ namespace stool
         }
 
         /**
-         * @brief Generic search function for finding cumulative sum position
+         * @brief Generic search function for finding cumulative sum position [Unchecked AI's Comment]
          * 
          * Searches for the position where the cumulative sum first reaches or
          * exceeds the target value i, based on the specified bit type.
