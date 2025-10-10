@@ -8,7 +8,7 @@
 namespace stool
 {
     /*!
-     * @brief A simple bit vector implementation with push/pop operations
+     * @brief A simple bit vector implementation with push/pop operations [Unchecked AI's Comment] 
      * 
      * This class provides a basic bit vector data structure that supports dynamic
      * push and pop operations. It stores bits in an array of 64-bit integers and

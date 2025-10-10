@@ -11,7 +11,7 @@ namespace stool
 {
 
     /**
-     * @brief Represents a factor in LZ77 compression algorithm
+     * @brief Represents a factor in LZ77 compression algorithm [Unchecked AI's Comment] 
      * 
      * This class represents a single factor in the LZ77 factorization of a string.
      * A factor can be either a literal character or a reference to a previous occurrence

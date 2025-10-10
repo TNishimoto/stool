@@ -14,7 +14,7 @@
 namespace stool
 {
 	/**
-	 * @brief A utility class for generating various types of alphabets and random sequences
+	 * @brief A utility class for generating various types of alphabets and random sequences [Unchecked AI's Comment] 
 	 * 
 	 * This class provides static methods to create different types of alphabets
 	 * (binary, DNA, English letters, etc.) and generate random sequences or

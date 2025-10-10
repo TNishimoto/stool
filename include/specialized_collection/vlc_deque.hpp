@@ -12,7 +12,7 @@ namespace stool
 {
     /**
      * @class VLCDeque
-     * @brief A compressed double-ended queue (deque) supporting variable-length encoded integers.
+     * @brief A compressed double-ended queue (deque) supporting variable-length encoded integers. [Unchecked AI's Comment] 
      *
      * This data structure stores integers encoded in variable-length binary form
      * and supports push/pop operations on both ends as well as random access,

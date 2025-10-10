@@ -10,7 +10,7 @@ namespace stool
 {
     /**
      * @class RMQSmallSparseTable
-     * @brief A class for performing Range Minimum Query (RMQ) using a small sparse table.
+     * @brief A class for performing Range Minimum Query (RMQ) using a small sparse table. [Unchecked AI's Comment] 
      * @tparam T The data type of the elements in the array, defaulting to uint64_t.
      */
     template <typename T = uint64_t>

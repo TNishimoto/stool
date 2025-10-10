@@ -9,7 +9,7 @@ namespace stool
 {
 
 	/**
-	 * @brief A utility class for file I/O operations
+	 * @brief A utility class for file I/O operations [Unchecked AI's Comment] 
 	 * 
 	 * The IO class provides static methods for reading and writing various data types
 	 * to and from files. It supports binary and text file operations, including

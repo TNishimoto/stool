@@ -8,7 +8,7 @@
 namespace stool
 {
 	/**
-	 * @brief A class for reading files in an online (streaming) manner
+	 * @brief A class for reading files in an online (streaming) manner [Unchecked AI's Comment] 
 	 * 
 	 * This class provides functionality to read files in chunks without loading
 	 * the entire file into memory at once. It supports both binary and text files

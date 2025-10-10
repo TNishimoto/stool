@@ -17,7 +17,7 @@ namespace stool
     namespace beller
     {
         /*!
-         * @brief A small helper component for Beller's LCP array construction algorithm
+         * @brief A small helper component for Beller's LCP array construction algorithm [Unchecked AI's Comment] 
          * 
          * BellerSmallComponent provides auxiliary functionality for the main Beller algorithm
          * implementation. It includes:

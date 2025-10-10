@@ -16,7 +16,7 @@
 namespace stool
 {
 	/**
-	 * @brief Memory utility class for debugging and monitoring memory usage
+	 * @brief Memory utility class for debugging and monitoring memory usage [Unchecked AI's Comment] 
 	 * 
 	 * This class provides static methods to monitor and display memory usage
 	 * information for the current process. It supports cross-platform memory

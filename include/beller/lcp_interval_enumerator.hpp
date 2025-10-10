@@ -11,7 +11,7 @@ namespace stool
     namespace beller
     {
         /*!
-         * @brief A class for enumerating LCP (Longest Common Prefix) intervals
+         * @brief A class for enumerating LCP (Longest Common Prefix) intervals [Unchecked AI's Comment] 
          * 
          * LCPIntervalEnumerator provides functionality for iterating over LCP intervals in a text sequence.
          * It includes:

@@ -15,7 +15,7 @@ namespace stool
 {
 
 	/**
-	 * @brief A utility class for comparing vectors and containers for equality
+	 * @brief A utility class for comparing vectors and containers for equality [Unchecked AI's Comment] 
 	 * 
 	 * The EqualChecker class provides static methods to compare two vectors or containers
 	 * for equality. It performs element-by-element comparison and throws descriptive

@@ -10,7 +10,7 @@ namespace stool
 {
 
     /**
-     * @brief Forward iterator for Run-Length Encoding (RLE) of text
+     * @brief Forward iterator for Run-Length Encoding (RLE) of text [Unchecked AI's Comment] 
      * 
      * This class provides a forward iterator that traverses text and groups
      * consecutive identical characters into runs. It implements run-length

@@ -10,7 +10,7 @@
 namespace stool
 {
     /**
-     * @brief A utility class for string comparison and analysis operations.
+     * @brief A utility class for string comparison and analysis operations. [Unchecked AI's Comment] 
      * 
      * This class provides static methods for computing Longest Common Prefix (LCP),
      * Longest Common Suffix (LCS), and lexicographical comparison of strings

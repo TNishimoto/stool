@@ -15,7 +15,7 @@ namespace stool
 {
 	
 	/**
-	 * @brief Represents an LCP (Longest Common Prefix) interval in a suffix array
+	 * @brief Represents an LCP (Longest Common Prefix) interval in a suffix array [Unchecked AI's Comment] 
 	 * 
 	 * An LCP interval represents a range of suffixes in a suffix array that share
 	 * a common prefix of a specific length. This is a fundamental structure used

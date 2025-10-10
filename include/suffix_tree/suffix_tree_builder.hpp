@@ -8,7 +8,7 @@
 namespace stool
 {
     /**
-     * @brief A simple suffix tree implementation using LCP intervals
+     * @brief A simple suffix tree implementation using LCP intervals [Unchecked AI's Comment] 
      * 
      * This class represents a suffix tree built from LCP (Longest Common Prefix) intervals.
      * It provides methods to determine node types (leaf, root, internal) and construction

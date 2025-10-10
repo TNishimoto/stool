@@ -7,7 +7,7 @@ namespace stool
 {
 
     /**
-     * @brief A utility class for string manipulation functions.
+     * @brief A utility class for string manipulation functions. [Unchecked AI's Comment] 
      */
     class StringFunctions
     {

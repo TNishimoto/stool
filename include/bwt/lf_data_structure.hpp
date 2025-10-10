@@ -21,7 +21,7 @@ namespace stool
     {
         
         /**
-         * @brief LF (Last-First) mapping data structure for Burrows-Wheeler Transform
+         * @brief LF (Last-First) mapping data structure for Burrows-Wheeler Transform [Unchecked AI's Comment] 
          * 
          * This class provides efficient LF mapping operations on the Burrows-Wheeler Transform (BWT)
          * of a text. The LF mapping is a fundamental operation that allows navigation through

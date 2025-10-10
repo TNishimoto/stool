@@ -21,7 +21,7 @@ namespace stool
     namespace bwt
     {
         /**
-         * @brief A class providing utility functions for Burrows-Wheeler Transform (BWT) operations
+         * @brief A class providing utility functions for Burrows-Wheeler Transform (BWT) operations [Unchecked AI's Comment] 
          * 
          * This class contains static methods for constructing and manipulating BWT-related data structures
          * including LF (Last-to-First) mapping, FL (First-to-Last) mapping, C array construction,

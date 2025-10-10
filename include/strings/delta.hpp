@@ -10,7 +10,7 @@ namespace stool
 {
 
     /*! 
-    * @brief Class for computing substring complexity functions
+    * @brief Class for computing substring complexity functions [Unchecked AI's Comment] 
     * 
     * This class provides methods for computing various complexity functions related to substrings
     * of a given text. It includes functions for constructing distinct substring counter arrays,

@@ -6,7 +6,7 @@ namespace stool
     namespace beller
     {
         /*!
-         * @brief A component class for Beller's LCP array construction algorithm
+         * @brief A component class for Beller's LCP array construction algorithm [Unchecked AI's Comment] 
          * 
          * BellerComponent implements core functionality for Beller's algorithm to construct
          * the LCP (Longest Common Prefix) array. It provides:

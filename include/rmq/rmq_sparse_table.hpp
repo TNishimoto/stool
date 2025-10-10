@@ -7,7 +7,7 @@ namespace stool
 {
     
     /**
-     * @brief Range Minimum Query (RMQ) implementation using Sparse Table data structure
+     * @brief Range Minimum Query (RMQ) implementation using Sparse Table data structure [Unchecked AI's Comment] 
      * 
      * This class provides efficient range minimum query operations on an array using
      * the sparse table technique. It preprocesses the array in O(n log n) time and

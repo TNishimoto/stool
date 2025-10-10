@@ -11,7 +11,7 @@ namespace stool
 {
 
     /**
-     * @brief A specialized deque implementation for storing integers with variable byte sizes
+     * @brief A specialized deque implementation for storing integers with variable byte sizes [Unchecked AI's Comment] 
      *
      * This class provides a memory-efficient deque implementation that can store integers
      * using different byte sizes (1, 2, 4, or 8 bytes) based on the actual values stored.

@@ -13,7 +13,7 @@ namespace stool
 {
 	
 	/**
-	 * @brief A utility class for constructing various string processing arrays
+	 * @brief A utility class for constructing various string processing arrays [Unchecked AI's Comment] 
 	 * 
 	 * The ArrayConstructor class provides static methods for building essential
 	 * data structures used in string processing and bioinformatics, including:

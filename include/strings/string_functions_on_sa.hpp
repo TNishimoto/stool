@@ -8,7 +8,7 @@ namespace stool
 {
 
     /**
-     * @brief A utility class providing string functions that operate on suffix arrays
+     * @brief A utility class providing string functions that operate on suffix arrays [Unchecked AI's Comment] 
      * 
      * This class contains static methods for performing various string operations
      * using suffix arrays, including pattern matching, LCP interval computation,

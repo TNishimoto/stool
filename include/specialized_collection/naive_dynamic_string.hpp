@@ -4,7 +4,7 @@
 namespace stool
 {
     /**
-     * @brief A naive implementation of a dynamic string using std::vector<uint8_t>
+     * @brief A naive implementation of a dynamic string using std::vector<uint8_t> [Unchecked AI's Comment] 
      * 
      * This class provides basic string manipulation operations including insertion,
      * deletion, and modification of characters and substrings. It uses a vector

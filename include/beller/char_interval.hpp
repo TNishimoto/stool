@@ -14,7 +14,7 @@ namespace stool
 {
 
     /*!
-     * @brief A class representing character intervals in text sequences
+     * @brief A class representing character intervals in text sequences [Unchecked AI's Comment] 
      * 
      * CharInterval provides a data structure for storing and manipulating intervals
      * associated with specific characters in text sequences. It includes:

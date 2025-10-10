@@ -5,7 +5,7 @@ namespace stool
     namespace beller
     {
         /*!
-         * @brief A structure to store LCP (Longest Common Prefix) information
+         * @brief A structure to store LCP (Longest Common Prefix) information [Unchecked AI's Comment] 
          * 
          * LCPInfo stores both the LCP value and its corresponding position in the text.
          * It includes:

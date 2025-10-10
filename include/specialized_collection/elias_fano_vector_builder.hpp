@@ -21,7 +21,7 @@ namespace stool
 {
 
     /**
-     * @brief Builder class for Elias-Fano encoded vectors
+     * @brief Builder class for Elias-Fano encoded vectors [Unchecked AI's Comment] 
      * 
      * This class implements a builder for Elias-Fano encoded vectors, which provide
      * space-efficient storage for monotonically increasing sequences of integers.

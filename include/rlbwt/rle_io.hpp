@@ -6,7 +6,7 @@
 namespace stool
 {
     /*!
-     * @brief A class for handling Run-Length Encoded BWT I/O operations
+     * @brief A class for handling Run-Length Encoded BWT I/O operations [Unchecked AI's Comment] 
      * 
      * RLEIO provides functionality for reading and writing Run-Length Encoded 
      * Burrows-Wheeler Transform (RLBWT) data. It includes methods for:

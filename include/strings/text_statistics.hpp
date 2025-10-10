@@ -7,7 +7,7 @@
 namespace stool
 {
     /**
-     * @brief Class that holds statistical information about a text
+     * @brief Class that holds statistical information about a text [Unchecked AI's Comment] 
      */
     struct TextStatistics
     {

@@ -10,7 +10,7 @@
 namespace stool
 {
     /*!
-     * @brief A data structure for efficient interval searching in text sequences
+     * @brief A data structure for efficient interval searching in text sequences [Unchecked AI's Comment] 
      * 
      * IntervalSearchDataStructure provides functionality for searching intervals in text sequences
      * using wavelet tree based data structures. It includes methods for:

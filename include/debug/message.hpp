@@ -4,7 +4,7 @@
 namespace stool
 {
     /**
-     * @brief Message utility class for handling debug message formatting
+     * @brief Message utility class for handling debug message formatting [Unchecked AI's Comment] 
      * 
      * This class provides static methods for managing message paragraphs and
      * generating indentation strings for debug output formatting.

@@ -4,7 +4,7 @@
 namespace stool
 {
 	/**
-	 * @brief A utility class for generating various types of random strings and sequences.
+	 * @brief A utility class for generating various types of random strings and sequences. [Unchecked AI's Comment] 
 	 *
 	 * The StringGenerator class provides static methods for creating random sequences
 	 * of integers and converting them to different string representations. It supports

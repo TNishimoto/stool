@@ -13,7 +13,7 @@ namespace stool
     namespace beller
     {
         /*!
-         * @brief A class for enumerating LCP (Longest Common Prefix) values
+         * @brief A class for enumerating LCP (Longest Common Prefix) values [Unchecked AI's Comment] 
          * 
          * LCPEnumerator provides functionality for iterating over LCP values in a text sequence.
          * It includes:

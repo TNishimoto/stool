@@ -13,7 +13,7 @@ namespace stool
 {
 
     /**
-     * @brief A memory-efficient array that automatically chooses the smallest data type
+     * @brief A memory-efficient array that automatically chooses the smallest data type [Unchecked AI's Comment] 
      * 
      * ValueArray stores a sequence of unsigned integers using the smallest possible
      * data type (uint8_t, uint16_t, uint32_t, or uint64_t) based on the maximum value

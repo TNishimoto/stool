@@ -7,7 +7,7 @@
 namespace stool
 {
     /*!
-     * @brief A vector implementation using fixed-length codes for integer storage
+     * @brief A vector implementation using fixed-length codes for integer storage [Unchecked AI's Comment] 
      * 
      * NaiveFLCVector is a specialized vector class that stores integers using fixed-length codes (FLC).
      * It provides efficient storage and access for integers by adaptively choosing appropriate bit widths.

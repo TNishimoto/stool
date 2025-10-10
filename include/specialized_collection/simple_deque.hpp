@@ -11,7 +11,7 @@ namespace stool
 {
     
     /**
-     * @brief A simple circular buffer-based deque implementation
+     * @brief A simple circular buffer-based deque implementation [Unchecked AI's Comment] 
      * 
      * @tparam T The type of elements stored in the deque
      * @tparam INDEX_TYPE The type used for indexing (default: uint16_t)

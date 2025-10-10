@@ -8,7 +8,7 @@
 namespace stool
 {
     /**
-     * @brief A utility class for writing and reading binary data to/from vectors.
+     * @brief A utility class for writing and reading binary data to/from vectors. [Unchecked AI's Comment] 
      * 
      * The FileWriter class provides static methods for serializing and deserializing
      * primitive data types (16-bit, 32-bit, and 64-bit unsigned integers) to and from

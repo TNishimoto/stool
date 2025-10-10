@@ -5,7 +5,7 @@ namespace stool
 {
 
     /**
-     * @brief Elias-Fano encoding implementation for storing a sequence of integers efficiently
+     * @brief Elias-Fano encoding implementation for storing a sequence of integers efficiently [Unchecked AI's Comment] 
      * 
      * This class implements the Elias-Fano encoding scheme, which provides space-efficient
      * storage for monotonically increasing sequences of integers. The encoding splits

@@ -16,7 +16,7 @@ namespace stool
 {
 
 	/**
-	 * @brief Debug printing utility class providing various formatting and output functions
+	 * @brief Debug printing utility class providing various formatting and output functions [Unchecked AI's Comment] 
 	 * 
 	 * This class contains static methods for converting data structures to formatted strings
 	 * and printing them for debugging purposes. It supports various data types including

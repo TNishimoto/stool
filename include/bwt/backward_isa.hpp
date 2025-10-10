@@ -11,7 +11,7 @@ namespace stool
   {
 
     /**
-     * @brief Generator class for BackwardISAIterator
+     * @brief Generator class for BackwardISAIterator [Unchecked AI's Comment] 
      * 
      * This class provides functionality to iterate through ranks of suffixes in the input text
      * in back-to-front order. The i-th value corresponds to ISA[|T|-i], where T is the input text
