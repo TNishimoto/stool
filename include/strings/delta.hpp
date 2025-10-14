@@ -60,8 +60,8 @@ namespace stool
                         uint64_t prevpos = sa[i - 1] + j;
                         if (prevpos < text.size())
                         {
-                            T c1 = text[sa[i - 1] + j];
-                            T c2 = text[sa[i] + j];
+                            auto c1 = text[sa[i - 1] + j];
+                            auto c2 = text[sa[i] + j];
                             if (c1 != c2)
                             {
                                 b = false;
