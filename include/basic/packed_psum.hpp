@@ -106,8 +106,8 @@ namespace stool
 
             uint64_t msb = (bits >> 1) & 0x5555555555555555ULL;
 
-            uint64_t lsb_sum = stool::Byte::count_bits(lsb);
-            uint64_t msb_sum = stool::Byte::count_bits(msb);
+            uint64_t lsb_sum = stool::Byte::popcount(lsb);
+            uint64_t msb_sum = stool::Byte::popcount(msb);
 
             return lsb_sum + (2 * msb_sum);
         }
@@ -207,10 +207,10 @@ namespace stool
 
             for (uint64_t j = 0; j < block_index; j++)
             {
-                sum += stool::Byte::count_bits(bits[j]);
+                sum += stool::Byte::popcount(bits[j]);
             }
             uint64_t last_block = bits[block_index] >> (63 - bit_index);
-            sum += stool::Byte::count_bits(last_block);
+            sum += stool::Byte::popcount(last_block);
             return sum;
         }
         /**
@@ -240,22 +240,22 @@ namespace stool
             if (start_block_index < end_block_index)
             {
                 uint64_t modified_start_block = bits[start_block_index] << start_bit_index;
-                sum += stool::Byte::count_bits(modified_start_block);
+                sum += stool::Byte::popcount(modified_start_block);
 
                 for (uint64_t k = start_block_index + 1; k < end_block_index; k++)
                 {
-                    sum += stool::Byte::count_bits(bits[k]);
+                    sum += stool::Byte::popcount(bits[k]);
                 }
 
                 uint64_t modified_last_block = bits[end_block_index] >> (63 - end_bit_index);
-                sum += stool::Byte::count_bits(modified_last_block);
+                sum += stool::Byte::popcount(modified_last_block);
             }
             else
             {
                 uint64_t maskL = UINT64_MAX >> start_bit_index;
                 uint64_t maskR = UINT64_MAX << (63 - end_bit_index);
                 uint64_t modified_last_block = bits[end_block_index] & maskL & maskR;
-                sum += stool::Byte::count_bits(modified_last_block);
+                sum += stool::Byte::popcount(modified_last_block);
             }
             return sum;
         }
@@ -990,14 +990,14 @@ namespace stool
             }
             sum = 0;
             uint64_t k = 0;
-            uint64_t v = stool::Byte::count_bits(bits[k]);
+            uint64_t v = stool::Byte::popcount(bits[k]);
 
             while (sum + v < i)
             {
                 sum += v;
                 k++;
                 assert(k < array_size);
-                v = stool::Byte::count_bits(bits[k]);
+                v = stool::Byte::popcount(bits[k]);
             }
 
             uint64_t diff = i - sum;

@@ -1,7 +1,7 @@
 #pragma once
 #include <queue>
 #include "../basic/log.hpp"
-#include "../debug/print.hpp"
+#include "../debug/debug_printer.hpp"
 #include "../strings/lcp_interval.hpp"
 #include "../rmq/rmq_sparse_table.hpp"
 

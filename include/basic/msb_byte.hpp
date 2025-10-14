@@ -80,7 +80,7 @@ namespace stool
          * @brief Counts the number of 1 bits in S[0..i] for a given bit sequence S.
          *
          */
-        inline static int64_t count_bits(uint64_t bits, uint64_t i)
+        inline static int64_t popcount(uint64_t bits, uint64_t i)
         {
             return __builtin_popcountll(bits >> (63 - i));
         }
@@ -167,7 +167,7 @@ namespace stool
         {
             if (bits != 0)
             {
-                // uint64_t count = stool::Byte::count_bits(bits);
+                // uint64_t count = stool::Byte::popcount(bits);
                 uint64_t sizex = 64 - stool::LSBByte::select1(bits, 0);
                 return sizex - 1;
             }
@@ -322,7 +322,7 @@ namespace stool
                 uint64_t bs = i * 8;
                 uint64_t mask2 = mask << bs;
                 uint64_t v = bits & mask2;
-                uint64_t c = Byte::count_bits(v);
+                uint64_t c = Byte::popcount(v);
                 if (counter + c >= nth)
                 {
                     uint64_t pos = (7 - i) * 8;
@@ -345,7 +345,7 @@ namespace stool
          */
         static int64_t select1(uint64_t bits, uint64_t i)
         {
-            uint64_t num = Byte::count_bits(bits);
+            uint64_t num = Byte::popcount(bits);
             if(num < i+1){
                 return -1;
             }else{
@@ -423,10 +423,10 @@ namespace stool
             if(start_block_index == end_block_index){
                 assert(start_bit_index <= end_bit_index);
                 uint64_t block = bit_array[start_block_index];
-                uint64_t R = stool::MSBByte::count_bits(block, end_bit_index);
+                uint64_t R = stool::MSBByte::popcount(block, end_bit_index);
 
                 if(start_bit_index != 0){
-                    uint64_t L = stool::MSBByte::count_bits(block, start_bit_index - 1);
+                    uint64_t L = stool::MSBByte::popcount(block, start_bit_index - 1);
                     num += R - L;
                 }else{
                     num += R;
@@ -436,21 +436,21 @@ namespace stool
 
                 if(start_bit_index != 0){
                     uint64_t block = bit_array[start_block_index];
-                    uint64_t R = start_block_index != end_block_index ? stool::Byte::count_bits(block) : stool::MSBByte::count_bits(block, end_bit_index);
-                    uint64_t L = stool::MSBByte::count_bits(block, start_bit_index - 1);
+                    uint64_t R = start_block_index != end_block_index ? stool::Byte::popcount(block) : stool::MSBByte::popcount(block, end_bit_index);
+                    uint64_t L = stool::MSBByte::popcount(block, start_bit_index - 1);
                     num += R - L;
                 }else{
-                    num += stool::Byte::count_bits(bit_array[start_block_index]);
+                    num += stool::Byte::popcount(bit_array[start_block_index]);
                 }
 
     
                 for (uint64_t i = start_block_index + 1; i < end_block_index; i++)
                 {
-                    num += stool::Byte::count_bits(bit_array[i]);
+                    num += stool::Byte::popcount(bit_array[i]);
                 }
 
                 {
-                    num += stool::MSBByte::count_bits(bit_array[end_block_index], end_bit_index);
+                    num += stool::MSBByte::popcount(bit_array[end_block_index], end_bit_index);
                 }
     
             }

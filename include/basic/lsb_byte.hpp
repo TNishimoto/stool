@@ -188,7 +188,7 @@ namespace stool
                 uint64_t bs = i * 8;
                 uint64_t mask2 = mask << bs;
                 uint64_t v = bits & mask2;
-                uint64_t c = Byte::count_bits(v);
+                uint64_t c = Byte::popcount(v);
                 if (counter + c >= nth)
                 {
 
@@ -221,7 +221,7 @@ namespace stool
                 uint64_t bs = i * 8;
                 uint64_t mask2 = mask << bs;
                 uint64_t v = bits & mask2;
-                uint64_t c = Byte::count_bits(v);
+                uint64_t c = Byte::popcount(v);
                 if (counter + c >= nth)
                 {
                     uint64_t pos = bs;
@@ -238,7 +238,7 @@ namespace stool
             #if defined(__BMI2__)
             
 
-            unsigned cnt = Byte::count_bits(bits);
+            unsigned cnt = Byte::popcount(bits);
             if (i >= cnt)
                 return -1;                                              // 存在しない
             uint64_t src = 1ull << i;                             // r番目の1を表す単一ビット
@@ -252,7 +252,7 @@ namespace stool
             // 事前チェック（総1数 < i+1 は失敗）
             // sの最終バイト = 総1数 なので、本当は後段だけで検出できるが、
             // 早期終了しておくと無駄を抑えられる（popcountは1命令）。
-            if (i >= static_cast<unsigned>(Byte::count_bits(bits)))
+            if (i >= static_cast<unsigned>(Byte::popcount(bits)))
                 return -1;
 
             // 1) byte popcount（各バイトに 0..8）

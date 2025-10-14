@@ -9,7 +9,7 @@
 #include <fstream>
 #include <cassert>
 
-#include "./print.hpp"
+#include "./debug_printer.hpp"
 
 namespace stool
 {

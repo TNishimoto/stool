@@ -13,7 +13,7 @@
 
 #include <queue>
 #include "../strings/array_constructor.hpp"
-#include "../debug/print.hpp"
+#include "../debug/debug_printer.hpp"
 
 
 namespace stool

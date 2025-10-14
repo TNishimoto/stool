@@ -542,7 +542,7 @@ void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
                 int64_t plen = (get_rand_value(mt) % 64) + 1;
                 uint64_t pos = get_rand_value(mt) % (bv.size() + 1);
 
-                std::string new_value_str = stool::Byte::to_string(new_value);
+                std::string new_value_str = stool::Byte::to_bit_string(new_value);
 
 
 
@@ -568,7 +568,7 @@ void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
                         std::cout << "pos = " << pos << std::endl;
                         std::cout << "plen = " << plen << std::endl;
                         std::cout << "bv size = " << bv.size() << std::endl;
-                        std::cout << "pattern = " << stool::Byte::to_string(new_value).substr(0, plen) << std::endl;
+                        std::cout << "pattern = " << stool::Byte::to_bit_string(new_value).substr(0, plen) << std::endl;
                         throw e;
                     }
 

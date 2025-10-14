@@ -5,7 +5,7 @@
 #include <cassert>
 #include <cstring>
 #include "../../basic/byte.hpp"
-#include "../../debug/print.hpp"
+#include "../../debug/debug_printer.hpp"
 
 namespace stool
 {

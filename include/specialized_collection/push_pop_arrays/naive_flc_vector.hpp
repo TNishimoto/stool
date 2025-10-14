@@ -2,7 +2,7 @@
 #include "../../basic/byte.hpp"
 #include "../../basic/lsb_byte.hpp"
 #include "../../basic/packed_psum.hpp"
-#include "../../debug/print.hpp"
+#include "../../debug/debug_printer.hpp"
 
 namespace stool
 {

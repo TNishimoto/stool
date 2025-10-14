@@ -73,7 +73,7 @@ namespace stool
         uint64_t end_bit_index_in_last_block() const
         {
             uint64_t last = this->bits_with_gap[this->bits_with_gap.size() - 1];
-            // uint64_t count = stool::Byte::count_bits(last);
+            // uint64_t count = stool::Byte::popcount(last);
             uint64_t sizex = 64 - stool::LSBByte::select1(last, 0);
             return sizex - 1;
         }
@@ -96,7 +96,7 @@ namespace stool
 
         std::string to_string() const
         {
-            std::string s = stool::Byte::to_string(bits_with_gap);
+            std::string s = stool::Byte::to_bit_string(bits_with_gap);
             uint64_t size = this->size();
             while (s.size() > size)
             {
@@ -113,12 +113,12 @@ namespace stool
             while (current_len > 0)
             {
                 if(current_len >= 64){
-                    sum += stool::Byte::count_bits(bits_with_gap[block_index]);
+                    sum += stool::Byte::popcount(bits_with_gap[block_index]);
                     block_index++;
                     current_len -= 64;
                 }else{
                     uint64_t bits = this->bits_with_gap[block_index] >> (64 - current_len);                    
-                    sum += stool::Byte::count_bits(bits);
+                    sum += stool::Byte::popcount(bits);
                     current_len = 0;
                 }
             }
@@ -153,7 +153,7 @@ namespace stool
             uint64_t counter = 0;
             for (uint64_t i = 0; i < this->bits_with_gap.size(); i++)
             {
-                uint64_t count = stool::Byte::count_bits(bits_with_gap[i]);
+                uint64_t count = stool::Byte::popcount(bits_with_gap[i]);
                 if (counter + count > nth)
                 {
                     return i * 64 + stool::MSBByte::select1(bits_with_gap[i], nth - counter);

@@ -5,7 +5,7 @@
 #include "../basic/byte.hpp"
 #include "../basic/lsb_byte.hpp"
 
-#include "../debug/print.hpp"
+#include "../debug/debug_printer.hpp"
 #include "./simple_deque.hpp"
 
 namespace stool
@@ -26,6 +26,19 @@ namespace stool
         uint8_t first_gap = 0;
         uint8_t last_gap = 0;
 
+
+        static uint64_t get_suffix(uint64_t code, uint8_t len)
+        {
+            uint64_t mask = (len < 64) ? ~((1ULL << len) - 1) : 0;
+            uint64_t pref = code & mask;
+            return pref;
+        }
+        static uint64_t get_prefix(uint64_t code, uint8_t len)
+		{
+			uint64_t mask = len < 64 ? UINT64_MAX >> len : 0;
+			uint64_t suf = code & mask;
+			return suf;
+		}
         /**
          * @class VLCDequeIterator
          * @brief Bidirectional iterator for VLCDeque.
@@ -38,6 +51,7 @@ namespace stool
             uint64_t m_idx;
             uint64_t m_code_pos1;
             uint8_t m_code_pos2;
+
 
         public:
             using iterator_category = std::bidirectional_iterator_tag;
@@ -541,9 +555,9 @@ namespace stool
             uint64_t end_pos = pos + len - 1;
             if (end_pos < 63)
             {
-                uint64_t tmp_code1 = stool::Byte::zero_pad_tail(code1, 64 - pos);
+                uint64_t tmp_code1 = VLCDeque::get_suffix(code1, 64 - pos);
                 // uint64_t tmp_code1_len = pos;
-                uint64_t suf = (stool::Byte::zero_pad_head(code1, end_pos + 1)) << len;
+                uint64_t suf = (VLCDeque::get_suffix(code1, end_pos + 1)) << len;
                 // uint64_t suf_len = 63 - end_pos;
                 uint64_t pref_len = len;
                 uint64_t pref = (code2 >> (64 - pref_len));
@@ -553,10 +567,10 @@ namespace stool
             }
             else
             {
-                uint64_t tmp_code1 = stool::Byte::zero_pad_tail(code1, 64 - pos);
+                uint64_t tmp_code1 = VLCDeque::get_suffix(code1, 64 - pos);
                 uint64_t pref_len = end_pos - 63;
                 uint64_t suf_len = len - pref_len;
-                uint64_t tmp_code2 = stool::Byte::zero_pad_head(code2, pref_len);
+                uint64_t tmp_code2 = VLCDeque::get_suffix(code2, pref_len);
                 uint64_t tmp_code2_len = 64 - pref_len;
                 uint64_t xsuf = tmp_code2 >> (tmp_code2_len - suf_len);
                 uint64_t ysuf = tmp_code2 << (64 - (tmp_code2_len - suf_len));
@@ -595,7 +609,7 @@ namespace stool
             uint64_t rLen = 64 - pos;
             uint64_t sgap = std::min(rLen, (uint64_t)len);
 
-            uint64_t _left = stool::Byte::zero_pad_tail(code, 64 - pos);
+            uint64_t _left = VLCDeque::get_suffix(code, 64 - pos);
             uint64_t _right_tmp = code << pos;
             uint64_t _right = pos + sgap < 64 ? (_right_tmp >> (pos + sgap)) : 0;
 
@@ -851,7 +865,7 @@ namespace stool
             {
                 if (value_len + this->last_gap < 64)
                 {
-                    this->code_deque[this->code_deque.size() - 1] = stool::Byte::zero_pad_tail(last_code, value_len + this->last_gap);
+                    this->code_deque[this->code_deque.size() - 1] = VLCDeque::get_suffix(last_code, value_len + this->last_gap);
                     this->last_gap += value_len;
                 }
                 else
@@ -859,7 +873,7 @@ namespace stool
                     this->code_deque.pop_back();
                     last_code = this->code_deque[this->code_deque.size() - 1];
                     uint64_t len1 = value_len - (64 - this->last_gap);
-                    this->code_deque[this->code_deque.size() - 1] = stool::Byte::zero_pad_tail(last_code, len1);
+                    this->code_deque[this->code_deque.size() - 1] = VLCDeque::get_suffix(last_code, len1);
                     this->last_gap = (value_len + this->last_gap) - 64;
                 }
             }
@@ -903,7 +917,7 @@ namespace stool
             {
                 if (value_len + this->first_gap < 64)
                 {
-                    this->code_deque[0] = stool::Byte::zero_pad_head(fst_code, value_len + this->first_gap);
+                    this->code_deque[0] = VLCDeque::get_prefix(fst_code, value_len + this->first_gap);
                     this->first_gap += value_len;
                 }
                 else
@@ -911,7 +925,7 @@ namespace stool
                     this->code_deque.pop_front();
                     fst_code = this->code_deque[0];
                     uint64_t len1 = value_len - (64 - this->first_gap);
-                    this->code_deque[0] = stool::Byte::zero_pad_head(fst_code, len1);
+                    this->code_deque[0] = VLCDeque::get_prefix(fst_code, len1);
                     this->first_gap = ((uint64_t)value_len + (uint64_t)this->first_gap) - 64;
                 }
             }
@@ -1359,7 +1373,7 @@ namespace stool
         void print() const
         {
             std::cout << "============================" << std::endl;
-            stool::Printer::print("Value Length", this->value_length_deque.to_deque());
+            //stool::Printer::print("Value Length", this->value_length_deque.to_deque());
             std::cout << "Code: [" << std::flush;
             for (uint64_t i = 0; i < this->code_deque.size(); i++)
             {
@@ -1373,7 +1387,7 @@ namespace stool
             std::cout << "]" << std::endl;
             std::cout << "First Gap: " << (int)this->first_gap << std::endl;
             std::cout << "Last Gap: " << (int)this->last_gap << std::endl;
-            stool::Printer::print("Values", this->to_vector());
+            //stool::Printer::print("Values", this->to_vector());
             std::cout << "============================" << std::endl;
         }
 

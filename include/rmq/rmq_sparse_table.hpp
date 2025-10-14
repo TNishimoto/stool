@@ -1,6 +1,6 @@
 #pragma once
 #include "../basic/log.hpp"
-#include "../debug/print.hpp"
+#include "../debug/debug_printer.hpp"
 #include <cassert>
 
 namespace stool

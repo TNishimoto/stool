@@ -764,7 +764,7 @@ void bit_select_test(uint64_t seed, uint64_t max_counter){
             std::cout << "+" << std::flush;
         }
         uint64_t random_value = get_rand_value(mt);
-        uint64_t rank1 = stool::Byte::count_bits(random_value);
+        uint64_t rank1 = stool::Byte::popcount(random_value);
         uint64_t rank0 = 64 - rank1;
 
         std::vector<bool> bv;

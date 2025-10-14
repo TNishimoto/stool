@@ -64,7 +64,7 @@ namespace stool
             uint64_t block_index = 0;
             uint8_t bit_index = 0;
             //this->sbv.push_back64(size_bits, 16);
-            num1 += stool::Byte::count_bits(size_bits);
+            num1 += stool::Byte::popcount(size_bits);
             bit64_array[block_index] = size_bits;
             bit_index += 16;
 
@@ -152,7 +152,7 @@ namespace stool
 
                     stool::MSBByte::write_64bit_string(bit64_array, BIT_VECTOR_SIZE, lower_value_bits, block_index, bit_index, lower_bit_size, false);
                     bit_index += lower_bit_size;
-                    num1 += stool::Byte::count_bits(lower_value_bits);
+                    num1 += stool::Byte::popcount(lower_value_bits);
                     if(bit_index >= 64){
                         block_index++;
                         bit_index = bit_index - 64;

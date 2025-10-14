@@ -768,7 +768,7 @@ namespace stool
 
             this->update_size_if_needed(size + len);
 
-            uint64_t num1 = stool::MSBByte::count_bits(value, len - 1);
+            uint64_t num1 = stool::MSBByte::popcount(value, len - 1);
             this->num1_ += num1;
 
             if (size == 0)
@@ -813,7 +813,7 @@ namespace stool
             }
             else
             {
-                uint64_t num1 = stool::MSBByte::count_bits(value, len - 1);
+                uint64_t num1 = stool::MSBByte::popcount(value, len - 1);
                 this->num1_ += num1;
 
                 CircularBitPointer bp(this->circular_buffer_size_, this->first_block_index_, this->first_bit_index_);
@@ -913,8 +913,8 @@ namespace stool
             bp.add(position);
             uint64_t removed_bits = bp.read64(this->circular_buffer_);
 
-            uint64_t added_num1 = stool::MSBByte::count_bits(value, len - 1);
-            uint64_t removed_num1 = stool::MSBByte::count_bits(removed_bits, len - 1);
+            uint64_t added_num1 = stool::MSBByte::popcount(value, len - 1);
+            uint64_t removed_num1 = stool::MSBByte::popcount(removed_bits, len - 1);
             this->num1_ += added_num1;
             this->num1_ -= removed_num1;
 
@@ -943,9 +943,9 @@ namespace stool
                 if (start_bp.block_index_ == end_bp.block_index_)
                 {
                     uint64_t old_block = this->circular_buffer_[start_bp.block_index_];
-                    uint64_t removed_num = stool::Byte::count_bits(old_block);
+                    uint64_t removed_num = stool::Byte::popcount(old_block);
                     uint64_t new_block = stool::MSBByte::write_bits(old_block, start_bp.bit_index_, bit_size, values[0]);
-                    uint64_t added_num = stool::Byte::count_bits(new_block);
+                    uint64_t added_num = stool::Byte::popcount(new_block);
                     this->num1_ += added_num;
                     this->num1_ -= removed_num;
                     this->circular_buffer_[start_bp.block_index_] = new_block;
@@ -954,9 +954,9 @@ namespace stool
                 {
                     {
                         uint64_t old_block = this->circular_buffer_[start_bp.block_index_];
-                        uint64_t removed_num = stool::Byte::count_bits(old_block);
+                        uint64_t removed_num = stool::Byte::popcount(old_block);
                         uint64_t new_block = stool::MSBByte::write_suffix(old_block, blockR_size, values[0]);
-                        uint64_t added_num = stool::Byte::count_bits(new_block);
+                        uint64_t added_num = stool::Byte::popcount(new_block);
                         this->num1_ += added_num;
                         this->num1_ -= removed_num;
                         this->circular_buffer_[start_bp.block_index_] = new_block;
@@ -967,9 +967,9 @@ namespace stool
                         for (uint64_t i = start_bp.block_index_ + 1; i < end_bp.block_index_; i++)
                         {
                             uint64_t old_block = this->circular_buffer_[i];
-                            uint64_t removed_num = stool::Byte::count_bits(old_block);
+                            uint64_t removed_num = stool::Byte::popcount(old_block);
                             uint64_t new_block = values[i - start_bp.block_index_];
-                            uint64_t added_num = stool::Byte::count_bits(new_block);
+                            uint64_t added_num = stool::Byte::popcount(new_block);
                             this->num1_ += added_num;
                             this->num1_ -= removed_num;
                             this->circular_buffer_[i] = new_block;
@@ -980,11 +980,11 @@ namespace stool
                         for (uint64_t i = start_bp.block_index_ + 1; i < end_bp.block_index_; i++)
                         {
                             uint64_t old_block = this->circular_buffer_[i];
-                            uint64_t removed_num = stool::Byte::count_bits(old_block);
+                            uint64_t removed_num = stool::Byte::popcount(old_block);
                             uint64_t blockL = values[(i - 1) - start_bp.block_index_] << blockR_size;
                             uint64_t blockR = values[i - start_bp.block_index_] >> blockL_size;
                             uint64_t new_block = blockL | blockR;
-                            uint64_t added_num = stool::Byte::count_bits(new_block);
+                            uint64_t added_num = stool::Byte::popcount(new_block);
                             this->num1_ += added_num;
                             this->num1_ -= removed_num;
                             this->circular_buffer_[i] = new_block;
@@ -999,9 +999,9 @@ namespace stool
                         end_value_bp.add(bit_size - 1);
                         uint64_t pattern = start_value_bp.read64(values);
                         uint64_t old_block = this->circular_buffer_[end_bp.block_index_];
-                        uint64_t removed_num = stool::Byte::count_bits(old_block);
+                        uint64_t removed_num = stool::Byte::popcount(old_block);
                         uint64_t new_block = stool::MSBByte::write_prefix(old_block, last_block_size, pattern);
-                        uint64_t added_num = stool::Byte::count_bits(new_block);
+                        uint64_t added_num = stool::Byte::popcount(new_block);
                         this->num1_ += added_num;
                         this->num1_ -= removed_num;
                         this->circular_buffer_[end_bp.block_index_] = new_block;
@@ -1018,10 +1018,10 @@ namespace stool
                     uint64_t patternR = pattern;
                     uint64_t patternL = pattern << suffix_size;
                     uint64_t old_block = this->circular_buffer_[start_bp.block_index_];
-                    uint64_t removed_num = stool::Byte::count_bits(old_block);
+                    uint64_t removed_num = stool::Byte::popcount(old_block);
                     uint64_t tmp_block = stool::MSBByte::write_prefix(old_block, prefix_size, patternL);
                     uint64_t new_block = stool::MSBByte::write_suffix(tmp_block, suffix_size, patternR);
-                    uint64_t added_num = stool::Byte::count_bits(new_block);
+                    uint64_t added_num = stool::Byte::popcount(new_block);
                     this->num1_ += added_num;
                     this->num1_ -= removed_num;
                     this->circular_buffer_[start_bp.block_index_] = new_block;
@@ -1030,9 +1030,9 @@ namespace stool
                 {
                     {
                         uint64_t old_block = this->circular_buffer_[start_bp.block_index_];
-                        uint64_t removed_num = stool::Byte::count_bits(old_block);
+                        uint64_t removed_num = stool::Byte::popcount(old_block);
                         uint64_t new_block = stool::MSBByte::write_suffix(old_block, blockR_size, values[0]);
-                        uint64_t added_num = stool::Byte::count_bits(new_block);
+                        uint64_t added_num = stool::Byte::popcount(new_block);
                         this->num1_ += added_num;
                         this->num1_ -= removed_num;
                         this->circular_buffer_[start_bp.block_index_] = new_block;
@@ -1043,9 +1043,9 @@ namespace stool
                         for (uint64_t i = start_bp.block_index_ + 1; i < this->circular_buffer_size_; i++)
                         {
                             uint64_t old_block = this->circular_buffer_[i];
-                            uint64_t removed_num = stool::Byte::count_bits(old_block);
+                            uint64_t removed_num = stool::Byte::popcount(old_block);
                             uint64_t new_block = values[i - start_bp.block_index_];
-                            uint64_t added_num = stool::Byte::count_bits(new_block);
+                            uint64_t added_num = stool::Byte::popcount(new_block);
                             this->num1_ += added_num;
                             this->num1_ -= removed_num;
                             this->circular_buffer_[i] = new_block;
@@ -1055,9 +1055,9 @@ namespace stool
                         for (uint64_t i = 0; i + 1 < end_bp.block_index_; i++)
                         {
                             uint64_t old_block = this->circular_buffer_[i];
-                            uint64_t removed_num = stool::Byte::count_bits(old_block);
+                            uint64_t removed_num = stool::Byte::popcount(old_block);
                             uint64_t new_block = values[gap + i + 1];
-                            uint64_t added_num = stool::Byte::count_bits(new_block);
+                            uint64_t added_num = stool::Byte::popcount(new_block);
                             this->num1_ += added_num;
                             this->num1_ -= removed_num;
                             this->circular_buffer_[i] = new_block;
@@ -1068,11 +1068,11 @@ namespace stool
                         for (uint64_t i = start_bp.block_index_ + 1; i < this->circular_buffer_size_; i++)
                         {
                             uint64_t old_block = this->circular_buffer_[i];
-                            uint64_t removed_num = stool::Byte::count_bits(old_block);
+                            uint64_t removed_num = stool::Byte::popcount(old_block);
                             uint64_t blockL = values[(i - 1) - start_bp.block_index_] << blockR_size;
                             uint64_t blockR = values[i - start_bp.block_index_] >> blockL_size;
                             uint64_t new_block = blockL | blockR;
-                            uint64_t added_num = stool::Byte::count_bits(new_block);
+                            uint64_t added_num = stool::Byte::popcount(new_block);
                             this->num1_ += added_num;
                             this->num1_ -= removed_num;
                             this->circular_buffer_[i] = new_block;
@@ -1082,11 +1082,11 @@ namespace stool
                         for (uint64_t i = 0; i + 1 < end_bp.block_index_; i++)
                         {
                             uint64_t old_block = this->circular_buffer_[i];
-                            uint64_t removed_num = stool::Byte::count_bits(old_block);
+                            uint64_t removed_num = stool::Byte::popcount(old_block);
                             uint64_t blockL = values[gap + i] << blockR_size;
                             uint64_t blockR = values[gap + (i + 1)] >> blockL_size;
                             uint64_t new_block = blockL | blockR;
-                            uint64_t added_num = stool::Byte::count_bits(new_block);
+                            uint64_t added_num = stool::Byte::popcount(new_block);
                             this->num1_ += added_num;
                             this->num1_ -= removed_num;
                             this->circular_buffer_[i] = new_block;
@@ -1102,9 +1102,9 @@ namespace stool
                         uint64_t pattern = start_value_bp.read64(values);
 
                         uint64_t old_block = this->circular_buffer_[end_bp.block_index_];
-                        uint64_t removed_num = stool::Byte::count_bits(old_block);
+                        uint64_t removed_num = stool::Byte::popcount(old_block);
                         uint64_t new_block = stool::MSBByte::write_prefix(old_block, last_block_size, pattern);
-                        uint64_t added_num = stool::Byte::count_bits(new_block);
+                        uint64_t added_num = stool::Byte::popcount(new_block);
                         this->num1_ += added_num;
                         this->num1_ -= removed_num;
                         this->circular_buffer_[end_bp.block_index_] = new_block;
@@ -1120,8 +1120,8 @@ namespace stool
                 if (bit_size >= 64)
                 {
                     uint64_t removed_bits = bp.read64(this->circular_buffer_);
-                    uint64_t removed_num1 = stool::Byte::count_bits(removed_bits);
-                    uint64_t added_num1 = stool::Byte::count_bits(values[i]);
+                    uint64_t removed_num1 = stool::Byte::popcount(removed_bits);
+                    uint64_t added_num1 = stool::Byte::popcount(values[i]);
                     this->num1_ += added_num1 - removed_num1;
 
                     stool::MSBByte::write_64bit_string(this->circular_buffer_, this->circular_buffer_size_, values[i], bp.block_index_, bp.bit_index_, 64, true);
@@ -1133,8 +1133,8 @@ namespace stool
                 else
                 {
                     uint64_t removed_bits = bp.read64(this->circular_buffer_);
-                    uint64_t removed_num1 = stool::MSBByte::count_bits(removed_bits, bit_size - 1);
-                    uint64_t added_num1 = stool::MSBByte::count_bits(values[i], bit_size - 1);
+                    uint64_t removed_num1 = stool::MSBByte::popcount(removed_bits, bit_size - 1);
+                    uint64_t added_num1 = stool::MSBByte::popcount(values[i], bit_size - 1);
                     this->num1_ += added_num1;
                     this->num1_ -= removed_num1;
 
@@ -1420,38 +1420,38 @@ namespace stool
             {
                 {
                     uint64_t block = this->circular_buffer_[start_bp.block_index_];
-                    uint64_t R = start_bp.block_index_ != end_bp.block_index_ ? stool::Byte::count_bits(block) : stool::MSBByte::count_bits(block, end_bp.bit_index_);
-                    uint64_t L = start_bp.bit_index_ == 0 ? 0 : stool::MSBByte::count_bits(block, start_bp.bit_index_ - 1);
+                    uint64_t R = start_bp.block_index_ != end_bp.block_index_ ? stool::Byte::popcount(block) : stool::MSBByte::popcount(block, end_bp.bit_index_);
+                    uint64_t L = start_bp.bit_index_ == 0 ? 0 : stool::MSBByte::popcount(block, start_bp.bit_index_ - 1);
                     num += R - L;
                 }
 
                 for (uint64_t i = start_bp.block_index_ + 1; i < end_bp.block_index_; i++)
                 {
-                    num += stool::Byte::count_bits(this->circular_buffer_[i]);
+                    num += stool::Byte::popcount(this->circular_buffer_[i]);
                 }
 
                 if (start_bp.block_index_ != end_bp.block_index_)
                 {
-                    num += stool::MSBByte::count_bits(this->circular_buffer_[end_bp.block_index_], end_bp.bit_index_);
+                    num += stool::MSBByte::popcount(this->circular_buffer_[end_bp.block_index_], end_bp.bit_index_);
                 }
             }
             else
             {
                 {
                     uint64_t block = this->circular_buffer_[start_bp.block_index_];
-                    uint64_t R = stool::Byte::count_bits(block);
-                    uint64_t L = start_bp.bit_index_ == 0 ? 0 : stool::MSBByte::count_bits(block, start_bp.bit_index_ - 1);
+                    uint64_t R = stool::Byte::popcount(block);
+                    uint64_t L = start_bp.bit_index_ == 0 ? 0 : stool::MSBByte::popcount(block, start_bp.bit_index_ - 1);
                     num += R - L;
                 }
                 for (uint64_t i = start_bp.block_index_ + 1; i < this->circular_buffer_size_; i++)
                 {
-                    num += stool::Byte::count_bits(this->circular_buffer_[i]);
+                    num += stool::Byte::popcount(this->circular_buffer_[i]);
                 }
                 for (uint64_t i = 0; i < end_bp.block_index_; i++)
                 {
-                    num += stool::Byte::count_bits(this->circular_buffer_[i]);
+                    num += stool::Byte::popcount(this->circular_buffer_[i]);
                 }
-                num += stool::MSBByte::count_bits(this->circular_buffer_[end_bp.block_index_], end_bp.bit_index_);
+                num += stool::MSBByte::popcount(this->circular_buffer_[end_bp.block_index_], end_bp.bit_index_);
             }
             return num;
         }
@@ -1524,7 +1524,7 @@ namespace stool
                         {
                             uint64_t fst_block = this->circular_buffer_[this->first_block_index_] << this->first_bit_index_;
                             uint64_t fst_block_size = 64 - this->first_bit_index_;
-                            uint8_t bit_count = stool::Byte::count_bits(fst_block);
+                            uint8_t bit_count = stool::Byte::popcount(fst_block);
 
                             if (bit_count < counter)
                             {
@@ -1542,7 +1542,7 @@ namespace stool
                         for (uint64_t j = this->first_block_index_ + 1; j < this->last_block_index_; j++)
                         {
                             uint64_t block = this->circular_buffer_[j];
-                            uint8_t bit_count = stool::Byte::count_bits(block);
+                            uint8_t bit_count = stool::Byte::popcount(block);
 
                             if (bit_count < counter)
                             {
@@ -1575,7 +1575,7 @@ namespace stool
                     {
                         uint64_t fst_block = this->circular_buffer_[this->first_block_index_] << this->first_bit_index_;
                         uint64_t fst_block_size = 64 - this->first_bit_index_;
-                        uint8_t bit_count = stool::Byte::count_bits(fst_block);
+                        uint8_t bit_count = stool::Byte::popcount(fst_block);
 
                         if (bit_count < counter)
                         {
@@ -1593,7 +1593,7 @@ namespace stool
                     for (uint64_t j = this->first_block_index_ + 1; j < this->circular_buffer_size_; j++)
                     {
                         uint64_t block = this->circular_buffer_[j];
-                        uint8_t bit_count = stool::Byte::count_bits(block);
+                        uint8_t bit_count = stool::Byte::popcount(block);
 
                         if (bit_count < counter)
                         {
@@ -1610,7 +1610,7 @@ namespace stool
                     for (uint64_t j = 0; j < this->last_block_index_; j++)
                     {
                         uint64_t block = this->circular_buffer_[j];
-                        uint8_t bit_count = stool::Byte::count_bits(block);
+                        uint8_t bit_count = stool::Byte::popcount(block);
 
                         if (bit_count < counter)
                         {
@@ -1664,7 +1664,7 @@ namespace stool
 
                     if (bp.bit_index_ == 0)
                     {
-                        int64_t num = stool::Byte::count_bits(bits);
+                        int64_t num = stool::Byte::popcount(bits);
                         if (num < counter)
                         {
                             counter -= num;
@@ -1690,7 +1690,7 @@ namespace stool
                             bitsize = nokori;
                         }
                         bits = (bits >> (64 - bitsize)) << (64 - bitsize);
-                        int64_t num = stool::Byte::count_bits(bits);
+                        int64_t num = stool::Byte::popcount(bits);
                         if (num < counter)
                         {
                             counter -= num;
@@ -1784,7 +1784,7 @@ namespace stool
                             bits = bits >> (63 - last_bp.bit_index_);
                         }
 
-                        uint64_t byte_count1 = stool::Byte::count_bits(bits);
+                        uint64_t byte_count1 = stool::Byte::popcount(bits);
                         if (byte_count1 < counter1)
                         {
                             counter1 -= byte_count1;
@@ -1801,7 +1801,7 @@ namespace stool
                     for (int64_t x = last_bp.block_index_ - 1; x >= start_bp.block_index_ + 1; x--)
                     {
                         uint64_t bits = this->circular_buffer_[x];
-                        uint64_t byte_count1 = stool::Byte::count_bits(bits);
+                        uint64_t byte_count1 = stool::Byte::popcount(bits);
                         if (byte_count1 < counter1)
                         {
                             counter1 -= byte_count1;
@@ -1832,7 +1832,7 @@ namespace stool
                         uint64_t bits = this->circular_buffer_[last_bp.block_index_] >> (63 - last_bp.bit_index_);
 
 
-                        uint64_t byte_count1 = stool::Byte::count_bits(bits);
+                        uint64_t byte_count1 = stool::Byte::popcount(bits);
                         if (byte_count1 < counter1)
                         {
                             counter1 -= byte_count1;
@@ -1849,7 +1849,7 @@ namespace stool
                     for (int64_t x = last_bp.block_index_ - 1; x >= 0; x--)
                     {
                         uint64_t bits = this->circular_buffer_[x];
-                        uint64_t byte_count1 = stool::Byte::count_bits(bits);
+                        uint64_t byte_count1 = stool::Byte::popcount(bits);
                         if (byte_count1 < counter1)
                         {
                             counter1 -= byte_count1;
@@ -1868,7 +1868,7 @@ namespace stool
                     for (int64_t x = this->circular_buffer_size_ - 1; x >= start_bp.block_index_+1; x--)
                     {
                         uint64_t bits = this->circular_buffer_[x];
-                        uint64_t byte_count1 = stool::Byte::count_bits(bits);
+                        uint64_t byte_count1 = stool::Byte::popcount(bits);
                         if (byte_count1 < counter1)
                         {
                             counter1 -= byte_count1;
@@ -1919,7 +1919,7 @@ namespace stool
 
                 if (bp.bit_index_ == 0)
                 {
-                    int64_t num = bitsize - stool::Byte::count_bits(bits);
+                    int64_t num = bitsize - stool::Byte::popcount(bits);
                     if (num < counter)
                     {
                         counter -= num;
@@ -1945,7 +1945,7 @@ namespace stool
                         bitsize = nokori;
                     }
                     bits = (bits >> (64 - bitsize)) << (64 - bitsize);
-                    int64_t num = bitsize - stool::Byte::count_bits(bits);
+                    int64_t num = bitsize - stool::Byte::popcount(bits);
                     if (num < counter)
                     {
                         counter -= num;
@@ -1999,7 +1999,7 @@ namespace stool
             for (uint64_t i = 0; i < 8; i++)
             {
                 uint8_t block8 = (block >> (64 - (i + 1) * 8)) & UINT8_MAX;
-                uint8_t block8_count = stool::Byte::count_bits(block8);
+                uint8_t block8_count = stool::Byte::popcount(block8);
 
                 uint64_t x_pos = MSBByte::select1_for_8bits(block8, 0) != -1 ? MSBByte::select1_for_8bits(block8, 0) : 8;
                 if (x_pos != 8)

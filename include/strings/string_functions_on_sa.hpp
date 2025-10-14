@@ -22,7 +22,7 @@ namespace stool
         
         static Interval compute_sa_interval([[maybe_unused]] const std::vector<uint8_t> &text, [[maybe_unused]] const std::vector<uint8_t> &pattern, [[maybe_unused]] const std::vector<uint64_t> &sa)
         {
-            throw std::runtime_error("Not implemented");
+            throw std::runtime_error("Not implemented(compute_sa_interval)");
             /*
             std::vector<uint64_t> r;
             auto intv = stool::LCPInterval<uint64_t>::compute_lcp_intervals(text, pattern, sa);

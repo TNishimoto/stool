@@ -10,7 +10,7 @@
 
 #include "./debug/equal_checker.hpp"
 #include "./debug/message.hpp"
-#include "./debug/print.hpp"
+#include "./debug/debug_printer.hpp"
 #include "./debug/memory.hpp"
 
 #include "./io/io.hpp"
