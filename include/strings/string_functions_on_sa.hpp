@@ -19,21 +19,11 @@ namespace stool
     public:
         using Interval = std::pair<int64_t, int64_t>;
         
-        /**
-         * @brief Computes the suffix array interval for a given pattern
-         * 
-         * This function finds the range of positions in the suffix array where
-         * suffixes start with the given pattern. It uses LCP intervals to efficiently
-         * determine the matching range.
-         * 
-         * @param text The input text as a vector of bytes
-         * @param pattern The pattern to search for as a vector of bytes
-         * @param sa The suffix array of the text
-         * @return A pair representing the start and end indices of the matching interval.
-         *         Returns (-1, -1) if the pattern is not found.
-         */
-        static Interval compute_sa_interval(const std::vector<uint8_t> &text, const std::vector<uint8_t> &pattern, const std::vector<uint64_t> &sa)
+        
+        static Interval compute_sa_interval([[maybe_unused]] const std::vector<uint8_t> &text, [[maybe_unused]] const std::vector<uint8_t> &pattern, [[maybe_unused]] const std::vector<uint64_t> &sa)
         {
+            throw std::runtime_error("Not implemented");
+            /*
             std::vector<uint64_t> r;
             auto intv = stool::LCPInterval<uint64_t>::compute_lcp_intervals(text, pattern, sa);
             if (intv.lcp != pattern.size())
@@ -44,7 +34,9 @@ namespace stool
             {
                 return Interval(intv.i, intv.j);
             }
+            */
         }
+        
 
         /**
          * @brief Locates all occurrences of a pattern in the text using suffix array

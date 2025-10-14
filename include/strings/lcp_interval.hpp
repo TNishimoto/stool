@@ -15,21 +15,17 @@ namespace stool
 {
 	
 	/**
-	 * @brief Represents an LCP (Longest Common Prefix) interval in a suffix array [Unchecked AI's Comment] 
+	 * @brief Class for representing the LCP interval in a suffix array (SA) [in progress]
 	 * 
-	 * An LCP interval represents a range of suffixes in a suffix array that share
-	 * a common prefix of a specific length. This is a fundamental structure used
-	 * in suffix array-based string algorithms.
-	 * 
-	 * @tparam index_type The type used for indexing (typically uint64_t or uint32_t)
+	 * @tparam INDEX The type used for indexing (typically uint64_t or uint32_t)
 	 */
-	template <typename index_type>
+	template <typename INDEX = uint64_t>
 	class LCPInterval
 	{
 	public:
-		index_type i;  ///< Starting position in the suffix array
-		index_type j;  ///< Ending position in the suffix array  
-		index_type lcp; ///< Length of the longest common prefix
+		INDEX i;  ///< Starting position in the suffix array
+		INDEX j;  ///< Ending position in the suffix array  
+		INDEX lcp; ///< Length of the longest common prefix
 
 		/**
 		 * @brief Default constructor
@@ -42,7 +38,7 @@ namespace stool
 		 * @param _j Ending position in the suffix array
 		 * @param _lcp Length of the longest common prefix
 		 */
-		LCPInterval(index_type _i, index_type _j, index_type _lcp)
+		LCPInterval(INDEX _i, INDEX _j, INDEX _lcp)
 		{
 			this->i = _i;
 			this->j = _j;
@@ -50,18 +46,17 @@ namespace stool
 		}
 
 		/**
-		 * @brief Creates a special end marker interval
-		 * @return An LCP interval with maximum values for all fields
+		 * @brief Creates a special LCP interval
+		 * @return the special LCP interval
 		 */
-		static LCPInterval<index_type> create_end_marker()
+		static LCPInterval<INDEX> create_end_marker()
 		{
-			return LCPInterval<index_type>(std::numeric_limits<index_type>::max(), std::numeric_limits<index_type>::max(), std::numeric_limits<index_type>::max());
+			return LCPInterval<INDEX>(std::numeric_limits<INDEX>::max(), std::numeric_limits<INDEX>::max(), std::numeric_limits<INDEX>::max());
 		}
 
 		/**
 		 * @brief Less-than comparison operator
-		 * @param right The right-hand side LCP interval to compare with
-		 * @return true if this interval is less than the right interval
+		 * @return true if this->i < right.i
 		 */
 		bool operator<(const LCPInterval &right) const
 		{
@@ -84,21 +79,17 @@ namespace stool
 
 		/**
 		 * @brief Equality comparison operator
-		 * @param rhs The right-hand side LCP interval to compare with
 		 * @return true if the intervals are equal
 		 */
 		bool operator==(const LCPInterval &rhs) const
 		{
 			const LCPInterval &lhs = *this;
 			bool b = lhs.i == rhs.i && lhs.j == rhs.j && lhs.lcp == rhs.lcp;
-			// if(!b) std::cout << "b" << std::endl;
 			return b;
 		}
 
 		/**
 		 * @brief Inequality comparison operator
-		 * @param rhs The right-hand side LCP interval to compare with
-		 * @return true if the intervals are not equal
 		 */
 		bool operator!=(const LCPInterval &rhs) const
 		{
@@ -115,23 +106,23 @@ namespace stool
 		}
 
 		/**
-		 * @brief Checks if this interval is a special marker
-		 * @return true if this is a special marker interval
+		 * @brief Checks if this interval is the special LCP interval
+		 * @return true if this is the special LCP interval
 		 */
 		bool is_special_marker() const
 		{
-			return this->i == std::numeric_limits<index_type>::max() && this->j == std::numeric_limits<index_type>::max() && this->lcp == std::numeric_limits<index_type>::max();
+			return this->i == std::numeric_limits<INDEX>::max() && this->j == std::numeric_limits<INDEX>::max() && this->lcp == std::numeric_limits<INDEX>::max();
 		}
 
 		/**
-		 * @brief Generates a CSV line representation of the interval
+		 * @brief Generates a CSV line representation of this LCP interval
 		 * @param id The identifier for this interval
 		 * @param text The input text
-		 * @param sa The suffix array
+		 * @param sa The suffix array of T
 		 * @return CSV formatted string with interval information
 		 */
-		template <typename sa_type>
-		std::string get_CSV_line(uint64_t id, std::vector<char> &text, sa_type &sa)
+		template <typename SA>
+		std::string get_CSV_line(uint64_t id, std::vector<char> &text, SA &sa)
 		{
 			std::string tmp = "";
 			tmp += (std::to_string(id));
@@ -145,8 +136,8 @@ namespace stool
 			tmp += (std::to_string(this->lcp));
 			tmp += ("\t");
 
-			index_type begin = sa[this->i];
-			for (index_type j = 0; j < this->lcp; ++j)
+			INDEX begin = sa[this->i];
+			for (INDEX j = 0; j < this->lcp; ++j)
 			{
 				if (text[begin + j] != 0)
 				{
@@ -159,27 +150,20 @@ namespace stool
 			}
 
 			return tmp;
-
-			/*
-			std::string tmp = "";
-			std::string intervalText = this->getText(text, sa);
-			tmp = std::to_string(id) + "," + std::to_string(this->j - this->i + 1) + "," + std::to_string(this->i) + "," + std::to_string(this->j) + "," + intervalText;
-			return tmp;
-			*/
 		}
 
 		/**
-		 * @brief Extracts the text corresponding to this LCP interval
-		 * @param text The input text
-		 * @param sa The suffix array
-		 * @return The text string corresponding to this interval
+		 * @brief Compute the text represented as this LCP interval 
+		 * @param text The input text T
+		 * @param sa The suffix array of T
+		 * @return The text string represented as this LCP interval
 		 */
-		template <typename sa_type>
-		std::string getText(std::vector<char> &text, sa_type &sa)
+		template <typename SA>
+		std::string get_text(std::vector<char> &text, SA &sa)
 		{
 			std::string intervalText = "";
-			index_type begin = sa[this->i];
-			for (index_type j = 0; j < this->lcp; ++j)
+			INDEX begin = sa[this->i];
+			for (INDEX j = 0; j < this->lcp; ++j)
 			{
 				intervalText.push_back(text[begin + j]);
 			}
@@ -187,10 +171,10 @@ namespace stool
 		}
 
 		/**
-		 * @brief Checks if a position is contained within this interval
-		 * @param sa The suffix array
-		 * @param pos The position to check
-		 * @return true if the position is contained in this interval
+		 * @brief Checks if a text position p is contained within this LCP interval
+		 * @param sa The suffix array of T
+		 * @param pos a position p in T
+		 * @return true if there exists an occurrence P[i'..j'] in T such that p in [i', j'], where P is the text represented as this LCP interval
 		 */
 		bool contains_position(std::vector<uint64_t> &sa, uint64_t pos) const
 		{
@@ -204,18 +188,10 @@ namespace stool
 			return false;
 		}
 
+		/*
 	private:
-		/**
-		 * @brief Compares a substring with a pattern
-		 * @param T The text
-		 * @param pattern The pattern to compare
-		 * @param suf_pos The suffix position
-		 * @param isBeg Whether this is a beginning comparison
-		 * @param isComp The comparison type
-		 * @return Comparison result
-		 */
 		template <typename CHAR = char>
-		static bool compareSubstr(const std::vector<CHAR> &T, const std::vector<CHAR> &pattern, uint64_t suf_pos, bool isBeg, bool isComp)
+		static bool compare_substr(const std::vector<CHAR> &T, const std::vector<CHAR> &pattern, uint64_t suf_pos, bool isBeg, bool isComp)
 		{
 			uint64_t suf_len = T.size() - suf_pos;
 			uint64_t min = pattern.size() < suf_len ? pattern.size() : suf_len;
@@ -232,28 +208,31 @@ namespace stool
 
 			return isComp ? patternLastChar < sufLastChar : patternLastChar > sufLastChar;
 		}
+		*/
+	
+	
 
 	public:
 		/**
-		 * @brief Computes all LCP intervals from an LCP array
-		 * @param lcpArray The LCP array
-		 * @return Vector of LCP intervals
+		 * @brief Computes all LCP intervals in suffix array
+		 * @param lcpArray The LCP array of a string T
+		 * @return LCP intervals
 		 */
-		static std::vector<LCPInterval> compute_lcp_intervals(const std::vector<index_type> &lcpArray)
+		static std::vector<LCPInterval> compute_lcp_intervals(const std::vector<INDEX> &lcpArray)
 		{
-			using TMP = std::pair<index_type, index_type>;
+			using TMP = std::pair<INDEX, INDEX>;
 			std::stack<TMP> st;
 			st.push(TMP(0, 0));
 			std::vector<LCPInterval> r;
 
-			for (index_type i = 1; i < lcpArray.size(); i++)
+			for (INDEX i = 1; i < lcpArray.size(); i++)
 			{
-				index_type _next_lcp_interval_i_candidate = i - 1;
+				INDEX _next_lcp_interval_i_candidate = i - 1;
 				auto top = st.top();
 
 				while (top.second > lcpArray[i])
 				{
-					r.push_back(LCPInterval<index_type>(top.first, i - 1, top.second));
+					r.push_back(LCPInterval<INDEX>(top.first, i - 1, top.second));
 					st.pop();
 
 					_next_lcp_interval_i_candidate = top.first;
@@ -267,38 +246,33 @@ namespace stool
 			while (st.size() > 0)
 			{
 				auto top = st.top();
-				r.push_back(LCPInterval<index_type>(top.first, lcpArray.size() - 1, top.second));
+				r.push_back(LCPInterval<INDEX>(top.first, lcpArray.size() - 1, top.second));
 				st.pop();
 			}
 
 			return r;
 		}
 
-		/**
-		 * @brief Computes the LCP interval for a specific pattern
-		 * @param T The text
-		 * @param pattern The pattern to search for
-		 * @param sa The suffix array
-		 * @return The LCP interval corresponding to the pattern
-		 */
+		/*
+
 		template <typename CHAR = char>
-		static stool::LCPInterval<index_type> compute_lcp_intervals(const std::vector<CHAR> &T, const std::vector<CHAR> &pattern, const std::vector<index_type> &sa)
+		static stool::LCPInterval<INDEX> compute_lcp_intervals(const std::vector<CHAR> &T, const std::vector<CHAR> &pattern, const std::vector<INDEX> &sa)
 		{
 			uint64_t p = T.size();
 			auto beg = std::upper_bound(
 				sa.begin(),
 				sa.end(),
 				p,
-				[&](const index_type &x, const index_type &y)
+				[&](const INDEX &x, const INDEX &y)
 				{
 					if (x == T.size())
 					{
-						bool b = LCPInterval::compareSubstr(T, pattern, y, true, true);
+						bool b = LCPInterval::compare_substr(T, pattern, y, true, true);
 						return b;
 					}
 					else
 					{
-						bool b = LCPInterval::compareSubstr(T, pattern, x, true, false);
+						bool b = LCPInterval::compare_substr(T, pattern, x, true, false);
 						return b;
 					}
 				});
@@ -307,16 +281,16 @@ namespace stool
 				sa.begin(),
 				sa.end(),
 				p,
-				[&](const index_type &x, const index_type &y)
+				[&](const INDEX &x, const INDEX &y)
 				{
 					if (x == T.size())
 					{
-						bool b = LCPInterval::compareSubstr(T, pattern, y, false, true);
+						bool b = LCPInterval::compare_substr(T, pattern, y, false, true);
 						return b;
 					}
 					else
 					{
-						bool b = LCPInterval::compareSubstr(T, pattern, y, false, false);
+						bool b = LCPInterval::compare_substr(T, pattern, y, false, false);
 						return b;
 					}
 				});
@@ -324,94 +298,14 @@ namespace stool
 			std::size_t begi = std::distance(sa.begin(), beg);
 			std::size_t endi = std::distance(sa.begin(), end) - 1;
 
-			return stool::LCPInterval<index_type>(begi, endi, pattern.size());
+			return stool::LCPInterval<INDEX>(begi, endi, pattern.size());
 		}
+		*/
 	};
 
-	/**
-	 * @brief Comparator for LCP intervals in preorder traversal
-	 * @tparam INDEX The index type
-	 */
-	template <typename INDEX = uint64_t>
-	struct LCPIntervalPreorderComp
-	{
-		/**
-		 * @brief Compares two LCP intervals for preorder sorting
-		 * @param x The first LCP interval
-		 * @param y The second LCP interval
-		 * @return true if x should come before y in preorder
-		 */
-		bool operator()(const LCPInterval<INDEX> &x, const LCPInterval<INDEX> &y)
-		{
-			if (x.i == y.i)
-			{
-				if (x.j == y.j)
-				{
-					return x.lcp < y.lcp;
-				}
-				else
-				{
-					return x.j > y.j;
-				}
-			}
-			else
-			{
-				return x.i < y.i;
-			}
-		}
-	};
+	
 
-	/**
-	 * @brief Comparator for LCP intervals in depth-first order
-	 * @tparam INDEX The index type
-	 */
-	template <typename INDEX = uint64_t>
-	struct LCPIntervalDepthOrderComp
-	{
-		/**
-		 * @brief Compares two LCP intervals for depth-first sorting
-		 * @param x The first LCP interval
-		 * @param y The second LCP interval
-		 * @return true if x should come before y in depth-first order
-		 */
-		bool operator()(const LCPInterval<INDEX> &x, const LCPInterval<INDEX> &y)
-		{
-			if (x.lcp == y.lcp)
-			{
-				if (x.i == y.i)
-				{
-					return x.j < y.j;
-				}
-				else
-				{
-					return x.i < y.i;
-				}
-			}
-			else
-			{
-				return x.lcp < y.lcp;
-			}
-		}
-	};
+	
 
-	/**
-	 * @brief Utility class for sorting LCP intervals
-	 */
-	class LCPIntervalSort
-	{
-		public: 
-		/**
-		 * @brief Sorts LCP intervals in preorder
-		 * @param items Vector of LCP intervals to sort
-		 */
-		template <typename INDEX = uint64_t>
-		static void sort_in_preorder(std::vector<stool::LCPInterval<INDEX>> &items)
-		{
-			std::sort(
-				items.begin(),
-				items.end(),
-				stool::LCPIntervalPreorderComp<INDEX>());
-		}
-	};
 
 }
