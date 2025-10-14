@@ -430,7 +430,7 @@ void packed_search1_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed)
         }
         for(uint64_t j = 0; j < seq_size; j++){
             uint64_t random_value = get_rand_value(mt) % max;
-            int64_t p = stool::PackedPSum::search(packed_bits.data(), random_value, stool::PackedPSum::PackedBitType::BIT_1, max, packed_bits.size());
+            int64_t p = stool::PackedSearch::search(packed_bits.data(), random_value, stool::PackedSearch::PackedBitType::BIT_1, max, packed_bits.size());
             int64_t q = compute_search(values, random_value);
             if(p != q){                
                 std::cout << std::endl;
@@ -473,7 +473,7 @@ void packed_search2_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed)
         }
         for(uint64_t j = 0; j < seq_size; j++){
             uint64_t random_value = get_rand_value(mt) % max;
-            int64_t p = stool::PackedPSum::search(packed_bits.data(), random_value, stool::PackedPSum::PackedBitType::BIT_2, max, packed_bits.size());
+            int64_t p = stool::PackedSearch::search(packed_bits.data(), random_value, stool::PackedSearch::PackedBitType::BIT_2, max, packed_bits.size());
             int64_t q = compute_search(values, random_value);
             if(p != q){                
                 std::cout << std::endl;
@@ -516,7 +516,7 @@ void packed_search4_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed)
         }
         for(uint64_t j = 0; j < seq_size; j++){
             uint64_t random_value = get_rand_value(mt) % max;
-            int64_t p = stool::PackedPSum::search(packed_bits.data(), random_value, stool::PackedPSum::PackedBitType::BIT_4, max, packed_bits.size());
+            int64_t p = stool::PackedSearch::search(packed_bits.data(), random_value, stool::PackedSearch::PackedBitType::BIT_4, max, packed_bits.size());
             int64_t q = compute_search(values, random_value);
             if(p != q){                
                 std::cout << std::endl;
@@ -559,7 +559,7 @@ void packed_search8_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed)
         }
         for(uint64_t j = 0; j < seq_size; j++){
             uint64_t random_value = get_rand_value(mt) % max;
-            int64_t p = stool::PackedPSum::search(packed_bits.data(), random_value, stool::PackedPSum::PackedBitType::BIT_8, max, packed_bits.size());
+            int64_t p = stool::PackedSearch::search(packed_bits.data(), random_value, stool::PackedSearch::PackedBitType::BIT_8, max, packed_bits.size());
             int64_t q = compute_search(values, random_value);
             if(p != q){                
                 std::cout << std::endl;
@@ -602,7 +602,7 @@ void packed_search16_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed
         }
         for(uint64_t j = 0; j < seq_size; j++){
             uint64_t random_value = get_rand_value(mt) % max;
-            int64_t p = stool::PackedPSum::search(packed_bits.data(), random_value, stool::PackedPSum::PackedBitType::BIT_16, max, packed_bits.size());
+            int64_t p = stool::PackedSearch::search(packed_bits.data(), random_value, stool::PackedSearch::PackedBitType::BIT_16, max, packed_bits.size());
             int64_t q = compute_search(values, random_value);
             if(p != q){                
                 std::cout << std::endl;
@@ -645,7 +645,7 @@ void packed_search32_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed
         }
         for(uint64_t j = 0; j < seq_size; j++){
             uint64_t random_value = get_rand_value(mt) % max;
-            int64_t p = stool::PackedPSum::search(packed_bits.data(), random_value, stool::PackedPSum::PackedBitType::BIT_32, max, packed_bits.size());
+            int64_t p = stool::PackedSearch::search(packed_bits.data(), random_value, stool::PackedSearch::PackedBitType::BIT_32, max, packed_bits.size());
             int64_t q = compute_search(values, random_value);
             if(p != q){                
                 std::cout << std::endl;
@@ -677,7 +677,7 @@ void packed_search64_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed
 
         for(uint64_t j = 0; j < seq_size; j++){
             uint64_t random_value = get_rand_value(mt) % max;
-            int64_t p = stool::PackedPSum::search(packed_bits.data(), random_value, stool::PackedPSum::PackedBitType::BIT_64, max, packed_bits.size());
+            int64_t p = stool::PackedSearch::search(packed_bits.data(), random_value, stool::PackedSearch::PackedBitType::BIT_64, max, packed_bits.size());
             int64_t q = compute_search(packed_bits, random_value);
             if(p != q){                
                 std::cout << std::endl;

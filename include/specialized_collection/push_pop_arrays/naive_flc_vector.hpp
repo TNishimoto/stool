@@ -2,6 +2,7 @@
 #include "../../basic/byte.hpp"
 #include "../../basic/lsb_byte.hpp"
 #include "../../basic/packed_psum.hpp"
+#include "../../basic/packed_search.hpp"
 #include "../../debug/debug_printer.hpp"
 
 namespace stool
@@ -792,7 +793,7 @@ namespace stool
         }
         int64_t search(uint64_t x) const noexcept
         {
-            return stool::PackedPSum::search(this->buffer_, x, (stool::PackedPSum::PackedBitType)this->code_type_, this->psum_, this->buffer_size_);
+            return stool::PackedSearch::search(this->buffer_, x, (stool::PackedSearch::PackedBitType)this->code_type_, this->psum_, this->buffer_size_);
             /*
             uint64_t sum = 0;
             uint64_t i = 0;

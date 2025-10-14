@@ -5,6 +5,7 @@
 #include "./basic/msb_byte.hpp"
 #include "./basic/lsb_byte.hpp"
 #include "./basic/packed_psum.hpp"
+#include "./basic/packed_search.hpp"
 #include "./basic/basic_search.hpp"
 
 
