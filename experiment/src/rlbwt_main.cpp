@@ -15,7 +15,7 @@ void mode1(RLBWT &static_rlbwt, LF_DATA &rle_wt)
 {
     uint64_t text_size = static_rlbwt.str_size();
     uint64_t counter = 0;
-    stool::rlbwt2::BackwardISA<LF_DATA> isa_ds;
+    stool::bwt::BackwardISA<LF_DATA> isa_ds;
     uint64_t p1 = static_rlbwt.get_end_rle_lposition();
     uint64_t p2 = static_rlbwt.get_lpos(p1);
     uint64_t p3 = rle_wt.lf(p2);
@@ -75,10 +75,12 @@ int main(int argc, char *argv[])
     std::string input_path = p.get<std::string>("input_path");
     bool detailed_check = p.get<uint>("detailed_check") == 0 ? false : true;
 
-    stool::rlbwt2::TextStatistics analyzer;
+    //stool::TextStatistics analyzer;
     using RLBWT = stool::rlbwt2::RLE<uint8_t>;
     // stool::rlbwt2::RLE<uint8_t> static_rlbwt = stool::rlbwt2::RLEBuilder::build(input_path, analyzer);
-    RLBWT static_rlbwt = RLBWT::build(input_path, analyzer);
+    RLBWT static_rlbwt = RLBWT::build_from_file(input_path);
+
+    /*
 
     stool::WT wt = stool::rlbwt2::WaveletTreeOnHeadChars::build(&static_rlbwt);
 
@@ -98,36 +100,6 @@ int main(int argc, char *argv[])
 
             mode1(static_rlbwt, rle_wt);
         }
+        */
 
-    /*
-    if (true)
-    {
-        stool::rlbwt2::LightFPosDataStructure fpos_array1;
-        fpos_array1.build(static_rlbwt.get_head_char_vec(), *static_rlbwt.get_lpos_vec(), &wt);
-        std::vector<uint64_t> fpos_array2 = stool::rlbwt2::FPosDataStructure::construct_fpos_array(*static_rlbwt.get_head_char_vec(), *static_rlbwt.get_lpos_vec());
-
-        for (uint8_t x = 0; x <= 8; x++)
-        {
-            std::cout << "c: " << (int)x << std::endl; 
-            for (uint64_t i = 0; i < fpos_array2.size(); i++)
-            {
-                uint8_t c = static_rlbwt.get_char_by_run_index(i);
-                uint64_t len = static_rlbwt.get_run(i);
-                if (c == (uint64_t)x)
-                {
-                    std::cout << i << "/len: " << len << "/" << fpos_array1[i] << "/" << fpos_array2[i] << std::endl;
-                    if (fpos_array1[i] != fpos_array2[i])
-                    {
-                        throw std::logic_error("Error: fpos");
-                    }
-                }
-            }
-        }
-
-        std::cout << "OK!" << std::endl;
-    }
-    else
-    {
-    }
-    */
 }

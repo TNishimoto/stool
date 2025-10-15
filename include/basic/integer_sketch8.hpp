@@ -16,6 +16,13 @@ namespace stool
         uint64_t sketch_pos;
         uint8_t count;
 
+        IntegerSketch8()
+        {
+            this->sketch_diff = 0;
+            this->sketch_pos = 0;
+            this->count = 0;
+        }
+
         IntegerSketch8(uint64_t _sketch_diff, uint64_t _sketch_pos, uint8_t _count)
         {
             this->sketch_diff = _sketch_diff;

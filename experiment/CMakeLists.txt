@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.21)
 project(stool CXX)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -28,10 +28,19 @@ LINK_DIRECTORIES(${SDSL_LIBRARY_DIR})
 include_directories(${SDSL_INCLUDE_DIR})
 
 
-FILE(GLOB SOURCES lib/*.cpp)
+#FILE(GLOB SOURCES lib/*.cpp)
 
-add_executable(rlbwt.out src/rlbwt_main.cpp ${SOURCES})
-target_link_libraries(rlbwt.out sdsl)
+#add_executable(rlbwt.out src/rlbwt_main.cpp)
+#target_link_libraries(rlbwt.out sdsl)
+
+add_executable(integer_sketch.out src/integer_sketch_main.cpp ${SOURCES})
+message(STATUS "CMAKE_SYSTEM_PROCESSOR = ${CMAKE_SYSTEM_PROCESSOR}")
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64)$")
+    target_compile_options(integer_sketch.out PRIVATE -mbmi2)
+    message(STATUS "64-bit architecture.")
+else()
+    message(STATUS "Not a 64-bit architecture.")
+endif()
 
 
 
