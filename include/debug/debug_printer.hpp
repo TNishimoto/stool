@@ -238,7 +238,7 @@ namespace stool
 			for(uint64_t i = 0; i < items.size(); i++) {
 				uint64_t log_value = 0;
 				if(items[i] > 0) {
-				log_value = stool::Log::log2ceil(items[i]);
+				log_value = stool::Log::log2_ceil(items[i]);
 
 				}
 				while(log_profile.size() <= log_value) {

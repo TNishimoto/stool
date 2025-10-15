@@ -52,7 +52,7 @@ namespace stool
             this->clear();
             _sparse_table.resize(array.size());
 
-            uint64_t logn = stool::Log::log2floor(array.size());
+            uint64_t logn = stool::Log::log2_floor(array.size());
             for (uint64_t i = 0; i < array.size(); i++)
             {
                 _sparse_table[i].resize(logn, std::numeric_limits<T>::max());
@@ -119,7 +119,7 @@ namespace stool
             }
 
             uint64_t len = j - i + 1;
-            uint64_t k = stool::Log::log2floor(len);
+            uint64_t k = stool::Log::log2_floor(len);
 
 
 

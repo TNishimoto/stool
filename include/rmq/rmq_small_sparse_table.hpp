@@ -34,7 +34,7 @@ namespace stool
         void build(const std::vector<T> &array)
         {
             _sub_array.clear();
-            uint64_t logn = stool::Log::log2floor(array.size());
+            uint64_t logn = stool::Log::log2_floor(array.size());
             uint64_t counter = 0;
             T current_minimum = std::numeric_limits<T>::max();
 
@@ -73,7 +73,7 @@ namespace stool
             if(array.size() < 2){
                 return RMQSparseTable<T>::naive_rmq_index(i, j, array);
             }
-            uint64_t logn = stool::Log::log2floor(array.size());
+            uint64_t logn = stool::Log::log2_floor(array.size());
             //uint64_t len = j - i + 1;
 
             uint64_t i_pos = i / logn;

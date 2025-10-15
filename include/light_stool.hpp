@@ -7,6 +7,8 @@
 #include "./basic/packed_psum.hpp"
 #include "./basic/packed_search.hpp"
 #include "./basic/basic_search.hpp"
+#include "./basic/integer_sketch8.hpp"
+#include "./basic/pext64.hpp"
 
 
 #include "./debug/equal_checker.hpp"

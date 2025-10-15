@@ -407,6 +407,30 @@ void packed_psum64_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
     }
     std::cout << "[DONE]" << std::endl;
 }
+void pext64_test(uint64_t seq_size, uint64_t max_value, uint64_t seed){
+    std::cout << "pext64_test: " << std::flush;
+    std::mt19937 mt(seed);
+    std::uniform_int_distribution<uint64_t> get_rand_value(0, UINT64_MAX);
+
+    for(uint64_t i = 0; i < seq_size; i++){
+        uint64_t x = get_rand_value(mt) % max_value;
+        uint64_t y = get_rand_value(mt) % max_value;
+        uint64_t p = stool::Pext64::pext_portable(x, y);
+        uint64_t q = stool::Pext64::naive_pext(x, y);
+        if(i % 100 == 0){
+            std::cout << "+" << std::flush;
+        }
+        std::cout << "x: " << stool::Byte::to_bit_string(x) << " y: " << stool::Byte::to_bit_string(y) << " p: " << stool::Byte::to_bit_string(p)  << std::endl;
+
+        if(p != q){
+            std::cout << "pext64_test error/" << p << "/" << q << std::endl;
+            throw std::runtime_error("pext64_test error");
+        }
+    }
+    std::cout << "[DONE]" << std::endl;
+}
+
+
 void packed_search1_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
     std::cout << "packed_search1_test: " << std::flush;
     std::mt19937 mt(seed);
@@ -864,6 +888,7 @@ int main()
     packed_search16_test(1000, 100, 0);
     packed_search32_test(1000, 100, 0);
     packed_search64_test(1000, 100, 0);
+    pext64_test(10000, UINT64_MAX, 0);
     //c_run_sum_test();
 
 
