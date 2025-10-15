@@ -68,6 +68,8 @@ else()
     message(STATUS "Not a 64-bit architecture.")
 endif()
 
+add_executable(integer_sketch_test.out sources/main/integer_sketch_test_main.cpp)
+
 
 #add_executable(bit_deque_test.out sources/bit_deque_test_main.cpp)
 

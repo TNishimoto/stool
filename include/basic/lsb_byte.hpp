@@ -373,6 +373,16 @@ namespace stool
             return 0;
         }
     }
+    static std::string to_bit_string(uint64_t x, uint64_t bit_size)
+    {
+        std::string s = Byte::to_bit_string(x);
+        if(bit_size == 0){
+            return "";
+        }else{
+            return s.substr(s.size() - bit_size, bit_size);
+        }
+    }
+
 
     };
 }

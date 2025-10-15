@@ -21,18 +21,6 @@ namespace stool
             }
             return -1;
         }
-        /*
-        inline static constexpr int8_t get_0bit_position(uint8_t value, int rank) {
-            int count = 0;
-            for (int bit = 0; bit < 8; ++bit) {
-                if (!(value & (1 << (7-bit))) ) {
-                    if (count == rank) return bit;
-                    ++count;
-                }
-            }
-            return -1;
-        }
-        */
 
         inline static constexpr std::array<std::array<int8_t, 8>, 256> build_lookup_table_for_select1()
         {
@@ -50,24 +38,10 @@ namespace stool
         }
 
         inline static constexpr std::array<std::array<int8_t, 8>, 256> select1_table = stool::__MSB_BYTE::build_lookup_table_for_select1();
-        // inline static constexpr std::array<std::array<int8_t, 8>, 256> select0_table = stool::__MSB_BYTE::build_lookup_table_for_select0();
     }
 
     /*!
-     * @brief A class for handling most significant bit (MSB) operations on bytes [Unchecked AI's Comment]
-     * 
-     * This class provides utility functions for manipulating and analyzing bits
-     * in byte-level data, focusing on operations related to the most significant bits.
-     * It includes functionality for:
-     * - Bit counting and position finding
-     * - Bit manipulation (reading, writing, shifting bits)
-     * - Lookup table based optimizations for common operations
-     * 
-     * The class is particularly useful for:
-     * - Big-endian bit processing
-     * - MSB-first bit manipulation tasks
-     * - Bit-level data structures requiring MSB operations
-     * 
+     * @brief A class for handling most significant bit (MSB) operations on bytes [in progress]
      * @note This implementation includes optimized lookup tables and bit manipulation techniques
      *       for improved performance on MSB-oriented byte operations
      */
@@ -77,16 +51,19 @@ namespace stool
 
     public:
         /*!
-         * @brief Counts the number of 1 bits in S[0..i] for a given bit sequence S.
-         *
+         * @brief Counts the number of 1 bits in B[0..i] for a given bit sequence B.
          */
-        inline static int64_t popcount(uint64_t bits, uint64_t i)
+        inline static int64_t popcount(uint64_t B, uint64_t i)
         {
-            return __builtin_popcountll(bits >> (63 - i));
+            return __builtin_popcountll(B >> (63 - i));
         }
-        inline static bool get_bit(uint64_t bits, int64_t nth)
+
+        /*!
+         * @brief Returns the i-th bit of bit sequence B[0..].
+         */
+        inline static bool get_bit(uint64_t B, int64_t i)
         {
-            return ((bits >> (63 - nth)) & 0b1) == 1;
+            return ((B >> (63 - i)) & 0b1) == 1;
         }
 
         static uint64_t write_bit(uint64_t bits, int64_t pos, bool value)

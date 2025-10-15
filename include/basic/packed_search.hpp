@@ -164,14 +164,8 @@ namespace stool
             return (p & ~mf) | (16u & mf);
         }
         /**
-         * @brief Finds the first position where prefix sum >= y for 8-bit values (branchless) [Unchecked AI's Comment]
+         * @brief Finds the successor of (y-1) in the 8-bit packed values in X. If successor is not found, returns 8.
          * 
-         * Efficiently searches for the first position in a 64-bit word containing
-         * eight 8-bit values where the prefix sum reaches or exceeds the target value y.
-         * Uses branchless bit manipulation for optimal performance.
-         * 
-         * @param X 64-bit word containing 8 packed 8-bit values
-         * @param y Target sum value to search for
          * @return uint32_t Position where prefix sum >= y, or 8 if not found
          * 
          * @note Returns 8 as sentinel value if target sum exceeds total sum

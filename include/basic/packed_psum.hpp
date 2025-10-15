@@ -484,6 +484,12 @@ namespace stool
 
             return sum;
         }
+        static uint64_t psum8x8bits(uint64_t bits, uint64_t i)
+        {            
+            uint64_t modified_bits = bits >> (64 - ((i+1) * 8));
+            return sum8x8bits(modified_bits);
+        }
+
 
         /**
          * @brief Computes partial sum of 16-bit values up to position i [Unchecked AI's Comment]
