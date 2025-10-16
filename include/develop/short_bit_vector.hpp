@@ -156,7 +156,7 @@ namespace stool
                 uint64_t count = stool::Byte::popcount(bits_with_gap[i]);
                 if (counter + count > nth)
                 {
-                    return i * 64 + stool::MSBByte::select1(bits_with_gap[i], nth - counter);
+                    return i * 64 + stool::MSBByte::select_ith_1(bits_with_gap[i], nth - counter);
                 }
                 counter += count;
             }

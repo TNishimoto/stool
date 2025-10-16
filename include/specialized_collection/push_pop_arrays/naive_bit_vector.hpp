@@ -1196,7 +1196,7 @@ namespace stool
                     }
                 }
 
-                uint64_t result = stool::MSBByte::select1(this->buffer_[last_block_index], counter - 1) + gap;
+                uint64_t result = stool::MSBByte::select_ith_1(this->buffer_[last_block_index], counter - 1) + gap;
                 // assert(result == true_result);
                 return result;
             }

@@ -814,7 +814,7 @@ void bit_select_test(uint64_t seed, uint64_t max_counter){
         select1_results_lsb_test.resize(rank1);
         for(uint64_t j = 0; j < rank1; j++){
             select1_results.push_back(compute_select1(bv, j));
-            select1_results_msb_test.push_back(stool::MSBByte::select1(random_value, j));
+            select1_results_msb_test.push_back(stool::MSBByte::select_ith_1(random_value, j));
             select1_results_lsb_test[rank1 - 1 - j] = 63 - stool::LSBByte::select1(random_value, j);
         }
         try{
