@@ -8,7 +8,7 @@ namespace stool
 {
 
     /*!
-     * @brief A class for computing partial sums (psum) query on packed integer sequences [in progress]
+     * @brief A class for computing partial sums (psum) query on packed integer sequences
      * 
      * This class provides functions for computing psum query on a k-bit integer sequence S = s_{0}, s_{1}, ..., s_{n-1} packed into a 64 bit integer vector B[0..nk-1]. 
      * Here, s_{i} is represented as B[i*k..(i+1)*k-1] for all i. 
@@ -34,23 +34,7 @@ namespace stool
         };
 
         /**
-         * @brief Determines the optimal bit width for storing a given value [Unchecked AI's Comment]
-         * 
-         * Analyzes the input value and returns the minimum bit width required
-         * to store it efficiently. This helps optimize storage by using the
-         * smallest possible representation.
-         * 
-         * @param value The value to analyze
-         * @return PackedBitType The optimal bit width for the value
-         * 
-         * @note Values are mapped as follows:
-         *       - 0-1: BIT_1
-         *       - 2-3: BIT_2
-         *       - 4-15: BIT_4
-         *       - 16-255: BIT_8
-         *       - 256-65535: BIT_16
-         *       - 65536-4294967295: BIT_32
-         *       - Above 4294967295: BIT_64
+         * @brief Determines the optimal bit width for storing a given value
          */
         static PackedBitType get_code_type(uint64_t value)
         {
@@ -85,21 +69,13 @@ namespace stool
         }
 
         /**
-         * @brief Computes the sum of 32 2-bit values packed in a 64-bit word [Unchecked AI's Comment]
-         * 
-         * Efficiently calculates the sum of thirty-two 2-bit values stored
-         * in a single 64-bit integer using bit manipulation techniques.
-         * 
-         * @param bits 64-bit word containing 32 packed 2-bit values
-         * @return uint64_t Sum of all 32 values
-         * 
-         * @note Each 2-bit value can range from 0-3, so maximum sum is 96
+         * @brief Computes the sum of 32-bit integer sequence S = s_{0}, s_{1} packed into a 64 bit integer B
          */
-        static uint64_t sum32x2bits(uint64_t bits)
+        static uint64_t sum32x2bits(uint64_t B)
         {
-            uint64_t lsb = bits & 0x5555555555555555ULL;
+            uint64_t lsb = B & 0x5555555555555555ULL;
 
-            uint64_t msb = (bits >> 1) & 0x5555555555555555ULL;
+            uint64_t msb = (B >> 1) & 0x5555555555555555ULL;
 
             uint64_t lsb_sum = stool::Byte::popcount(lsb);
             uint64_t msb_sum = stool::Byte::popcount(msb);
@@ -107,93 +83,66 @@ namespace stool
             return lsb_sum + (2 * msb_sum);
         }
         /**
-         * @brief Computes the sum of 16 4-bit values packed in a 64-bit word
-         * 
-         * Efficiently calculates the sum of sixteen 4-bit values (nibbles)
-         * stored in a single 64-bit integer.
-         * 
-         * @param x 64-bit word containing 16 packed 4-bit values
-         * @return uint64_t Sum of all 16 values
-         * 
-         * @note Each 4-bit value can range from 0-15, so maximum sum is 240
+         * @brief Computes the sum of 16-bit integer sequence S = s_{0}, s_{1}, ..., s_{3} packed into a 64 bit integer B
          */
-        static inline uint64_t sum16x4bits(uint64_t x)
+        static inline uint64_t sum16x4bits(uint64_t B)
         {
             const uint64_t mask = 0x0F0F0F0F0F0F0F0FULL;
-            uint64_t lo = x & mask;
-            uint64_t hi = (x >> 4) & mask;
+            uint64_t lo = B & mask;
+            uint64_t hi = (B >> 4) & mask;
             uint64_t bytes = lo + hi;
 
             return (bytes * 0x0101010101010101ULL) >> 56;
         }
         /**
-         * @brief Computes the sum of 8 8-bit values packed in a 64-bit word [Unchecked AI's Comment]
-         * 
-         * Efficiently calculates the sum of eight 8-bit values (bytes)
-         * stored in a single 64-bit integer.
-         * 
-         * @param x 64-bit word containing 8 packed 8-bit values
-         * @return uint32_t Sum of all 8 values
-         * 
-         * @note Each 8-bit value can range from 0-255, so maximum sum is 2040
+         * @brief Computes the sum of 8-bit integer sequence S = s_{0}, s_{1}, ..., s_{7} packed into a 64 bit integer B
          */
-        static inline uint32_t sum8x8bits(uint64_t x)
+        static inline uint32_t sum8x8bits(uint64_t B)
         {
-            x = (x & 0x00FF00FF00FF00FFULL) + ((x >> 8) & 0x00FF00FF00FF00FFULL);
-            x = (x & 0x0000FFFF0000FFFFULL) + ((x >> 16) & 0x0000FFFF0000FFFFULL);
-            x = (x & 0x00000000FFFFFFFFULL) + (x >> 32);
-            return static_cast<uint32_t>(x); // or (uint32_t)(x & 0x7FF)
+            B = (B & 0x00FF00FF00FF00FFULL) + ((B >> 8) & 0x00FF00FF00FF00FFULL);
+            B = (B & 0x0000FFFF0000FFFFULL) + ((B >> 16) & 0x0000FFFF0000FFFFULL);
+            B = (B & 0x00000000FFFFFFFFULL) + (B >> 32);
+            return static_cast<uint32_t>(B); // or (uint32_t)(x & 0x7FF)
+        }
+
+        
+
+        /**
+         * @brief Computes the sum of (i+1) elements (i.e., S[0..i]) of 8-bit integer sequence S packed into a 64 bit integer B
+         * 
+         */
+        static uint64_t psum8x8bits(uint64_t B, uint64_t i)
+        {            
+            uint64_t modified_bits = B >> (64 - ((i+1) * 8));
+            return sum8x8bits(modified_bits);
         }
 
         /**
-         * @brief Computes the sum of 4 16-bit values packed in a 64-bit word [Unchecked AI's Comment]
-         * 
-         * Efficiently calculates the sum of four 16-bit values
-         * stored in a single 64-bit integer.
-         * 
-         * @param x 64-bit word containing 4 packed 16-bit values
-         * @return uint32_t Sum of all 4 values
-         * 
-         * @note Each 16-bit value can range from 0-65535, so maximum sum is 262140
+         * @brief Computes the sum of 4-bit integer sequence S = s_{0}, s_{1}, ..., s_{15} packed into a 64 bit integer B
          */
-        static inline uint32_t sum4x16bits(uint64_t x)
+        static inline uint32_t sum4x16bits(uint64_t B)
         {
-            x = (x & 0x0000FFFF0000FFFFULL) + ((x >> 16) & 0x0000FFFF0000FFFFULL);
-            x = (x & 0x00000000FFFFFFFFULL) + (x >> 32);
-            return static_cast<uint32_t>(x);
+            B = (B & 0x0000FFFF0000FFFFULL) + ((B >> 16) & 0x0000FFFF0000FFFFULL);
+            B = (B & 0x00000000FFFFFFFFULL) + (B >> 32);
+            return static_cast<uint32_t>(B);
         }
+
         /**
-         * @brief Computes the sum of 2 32-bit values packed in a 64-bit word [Unchecked AI's Comment]
-         * 
-         * Efficiently calculates the sum of two 32-bit values
-         * stored in a single 64-bit integer.
-         * 
-         * @param x 64-bit word containing 2 packed 32-bit values
-         * @return uint64_t Sum of both values
-         * 
-         * @note Each 32-bit value can range from 0-4294967295
+         * @brief Computes the sum of 2-bit integer sequence S = s_{0}, s_{1}, ..., s_{31} packed into a 64 bit integer B
          */
-        static inline uint64_t sum2x32bits(uint64_t x)
+        static inline uint64_t sum2x32bits(uint64_t B)
         {
-            uint64_t L = x >> 32;
-            uint64_t R = x & (UINT64_MAX >> 32);
+            uint64_t L = B >> 32;
+            uint64_t R = B & (UINT64_MAX >> 32);
             return static_cast<uint64_t>(L + R);
         }
 
         /**
-         * @brief Computes partial sum of 1-bit values up to position i [Unchecked AI's Comment]
+         * @brief Computes the sum of (i+1) elements (i.e., S[0..i]) of 1-bit integer sequence S packed into a 64 bit integer sequence B
          * 
-         * Calculates the sum of all 1-bit values from position 0 to i (inclusive)
-         * in a packed bit array. This is equivalent to counting set bits.
-         * 
-         * @param bits Pointer to array of 64-bit words containing packed 1-bit values
-         * @param i Position up to which to compute the sum (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position 0 to i
-         * 
-         * @note Position i is in terms of individual bits, not array indices
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum64x1bits(uint64_t *bits, uint64_t i, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum64x1bits(uint64_t *B, uint64_t i, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t block_index = i / 64;
             uint64_t bit_index = i % 64;
@@ -202,27 +151,18 @@ namespace stool
 
             for (uint64_t j = 0; j < block_index; j++)
             {
-                sum += stool::Byte::popcount(bits[j]);
+                sum += stool::Byte::popcount(B[j]);
             }
-            uint64_t last_block = bits[block_index] >> (63 - bit_index);
+            uint64_t last_block = B[block_index] >> (63 - bit_index);
             sum += stool::Byte::popcount(last_block);
             return sum;
         }
         /**
-         * @brief Computes partial sum of 1-bit values between positions i and j [Unchecked AI's Comment]
+         * @brief Computes the sum of S[i..j] i.e., (j-i+1) elements of 1-bit integer sequence S packed into a 64 bit integer sequence B
          * 
-         * Calculates the sum of all 1-bit values from position i to j (inclusive)
-         * in a packed bit array.
-         * 
-         * @param bits Pointer to array of 64-bit words containing packed 1-bit values
-         * @param i Starting position (inclusive)
-         * @param j Ending position (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position i to j
-         * 
-         * @note Positions are in terms of individual bits, not array indices
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum64x1bits(uint64_t *bits, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum64x1bits(uint64_t *B, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t start_block_index = i / 64;
             uint64_t start_bit_index = i % 64;
@@ -234,41 +174,34 @@ namespace stool
 
             if (start_block_index < end_block_index)
             {
-                uint64_t modified_start_block = bits[start_block_index] << start_bit_index;
+                uint64_t modified_start_block = B[start_block_index] << start_bit_index;
                 sum += stool::Byte::popcount(modified_start_block);
 
                 for (uint64_t k = start_block_index + 1; k < end_block_index; k++)
                 {
-                    sum += stool::Byte::popcount(bits[k]);
+                    sum += stool::Byte::popcount(B[k]);
                 }
 
-                uint64_t modified_last_block = bits[end_block_index] >> (63 - end_bit_index);
+                uint64_t modified_last_block = B[end_block_index] >> (63 - end_bit_index);
                 sum += stool::Byte::popcount(modified_last_block);
             }
             else
             {
                 uint64_t maskL = UINT64_MAX >> start_bit_index;
                 uint64_t maskR = UINT64_MAX << (63 - end_bit_index);
-                uint64_t modified_last_block = bits[end_block_index] & maskL & maskR;
+                uint64_t modified_last_block = B[end_block_index] & maskL & maskR;
                 sum += stool::Byte::popcount(modified_last_block);
             }
             return sum;
         }
 
+
         /**
-         * @brief Computes partial sum of 2-bit values up to position i [Unchecked AI's Comment]
+         * @brief Computes the sum of (i+1) elements (i.e., S[0..i]) of 2-bit integer sequence S packed into a 64 bit integer sequence B
          * 
-         * Calculates the sum of all 2-bit values from position 0 to i (inclusive)
-         * in a packed bit array.
-         * 
-         * @param bits Pointer to array of 64-bit words containing packed 2-bit values
-         * @param i Position up to which to compute the sum (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position 0 to i
-         * 
-         * @note Position i refers to the i-th 2-bit value, not bit position
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum32x2bits(uint64_t *bits, uint64_t i, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum32x2bits(uint64_t *B, uint64_t i, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t block_index = (i * 2) / 64;
             uint64_t bit_index = ((i * 2) + 1) % 64;
@@ -277,27 +210,19 @@ namespace stool
 
             for (uint64_t j = 0; j < block_index; j++)
             {
-                sum += sum32x2bits(bits[j]);
+                sum += sum32x2bits(B[j]);
             }
-            uint64_t last_block = bits[block_index] >> (63 - bit_index);
+            uint64_t last_block = B[block_index] >> (63 - bit_index);
             sum += sum32x2bits(last_block);
             return sum;
         }
+
         /**
-         * @brief Computes partial sum of 2-bit values between positions i and j [Unchecked AI's Comment]
+         * @brief Computes the sum of S[i..j] i.e., (j-i+1) elements of 2-bit integer sequence S packed into a 64 bit integer sequence B
          * 
-         * Calculates the sum of all 2-bit values from position i to j (inclusive)
-         * in a packed bit array.
-         * 
-         * @param bits Pointer to array of 64-bit words containing packed 2-bit values
-         * @param i Starting position (inclusive)
-         * @param j Ending position (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position i to j
-         * 
-         * @note Positions refer to 2-bit value indices, not bit positions
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum32x2bits(uint64_t *bits, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum32x2bits(uint64_t *B, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t start_block_index = (i * 2) / 64;
             uint64_t start_bit_index = (i * 2) % 64;
@@ -309,41 +234,34 @@ namespace stool
 
             if (start_block_index < end_block_index)
             {
-                uint64_t modified_start_block = bits[start_block_index] << start_bit_index;
+                uint64_t modified_start_block = B[start_block_index] << start_bit_index;
                 sum += sum32x2bits(modified_start_block);
 
                 for (uint64_t k = start_block_index + 1; k < end_block_index; k++)
                 {
-                    sum += sum32x2bits(bits[k]);
+                    sum += sum32x2bits(B[k]);
                 }
-                uint64_t modified_last_block = bits[end_block_index] >> (63 - end_bit_index);
+                uint64_t modified_last_block = B[end_block_index] >> (63 - end_bit_index);
                 sum += sum32x2bits(modified_last_block);
             }
             else
             {
                 uint64_t maskL = UINT64_MAX >> start_bit_index;
                 uint64_t maskR = UINT64_MAX << (63 - end_bit_index);
-                uint64_t modified_last_block = bits[end_block_index] & maskL & maskR;
+                uint64_t modified_last_block = B[end_block_index] & maskL & maskR;
                 sum += sum32x2bits(modified_last_block);
             }
 
             return sum;
         }
 
+
         /**
-         * @brief Computes partial sum of 4-bit values up to position i [Unchecked AI's Comment]
+         * @brief Computes the sum of (i+1) elements (i.e., S[0..i]) of 4-bit integer sequence S packed into a 64 bit integer sequence B
          * 
-         * Calculates the sum of all 4-bit values from position 0 to i (inclusive)
-         * in a packed bit array.
-         * 
-         * @param bits Pointer to array of 64-bit words containing packed 4-bit values
-         * @param i Position up to which to compute the sum (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position 0 to i
-         * 
-         * @note Position i refers to the i-th 4-bit value (nibble), not bit position
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum16x4bits(uint64_t *bits, uint64_t i, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum16x4bits(uint64_t *B, uint64_t i, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t block_index = (i * 4) / 64;
             uint64_t bit_index = ((i * 4) + 3) % 64;
@@ -352,27 +270,19 @@ namespace stool
 
             for (uint64_t j = 0; j < block_index; j++)
             {
-                sum += sum16x4bits(bits[j]);
+                sum += sum16x4bits(B[j]);
             }
-            uint64_t last_block = bits[block_index] >> (63 - bit_index);
+            uint64_t last_block = B[block_index] >> (63 - bit_index);
             sum += sum16x4bits(last_block);
             return sum;
         }
+
         /**
-         * @brief Computes partial sum of 4-bit values between positions i and j [Unchecked AI's Comment]
+         * @brief Computes the sum of S[i..j] i.e., (j-i+1) elements of 4-bit integer sequence S packed into a 64 bit integer sequence B
          * 
-         * Calculates the sum of all 4-bit values from position i to j (inclusive)
-         * in a packed bit array.
-         * 
-         * @param bits Pointer to array of 64-bit words containing packed 4-bit values
-         * @param i Starting position (inclusive)
-         * @param j Ending position (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position i to j
-         * 
-         * @note Positions refer to 4-bit value indices, not bit positions
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum16x4bits(uint64_t *bits, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum16x4bits(uint64_t *B, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t start_block_index = (i * 4) / 64;
             uint64_t start_bit_index = (i * 4) % 64;
@@ -384,41 +294,34 @@ namespace stool
 
             if (start_block_index < end_block_index)
             {
-                uint64_t modified_start_block = bits[start_block_index] << start_bit_index;
+                uint64_t modified_start_block = B[start_block_index] << start_bit_index;
                 sum += sum16x4bits(modified_start_block);
 
                 for (uint64_t k = start_block_index + 1; k < end_block_index; k++)
                 {
-                    sum += sum16x4bits(bits[k]);
+                    sum += sum16x4bits(B[k]);
                 }
-                uint64_t modified_last_block = bits[end_block_index] >> (63 - end_bit_index);
+                uint64_t modified_last_block = B[end_block_index] >> (63 - end_bit_index);
                 sum += sum16x4bits(modified_last_block);
             }
             else
             {
                 uint64_t maskL = UINT64_MAX >> start_bit_index;
                 uint64_t maskR = UINT64_MAX << (63 - end_bit_index);
-                uint64_t modified_last_block = bits[end_block_index] & maskL & maskR;
+                uint64_t modified_last_block = B[end_block_index] & maskL & maskR;
                 sum += sum16x4bits(modified_last_block);
             }
 
             return sum;
         }
 
+
         /**
-         * @brief Computes partial sum of 8-bit values up to position i [Unchecked AI's Comment]
+         * @brief Computes the sum of (i+1) elements (i.e., S[0..i]) of 8-bit integer sequence S packed into a 64 bit integer sequence B
          * 
-         * Calculates the sum of all 8-bit values from position 0 to i (inclusive)
-         * in a packed bit array.
-         * 
-         * @param bits Pointer to array of 64-bit words containing packed 8-bit values
-         * @param i Position up to which to compute the sum (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position 0 to i
-         * 
-         * @note Position i refers to the i-th 8-bit value (byte), not bit position
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum8x8bits(uint64_t *bits, uint64_t i, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum8x8bits(uint64_t *B, uint64_t i, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t block_index = (i * 8) / 64;
             uint64_t bit_index = ((i * 8) + 7) % 64;
@@ -427,27 +330,19 @@ namespace stool
 
             for (uint64_t j = 0; j < block_index; j++)
             {
-                sum += sum8x8bits(bits[j]);
+                sum += sum8x8bits(B[j]);
             }
-            uint64_t last_block = bits[block_index] >> (63 - bit_index);
+            uint64_t last_block = B[block_index] >> (63 - bit_index);
             sum += sum8x8bits(last_block);
             return sum;
         }
+
         /**
-         * @brief Computes partial sum of 8-bit values between positions i and j [Unchecked AI's Comment]
+         * @brief Computes the sum of S[i..j] i.e., (j-i+1) elements of 8-bit integer sequence S packed into a 64 bit integer sequence B
          * 
-         * Calculates the sum of all 8-bit values from position i to j (inclusive)
-         * in a packed bit array.
-         * 
-         * @param bits Pointer to array of 64-bit words containing packed 8-bit values
-         * @param i Starting position (inclusive)
-         * @param j Ending position (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position i to j
-         * 
-         * @note Positions refer to 8-bit value indices, not bit positions
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum8x8bits(uint64_t *bits, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum8x8bits(uint64_t *B, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t start_block_index = (i * 8) / 64;
             uint64_t start_bit_index = (i * 8) % 64;
@@ -459,47 +354,35 @@ namespace stool
 
             if (start_block_index < end_block_index)
             {
-                uint64_t modified_start_block = bits[start_block_index] << start_bit_index;
+                uint64_t modified_start_block = B[start_block_index] << start_bit_index;
                 sum += sum8x8bits(modified_start_block);
 
                 for (uint64_t k = start_block_index + 1; k < end_block_index; k++)
                 {
-                    sum += sum8x8bits(bits[k]);
+                    sum += sum8x8bits(B[k]);
                 }
-                uint64_t modified_last_block = bits[end_block_index] >> (63 - end_bit_index);
+                uint64_t modified_last_block = B[end_block_index] >> (63 - end_bit_index);
                 sum += sum8x8bits(modified_last_block);
             }
             else
             {
                 uint64_t maskL = UINT64_MAX >> start_bit_index;
                 uint64_t maskR = UINT64_MAX << (63 - end_bit_index);
-                uint64_t modified_last_block = bits[end_block_index] & maskL & maskR;
+                uint64_t modified_last_block = B[end_block_index] & maskL & maskR;
                 sum += sum8x8bits(modified_last_block);
             }
 
             return sum;
         }
-        static uint64_t psum8x8bits(uint64_t bits, uint64_t i)
-        {            
-            uint64_t modified_bits = bits >> (64 - ((i+1) * 8));
-            return sum8x8bits(modified_bits);
-        }
+
 
 
         /**
-         * @brief Computes partial sum of 16-bit values up to position i [Unchecked AI's Comment]
+         * @brief Computes the sum of (i+1) elements (i.e., S[0..i]) of 16-bit integer sequence S packed into a 64 bit integer sequence B
          * 
-         * Calculates the sum of all 16-bit values from position 0 to i (inclusive)
-         * in a packed bit array.
-         * 
-         * @param bits Pointer to array of 64-bit words containing packed 16-bit values
-         * @param i Position up to which to compute the sum (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position 0 to i
-         * 
-         * @note Position i refers to the i-th 16-bit value, not bit position
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum4x16bits(uint64_t *bits, uint64_t i, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum4x16bits(uint64_t *B, uint64_t i, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t block_index = (i * 16) / 64;
             uint64_t bit_index = ((i * 16) + 15) % 64;
@@ -508,27 +391,19 @@ namespace stool
 
             for (uint64_t j = 0; j < block_index; j++)
             {
-                sum += sum4x16bits(bits[j]);
+                sum += sum4x16bits(B[j]);
             }
-            uint64_t last_block = bits[block_index] >> (63 - bit_index);
+            uint64_t last_block = B[block_index] >> (63 - bit_index);
             sum += sum4x16bits(last_block);
             return sum;
         }
+
         /**
-         * @brief Computes partial sum of 16-bit values between positions i and j [Unchecked AI's Comment]
+         * @brief Computes the sum of S[i..j] i.e., (j-i+1) elements of 16-bit integer sequence S packed into a 64 bit integer sequence B
          * 
-         * Calculates the sum of all 16-bit values from position i to j (inclusive)
-         * in a packed bit array.
-         * 
-         * @param bits Pointer to array of 64-bit words containing packed 16-bit values
-         * @param i Starting position (inclusive)
-         * @param j Ending position (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position i to j
-         * 
-         * @note Positions refer to 16-bit value indices, not bit positions
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum4x16bits(uint64_t *bits, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum4x16bits(uint64_t *B, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t start_block_index = (i * 16) / 64;
             uint64_t start_bit_index = (i * 16) % 64;
@@ -540,41 +415,34 @@ namespace stool
 
             if (start_block_index < end_block_index)
             {
-                uint64_t modified_start_block = bits[start_block_index] << start_bit_index;
+                uint64_t modified_start_block = B[start_block_index] << start_bit_index;
                 sum += sum4x16bits(modified_start_block);
 
                 for (uint64_t k = start_block_index + 1; k < end_block_index; k++)
                 {
-                    sum += sum4x16bits(bits[k]);
+                    sum += sum4x16bits(B[k]);
                 }
-                uint64_t modified_last_block = bits[end_block_index] >> (63 - end_bit_index);
+                uint64_t modified_last_block = B[end_block_index] >> (63 - end_bit_index);
                 sum += sum4x16bits(modified_last_block);
             }
             else
             {
                 uint64_t maskL = UINT64_MAX >> start_bit_index;
                 uint64_t maskR = UINT64_MAX << (63 - end_bit_index);
-                uint64_t modified_last_block = bits[end_block_index] & maskL & maskR;
+                uint64_t modified_last_block = B[end_block_index] & maskL & maskR;
                 sum += sum4x16bits(modified_last_block);
             }
 
             return sum;
         }
 
+
         /**
-         * @brief Computes partial sum of 32-bit values up to position i [Unchecked AI's Comment]
+         * @brief Computes the sum of (i+1) elements (i.e., S[0..i]) of 32-bit integer sequence S packed into a 64 bit integer sequence B
          * 
-         * Calculates the sum of all 32-bit values from position 0 to i (inclusive)
-         * in a packed bit array.
-         * 
-         * @param bits Pointer to array of 64-bit words containing packed 32-bit values
-         * @param i Position up to which to compute the sum (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position 0 to i
-         * 
-         * @note Position i refers to the i-th 32-bit value, not bit position
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum2x32bits(uint64_t *bits, uint64_t i, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum2x32bits(uint64_t *B, uint64_t i, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t block_index = (i * 32) / 64;
             uint64_t bit_index = ((i * 32) + 31) % 64;
@@ -583,27 +451,19 @@ namespace stool
 
             for (uint64_t j = 0; j < block_index; j++)
             {
-                sum += sum2x32bits(bits[j]);
+                sum += sum2x32bits(B[j]);
             }
-            uint64_t last_block = bits[block_index] >> (63 - bit_index);
+            uint64_t last_block = B[block_index] >> (63 - bit_index);
             sum += sum2x32bits(last_block);
             return sum;
         }
+
         /**
-         * @brief Computes partial sum of 32-bit values between positions i and j [Unchecked AI's Comment]
+         * @brief Computes the sum of S[i..j] i.e., (j-i+1) elements of 32-bit integer sequence S packed into a 64 bit integer sequence B
          * 
-         * Calculates the sum of all 32-bit values from position i to j (in clusive)
-         * in a packed bit array.
-         * 
-         * @param bits Pointer to array of 64-bit words containing packed 32-bit values
-         * @param i Starting position (inclusive)
-         * @param j Ending position (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position i to j
-         * 
-         * @note Positions refer to 32-bit value indices, not bit positions
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum2x32bits(uint64_t *bits, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum2x32bits(uint64_t *B, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t start_block_index = (i * 32) / 64;
             uint64_t start_bit_index = (i * 32) % 64;
@@ -615,145 +475,113 @@ namespace stool
 
             if (start_block_index < end_block_index)
             {
-                uint64_t modified_start_block = bits[start_block_index] << start_bit_index;
+                uint64_t modified_start_block = B[start_block_index] << start_bit_index;
                 sum += sum2x32bits(modified_start_block);
 
                 for (uint64_t k = start_block_index + 1; k < end_block_index; k++)
                 {
-                    sum += sum2x32bits(bits[k]);
+                    sum += sum2x32bits(B[k]);
                 }
-                uint64_t modified_last_block = bits[end_block_index] >> (63 - end_bit_index);
+                uint64_t modified_last_block = B[end_block_index] >> (63 - end_bit_index);
                 sum += sum2x32bits(modified_last_block);
             }
             else
             {
                 uint64_t maskL = UINT64_MAX >> start_bit_index;
                 uint64_t maskR = UINT64_MAX << (63 - end_bit_index);
-                uint64_t modified_last_block = bits[end_block_index] & maskL & maskR;
+                uint64_t modified_last_block = B[end_block_index] & maskL & maskR;
                 sum += sum2x32bits(modified_last_block);
             }
 
             return sum;
         }
 
+
         /**
-         * @brief Computes partial sum of 64-bit values up to position i [Unchecked AI's Comment]
+         * @brief Computes the sum of (i+1) elements of 64 bit integer sequence B
          * 
-         * Calculates the sum of all 64-bit values from position 0 to i (inclusive)
-         * in an array.
-         * 
-         * @param bits Pointer to array of 64-bit values
-         * @param i Position up to which to compute the sum (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position 0 to i
-         * 
-         * @note Position i refers to the i-th 64-bit value (array index)
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum1x64bits(uint64_t *bits, uint64_t i, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum1x64bits(uint64_t *B, uint64_t i, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t sum = 0;
             for (uint64_t j = 0; j <= i; j++)
             {
-                sum += bits[j];
-            }
-            return sum;
-        }
-        /**
-         * @brief Computes partial sum of 64-bit values between positions i and j [Unchecked AI's Comment]
-         * 
-         * Calculates the sum of all 64-bit values from position i to j (inclusive)
-         * in an array.
-         * 
-         * @param bits Pointer to array of 64-bit values
-         * @param i Starting position (inclusive)
-         * @param j Ending position (inclusive)
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position i to j
-         * 
-         * @note Positions refer to array indices
-         */
-        static uint64_t psum1x64bits(uint64_t *bits, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
-        {
-            uint64_t sum = 0;
-            for (uint64_t k = i; k <= j; k++)
-            {
-                sum += bits[k];
+                sum += B[j];
             }
             return sum;
         }
 
         /**
-         * @brief Generic partial sum function up to position i [Unchecked AI's Comment]
+         * @brief Computes the sum of B[i..j] i.e., (j-i+1) elements of 64-bit integer sequence B
          * 
-         * Computes the partial sum from position 0 to i based on the specified
-         * bit type. This function dispatches to the appropriate specialized
-         * partial sum function.
-         * 
-         * @param bits Pointer to array of packed values
-         * @param i Position up to which to compute the sum (inclusive)
-         * @param bit_type The bit width type of packed values
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position 0 to i
-         * 
-         * @throws std::invalid_argument If bit_type is invalid
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum(uint64_t *bits, uint64_t i, PackedBitType bit_type, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum1x64bits(uint64_t *B, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
+        {
+            uint64_t sum = 0;
+            for (uint64_t k = i; k <= j; k++)
+            {
+                sum += B[k];
+            }
+            return sum;
+        }
+
+
+        /**
+         * @brief Computes the sum of (i+1) elements (i.e., S[0..i]) of k-bit integer sequence S packed into a 64 bit integer sequence B
+         * 
+         * @param bit_type The bit width type of packed values
+         * @param array_size The length of the 64-bit integer sequence B
+         */
+        static uint64_t psum(uint64_t *B, uint64_t i, PackedBitType bit_type, [[maybe_unused]] uint64_t array_size)
         {
             switch (bit_type)
             {
             case PackedBitType::BIT_1:
-                return psum64x1bits(bits, i, array_size);
+                return psum64x1bits(B, i, array_size);
             case PackedBitType::BIT_2:
-                return psum32x2bits(bits, i, array_size);
+                return psum32x2bits(B, i, array_size);
             case PackedBitType::BIT_4:
-                return psum16x4bits(bits, i, array_size);
+                return psum16x4bits(B, i, array_size);
             case PackedBitType::BIT_8:
-                return psum8x8bits(bits, i, array_size);
+                return psum8x8bits(B, i, array_size);
             case PackedBitType::BIT_16:
-                return psum4x16bits(bits, i, array_size);
+                return psum4x16bits(B, i, array_size);
             case PackedBitType::BIT_32:
-                return psum2x32bits(bits, i, array_size);
+                return psum2x32bits(B, i, array_size);
             case PackedBitType::BIT_64:
-                return psum1x64bits(bits, i, array_size);
+                return psum1x64bits(B, i, array_size);
             default:
                 break;
             }
             throw std::invalid_argument("Invalid bit type");
         }
+
         /**
-         * @brief Generic partial sum function between positions i and j [Unchecked AI's Comment]
+         * @brief Computes the sum of S[i..j] i.e., (j-i+1) elements of k-bit integer sequence S packed into a 64 bit integer sequence B
          * 
-         * Computes the partial sum from position i to j based on the specified
-         * bit type. This function dispatches to the appropriate specialized
-         * partial sum function.
-         * 
-         * @param bits Pointer to array of packed values
-         * @param i Starting position (inclusive)
-         * @param j Ending position (inclusive)
          * @param bit_type The bit width type of packed values
-         * @param array_size Size of the bits array
-         * @return uint64_t Partial sum from position i to j
-         * 
-         * @throws std::invalid_argument If bit_type is invalid
+         * @param array_size The length of the 64-bit integer sequence B
          */
-        static uint64_t psum(uint64_t *bits, uint64_t i, uint64_t j, PackedBitType bit_type, [[maybe_unused]] uint64_t array_size)
+        static uint64_t psum(uint64_t *B, uint64_t i, uint64_t j, PackedBitType bit_type, [[maybe_unused]] uint64_t array_size)
         {
             switch (bit_type)
             {
             case PackedBitType::BIT_1:
-                return psum64x1bits(bits, i, j, array_size);
+                return psum64x1bits(B, i, j, array_size);
             case PackedBitType::BIT_2:
-                return psum32x2bits(bits, i, j, array_size);
+                return psum32x2bits(B, i, j, array_size);
             case PackedBitType::BIT_4:
-                return psum16x4bits(bits, i, j, array_size);
+                return psum16x4bits(B, i, j, array_size);
             case PackedBitType::BIT_8:
-                return psum8x8bits(bits, i, j, array_size);
+                return psum8x8bits(B, i, j, array_size);
             case PackedBitType::BIT_16:
-                return psum4x16bits(bits, i, j, array_size);
+                return psum4x16bits(B, i, j, array_size);
             case PackedBitType::BIT_32:
-                return psum2x32bits(bits, i, j, array_size);
+                return psum2x32bits(B, i, j, array_size);
             case PackedBitType::BIT_64:
-                return psum1x64bits(bits, i, j, array_size);
+                return psum1x64bits(B, i, j, array_size);
             default:
                 break;
             }
