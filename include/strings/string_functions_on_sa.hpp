@@ -16,13 +16,61 @@ namespace stool
      */
     class StringFunctionsOnSA
     {
+    private: 
+    static int cmp_suffix_with_pat(const std::vector<uint8_t> &T, size_t pos, const std::vector<uint8_t> &P) {
+        size_t n = T.size();
+        size_t m = P.size();
+        if (pos > n) return -1;
+    
+        size_t avail = n - pos;
+        size_t len = std::min(avail, m);
+    
+        int c = memcmp(T.data() + pos, P.data(), len);
+        if (c != 0) return (c < 0) ? -1 : 1;
+    
+        if (m == len) return 0; 
+        return -1;
+    }
+    static size_t lower_bound_sa(const std::vector<uint8_t> &T, const std::vector<uint64_t> &SA, const std::vector<uint8_t> &P) {
+        size_t lo = 0, hi = SA.size();
+        while (lo < hi) {
+            size_t mid = (lo + hi) / 2;
+            int cmp = cmp_suffix_with_pat(T, static_cast<size_t>(SA[mid]), P);
+            if (cmp < 0) lo = mid + 1;
+            else hi = mid;
+        }
+        return lo;
+    }
+
     public:
         using Interval = std::pair<int64_t, int64_t>;
         
         
-        static Interval compute_sa_interval([[maybe_unused]] const std::vector<uint8_t> &text, [[maybe_unused]] const std::vector<uint8_t> &pattern, [[maybe_unused]] const std::vector<uint64_t> &sa)
+        static Interval compute_sa_interval([[maybe_unused]] const std::vector<uint8_t> &T, [[maybe_unused]] const std::vector<uint8_t> &P, [[maybe_unused]] const std::vector<uint64_t> &sa)
         {
-            throw std::runtime_error("Not implemented(compute_sa_interval)");
+            //vector<int> res;
+            size_t n = T.size();
+        
+            if (P.empty()) { 
+                return Interval(0, n - 1);
+            }
+        
+            std::vector<uint8_t> P_hi = P;
+            P_hi.push_back(0xFF);
+        
+            size_t L = lower_bound_sa(T, sa, P);
+            size_t R = lower_bound_sa(T, sa, P_hi);
+
+            if(L <= R)
+            {
+                return Interval(L, R - 1);
+            }
+            else
+            {
+                return Interval(-1, -1);
+            }
+
+
             /*
             std::vector<uint64_t> r;
             auto intv = stool::LCPInterval<uint64_t>::compute_lcp_intervals(text, pattern, sa);
