@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS "-D_INT128 -Wall -Wextra")
 endif(CPP_STATIC)
 
 set(CMAKE_CXX_FLAGS_DEBUG  "-g -O0 -DDEBUG")
-set(CMAKE_CXX_FLAGS_RELEASE  "-O3 -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE  "-O3 -DNDEBUG -Rpass=loop-vectorize")
 
 if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
     message("Release Mode")

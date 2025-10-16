@@ -59,6 +59,22 @@ uint64_t access_test(const std::vector<std::vector<uint64_t>> &arrays, const std
     return hash;
 }
 
+uint64_t access_vector_test(const std::vector<std::vector<uint64_t>> &arrays, const std::vector<std::pair<uint64_t, uint64_t>> &queries){
+    uint64_t hash = 0;
+    uint64_t query_size = queries.size();
+    for(uint64_t i = 0; i < query_size; i++)
+    {
+        uint64_t index = queries[i].first;
+        hash += arrays[index][0] + arrays[index][1] + arrays[index][2] + arrays[index][3];
+        /*
+        for(uint64_t x: arrays[index]){
+            hash += x;
+        }
+        */
+    }
+    return hash;
+}
+
 
 uint64_t naive_successor_test(const std::vector<std::vector<uint64_t>> &arrays, const std::vector<std::pair<uint64_t, uint64_t>> &queries){
     uint64_t naive_successor_hash = 0;
@@ -119,6 +135,13 @@ void successor_test(uint64_t array_count, uint64_t max_value, uint64_t number_of
     st2 = std::chrono::system_clock::now();
     uint64_t access_time = std::chrono::duration_cast<std::chrono::nanoseconds>(st2 - st1).count();
 
+    std::cout << "Access Vector test" << std::endl;
+    st1 = std::chrono::system_clock::now();
+    uint64_t access_vector_hash = access_vector_test(arrays, queries);
+    st2 = std::chrono::system_clock::now();
+    uint64_t access_vector_time = std::chrono::duration_cast<std::chrono::nanoseconds>(st2 - st1).count();
+
+
     std::cout << "Sketch successor test" << std::endl;
     st1 = std::chrono::system_clock::now();
     uint64_t sketch_successor_hash = sketch_successor_test(arrays, sketches, queries);
@@ -135,8 +158,10 @@ void successor_test(uint64_t array_count, uint64_t max_value, uint64_t number_of
     std::cout << "naive_successor_hash: " << naive_successor_hash << std::endl;
     std::cout << "sketch_successor_hash: " << sketch_successor_hash << std::endl;
     std::cout << "access_hash: " << access_hash << std::endl;
+    std::cout << "access_vector_hash: " << access_vector_hash << std::endl;
     std::cout << "Naive time: " << (naive_successor_time / (1000 * 1000)) << " ms" << std::endl;
     std::cout << "Access time: " << (access_time / (1000 * 1000)) << " ms" << std::endl;
+    std::cout << "Access Vector time: " << (access_vector_time / (1000 * 1000)) << " ms" << std::endl;
     std::cout << "Sketch time: " << (sketch_successor_time / (1000 * 1000)) << " ms" << std::endl;
 
     stool::Memory::print_memory_usage();

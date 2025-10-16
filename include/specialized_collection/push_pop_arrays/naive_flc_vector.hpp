@@ -30,6 +30,18 @@ namespace stool
         inline static std::vector<int> size_array{1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 18, 22, 27, 33, 40, 48, 58, 70, 84, 101, 122, 147, 177, 213, 256, 308, 370, 444, 533, 640, 768, 922, 1107, 1329, 1595, 1914, 2297, 2757, 3309, 3971, 4766};
         inline static const uint64_t MAX_SIZE = 4000;
 
+        static uint64_t read_as_64bit_integer(uint64_t B, uint8_t i, uint8_t len)
+        {
+            uint64_t end_bit_index = i + len - 1;
+            uint64_t mask = UINT64_MAX >> (64 - len);
+
+            uint64_t value = B >> (63 - end_bit_index);
+            value = value & mask;
+
+            return value;
+        }
+
+
     public:
         uint64_t *buffer_ = nullptr;
         uint64_t psum_;
@@ -522,7 +534,7 @@ namespace stool
                     uint64_t old_bit_index = old_pos % 64;
                     uint64_t new_bit_index = new_pos % 64;
 
-                    uint64_t old_value = stool::MSBByte::read_as_64bit_integer(tmp[old_block_index], old_bit_index, old_code_length);
+                    uint64_t old_value = NaiveFLCVector::read_as_64bit_integer(tmp[old_block_index], old_bit_index, old_code_length);
                     old_value = old_value << (64 - new_code_length);
                     this->buffer_[new_block_index] = stool::MSBByte::write_bits(this->buffer_[new_block_index], new_bit_index, new_code_length, old_value);
                 }
@@ -717,7 +729,7 @@ namespace stool
                 uint64_t pos = i << this->code_type_;
                 uint64_t block_index = pos / 64;
                 uint64_t bit_index = pos % 64;
-                uint64_t value = stool::MSBByte::read_as_64bit_integer(this->buffer_[block_index], bit_index, code_length);
+                uint64_t value = NaiveFLCVector::read_as_64bit_integer(this->buffer_[block_index], bit_index, code_length);
                 r[i] = value;
             }
             this->remove(0, len);
@@ -973,7 +985,7 @@ namespace stool
             uint64_t block_index = new_pos / 64;
             uint8_t bit_index = new_pos % 64;
 
-            uint64_t old_value = stool::MSBByte::read_as_64bit_integer(this->buffer_[block_index], bit_index, code_length);
+            uint64_t old_value = NaiveFLCVector::read_as_64bit_integer(this->buffer_[block_index], bit_index, code_length);
             if (value > old_value)
             {
                 this->psum_ += value - old_value;

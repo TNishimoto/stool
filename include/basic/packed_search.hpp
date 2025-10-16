@@ -6,7 +6,7 @@ namespace stool
 {
 
     /*!
-     * @brief A class for supporting search query on packed integer sequences [in progress]
+     * @brief A class for supporting search query on packed integer sequences
      * 
      * This class provides search query on a k-bit integer sequence S = s_{0}, s_{1}, ..., s_{n-1} packed into a 64 bit integer vector B[0..nk-1]. 
      * Here, s_{i} is represented as B[i*k..(i+1)*k-1] for all i. 
@@ -232,7 +232,7 @@ namespace stool
             }
 
             uint64_t diff = x - sum;
-            uint64_t f = stool::MSBByte::select1(B[k], diff - 1);
+            uint64_t f = stool::MSBByte::select_ith_1(B[k], diff - 1);
             sum = x - 1;
             return (k * 64) + f;
         }

@@ -786,7 +786,7 @@ namespace stool
             uint64_t block_index = position / 64;
             uint64_t bit_index = position % 64;
 
-            uint64_t removed_bits = stool::MSBByte::read_64bit_string(this->buffer_, block_index, bit_index, this->buffer_size_);
+            uint64_t removed_bits = stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_);
 
             uint64_t added_num1 = stool::MSBByte::popcount(value, len - 1);
             uint64_t removed_num1 = stool::MSBByte::popcount(removed_bits, len - 1);
@@ -877,7 +877,7 @@ namespace stool
                     */
                     uint64_t __block_index = (bit_size - last_block_size) / 64;
                     uint64_t __bit_index = (bit_size - last_block_size) % 64;
-                    uint64_t pattern = stool::MSBByte::read_64bit_string(bits64_array, __block_index, __bit_index, array_size);
+                    uint64_t pattern = stool::MSBByte::access_64bits(bits64_array, __block_index, __bit_index, array_size);
                     uint64_t old_block = this->buffer_[end_block_index];
                     uint64_t removed_num = stool::Byte::popcount(old_block);
                     assert(last_block_size <= 64 && last_block_size > 0);
@@ -968,12 +968,12 @@ namespace stool
 
         uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index) const
         {
-            return stool::MSBByte::read_64bit_string(this->buffer_, block_index, bit_index, this->buffer_size_);
+            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_);
         }
         uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index, uint64_t code_len) const
         {
             assert(block_index < this->buffer_size_);
-            return stool::MSBByte::read_64bit_string(this->buffer_, block_index, bit_index, this->buffer_size_) >> (64 - code_len);
+            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_) >> (64 - code_len);
         }
         uint64_t read_as_64bit_integer(uint16_t block_index) const
         {
@@ -1176,7 +1176,7 @@ namespace stool
                     }
                     else
                     {
-                        uint64_t result = stool::MSBByte::select1(block, counter - 1) + gap;
+                        uint64_t result = stool::MSBByte::select_ith_1(block, counter - 1) + gap;
                         // assert(result == true_result);
                         return result;
                     }
@@ -1307,7 +1307,7 @@ namespace stool
         uint64_t read_64bit_string(uint64_t block_index, uint8_t bit_index) const
         {
             uint64_t pos = block_index * 64 + bit_index;
-            uint64_t bits = stool::MSBByte::read_64bit_string(this->buffer_, block_index, bit_index, this->buffer_size_);
+            uint64_t bits = stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_);
             if (pos + 64 <= this->bit_count_)
             {
                 return bits;
@@ -1336,7 +1336,7 @@ namespace stool
                 }
                 else
                 {
-                    return stool::MSBByte::read_64bit_string(this->buffer_, block_index - 1, bit_index + 1, this->buffer_size_);
+                    return stool::MSBByte::access_64bits(this->buffer_, block_index - 1, bit_index + 1, this->buffer_size_);
                 }
             }
             else
@@ -1437,13 +1437,13 @@ namespace stool
                     }
                     else
                     {
-                        uint64_t result = stool::MSBByte::select0(block, counter - 1) + gap;
+                        uint64_t result = stool::MSBByte::select_ith_0(block, counter - 1) + gap;
                         // assert(result == true_result);
                         return result;
                     }
                 }
 
-                uint64_t result = stool::MSBByte::select0(this->buffer_[last_block_index], counter - 1) + gap;
+                uint64_t result = stool::MSBByte::select_ith_0(this->buffer_[last_block_index], counter - 1) + gap;
                 // assert(result == true_result);
                 return result;
             }
