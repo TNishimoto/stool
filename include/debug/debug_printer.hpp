@@ -259,7 +259,55 @@ namespace stool
 			return b.to_string();
 		}
 
+/**
+		 * @brief Prints a BWT (Burrows-Wheeler Transform) table in a formatted manner
+		 * 
+		 * @param bwt The BWT array
+		 * @param sa The suffix array corresponding to the BWT
+		 * 
+		 * Prints a table showing the index, suffix array position, BWT character,
+		 * and the corresponding suffix for each position in the BWT.
+		 */
+		static void print_bwt_table(const std::vector<uint8_t> &bwt, const std::vector<uint64_t> &sa)
+		{
+			std::string text;
+			text.resize(sa.size());
+			for (uint64_t i = 0; i < sa.size(); i++)
+			{
+				if (sa[i] > 0)
+				{
+					text[sa[i] - 1] = bwt[i];
+				}
+				else
+				{
+					text[text.size() - 1] = bwt[i];
+				}
+			}
 
+			std::cout << "===========================" << std::endl;
+			for (uint64_t i = 0; i < sa.size(); i++)
+			{
+				std::string s;
+				uint64_t len = sa.size() - sa[i];
+				for (uint64_t p = 0; p < len; p++)
+				{
+					s.push_back(text[sa[i] + p]);
+				}
+				std::string str1 = std::to_string(i);
+				while (str1.size() < 3)
+				{
+					str1.push_back(' ');
+				}
+				std::string str2 = std::to_string(sa[i]);
+				while (str2.size() < 3)
+				{
+					str2.push_back(' ');
+				}
+
+				std::cout << str1 << " " << str2 << " : " << bwt[i] << " | " << s << std::endl;
+			}
+			std::cout << "===========================" << std::endl;
+		}
 
 	};
 
