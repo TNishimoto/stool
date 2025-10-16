@@ -13,6 +13,52 @@ namespace stool
         static constexpr uint64_t BIT_VECTOR_SIZE = (MAX_BIT_LENGTH / 64) + 1;
         stool::NaiveBitVector<MAX_BIT_LENGTH> sbv;
 
+/*!
+         * @brief Replaces the bits B[I..I+len-1] in 64-bit sequence B with the first len bits of 64 bits Q[0..63], where I = block_index * 64 + bit_index.
+         * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
+         * @param is_cyclic if true, the sequence B is cyclic, i.e., B[array_size] is the same as B[0].
+         */
+        template <typename BIT64_SEQUENCE>
+        static void write_64bit_string(BIT64_SEQUENCE &B, uint64_t array_size, uint64_t Q, uint64_t block_index, uint8_t bit_index, uint8_t len, bool is_cyclic)
+        {
+            assert(block_index < array_size);
+
+            if (bit_index + len <= 64)
+            {
+                B[block_index] = MSBByte::write_bits(B[block_index], bit_index, len, Q);
+            }
+            else
+            {
+                uint64_t left_len = 64 - bit_index;
+                uint64_t right_len = len - left_len;
+                uint64_t left_bits = Q;
+                uint64_t right_bits = Q << left_len;
+
+                B[block_index] = MSBByte::write_suffix(B[block_index], left_len, left_bits);
+                uint64_t next_block_index = block_index + 1;
+                if (next_block_index == array_size)
+                {
+                    if (is_cyclic)
+                    {
+                        next_block_index = 0;
+                        assert(next_block_index < array_size);
+                        assert(right_len <= 64 && right_len > 0);
+                        B[next_block_index] = MSBByte::write_prefix(B[next_block_index], right_len, right_bits);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    assert(next_block_index < array_size);
+                    assert(right_len <= 64 && right_len > 0);
+                    B[next_block_index] = MSBByte::write_prefix(B[next_block_index], right_len, right_bits);
+                }
+            }
+        }
+
     public:
         ShortEliasFanoVector()
         {
@@ -150,7 +196,7 @@ namespace stool
                     uint64_t lower_value = get_lower_value(values[i], bit_size, upper_bit_size);
                     uint64_t lower_value_bits = lower_value << (64 - lower_bit_size);
 
-                    stool::MSBByte::write_64bit_string(bit64_array, BIT_VECTOR_SIZE, lower_value_bits, block_index, bit_index, lower_bit_size, false);
+                    ShortEliasFanoVector::write_64bit_string(bit64_array, BIT_VECTOR_SIZE, lower_value_bits, block_index, bit_index, lower_bit_size, false);
                     bit_index += lower_bit_size;
                     num1 += stool::Byte::popcount(lower_value_bits);
                     if(bit_index >= 64){

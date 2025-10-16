@@ -34,6 +34,20 @@ namespace stool
         inline static std::vector<int> size_array{1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 18, 22, 27, 33, 40, 48, 58, 70, 84, 101, 122, 147, 177, 213, 256, 308, 370, 444, 533, 640, 768, 922, 1107, 1329, 1595, 1914, 2297, 2757, 3309, 3971, 4766};
         inline static const uint64_t TMP_BUFFER_SIZE = MAX_BIT_LENGTH / 64;
 
+        static std::pair<uint64_t, uint8_t> add_bit_length(uint64_t block_index, uint64_t bit_index, uint64_t bit_length)
+        {
+            block_index += bit_length / 64;
+            bit_index += bit_length % 64;
+
+            if (bit_index >= 64)
+            {
+                bit_index -= 64;
+                block_index++;
+            }
+
+            return std::make_pair(block_index, bit_index);
+        }
+
     public:
         using INDEX_TYPE = uint16_t;
         uint64_t *buffer_ = nullptr;
@@ -1123,7 +1137,7 @@ namespace stool
                 return 0;
             }
 
-            std::pair<uint64_t, uint8_t> end_bpX = stool::MSBByte::add_bit_length(block_index, bit_index, len-1);
+            std::pair<uint64_t, uint8_t> end_bpX = NaiveBitVector::add_bit_length(block_index, bit_index, len-1);
             uint64_t num = stool::MSBByte::rank1(this->buffer_, block_index, bit_index, end_bpX.first, end_bpX.second, this->buffer_size_);
 
             return num;

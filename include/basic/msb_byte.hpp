@@ -108,7 +108,7 @@ namespace stool
         }
 
         /*!
-         * @brief Shifts the suffix S[pos..63] of 64 bits B[0..63] to the right by len bits and returns the new B, i.e., B[0..pos-1] | 0^{len} | S[pos..63 - len].
+         * @brief Shifts the suffix B[pos..63] of 64 bits B[0..63] to the right by len bits and returns the new B, i.e., B[0..pos-1] | 0^{len} | B[pos..63 - len].
          */
         static uint64_t shift_right(uint64_t B, uint8_t pos, uint8_t len)
         {
@@ -137,7 +137,7 @@ namespace stool
         }
 
         /*!
-         * @brief Shifts the suffix S[pos..63] of 64 bits B[0..63] to the left by len bits and returns the new B, i.e., B[0..pos-1-len] | S[pos..63] | 0^{len}.
+         * @brief Shifts the suffix B[pos..63] of 64 bits B[0..63] to the left by len bits and returns the new B, i.e., B[0..pos-1-len] | B[pos..63] | 0^{len}.
          */
         static uint64_t shift_left(uint64_t B, uint8_t pos, uint8_t len)
         {
@@ -159,7 +159,7 @@ namespace stool
         }
 
         /*!
-         * @brief Replace the i-th bit of 64-bit vector B with b 
+         * @brief Replaces the i-th bit of 64-bit vector B with b 
          */
         static void replace(std::vector<uint64_t> &B, uint64_t i, bool b)
         {
@@ -186,49 +186,29 @@ namespace stool
         }
         */
 
+        
         /*!
-         * @brief Replace the bits B[I..I+len-1] in 64-bit sequence B with the first len bits of 64 bits Q[0..63], where I = block_index * 64 + bit_index.
+         * @brief Replaces the bits B[I..I+len-1] in 64-bit sequence B with the first len bits of 64 bits Q[0..63], where I = block_index * 64 + bit_index.
          * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
-         * @param is_cyclic if true, the sequence B is cyclic, i.e., B[array_size] is the same as B[0].
          */
         template <typename BIT64_SEQUENCE>
-        static void write_64bit_string(BIT64_SEQUENCE &B, uint64_t array_size, uint64_t Q, uint64_t block_index, uint8_t bit_index, uint8_t len, bool is_cyclic)
+        static void write_bits(BIT64_SEQUENCE &B, uint64_t Q, uint64_t len, uint16_t block_index, uint8_t bit_index, [[maybe_unused]] uint64_t array_size)
         {
-            assert(block_index < array_size);
-
             if (bit_index + len <= 64)
             {
-                B[block_index] = MSBByte::write_bits(B[block_index], bit_index, len, Q);
+                B[block_index] = stool::MSBByte::write_bits(B[block_index], bit_index, len, Q);
             }
             else
             {
-                uint64_t left_len = 64 - bit_index;
-                uint64_t right_len = len - left_len;
-                uint64_t left_bits = Q;
-                uint64_t right_bits = Q << left_len;
+                uint64_t Lvalue = Q;
+                uint64_t Rvalue = Q << (64 - bit_index);
 
-                B[block_index] = MSBByte::write_suffix(B[block_index], left_len, left_bits);
-                uint64_t next_block_index = block_index + 1;
-                if (next_block_index == array_size)
-                {
-                    if (is_cyclic)
-                    {
-                        next_block_index = 0;
-                        assert(next_block_index < array_size);
-                        assert(right_len <= 64 && right_len > 0);
-                        B[next_block_index] = MSBByte::write_prefix(B[next_block_index], right_len, right_bits);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else
-                {
-                    assert(next_block_index < array_size);
-                    assert(right_len <= 64 && right_len > 0);
-                    B[next_block_index] = MSBByte::write_prefix(B[next_block_index], right_len, right_bits);
-                }
+                uint64_t diff = 64 - bit_index;
+
+                B[block_index] = stool::MSBByte::write_bits(B[block_index], bit_index, diff, Lvalue);
+
+                assert(block_index + 1 < array_size);
+                B[block_index + 1] = stool::MSBByte::write_bits(B[block_index + 1], 0, len - diff, Rvalue);
             }
         }
 
@@ -483,9 +463,9 @@ namespace stool
                     num += stool::Byte::popcount(B[start_block_index]);
                 }
 
-                for (uint64_t i = start_block_index + 1; i < end_block_index; i++)
+                for (uint64_t j = start_block_index + 1; j < end_block_index; j++)
                 {
-                    num += stool::Byte::popcount(B[i]);
+                    num += stool::Byte::popcount(B[j]);
                 }
 
                 {
@@ -495,58 +475,34 @@ namespace stool
             return num;
         }
 
-        static std::pair<uint64_t, uint8_t> add_bit_length(uint64_t block_index, uint64_t bit_index, uint64_t bit_length)
-        {
-            block_index += bit_length / 64;
-            bit_index += bit_length % 64;
+        
 
-            if (bit_index >= 64)
-            {
-                bit_index -= 64;
-                block_index++;
-            }
-
-            return std::make_pair(block_index, bit_index);
-        }
-
-        static std::string to_bit_string(uint64_t B, uint64_t bit_size)
+        /*!
+         * @brief Returns the first k bits of 64-bit B as a binary string
+         */
+        static std::string to_bit_string(uint64_t B, uint64_t k)
         {
             std::string s = Byte::to_bit_string(B);
-            while (s.size() > bit_size)
+            while (s.size() > k)
             {
                 s.pop_back();
             }
             return s;
         }
 
-        template <typename BIT64_SEQUENCE>
-        static void write_bits(BIT64_SEQUENCE &bits, uint64_t value, uint64_t len, uint16_t block_index, uint8_t bit_index, [[maybe_unused]] uint64_t array_size)
+        
+
+        /*!
+         * @brief Shifts the suffix B[pos..] of 64 bit sequence B[0..] to the right by len bits, i.e., B is changed to B[0..pos-1] | 0^{len} | B[pos..63 - len].
+         * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
+         */
+        static void shift_right(uint64_t *B, uint64_t pos, uint64_t len, uint64_t array_size)
         {
-            if (bit_index + len <= 64)
-            {
-                bits[block_index] = stool::MSBByte::write_bits(bits[block_index], bit_index, len, value);
-            }
-            else
-            {
-                uint64_t Lvalue = value;
-                uint64_t Rvalue = value << (64 - bit_index);
+            uint64_t block_index = pos / 64;
+            uint64_t bit_index = pos % 64;
 
-                uint64_t diff = 64 - bit_index;
-
-                bits[block_index] = stool::MSBByte::write_bits(bits[block_index], bit_index, diff, Lvalue);
-
-                assert(block_index + 1 < array_size);
-                bits[block_index + 1] = stool::MSBByte::write_bits(bits[block_index + 1], 0, len - diff, Rvalue);
-            }
-        }
-
-        static void shift_right(uint64_t *bits, uint64_t shift_pos, uint64_t shift_bitsize, uint64_t array_size)
-        {
-            uint64_t block_index = shift_pos / 64;
-            uint64_t bit_index = shift_pos % 64;
-
-            uint64_t dst_block_index = (shift_pos + shift_bitsize) / 64;
-            uint64_t dst_bit_index = (shift_pos + shift_bitsize) % 64;
+            uint64_t dst_block_index = (pos + len) / 64;
+            uint64_t dst_bit_index = (pos + len) % 64;
 
             uint64_t curry_bitsize = 0;
             uint64_t mid_block_index = 0;
@@ -562,7 +518,7 @@ namespace stool
                 mid_block_index = dst_block_index;
                 // uint64_t shift_block_size = dst_block_index - block_index;
                 uint64_t suffix_block_size = array_size - dst_block_index;
-                std::memmove(&bits[dst_block_index], &bits[block_index], suffix_block_size * sizeof(uint64_t));
+                std::memmove(&B[dst_block_index], &B[block_index], suffix_block_size * sizeof(uint64_t));
             }
             else
             {
@@ -571,41 +527,46 @@ namespace stool
                 curry_bitsize = dst_bit_index + 64 - bit_index;
                 // uint64_t shift_block_size = (dst_block_index - 1) - block_index;
                 uint64_t suffix_block_size = array_size - (dst_block_index - 1);
-                std::memmove(&bits[dst_block_index - 1], &bits[block_index], suffix_block_size * sizeof(uint64_t));
+                std::memmove(&B[dst_block_index - 1], &B[block_index], suffix_block_size * sizeof(uint64_t));
             }
 
             if (curry_bitsize > 0)
             {
                 assert(curry_bitsize < 64);
 
-                uint64_t curried_bits = bits[mid_block_index];
+                uint64_t curried_bits = B[mid_block_index];
                 {
-                    bits[mid_block_index] = stool::MSBByte::shift_right(bits[mid_block_index], bit_index, curry_bitsize);
+                    B[mid_block_index] = stool::MSBByte::shift_right(B[mid_block_index], bit_index, curry_bitsize);
                 }
 
-                for (uint64_t i = mid_block_index + 1; i < array_size; i++)
+                for (uint64_t j = mid_block_index + 1; j < array_size; j++)
                 {
                     uint64_t L = curried_bits << (64 - curry_bitsize);
-                    uint64_t R = bits[i] >> curry_bitsize;
-                    curried_bits = bits[i];
-                    bits[i] = L | R;
+                    uint64_t R = B[j] >> curry_bitsize;
+                    curried_bits = B[j];
+                    B[j] = L | R;
                 }
             }
-            fill(bits, shift_pos, shift_bitsize, false);
+            fill(B, pos, len, false);
         }
-        static void shift_left(uint64_t *bits, uint64_t shift_pos, uint64_t shift_bitsize, uint64_t array_size)
+
+        /*!
+         * @brief Shifts the suffix B[pos..] of 64-bit integer sequence B[0..] to the left by len bits, i.e., B is changed to B[0..pos-1-len] | B[pos..63] | 0^{len}.
+         * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
+         */
+        static void shift_left(uint64_t *B, uint64_t pos, uint64_t len, uint64_t array_size)
         {
-            if (shift_bitsize > shift_pos)
+            if (len > pos)
             {
                 throw std::runtime_error("shift_leftX: shift_bitsize > shift_pos");
                 return;
             }
 
-            uint64_t block_index = shift_pos / 64;
-            uint64_t bit_index = shift_pos % 64;
+            uint64_t block_index = pos / 64;
+            uint64_t bit_index = pos % 64;
 
-            uint64_t dst_block_index = (shift_pos - shift_bitsize) / 64;
-            uint64_t dst_bit_index = (shift_pos - shift_bitsize) % 64;
+            uint64_t dst_block_index = (pos - len) / 64;
+            uint64_t dst_bit_index = (pos - len) % 64;
 
             uint64_t curry_bitsize = 0;
             uint64_t mid_block_index = 0;
@@ -616,12 +577,12 @@ namespace stool
                 curry_bitsize = bit_index - dst_bit_index;
                 mid_block_index = dst_block_index;
                 // uint64_t shift_block_size = block_index - dst_block_index;
-                uint64_t tmp = bits[dst_block_index];
-                std::memmove(&bits[dst_block_index], &bits[block_index], prefix_block_size * sizeof(uint64_t));
+                uint64_t tmp = B[dst_block_index];
+                std::memmove(&B[dst_block_index], &B[block_index], prefix_block_size * sizeof(uint64_t));
 
                 uint64_t maskL = dst_bit_index > 0 ? (UINT64_MAX << (64 - dst_bit_index)) : 0ULL;
                 uint64_t maskR = UINT64_MAX >> bit_index;
-                bits[dst_block_index] = (tmp & maskL) | ((bits[dst_block_index] & maskR) << curry_bitsize);
+                B[dst_block_index] = (tmp & maskL) | ((B[dst_block_index] & maskR) << curry_bitsize);
             }
             else
             {
@@ -629,7 +590,7 @@ namespace stool
                 mid_block_index = dst_block_index + 1;
                 curry_bitsize = bit_index + (64 - dst_bit_index);
                 // uint64_t shift_block_size = block_index - (dst_block_index + 1);
-                std::memmove(&bits[dst_block_index + 1], &bits[block_index], prefix_block_size * sizeof(uint64_t));
+                std::memmove(&B[dst_block_index + 1], &B[block_index], prefix_block_size * sizeof(uint64_t));
             }
 
             if (curry_bitsize > 0)
@@ -637,28 +598,28 @@ namespace stool
                 assert(curry_bitsize < 64);
                 assert(mid_block_index + prefix_block_size - 1 < array_size);
 
-                uint64_t curried_bits = bits[mid_block_index + prefix_block_size - 1];
+                uint64_t curried_bits = B[mid_block_index + prefix_block_size - 1];
 
                 if (mid_block_index + prefix_block_size - 1 != dst_block_index)
                 {
-                    bits[mid_block_index + prefix_block_size - 1] = bits[mid_block_index + prefix_block_size - 1] << curry_bitsize;
+                    B[mid_block_index + prefix_block_size - 1] = B[mid_block_index + prefix_block_size - 1] << curry_bitsize;
                 }
 
-                for (int64_t i = mid_block_index + prefix_block_size - 2; i >= (int64_t)(dst_block_index + 1); i--)
+                for (int64_t j = mid_block_index + prefix_block_size - 2; j >= (int64_t)(dst_block_index + 1); j--)
                 {
-                    assert(i < (int64_t)array_size);
-                    uint64_t L = bits[i] << curry_bitsize;
+                    assert(j < (int64_t)array_size);
+                    uint64_t L = B[j] << curry_bitsize;
                     uint64_t R = curried_bits >> (64 - curry_bitsize);
-                    curried_bits = bits[i];
-                    bits[i] = L | R;
+                    curried_bits = B[j];
+                    B[j] = L | R;
                 }
 
                 if (bit_index >= dst_bit_index)
                 {
 
-                    uint64_t L = bits[dst_block_index];
+                    uint64_t L = B[dst_block_index];
                     uint64_t R = curried_bits >> (64 - curry_bitsize);
-                    bits[dst_block_index] = L | R;
+                    B[dst_block_index] = L | R;
                 }
                 else
                 {
@@ -669,16 +630,16 @@ namespace stool
                     uint64_t maskL = UINT64_MAX << Lsize;
                     uint64_t maskR = UINT64_MAX << (64 - Lsize);
 
-                    uint64_t L = bits[dst_block_index] & maskL;
+                    uint64_t L = B[dst_block_index] & maskL;
                     uint64_t R = (curried_bits << Rsize) & maskR;
-                    bits[dst_block_index] = L | (R >> (64 - Lsize));
+                    B[dst_block_index] = L | (R >> (64 - Lsize));
                 }
             }
 
-            uint64_t len1 = (array_size * 64) - shift_pos;
-            uint64_t xpos = shift_pos - shift_bitsize + len1;
+            uint64_t len1 = (array_size * 64) - pos;
+            uint64_t xpos = pos - len + len1;
             uint64_t xlen = (array_size * 64) - xpos;
-            fill(bits, xpos, xlen, false);
+            fill(B, xpos, xlen, false);
         }
     };
 
