@@ -171,7 +171,7 @@ namespace stool
         }
 
 
-        static int64_t naive_select_ith_1(uint64_t bits, uint64_t i)
+        static int64_t naive_select1(uint64_t bits, uint64_t i)
         {
             uint64_t ith = 0;
             for(uint64_t x = 0; x<64;x++){
@@ -185,7 +185,7 @@ namespace stool
             }
             return -1;
         }
-        static int64_t select_ith_1(uint64_t bits, uint64_t i)
+        static int64_t select1(uint64_t bits, uint64_t i)
         {
 
 
@@ -225,7 +225,7 @@ namespace stool
 
             // 万一該当なし（理論上ここには来ない）は -1
             if (mask == 0){
-                assert(naive_select_ith_1(bits, i) == -1);
+                assert(naive_select1(bits, i) == -1);
                 return -1;
             }
 
@@ -240,7 +240,7 @@ namespace stool
             int bit_in_byte = __LSB_BYTE::select1_table[byte][r];
             int64_t result = static_cast<int64_t>(byte_index * 8 + bit_in_byte);
 
-            assert(result == naive_select_ith_1(bits, i));
+            assert(result == naive_select1(bits, i));
             return result;
 #endif
         }
@@ -265,9 +265,9 @@ namespace stool
          * @param i The zero-based index of the unset bit to find (finds i+1 th occurrence)
          * @return The position (0-63) of the (i+1)-th unset bit, or -1 if not found
          */
-        static int64_t select_ith_0(uint64_t bits, uint64_t i)
+        static int64_t select0(uint64_t bits, uint64_t i)
         {
-            return select_ith_1(~bits, i);
+            return select1(~bits, i);
         }
 
          /*!

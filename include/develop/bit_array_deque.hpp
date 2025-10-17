@@ -1533,7 +1533,7 @@ namespace stool
                             }
                             else
                             {
-                                uint64_t result = stool::MSBByte::select_ith_1(fst_block, counter - 1);
+                                uint64_t result = stool::MSBByte::select1(fst_block, counter - 1);
                                 //assert(result == true_result);
                                 return result;
                             }
@@ -1551,20 +1551,20 @@ namespace stool
                             }
                             else
                             {
-                                uint64_t result = stool::MSBByte::select_ith_1(block, counter - 1) + gap;
+                                uint64_t result = stool::MSBByte::select1(block, counter - 1) + gap;
                                 //assert(result == true_result);
                                 return result;
                             }
                         }
 
-                        uint64_t result = stool::MSBByte::select_ith_1(this->circular_buffer_[this->last_block_index_], counter - 1) + gap;
+                        uint64_t result = stool::MSBByte::select1(this->circular_buffer_[this->last_block_index_], counter - 1) + gap;
                         //assert(result == true_result);
                         return result;
                     }
                     else
                     {
                         uint64_t fst_block = this->circular_buffer_[this->first_block_index_] << this->first_bit_index_;
-                        uint64_t result = stool::MSBByte::select_ith_1(fst_block, counter - 1);
+                        uint64_t result = stool::MSBByte::select1(fst_block, counter - 1);
                         //assert(result == true_result);
                         return result;
                     }
@@ -1584,7 +1584,7 @@ namespace stool
                         }
                         else
                         {
-                            uint64_t result = stool::MSBByte::select_ith_1(fst_block, counter - 1);
+                            uint64_t result = stool::MSBByte::select1(fst_block, counter - 1);
                             //assert(result == true_result);
                             return result;
                         }
@@ -1602,7 +1602,7 @@ namespace stool
                         }
                         else
                         {
-                            uint64_t result = stool::MSBByte::select_ith_1(block, counter - 1) + gap;
+                            uint64_t result = stool::MSBByte::select1(block, counter - 1) + gap;
                             //assert(result == true_result);
                             return result;
                         }
@@ -1619,12 +1619,12 @@ namespace stool
                         }
                         else
                         {
-                            uint64_t result = stool::MSBByte::select_ith_1(block, counter - 1) + gap;
+                            uint64_t result = stool::MSBByte::select1(block, counter - 1) + gap;
                             //assert(result == true_result);
                             return result;
                         }
                     }
-                    uint64_t result = stool::MSBByte::select_ith_1(this->circular_buffer_[this->last_block_index_], counter - 1) + gap;
+                    uint64_t result = stool::MSBByte::select1(this->circular_buffer_[this->last_block_index_], counter - 1) + gap;
                     return result;
                 }
             }
@@ -1671,7 +1671,7 @@ namespace stool
                         }
                         else
                         {
-                            int64_t p = stool::MSBByte::select_ith_1(bits, counter - 1);
+                            int64_t p = stool::MSBByte::select1(bits, counter - 1);
                             return current_pos + p;
                         }
                         current_pos += bitsize;
@@ -1697,7 +1697,7 @@ namespace stool
                         }
                         else
                         {
-                            int64_t p = stool::MSBByte::select_ith_1(bits, counter - 1);
+                            int64_t p = stool::MSBByte::select1(bits, counter - 1);
                             return current_pos + p;
                         }
                         current_pos += bitsize;

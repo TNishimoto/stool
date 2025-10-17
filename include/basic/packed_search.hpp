@@ -232,7 +232,7 @@ namespace stool
             }
 
             uint64_t diff = x - sum;
-            uint64_t f = stool::MSBByte::select_ith_1(B[k], diff - 1);
+            uint64_t f = stool::MSBByte::select1(B[k], diff - 1);
             sum = x - 1;
             return (k * 64) + f;
         }

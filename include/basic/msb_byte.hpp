@@ -312,19 +312,20 @@ namespace stool
 
 
         /*!
-         * @brief Returns the position of the i-th 1 in 64-bit B if such bit exists; otherwise return -1.
+         * @brief Returns the position of the (i+1)-th 1 in 64-bit B if such bit exists; otherwise return -1.
          */
-        static int64_t select_ith_1(uint64_t B, uint64_t i)
+        static int64_t select1(uint64_t B, uint64_t i)
         {
             uint64_t num = Byte::popcount(B);
-            if (num < i + 1)
+            uint64_t ith = i+1;
+            if (ith <= num)
             {
-                return -1;
+                uint64_t j = num - (i + 1);
+                return 63 - LSBByte::select1(B, j);
             }
             else
             {
-                uint64_t j = num - (i + 1);
-                return 63 - LSBByte::select_ith_1(B, j);
+                return -1;
             }
         }
 
@@ -355,9 +356,9 @@ namespace stool
         /*!
          * @brief Returns the position of the i-th 0 in 64-bit B if such bit exists; otherwise return -1.
          */
-        static int64_t select_ith_0(uint64_t B, uint64_t i)
+        static int64_t select0(uint64_t B, uint64_t i)
         {
-            return select_ith_1(~B, i);
+            return select1(~B, i);
         }
 
         /*!
