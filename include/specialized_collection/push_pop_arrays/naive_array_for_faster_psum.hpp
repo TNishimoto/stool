@@ -191,7 +191,7 @@ namespace stool
                 throw std::out_of_range("Position out of range");
             }
 
-            for(int64_t i = this->deque_size_ ; i >= position + 1; i--){
+            for(int64_t i = this->deque_size_ ; i >= (int64_t)(position + 1); i--){
                 this->circular_buffer_[i] = this->circular_buffer_[i-1] + value;
             }
 
@@ -213,7 +213,10 @@ namespace stool
          */
         void erase(uint64_t position)
         {
-            uint64_t removed_value = this->circular_buffer_[position];
+            if(position >= this->deque_size_){
+                throw std::out_of_range("erase, Position out of range");
+            }
+            uint64_t removed_value = this->at(position);
             for(uint64_t i = position; i < this->deque_size_ - 1; i++){
                 this->circular_buffer_[i] = this->circular_buffer_[i+1] - removed_value;
             }
@@ -290,11 +293,10 @@ namespace stool
          */
         void set_value(uint64_t index, uint64_t value)
         {
-            uint64_t old_value = this->circular_buffer_[index];
-            for(uint64_t i = index+1; i < this->deque_size_; i++){
+            uint64_t old_value = this->at(index);
+            for(uint64_t i = index; i < this->deque_size_; i++){
                 this->circular_buffer_[i] = (this->circular_buffer_[i] - old_value) + value;
             }
-            this->circular_buffer_[index] = value;
             assert(this->verify());
 
         }
@@ -353,6 +355,16 @@ namespace stool
         bool verify() const{
             for(uint64_t i = 1; i < this->size(); i++){
                 if(this->circular_buffer_[i] < this->circular_buffer_[i-1]){
+
+                    std::cout << std::endl;
+
+                    std::cout << "verify error: " << this->circular_buffer_[i] << " < " << this->circular_buffer_[i-1] << std::endl;
+
+                    for(uint64_t j = 0; j < this->size(); j++){
+                        std::cout << this->circular_buffer_[j] << " ";
+                    }
+                    std::cout << std::endl;
+
                     return false;
                 }
             }
