@@ -339,7 +339,7 @@ namespace stool
                     bits[i] = this->circular_buffer_[i] < value;
                 }
                 int64_t p = std::accumulate(bits.begin(), bits.end(), 0);
-                sum = this->circular_buffer_[p];
+                sum = p == 0 ? 0 : this->circular_buffer_[p-1];
                 return p;
     
             }
