@@ -1,0 +1,30 @@
+<map id="stool::PackedPSum::psum" name="stool::PackedPSum::psum">
+<area shape="rect" id="Node000001" title="Computes the sum of (i+1) elements (i.e., S[0..i]) of k&#45;bit integer sequence S packed into a 64 bit i..." alt="" coords="5,205,193,230"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1PackedPSum.html#a009c8ef34f941a84ac8b26bb2c4638d6" title="Computes the sum of (i+1) elements (i.e., S[0..i]) of 4&#45;bit integer sequence S packed into a 64 bit i..." alt="" coords="241,5,393,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,203,158,134,196,93,240,55,248,50,250,54,243,59,200,96,162,138,111,206"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1PackedPSum.html#a9c5726367fc295d2b924e489cf274152" title="Computes the sum of (i+1) elements of 64 bit integer sequence B." alt="" coords="241,69,393,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="116,202,170,163,240,119,252,113,254,118,243,124,173,167,119,207"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1PackedPSum.html#af5ec3929e478fe31d17776c4f7e1c7e6" title="Computes the sum of (i+1) elements (i.e., S[0..i]) of 32&#45;bit integer sequence S packed into a 64 bit ..." alt="" coords="241,133,393,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="143,202,235,175,236,180,144,207"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1PackedPSum.html#abf8743bb4e2527638c3ae833cdefec44" title="Computes the sum of (i+1) elements (i.e., S[0..i]) of 2&#45;bit integer sequence S packed into a 64 bit i..." alt="" coords="241,197,393,237"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="194,215,227,215,227,220,194,220"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1PackedPSum.html#a502f01993db99c84ae4f578e7756f3e8" title="Computes the sum of (i+1) elements (i.e., S[0..i]) of 16&#45;bit integer sequence S packed into a 64 bit ..." alt="" coords="241,261,393,301"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="144,228,236,255,235,260,143,233"/>
+<area shape="rect" id="Node000012" href="$classstool_1_1PackedPSum.html#ad396bdcf8e5c62a86e6fe5dfde95570c" title="Computes the sum of (i+1) elements (i.e., S[0..i]) of 1&#45;bit integer sequence S packed into a 64 bit i..." alt="" coords="441,325,593,365"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="116,228,169,270,204,293,242,311,288,325,336,334,428,343,427,348,336,340,287,330,240,316,202,298,166,275,113,232"/>
+<area shape="rect" id="Node000013" href="$classstool_1_1PackedPSum.html#afc438ec0fd0933f523fd8d8196268074" title="Computes the sum of (i+1) elements (i.e., S[0..i]) of 8&#45;bit integer sequence S packed into a 64 bit i..." alt="" coords="241,385,393,425"/>
+<area shape="poly" id="edge13_Node000001_Node000013" title=" " alt="" coords="113,228,167,287,243,358,268,376,265,380,240,362,163,291,109,232"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1PackedPSum.html#aee238975eb10f060f543544da0ae8609" title="Computes the sum of 16&#45;bit integer sequence S = s_{0}, s_{1}, ..., s_{3} packed into a 64 bit integer..." alt="" coords="441,5,593,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="394,23,427,23,427,28,394,28"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1PackedPSum.html#a2ee5ee5d37a2c0d341c3629a67f21111" title="Computes the sum of 2&#45;bit integer sequence S = s_{0}, s_{1}, ..., s_{31} packed into a 64 bit integer..." alt="" coords="441,133,593,173"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="394,151,427,151,427,156,394,156"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1PackedPSum.html#aa3dca8dd74f05e6806a661745b3b475e" title="Computes the sum of 32&#45;bit integer sequence S = s_{0}, s_{1} packed into a 64 bit integer B." alt="" coords="441,197,593,237"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="394,215,427,215,427,220,394,220"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1Byte.html#a4c7908e38dd210938f5cd86298d70bcb" title="Counts the number of 1 bits in a 64&#45;bit integer x." alt="" coords="641,269,801,294"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="583,235,668,262,666,267,581,240"/>
+<area shape="rect" id="Node000011" href="$classstool_1_1PackedPSum.html#abd01fcbe1f662d952dc16d83886fc914" title="Computes the sum of 4&#45;bit integer sequence S = s_{0}, s_{1}, ..., s_{15} packed into a 64 bit integer..." alt="" coords="441,261,593,301"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="394,279,427,279,427,284,394,284"/>
+<area shape="poly" id="edge12_Node000012_Node000009" title=" " alt="" coords="581,323,666,296,668,301,583,328"/>
+<area shape="rect" id="Node000014" href="$classstool_1_1PackedPSum.html#a0db4a35816ee3997a367cc43815a1a16" title="Computes the sum of 8&#45;bit integer sequence S = s_{0}, s_{1}, ..., s_{7} packed into a 64 bit integer ..." alt="" coords="441,389,593,429"/>
+<area shape="poly" id="edge14_Node000013_Node000014" title=" " alt="" coords="394,404,428,405,427,410,394,410"/>
+</map>

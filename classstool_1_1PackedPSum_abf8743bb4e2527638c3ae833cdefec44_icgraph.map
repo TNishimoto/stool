@@ -1,0 +1,7 @@
+<map id="stool::PackedPSum::psum32x2bits" name="stool::PackedPSum::psum32x2bits">
+<area shape="rect" id="Node000001" title="Computes the sum of (i+1) elements (i.e., S[0..i]) of 2&#45;bit integer sequence S packed into a 64 bit i..." alt="" coords="241,23,393,63"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1PackedPSum.html#ae6dab9fa2520b38ab901d78f63cc29e2" title="Computes the sum of (i+1) elements (i.e., S[0..i]) of k&#45;bit integer sequence S packed into a 64 bit i..." alt="" coords="5,5,193,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,36,193,32,194,26,228,30"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1PackedPSum.html#a6e2fe3929cce87d4648e733872aed2e6" title="Computes the sum of S[i..j] i.e., (j&#45;i+1) elements of k&#45;bit integer sequence S packed into a 64 bit i..." alt="" coords="5,55,193,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,56,194,60,193,54,227,51"/>
+</map>

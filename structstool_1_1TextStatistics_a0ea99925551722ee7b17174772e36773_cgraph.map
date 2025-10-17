@@ -1,0 +1,19 @@
+<map id="stool::TextStatistics::build" name="stool::TextStatistics::build">
+<area shape="rect" id="Node000001" title="Build text statistics from a file." alt="" coords="5,163,155,203"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1OnlineFileReader.html#a7ef3b418dc72281353e3424b78f29f90" title="Returns an iterator pointing to the beginning of the file." alt="" coords="219,5,392,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,161,138,108,168,80,201,55,213,49,215,53,204,60,171,84,142,112,98,164"/>
+<area shape="rect" id="Node000003" href="$structstool_1_1TextStatistics.html#a0ba7d72156ce965fee35f64464b78d06" title="Build text statistics from a ForwardRLE object." alt="" coords="231,69,380,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="116,160,202,119,221,111,223,116,204,124,118,165"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1OnlineFileReader.html#a09ef54cee6a2b4a9bd9c3bb850d1a24a" title="Closes the file." alt="" coords="219,133,392,173"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="155,170,205,164,205,169,155,176"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1OnlineFileReader.html#af60b8bd676aff0fb2eee2a5f1ae82d50" title="Returns an iterator pointing to the end of the file." alt="" coords="203,198,408,223"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="155,189,190,194,189,199,155,195"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1OnlineFileReader.html#a90b7342704829a20cb7b4d473ff59105" title="Opens the file for reading." alt="" coords="219,248,392,288"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="125,200,204,234,225,241,223,246,202,238,123,205"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1OnlineFileReader.html#a8cc4271320ee0c29a61bd6a018198fe3" title="Returns the size of the file in bytes." alt="" coords="219,312,392,352"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="99,201,143,250,172,275,204,298,216,304,213,309,201,302,169,280,140,253,95,205"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1Message.html#ad3aa66653c82fe0c13b5bdb89ad8825e" title="Generates indentation string based on paragraph level." alt="" coords="467,41,617,81"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="380,78,454,69,454,74,380,83"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1ForwardRLE.html#acb1ec2ca9e194a3daf8a2ea929c7c397" title="Returns the total length of the original text." alt="" coords="456,106,628,131"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="380,96,442,104,442,109,380,101"/>
+</map>

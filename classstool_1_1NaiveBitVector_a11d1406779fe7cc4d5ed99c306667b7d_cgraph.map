@@ -1,0 +1,16 @@
+<map id="stool::NaiveBitVector::push_front" name="stool::NaiveBitVector::push_front">
+<area shape="rect" id="Node000001" title="Add an element to the beginning of the deque." alt="" coords="5,39,164,79"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a73ef5ac89c5b811257b2dd45d263d474" title="Add an element to the end of the deque." alt="" coords="212,67,371,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,67,199,71,198,77,164,72"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#ad1bc5c560634ef782de943bf003eb3a1" title="Get the current number of elements." alt="" coords="433,5,591,45"/>
+<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="164,50,419,30,419,35,165,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="363,64,425,47,427,52,365,69"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveBitVector.html#aedda24123cdfd3354039905e8aa75b63" title="Update buffer size if needed based on current usage." alt="" coords="423,69,601,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="371,85,409,85,409,91,371,90"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1MSBByte.html#a3cbb5901d95af88c1db3782d46cb787d" title="Replaces the i&#45;th bit of bit sequence B[0..63] with b and returns the new B." alt="" coords="419,134,605,159"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="367,104,452,128,451,133,365,109"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveBitVector.html#a83f4b3502882fe4447f5ae92b11520af" title="Reduce buffer size to fit current content." alt="" coords="665,69,823,109"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="601,87,651,87,651,92,601,92"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1LSBByte.html#a389ff15ad054b4fc6558eada83e2df8a" title="Writes a bit at a specified position in a 64&#45;bit integer [Unchecked AI&#39;s Comment]." alt="" coords="653,134,835,159"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="606,144,640,144,640,149,606,149"/>
+</map>

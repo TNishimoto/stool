@@ -1,0 +1,11 @@
+<map id="stool::LSBByte::write_bit" name="stool::LSBByte::write_bit">
+<area shape="rect" id="Node000001" title="Writes a bit at a specified position in a 64&#45;bit integer [Unchecked AI&#39;s Comment]." alt="" coords="672,42,853,67"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1MSBByte.html#a3cbb5901d95af88c1db3782d46cb787d" title="Replaces the i&#45;th bit of bit sequence B[0..63] with b and returns the new B." alt="" coords="437,42,624,67"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="658,57,624,57,624,52,658,52"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#a73ef5ac89c5b811257b2dd45d263d474" title="Add an element to the end of the deque." alt="" coords="221,5,380,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="423,44,380,38,381,33,424,38"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1MSBByte.html#a9ff4b64e132d345bdfcd86d370503f62" title="Replaces the i&#45;th bit of 64&#45;bit vector B with b." alt="" coords="212,70,389,95"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="424,70,390,75,389,69,423,65"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveBitVector.html#a11d1406779fe7cc4d5ed99c306667b7d" title="Add an element to the beginning of the deque." alt="" coords="5,5,164,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="207,28,164,28,164,23,207,23"/>
+</map>

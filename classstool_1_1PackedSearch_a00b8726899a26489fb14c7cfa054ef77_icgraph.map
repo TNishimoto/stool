@@ -1,0 +1,5 @@
+<map id="stool::PackedSearch::search1x64bits" name="stool::PackedSearch::search1x64bits">
+<area shape="rect" id="Node000001" title="Computes the smallest position i such that B[0] + B[1] + ...+ B[i] &gt;= x for a given x in 64 bit seque..." alt="" coords="204,5,355,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1PackedSearch.html#af75bfa54d698d4cf1e967d00b6d49eeb" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in k bit sequen..." alt="" coords="5,5,156,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,28,156,28,156,23,191,23"/>
+</map>

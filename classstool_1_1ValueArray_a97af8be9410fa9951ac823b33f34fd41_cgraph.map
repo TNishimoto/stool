@@ -1,0 +1,13 @@
+<map id="stool::ValueArray::decode" name="stool::ValueArray::decode">
+<area shape="rect" id="Node000001" title="Decodes the ValueArray to a vector of the specified type." alt="" coords="5,63,145,103"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ValueArray.html#a4c2ce789d9747e6a103f92fa6be34c8b" title="Decodes the ValueArray to a vector of the specified type." alt="" coords="193,5,333,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,60,183,47,185,52,142,65"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ValueArray.html#a0620cf93e081c0ba82903d255fc0356a" title="Sets the ValueArray from a vector of values." alt="" coords="381,70,541,95"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="146,80,368,80,368,85,146,85"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1ValueArray.html#a68ab6b7980013147a71a17cf9fa787c7" title="Translates a vector from type X to type Y." alt="" coords="589,63,729,103"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="146,90,226,99,325,107,433,110,541,104,575,99,576,104,542,109,433,115,325,112,226,105,145,95"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="334,43,404,63,403,69,332,48"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="429,71,422,62,425,52,439,46,461,43,488,47,500,56,496,60,486,52,461,49,440,51,429,55,427,61,433,68"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="542,89,575,89,575,94,542,94"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="589,77,555,76,555,71,589,71"/>
+</map>

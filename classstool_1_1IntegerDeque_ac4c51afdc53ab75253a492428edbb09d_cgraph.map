@@ -1,0 +1,5 @@
+<map id="stool::IntegerDeque::get_byte_size" name="stool::IntegerDeque::get_byte_size">
+<area shape="rect" id="Node000001" title="Determine the appropriate byte size for a value." alt="" coords="5,5,156,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1LSBByte.html#ae41593bd6df2ae9c0c86a96ca710f01d" title="Gets the length of a code by finding the position of the leftmost 1 bit [Unchecked AI&#39;s Comment]." alt="" coords="204,5,349,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,23,190,23,190,28,156,28"/>
+</map>
