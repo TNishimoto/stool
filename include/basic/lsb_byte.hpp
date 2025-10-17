@@ -179,7 +179,7 @@ namespace stool
                 if(b){
                     ith++;
                 }
-                if(ith == i){
+                if(ith == i+1){
                     return x;
                 }
             }
@@ -187,7 +187,6 @@ namespace stool
         }
         static int64_t select_ith_1(uint64_t bits, uint64_t i)
         {
-            assert(i != 0);
 
 
             #if defined(__BMI2__)
