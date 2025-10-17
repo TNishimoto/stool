@@ -187,6 +187,9 @@ namespace stool
         }
         static int64_t select_ith_1(uint64_t bits, uint64_t i)
         {
+            assert(i != 0);
+
+
             #if defined(__BMI2__)
             
 
