@@ -1,5 +1,6 @@
 #pragma once
 #include "./byte.hpp"
+#include <cassert>
 #if defined(__x86_64__) || defined(_M_X64)
   #if defined(__BMI2__)
     #include <immintrin.h>   // これで _pdep_u64 が宣言される
@@ -169,71 +170,22 @@ namespace stool
             }
         }
 
-        /*!
-         * @brief Finds the position of the (i+1)-th set bit (1) in a 64-bit integer [Unchecked AI's Comment]
-         *
-         * Return the position of the (i+1)-th 1 in the given bits if such bit exists; otherwise return -1.
-         * @param bits The 64-bit integer to search
-         * @param i The zero-based index of the set bit to find (finds i+1 th occurrence)
-         * @return The position (0-63) of the (i+1)-th set bit, or -1 if not found
-         */
-        /*
-        static int64_t select1(uint64_t bits, uint64_t i)
-        {
-            uint64_t nth = i + 1;
-            uint64_t mask = UINT8_MAX;
-            uint64_t counter = 0;
-            for (uint64_t i = 0; i < 8; i++)
-            {
-                uint64_t bs = i * 8;
-                uint64_t mask2 = mask << bs;
-                uint64_t v = bits & mask2;
-                uint64_t c = Byte::popcount(v);
-                if (counter + c >= nth)
-                {
 
-                    for (uint64_t j = 0; j < 8; j++)
-                    {
-                        if (get_bit(bits, bs + j))
-                        {
-                            counter++;
-                            if (counter == nth)
-                            {
-                                return bs + j;
-                            }
-                        }
-                    }
-                    return -1;
+        static int64_t naive_select_ith_1(uint64_t bits, uint64_t i)
+        {
+            uint64_t ith = 0;
+            for(uint64_t x = 0; x<64;x++){
+                bool b = get_bit(bits, x);
+                if(b){
+                    ith++;
                 }
-                counter += c;
+                if(ith == i){
+                    return x;
+                }
             }
             return -1;
         }
-        */
-
-        static int64_t old_select1(uint64_t bits, uint64_t i)
-        {
-            uint64_t nth = i + 1;
-            uint64_t mask = UINT8_MAX;
-            uint64_t counter = 0;
-            for (int64_t i = 0; i < 8; i++)
-            {
-                uint64_t bs = i * 8;
-                uint64_t mask2 = mask << bs;
-                uint64_t v = bits & mask2;
-                uint64_t c = Byte::popcount(v);
-                if (counter + c >= nth)
-                {
-                    uint64_t pos = bs;
-                    uint8_t bits8 = (bits >> bs) & UINT8_MAX;
-                    uint64_t X = pos + __LSB_BYTE::select1_table[bits8][(nth-counter-1)];
-                    return X;
-                }
-                counter += c;
-            }
-            return -1;
-        }
-        static int64_t select1(uint64_t bits, uint64_t i)
+        static int64_t select_ith_1(uint64_t bits, uint64_t i)
         {
             #if defined(__BMI2__)
             
@@ -271,7 +223,7 @@ namespace stool
 
             // 万一該当なし（理論上ここには来ない）は -1
             if (mask == 0){
-                assert(old_select1(bits, i) == -1);
+                assert(naive_select_ith_1(bits, i) == -1);
                 return -1;
             }
 
@@ -286,7 +238,7 @@ namespace stool
             int bit_in_byte = __LSB_BYTE::select1_table[byte][r];
             int64_t result = static_cast<int64_t>(byte_index * 8 + bit_in_byte);
 
-            assert(result == old_select1(bits, i));
+            assert(result == naive_select_ith_1(bits, i));
             return result;
 #endif
         }
@@ -311,9 +263,9 @@ namespace stool
          * @param i The zero-based index of the unset bit to find (finds i+1 th occurrence)
          * @return The position (0-63) of the (i+1)-th unset bit, or -1 if not found
          */
-        static int64_t select0(uint64_t bits, uint64_t i)
+        static int64_t select_ith_0(uint64_t bits, uint64_t i)
         {
-            return select1(~bits, i);
+            return select_ith_1(~bits, i);
         }
 
          /*!

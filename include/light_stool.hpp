@@ -31,7 +31,6 @@
 #include "./strings/lcp_interval_sort.hpp"
 #include "./strings/array_constructor.hpp"
 #include "./strings/string_functions_on_sa.hpp"
-#include "./strings/sort.hpp"
 #include "./strings/string_functions.hpp"
 #include "./strings/uint8_vector_generator.hpp"
 
@@ -45,10 +44,9 @@
 #include "./specialized_collection/vlc_deque.hpp"
 #include "./specialized_collection/naive_dynamic_string.hpp"
 
-//#include "./specialized_collection/push_pop_arrays/bit_array_deque.hpp"
 #include "./specialized_collection/push_pop_arrays/naive_array.hpp"
+#include "./specialized_collection/push_pop_arrays/naive_array_for_faster_psum.hpp"
 #include "./specialized_collection/push_pop_arrays/naive_bit_vector.hpp"
-//#include "./specialized_collection/push_pop_arrays/naive_vlc_array.hpp"
 #include "./specialized_collection/push_pop_arrays/naive_flc_vector.hpp"
 
 #include "./lz/lz_factor.hpp"

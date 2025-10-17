@@ -310,30 +310,6 @@ namespace stool
             }
         }
 
-        /*
-        static int64_t old_select1(uint64_t B, uint64_t i)
-        {
-            uint64_t nth = i + 1;
-            uint64_t mask = UINT8_MAX;
-            uint64_t counter = 0;
-            for (int64_t i = 7; i >= 0; i--)
-            {
-                uint64_t bs = i * 8;
-                uint64_t mask2 = mask << bs;
-                uint64_t v = B & mask2;
-                uint64_t c = Byte::popcount(v);
-                if (counter + c >= nth)
-                {
-                    uint64_t pos = (7 - i) * 8;
-                    uint8_t B_8 = (B >> (56 - pos)) & UINT8_MAX;
-                    uint64_t X = pos + __MSB_BYTE::select1_table[B_8][(nth - counter - 1)];
-                    return X;
-                }
-                counter += c;
-            }
-            return -1;
-        }
-        */
 
         /*!
          * @brief Returns the position of the i-th 1 in 64-bit B if such bit exists; otherwise return -1.
@@ -348,7 +324,7 @@ namespace stool
             else
             {
                 uint64_t j = num - (i + 1);
-                return 63 - LSBByte::select1(B, j);
+                return 63 - LSBByte::select_ith_1(B, j);
             }
         }
 

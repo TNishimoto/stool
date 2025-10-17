@@ -815,7 +815,7 @@ void bit_select_test(uint64_t seed, uint64_t max_counter){
         for(uint64_t j = 0; j < rank1; j++){
             select1_results.push_back(compute_select1(bv, j));
             select1_results_msb_test.push_back(stool::MSBByte::select_ith_1(random_value, j));
-            select1_results_lsb_test[rank1 - 1 - j] = 63 - stool::LSBByte::select1(random_value, j);
+            select1_results_lsb_test[rank1 - 1 - j] = 63 - stool::LSBByte::select_ith_1(random_value, j);
         }
         try{
             stool::EqualChecker::equal_check(select1_results, select1_results_msb_test, "select1_resultsA");
@@ -833,15 +833,15 @@ void bit_select_test(uint64_t seed, uint64_t max_counter){
         select0_results_lsb_test.resize(rank0);
         for(uint64_t j = 0; j < rank0; j++){
             select0_results.push_back(compute_select0(bv, j));
-            select0_results_msb_test.push_back(stool::MSBByte::select0(random_value, j));
-            select0_results_lsb_test[rank0 - 1 - j] = 63 - stool::LSBByte::select0(random_value, j);
+            select0_results_msb_test.push_back(stool::MSBByte::select_ith_0(random_value, j));
+            select0_results_lsb_test[rank0 - 1 - j] = 63 - stool::LSBByte::select_ith_0(random_value, j);
         }
         stool::EqualChecker::equal_check(select0_results, select0_results_msb_test, "select0_resultsA");
         stool::EqualChecker::equal_check(select0_results, select0_results_lsb_test, "select0_resultsB");
 
         for(uint64_t j = 0; j < rank1; j++){
             rev_select1_results.push_back(compute_rev_select1(bv, j));
-            int64_t p = stool::LSBByte::select1(random_value, j);
+            int64_t p = stool::LSBByte::select_ith_1(random_value, j);
             if(p != -1){
                 rev_select1_results_test.push_back(63 - p);
             }else{
@@ -852,7 +852,7 @@ void bit_select_test(uint64_t seed, uint64_t max_counter){
         
         for(uint64_t j = 0; j < rank0; j++){
             rev_select0_results.push_back(compute_rev_select0(bv, j));
-            int64_t p = stool::LSBByte::select0(random_value, j);
+            int64_t p = stool::LSBByte::select_ith_0(random_value, j);
             if(p != -1){
                 rev_select0_results_test.push_back(63 - p);
             }else{

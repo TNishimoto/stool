@@ -188,27 +188,6 @@ namespace stool
 			return false;
 		}
 
-		/*
-	private:
-		template <typename CHAR = char>
-		static bool compare_substr(const std::vector<CHAR> &T, const std::vector<CHAR> &pattern, uint64_t suf_pos, bool isBeg, bool isComp)
-		{
-			uint64_t suf_len = T.size() - suf_pos;
-			uint64_t min = pattern.size() < suf_len ? pattern.size() : suf_len;
-			for (size_t i = 0; i < min; i++)
-			{
-				if (pattern[i] != T[suf_pos + i])
-				{
-					return isComp ? pattern[i] < T[suf_pos + i] : pattern[i] > T[suf_pos + i];
-				}
-			}
-			uint64_t sufLastChar = suf_len > min ? 2 : 1;
-			uint64_t patternLastChar = pattern.size() > min ? 2 : isBeg ? 0
-																		: 3;
-
-			return isComp ? patternLastChar < sufLastChar : patternLastChar > sufLastChar;
-		}
-		*/
 	
 	
 
@@ -253,54 +232,6 @@ namespace stool
 			return r;
 		}
 
-		/*
-
-		template <typename CHAR = char>
-		static stool::LCPInterval<INDEX> compute_lcp_intervals(const std::vector<CHAR> &T, const std::vector<CHAR> &pattern, const std::vector<INDEX> &sa)
-		{
-			uint64_t p = T.size();
-			auto beg = std::upper_bound(
-				sa.begin(),
-				sa.end(),
-				p,
-				[&](const INDEX &x, const INDEX &y)
-				{
-					if (x == T.size())
-					{
-						bool b = LCPInterval::compare_substr(T, pattern, y, true, true);
-						return b;
-					}
-					else
-					{
-						bool b = LCPInterval::compare_substr(T, pattern, x, true, false);
-						return b;
-					}
-				});
-
-			auto end = std::upper_bound(
-				sa.begin(),
-				sa.end(),
-				p,
-				[&](const INDEX &x, const INDEX &y)
-				{
-					if (x == T.size())
-					{
-						bool b = LCPInterval::compare_substr(T, pattern, y, false, true);
-						return b;
-					}
-					else
-					{
-						bool b = LCPInterval::compare_substr(T, pattern, y, false, false);
-						return b;
-					}
-				});
-
-			std::size_t begi = std::distance(sa.begin(), beg);
-			std::size_t endi = std::distance(sa.begin(), end) - 1;
-
-			return stool::LCPInterval<INDEX>(begi, endi, pattern.size());
-		}
-		*/
 	};
 
 	

@@ -1390,7 +1390,7 @@ namespace stool
                     }
                     else
                     {
-                        int64_t p = stool::LSBByte::select1(bits, counter1 - 1);
+                        int64_t p = stool::LSBByte::select_ith_1(bits, counter1 - 1);
                         assert(p != -1);
 
                         return (size - 1) - p;
@@ -1408,7 +1408,7 @@ namespace stool
                     else
                     {
                         uint64_t gap = (((last_block_index - 1) - x) * 64) + last_bit_index + 1;
-                        int64_t p = stool::LSBByte::select1(bits, counter1 - 1);
+                        int64_t p = stool::LSBByte::select_ith_1(bits, counter1 - 1);
                         assert(p != -1);
 
                         return (size - 1) - gap - p;
