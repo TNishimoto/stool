@@ -568,7 +568,8 @@ namespace stool
             for(int64_t h = 0; h < (int64_t)HEIGHT; h++){
                 uint64_t internal_node_pos = this->get_internal_node_position_on_layout(i, h);
                 uint64_t fst_pos = this->get_first_level_node_position_on_layout(h);
-                sum += ((internal_node_pos - fst_pos) & 1ULL) ? this->eytzinger_layout_[internal_node_pos-1] : 0;
+                bool b = ((internal_node_pos - fst_pos) & 1ULL);
+                sum += b * this->eytzinger_layout_[internal_node_pos-b];
             }
             return sum + this->eytzinger_layout_[leaf_index_on_layout];
         }
@@ -598,13 +599,10 @@ namespace stool
                 for(int64_t h = 0; h < (int64_t)(HEIGHT - 1); h++){
                     uint64_t left_child_pos = ((pos + 1) * 2) - 1;
                     uint64_t left_value = this->eytzinger_layout_[left_child_pos];
-                    if(left_value >= tmp_value){
-                        pos = left_child_pos;
-                    }else{
-                        pos = left_child_pos+1;
-                        sum += left_value;
-                        tmp_value -= left_value;
-                    }
+                    bool b = left_value < tmp_value;
+                    pos = left_child_pos + b;
+                    sum += b * left_value;
+                    tmp_value -= b * left_value;
                 }
                 return pos - get_first_level_node_position_on_layout(HEIGHT - 1);
             }
