@@ -46,6 +46,7 @@ namespace stool
             {
                 std::cout << std::endl;
             }
+
             return test_container;
         };
         std::function<bool(INTEGER_CONTAINER &, uint64_t, int64_t)> equal_check_function = [&](INTEGER_CONTAINER &obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
@@ -59,7 +60,16 @@ namespace stool
         {
             std::vector<uint64_t> test_values = obj1.to_vector();
             std::vector<uint64_t> correct_values = obj2.to_vector();
-            stool::EqualChecker::equal_check(correct_values, test_values, "EQUAL_CHECK_FUNCTION");
+
+            try{
+                stool::EqualChecker::equal_check(correct_values, test_values, "EQUAL_CHECK_FUNCTION");
+            }
+            catch(const std::logic_error &e){
+                std::cout << "EQUAL_CHECK_FUNCTION error" << std::endl;
+                std::cout << "correct_values = " << stool::DebugPrinter::to_integer_string(correct_values) << std::endl;
+                std::cout << "test_values = " << stool::DebugPrinter::to_integer_string(test_values) << std::endl;
+                throw e;
+            }
             return true;
         };
 
@@ -124,6 +134,8 @@ namespace stool
             uint64_t pos = get_rand_value(mt) % (correct_obj.size());
             uint64_t new_value = get_rand_value(mt) % _max_value;
 
+            assert(pos < correct_obj.size());
+
             correct_obj[pos] = new_value;
             test_obj.set_value(pos, new_value);
         };
@@ -136,6 +148,8 @@ namespace stool
 
             correct_obj.push_back(new_value);
             test_obj.push_back(new_value);
+
+
         };
 
         std::function<void(INTEGER_CONTAINER &, std::vector<uint64_t> &, uint64_t, int64_t)> pop_back_function = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj, [[maybe_unused]] uint64_t i, [[maybe_unused]] int64_t message_paragraph)
@@ -152,7 +166,17 @@ namespace stool
         std::function<bool(INTEGER_CONTAINER &, std::vector<uint64_t> &)> equal_check_function2 = [&](INTEGER_CONTAINER &test_obj, std::vector<uint64_t> &correct_obj)
         {
             std::vector<uint64_t> test_values = test_obj.to_vector();
-            stool::EqualChecker::equal_check(correct_obj, test_values, "INSERT_TEST");
+
+            try{
+                stool::EqualChecker::equal_check(correct_obj, test_values, "EQUAL_CHECK");
+            }
+            catch(const std::logic_error &e){
+                std::cout << "EQUAL_CHECK_FUNCTION error" << std::endl;
+                std::cout << "correct_obj = " << stool::DebugPrinter::to_integer_string(correct_obj) << std::endl;
+                std::cout << "test_values = " << stool::DebugPrinter::to_integer_string(test_values) << std::endl;
+                throw e;
+            }
+
             return true;
         };
 
@@ -169,8 +193,9 @@ namespace stool
                 if (psum1 != psum2)
                 {
                     std::cout << "psum_test error" << std::endl;
+                    std::cout << "pos = " << pos << std::endl;
                     std::cout << "psum1 = " << psum1 << std::endl;
-
+                    std::cout << "psum2 = " << psum2 << std::endl;
                     throw std::runtime_error("psum_test error");
                 }
             }
@@ -217,8 +242,9 @@ namespace stool
                 if (pos1 != pos2)
                 {
                     std::cout << "search_test error" << std::endl;
+                    std::cout << "value = " << value << std::endl;
                     std::cout << "pos1 = " << pos1 << std::endl;
-
+                    std::cout << "pos2 = " << pos2 << std::endl;
                     throw std::runtime_error("search_test error");
                 }
             }
@@ -292,7 +318,7 @@ namespace stool
                     this->_inputs.push_back(len);
                 }
             }
-            stool::BuildTest::build_test(this->_inputs.size(), builder_function, equal_check_function, stool::Message::SHOW_MESSAGE);
+                stool::BuildTest::build_test(this->_inputs.size(), builder_function, equal_check_function, stool::Message::SHOW_MESSAGE);
         }
 
         void reverse_psum_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, uint64_t seed)

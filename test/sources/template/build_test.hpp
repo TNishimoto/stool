@@ -22,7 +22,8 @@ namespace stool
 
             for(uint64_t i = 0; i < number_of_trials; i++){
                 OBJECT obj = builder_function(i, message_paragraph+1);
-                equal_check_function(obj, i, message_paragraph+1);
+
+                    equal_check_function(obj, i, message_paragraph+1);
             }
             std::cout << "[DONE]" << std::endl;
         }

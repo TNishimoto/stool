@@ -77,6 +77,8 @@ add_executable(naive_bit_vector_test.out sources/main/naive_bit_vector_test_main
 add_executable(naive_flc_vector_test.out sources/main/naive_flc_vector_test_main.cpp)
 add_executable(naive_array_test.out sources/main/naive_array_test_main.cpp)
 add_executable(naive_array_for_faster_psum_test.out sources/main/naive_array_for_faster_psum_test_main.cpp)
+add_executable(eytzinger_layout_for_psum_test.out sources/main/eytzinger_layout_for_psum_test_main.cpp)
+
 
 #add_executable(naive_vlc_array_test.out sources/naive_vlc_array_test_main.cpp)
 
