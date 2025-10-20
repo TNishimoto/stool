@@ -71,6 +71,14 @@ namespace stool
         void clear()
         {
             this->deque_size_ = 0;
+            uint64_t first_leaf_position = get_first_level_node_position_on_layout(HEIGHT - 1);
+            for(uint64_t i = 0; i < first_leaf_position;i++){
+                this->eytzinger_layout_[i] = 0;
+            }
+            for(uint64_t i = first_leaf_position; i < (SIZE * 2) - 1;i++){
+                this->eytzinger_layout_[i] = DUMMY_VALUE;
+            }
+
             assert(this->verify());
         }
         void initialize(const std::vector<uint64_t> &items)
@@ -607,6 +615,21 @@ namespace stool
         }
         bool verify() const
         {
+            for(int64_t h = 0; h < (int64_t)HEIGHT - 1; h++){
+                uint64_t first_node_position = get_first_level_node_position_on_layout(h);
+                uint64_t node_count = count_level_nodes(h);
+                for(uint64_t i = 0; i < node_count;i++){
+                    uint64_t node_position = first_node_position + i;
+                    uint64_t left_child_position = ((node_position + 1) * 2) - 1;
+                    uint64_t right_child_position = ((node_position + 1) * 2);
+                    uint64_t sum = (this->eytzinger_layout_[left_child_position] == DUMMY_VALUE ? 0 : this->eytzinger_layout_[left_child_position]) + (this->eytzinger_layout_[right_child_position] == DUMMY_VALUE ? 0 : this->eytzinger_layout_[right_child_position]); 
+                    if(this->eytzinger_layout_[node_position] != sum){
+                        this->print_info();
+                        std::cout << "L[" << node_position << "] = " << this->eytzinger_layout_[node_position] << " != " << sum << std::endl;
+                        throw std::runtime_error("verify error");
+                    }
+                }
+            }
             return true;
         }
 
