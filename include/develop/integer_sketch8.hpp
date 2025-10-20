@@ -1,8 +1,8 @@
 #pragma once
-#include "./lsb_byte.hpp"
-#include "./msb_byte.hpp"
-#include "./pext64.hpp"
-#include "./packed_search.hpp"
+#include "../basic/lsb_byte.hpp"
+#include "../basic/msb_byte.hpp"
+#include "../basic/pext64.hpp"
+#include "../basic/packed_search.hpp"
 #include "../debug/debug_printer.hpp"
 #include <cassert>
 #include <cstring>

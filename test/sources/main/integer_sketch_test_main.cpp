@@ -5,6 +5,7 @@
 #include <list>
 #include <iterator>
 #include "../../../include/light_stool.hpp"
+#include "../../../include/develop/integer_sketch8.hpp"
 
 /*
 int64_t naive_predecessor(const std::vector<uint64_t> &sequence, uint64_t v)

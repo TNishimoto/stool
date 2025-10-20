@@ -5,6 +5,7 @@
 #include <list>
 #include <iterator>
 #include "../../include/light_stool.hpp"
+#include "../../include/develop/integer_sketch8.hpp"
 
 template <std::size_t L, std::size_t R>
 struct lower_bound_unrolled_range
