@@ -11,7 +11,7 @@ namespace stool
 {
 
     template <uint64_t SIZE = 1024>
-    class NaiveArrayForFasterPsum
+    class NaiveIntegerArrayForFasterPsum
     {
     public:
     protected:
@@ -52,10 +52,10 @@ namespace stool
     public:
         uint64_t size_in_bytes() const
         {
-            return sizeof(NaiveArrayForFasterPsum);
+            return sizeof(NaiveIntegerArrayForFasterPsum);
         }
 
-        NaiveArrayForFasterPsum(const std::vector<uint64_t> &items)
+        NaiveIntegerArrayForFasterPsum(const std::vector<uint64_t> &items)
         {
             this->initialize(items);
         }
@@ -98,7 +98,7 @@ namespace stool
          *
          * Initializes an empty deque with default capacity
          */
-        NaiveArrayForFasterPsum()
+        NaiveIntegerArrayForFasterPsum()
         {
             this->clear();
         }
@@ -108,7 +108,7 @@ namespace stool
          *
          * Frees the allocated memory
          */
-        ~NaiveArrayForFasterPsum()
+        ~NaiveIntegerArrayForFasterPsum()
         {
             this->clear();
         }
@@ -128,9 +128,9 @@ namespace stool
             return SIZE;
         }
 
-        static NaiveArrayForFasterPsum build(const std::vector<uint64_t> &items)
+        static NaiveIntegerArrayForFasterPsum build(const std::vector<uint64_t> &items)
         {
-            NaiveArrayForFasterPsum deque(items);
+            NaiveIntegerArrayForFasterPsum deque(items);
             return deque;
         }
 
@@ -301,7 +301,7 @@ namespace stool
          *
          * @param item The other deque to swap with
          */
-        void swap(NaiveArrayForFasterPsum &item)
+        void swap(NaiveIntegerArrayForFasterPsum &item)
         {
             std::swap(this->circular_buffer_, item.circular_buffer_);
             // std::swap(this->circular_sum_buffer_, item.circular_sum_buffer_);
@@ -469,7 +469,7 @@ namespace stool
         }
         uint64_t reverse_psum([[maybe_unused]] uint64_t i) const
         {
-            throw std::runtime_error("reverse_psum is not supported for NaiveArrayForFasterPsum");
+            throw std::runtime_error("reverse_psum is not supported for NaiveIntegerArrayForFasterPsum");
         }
 
         uint64_t size_in_bytes(bool only_extra_bytes = false) const
@@ -480,7 +480,7 @@ namespace stool
             }
             else
             {
-                return sizeof(NaiveArrayForFasterPsum<SIZE>);
+                return sizeof(NaiveIntegerArrayForFasterPsum<SIZE>);
             }
         }
 

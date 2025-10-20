@@ -20,7 +20,7 @@ namespace stool
      * @tparam INDEX_TYPE The type used for indexing (uint16_t, uint32_t, uint64_t)
      */
     template <uint64_t SIZE = 1024>
-    class NaiveArray
+    class NaiveIntegerArray
     {
     public:
     protected:
@@ -39,10 +39,10 @@ namespace stool
          */
         uint64_t size_in_bytes() const
         {
-            return sizeof(NaiveArray);
+            return sizeof(NaiveIntegerArray);
         }
 
-        NaiveArray(const std::vector<uint64_t> &items)
+        NaiveIntegerArray(const std::vector<uint64_t> &items)
         {
             if constexpr (!is_power_of_two)
             {
@@ -82,7 +82,7 @@ namespace stool
          *
          * Initializes an empty deque with default capacity
          */
-        NaiveArray()
+        NaiveIntegerArray()
         {
             this->clear();
         }
@@ -92,7 +92,7 @@ namespace stool
          *
          * Frees the allocated memory
          */
-        ~NaiveArray()
+        ~NaiveIntegerArray()
         {
             this->clear();
         }
@@ -113,8 +113,8 @@ namespace stool
             return SIZE;
         }
 
-        static NaiveArray build(const std::vector<uint64_t> &items){
-            NaiveArray deque(items);
+        static NaiveIntegerArray build(const std::vector<uint64_t> &items){
+            NaiveIntegerArray deque(items);
             return deque;
         }
 
@@ -352,7 +352,7 @@ namespace stool
          *
          * @param item The other deque to swap with
          */
-        void swap(NaiveArray &item)
+        void swap(NaiveIntegerArray &item)
         {
             std::swap(this->circular_buffer_, item.circular_buffer_);
             //std::swap(this->circular_sum_buffer_, item.circular_sum_buffer_);
@@ -489,7 +489,7 @@ namespace stool
         }
         uint64_t reverse_psum([[maybe_unused]] uint64_t i) const
         {
-            throw std::runtime_error("reverse_psum is not supported for NaiveArray");
+            throw std::runtime_error("reverse_psum is not supported for NaiveIntegerArray");
         }
 
 
@@ -498,7 +498,7 @@ namespace stool
             if(only_extra_bytes){
                 return 0;
             }else{
-                return sizeof(NaiveArray<SIZE>);
+                return sizeof(NaiveIntegerArray<SIZE>);
             }
         }
 
