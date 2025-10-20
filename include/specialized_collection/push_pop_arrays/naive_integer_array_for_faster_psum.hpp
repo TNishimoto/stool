@@ -196,6 +196,8 @@ namespace stool
                 tmp_value += values[i];
                 this->circular_buffer_[i] = tmp_value;
             }
+
+
         }
 
 
@@ -249,6 +251,7 @@ namespace stool
                 for (uint64_t i = len; i < this->deque_size_; i++)
                 {
                     this->circular_buffer_[i - len] = this->circular_buffer_[i] - sum;
+                    this->circular_buffer_[i] = UINT64_MAX;
                 }
                 this->deque_size_ -= len;
             }
