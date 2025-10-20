@@ -11,7 +11,7 @@ namespace stool
 {
 
     /**
-     * @brief A specialized deque implementation for storing integers with variable byte sizes [Unchecked AI's Comment] 
+     * @brief A specialized deque implementation for storing integers with variable byte sizes [Unchecked AI's Comment]
      *
      * This class provides a memory-efficient deque implementation that can store integers
      * using different byte sizes (1, 2, 4, or 8 bytes) based on the actual values stored.
@@ -25,11 +25,11 @@ namespace stool
     public:
     protected:
         std::array<uint64_t, SIZE> circular_buffer_;
-        //std::array<uint64_t, SIZE> circular_sum_buffer_;
+        // std::array<uint64_t, SIZE> circular_sum_buffer_;
         uint64_t deque_size_ = 0;
         uint64_t psum_ = 0;
 
-        static constexpr bool is_power_of_two = (SIZE != 0) && ((SIZE & (SIZE - 1)) == 0);
+        // static constexpr bool is_power_of_two = (SIZE != 0) && ((SIZE & (SIZE - 1)) == 0);
 
     public:
         /**
@@ -44,10 +44,6 @@ namespace stool
 
         NaiveIntegerArray(const std::vector<uint64_t> &items)
         {
-            if constexpr (!is_power_of_two)
-            {
-                throw std::invalid_argument("SIZE must be a power of two");
-            }
             this->clear();
 
             for (uint64_t i = 0; i < items.size(); i++)
@@ -74,7 +70,6 @@ namespace stool
             this->deque_size_ = 0;
             this->psum_ = 0;
             assert(this->verify());
-
         }
 
         /**
@@ -97,7 +92,6 @@ namespace stool
             this->clear();
         }
 
-
         /**
          * @brief Check if the deque is empty
          *
@@ -113,7 +107,8 @@ namespace stool
             return SIZE;
         }
 
-        static NaiveIntegerArray build(const std::vector<uint64_t> &items){
+        static NaiveIntegerArray build(const std::vector<uint64_t> &items)
+        {
             NaiveIntegerArray deque(items);
             return deque;
         }
@@ -125,10 +120,6 @@ namespace stool
          */
         void push_back(uint64_t value)
         {
-            if constexpr (!is_power_of_two)
-            {
-                throw std::invalid_argument("SIZE must be a power of two");
-            }
 
             if (this->deque_size_ >= SIZE)
             {
@@ -138,9 +129,18 @@ namespace stool
             this->circular_buffer_[this->deque_size_] = value;
             this->deque_size_++;
             this->psum_ += value;
-            //this->update_sum_buffer();
+            // this->update_sum_buffer();
             assert(this->verify());
+        }
 
+        template <typename ARRAY_TYPE = std::vector<uint64_t>>
+        void push_back_many(ARRAY_TYPE values)
+        {
+            uint64_t size = values.size();
+            for (uint64_t i = 0; i < size; i++)
+            {
+                this->push_back(values[i]);
+            }
         }
 
         /**
@@ -150,10 +150,6 @@ namespace stool
          */
         void push_front(uint64_t value)
         {
-            if constexpr (!is_power_of_two)
-            {
-                throw std::invalid_argument("SIZE must be a power of two");
-            }
 
             if (this->deque_size_ >= SIZE)
             {
@@ -167,8 +163,27 @@ namespace stool
             this->psum_ += value;
             this->deque_size_++;
             assert(this->verify());
-
         }
+
+        template <typename ARRAY_TYPE = std::vector<uint64_t>>
+        void push_front_many(ARRAY_TYPE values)
+        {
+            int64_t size = values.size();
+            for (int64_t i = size - 1; i >= 0; i--)
+            {
+                this->push_front(values[i]);
+            }
+        }
+
+        /*
+        template <typename ARRAY_TYPE = std::vector<uint64_t>>
+        void access_many(uint64_t i, uint64_t len, ARRAY_TYPE &output_values)
+        {
+            for(uint64_t j = 0; j < len; j++){
+                output_values[j] = this->circular_buffer_[i + j];
+            }
+        }
+        */
 
         /**
          * @brief Remove the last element from the deque
@@ -179,11 +194,18 @@ namespace stool
             {
                 throw std::out_of_range("pop_back, Size out of range");
             }
-            uint64_t value = this->circular_buffer_[this->deque_size_-1];
+            uint64_t value = this->circular_buffer_[this->deque_size_ - 1];
             this->deque_size_--;
             this->psum_ -= value;
             assert(this->verify());
+        }
 
+        void pop_back_many(uint64_t len)
+        {
+            for (uint64_t i = 0; i < len; i++)
+            {
+                this->pop_back();
+            }
         }
 
         /**
@@ -196,20 +218,31 @@ namespace stool
                 throw std::out_of_range("pop_front, Size out of range");
             }
 
-            if(this->deque_size_ > 1){
+            if (this->deque_size_ > 1)
+            {
                 uint64_t value = this->circular_buffer_[0];
                 this->psum_ -= value;
-    
+
                 uint64_t src = 1;
                 uint64_t dst = 0;
-                std::memmove(&this->circular_buffer_[dst], &this->circular_buffer_[src], (this->deque_size_ - 1) * sizeof(uint64_t));    
+                std::memmove(&this->circular_buffer_[dst], &this->circular_buffer_[src], (this->deque_size_ - 1) * sizeof(uint64_t));
                 this->deque_size_--;
-            }else{
+            }
+            else
+            {
                 this->clear();
             }
             assert(this->verify());
-
         }
+
+        void pop_front_many(uint64_t len)
+        {
+            for (uint64_t i = 0; i < len; i++)
+            {
+                this->pop_front();
+            }
+        }
+
         uint64_t size() const
         {
             return this->deque_size_;
@@ -225,7 +258,7 @@ namespace stool
         {
             uint64_t size = this->size();
 
-            if (size  >= SIZE)
+            if (size >= SIZE)
             {
                 throw std::out_of_range("insert, Size out of range");
             }
@@ -247,7 +280,7 @@ namespace stool
             }
             else
             {
-                
+
                 uint64_t dst_pos = position + 1;
                 uint64_t src_pos = position;
                 uint64_t move_size = this->deque_size_ - position;
@@ -258,16 +291,13 @@ namespace stool
                 this->psum_ += value;
                 this->deque_size_++;
                 assert(this->at(position) == value);
-
             }
             assert(this->verify());
-
         }
         void remove(uint64_t position)
         {
             this->erase(position);
         }
-
 
         /**
          * @brief Erase an element at a specific position
@@ -287,7 +317,6 @@ namespace stool
             else
             {
 
-
                 uint64_t dst_pos = position;
                 uint64_t src_pos = position + 1;
                 uint64_t value = this->circular_buffer_[dst_pos];
@@ -299,9 +328,7 @@ namespace stool
                 this->deque_size_--;
             }
             assert(this->verify());
-
         }
-
 
         uint64_t value_capacity() const
         {
@@ -316,7 +343,8 @@ namespace stool
             std::cout << "psum = " << this->psum_ << std::endl;
             std::cout << "deque_size = " << this->deque_size_ << std::endl;
             std::cout << "circular_buffer = ";
-            for(uint64_t i = 0; i < this->deque_size_; i++){
+            for (uint64_t i = 0; i < this->deque_size_; i++)
+            {
                 std::cout << this->circular_buffer_[i] << " ";
             }
             std::cout << std::endl;
@@ -324,9 +352,11 @@ namespace stool
         std::string to_string() const
         {
             std::string r = "[";
-            for(uint64_t i = 0; i < this->deque_size_; i++){
+            for (uint64_t i = 0; i < this->deque_size_; i++)
+            {
                 r += std::to_string(this->circular_buffer_[i]);
-                if(i < this->deque_size_ - 1){
+                if (i < this->deque_size_ - 1)
+                {
                     r += ", ";
                 }
             }
@@ -355,11 +385,10 @@ namespace stool
         void swap(NaiveIntegerArray &item)
         {
             std::swap(this->circular_buffer_, item.circular_buffer_);
-            //std::swap(this->circular_sum_buffer_, item.circular_sum_buffer_);
+            // std::swap(this->circular_sum_buffer_, item.circular_sum_buffer_);
             std::swap(this->psum_, item.psum_);
             std::swap(this->deque_size_, item.deque_size_);
             assert(this->verify());
-
         }
 
         /**
@@ -386,7 +415,6 @@ namespace stool
             this->psum_ += value;
             this->circular_buffer_[index] = value;
             assert(this->verify());
-
         }
 
         /**
@@ -404,11 +432,15 @@ namespace stool
         {
             uint64_t sum = 0;
             uint64_t size = this->size();
-            if(i < size){
-                for(uint64_t x = 0; x <= i; x++){
+            if (i < size)
+            {
+                for (uint64_t x = 0; x <= i; x++)
+                {
                     sum += this->circular_buffer_[x];
-                }    
-            }else{
+                }
+            }
+            else
+            {
                 throw std::out_of_range("psum, Index out of range");
             }
             return sum;
@@ -426,15 +458,16 @@ namespace stool
             uint64_t size = this->size();
             uint64_t i = 0;
 
-            if(value > this->psum_ || size == 0)
+            if (value > this->psum_ || size == 0)
             {
                 return -1;
             }
-            else{
-            
+            else
+            {
+
                 sum = 0;
                 uint64_t v = this->circular_buffer_[i];
-                        
+
                 while (sum + v < value)
                 {
                     i++;
@@ -442,23 +475,23 @@ namespace stool
                     v = this->circular_buffer_[i];
                     assert(i < size);
                 }
-                    
-                return i;    
-            }    
-            
 
-
+                return i;
+            }
         }
         uint64_t psum() const
         {
             return this->psum_;
         }
-        bool verify() const{
+        bool verify() const
+        {
             uint64_t sum = 0;
-            for(uint64_t i = 0; i < this->size(); i++){
+            for (uint64_t i = 0; i < this->size(); i++)
+            {
                 sum += this->circular_buffer_[i];
             }
-            if(sum != this->psum_){
+            if (sum != this->psum_)
+            {
                 std::cout << "sum: " << sum << " != psum: " << this->psum_ << std::endl;
                 throw std::invalid_argument("verify, psum error");
             }
@@ -481,23 +514,25 @@ namespace stool
         std::vector<uint64_t> to_vector() const
         {
             std::vector<uint64_t> r;
-            for(uint64_t i = 0; i < this->size(); i++){
+            for (uint64_t i = 0; i < this->size(); i++)
+            {
                 r.push_back(this->circular_buffer_[i]);
             }
             return r;
-
         }
         uint64_t reverse_psum([[maybe_unused]] uint64_t i) const
         {
             throw std::runtime_error("reverse_psum is not supported for NaiveIntegerArray");
         }
 
-
         uint64_t size_in_bytes(bool only_extra_bytes = false) const
         {
-            if(only_extra_bytes){
+            if (only_extra_bytes)
+            {
                 return 0;
-            }else{
+            }
+            else
+            {
                 return sizeof(NaiveIntegerArray<SIZE>);
             }
         }
