@@ -158,7 +158,7 @@ void packed_psum2_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
             uint64_t q = std::accumulate(values.begin(), values.begin() + (j+1), 0LL);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << j << "/" << p << "/" << q << std::endl;
                 throw std::runtime_error("psum2 error");
@@ -170,7 +170,7 @@ void packed_psum2_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
             uint64_t q = std::accumulate(values.begin() + x, values.begin() + (j+1), 0LL);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << j << "/" << p << "/" << q << std::endl;
                 throw std::runtime_error("psum2 error");
@@ -206,7 +206,7 @@ void packed_psum4_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
             uint64_t q = std::accumulate(values.begin(), values.begin() + (j+1), 0LL);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << j << "/" << p << "/" << q << std::endl;
                 throw std::runtime_error("psum4 error");
@@ -218,7 +218,7 @@ void packed_psum4_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
             uint64_t q = std::accumulate(values.begin() + x, values.begin() + (j+1), 0LL);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << j << "/" << p << "/" << q << std::endl;
                 throw std::runtime_error("psum4 error");
@@ -253,7 +253,7 @@ void packed_psum8_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
             uint64_t q = std::accumulate(values.begin(), values.begin() + (j+1), 0LL);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << j << "/" << p << "/" << q << std::endl;
                 throw std::runtime_error("psum8 error");
@@ -265,7 +265,7 @@ void packed_psum8_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
             uint64_t q = std::accumulate(values.begin() + x, values.begin() + (j+1), 0LL);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << j << "/" << p << "/" << q << std::endl;
                 throw std::runtime_error("psum8 error");
@@ -299,7 +299,7 @@ void packed_psum16_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
             uint64_t q = std::accumulate(values.begin(), values.begin() + (j+1), 0LL);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << j << "/" << p << "/" << q << std::endl;
                 throw std::runtime_error("psum16 error");
@@ -311,7 +311,7 @@ void packed_psum16_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
             uint64_t q = std::accumulate(values.begin() + x, values.begin() + (j+1), 0LL);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << j << "/" << p << "/" << q << std::endl;
                 throw std::runtime_error("psum16 error");
@@ -346,7 +346,7 @@ void packed_psum32_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
             uint64_t q = std::accumulate(values.begin(), values.begin() + (j+1), 0LL);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << j << "/" << p << "/" << q << std::endl;
                 throw std::runtime_error("psum32 error");
@@ -358,7 +358,7 @@ void packed_psum32_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
             uint64_t q = std::accumulate(values.begin() + x, values.begin() + (j+1), 0LL);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << j << "/" << p << "/" << q << std::endl;
                 throw std::runtime_error("psum32 error");
@@ -385,7 +385,7 @@ void packed_psum64_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
             uint64_t q = std::accumulate(packed_bits.begin(), packed_bits.begin() + (j+1), 0LL);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(packed_bits, "packed_bits");
                 std::cout << j << "/" << p << "/" << q << std::endl;
                 throw std::runtime_error("psum64 error");
@@ -398,7 +398,7 @@ void packed_psum64_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed){
             uint64_t q = std::accumulate(packed_bits.begin() + x, packed_bits.begin() + (j+1), 0LL);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(packed_bits, "packed_bits");
                 std::cout << x << "/"<< j << "/" << p << "/" << q << std::endl;
                 throw std::runtime_error("psum64 error(2)");
@@ -420,7 +420,7 @@ void pext64_test(uint64_t seq_size, uint64_t max_value, uint64_t seed){
         if(i % 100 == 0){
             std::cout << "+" << std::flush;
         }
-        std::cout << "x: " << stool::Byte::to_bit_string(x) << " y: " << stool::Byte::to_bit_string(y) << " p: " << stool::Byte::to_bit_string(p)  << std::endl;
+        std::cout << "x: " << stool::Byte::to_bit_string(x, true) << " y: " << stool::Byte::to_bit_string(y, true) << " p: " << stool::Byte::to_bit_string(p, true)  << std::endl;
 
         if(p != q){
             std::cout << "pext64_test error/" << p << "/" << q << std::endl;
@@ -458,7 +458,7 @@ void packed_search1_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed)
             int64_t q = compute_search(values, random_value);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << random_value << "/p: " << p << "/q: " << q << "/max: " << max << "/" << seq_size << std::endl;
                 throw std::runtime_error("search1 error");
@@ -501,7 +501,7 @@ void packed_search2_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed)
             int64_t q = compute_search(values, random_value);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << random_value << "/p: " << p << "/q: " << q << "/max: " << max << "/" << seq_size << std::endl;
                 throw std::runtime_error("search2 error");
@@ -544,7 +544,7 @@ void packed_search4_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed)
             int64_t q = compute_search(values, random_value);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << random_value << "/p: " << p << "/q: " << q << "/max: " << max << "/" << seq_size << std::endl;
                 throw std::runtime_error("search4 error");
@@ -587,7 +587,7 @@ void packed_search8_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed)
             int64_t q = compute_search(values, random_value);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << random_value << "/p: " << p << "/q: " << q << "/max: " << max << "/" << seq_size << std::endl;
                 throw std::runtime_error("search8 error");
@@ -630,7 +630,7 @@ void packed_search16_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed
             int64_t q = compute_search(values, random_value);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << random_value << "/p: " << p << "/q: " << q << "/max: " << max << "/" << seq_size << std::endl;
                 throw std::runtime_error("search16 error");
@@ -673,7 +673,7 @@ void packed_search32_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed
             int64_t q = compute_search(values, random_value);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(values, "values");
                 std::cout << random_value << "/p: " << p << "/q: " << q << "/max: " << max << "/" << seq_size << std::endl;
                 throw std::runtime_error("search32 error");
@@ -705,7 +705,7 @@ void packed_search64_test(uint64_t seq_size, uint64_t max_counter, uint64_t seed
             int64_t q = compute_search(packed_bits, random_value);
             if(p != q){                
                 std::cout << std::endl;
-                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0]) << std::endl;
+                std::cout << "packed_bits: " << stool::Byte::to_bit_string(packed_bits[0], true) << std::endl;
                 stool::DebugPrinter::print_integers(packed_bits, "packed_bits");
                 std::cout << random_value << "/p: " << p << "/q: " << q << "/max: " << max << "/" << seq_size << std::endl;
                 throw std::runtime_error("search64 error");
@@ -822,7 +822,7 @@ void bit_select_test(uint64_t seed, uint64_t max_counter){
         }
         catch(const std::exception& e){
             std::cout << "select1_resultsA: " << e.what() << std::endl;
-            std::cout << "select1_results: " << stool::Byte::to_bit_string(random_value) << std::endl;
+            std::cout << "select1_results: " << stool::Byte::to_bit_string(random_value, true) << std::endl;
             std::cout << "select1_results: " << stool::DebugPrinter::to_integer_string(select1_results) << std::endl;
             std::cout << "select1_results_msb_test: " << stool::DebugPrinter::to_integer_string(select1_results_msb_test) << std::endl;
 

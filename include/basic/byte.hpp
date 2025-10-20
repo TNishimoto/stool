@@ -70,7 +70,7 @@ namespace stool
 		/*!
 		 * @brief Converts a 64-bit integer x to a binary string
 		 */
-		static std::string to_bit_string(uint64_t x, bool reverse = true)
+		static std::string to_bit_string(uint64_t x, bool reverse)
 		{
 
 			std::bitset<64> bits(x);

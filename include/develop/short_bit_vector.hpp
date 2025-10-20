@@ -96,7 +96,7 @@ namespace stool
 
         std::string to_string() const
         {
-            std::string s = stool::Byte::to_bit_string(bits_with_gap);
+            std::string s = stool::Byte::to_bit_string(bits_with_gap, treu);
             uint64_t size = this->size();
             while (s.size() > size)
             {

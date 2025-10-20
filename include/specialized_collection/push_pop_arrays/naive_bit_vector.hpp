@@ -1003,7 +1003,7 @@ namespace stool
                 bits[i] = this->buffer_[i];
             }
 
-            return stool::Byte::to_bit_string(bits);
+            return stool::Byte::to_bit_string(bits, true);
         }
 
         /**

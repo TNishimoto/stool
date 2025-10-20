@@ -45,7 +45,6 @@ namespace stool
      * @note This implementation includes optimized lookup tables and bit manipulation techniques
      *       for improved performance on MSB-oriented byte operations
      */
-
     class MSBByte
     {
 
@@ -459,7 +458,7 @@ namespace stool
          */
         static std::string to_bit_string(uint64_t B, uint64_t k)
         {
-            std::string s = Byte::to_bit_string(B);
+            std::string s = Byte::to_bit_string(B, true);
             while (s.size() > k)
             {
                 s.pop_back();

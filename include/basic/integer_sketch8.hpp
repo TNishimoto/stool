@@ -72,12 +72,6 @@ namespace stool
 
                 uint8_t q_idx = geq_successor_on_sketch_values(e_sketch_value);
                 uint64_t q = q_idx < this->count ? sorted_values[q_idx] : UINT64_MAX;
-                /*
-                std::cout << "lcp_among_values: " << (int)lcp_among_values << std::endl;
-                std::cout << "CCCCCCCC " << stool::Byte::to_bit_string(v) << " " << v << std::endl;
-                std::cout << "EEEEEEEE " << stool::Byte::to_bit_string(e) << " " << e << " S: " << (int)e_sketch_value << std::endl;
-                std::cout << "q_index: " << (int)q_pair.first << std::endl;
-                */
 
                 if (v <= q)
                 {
@@ -95,14 +89,14 @@ namespace stool
 
         void print(const std::vector<uint64_t> &sorted_values) const
         {
-            std::cout << "POS    : " << stool::Byte::to_bit_string(this->sketch_pos) << std::endl;
+            std::cout << "POS    : " << stool::Byte::to_bit_string(this->sketch_pos, true) << std::endl;
             uint64_t sum = 0;
             for (uint64_t i = 0; i < this->count; i++)
             {
                 uint8_t i_sketch_diff = this->sketch_diff >> ((7 - i) * 8);
                 sum += i_sketch_diff;
                 std::cout << stool::LSBByte::to_bit_string(sum, 8) << " ";
-                std::cout << stool::Byte::to_bit_string(sorted_values[i]) << " ";
+                std::cout << stool::Byte::to_bit_string(sorted_values[i], true) << " ";
                 std::cout << sorted_values[i] << " ";
                 std::cout << "S: " << sum << std::endl;
             }

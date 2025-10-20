@@ -4,7 +4,7 @@
 #include <bitset>
 #include "../basic/byte.hpp"
 #include "../basic/lsb_byte.hpp"
-
+#include "../basic/msb_byte.hpp"
 #include "../debug/debug_printer.hpp"
 #include "./simple_deque.hpp"
 
@@ -654,7 +654,7 @@ namespace stool
                 uint64_t end_pos = pos + len - 1;
                 if (end_pos <= 63)
                 {
-                    uint64_t code1_with_padding_zero = stool::LSBByte::zero_pad(code1, pos, len);
+                    uint64_t code1_with_padding_zero = stool::MSBByte::fill(code1, pos, len, false);
                     uint64_t new_code1 = code1_with_padding_zero | (value << (63 - end_pos));
                     return std::pair<uint64_t, uint64_t>(new_code1, code2);
                 }
@@ -662,8 +662,8 @@ namespace stool
                 {
                     uint64_t left_len = 64 - pos;
                     uint64_t right_len = end_pos - 63;
-                    uint64_t code1_with_padding_zero = stool::LSBByte::zero_pad(code1, pos, left_len);
-                    uint64_t code2_with_padding_zero = stool::LSBByte::zero_pad(code2, 0, right_len);
+                    uint64_t code1_with_padding_zero = stool::MSBByte::fill(code1, pos, left_len, false);
+                    uint64_t code2_with_padding_zero = stool::MSBByte::fill(code2, 0, right_len, false);
 
                     uint64_t value1 = value >> right_len;
                     uint64_t value2 = value << (64 - right_len);
@@ -676,7 +676,7 @@ namespace stool
                 }
                 else if (pos > 63 && end_pos <= 127)
                 {
-                    uint64_t code2_with_padding_zero = stool::LSBByte::zero_pad(code2, end_pos - 64, len);
+                    uint64_t code2_with_padding_zero = stool::MSBByte::fill(code2, end_pos - 64, len, false);
                     uint64_t new_code2 = code2_with_padding_zero | (value << (127 - end_pos));
                     return std::pair<uint64_t, uint64_t>(code1, new_code2);
                 }
@@ -687,7 +687,7 @@ namespace stool
             }
             else
             {
-                uint64_t code1_with_padding_zero = stool::LSBByte::zero_pad(code1, pos, 1);
+                uint64_t code1_with_padding_zero = stool::MSBByte::fill(code1, pos, 1, false);
                 return std::pair<uint64_t, uint64_t>(code1_with_padding_zero, code2);
             }
         }

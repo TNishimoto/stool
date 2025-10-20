@@ -512,7 +512,7 @@ void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
 
 
                 //std::string bv_str = to_string(bv);
-                std::string new_value_str = stool::Byte::to_bit_string(new_value);
+                std::string new_value_str = stool::Byte::to_bit_string(new_value, true);
 
 
                 /*
@@ -544,7 +544,7 @@ void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
                         std::cout << "pos = " << pos << std::endl;
                         std::cout << "plen = " << plen << std::endl;
                         std::cout << "bv size = " << bv.size() << std::endl;
-                        std::cout << "pattern = " << stool::Byte::to_bit_string(new_value).substr(0, plen) << std::endl;
+                        std::cout << "pattern = " << stool::Byte::to_bit_string(new_value, true).substr(0, plen) << std::endl;
                         throw e;
                     }
 
