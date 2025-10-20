@@ -159,6 +159,16 @@ namespace stool
 
             assert(this->verify());
         }
+        template <typename ARRAY_TYPE = std::vector<uint64_t>>
+        void push_back_many(ARRAY_TYPE values)
+        {
+            uint64_t size = values.size();
+            for (uint64_t i = 0; i < size; i++)
+            {
+                this->push_back(values[i]);
+            }
+        }
+
 
         /**
          * @brief Add an element to the front of the deque
@@ -169,6 +179,26 @@ namespace stool
         {
             this->insert(0, value);
         }
+        template <typename ARRAY_TYPE = std::vector<uint64_t>>
+        void push_front_many(ARRAY_TYPE values)
+        {
+            uint64_t sum = std::accumulate(values.begin(), values.end(), 0);
+            int64_t size = values.size();
+            for (int64_t i = this->deque_size_ + size - 1; i >= size; i--)
+            {
+                this->circular_buffer_[i] = this->circular_buffer_[i - size] + sum;
+            }
+            this->deque_size_ += size;
+
+            uint64_t tmp_value = 0;
+            for (int64_t i = 0; i < size; i++)
+            {
+                tmp_value += values[i];
+                this->circular_buffer_[i] = tmp_value;
+            }
+        }
+
+
 
         /**
          * @brief Remove the last element from the deque
@@ -183,6 +213,14 @@ namespace stool
             this->deque_size_--;
             assert(this->verify());
         }
+        void pop_back_many(uint64_t len)
+        {
+            for (uint64_t i = 0; i < len; i++)
+            {
+                this->pop_back();
+            }
+        }
+
 
         /**
          * @brief Remove the first element from the deque
@@ -203,6 +241,20 @@ namespace stool
             this->deque_size_--;
             assert(this->verify());
         }
+
+        void pop_front_many(uint64_t len)
+        {
+            if(len > 0){
+                uint64_t sum = this->circular_buffer_[len - 1];
+                for (uint64_t i = len; i < this->deque_size_; i++)
+                {
+                    this->circular_buffer_[i - len] = this->circular_buffer_[i] - sum;
+                }
+                this->deque_size_ -= len;
+            }
+        }
+
+
         uint64_t size() const
         {
             return this->deque_size_;

@@ -43,8 +43,8 @@
 #include "./specialized_collection/vlc_deque.hpp"
 #include "./specialized_collection/naive_dynamic_string.hpp"
 
-#include "./specialized_collection/push_pop_arrays/naive_array.hpp"
-#include "./specialized_collection/push_pop_arrays/naive_array_for_faster_psum.hpp"
+#include "./specialized_collection/push_pop_arrays/naive_integer_array.hpp"
+#include "./specialized_collection/push_pop_arrays/naive_integer_array_for_faster_psum.hpp"
 #include "./specialized_collection/push_pop_arrays/naive_bit_vector.hpp"
 #include "./specialized_collection/push_pop_arrays/naive_flc_vector.hpp"
 
