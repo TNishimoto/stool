@@ -14,7 +14,7 @@ namespace stool
     {
     public:
         /**
-         * @brief Converts a given 64-bit integer $v$ into 8 bytes and appends them to byte vector $data$.
+         * @brief Converts a given 64-bit integer \p v into 8 bytes and appends them to byte vector \p data.
          * 
          * @return 8.
          */
@@ -62,7 +62,7 @@ namespace stool
          *           is modified to point to the next byte after the loaded value.
          * @return The 64-bit integer $v$.
          */
-        static uint64_t load64(std::vector<uint8_t> &data, uint64_t &pos)
+        static uint64_t load64(const std::vector<uint8_t> &data, uint64_t &pos)
         {
             uint64_t value = 0;
             for (size_t i = 0; i < 8; ++i)
@@ -78,7 +78,7 @@ namespace stool
          *           is modified to point to the next byte after the loaded value.
          * @return The 32-bit integer $v$.
          */
-        static uint64_t load32(std::vector<uint8_t> &data, uint64_t &pos)
+        static uint64_t load32(const std::vector<uint8_t> &data, uint64_t &pos)
         {
             uint32_t value = 0;
             for (size_t i = 0; i < 4; ++i)
@@ -94,7 +94,7 @@ namespace stool
          *           is modified to point to the next byte after the loaded value.
          * @return The 16-bit integer $v$.
          */
-        static uint64_t load16(std::vector<uint8_t> &data, uint64_t &pos)
+        static uint64_t load16(const std::vector<uint8_t> &data, uint64_t &pos)
         {
             uint16_t value = 0;
             for (size_t i = 0; i < 2; ++i)
