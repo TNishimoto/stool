@@ -179,7 +179,7 @@ namespace stool
 
             std::cout << "Loading text file: " << text_file_path << " " << std::flush;
             std::vector<uint8_t> text;
-            stool::IO::load_text(text_file_path, text);
+            stool::IO::load_string(text_file_path, text);
             std::cout << "[DONE]" << std::endl;
 
             auto alphabet = stool::StringFunctions::get_alphabet(text);
