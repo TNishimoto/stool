@@ -18,7 +18,7 @@ namespace stool
          * 
          * @return 8.
          */
-        static uint8_t add(std::vector<uint8_t> &data, uint64_t v)
+        static uint8_t add64(std::vector<uint8_t> &data, uint64_t v)
         {
             for (size_t i = 0; i < 8; ++i)
             {
@@ -32,7 +32,7 @@ namespace stool
          *          
          * @return 4.
          */
-        static uint8_t add(std::vector<uint8_t> &data, uint32_t v)
+        static uint8_t add32(std::vector<uint8_t> &data, uint32_t v)
         {
             for (size_t i = 0; i < 4; ++i)
             {
@@ -46,7 +46,7 @@ namespace stool
          *          
          * @return 4.
          */
-        static uint8_t add(std::vector<uint8_t> &data, uint16_t v)
+        static uint8_t add16(std::vector<uint8_t> &data, uint16_t v)
         {
             for (size_t i = 0; i < 4; ++i)
             {

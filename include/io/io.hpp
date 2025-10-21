@@ -9,8 +9,8 @@ namespace stool
 {
 
 	/**
-	 * @brief A utility class for file I/O operations [Unchecked AI's Comment] 
-	 * 
+	 * @brief A utility class for file I/O operations [in progress]
+	 *
 	 * The IO class provides static methods for reading and writing various data types
 	 * to and from files. It supports binary and text file operations, including
 	 * vectors, strings, and bit-level operations.
@@ -19,16 +19,16 @@ namespace stool
 	{
 	public:
 		/**
-		 * @brief Loads data from a binary stream into a vector [Unchecked AI's Comment] 
-		 * 
+		 * @brief Loads a vector from a binary stream
+		 *
 		 * @tparam T The data type to load
-		 * @param stream The input file stream
-		 * @param vec The vector to store the loaded data
-		 * @param allReading If true, reads the entire file; if false, reads length first
+		 * @param stream The input file stream. This file must represent a \a vector<T>
+		 * @param output_vec The vector loaded from the stream.
 		 * @throws int Throws -1 if stream is invalid
+		 * @note The \a output_vec must be empty.
 		 */
 		template <typename T>
-		static void load(std::ifstream &stream, std::vector<T> &vec, bool allReading)
+		static void load_vector(std::ifstream &stream, std::vector<T> &output_vec)
 		{
 			if (!stream)
 			{
@@ -36,30 +36,26 @@ namespace stool
 				throw -1;
 			}
 			uint64_t len;
-			if (allReading)
-			{
-				stream.seekg(0, std::ios::end);
-				uint64_t n = (unsigned long)stream.tellg();
-				stream.seekg(0, std::ios::beg);
-				len = n / sizeof(T);
-			}
-			else
-			{
-				stream.read((char *)(&len), sizeof(uint64_t));
-			}
-			vec.resize(len);
-			stream.read((char *)&(vec)[0], len * sizeof(T));
+			stream.seekg(0, std::ios::end);
+			uint64_t n = (unsigned long)stream.tellg();
+			stream.seekg(0, std::ios::beg);
+			len = n / sizeof(T);
+
+			output_vec.resize(len);
+			stream.read((char *)&(output_vec)[0], len * sizeof(T));
 		}
 
 		/**
-		 * @brief Loads data from a binary stream into a string [Unchecked AI's Comment] 
-		 * 
-		 * @param stream The input file stream
-		 * @param vec The string to store the loaded data
-		 * @param allReading If true, reads the entire file; if false, reads length first
+		 * @brief Loads a vector from a binary stream
+		 *
+		 * @tparam T The data type to load
+		 * @param stream The input file stream. This file must represent the size of a \a vector<T> and the vector itself.
+		 * @param output_vec The vector loaded from the stream.
 		 * @throws int Throws -1 if stream is invalid
+		 * @note The \a output_vec must be empty.
 		 */
-		static void load(std::ifstream &stream, std::string &vec, bool allReading)
+		template <typename T>
+		static void load_size_and_vector(std::ifstream &stream, std::vector<T> &output_vec)
 		{
 			if (!stream)
 			{
@@ -67,91 +63,98 @@ namespace stool
 				throw -1;
 			}
 			uint64_t len;
-			if (allReading)
-			{
-				stream.seekg(0, std::ios::end);
-				uint64_t n = (unsigned long)stream.tellg();
-				stream.seekg(0, std::ios::beg);
-				len = n / sizeof(char);
-			}
-			else
-			{
-				stream.read((char *)(&len), sizeof(uint64_t));
-			}
-			vec.resize(len);
-			stream.read((char *)&(vec)[0], len * sizeof(char));
+			stream.read((char *)(&len), sizeof(uint64_t));
+			output_vec.resize(len);
+			stream.read((char *)&(output_vec)[0], len * sizeof(T));
 		}
 
 		/**
-		 * @brief Loads data from a binary stream into a vector (reads entire file) [Unchecked AI's Comment] 
-		 * 
-		 * @tparam T The data type to load
-		 * @param stream The input file stream
-		 * @param vec The vector to store the loaded data
+		 * @brief Loads a vector from a binary stream
+		 *
+		 * @param stream The input file stream. This file must represent a \a string
+		 * @param output_str The string loaded from the stream.
+		 * @throws int Throws -1 if stream is invalid
+		 * @note The \a output_str must be empty.
 		 */
-		template <typename T>
-		static void load(std::ifstream &stream, std::vector<T> &vec)
+		static void load_string(std::ifstream &stream, std::string &output_str)
 		{
-			load(stream, vec, true);
+			if (!stream)
+			{
+				std::cerr << "error reading file " << std::endl;
+				throw -1;
+			}
+			uint64_t len;
+			stream.seekg(0, std::ios::end);
+			uint64_t n = (unsigned long)stream.tellg();
+			stream.seekg(0, std::ios::beg);
+			len = n / sizeof(char);
+			output_str.resize(len);
+			stream.read((char *)&(output_str)[0], len * sizeof(char));
 		}
 
 		/**
-		 * @brief Loads data from a file into a vector [Unchecked AI's Comment] 
-		 * 
+		 * @brief Loads a vector from a binary stream
+		 *
 		 * @tparam T The data type to load
-		 * @param filename The name of the file to read from
-		 * @param vec The vector to store the loaded data
+		 * @param stream The input file stream. This file must represent the size of a \a string and the string itself.
+		 * @param output_str The string loaded from the stream.
+		 * @throws int Throws -1 if stream is invalid
+		 * @note The \a output_str must be empty.
+		 */
+		static void load_size_and_string(std::ifstream &stream, std::string &output_str)
+		{
+			if (!stream)
+			{
+				std::cerr << "error reading file " << std::endl;
+				throw -1;
+			}
+			uint64_t len;
+			stream.read((char *)(&len), sizeof(uint64_t));
+			output_str.resize(len);
+			stream.read((char *)&(output_str)[0], len * sizeof(char));
+		}
+
+
+		/**
+		 * @brief Loads a vector from a file
+		 *
+		 * @tparam T The data type to load
+		 * @param filename The name of the file to read from. This file must represent a \a vector<T>.
+		 * @param output_vec The vector loaded from the file.
+		 * @throws int Throws -1 if stream is invalid
+		 * @note The \a output_vec must be empty.
 		 */
 		template <typename T>
-		static void load(std::string &filename, std::vector<T> &vec)
+		static void load_vector(std::string &filename, std::vector<T> &output_vec)
 		{
 			std::ifstream inputStream1;
 			inputStream1.open(filename, std::ios::binary);
-			load(inputStream1, vec);
+			load_vector(inputStream1, output_vec);
 		}
 
+
 		/**
-		 * @brief Loads data from a file into a string [Unchecked AI's Comment] 
-		 * 
-		 * @param filename The name of the file to read from
-		 * @param vec The string to store the loaded data
+		 * @brief Loads a string from a file
+		 *
+		 * @tparam T The data type to load
+		 * @param filename The name of the file to read from. This file must represent a \a string.
+		 * @param output_str The string loaded from the file.
+		 * @throws int Throws -1 if stream is invalid
+		 * @note The \a output_str must be empty.
 		 */
-		static void load(std::string &filename, std::string &vec)
+		static void load_string(std::string &filename, std::string &output_str)
 		{
 			std::ifstream inputStream1;
 			inputStream1.open(filename, std::ios::binary);
-			load(inputStream1, vec, true);
+			load_string(inputStream1, output_str);
 		}
 
-		/**
-		 * @brief Loads text data from a file into a vector [Unchecked AI's Comment] 
-		 * 
-		 * @tparam T The data type to load
-		 * @param filename The name of the file to read from
-		 * @param vec The vector to store the loaded data
-		 */
-		template <typename T>
-		static void load_text(std::string &filename, std::vector<T> &vec)
-		{
-			load(filename, vec);
-		}
 
 		/**
-		 * @brief Loads text data from a file into a string [Unchecked AI's Comment] 
-		 * 
+		 * @brief Loads the first 64 bits from a file
+		 *
 		 * @param filename The name of the file to read from
-		 * @param vec The string to store the loaded data
-		 */
-		static void load_text(std::string &filename, std::string &vec)
-		{
-			load(filename, vec);
-		}
-
-		/**
-		 * @brief Loads the first 64 bits from a file [Unchecked AI's Comment] 
-		 * 
-		 * @param filename The name of the file to read from
-		 * @return uint64_t The 64-bit value read from the file
+		 * @return The first 64-bit value read from the file
 		 * @throws int Throws -1 if file cannot be opened
 		 */
 		static uint64_t load_first_64bits(std::string filename)
@@ -170,8 +173,8 @@ namespace stool
 		}
 
 		/**
-		 * @brief Loads text data from a file with optional end marker handling [Unchecked AI's Comment] 
-		 * 
+		 * @brief Loads text data from a file with optional end marker handling [Unchecked AI's Comment]
+		 *
 		 * @tparam T The data type to load
 		 * @param filename The name of the file to read from
 		 * @param output_vec The vector to store the loaded data
@@ -197,30 +200,38 @@ namespace stool
 			stream.seekg(0, std::ios::beg);
 			len = (n / sizeof(T));
 
-			output_vec.resize(len+1, end_marker);
+			output_vec.resize(len + 1, end_marker);
 			stream.read((char *)&(output_vec)[0], len * sizeof(T));
 
-			if(appendEndMarker){
+			if (appendEndMarker)
+			{
 				uint64_t counter = 0;
-				for(uint8_t c : output_vec){
-					if(c == end_marker){
+				for (uint8_t c : output_vec)
+				{
+					if (c == end_marker)
+					{
 						counter++;
 					}
 				}
-				if(counter == 1){
+				if (counter == 1)
+				{
 					std::cout << filename << " does not contain the end marker. So the end marker is appended to this text." << std::endl;
-				}else{
+				}
+				else
+				{
 					std::cout << "This program assumes that " << filename << " does not contain the end marker, but this text contains the end marker." << std::endl;
 					throw std::runtime_error("An error occurs in load_text function.");
 				}
-			}else{
+			}
+			else
+			{
 				output_vec.pop_back();
 			}
 		}
 
 		/**
-		 * @brief Loads bit data from a file into a container [Unchecked AI's Comment] 
-		 * 
+		 * @brief Loads bit data from a file into a container [Unchecked AI's Comment]
+		 *
 		 * @tparam CONTAINER The container type to store the bit data
 		 * @param file The input file stream
 		 * @param output The container to store the loaded bit data
@@ -257,8 +268,8 @@ namespace stool
 		}
 
 		/**
-		 * @brief Gets the size of a file stream in bytes [Unchecked AI's Comment] 
-		 * 
+		 * @brief Gets the size of a file stream in bytes [Unchecked AI's Comment]
+		 *
 		 * @param stream The file stream to measure
 		 * @return uint64_t The size of the file in bytes
 		 */
@@ -271,8 +282,8 @@ namespace stool
 		}
 
 		/**
-		 * @brief Writes vector data to an output stream [Unchecked AI's Comment] 
-		 * 
+		 * @brief Writes vector data to an output stream [Unchecked AI's Comment]
+		 *
 		 * @tparam T The data type to write
 		 * @param out The output file stream
 		 * @param text The vector data to write
@@ -299,8 +310,8 @@ namespace stool
 		}
 
 		/**
-		 * @brief Writes vector data to an output stream (writes entire data) [Unchecked AI's Comment] 
-		 * 
+		 * @brief Writes vector data to an output stream (writes entire data) [Unchecked AI's Comment]
+		 *
 		 * @tparam T The data type to write
 		 * @param out The output file stream
 		 * @param text The vector data to write
@@ -314,8 +325,8 @@ namespace stool
 		}
 
 		/**
-		 * @brief Writes vector data to a file [Unchecked AI's Comment] 
-		 * 
+		 * @brief Writes vector data to a file [Unchecked AI's Comment]
+		 *
 		 * @tparam T The data type to write
 		 * @param filename The name of the file to write to
 		 * @param text The vector data to write
@@ -332,8 +343,8 @@ namespace stool
 		}
 
 		/**
-		 * @brief Writes string data to an output stream [Unchecked AI's Comment] 
-		 * 
+		 * @brief Writes string data to an output stream [Unchecked AI's Comment]
+		 *
 		 * @param os The output file stream
 		 * @param text The string data to write
 		 * @return bool True if successful, false otherwise
@@ -345,8 +356,8 @@ namespace stool
 		}
 
 		/**
-		 * @brief Writes string data to a file [Unchecked AI's Comment] 
-		 * 
+		 * @brief Writes string data to a file [Unchecked AI's Comment]
+		 *
 		 * @param filename The name of the file to write to
 		 * @param text The string data to write
 		 * @return bool True if successful, false otherwise
@@ -360,8 +371,8 @@ namespace stool
 		}
 
 		/**
-		 * @brief Writes bit data from a container to an output stream [Unchecked AI's Comment] 
-		 * 
+		 * @brief Writes bit data from a container to an output stream [Unchecked AI's Comment]
+		 *
 		 * @tparam CONTAINER The container type containing the bit data
 		 * @param out The output file stream
 		 * @param text The container with bit data to write
