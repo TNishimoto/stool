@@ -8,6 +8,7 @@
 #include "./basic/packed_search.hpp"
 #include "./basic/basic_search.hpp"
 #include "./basic/pext64.hpp"
+#include "./basic/byte_vector_functions.hpp"
 
 
 #include "./debug/equal_checker.hpp"
@@ -17,7 +18,6 @@
 
 #include "./io/io.hpp"
 #include "./io/online_file_reader.hpp"
-#include "./io/file_writer.hpp"
 
 #include "./rmq/rmq_small_sparse_table.hpp"
 
