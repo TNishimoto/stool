@@ -14,7 +14,7 @@ namespace stool
     {
     public:
         /**
-         * @brief Converts a given 64-bit integer \p v into 8 bytes and appends them to byte vector \p data.
+         * @brief Converts a given 64-bit integer \a v into 8 bytes and appends them to byte vector \a data.
          * 
          * @return 8.
          */

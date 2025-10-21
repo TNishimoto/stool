@@ -19,7 +19,7 @@ namespace stool
 	{
 	public:
 		/**
-		 * @brief Loads data from a binary stream into a vector
+		 * @brief Loads data from a binary stream into a vector [Unchecked AI's Comment] 
 		 * 
 		 * @tparam T The data type to load
 		 * @param stream The input file stream
@@ -52,7 +52,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Loads data from a binary stream into a string
+		 * @brief Loads data from a binary stream into a string [Unchecked AI's Comment] 
 		 * 
 		 * @param stream The input file stream
 		 * @param vec The string to store the loaded data
@@ -83,7 +83,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Loads data from a binary stream into a vector (reads entire file)
+		 * @brief Loads data from a binary stream into a vector (reads entire file) [Unchecked AI's Comment] 
 		 * 
 		 * @tparam T The data type to load
 		 * @param stream The input file stream
@@ -96,7 +96,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Loads data from a file into a vector
+		 * @brief Loads data from a file into a vector [Unchecked AI's Comment] 
 		 * 
 		 * @tparam T The data type to load
 		 * @param filename The name of the file to read from
@@ -111,7 +111,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Loads data from a file into a string
+		 * @brief Loads data from a file into a string [Unchecked AI's Comment] 
 		 * 
 		 * @param filename The name of the file to read from
 		 * @param vec The string to store the loaded data
@@ -124,7 +124,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Loads text data from a file into a vector
+		 * @brief Loads text data from a file into a vector [Unchecked AI's Comment] 
 		 * 
 		 * @tparam T The data type to load
 		 * @param filename The name of the file to read from
@@ -137,7 +137,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Loads text data from a file into a string
+		 * @brief Loads text data from a file into a string [Unchecked AI's Comment] 
 		 * 
 		 * @param filename The name of the file to read from
 		 * @param vec The string to store the loaded data
@@ -148,7 +148,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Loads the first 64 bits from a file
+		 * @brief Loads the first 64 bits from a file [Unchecked AI's Comment] 
 		 * 
 		 * @param filename The name of the file to read from
 		 * @return uint64_t The 64-bit value read from the file
@@ -170,7 +170,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Loads text data from a file with optional end marker handling
+		 * @brief Loads text data from a file with optional end marker handling [Unchecked AI's Comment] 
 		 * 
 		 * @tparam T The data type to load
 		 * @param filename The name of the file to read from
@@ -219,7 +219,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Loads bit data from a file into a container
+		 * @brief Loads bit data from a file into a container [Unchecked AI's Comment] 
 		 * 
 		 * @tparam CONTAINER The container type to store the bit data
 		 * @param file The input file stream
@@ -257,7 +257,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Gets the size of a file stream in bytes
+		 * @brief Gets the size of a file stream in bytes [Unchecked AI's Comment] 
 		 * 
 		 * @param stream The file stream to measure
 		 * @return uint64_t The size of the file in bytes
@@ -271,7 +271,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Writes vector data to an output stream
+		 * @brief Writes vector data to an output stream [Unchecked AI's Comment] 
 		 * 
 		 * @tparam T The data type to write
 		 * @param out The output file stream
@@ -299,7 +299,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Writes vector data to an output stream (writes entire data)
+		 * @brief Writes vector data to an output stream (writes entire data) [Unchecked AI's Comment] 
 		 * 
 		 * @tparam T The data type to write
 		 * @param out The output file stream
@@ -314,7 +314,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Writes vector data to a file
+		 * @brief Writes vector data to a file [Unchecked AI's Comment] 
 		 * 
 		 * @tparam T The data type to write
 		 * @param filename The name of the file to write to
@@ -332,7 +332,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Writes string data to an output stream
+		 * @brief Writes string data to an output stream [Unchecked AI's Comment] 
 		 * 
 		 * @param os The output file stream
 		 * @param text The string data to write
@@ -345,7 +345,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Writes string data to a file
+		 * @brief Writes string data to a file [Unchecked AI's Comment] 
 		 * 
 		 * @param filename The name of the file to write to
 		 * @param text The string data to write
@@ -360,7 +360,7 @@ namespace stool
 		}
 
 		/**
-		 * @brief Writes bit data from a container to an output stream
+		 * @brief Writes bit data from a container to an output stream [Unchecked AI's Comment] 
 		 * 
 		 * @tparam CONTAINER The container type containing the bit data
 		 * @param out The output file stream
