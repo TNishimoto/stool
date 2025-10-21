@@ -28,7 +28,7 @@ namespace stool
             return 8;
         }
         /**
-         * @brief Converts a given 32-bit integer $v$ into 4 bytes and appends them to byte vector $data$.
+         * @brief Converts a given 32-bit integer \a v into 4 bytes and appends them to byte vector \a data.
          *          
          * @return 4.
          */
@@ -42,7 +42,7 @@ namespace stool
             return 4;
         }
         /**
-         * @brief Converts a given 16-bit integer $v$ into 4 bytes and appends them to byte vector $data$.
+         * @brief Converts a given 16-bit integer \a v into 4 bytes and appends them to byte vector \a data.
          *          
          * @return 4.
          */
@@ -56,7 +56,7 @@ namespace stool
             return 2;
         }
         /**
-         * @brief Loads a 64-bit unsigned integer $v$ from byte vector $data[pos..pos+7]$ for a given position $pos$ and returns it.
+         * @brief Loads a 64-bit unsigned integer \a v from byte vector \a data[pos..pos+7] for a given position \a pos and returns it.
          * 
          * @param pos The position in the vector to start loading from. This parameter
          *           is modified to point to the next byte after the loaded value.
@@ -72,7 +72,7 @@ namespace stool
             return value;
         }
         /**
-         * @brief Loads a 32-bit unsigned integer $v$ from byte vector $data[pos..pos+3]$ for a given position $pos$ and returns it.
+         * @brief Loads a 32-bit unsigned integer \a v from byte vector \a data[pos..pos+3] for a given position \a pos and returns it.
          * 
          * @param pos The position in the vector to start loading from. This parameter
          *           is modified to point to the next byte after the loaded value.
@@ -88,7 +88,7 @@ namespace stool
             return value;
         }
         /**
-         * @brief Loads a 16-bit unsigned integer $v$ from byte vector $data[pos..pos+1]$ for a given position $pos$ and returns it.
+         * @brief Loads a 16-bit unsigned integer \a v from byte vector \a data[pos..pos+1] for a given position \a pos and returns it.
          * 
          * @param pos The position in the vector to start loading from. This parameter
          *           is modified to point to the next byte after the loaded value.
