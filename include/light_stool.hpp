@@ -16,7 +16,8 @@
 #include "./debug/debug_printer.hpp"
 #include "./debug/memory.hpp"
 
-#include "./io/io.hpp"
+#include "./io/file_reader.hpp"
+#include "./io/file_writer.hpp"
 #include "./io/online_file_reader.hpp"
 
 #include "./rmq/rmq_small_sparse_table.hpp"

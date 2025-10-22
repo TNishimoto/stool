@@ -8,14 +8,10 @@
 namespace stool
 {
 
-	/**
-	 * @brief A utility class for file I/O operations [in progress]
-	 *
-	 * The IO class provides static methods for reading and writing various data types
-	 * to and from files. It supports binary and text file operations, including
-	 * vectors, strings, and bit-level operations.
-	 */
-	class IO
+    /**
+     * @brief A utility class for file reading operations
+     */
+	class FileReader
 	{
 	public:
 		/**
@@ -173,17 +169,16 @@ namespace stool
 		}
 
 		/**
-		 * @brief Loads text data from a file with optional end marker handling [Unchecked AI's Comment]
+		 * @brief Loads vector data from a given file, and the end marker is appended to the loaded data.
 		 *
 		 * @tparam T The data type to load
 		 * @param filename The name of the file to read from
 		 * @param output_vec The vector to store the loaded data
-		 * @param appendEndMarker If true, appends an end marker to the data
-		 * @param end_marker The end marker character (default: 0)
-		 * @throws std::runtime_error If the file contains the end marker when appendEndMarker is true
+		 * @param end_marker The end marker character (default: 0). The end marker occurs in the loaded data as the last character even if the end marker is not the last character of the file.
+		 * @throws std::runtime_error If the file contains the end marker.
 		 */
 		template <typename T>
-		static void load_text(std::string &filename, std::vector<T> &output_vec, bool appendEndMarker, uint8_t end_marker = 0)
+		static void load_vector_with_end_marker_if_no_end_marker(std::string &filename, std::vector<T> &output_vec, uint8_t end_marker = 0)
 		{
 			std::cout << "Loading file: " << filename << std::endl;
 			std::ifstream stream;
@@ -203,34 +198,27 @@ namespace stool
 			output_vec.resize(len + 1, end_marker);
 			stream.read((char *)&(output_vec)[0], len * sizeof(T));
 
-			if (appendEndMarker)
+			uint64_t counter = 0;
+			for (uint8_t c : output_vec)
 			{
-				uint64_t counter = 0;
-				for (uint8_t c : output_vec)
+				if (c == end_marker)
 				{
-					if (c == end_marker)
-					{
-						counter++;
-					}
+					counter++;
 				}
-				if (counter == 1)
-				{
-					std::cout << filename << " does not contain the end marker. So the end marker is appended to this text." << std::endl;
-				}
-				else
-				{
-					std::cout << "This program assumes that " << filename << " does not contain the end marker, but this text contains the end marker." << std::endl;
-					throw std::runtime_error("An error occurs in load_text function.");
-				}
+			}
+			if (counter == 1)
+			{
+				std::cout << filename << " does not contain the end marker. So the end marker is appended to this text." << std::endl;
 			}
 			else
 			{
-				output_vec.pop_back();
+				std::cout << "This program assumes that " << filename << " does not contain the end marker, but this text contains the end marker." << std::endl;
+				throw std::runtime_error("An error occurs in load_text function.");
 			}
-		}
+	}
 
 		/**
-		 * @brief Loads bit data from a file into a container [Unchecked AI's Comment]
+		 * @brief Loads bits from a given file
 		 *
 		 * @tparam CONTAINER The container type to store the bit data
 		 * @param file The input file stream
@@ -268,12 +256,9 @@ namespace stool
 		}
 
 		/**
-		 * @brief Gets the size of a file stream in bytes [Unchecked AI's Comment]
-		 *
-		 * @param stream The file stream to measure
-		 * @return uint64_t The size of the file in bytes
+		 * @brief Gets the number of bytes in a file stream
 		 */
-		static uint64_t getSize(std::ifstream &stream)
+		static uint64_t get_byte_count(std::ifstream &stream)
 		{
 			stream.seekg(0, std::ios::end);
 			uint64_t n = (unsigned long)stream.tellg();
