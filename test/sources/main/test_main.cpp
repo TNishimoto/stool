@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
             std::vector<uint8_t> text = stool::UInt8VectorGenerator::create_random_sequence(100, alphabet, x);
             std::string filename = "test_file.txt";
             
-            stool::IO::write(filename, text);
+            stool::FileWriter::write_vector(filename, text);
             stool::OnlineFileReader ofr(filename);
             ofr.open();
             std::vector<uint8_t> text2;

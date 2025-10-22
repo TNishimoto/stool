@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     stool::TextStatistics ts = stool::TextStatistics::build(input_file_path);
 
     std::vector<uint8_t> text;
-    stool::IO::load_text(input_file_path, text);
+    stool::FileReader::load_vector(input_file_path, text);
     sdsl::int_vector<> int_text;
     stool::SDSLFunctions::to_int_vector(text, int_text);
     std::vector<uint64_t> lcp_statistics = stool::beller::LCPEnumerator::compute_lcp_statistics(int_text);
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 
 
 
-    //stool::IO::load_text(input_file_path, bwt);
+    //stool::FileReader::load_vector(input_file_path, bwt);
 
 
 }
