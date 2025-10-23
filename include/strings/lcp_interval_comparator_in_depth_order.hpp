@@ -4,17 +4,17 @@
 namespace stool
 {
     /**
-	 * @brief Comparator for LCP intervals in depth-first order [Unchecked AI's Comment] 
+	 * @brief Comparator for LCP intervals in depth-first order 
 	 * @tparam INDEX The index type
 	 */
 	template <typename INDEX = uint64_t>
-	struct LCPIntervalDepthOrderComp
+	struct LCPIntervalComparatorInDepthOrder
 	{
 		/**
 		 * @brief Compares two LCP intervals for depth-first sorting
 		 * @param x The first LCP interval
 		 * @param y The second LCP interval
-		 * @return true if x should come before y in depth-first order
+		 * @return true if \p x should come before \py in depth-first order
 		 */
 		bool operator()(const LCPInterval<INDEX> &x, const LCPInterval<INDEX> &y)
 		{

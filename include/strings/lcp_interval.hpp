@@ -15,7 +15,7 @@ namespace stool
 {
 	
 	/**
-	 * @brief Class for representing the LCP interval in a suffix array (SA) [in progress]
+	 * @brief Class for representing the LCP interval in a suffix array (SA)
 	 * 
 	 * @tparam INDEX The type used for indexing (typically uint64_t or uint32_t)
 	 */

@@ -4,17 +4,17 @@
 namespace stool
 {
     /**
-     * @brief Comparator for LCP intervals in preorder traversal [Unchecked AI's Comment]
+     * @brief Comparator for LCP intervals in preorder traversal
      * @tparam INDEX The index type
      */
     template <typename INDEX = uint64_t>
-    struct LCPIntervalPreorderComp
+    struct LCPIntervalComparatorInPreorder
     {
         /**
          * @brief Compares two LCP intervals for preorder sorting
          * @param x The first LCP interval
          * @param y The second LCP interval
-         * @return true if x should come before y in preorder
+         * @return true if \p x should come before \p y in preorder
          */
         bool operator()(const LCPInterval<INDEX> &x, const LCPInterval<INDEX> &y)
         {
@@ -34,5 +34,18 @@ namespace stool
                 return x.i < y.i;
             }
         }
+
+         /**
+		 * @brief Sorts LCP intervals in preorder
+		 * @param items Vector of LCP intervals to sort
+		 */
+		static void sort_in_preorder(std::vector<stool::LCPInterval<INDEX>> &items)
+		{
+			std::sort(
+				items.begin(),
+				items.end(),
+				stool::LCPIntervalComparatorInPreorder<INDEX>());
+		}
+
     };
 }
