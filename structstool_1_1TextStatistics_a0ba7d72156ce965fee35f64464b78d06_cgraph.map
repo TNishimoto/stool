@@ -1,0 +1,7 @@
+<map id="stool::TextStatistics::build" name="stool::TextStatistics::build">
+<area shape="rect" id="Node000001" title="Build text statistics from a ForwardRLE object." alt="" coords="5,35,155,75"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Message.html#ad3aa66653c82fe0c13b5bdb89ad8825e" title="Generates indentation string based on paragraph level." alt="" coords="214,5,363,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,42,200,35,200,40,155,47"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ForwardRLE.html#acb1ec2ca9e194a3daf8a2ea929c7c397" title="Returns the total length of the original text." alt="" coords="203,70,375,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="155,62,189,67,189,72,155,67"/>
+</map>

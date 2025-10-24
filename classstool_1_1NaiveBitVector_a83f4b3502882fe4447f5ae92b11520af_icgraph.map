@@ -1,0 +1,15 @@
+<map id="stool::NaiveBitVector::shrink_to_fit" name="stool::NaiveBitVector::shrink_to_fit">
+<area shape="rect" id="Node000001" title="Reduce buffer size to fit current content." alt="" coords="645,101,804,141"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a82dd521b43e4980beadf9e3928e3b5ef" title="Remove all elements from the deque." alt="" coords="429,69,587,109"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="631,110,587,104,588,98,632,105"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveBitVector.html#aedda24123cdfd3354039905e8aa75b63" title="Update buffer size if needed based on current usage." alt="" coords="419,133,597,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="632,138,598,143,597,138,631,132"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#a4874de95eebf31d6cabb8d88e944ba20" title="Remove the last element from the deque." alt="" coords="212,5,371,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="426,68,359,48,360,43,428,63"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveBitVector.html#ad60296202ad4806c3c9fbb00664be4d7" title="Remove the first element from the deque." alt="" coords="212,69,371,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="415,92,371,92,371,87,415,87"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveBitVector.html#a73ef5ac89c5b811257b2dd45d263d474" title="Add an element to the end of the deque." alt="" coords="212,133,371,173"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="405,156,371,156,371,151,405,151"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1NaiveBitVector.html#a11d1406779fe7cc4d5ed99c306667b7d" title="Add an element to the beginning of the deque." alt="" coords="5,133,164,173"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="198,156,164,156,164,151,198,151"/>
+</map>

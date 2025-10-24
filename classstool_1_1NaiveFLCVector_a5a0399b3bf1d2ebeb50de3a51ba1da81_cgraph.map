@@ -1,0 +1,15 @@
+<map id="stool::NaiveFLCVector::push_back" name="stool::NaiveFLCVector::push_back">
+<area shape="rect" id="Node000001" title="Add an element to the end of the deque." alt="" coords="5,106,171,146"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveFLCVector.html#acec621e1453cdcd6da4cdccfa257feb5" title="Get element at specified position." alt="" coords="219,5,405,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,104,164,76,218,48,255,33,257,38,220,52,167,80,121,108"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveFLCVector.html#a188b8cb84d6f14eb290bf6be31389f5b" title="Get the current number of elements." alt="" coords="467,23,633,63"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="165,103,218,91,341,70,454,53,454,58,341,75,219,97,166,109"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1PackedPSum.html#a8982ece2300b81705bbef809e95d7ad7" title="Determines the optimal bit width for storing a given value." alt="" coords="236,106,388,146"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="171,123,222,123,222,129,171,129"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveFLCVector.html#aefd99c46b7ec7830bb7cb080b6f98c1c" title="Reduce buffer size to fit current content." alt="" coords="229,170,395,210"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="159,144,229,164,228,169,158,149"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1MSBByte.html#af531ce8b8cd1161ced1e6d8659fbe6a4" title="Replaces B[pos..pos+len&#45;1] of 64 bits B[0..63] with the first len bits of 64 bits Q[0...." alt="" coords="453,205,647,231"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="110,144,157,185,187,205,220,219,284,234,351,239,415,236,472,230,472,235,416,242,351,244,283,239,218,225,184,209,154,189,106,148"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="406,25,454,30,453,36,405,31"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="395,197,440,202,439,208,395,202"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="stool::EytzingerLayoutForPsum::erase" name="stool::EytzingerLayoutForPsum::erase">
+<area shape="rect" id="Node000001" title="Erase an element at a specific position." alt="" coords="5,37,192,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1EytzingerLayoutForPsum.html#a7acaf5aaccb6eed76d99a68d477dbfa1" title="Remove the last element from the deque." alt="" coords="240,5,427,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,42,226,37,227,43,192,47"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1EytzingerLayoutForPsum.html#a16919f90eb3d01a3c87e3a6a0c335299" title="Remove the first element from the deque." alt="" coords="240,69,427,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,67,227,72,226,77,192,73"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="stool::NaiveFLCVector::shrink_to_fit" name="stool::NaiveFLCVector::shrink_to_fit">
+<area shape="rect" id="Node000001" title="Reduce buffer size to fit current content." alt="" coords="432,63,597,103"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveFLCVector.html#ab2d1780135db05ccd20838bab51c693b" title="Remove all elements from the deque." alt="" coords="219,5,384,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="426,62,376,48,377,43,427,56"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveFLCVector.html#a9705f66bcf3196f6743bd7f7a61bf5a6" title="Remove the last element from the deque." alt="" coords="5,35,171,75"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="418,79,171,63,171,57,418,74"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveFLCVector.html#a5a0399b3bf1d2ebeb50de3a51ba1da81" title="Add an element to the end of the deque." alt="" coords="219,120,384,160"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="427,109,377,123,376,117,426,104"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="206,41,171,46,171,41,205,36"/>
+</map>

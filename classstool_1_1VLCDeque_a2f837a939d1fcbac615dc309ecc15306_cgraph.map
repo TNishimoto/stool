@@ -1,0 +1,7 @@
+<map id="stool::VLCDeque::write" name="stool::VLCDeque::write">
+<area shape="rect" id="Node000001" title="Inserts zero bits into a 64&#45;bit code at a specified position." alt="" coords="5,35,176,60"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1MSBByte.html#a961ba1b61f0d557a042b6d1a7a9554ad" title="Fills the bits B[pos..pos+len&#45;1] of 64&#45;bit B with b and returns the new B." alt="" coords="224,5,369,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,33,210,28,211,33,177,38"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="224,55,369,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,56,211,61,210,66,176,62"/>
+</map>

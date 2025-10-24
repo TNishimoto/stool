@@ -1,0 +1,18 @@
+<map id="stool::LSBByte::naive_select1" name="stool::LSBByte::naive_select1">
+<area shape="rect" id="Node000001" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit B[63..0]." alt="" coords="871,39,1031,79"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1LSBByte.html#ac6c6ce471ee2c502956c54dbad38e236" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit B[63..0]." alt="" coords="652,46,823,71"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="857,61,823,61,823,56,857,56"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="776,36,765,28,737,25,715,27,703,32,700,37,707,44,702,48,695,38,699,28,713,22,737,19,767,23,779,32"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1LSBByte.html#ae0cfe598cd0622a47fb71ff8a0574543" title="Returns the position of the (i+1)&#45;th 0 in 64&#45;bit B[63..0]." alt="" coords="431,21,601,46"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="638,50,601,46,602,40,638,45"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1MSBByte.html#ab54bab77c74a5a7abca9e9d6e8b8336e" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit B if such bit exists; otherwise return &#45;1." alt="" coords="428,70,604,95"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="638,72,604,76,604,70,638,67"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1PackedSearch.html#ae7da077b9aab762b4dc6dbfb05b34edf" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in 1 bit sequen..." alt="" coords="217,5,367,45"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="452,69,367,47,368,42,453,64"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1MSBByte.html#a3a9bc80e6ab2c5c0eef4ba399bc551f7" title="Returns the position of the i&#45;th 0 in 64&#45;bit B if such bit exists; otherwise return &#45;1." alt="" coords="204,70,380,95"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="414,85,380,85,380,80,414,80"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1MSBByte.html#a436197eb87f62455b9c13dbddd8f501a" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit sequence B[0..array_size&#45;1] if such bit exists; othe..." alt="" coords="204,119,380,145"/>
+<area shape="poly" id="edge8_Node000004_Node000008" title=" " alt="" coords="445,101,351,122,350,117,444,96"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1PackedSearch.html#af75bfa54d698d4cf1e967d00b6d49eeb" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in k bit sequen..." alt="" coords="5,5,156,45"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="203,28,156,28,156,23,203,23"/>
+</map>

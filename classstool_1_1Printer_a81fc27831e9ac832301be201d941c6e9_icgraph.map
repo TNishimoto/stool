@@ -1,0 +1,5 @@
+<map id="stool::Printer::to_integer_string" name="stool::Printer::to_integer_string">
+<area shape="rect" id="Node000001" title="Converts a vector of numeric values to a comma&#45;separated string." alt="" coords="217,5,344,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Printer.html#ac1057a52b16e833795eeed87174a54d0" title="Creates a padded string representation of a string." alt="" coords="5,13,169,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,28,170,28,170,23,204,23"/>
+</map>
