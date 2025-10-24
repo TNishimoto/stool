@@ -1173,32 +1173,8 @@ namespace stool
             }
             else
             {
-                int64_t counter = i + 1;
-                uint64_t last_block_index = this->bit_count_ / 64;
-                // uint8_t last_bit_index = this->bit_count_ % 64;
-                uint64_t gap = 0;
-
-                for (uint64_t j = 0; j < last_block_index; j++)
-                {
-                    uint64_t block = this->buffer_[j];
-                    uint8_t bit_count = stool::Byte::popcount(block);
-
-                    if (bit_count < counter)
-                    {
-                        counter -= bit_count;
-                        gap += 64;
-                    }
-                    else
-                    {
-                        uint64_t result = stool::MSBByte::select1(block, counter - 1) + gap;
-                        // assert(result == true_result);
-                        return result;
-                    }
-                }
-
-                uint64_t result = stool::MSBByte::select1(this->buffer_[last_block_index], counter - 1) + gap;
-                // assert(result == true_result);
-                return result;
+                return stool::MSBByte::select1(this->buffer_, i, this->buffer_size_);
+                
             }
         }
         int64_t select1_successor(uint64_t i) const

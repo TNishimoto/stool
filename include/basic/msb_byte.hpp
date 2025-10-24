@@ -343,6 +343,34 @@ namespace stool
             }
         }
 
+        /*!
+         * @brief Returns the position of the (i+1)-th 1 in 64-bit sequence \p B[0..array_size-1] if such bit exists; otherwise return -1.
+         * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
+         */
+        template <typename BIT64_SEQUENCE>
+        static int64_t select1(BIT64_SEQUENCE B, uint64_t i, [[maybe_unused]] uint64_t array_size){
+            int64_t counter = i + 1;
+            uint64_t gap = 0;
+
+            for (uint64_t j = 0; j < array_size; j++)
+            {
+                uint64_t block = B[j];
+                uint8_t bit_count = stool::Byte::popcount(block);
+
+                if (bit_count < counter)
+                {
+                    counter -= bit_count;
+                    gap += 64;
+                }
+                else
+                {
+                    int64_t result = stool::MSBByte::select1(block, counter - 1) + gap;
+                    return result;
+                }
+            }
+            return -1;
+        }
+
 
         /*!
          * @brief Returns the position of the (i+1)-th 1 in 8-bit B if such bit exists; otherwise return -1.
