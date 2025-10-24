@@ -158,7 +158,7 @@ namespace stool
         }
 
         /*!
-         * @brief Replaces the i-th bit of 64-bit vector B with b 
+         * @brief Replaces the i-th bit of 64-bit vector B with b
          */
         static void replace(std::vector<uint64_t> &B, uint64_t i, bool b)
         {
@@ -185,7 +185,6 @@ namespace stool
         }
         */
 
-        
         /*!
          * @brief Replaces the bits B[I..I+len-1] in 64-bit sequence B with the first len bits of 64 bits Q[0..63], where I = block_index * 64 + bit_index.
          * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
@@ -257,7 +256,6 @@ namespace stool
             }
         }
 
-
         /*!
          * @brief Fills the bits B[pos..pos+len-1] of 64-bit integer sequence B with b and returns the new B.
          */
@@ -309,14 +307,13 @@ namespace stool
             }
         }
 
-
         /*!
          * @brief Returns the position of the (i+1)-th 1 in 64-bit B if such bit exists; otherwise return -1.
          */
         static int64_t select1(uint64_t B, uint64_t i)
         {
             uint64_t num = Byte::popcount(B);
-            uint64_t ith = i+1;
+            uint64_t ith = i + 1;
             if (ith <= num)
             {
                 uint64_t j = num - (i + 1);
@@ -348,7 +345,8 @@ namespace stool
          * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
          */
         template <typename BIT64_SEQUENCE>
-        static int64_t select1(BIT64_SEQUENCE B, uint64_t i, [[maybe_unused]] uint64_t array_size){
+        static int64_t select1(BIT64_SEQUENCE B, uint64_t i, [[maybe_unused]] uint64_t array_size)
+        {
             int64_t counter = i + 1;
             uint64_t gap = 0;
 
@@ -371,6 +369,34 @@ namespace stool
             return -1;
         }
 
+        /*!
+         * @brief Returns the position of the (i+1)-th 0 in 64-bit sequence \p B[0..array_size-1] if such bit exists; otherwise return -1.
+         * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
+         */
+        template <typename BIT64_SEQUENCE>
+        static int64_t select0(BIT64_SEQUENCE B, uint64_t i, [[maybe_unused]] uint64_t array_size)
+        {
+            int64_t counter = i + 1;
+            uint64_t gap = 0;
+
+            for (uint64_t j = 0; j < array_size; j++)
+            {
+                uint64_t block = B[j];
+                uint8_t bit_0_count = 64 - stool::Byte::popcount(block);
+
+                if (bit_0_count < counter)
+                {
+                    counter -= bit_0_count;
+                    gap += 64;
+                }
+                else
+                {
+                    int64_t result = stool::MSBByte::select0(block, counter - 1) + gap;
+                    return result;
+                }
+            }
+            return -1;
+        }
 
         /*!
          * @brief Returns the position of the (i+1)-th 1 in 8-bit B if such bit exists; otherwise return -1.
@@ -422,8 +448,6 @@ namespace stool
             uint64_t value = (B << i) & mask;
             return value;
         }
-
-
 
         /*!
          * @brief Counts the number of 1 bits in the bits B[I..J] of 64-bit sequence B, where I = start_block_index * 64 + start_bit_index and J = end_block_index * 64 + end_bit_index.
@@ -479,8 +503,6 @@ namespace stool
             return num;
         }
 
-        
-
         /*!
          * @brief Returns the first k bits of 64-bit B as a binary string
          */
@@ -493,8 +515,6 @@ namespace stool
             }
             return s;
         }
-
-        
 
         /*!
          * @brief Shifts the suffix B[pos..] of 64 bit sequence B[0..] to the right by len bits, i.e., B is changed to B[0..pos-1] | 0^{len} | B[pos..63 - len].
