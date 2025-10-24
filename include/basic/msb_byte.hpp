@@ -450,6 +450,18 @@ namespace stool
         }
 
         /*!
+         * @brief Counts the number of 1 bits in the bits B[0..i] of 64-bit sequence \p B.
+         * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
+         */
+        template <typename BIT64_SEQUENCE>
+        static uint64_t rank1(BIT64_SEQUENCE &B, uint64_t i, [[maybe_unused]] uint64_t array_size)
+        {
+            uint64_t end_block_index = i / 64;
+            uint64_t end_bit_index = i % 64;
+            return rank1(B, 0, 0, end_block_index, end_bit_index, array_size);
+        }
+
+        /*!
          * @brief Counts the number of 1 bits in the bits B[I..J] of 64-bit sequence B, where I = start_block_index * 64 + start_bit_index and J = end_block_index * 64 + end_bit_index.
          * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
          */
