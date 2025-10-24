@@ -250,7 +250,7 @@ namespace stool
         }
         std::string to_string() const
         {
-            return stool::DebugPrinter::to_integer_string(this->to_vector());
+            return stool::ConverterToString::to_integer_string(this->to_vector());
         }
 
         /**

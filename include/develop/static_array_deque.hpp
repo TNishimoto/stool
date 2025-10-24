@@ -1157,7 +1157,7 @@ namespace stool
         std::string to_string() const
         {
             auto vec = this->to_vector();
-            return stool::DebugPrinter::to_integer_string(vec);
+            return stool::ConverterToString::to_integer_string(vec);
         }
 
         uint64_t psum(uint64_t i) const

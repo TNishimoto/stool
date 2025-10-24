@@ -101,7 +101,7 @@ void psum_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, 
                 if (psum1 != psum2)
                 {
                     std::cout << "j: " << j << " , psum1: " << psum1 << " != " << psum2 << std::endl;
-                    std::cout << "Seq1: " << stool::DebugPrinter::to_integer_string(items) << std::endl;
+                    std::cout << "Seq1: " << stool::ConverterToString::to_integer_string(items) << std::endl;
                     std::cout << "Seq2: " << short_ef.to_string() << std::endl;
 
                     throw std::runtime_error("reverse psum error");
@@ -154,7 +154,7 @@ void search_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value
                 if (search1 != search2)
                 {
                     std::cout << "search1: " << search1 << " != " << search2 << " , j: " << v << std::endl;
-                    std::cout << "Seq1: " << stool::DebugPrinter::to_integer_string(items) << std::endl;
+                    std::cout << "Seq1: " << stool::ConverterToString::to_integer_string(items) << std::endl;
                     throw std::runtime_error("search error");
                 }
             }

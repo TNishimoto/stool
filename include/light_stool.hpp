@@ -13,6 +13,7 @@
 
 #include "./debug/equal_checker.hpp"
 #include "./debug/message.hpp"
+#include "./debug/converter_to_string.hpp"
 #include "./debug/debug_printer.hpp"
 #include "./debug/memory.hpp"
 

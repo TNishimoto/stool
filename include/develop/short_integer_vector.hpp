@@ -102,7 +102,7 @@ namespace stool
             std::string to_string() const
             {
                 std::vector<uint64_t> r = this->to_value_vector();
-                return stool::DebugPrinter::to_integer_string(r);
+                return stool::ConverterToString::to_integer_string(r);
             }
 
             template<typename VEC>

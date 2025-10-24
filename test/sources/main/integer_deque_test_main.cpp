@@ -62,7 +62,7 @@ void equal_test(const stool::IntegerArrayDeque<T> &dequeA, const std::vector<T> 
         {
             std::cout << std::endl;
             std::cout << "dequeA = " << dequeA.to_string() << std::endl;
-            std::cout << "dequeB = " << stool::DebugPrinter::to_integer_string(dequeB) << std::endl;
+            std::cout << "dequeB = " << stool::ConverterToString::to_integer_string(dequeB) << std::endl;
             throw std::runtime_error("equal_test is incorrect");
         }
     }

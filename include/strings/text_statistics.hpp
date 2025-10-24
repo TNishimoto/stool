@@ -175,7 +175,7 @@ namespace stool
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "======= Text Statistics ======" << std::endl;
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "The length of the input text: \t\t " << this->str_size << std::endl;
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "The number of runs on the input text: \t\t " << this->run_count << std::endl;
-            std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Alphabet: \t \t  " << stool::DebugPrinter::to_integer_string_with_characters(alph) << std::endl;
+            std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Alphabet: \t \t  " << stool::ConverterToString::to_integer_string_with_characters(alph) << std::endl;
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Alphabet size: \t\t " << this->alphabet_size << std::endl;
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "min sigma: \t \t  " << this->get_smallest_character() << std::endl;
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "The number of characters: " << std::endl;

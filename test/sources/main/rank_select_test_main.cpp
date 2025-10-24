@@ -823,8 +823,8 @@ void bit_select_test(uint64_t seed, uint64_t max_counter){
         catch(const std::exception& e){
             std::cout << "select1_resultsA: " << e.what() << std::endl;
             std::cout << "select1_results: " << stool::Byte::to_bit_string(random_value, true) << std::endl;
-            std::cout << "select1_results: " << stool::DebugPrinter::to_integer_string(select1_results) << std::endl;
-            std::cout << "select1_results_msb_test: " << stool::DebugPrinter::to_integer_string(select1_results_msb_test) << std::endl;
+            std::cout << "select1_results: " << stool::ConverterToString::to_integer_string(select1_results) << std::endl;
+            std::cout << "select1_results_msb_test: " << stool::ConverterToString::to_integer_string(select1_results_msb_test) << std::endl;
 
             throw e;
         }

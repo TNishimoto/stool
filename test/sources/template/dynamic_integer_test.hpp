@@ -66,8 +66,8 @@ namespace stool
             }
             catch(const std::logic_error &e){
                 std::cout << "EQUAL_CHECK_FUNCTION error" << std::endl;
-                std::cout << "correct_values = " << stool::DebugPrinter::to_integer_string(correct_values) << std::endl;
-                std::cout << "test_values = " << stool::DebugPrinter::to_integer_string(test_values) << std::endl;
+                std::cout << "correct_values = " << stool::ConverterToString::to_integer_string(correct_values) << std::endl;
+                std::cout << "test_values = " << stool::ConverterToString::to_integer_string(test_values) << std::endl;
                 throw e;
             }
             return true;
@@ -172,8 +172,8 @@ namespace stool
             }
             catch(const std::logic_error &e){
                 std::cout << "EQUAL_CHECK_FUNCTION error" << std::endl;
-                std::cout << "correct_obj = " << stool::DebugPrinter::to_integer_string(correct_obj) << std::endl;
-                std::cout << "test_values = " << stool::DebugPrinter::to_integer_string(test_values) << std::endl;
+                std::cout << "correct_obj = " << stool::ConverterToString::to_integer_string(correct_obj) << std::endl;
+                std::cout << "test_values = " << stool::ConverterToString::to_integer_string(test_values) << std::endl;
                 throw e;
             }
 
