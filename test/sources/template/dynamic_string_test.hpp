@@ -467,7 +467,7 @@ namespace stool
                         std::cout << "L" << std::flush;
 
                         std::vector<uint8_t> current_text = original_text.get_text();
-                        std::vector<uint64_t> sa = stool::StringFunctions::construct_naive_suffix_array(current_text);
+                        std::vector<uint64_t> sa = stool::ArrayConstructor::construct_naive_suffix_array(current_text);
                         stool::StringTest::locate_query_test(text_index, original_text.text, sa, 5, 100, seed++);
                     }
                 }

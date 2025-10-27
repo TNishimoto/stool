@@ -11,15 +11,55 @@
 
 namespace stool
 {
-	
+
 	/**
 	 * @brief A utility class for constructing various arrays (e.g., ISA, LCP array, BWT)
 	 */
 	class ArrayConstructor
 	{
-	public:
-		
+	private:
+		/**
+		 * @brief Compares two suffixes \p T[x..n-1] and \p T[y..n-1] of a text \p T[0..n-1].
+		 * @return True if the first suffix is less than the second, false otherwise.
+		 */
+		template <typename CHAR = uint8_t>
+		static bool compare_suffixes(const std::vector<CHAR> &T, const uint64_t x, const uint64_t y)
+		{
+			uint64_t max = x < y ? T.size() - y : T.size() - x;
+			for (uint64_t i = 0; i < max; i++)
+			{
+				CHAR c1 = T[x + i];
+				CHAR c2 = T[y + i];
+				if (c1 != c2)
+				{
+					return c1 < c2;
+				}
+			}
+			return x > y;
+		}
 
+	public:
+		/**
+		 * @brief Constructs the suffix array of a text \p T[0..n-1] in a naive way.
+		 */
+		template <typename CHAR = uint8_t>
+		static std::vector<uint64_t> construct_naive_suffix_array(const std::vector<CHAR> &T)
+		{
+			std::vector<uint64_t> r;
+			for (uint64_t i = 0; i < T.size(); i++)
+			{
+				r.push_back(i);
+			}
+
+			std::sort(
+				r.begin(),
+				r.end(),
+				[&](const uint64_t &x, const uint64_t &y)
+				{
+					return compare_suffixes(T, x, y);
+				});
+			return r;
+		}
 		/*!
 		 * @brief Constructs the Inverse Suffix Array (ISA) from a suffix array (SA)
 		 *
@@ -150,15 +190,14 @@ namespace stool
 			// lcp.resize(text.size(), 0);
 		}
 
-
 		/**
 		 * @brief Constructs the Differential Suffix Array (DSA) from a SA
-		 * 
+		 *
 		 * The Differential Suffix Array stores the differences between consecutive
 		 * elements in the suffix array. For position i, DSA[i] = SA[i] - SA[i-1]
 		 * (with DSA[0] = SA[0]). This representation is useful for compression
 		 * and certain string processing algorithms.
-		 * 
+		 *
 		 * @param sa The SA of T
 		 * @param message_paragraph The paragraph depth of message logs (-1 for no output)
 		 * @return The DSA of T
@@ -201,7 +240,7 @@ namespace stool
 		}
 
 		/*!
-		 * @brief Constructs the Burrows-Wheeler Transform (BWT) from a text and its SA 
+		 * @brief Constructs the Burrows-Wheeler Transform (BWT) from a text and its SA
 		 *
 		 * @tparam TEXT The type of the text (e.g., std::vector<uint8_t>, std::vector<char>, std::string)
 		 * @tparam INDEX The integer type used for the SA (defaults to uint64_t)
@@ -249,9 +288,6 @@ namespace stool
 
 			return bwt;
 		}
-
-
-		
 	};
 
 } // namespace stool

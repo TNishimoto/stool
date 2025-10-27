@@ -87,7 +87,7 @@ std::vector<uint8_t> alph = stool::UInt8VectorGenerator::create_ACGT_alphabet();
         text.push_back(0);
 
 
-        std::vector<uint64_t> sa = stool::StringFunctions::construct_naive_suffix_array(text);
+        std::vector<uint64_t> sa = stool::ArrayConstructor::construct_naive_suffix_array(text);
         std::vector<LCPINTV> correct_intervals = stool::StringFunctionsOnSA::naive_compute_lcp_intervals(text, sa);
 
         sdsl::int_vector<> sdsl_BWT; 

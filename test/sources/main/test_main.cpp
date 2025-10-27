@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
             for (uint64_t x = 0; x < 100; x++)
             {
                 std::vector<uint8_t> text = stool::UInt8VectorGenerator::create_random_sequence(len, alphabet, x);
-                std::vector<uint64_t> sa = stool::StringFunctions::construct_naive_suffix_array(text);
+                std::vector<uint64_t> sa = stool::ArrayConstructor::construct_naive_suffix_array(text);
 
                 std::cout << "+" << std::flush;
                 for (uint64_t j = 0; j < 100; j++)
