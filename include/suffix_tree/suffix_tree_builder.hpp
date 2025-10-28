@@ -98,7 +98,7 @@ namespace stool
             {
                 sorted_lcp_intervals_with_leaves.push_back(stool::LCPInterval<uint64_t>(x, x, n - suffix_array[x]));
             }
-            stool::LCPIntervalSort::sort_in_preorder(sorted_lcp_intervals_with_leaves);
+            stool::LCPIntervalComparatorInPreorder<uint64_t>::sort_in_preorder(sorted_lcp_intervals_with_leaves);
 
             return sorted_lcp_intervals_with_leaves;
         }
