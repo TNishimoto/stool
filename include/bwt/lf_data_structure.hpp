@@ -239,7 +239,7 @@ namespace stool
                 }
                 std::vector<uint64_t> c_array = stool::bwt::LFDataStructure::construct_c_array(char_counter_vec);
 
-                sdsl::wt_gmr<> wt_gmr = stool::bwt::LFDataStructure::construct_wt_gmr(_bwt, stool::Message::add_message_paragraph(message_paragraph));
+                sdsl::wt_gmr<> wt_gmr = stool::bwt::LFDataStructure::construct_wt_gmr(_bwt, stool::Message::increment_paragraph_level(message_paragraph));
 
                 LFDataStructure r;
                 r.bwt.swap(_bwt);

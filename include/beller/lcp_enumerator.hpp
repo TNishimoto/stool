@@ -175,7 +175,7 @@ namespace stool
                 }
 
                 std::vector<uint64_t> C;
-                stool::bwt::BWTFunctions::construct_C_array(bwt, C, stool::Message::add_message_paragraph(message_paragraph));
+                stool::bwt::BWTFunctions::construct_C_array(bwt, C, stool::Message::increment_paragraph_level(message_paragraph));
 
                 sdsl::wt_huff<> wt;
 

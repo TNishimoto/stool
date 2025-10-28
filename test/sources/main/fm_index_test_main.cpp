@@ -32,11 +32,11 @@ int main(int argc, char *argv[])
     if (mode == 0)
     {
         uint64_t len = 10000;
-        uint64_t max_alphabet_type = stool::RandomString::get_max_alphabet_type();
+        uint64_t max_alphabet_type = stool::Alphabet::get_max_alphabet_type();
         uint64_t seed = 0;
         for (uint64_t alphabet_type = 0; alphabet_type < max_alphabet_type; alphabet_type++)
         {
-            std::vector<uint8_t> alphabet = stool::RandomString::create_alphabet(alphabet_type);
+            std::vector<uint8_t> alphabet = stool::Alphabet::create_alphabet(alphabet_type);
             uint64_t end_marker = 0;
             for (uint64_t x = 0; x < 100; x++)
             {

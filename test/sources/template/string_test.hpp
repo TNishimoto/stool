@@ -38,7 +38,7 @@ namespace stool
         static void access_character_test(uint64_t max_text_size, uint64_t number_of_access, uint64_t number_of_trials, bool use_end_marker,uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Access Character Test: " << std::endl;
-            for (uint64_t type = 0; type <= stool::RandomString::get_max_alphabet_type(); type++)
+            for (uint64_t type = 0; type <= stool::Alphabet::get_max_alphabet_type(); type++)
             {
 
                 uint64_t len = 2;
@@ -49,7 +49,7 @@ namespace stool
                     std::cout << len << " " << std::flush;
                     for (uint64_t i = 0; i < number_of_trials; i++)
                     {
-                        std::vector<uint8_t> alphabet = stool::RandomString::create_alphabet(type);
+                        std::vector<uint8_t> alphabet = stool::Alphabet::create_alphabet(type);
                         std::vector<uint8_t> text = stool::RandomString::create_random_sequence<uint8_t>(len, alphabet, seed++);
                         if (use_end_marker)
                         {
@@ -142,13 +142,13 @@ namespace stool
             for (uint64_t len = 4; len <= max_len; len *= 2)
             {
                 std::cout << stool::Message::get_paragraph_string(2) << "len = " << len << ": " << std::flush;
-                auto alphabet = stool::RandomString::create_alphabet(alphabet_type);
+                auto alphabet = stool::Alphabet::create_alphabet(alphabet_type);
 
                 for (uint64_t i = 0; i < number_of_trials; i++)
                 {
                     std::cout << "+" << std::flush;
 
-                    std::vector<uint8_t> alphabet = stool::RandomString::create_alphabet(alphabet_type);
+                    std::vector<uint8_t> alphabet = stool::Alphabet::create_alphabet(alphabet_type);
                     std::vector<uint8_t> text = stool::RandomString::create_random_sequence<uint8_t>(len, alphabet, seed++);
                     if (use_end_marker)
                     {
@@ -257,7 +257,7 @@ namespace stool
         {
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Save and Load Test: " << std::endl;
 
-            for (uint64_t type = 0; type <= stool::RandomString::get_max_alphabet_type(); type++)
+            for (uint64_t type = 0; type <= stool::Alphabet::get_max_alphabet_type(); type++)
             {
 
                 uint64_t len = 2;
@@ -268,7 +268,7 @@ namespace stool
                     std::cout << len << " " << std::flush;
                     for (uint64_t i = 0; i < number_of_trials; i++)
                     {
-                        std::vector<uint8_t> alphabet = stool::RandomString::create_alphabet(type);
+                        std::vector<uint8_t> alphabet = stool::Alphabet::create_alphabet(type);
                         std::vector<uint8_t> text = stool::RandomString::create_random_sequence<uint8_t>(len, alphabet, seed++);
                         if (use_end_marker)
                         {
