@@ -4,12 +4,7 @@
 namespace stool
 {
 	/**
-	 * @brief A utility class for generating various types of random strings and sequences. [Unchecked AI's Comment] 
-	 *
-	 * The StringGenerator class provides static methods for creating random sequences
-	 * of integers and converting them to different string representations. It supports
-	 * binary strings, 8-ary strings, and general random sequences with customizable
-	 * alphabet sizes.
+	 * @brief A utility class for generating various types of random strings and sequences. [Obsolete Implementations] 
 	 */
 	class StringGenerator
 	{
@@ -36,6 +31,8 @@ namespace stool
 			}
 			return r;
 		}
+
+
 
 		/**
 		 * @brief Creates a random sequence of integers using a random seed.

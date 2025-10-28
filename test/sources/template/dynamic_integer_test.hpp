@@ -37,7 +37,7 @@ namespace stool
             }
 
             uint64_t len = _inputs[i];
-            auto tmp = stool::StringGenerator::create_random_integer_sequence(len, _max_value, _seed++);
+            auto tmp = stool::RandomString::create_random_sequence<uint64_t>(len, _max_value, _seed++);
             _naive_values.swap(tmp);
             INTEGER_CONTAINER test_container = INTEGER_CONTAINER::build(_naive_values);
             std::cout << "+" << std::flush;
@@ -81,7 +81,7 @@ namespace stool
             }
 
             uint64_t len = _inputs[i];
-            auto tmp = stool::StringGenerator::create_random_integer_sequence(len, _max_value, _seed++);
+            auto tmp = stool::RandomString::create_random_sequence<uint64_t>(len, _max_value, _seed++);
             _naive_values.swap(tmp);
             INTEGER_CONTAINER test_container = INTEGER_CONTAINER::build(_naive_values);
             std::cout << "+" << std::flush;
@@ -504,7 +504,7 @@ namespace stool
             for (uint64_t i = 0; i < number_of_trials; i++)
             {
                 uint64_t counter = 0;
-                std::vector<uint64_t> naive_values = stool::StringGenerator::create_random_integer_sequence(max_len / 2, max_value, seed++);
+                std::vector<uint64_t> naive_values = stool::RandomString::create_random_sequence<uint64_t>(max_len / 2, max_value, seed++);
                 INTEGER_CONTAINER test_container = INTEGER_CONTAINER::build(naive_values);
 
                 std::cout << "+" << std::flush;

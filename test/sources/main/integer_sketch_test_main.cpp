@@ -42,7 +42,7 @@ void successor_test(uint64_t sequence_length, uint64_t max_value, uint64_t numbe
 
     for (uint64_t i = 0; i < number_of_trials; i++)
     {
-        std::vector<uint64_t> sequence = stool::StringGenerator::create_random_integer_sequence(sequence_length, max_value, seed++);
+        std::vector<uint64_t> sequence = stool::RandomString::create_random_sequence<uint64_t>(sequence_length, max_value, seed++);
         std::sort(sequence.begin(), sequence.end());
 
         stool::IntegerSketch8 sketch = stool::IntegerSketch8::build(sequence);

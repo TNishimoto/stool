@@ -23,8 +23,9 @@
 
 #include "./rmq/rmq_small_sparse_table.hpp"
 
+#include "./strings/alphabet.hpp"
 #include "./strings/delta.hpp"
-#include "./strings/string_generator.hpp"
+#include "./strings/random_string.hpp"
 #include "./strings/text_statistics.hpp"
 #include "./strings/lcp_interval.hpp"
 #include "./strings/lcp_interval_comparator_in_preorder.hpp"
@@ -32,7 +33,6 @@
 #include "./strings/array_constructor.hpp"
 #include "./strings/string_functions_on_sa.hpp"
 #include "./strings/string_functions.hpp"
-#include "./strings/uint8_vector_generator.hpp"
 
 
 #include "./third_party/cmdline.h"

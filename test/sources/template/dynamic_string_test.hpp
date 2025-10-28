@@ -75,7 +75,7 @@ namespace stool
         static void insert_character_test(uint64_t max_text_size, uint64_t number_of_insertion, uint64_t number_of_trials, bool use_end_marker, bool detailed_check, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Insert Character Test: " << std::endl;
-            for (uint64_t type = 0; type <= stool::UInt8VectorGenerator::get_max_alphabet_type(); type++)
+            for (uint64_t type = 0; type <= stool::RandomString::get_max_alphabet_type(); type++)
             {
                 std::cout << stool::Message::get_paragraph_string(message_paragraph + 1) << "Alphabet Type: " << type << ", len = " << std::flush;
                 uint64_t len = 2;
@@ -86,8 +86,8 @@ namespace stool
 
                     for (uint64_t i = 0; i < number_of_trials; i++)
                     {
-                        std::vector<uint8_t> alphabet = stool::UInt8VectorGenerator::create_alphabet(type);
-                        std::vector<uint8_t> _text = stool::UInt8VectorGenerator::create_random_sequence(len, alphabet, seed++);
+                        std::vector<uint8_t> alphabet = stool::RandomString::create_alphabet(type);
+                        std::vector<uint8_t> _text = stool::RandomString::create_random_sequence<uint8_t>(len, alphabet, seed++);
                         if (use_end_marker)
                         {
                             _text.push_back(0);
@@ -159,7 +159,7 @@ namespace stool
         static void remove_character_test(uint64_t max_text_size, uint64_t number_of_removals, uint64_t number_of_trials, bool use_end_marker, bool detailed_check, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Remove Character Test: " << std::endl;
-            for (uint64_t type = 0; type <= stool::UInt8VectorGenerator::get_max_alphabet_type(); type++)
+            for (uint64_t type = 0; type <= stool::RandomString::get_max_alphabet_type(); type++)
             {
                 std::cout << stool::Message::get_paragraph_string(message_paragraph + 1) << "Alphabet Type: " << type << ", len = " << std::flush;
                 uint64_t len = 2;
@@ -170,8 +170,8 @@ namespace stool
 
                     for (uint64_t i = 0; i < number_of_trials; i++)
                     {
-                        std::vector<uint8_t> alphabet = stool::UInt8VectorGenerator::create_alphabet(type);
-                        std::vector<uint8_t> _text = stool::UInt8VectorGenerator::create_random_sequence(len, alphabet, seed++);
+                        std::vector<uint8_t> alphabet = stool::RandomString::create_alphabet(type);
+                        std::vector<uint8_t> _text = stool::RandomString::create_random_sequence<uint8_t>(len, alphabet, seed++);
                         if (use_end_marker)
                         {
                             _text.push_back(0);
@@ -276,7 +276,7 @@ namespace stool
         static void insert_string_test(uint64_t max_text_size, uint64_t number_of_insertion, uint64_t number_of_trials, uint64_t max_string_length, bool use_end_marker, bool detailed_check, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Insert String Test: " << std::endl;
-            for (uint64_t type = 0; type <= stool::UInt8VectorGenerator::get_max_alphabet_type(); type++)
+            for (uint64_t type = 0; type <= stool::RandomString::get_max_alphabet_type(); type++)
             {
                 std::cout << stool::Message::get_paragraph_string(message_paragraph + 1) << "Alphabet Type: " << type << ", len = " << std::flush;
                 uint64_t len = 2;
@@ -287,8 +287,8 @@ namespace stool
 
                     for (uint64_t i = 0; i < number_of_trials; i++)
                     {
-                        std::vector<uint8_t> alphabet = stool::UInt8VectorGenerator::create_alphabet(type);
-                        std::vector<uint8_t> _text = stool::UInt8VectorGenerator::create_random_sequence(len, alphabet, seed++);
+                        std::vector<uint8_t> alphabet = stool::RandomString::create_alphabet(type);
+                        std::vector<uint8_t> _text = stool::RandomString::create_random_sequence<uint8_t>(len, alphabet, seed++);
                         if (use_end_marker)
                         {
                             _text.push_back(0);
@@ -398,7 +398,7 @@ namespace stool
         static void delete_string_test(uint64_t max_text_size, uint64_t number_of_deletion, uint64_t number_of_trials, uint64_t max_string_length, bool use_end_marker, bool detailed_check, uint64_t seed, int message_paragraph = stool::Message::SHOW_MESSAGE)
         {
             std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Delete String Test: " << std::endl;
-            for (uint64_t type = 0; type <= stool::UInt8VectorGenerator::get_max_alphabet_type(); type++)
+            for (uint64_t type = 0; type <= stool::RandomString::get_max_alphabet_type(); type++)
             {
                 std::cout << stool::Message::get_paragraph_string(message_paragraph + 1) << "Alphabet Type: " << type << ", len = " << std::flush;
                 uint64_t len = 2;
@@ -409,8 +409,8 @@ namespace stool
 
                     for (uint64_t i = 0; i < number_of_trials; i++)
                     {
-                        std::vector<uint8_t> alphabet = stool::UInt8VectorGenerator::create_alphabet(type);
-                        std::vector<uint8_t> _text = stool::UInt8VectorGenerator::create_random_sequence(len, alphabet, seed++);
+                        std::vector<uint8_t> alphabet = stool::RandomString::create_alphabet(type);
+                        std::vector<uint8_t> _text = stool::RandomString::create_random_sequence<uint8_t>(len, alphabet, seed++);
                         if (use_end_marker)
                         {
                             _text.push_back(0);
@@ -501,8 +501,8 @@ namespace stool
             {
                 std::cout << stool::Message::get_paragraph_string(message_paragraph + 1) << i << ": " << std::flush;
 
-                std::vector<uint8_t> alphabet = stool::UInt8VectorGenerator::create_alphabet(alphabet_type);
-                std::vector<uint8_t> _text = stool::UInt8VectorGenerator::create_random_sequence(text_size, alphabet, seed++);
+                std::vector<uint8_t> alphabet = stool::RandomString::create_alphabet(alphabet_type);
+                std::vector<uint8_t> _text = stool::RandomString::create_random_sequence<uint8_t>(text_size, alphabet, seed++);
                 if (use_end_marker)
                 {
                     _text.push_back(0);

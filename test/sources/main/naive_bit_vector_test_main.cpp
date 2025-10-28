@@ -170,7 +170,7 @@ void access_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
+            std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(len, seed++);
 
             stool::NaiveBitVector<> bit_deque(bv);
 
@@ -197,7 +197,7 @@ void select_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
             std::vector<uint64_t> selecter_array0;
             std::vector<uint64_t> rev_selecter_array1;
 
-            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
+            std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(len, seed++);
 
             for (uint64_t j = 0; j < len; j++)
             {
@@ -276,7 +276,7 @@ void rank_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed)
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
+            std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(len, seed++);
             stool::NaiveBitVector<> bit_deque(bv);
 
             for (uint64_t j = 0; j < len; j++)
@@ -321,7 +321,7 @@ void shift_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, [[ma
     {
         std::cout << "+" << std::flush;
         for(uint64_t len = 4; len < max_len; len *= 2){
-            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
+            std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(len, seed++);
             stool::NaiveBitVector<> bit_deque(bv);
 
             uint64_t shift_pos = get_rand_value(mt) % len;
@@ -482,7 +482,7 @@ void replace_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, bo
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
+            std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(len, seed++);
             stool::NaiveBitVector<> bit_deque(bv);
 
 
@@ -529,7 +529,7 @@ void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
         while (len < (int64_t)max_len)
         {
 
-            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
+            std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(len, seed++);
             stool::NaiveBitVector<> bit_deque(bv);
 
             equal_test(bit_deque, bv);
@@ -633,7 +633,7 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
         int64_t len = 1;
         while (len < (int64_t)max_len)
         {
-            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, seed++);
+            std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(len, seed++);
             stool::NaiveBitVector<> bit_deque(bv);
             assert(bv.size() == bit_deque.size());
 
@@ -742,7 +742,7 @@ void random_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, boo
     for (uint64_t i = 0; i < number_of_trials; i++)
     {
         uint64_t counter = 0;
-        std::vector<bool> seq = stool::StringGenerator::create_random_bit_vector(max_len/2, seed++);
+        std::vector<bool> seq = stool::RandomString::create_random_bit_sequence(max_len/2, seed++);
         stool::NaiveBitVector<> bit_deque(seq);
 
         std::cout << "+" << std::flush;

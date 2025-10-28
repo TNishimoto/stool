@@ -761,8 +761,8 @@ void c_run_sum_test(){
 
     uint64_t seed = 0;
     std::vector<uint8_t> alph{ 1, 2, 3, 4, 5, 6, 7, 8};    
-    //std::vector<uint8_t> alph = stool::UInt8VectorGenerator::create_ACGT_alphabet();
-    std::vector<uint8_t> seq = stool::UInt8VectorGenerator::create_random_sequence(100, alph, seed);
+    //std::vector<uint8_t> alph = stool::RandomString::create_ACGT_alphabet();
+    std::vector<uint8_t> seq = stool::RandomString::create_random_sequence<uint8_t>(100, alph, seed);
     stool::Printer::print_string(seq);
     sdsl::int_vector<8> text;
     //text.width(8);

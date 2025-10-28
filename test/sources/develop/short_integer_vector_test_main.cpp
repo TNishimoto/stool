@@ -36,7 +36,7 @@ void access_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            std::vector<uint64_t> items = stool::RandomString::create_random_sequence<uint64_t>(len, max_value, seed++);
             stool::ShortIntegerVector short_ef(items);
             // std::cout << "short_ef.size() = " << short_ef.size() << std::endl;
             // short_ef.print_color_bits();
@@ -80,7 +80,7 @@ void psum_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, 
 
         while (len < max_len)
         {
-            std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            std::vector<uint64_t> items = stool::RandomString::create_random_sequence<uint64_t>(len, max_value, seed++);
             stool::ShortIntegerVector short_ef(items);
 
             for (uint64_t j = 0; j < len; j++)
@@ -142,7 +142,7 @@ void search_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value
 
         while (len < max_len)
         {
-            std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            std::vector<uint64_t> items = stool::RandomString::create_random_sequence<uint64_t>(len, max_value, seed++);
             stool::ShortIntegerVector short_ef(items);
             uint64_t sum = short_ef.psum();
 
@@ -180,7 +180,7 @@ void back_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value, 
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            std::vector<uint64_t> items = stool::RandomString::create_random_sequence<uint64_t>(len, max_value, seed++);
             stool::ShortIntegerVector short_ef;
 
             for (auto it : items)
@@ -230,7 +230,7 @@ void front_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value,
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            std::vector<uint64_t> items = stool::RandomString::create_random_sequence<uint64_t>(len, max_value, seed++);
             stool::ShortIntegerVector short_ef;
 
             for (int64_t i = items.size() - 1; i >= 0; i--)
@@ -306,7 +306,7 @@ void erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value,
     {
         std::cout << "+" << std::flush;
 
-        std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(max_len, max_value, seed++);
+        std::vector<uint64_t> items = stool::RandomString::create_random_sequence<uint64_t>(max_len, max_value, seed++);
         stool::ShortIntegerVector short_ef(items);
 
         while (short_ef.size() > 0)

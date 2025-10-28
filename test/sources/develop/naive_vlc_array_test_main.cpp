@@ -94,7 +94,7 @@ void access_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<uint64_t> values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            std::vector<uint64_t> values = stool::RandomString::create_random_sequence<uint64_t>(len, max_value, seed++);
 
             stool::NaiveVLCArray<> value_deque(values);
 
@@ -114,7 +114,7 @@ void psum_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials, 
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<uint64_t> values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            std::vector<uint64_t> values = stool::RandomString::create_random_sequenc<uint64_t>(len, max_value, seed++);
             stool::NaiveVLCArray<> value_deque(values);
 
             uint64_t psum = 0;
@@ -158,7 +158,7 @@ void search_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<uint64_t> values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            std::vector<uint64_t> values = stool::RandomString::create_random_sequence<uint64_t>(len, max_value, seed++);
             stool::NaiveVLCArray<> value_deque(values);
 
 
@@ -240,7 +240,7 @@ void insert_and_erase_test(uint64_t max_len, uint64_t max_value, uint64_t number
         while (len < (int64_t)max_len)
         {
 
-            std::vector<uint64_t> values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            std::vector<uint64_t> values = stool::RandomString::create_random_sequence<uint64_t>(len, max_value, seed++);
             stool::NaiveVLCArray<> value_deque(values);
 
             
@@ -312,7 +312,7 @@ void replace_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trial
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<uint64_t> values = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            std::vector<uint64_t> values = stool::RandomString::create_random_sequence<uint64_t>(len, max_value, seed++);
             stool::NaiveVLCArray<> value_deque(values);
 
 
@@ -345,7 +345,7 @@ void random_test(uint64_t max_len, uint64_t max_value, uint64_t number_of_trials
     for (uint64_t i = 0; i < number_of_trials; i++)
     {
         uint64_t counter = 0;
-        std::vector<uint64_t> seq = stool::StringGenerator::create_random_integer_sequence(max_len/2, max_value, seed++);
+        std::vector<uint64_t> seq = stool::RandomString::create_random_sequence<uint64_t>(max_len/2, max_value, seed++);
         stool::NaiveVLCArray<> value_deque(seq);
 
         std::cout << "+" << std::flush;

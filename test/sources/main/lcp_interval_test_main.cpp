@@ -82,8 +82,8 @@ bool equal_check_lcp_intervals(std::vector<stool::LCPInterval<INDEX>> &item1, st
 }
 
 void test(uint64_t len, uint64_t seed){
-std::vector<uint8_t> alph = stool::UInt8VectorGenerator::create_ACGT_alphabet();
-        std::vector<uint8_t> text = stool::UInt8VectorGenerator::create_random_sequence(len, alph, seed);
+std::vector<uint8_t> alph = stool::RandomString::create_ACGT_alphabet();
+        std::vector<uint8_t> text = stool::RandomString::create_random_sequence<uint8_t>(len, alph, seed);
         text.push_back(0);
 
 

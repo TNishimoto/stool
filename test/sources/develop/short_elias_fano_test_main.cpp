@@ -36,7 +36,7 @@ void access_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(len, max_value, seed++);
+            std::vector<uint64_t> items = stool::RandomString::create_random_sequence<uint64_t>(len, max_value, seed++);
             std::sort(items.begin(), items.end());
             stool::ShortEliasFanoVector short_ef(items);
             //std::cout << "short_ef.size() = " << short_ef.size() << std::endl;
@@ -62,7 +62,7 @@ void insert_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value
     for(uint64_t i = 0; i < number_of_trials; i++){
         std::cout << "+" << std::flush;
 
-        std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(max_len, max_value, seed++);
+        std::vector<uint64_t> items = stool::RandomString::create_random_sequence<uint64_t>(max_len, max_value, seed++);
         stool::ShortEliasFanoVector short_ef;
         for(auto it: items){
             short_ef.insert(it);
@@ -84,7 +84,7 @@ void erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t max_value,
     for(uint64_t i = 0; i < number_of_trials; i++){
         std::cout << "+" << std::flush;
 
-        std::vector<uint64_t> items = stool::StringGenerator::create_random_integer_sequence(max_len, max_value, seed++);
+        std::vector<uint64_t> items = stool::RandomString::create_random_sequence<uint64_t>(max_len, max_value, seed++);
         std::sort(items.begin(), items.end());
         stool::ShortEliasFanoVector short_ef(items);
 

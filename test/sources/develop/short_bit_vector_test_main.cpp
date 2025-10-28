@@ -49,7 +49,7 @@ void access_test(uint64_t max_len, uint64_t number_of_trials, std::mt19937_64 &m
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, mt64);
+            std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(len, mt64);
             stool::ShortBitVector short_bv(bv);
 
             for (uint64_t j = 0; j < len; j++)
@@ -78,7 +78,7 @@ void select_test(uint64_t max_len, uint64_t number_of_trials, std::mt19937_64 &m
         {
             std::vector<uint64_t> selecter_array;
 
-            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, mt64);
+            std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(len, mt64);
             for (uint64_t j = 0; j < len; j++)
             {
                 if (bv[j])
@@ -112,7 +112,7 @@ void rank_test(uint64_t max_len, uint64_t number_of_trials, std::mt19937_64 &mt6
         uint64_t len = 1;
         while (len < max_len)
         {
-            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(len, mt64);
+            std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(len, mt64);
             stool::ShortBitVector short_bv(bv);
 
             for (uint64_t j = 0; j < len; j++)
@@ -189,7 +189,7 @@ void extend_right_test(uint64_t max_len, uint64_t number_of_trials, uint64_t ext
     for(uint64_t i = 0; i < number_of_trials; i++){
         std::cout << "+" << std::flush;
         for(uint64_t j = 0; j < max_len; j++){
-            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(max_len, mt64);
+            std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(max_len, mt64);
             stool::ShortBitVector short_bv(bv);
 
             for(uint64_t k=0;k<extend_length;k++){
@@ -226,9 +226,9 @@ void insert_test(uint64_t max_len, uint64_t number_of_trials, uint64_t insert_le
         std::cout << "+" << std::flush;
         for(uint64_t j = 0; j < max_len; j++){
 
-            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(max_len, mt64);
+            std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(max_len, mt64);
             stool::ShortBitVector short_bv(bv);
-            std::vector<bool> replace_bv = stool::StringGenerator::create_random_bit_vector(insert_length, mt64);
+            std::vector<bool> replace_bv = stool::RandomString::create_random_bit_sequence(insert_length, mt64);
             uint64_t insert_value = 0;
 
             if(j == 0 && insert_length == 128){
@@ -281,9 +281,9 @@ void erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t erase_leng
     for(uint64_t i = 0; i < number_of_trials; i++){
         std::cout << "+" << std::flush;
         for(int64_t j = 0; j < (int64_t)max_len - (int64_t)erase_length; j++){
-            std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(max_len, mt64);
+            std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(max_len, mt64);
             stool::ShortBitVector short_bv(bv);
-            std::vector<bool> replace_bv = stool::StringGenerator::create_random_bit_vector(erase_length, mt64);
+            std::vector<bool> replace_bv = stool::RandomString::create_random_bit_sequence(erase_length, mt64);
             uint64_t insert_value = 0;
 
 
@@ -322,7 +322,7 @@ void replace_test(uint64_t max_len, uint64_t number_of_trials, uint64_t replace_
     {
         std::cout << "+" << std::flush;
 
-        std::vector<bool> bv = stool::StringGenerator::create_random_bit_vector(max_len, mt64);
+        std::vector<bool> bv = stool::RandomString::create_random_bit_sequence(max_len, mt64);
         stool::ShortBitVector short_bv(bv);
 
         for (uint64_t j = 0; j < short_bv.size() - replace_length; j++)
@@ -330,7 +330,7 @@ void replace_test(uint64_t max_len, uint64_t number_of_trials, uint64_t replace_
             uint64_t replace_value = 0;
 
             //std::cout << "j = "<< j << std::endl;
-            std::vector<bool> replace_bv = stool::StringGenerator::create_random_bit_vector(replace_length, mt64);
+            std::vector<bool> replace_bv = stool::RandomString::create_random_bit_sequence(replace_length, mt64);
             for (uint64_t k = 0; k < replace_length; k++)
             {
                 //std::cout << (replace_bv[k] ? "1" : "0") << std::flush;
