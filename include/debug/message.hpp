@@ -4,10 +4,7 @@
 namespace stool
 {
     /**
-     * @brief Message utility class for handling debug message formatting [Unchecked AI's Comment] 
-     * 
-     * This class provides static methods for managing message paragraphs and
-     * generating indentation strings for debug output formatting.
+     * @brief Message utility class for computing the paragraph level of log messages 
      */
     class Message
     {
@@ -19,19 +16,13 @@ namespace stool
         static inline constexpr int SHOW_MESSAGE = 0;
 
         /**
-         * @brief Increments the message paragraph level
-         * 
-         * @param message_paragraph Current paragraph level (0 or positive integer)
-         * @return int New paragraph level, or NO_MESSAGE if input is negative
-         * 
-         * This function increments the paragraph level by 1 if the input is
-         * non-negative. If the input is negative, it returns NO_MESSAGE.
+         * @brief Increments the message paragraph level if the given paragraph level is non-negative
          */
-        static int add_message_paragraph(int message_paragraph)
+        static int increment_paragraph_level(int paragraph_level)
         {
-            if (message_paragraph >= 0)
+            if (paragraph_level >= 0)
             {
-                return message_paragraph + 1;
+                return paragraph_level + 1;
             }
             else
             {
@@ -40,18 +31,11 @@ namespace stool
         }
 
         /**
-         * @brief Generates indentation string based on paragraph level
-         * 
-         * @param message_paragraph Paragraph level (0 or positive integer)
-         * @return std::string String containing spaces for indentation
-         * 
-         * This function creates an indentation string with spaces. The number
-         * of spaces is calculated as message_paragraph * 2. If the input is
-         * negative, an empty string is returned.
+         * @brief Generates indentation string based on paragraph level (e.g., get_paragraph_string(1) returns "  ")
          */
-        static std::string get_paragraph_string(int message_paragraph){
-            if(message_paragraph >= 0){
-                return std::string(message_paragraph * 2, ' ');
+        static std::string get_paragraph_string(int paragraph_level){
+            if(paragraph_level >= 0){
+                return std::string(paragraph_level * 2, ' ');
             }else{
                 return std::string(0, ' ');
             }
