@@ -242,11 +242,6 @@ namespace stool
             }
             throw std::runtime_error("buffer_size_ is not found");
         }
-        /**
-         * @brief Get the maximum possible deque size for the given index type
-         *
-         * @return uint64_t The maximum number of elements that can be stored
-         */
         
 
     public:
