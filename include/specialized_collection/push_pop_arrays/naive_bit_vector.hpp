@@ -1,4 +1,7 @@
 #pragma once
+#include <vector>
+#include <fstream>
+#include <iostream>
 #include "../../basic/byte.hpp"
 #include "../../basic/lsb_byte.hpp"
 #include "../../basic/msb_byte.hpp"
@@ -224,24 +227,7 @@ namespace stool
         // INDEX_TYPE deque_size_;
 
 
-        int64_t get_current_buffer_size_index() const
-        {
-            if (this->buffer_size_ == 0)
-            {
-                return -1;
-            }
-            else
-            {
-                for (uint64_t i = 0; i < size_array.size(); i++)
-                {
-                    if (this->buffer_size_ == size_array[i])
-                    {
-                        return i;
-                    }
-                }
-            }
-            throw std::runtime_error("buffer_size_ is not found");
-        }
+        
         
 
     public:
@@ -458,18 +444,15 @@ namespace stool
         {
             return this->buffer_[block_index];
         }
-
-        std::string get_buffer_bit_string() const
+        uint64_t *get_buffer_pointer() const
         {
-            std::vector<uint64_t> bits;
-            bits.resize(this->buffer_size_);
-            for (uint64_t i = 0; i < this->buffer_size_; i++)
-            {
-                bits[i] = this->buffer_[i];
-            }
-
-            return stool::Byte::to_bit_string(bits, true);
+            return this->buffer_;
         }
+        uint64_t get_buffer_size() const
+        {
+            return this->buffer_size_;
+        }
+
         /**
          * @brief Calculate the total memory usage in bytes
          *
@@ -490,6 +473,24 @@ namespace stool
         uint64_t unused_size_in_bytes() const
         {
             return (this->capacity() - this->size() / 64) * sizeof(uint64_t);
+        }
+        int64_t get_current_buffer_size_index() const
+        {
+            if (this->buffer_size_ == 0)
+            {
+                return -1;
+            }
+            else
+            {
+                for (uint64_t i = 0; i < size_array.size(); i++)
+                {
+                    if (this->buffer_size_ == size_array[i])
+                    {
+                        return i;
+                    }
+                }
+            }
+            throw std::runtime_error("buffer_size_ is not found");
         }
         //}@
 
@@ -929,6 +930,18 @@ namespace stool
             }
             return bv;
         }
+        std::string get_buffer_bit_string() const
+        {
+            std::vector<uint64_t> bits;
+            bits.resize(this->buffer_size_);
+            for (uint64_t i = 0; i < this->buffer_size_; i++)
+            {
+                bits[i] = this->buffer_[i];
+            }
+
+            return stool::Byte::to_bit_string(bits, true);
+        }
+
         //}@
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -1335,14 +1348,6 @@ namespace stool
             this->shift_right(old_size, bit_count);
 
             this->replace_64bit_string_sequence(old_size, bits64_array, bit_count, array_size);
-        }
-        uint64_t *get_buffer_pointer() const
-        {
-            return this->buffer_;
-        }
-        uint64_t get_buffer_size() const
-        {
-            return this->buffer_size_;
         }
 
         void push_front64(uint64_t value, uint8_t len = 64)
