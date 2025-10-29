@@ -8,271 +8,25 @@
 namespace stool
 {
 	/**
-	 * @brief A class for reading files in an online (streaming) manner [Unchecked AI's Comment] 
-	 * 
-	 * This class provides functionality to read files in chunks without loading
-	 * the entire file into memory at once. It supports both binary and text files
-	 * and provides iterator-based access to file contents.
+	 * @brief A class for reading files in an online (streaming) manner
 	 */
 	class OnlineFileReader
 	{
-		std::string filename;
+		std::string filepath;
 		std::ifstream stream;
-			std::vector<uint8_t> buffer;
+		std::vector<uint8_t> buffer;
 		uint64_t text_length;
 		bool is_used;
 
-
 	public:
-		/**
-		 * @brief Constructs an OnlineFileReader with the specified filename
-		 * @param _filename The path to the file to be read
-		 */
-		OnlineFileReader(std::string _filename)
-		{
-			this->filename = _filename;
-			this->text_length = stool::OnlineFileReader::get_text_size(this->filename);
-			this->is_used = false;
-		}
-		
-		/**
-		 * @brief Returns the size of the file in bytes
-		 * @return The total number of bytes in the file
-		 */
-		uint64_t size() const {
-			return this->text_length;
-		}
-		
-		/**
-		 * @brief Opens the file for reading
-		 */
-		void open(){
-			this->stream.open(filename, std::ios::binary);
-		}
-		
-		/**
-		 * @brief Closes the file
-		 */
-		void close(){
-			this->stream.close();
-		}
-
-		/**
-		 * @brief Reads a chunk of data from a file stream into a char vector
-		 * @param file The input file stream
-		 * @param output The vector to store the read data
-		 * @param bufferSize The maximum number of bytes to read
-		 * @param textSize The total size of the file
-		 * @return true if data was successfully read, false if end of file reached
-		 * @throws -1 if file is at end of file
-		 */
-		static bool read(std::ifstream &file, std::vector<char> &output, uint64_t bufferSize, uint64_t textSize)
-		{
-			if (file.eof())
-			{
-				throw -1;
-			}
-			uint64_t i = file.tellg();
-			if (i == textSize)
-				return false;
-
-			uint64_t tmpBufferSize = std::min(textSize - i, bufferSize);
-			if (output.size() != tmpBufferSize)
-			{
-				output.resize(tmpBufferSize);
-			}
-			file.read((char *)&(output)[0], tmpBufferSize * sizeof(char));
-
-			return true;
-		}
-
-		/**
-		 * @brief Reads a chunk of data from a file stream into a uint8_t vector
-		 * @param file The input file stream
-		 * @param output The vector to store the read data
-		 * @param bufferSize The maximum number of bytes to read
-		 * @param textSize The total size of the file
-		 * @return true if data was successfully read, false if end of file reached
-		 * @throws -1 if file is at end of file
-		 */
-		static bool read(std::ifstream &file, std::vector<uint8_t> &output, uint64_t bufferSize, uint64_t textSize)
-		{
-			if (file.eof())
-			{
-				throw -1;
-			}
-			uint64_t i = file.tellg();
-			if (i == textSize)
-				return false;
-
-			uint64_t tmpBufferSize = std::min(textSize - i, bufferSize);
-			if (output.size() != tmpBufferSize)
-			{
-				output.resize(tmpBufferSize);
-			}
-			file.read((char *)&(output)[0], tmpBufferSize * sizeof(char));
-
-			return true;
-		}
-		
-		/**
-		 * @brief Gets the size of a file in bytes from a file stream
-		 * @param file The input file stream
-		 * @return The total number of bytes in the file
-		 */
-		static uint64_t get_text_size(std::ifstream &file)
-		{
-			file.seekg(0, std::ios::end);
-			uint64_t textSize = (uint64_t)file.tellg() / sizeof(char);
-			file.seekg(0, std::ios::beg);
-			return textSize;
-		}
-		
-		/**
-		 * @brief Gets the size of a file in bytes from a filename
-		 * @param filename The path to the file
-		 * @return The total number of bytes in the file
-		 */
-		static uint64_t get_text_size(std::string filename)
-		{
-
-			std::ifstream inputStream;
-			inputStream.open(filename, std::ios::binary);
-			uint64_t p = get_text_size(inputStream);
-			inputStream.close();
-			return p;
-		}
-		
-		/**
-		 * @brief Reads the entire file into a char vector
-		 * @param file The input file stream
-		 * @param output The vector to store the entire file content
-		 * @return true if data was successfully read, false if file is empty
-		 */
-		static bool read(std::ifstream &file, std::vector<char> &output)
-		{
-			file.seekg(0, std::ios::end);
-			uint64_t textSize = (uint64_t)file.tellg() / sizeof(char);
-			file.seekg(0, std::ios::beg);
-
-			uint64_t i = file.tellg();
-			if (i == textSize)
-				return false;
-
-			output.resize(textSize);
-			file.read((char *)&(output)[0], textSize * sizeof(char));
-
-			return true;
-		}
-		
-		/**
-		 * @brief Extracts the alphabet (unique characters) from a file
-		 * @param filename The path to the file
-		 * @param buffer_size The size of the buffer for reading chunks (default: 16000)
-		 * @return A vector containing all unique characters found in the file
-		 */
-		static std::vector<uint8_t> get_alphabet(std::string filename, uint64_t buffer_size = 16000)
-		{
-			uint64_t text_size = get_text_size(filename);
-			std::vector<bool> checker;
-			checker.resize(256, false);
-
-			std::ifstream inputStream;
-			inputStream.open(filename, std::ios::binary);
-			std::vector<uint8_t> buffer;
-			while (read(inputStream, buffer, buffer_size, text_size))
-			{
-				for (uint8_t c : buffer)
-				{
-					checker[c] = true;
-				}
-			}
-			inputStream.close();
-
-			std::vector<uint8_t> r;
-			for (size_t i = 0; i < checker.size(); i++)
-			{
-				if (checker[i])
-				{
-					r.push_back(i);
-				}
-			}
-			return r;
-		}
-
-		/**
-		 * @brief Compares two files for equality
-		 * @param filename The path to the first file
-		 * @param filename2 The path to the second file
-		 * @param bufferSize The size of the buffer for reading chunks
-		 * @return A pair containing (true, file_size) if files are equal, (false, position) if different
-		 * @throws -1 if the first file cannot be opened
-		 */
-		static std::pair<bool, uint64_t> equal_check(std::string filename, std::string filename2, uint64_t bufferSize)
-		{
-			std::ifstream stream, stream2;
-			stream.open(filename, std::ios::binary);
-			stream2.open(filename2, std::ios::binary);
-
-			if (!stream)
-			{
-				std::cerr << "error reading file " << std::endl;
-				throw -1;
-			}
-
-			stream.seekg(0, std::ios::end);
-			uint64_t textSize = (uint64_t)stream.tellg() / sizeof(char);
-			stream.seekg(0, std::ios::beg);
-
-			stream2.seekg(0, std::ios::end);
-			uint64_t textSize2 = (uint64_t)stream2.tellg() / sizeof(char);
-			stream2.seekg(0, std::ios::beg);
-
-			if (textSize != textSize2)
-			{
-				stream.close();
-				stream2.close();
-
-				return std::pair<bool, uint64_t>(false, UINT64_MAX);
-			}
-
-			std::vector<uint8_t> tmp1, tmp2;
-			uint64_t sum = 0;
-
-			while (true)
-			{
-				bool b1 = OnlineFileReader::read(stream, tmp1, bufferSize, textSize);
-
-				for (uint64_t i = 0; i < tmp1.size(); i++)
-				{
-					if (tmp1[i] != tmp2[i])
-					{
-						stream.close();
-						stream2.close();
-
-						return std::pair<bool, uint64_t>(false, sum);
-					}
-					else
-					{
-						sum++;
-					}
-				}
-				if (!b1)
-					break;
-			}
-			stream.close();
-			stream2.close();
-			return std::pair<bool, uint64_t>(true, textSize);
-		}
-		
 		/**
 		 * @brief Static buffer size constant for the iterator
 		 */
 		static inline constexpr int STATIC_BUFFER_SIZE = 8192;
 
-		/**
+/**
 		 * @brief Iterator class for OnlineFileReader
-		 * 
+		 *
 		 * This iterator provides forward iteration over the bytes in a file,
 		 * reading the file in chunks to avoid loading the entire file into memory.
 		 */
@@ -290,7 +44,7 @@ namespace stool
 			uint16_t current_position_in_buffer;
 
 			/**
-			 * @brief Constructs an OnlineFileReaderIterator
+			 * @brief Constructs an OnlineFileReaderIterator for a given file \p F representing a text \p T[0..n-1]
 			 * @param _stream Pointer to the file stream
 			 * @param _buffer Pointer to the buffer for storing chunks
 			 * @param _text_size The total size of the file
@@ -326,17 +80,15 @@ namespace stool
 			}
 
 			/**
-			 * @brief Dereference operator to get the current byte
-			 * @return The byte at the current position
+			 * @brief Returns \p T[i] for the current position \p i
 			 */
 			uint8_t operator*() const
 			{
 				return (*buffer)[current_position_in_buffer];
 			}
-			
+
 			/**
-			 * @brief Pre-increment operator to move to the next byte
-			 * @return Reference to this iterator
+			 * @brief Increments the current position \p i by 1
 			 */
 			OnlineFileReaderIterator &operator++()
 			{
@@ -363,8 +115,7 @@ namespace stool
 			}
 
 			/**
-			 * @brief Post-increment operator to move to the next byte
-			 * @return A copy of this iterator before incrementing
+			 * @brief Increments the current position \p i by 1
 			 */
 			OnlineFileReaderIterator operator++(int)
 			{
@@ -372,21 +123,246 @@ namespace stool
 				++(*this);
 				return temp;
 			}
-			
+
 			/**
-			 * @brief Equality comparison operator
-			 * @param other The iterator to compare with
-			 * @return true if both iterators point to the same position
+			 * @brief ==
 			 */
 			bool operator==(const OnlineFileReaderIterator &other) const { return current_position == other.current_position; }
-			
+
 			/**
-			 * @brief Inequality comparison operator
-			 * @param other The iterator to compare with
-			 * @return true if iterators point to different positions
+			 * @brief !=
 			 */
 			bool operator!=(const OnlineFileReaderIterator &other) const { return current_position != other.current_position; }
 		};
+
+		/**
+		 * @brief Constructs an OnlineFileReader with the specified filepath \p filepath
+		 */
+		OnlineFileReader(std::string _filepath)
+		{
+			this->filepath = _filepath;
+			this->text_length = stool::OnlineFileReader::get_text_size(this->filepath);
+			this->is_used = false;
+		}
+
+		/**
+		 * @brief Returns the length of the text stored in the file \p filepath
+		 */
+		uint64_t size() const
+		{
+			return this->text_length;
+		}
+
+		/**
+		 * @brief Opens the file for reading
+		 */
+		void open()
+		{
+			this->stream.open(filepath, std::ios::binary);
+		}
+
+		/**
+		 * @brief Closes the file
+		 */
+		void close()
+		{
+			this->stream.close();
+		}
+
+		/**
+		 * @brief Reads \p T[i..i+m-1] from a given file \p F and writes the read data into a vector \p output
+		 * @param file_F The input file stream. T[0..i-1] has been read.
+		 * @return true if data was successfully read, false if end of file reached
+		 * @throws -1 if file is at end of file
+		 */
+		static bool read(std::ifstream &file_F, std::vector<char> &output, uint64_t buffer_size_m, uint64_t text_size_n)
+		{
+			if (file_F.eof())
+			{
+				throw -1;
+			}
+			uint64_t i = file_F.tellg();
+			if (i == text_size_n)
+				return false;
+
+			uint64_t tmp_buffer_size = std::min(text_size_n - i, buffer_size_m);
+			if (output.size() != tmp_buffer_size)
+			{
+				output.resize(tmp_buffer_size);
+			}
+			file_F.read((char *)&(output)[0], tmp_buffer_size * sizeof(char));
+
+			return true;
+		}
+
+		/**
+		 * @brief Reads \p T[i..i+m-1] from a given file \p F and writes the read data into a vector \p output
+		 * @param file_F The input file stream. T[0..i-1] has been read.
+		 * @return true if data was successfully read, false if end of file reached
+		 * @throws -1 if file is at end of file
+		 */
+		static bool read(std::ifstream &file_F, std::vector<uint8_t> &output, uint64_t buffer_size_m, uint64_t text_size_n)
+		{
+			if (file_F.eof())
+			{
+				throw -1;
+			}
+			uint64_t i = file_F.tellg();
+			if (i == text_size_n)
+				return false;
+
+			uint64_t tmp_buffer_size = std::min(text_size_n - i, buffer_size_m);
+			if (output.size() != tmp_buffer_size)
+			{
+				output.resize(tmp_buffer_size);
+			}
+			file_F.read((char *)&(output)[0], tmp_buffer_size * sizeof(char));
+
+			return true;
+		}
+
+		/**
+		 * @brief Returns the length \p n of the text \p T[0..n-1] stored in the file \p F
+		 */
+		static uint64_t get_text_size(std::ifstream &file_F)
+		{
+			file_F.seekg(0, std::ios::end);
+			uint64_t textSize = (uint64_t)file_F.tellg() / sizeof(char);
+			file_F.seekg(0, std::ios::beg);
+			return textSize;
+		}
+
+		/**
+		 * @brief Returns the length \p n of the text \p T[0..n-1] stored in the file \p filepath
+		 */
+		static uint64_t get_text_size(std::string filepath)
+		{
+
+			std::ifstream inputStream;
+			inputStream.open(filepath, std::ios::binary);
+			uint64_t p = get_text_size(inputStream);
+			inputStream.close();
+			return p;
+		}
+
+		/**
+		 * @brief Reads \p T[0..n-1] from a given file \p F and writes the read data into a vector \p output
+		 * @return true if data was successfully read, false if file is empty
+		 */
+		static bool read(std::ifstream &file_F, std::vector<char> &output)
+		{
+			file_F.seekg(0, std::ios::end);
+			uint64_t textSize = (uint64_t)file_F.tellg() / sizeof(char);
+			file_F.seekg(0, std::ios::beg);
+
+			uint64_t i = file_F.tellg();
+			if (i == textSize)
+				return false;
+
+			output.resize(textSize);
+			file_F.read((char *)&(output)[0], textSize * sizeof(char));
+
+			return true;
+		}
+
+		/**
+		 * @brief Returns the alphabet \p U of the text \p T stored in the file \p filepath
+		 * @param buffer_size_m The size of the buffer for reading chunks (default: 16000)
+		 * @return A vector containing all unique characters in \p U
+		 */
+		static std::vector<uint8_t> get_alphabet(std::string filepath, uint64_t buffer_size_m = 16000)
+		{
+			uint64_t text_size = get_text_size(filepath);
+			std::vector<bool> checker;
+			checker.resize(256, false);
+
+			std::ifstream inputStream;
+			inputStream.open(filepath, std::ios::binary);
+			std::vector<uint8_t> buffer;
+			while (read(inputStream, buffer, buffer_size_m, text_size))
+			{
+				for (uint8_t c : buffer)
+				{
+					checker[c] = true;
+				}
+			}
+			inputStream.close();
+
+			std::vector<uint8_t> r;
+			for (size_t i = 0; i < checker.size(); i++)
+			{
+				if (checker[i])
+				{
+					r.push_back(i);
+				}
+			}
+			return r;
+		}
+
+		/**
+		 * @brief Compares two files \p F and \p Q for equality
+		 * @param buffer_size_m The size of the buffer for reading chunks
+		 * @return A pair (\p b, \p lcp). Here, \p b is true if the files are equal, false otherwise. \p lcp is the length of the longest common prefix between the two files if the text lengths are the same, UINT64_MAX otherwise.
+		 * @throws -1 if the first file cannot be opened
+		 */
+		static std::pair<bool, uint64_t> equal_check(std::string filepath_F, std::string filepath_Q, uint64_t buffer_size_m = 16000)
+		{
+			std::ifstream stream_F, stream_Q;
+			stream_F.open(filepath_F, std::ios::binary);
+			stream_Q.open(filepath_Q, std::ios::binary);
+
+			if (!stream_F)
+			{
+				std::cerr << "error reading file " << std::endl;
+				throw -1;
+			}
+
+			stream_F.seekg(0, std::ios::end);
+			uint64_t textSize_F = (uint64_t)stream_F.tellg() / sizeof(char);
+			stream_F.seekg(0, std::ios::beg);
+
+			stream_Q.seekg(0, std::ios::end);
+			uint64_t textSize_Q = (uint64_t)stream_Q.tellg() / sizeof(char);
+			stream_Q.seekg(0, std::ios::beg);
+
+			if (textSize_F != textSize_Q)
+			{
+				stream_F.close();
+				stream_Q.close();
+
+				return std::pair<bool, uint64_t>(false, UINT64_MAX);
+			}
+
+			std::vector<uint8_t> tmp_F, tmp_Q;
+			uint64_t sum = 0;
+
+			while (true)
+			{
+				bool b1 = OnlineFileReader::read(stream_F, tmp_F, buffer_size_m, textSize_F);
+
+				for (uint64_t i = 0; i < tmp_F.size(); i++)
+				{
+					if (tmp_F[i] != tmp_Q[i])
+					{
+						stream_F.close();
+						stream_Q.close();
+
+						return std::pair<bool, uint64_t>(false, sum);
+					}
+					else
+					{
+						sum++;
+					}
+				}
+				if (!b1)
+					break;
+			}
+			stream_F.close();
+			stream_Q.close();
+			return std::pair<bool, uint64_t>(true, textSize_F);
+		}
+
+		
 
 		/**
 		 * @brief Returns an iterator pointing to the beginning of the file
@@ -395,24 +371,24 @@ namespace stool
 		 */
 		OnlineFileReaderIterator begin()
 		{
-			if(this->is_used){
+			if (this->is_used)
+			{
 				throw std::runtime_error("Error: OnlineFileReaderIterator");
-			}else{
+			}
+			else
+			{
 				this->is_used = true;
 				return OnlineFileReaderIterator(&this->stream, &this->buffer, this->text_length, false);
-
 			}
 		}
-		
+
 		/**
 		 * @brief Returns an iterator pointing to the end of the file
 		 * @return An end iterator
 		 */
-		OnlineFileReaderIterator end() 
+		OnlineFileReaderIterator end()
 		{
 			return OnlineFileReaderIterator(&this->stream, &this->buffer, this->text_length, true);
-
 		}
-
 	};
 } // namespace stool
