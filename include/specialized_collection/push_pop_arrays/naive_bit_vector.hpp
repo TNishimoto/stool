@@ -4,27 +4,26 @@
 #include "../../basic/msb_byte.hpp"
 #include "../../debug/debug_printer.hpp"
 
-
 namespace stool
 {
     /*!
-     * @brief A simple bit vector implementation with push/pop operations [Unchecked AI's Comment] 
-     * 
+     * @brief A simple bit vector implementation with push/pop operations [Unchecked AI's Comment]
+     *
      * This class provides a basic bit vector data structure that supports dynamic
      * push and pop operations. It stores bits in an array of 64-bit integers and
      * maintains counts of total bits and set bits (1s).
-     * 
+     *
      * Key features:
      * - Dynamic resizing based on predefined size thresholds
      * - O(1) push/pop operations at the end
      * - Bit-level access and manipulation
      * - Memory efficient storage using 64-bit blocks
-     * 
+     *
      * The implementation is particularly suited for:
      * - Small to medium sized bit sequences
      * - Applications requiring frequent append/remove operations
      * - Cases where simple bit vector functionality is sufficient
-     * 
+     *
      * @tparam MAX_BIT_LENGTH Maximum number of bits that can be stored (default: 8092)
      */
 
@@ -182,7 +181,8 @@ namespace stool
             {
                 return this->index == this->size;
             }
-            uint64_t read_64bits_string() const {
+            uint64_t read_64bits_string() const
+            {
                 uint64_t block_index = this->index / 64;
                 uint64_t bit_index = this->index % 64;
                 uint64_t value = this->_m_deq->read_64bit_string(block_index, bit_index);
@@ -223,19 +223,7 @@ namespace stool
 
         // INDEX_TYPE deque_size_;
 
-        static uint64_t get_appropriate_buffer_size_index(int64_t size)
-        {
 
-            for (uint64_t i = 0; i < size_array.size(); i++)
-            {
-                int64_t xsize = size_array[i] * 64;
-                if (xsize > size)
-                {
-                    return i;
-                }
-            }
-            throw std::runtime_error("size is too large");
-        }
         int64_t get_current_buffer_size_index() const
         {
             if (this->buffer_size_ == 0)
@@ -254,40 +242,21 @@ namespace stool
             }
             throw std::runtime_error("buffer_size_ is not found");
         }
-
-    public:
         /**
          * @brief Get the maximum possible deque size for the given index type
          *
          * @return uint64_t The maximum number of elements that can be stored
          */
-        static uint64_t max_deque_size()
-        {
-            return (uint64_t)UINT16_MAX * 64;
-        }
+        
 
-        /**
-         * @brief Calculate the total memory usage in bytes
-         *
-         * @return uint64_t Total memory usage including object overhead and buffer
-         */
-        uint64_t size_in_bytes(bool only_extra_bytes = false) const
-        {
-            if (only_extra_bytes)
-            {
-                return sizeof(uint64_t) * this->buffer_size_;
-            }
-            else
-            {
-                return sizeof(NaiveBitVector) + (sizeof(uint64_t) * this->buffer_size_);
-            }
-        }
+    public:
 
-        uint64_t unused_size_in_bytes() const
-        {
-            return (this->capacity() - this->size() / 64) * sizeof(uint64_t);
-        }
+        
 
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Initializers
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
         /**
          * @brief Copy constructor
          *
@@ -348,49 +317,6 @@ namespace stool
         }
 
         /**
-         * @brief Move assignment operator
-         *
-         * @param other The NaiveBitVector to move from
-         * @return NaiveBitVector& Reference to this object
-         */
-        NaiveBitVector &operator=(NaiveBitVector &&other) noexcept
-        {
-            if (this != &other)
-            {
-                this->buffer_ = other.buffer_;
-                this->buffer_size_ = other.buffer_size_;
-                this->num1_ = other.num1_;
-                this->bit_count_ = other.bit_count_;
-
-                other.buffer_ = nullptr;
-                other.buffer_size_ = 0;
-                other.num1_ = 0;
-                other.bit_count_ = 0;
-            }
-            return *this;
-        }
-
-        /**
-         * @brief Get the current buffer capacity
-         *
-         * @return size_t The number of elements the buffer can hold
-         */
-        size_t capacity() const
-        {
-            return this->buffer_size_ * 64;
-        }
-
-        /**
-         * @brief Remove all elements from the deque
-         */
-        void clear()
-        {
-            this->num1_ = 0;
-            this->bit_count_ = 0;
-            this->shrink_to_fit(0);
-        }
-
-        /**
          * @brief Default constructor
          *
          * Creates an empty deque with initial capacity of 2 elements.
@@ -414,7 +340,6 @@ namespace stool
             this->bit_count_ = 0;
             this->buffer_size_ = 2;
         }
-
         template <typename T>
         void initialize(const T &bit64_array, uint64_t bit_size, uint64_t num1, uint64_t array_size)
         {
@@ -455,6 +380,45 @@ namespace stool
                 this->buffer_ = nullptr;
             }
         }
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Begin and end iterators
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+
+        NaiveBitVectorIterator begin() const
+        {
+            if (!this->empty())
+            {
+                return NaiveBitVectorIterator(this, 0, this->size());
+            }
+            else
+            {
+                return this->end();
+            }
+        }
+        NaiveBitVectorIterator end() const
+        {
+            return NaiveBitVectorIterator(this, this->size(), this->size());
+        }
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Lightweight functions for accessing to properties of this class
+        ///   The properties of this class.
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+
+        /**
+         * @brief Get the current buffer capacity
+         *
+         * @return size_t The number of elements the buffer can hold
+         */
+        size_t capacity() const
+        {
+            return this->buffer_size_ * 64;
+        }
 
         /**
          * @brief Update buffer size if needed based on current usage
@@ -474,6 +438,710 @@ namespace stool
         bool empty() const
         {
             return this->bit_count_ == 0;
+        }
+
+        /**
+         * @brief Get the current number of elements
+         *
+         * @return size_t Number of elements in the deque
+         */
+        size_t size() const
+        {
+            return this->bit_count_;
+        }
+
+        uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index) const
+        {
+            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_);
+        }
+        uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index, uint64_t code_len) const
+        {
+            assert(block_index < this->buffer_size_);
+            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_) >> (64 - code_len);
+        }
+        uint64_t read_as_64bit_integer(uint16_t block_index) const
+        {
+            return this->buffer_[block_index];
+        }
+
+        std::string get_buffer_bit_string() const
+        {
+            std::vector<uint64_t> bits;
+            bits.resize(this->buffer_size_);
+            for (uint64_t i = 0; i < this->buffer_size_; i++)
+            {
+                bits[i] = this->buffer_[i];
+            }
+
+            return stool::Byte::to_bit_string(bits, true);
+        }
+        /**
+         * @brief Calculate the total memory usage in bytes
+         *
+         * @return uint64_t Total memory usage including object overhead and buffer
+         */
+        uint64_t size_in_bytes(bool only_extra_bytes = false) const
+        {
+            if (only_extra_bytes)
+            {
+                return sizeof(uint64_t) * this->buffer_size_;
+            }
+            else
+            {
+                return sizeof(NaiveBitVector) + (sizeof(uint64_t) * this->buffer_size_);
+            }
+        }
+
+        uint64_t unused_size_in_bytes() const
+        {
+            return (this->capacity() - this->size() / 64) * sizeof(uint64_t);
+        }
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Operators
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+
+        /**
+         * @brief Move assignment operator
+         *
+         * @param other The NaiveBitVector to move from
+         * @return NaiveBitVector& Reference to this object
+         */
+        NaiveBitVector &operator=(NaiveBitVector &&other) noexcept
+        {
+            if (this != &other)
+            {
+                this->buffer_ = other.buffer_;
+                this->buffer_size_ = other.buffer_size_;
+                this->num1_ = other.num1_;
+                this->bit_count_ = other.bit_count_;
+
+                other.buffer_ = nullptr;
+                other.buffer_size_ = 0;
+                other.num1_ = 0;
+                other.bit_count_ = 0;
+            }
+            return *this;
+        }
+
+        /**
+         * @brief Const subscript operator for element access
+         *
+         * @param index Position of the element to access
+         * @return const T& Const reference to the element
+         */
+        bool operator[](size_t index) const
+        {
+            uint64_t block_index = index / 64;
+            uint64_t bit_index = index % 64;
+            return stool::MSBByte::get_bit(this->buffer_[block_index], bit_index);
+        }
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Access, search, psum, rank, and select operations
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+
+        uint64_t psum() const
+        {
+            return this->rank1();
+        }
+
+        uint64_t psum(uint64_t i) const
+        {
+            return this->rank1(i);
+        }
+
+        uint64_t reverse_psum(uint64_t i) const
+        {
+            uint64_t size = this->size();
+            if (i + 1 < size)
+            {
+                uint64_t v = this->psum() - this->rank1(size - i - 2);
+                return v;
+            }
+            else
+            {
+                return this->psum();
+            }
+        }
+
+        uint64_t psum(uint64_t i, uint64_t j) const
+        {
+            if (i == j)
+            {
+                return this->at(i);
+            }
+            else
+            {
+                throw std::runtime_error("No implementation");
+            }
+        }
+        int64_t search(uint64_t x) const noexcept
+        {
+            if (x == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                uint64_t count = this->psum();
+                if (x <= count)
+                {
+                    uint64_t v = this->select1(x - 1);
+                    return v;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
+
+        uint64_t rank1(uint64_t i, uint64_t j) const
+        {
+            uint64_t len = j - i + 1;
+            uint64_t block_index = i / 64;
+            uint64_t bit_index = i % 64;
+
+            return this->rank1(block_index, bit_index, len);
+        }
+        uint64_t rank1() const
+        {
+            return this->num1_;
+        }
+
+        uint64_t rank1(uint16_t block_index, uint8_t bit_index, uint16_t len) const
+        {
+
+            if (len == 0)
+            {
+                return 0;
+            }
+
+            std::pair<uint64_t, uint8_t> end_bpX = NaiveBitVector::add_bit_length(block_index, bit_index, len - 1);
+            uint64_t num = stool::MSBByte::rank1(this->buffer_, block_index, bit_index, end_bpX.first, end_bpX.second, this->buffer_size_);
+
+            return num;
+        }
+
+        uint64_t rank1(uint64_t i) const
+        {
+            return this->rank1(0, 0, i + 1);
+        }
+        uint64_t rank0(uint64_t i) const
+        {
+            return (i + 1) - this->rank1(i);
+        }
+        uint64_t rank0() const
+        {
+            return this->size() - this->rank1();
+        }
+
+        int64_t select1(uint64_t i) const
+        {
+            // int64_t true_result = this->select1__(i);
+            if (this->empty())
+            {
+                return -1;
+            }
+
+            // uint64_t size = this->size();
+
+            if (i + 1 > this->num1_)
+            {
+                return -1;
+            }
+            else
+            {
+                return stool::MSBByte::select1(this->buffer_, i, this->buffer_size_);
+            }
+        }
+        int64_t select1_successor(uint64_t i) const
+        {
+
+            uint64_t block_index = (i + 1) / 64;
+            uint8_t bit_index = (i + 1) % 64;
+
+            uint64_t last_block_index = (this->bit_count_ - 1) / 64;
+            uint64_t last_bit_index = (this->bit_count_ - 1) % 64;
+
+            if (i + 1 >= this->size())
+            {
+                return -1;
+            }
+            else if (block_index == last_block_index)
+            {
+                uint64_t bits = this->buffer_[block_index] << bit_index;
+                uint64_t bit_size = last_bit_index - bit_index + 1;
+                bits = (bits >> (64 - bit_size)) << (64 - bit_size);
+                uint64_t bit_count = stool::Byte::popcount(bits);
+                if (bit_count > 0)
+                {
+                    uint64_t result = stool::MSBByte::select1(bits) + (i + 1);
+                    assert(result > i);
+                    assert(result <= this->size());
+                    return result;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            else
+            {
+                {
+                    uint64_t bits = this->buffer_[block_index] << bit_index;
+                    uint64_t bit_count = stool::Byte::popcount(bits);
+                    if (bit_count > 0)
+                    {
+                        uint64_t result = stool::MSBByte::select1(bits) + (i + 1);
+                        assert(result > i);
+                        assert(result <= this->size());
+                        return result;
+                    }
+                }
+                uint64_t gap = 64 - bit_index;
+
+                for (uint64_t j = block_index + 1; j < last_block_index; j++)
+                {
+                    uint64_t bits = this->buffer_[j];
+                    uint64_t bit_count = stool::Byte::popcount(bits);
+                    if (bit_count > 0)
+                    {
+                        uint64_t result = stool::MSBByte::select1(bits) + (i + 1) + gap + ((j - (block_index + 1)) * 64);
+                        assert(result > i);
+                        assert(result <= this->size());
+
+                        return result;
+                    }
+                }
+
+                uint64_t last_bits = (this->buffer_[last_block_index] >> (63 - last_bit_index)) << (63 - last_bit_index);
+                uint64_t bit_count = stool::Byte::popcount(last_bits);
+                uint64_t gap2 = block_index + 1 < last_block_index ? (last_block_index - (block_index + 1)) : 0;
+                if (bit_count > 0)
+                {
+                    uint64_t result = stool::MSBByte::select1(last_bits) + (i + 1) + gap + (gap2 * 64);
+
+                    assert(result > i);
+                    assert(result <= this->size());
+
+                    return result;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
+        int64_t select1_predecessor(uint64_t i) const
+        {
+            uint64_t block_index = (i - 1) / 64;
+            uint8_t bit_index = (i - 1) % 64;
+
+            {
+                uint64_t R_size = 63 - bit_index;
+                uint64_t bits = (this->buffer_[block_index] >> R_size) << R_size;
+                uint64_t bit_count = stool::Byte::popcount(bits);
+                if (bit_count > 0)
+                {
+                    int64_t result = i - 1 - (stool::LSBByte::select1(bits) - R_size);
+                    return result;
+                }
+            }
+            int64_t gap = bit_index + 1;
+
+            for (int64_t j = block_index - 1; j >= 0; j--)
+            {
+                uint64_t bits = this->buffer_[j];
+                uint64_t bit_count = stool::Byte::popcount(bits);
+                if (bit_count > 0)
+                {
+                    int64_t gap2 = (((block_index - 1) - j) * 64);
+                    int64_t result = i - 1 - gap - gap2 - stool::LSBByte::select1(bits);
+                    assert(result >= 0);
+                    assert(result <= (int64_t)this->size());
+                    return result;
+                }
+            }
+            return -1;
+        }
+
+        /**
+         * @brief Get element at specified position
+         *
+         * @param i Index of the element
+         * @return T Copy of the element at position i
+         */
+        bool at(uint64_t i) const
+        {
+            return (*this)[i];
+        }
+        uint64_t read_last_64bit() const
+        {
+            uint64_t last_block_index = (this->bit_count_ - 1) / 64;
+            uint8_t last_bit_index = (this->bit_count_ - 1) % 64;
+            return this->read_prev_64bit(last_block_index, last_bit_index);
+        }
+        uint64_t read_64bit_string(uint64_t block_index, uint8_t bit_index) const
+        {
+            uint64_t pos = block_index * 64 + bit_index;
+            uint64_t bits = stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_);
+            if (pos + 64 <= this->bit_count_)
+            {
+                return bits;
+            }
+            else
+            {
+                uint64_t bitsize = this->bit_count_ - pos;
+                uint64_t mask = UINT64_MAX << (64 - bitsize);
+                return bits & mask;
+            }
+        }
+        uint64_t read_64bit_string(uint64_t block_index, uint8_t bit_index, uint8_t code_len) const
+        {
+            uint64_t mask = UINT64_MAX << (64 - code_len);
+            return this->read_64bit_string(block_index, bit_index) & mask;
+        }
+
+        uint64_t read_prev_64bit(uint64_t block_index, uint8_t bit_index) const
+        {
+
+            if (block_index > 0)
+            {
+                if (bit_index == 63)
+                {
+                    return this->buffer_[block_index - 1];
+                }
+                else
+                {
+                    return stool::MSBByte::access_64bits(this->buffer_, block_index - 1, bit_index + 1, this->buffer_size_);
+                }
+            }
+            else
+            {
+                uint64_t prev_size = bit_index + 1;
+                uint64_t fst_bits = this->buffer_[0];
+                return (fst_bits >> (64 - prev_size)) << (64 - prev_size);
+            }
+        }
+
+        int64_t rev_select1(uint64_t i) const
+        {
+            uint64_t sum = this->rank1();
+            uint64_t size = this->size();
+            uint64_t counter1 = i + 1;
+            if (sum == 0)
+            {
+                return -1;
+            }
+            else if (i >= sum)
+            {
+                return -1;
+            }
+            else
+            {
+                uint64_t last_block_index = (this->bit_count_ - 1) / 64;
+                uint64_t last_bit_index = (this->bit_count_ - 1) % 64;
+
+                {
+                    uint64_t bits = this->buffer_[last_block_index];
+                    bits = bits >> (63 - last_bit_index);
+
+                    uint64_t byte_count1 = stool::Byte::popcount(bits);
+                    if (byte_count1 < counter1)
+                    {
+                        counter1 -= byte_count1;
+                    }
+                    else
+                    {
+                        int64_t p = stool::LSBByte::select1(bits, counter1 - 1);
+                        assert(p != -1);
+
+                        return (size - 1) - p;
+                    }
+                }
+
+                for (int64_t x = last_block_index - 1; x >= 0; x--)
+                {
+                    uint64_t bits = this->buffer_[x];
+                    uint64_t byte_count1 = stool::Byte::popcount(bits);
+                    if (byte_count1 < counter1)
+                    {
+                        counter1 -= byte_count1;
+                    }
+                    else
+                    {
+                        uint64_t gap = (((last_block_index - 1) - x) * 64) + last_bit_index + 1;
+                        int64_t p = stool::LSBByte::select1(bits, counter1 - 1);
+                        assert(p != -1);
+
+                        return (size - 1) - gap - p;
+                    }
+                }
+                throw std::runtime_error("rev_select1: invalid argument");
+            }
+        }
+
+        int64_t select0(uint64_t i) const
+        {
+            if (this->empty())
+            {
+                return -1;
+            }
+
+            // uint64_t size = this->size();
+            uint64_t num0 = this->bit_count_ - this->num1_;
+
+            if (i + 1 > num0)
+            {
+                return -1;
+            }
+            else
+            {
+                return stool::MSBByte::select0(this->buffer_, i, this->buffer_size_);
+            }
+        }
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Convertion functions
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+        std::string to_string(bool use_partition = false) const
+        {
+            std::string s;
+            for (uint64_t i = 0; i < this->size(); i++)
+            {
+                s += std::to_string(this->at(i));
+                if (use_partition && i % 64 == 63)
+                {
+                    s += " ";
+                }
+            }
+            return s;
+        }
+        std::vector<bool> to_bit_vector() const
+        {
+            std::vector<bool> bv;
+            for (uint64_t i = 0; i < this->size(); i++)
+            {
+                bv.push_back(this->at(i));
+            }
+            return bv;
+        }
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Print and verification functions
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+
+        /**
+         * @brief Print debug information about the deque
+         */
+        void print_info() const
+        {
+            std::cout << "NaiveBitVector = {" << std::endl;
+            std::cout << "size = " << this->size() << std::endl;
+            std::cout << "capacity = " << this->capacity() << std::endl;
+            std::cout << "buffer_size = " << this->buffer_size_ << std::endl;
+
+            if (this->buffer_ != nullptr)
+            {
+                std::cout << "Buffer: " << this->get_buffer_bit_string() << std::endl;
+            }
+            else
+            {
+                std::cout << "Buffer: nullptr" << std::endl;
+            }
+            std::cout << "Content: " << this->to_string() << std::endl;
+
+            std::cout << "}" << std::endl;
+        }
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Load and save functions
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+
+        /**
+         * @brief Save deque to a byte vector
+         *
+         * @param item The deque to save
+         * @param output Vector to store the serialized data
+         * @param pos Current position in the output vector (will be updated)
+         */
+        static void store_to_bytes(const NaiveBitVector &item, std::vector<uint8_t> &output, uint64_t &pos)
+        {
+            std::memcpy(output.data() + pos, &item.bit_count_, sizeof(item.bit_count_));
+            pos += sizeof(item.bit_count_);
+            std::memcpy(output.data() + pos, &item.num1_, sizeof(item.num1_));
+            pos += sizeof(item.num1_);
+            std::memcpy(output.data() + pos, &item.buffer_size_, sizeof(item.buffer_size_));
+            pos += sizeof(item.buffer_size_);
+            std::memcpy(output.data() + pos, item.buffer_, item.buffer_size_ * sizeof(uint64_t));
+            pos += item.buffer_size_ * sizeof(uint64_t);
+        }
+
+        /**
+         * @brief Save deque to a file stream
+         *
+         * @param item The deque to save
+         * @param os Output file stream
+         */
+        static void store_to_file(const NaiveBitVector &item, std::ofstream &os)
+        {
+            os.write(reinterpret_cast<const char *>(&item.bit_count_), sizeof(item.bit_count_));
+            os.write(reinterpret_cast<const char *>(&item.num1_), sizeof(item.num1_));
+            os.write(reinterpret_cast<const char *>(&item.buffer_size_), sizeof(item.buffer_size_));
+            os.write(reinterpret_cast<const char *>(item.buffer_), item.buffer_size_ * sizeof(uint64_t));
+        }
+
+        /**
+         * @brief Load deque from a byte vector
+         *
+         * @param data Vector containing the serialized data
+         * @param pos Current position in the data vector (will be updated)
+         * @return NaiveBitVector The loaded deque
+         */
+        static NaiveBitVector load_from_bytes(const std::vector<uint8_t> &data, uint64_t &pos)
+        {
+
+            uint16_t _bit_count;
+            uint16_t _num1;
+            uint16_t _buffer_size;
+
+            std::memcpy(&_bit_count, data.data() + pos, sizeof(uint16_t));
+            pos += sizeof(uint16_t);
+            std::memcpy(&_num1, data.data() + pos, sizeof(uint16_t));
+            pos += sizeof(uint16_t);
+            std::memcpy(&_buffer_size, data.data() + pos, sizeof(uint16_t));
+            pos += sizeof(uint16_t);
+
+            NaiveBitVector r(_buffer_size);
+            r.buffer_size_ = _buffer_size;
+            r.bit_count_ = _bit_count;
+            r.num1_ = _num1;
+
+            std::memcpy(r.buffer_, data.data() + pos, sizeof(uint64_t) * (size_t)_buffer_size);
+            pos += sizeof(uint64_t) * _buffer_size;
+
+            return r;
+        }
+
+        /**
+         * @brief Load deque from a file stream
+         *
+         * @param ifs Input file stream
+         * @return NaiveBitVector The loaded deque
+         */
+        static NaiveBitVector load_from_file(std::ifstream &ifs)
+        {
+            uint16_t _bit_count;
+            uint16_t _num1;
+            uint16_t _buffer_size;
+
+            ifs.read(reinterpret_cast<char *>(&_bit_count), sizeof(uint16_t));
+            ifs.read(reinterpret_cast<char *>(&_num1), sizeof(uint16_t));
+            ifs.read(reinterpret_cast<char *>(&_buffer_size), sizeof(uint16_t));
+
+            NaiveBitVector r(_buffer_size);
+            r.bit_count_ = _bit_count;
+            r.num1_ = _num1;
+            r.buffer_size_ = _buffer_size;
+            ifs.read(reinterpret_cast<char *>(r.buffer_), sizeof(uint64_t) * (size_t)_buffer_size);
+
+            return r;
+        }
+        static void save(const std::vector<NaiveBitVector> &items, std::vector<uint8_t> &output, uint64_t &pos)
+        {
+            uint64_t size = get_byte_size(items);
+            if (pos + size > output.size())
+            {
+                output.resize(pos + size);
+            }
+
+            uint64_t items_size = items.size();
+            std::memcpy(output.data() + pos, &items_size, sizeof(uint64_t));
+            pos += sizeof(uint64_t);
+
+            for (const auto &item : items)
+            {
+                NaiveBitVector::save(item, output, pos);
+            }
+        }
+        static void save(const std::vector<NaiveBitVector> &items, std::ofstream &os)
+        {
+            uint64_t items_size = items.size();
+            os.write(reinterpret_cast<const char *>(&items_size), sizeof(uint64_t));
+
+            for (const auto &item : items)
+            {
+                NaiveBitVector::save(item, os);
+            }
+        }
+        static std::vector<NaiveBitVector> load_vector(const std::vector<uint8_t> &data, uint64_t &pos)
+        {
+            uint64_t size = 0;
+            std::memcpy(&size, data.data() + pos, sizeof(uint64_t));
+            pos += sizeof(uint64_t);
+
+            std::vector<NaiveBitVector> output;
+            output.resize(size);
+            for (uint64_t i = 0; i < size; i++)
+            {
+                output[i] = NaiveBitVector::load_from_bytes(data, pos);
+            }
+            return output;
+        }
+        static std::vector<NaiveBitVector> load_vector(std::ifstream &ifs)
+        {
+            uint64_t size = 0;
+            ifs.read(reinterpret_cast<char *>(&size), sizeof(uint64_t));
+
+            std::vector<NaiveBitVector> output;
+            output.resize(size);
+            for (uint64_t i = 0; i < size; i++)
+            {
+                output[i] = NaiveBitVector::load_from_file(ifs);
+            }
+
+            return output;
+        }
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Update Operations
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+
+        /**
+         * @brief Swap contents with another NaiveBitVector
+         *
+         * @param item The NaiveBitVector to swap with
+         */
+        void swap(NaiveBitVector &item)
+        {
+            std::swap(this->buffer_, item.buffer_);
+            std::swap(this->num1_, item.num1_);
+            std::swap(this->buffer_size_, item.buffer_size_);
+            std::swap(this->bit_count_, item.bit_count_);
+        }
+
+        /**
+         * @brief Remove all elements from the deque
+         */
+        void clear()
+        {
+            this->num1_ = 0;
+            this->bit_count_ = 0;
+            this->shrink_to_fit(0);
         }
 
         /**
@@ -756,17 +1424,20 @@ namespace stool
                 this->erase(0, len);
             }
         }
-        template<typename T>
-        void pop_front(uint64_t len, T &output_bits64_array, [[maybe_unused]]uint64_t array_size)
+        template <typename T>
+        void pop_front(uint64_t len, T &output_bits64_array, [[maybe_unused]] uint64_t array_size)
         {
-            if(len == 0){
+            if (len == 0)
+            {
                 return;
             }
-            if(len > this->size()){
+            if (len > this->size())
+            {
                 throw std::invalid_argument("Error: pop_front()");
             }
-            uint64_t block_size = (len-1) / 64 + 1;
-            for(uint64_t i = 0; i < block_size; i++){
+            uint64_t block_size = (len - 1) / 64 + 1;
+            for (uint64_t i = 0; i < block_size; i++)
+            {
                 output_bits64_array[i] = this->buffer_[i];
             }
 
@@ -779,7 +1450,6 @@ namespace stool
                 this->erase(0, len);
             }
         }
-
 
         void replace(uint64_t position, bool value)
         {
@@ -969,475 +1639,6 @@ namespace stool
                 this->shift_left(position + len, len);
             }
         }
-
-        /**
-         * @brief Get the current number of elements
-         *
-         * @return size_t Number of elements in the deque
-         */
-        size_t size() const
-        {
-            return this->bit_count_;
-        }
-
-        uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index) const
-        {
-            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_);
-        }
-        uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index, uint64_t code_len) const
-        {
-            assert(block_index < this->buffer_size_);
-            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_) >> (64 - code_len);
-        }
-        uint64_t read_as_64bit_integer(uint16_t block_index) const
-        {
-            return this->buffer_[block_index];
-        }
-
-        std::string get_buffer_bit_string() const
-        {
-            std::vector<uint64_t> bits;
-            bits.resize(this->buffer_size_);
-            for (uint64_t i = 0; i < this->buffer_size_; i++)
-            {
-                bits[i] = this->buffer_[i];
-            }
-
-            return stool::Byte::to_bit_string(bits, true);
-        }
-
-        /**
-         * @brief Print debug information about the deque
-         */
-        void print_info() const
-        {
-            std::cout << "NaiveBitVector = {" << std::endl;
-            std::cout << "size = " << this->size() << std::endl;
-            std::cout << "capacity = " << this->capacity() << std::endl;
-            std::cout << "buffer_size = " << this->buffer_size_ << std::endl;
-
-            if (this->buffer_ != nullptr)
-            {
-                std::cout << "Buffer: " << this->get_buffer_bit_string() << std::endl;
-            }
-            else
-            {
-                std::cout << "Buffer: nullptr" << std::endl;
-            }
-            std::cout << "Content: " << this->to_string() << std::endl;
-
-            std::cout << "}" << std::endl;
-        }
-
-        /*
-        void reserve(size_t capacity_bit_size)
-        {
-            this->shrink_to_fit(capacity_bit_size);
-        }
-        */
-
-        /**
-         * @brief Swap contents with another NaiveBitVector
-         *
-         * @param item The NaiveBitVector to swap with
-         */
-        void swap(NaiveBitVector &item)
-        {
-            std::swap(this->buffer_, item.buffer_);
-            std::swap(this->num1_, item.num1_);
-            std::swap(this->buffer_size_, item.buffer_size_);
-            std::swap(this->bit_count_, item.bit_count_);
-        }
-
-        /*
-        std::pair<uint16_t, uint8_t> get_block_index_and_bit_index(uint64_t index) const
-        {
-            if ((uint64_t)this->first_bit_index_ + index < 64)
-            {
-                return std::make_pair(this->first_block_index_, this->first_bit_index_ + index);
-            }
-            else
-            {
-                uint64_t x = index - (64 - this->first_bit_index_);
-                uint64_t offset_block = (x / 64) + 1;
-                uint64_t block_index = this->first_block_index_ + offset_block;
-                uint64_t bit_index = x - (offset_block * 64);
-
-                if (block_index >= this->buffer_size_)
-                {
-                    block_index -= this->buffer_size_;
-                }
-                return std::make_pair(block_index, bit_index);
-            }
-        }
-        */
-
-        uint64_t psum() const
-        {
-            return this->rank1();
-        }
-
-        uint64_t psum(uint64_t i) const
-        {
-            return this->rank1(i);
-        }
-
-        uint64_t reverse_psum(uint64_t i) const
-        {
-            uint64_t size = this->size();
-            if (i + 1 < size)
-            {
-                uint64_t v = this->psum() - this->rank1(size - i - 2);
-                return v;
-            }
-            else
-            {
-                return this->psum();
-            }
-        }
-        int64_t search(uint64_t x) const noexcept
-        {
-            if (x == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                uint64_t count = this->psum();
-                if (x <= count)
-                {
-                    uint64_t v = this->select1(x - 1);
-                    return v;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-        }
-
-        uint64_t rank1(uint64_t i, uint64_t j) const
-        {
-            uint64_t len = j - i + 1;
-            uint64_t block_index = i / 64;
-            uint64_t bit_index = i % 64;
-
-            return this->rank1(block_index, bit_index, len);
-        }
-        uint64_t rank1() const
-        {
-            return this->num1_;
-        }
-
-        uint64_t rank1(uint16_t block_index, uint8_t bit_index, uint16_t len) const
-        {
-
-            if (len == 0)
-            {
-                return 0;
-            }
-
-            std::pair<uint64_t, uint8_t> end_bpX = NaiveBitVector::add_bit_length(block_index, bit_index, len-1);
-            uint64_t num = stool::MSBByte::rank1(this->buffer_, block_index, bit_index, end_bpX.first, end_bpX.second, this->buffer_size_);
-
-            return num;
-            
-        }
-
-        uint64_t rank1(uint64_t i) const
-        {
-            return this->rank1(0, 0, i + 1);
-        }
-        uint64_t rank0(uint64_t i) const
-        {
-            return (i + 1) - this->rank1(i);
-        }
-        uint64_t rank0() const
-        {
-            return this->size() - this->rank1();
-        }
-
-        int64_t select1(uint64_t i) const
-        {
-            // int64_t true_result = this->select1__(i);
-            if (this->empty())
-            {
-                return -1;
-            }
-
-            // uint64_t size = this->size();
-
-            if (i + 1 > this->num1_)
-            {
-                return -1;
-            }
-            else
-            {
-                return stool::MSBByte::select1(this->buffer_, i, this->buffer_size_);
-                
-            }
-        }
-        int64_t select1_successor(uint64_t i) const
-        {
-
-            uint64_t block_index = (i + 1) / 64;
-            uint8_t bit_index = (i + 1) % 64;
-
-            uint64_t last_block_index = (this->bit_count_ - 1) / 64;
-            uint64_t last_bit_index = (this->bit_count_ - 1) % 64;
-
-            if (i + 1 >= this->size())
-            {
-                return -1;
-            }
-            else if (block_index == last_block_index)
-            {
-                uint64_t bits = this->buffer_[block_index] << bit_index;
-                uint64_t bit_size = last_bit_index - bit_index + 1;
-                bits = (bits >> (64 - bit_size)) << (64 - bit_size);
-                uint64_t bit_count = stool::Byte::popcount(bits);
-                if (bit_count > 0)
-                {
-                    uint64_t result = stool::MSBByte::select1(bits) + (i + 1);
-                    assert(result > i);
-                    assert(result <= this->size());
-                    return result;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            else
-            {
-                {
-                    uint64_t bits = this->buffer_[block_index] << bit_index;
-                    uint64_t bit_count = stool::Byte::popcount(bits);
-                    if (bit_count > 0)
-                    {
-                        uint64_t result = stool::MSBByte::select1(bits) + (i + 1);
-                        assert(result > i);
-                        assert(result <= this->size());
-                        return result;
-                    }
-                }
-                uint64_t gap = 64 - bit_index;
-
-                for (uint64_t j = block_index + 1; j < last_block_index; j++)
-                {
-                    uint64_t bits = this->buffer_[j];
-                    uint64_t bit_count = stool::Byte::popcount(bits);
-                    if (bit_count > 0)
-                    {
-                        uint64_t result = stool::MSBByte::select1(bits) + (i + 1) + gap + ((j - (block_index + 1)) * 64);
-                        assert(result > i);
-                        assert(result <= this->size());
-
-                        return result;
-                    }
-                }
-
-                uint64_t last_bits = (this->buffer_[last_block_index] >> (63 - last_bit_index)) << (63 - last_bit_index);
-                uint64_t bit_count = stool::Byte::popcount(last_bits);
-                uint64_t gap2 = block_index + 1 < last_block_index ? (last_block_index - (block_index + 1)) : 0;
-                if (bit_count > 0)
-                {
-                    uint64_t result = stool::MSBByte::select1(last_bits) + (i + 1) + gap + (gap2 * 64);
-
-                    assert(result > i);
-                    assert(result <= this->size());
-
-                    return result;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-        }
-        int64_t select1_predecessor(uint64_t i) const
-        {
-            uint64_t block_index = (i - 1) / 64;
-            uint8_t bit_index = (i - 1) % 64;
-
-            {
-                uint64_t R_size = 63 - bit_index;
-                uint64_t bits = (this->buffer_[block_index] >> R_size) << R_size;
-                uint64_t bit_count = stool::Byte::popcount(bits);
-                if (bit_count > 0)
-                {
-                    int64_t result = i - 1 - (stool::LSBByte::select1(bits) - R_size);
-                    return result;
-                }
-            }
-            int64_t gap = bit_index + 1;
-
-            for (int64_t j = block_index - 1; j >= 0; j--)
-            {
-                uint64_t bits = this->buffer_[j];
-                uint64_t bit_count = stool::Byte::popcount(bits);
-                if (bit_count > 0)
-                {
-                    int64_t gap2 = (((block_index - 1) - j) * 64);
-                    int64_t result = i - 1 - gap - gap2 - stool::LSBByte::select1(bits);
-                    assert(result >= 0);
-                    assert(result <= (int64_t)this->size());
-                    return result;
-                }
-            }
-            return -1;
-        }
-
-        uint64_t read_last_64bit() const
-        {
-            uint64_t last_block_index = (this->bit_count_ - 1) / 64;
-            uint8_t last_bit_index = (this->bit_count_ - 1) % 64;
-            return this->read_prev_64bit(last_block_index, last_bit_index);
-        }
-        uint64_t read_64bit_string(uint64_t block_index, uint8_t bit_index) const
-        {
-            uint64_t pos = block_index * 64 + bit_index;
-            uint64_t bits = stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_);
-            if (pos + 64 <= this->bit_count_)
-            {
-                return bits;
-            }
-            else
-            {
-                uint64_t bitsize = this->bit_count_ - pos;
-                uint64_t mask = UINT64_MAX << (64 - bitsize);
-                return bits & mask;
-            }
-        }
-        uint64_t read_64bit_string(uint64_t block_index, uint8_t bit_index, uint8_t code_len) const
-        {
-            uint64_t mask = UINT64_MAX << (64 - code_len);
-            return this->read_64bit_string(block_index, bit_index) & mask;
-        }
-
-        uint64_t read_prev_64bit(uint64_t block_index, uint8_t bit_index) const
-        {
-
-            if (block_index > 0)
-            {
-                if (bit_index == 63)
-                {
-                    return this->buffer_[block_index - 1];
-                }
-                else
-                {
-                    return stool::MSBByte::access_64bits(this->buffer_, block_index - 1, bit_index + 1, this->buffer_size_);
-                }
-            }
-            else
-            {
-                uint64_t prev_size = bit_index + 1;
-                uint64_t fst_bits = this->buffer_[0];
-                return (fst_bits >> (64 - prev_size)) << (64 - prev_size);
-            }
-        }
-
-        int64_t rev_select1(uint64_t i) const
-        {
-            uint64_t sum = this->rank1();
-            uint64_t size = this->size();
-            uint64_t counter1 = i + 1;
-            if (sum == 0)
-            {
-                return -1;
-            }
-            else if (i >= sum)
-            {
-                return -1;
-            }
-            else
-            {
-                uint64_t last_block_index = (this->bit_count_ - 1) / 64;
-                uint64_t last_bit_index = (this->bit_count_ - 1) % 64;
-
-                {
-                    uint64_t bits = this->buffer_[last_block_index];
-                    bits = bits >> (63 - last_bit_index);
-
-                    uint64_t byte_count1 = stool::Byte::popcount(bits);
-                    if (byte_count1 < counter1)
-                    {
-                        counter1 -= byte_count1;
-                    }
-                    else
-                    {
-                        int64_t p = stool::LSBByte::select1(bits, counter1 - 1);
-                        assert(p != -1);
-
-                        return (size - 1) - p;
-                    }
-                }
-
-                for (int64_t x = last_block_index - 1; x >= 0; x--)
-                {
-                    uint64_t bits = this->buffer_[x];
-                    uint64_t byte_count1 = stool::Byte::popcount(bits);
-                    if (byte_count1 < counter1)
-                    {
-                        counter1 -= byte_count1;
-                    }
-                    else
-                    {
-                        uint64_t gap = (((last_block_index - 1) - x) * 64) + last_bit_index + 1;
-                        int64_t p = stool::LSBByte::select1(bits, counter1 - 1);
-                        assert(p != -1);
-
-                        return (size - 1) - gap - p;
-                    }
-                }
-                throw std::runtime_error("rev_select1: invalid argument");
-            }
-        }
-
-        int64_t select0(uint64_t i) const
-        {
-            if (this->empty())
-            {
-                return -1;
-            }
-
-            // uint64_t size = this->size();
-            uint64_t num0 = this->bit_count_ - this->num1_;
-
-            if (i + 1 > num0)
-            {
-                return -1;
-            }
-            else
-            {
-                return stool::MSBByte::select0(this->buffer_, i, this->buffer_size_);
-            }
-        }
-
-        std::string to_string(bool use_partition = false) const
-        {
-            std::string s;
-            for (uint64_t i = 0; i < this->size(); i++)
-            {
-                s += std::to_string(this->at(i));
-                if (use_partition && i % 64 == 63)
-                {
-                    s += " ";
-                }
-            }
-            return s;
-        }
-        std::vector<bool> to_bit_vector() const
-        {
-            std::vector<bool> bv;
-            for (uint64_t i = 0; i < this->size(); i++)
-            {
-                bv.push_back(this->at(i));
-            }
-            return bv;
-        }
-
-        
         void increment(uint64_t i, int64_t delta)
         {
             if (delta >= 1)
@@ -1449,7 +1650,6 @@ namespace stool
                 this->replace(i, false);
             }
         }
-    
 
         void shift_right(uint64_t position, uint64_t len)
         {
@@ -1535,119 +1735,12 @@ namespace stool
             }
         }
 
-        /**
-         * @brief Const subscript operator for element access
-         *
-         * @param index Position of the element to access
-         * @return const T& Const reference to the element
-         */
-        bool operator[](size_t index) const
-        {
-            uint64_t block_index = index / 64;
-            uint64_t bit_index = index % 64;
-            return stool::MSBByte::get_bit(this->buffer_[block_index], bit_index);
-        }
+        //}@
 
-        /**
-         * @brief Get element at specified position
-         *
-         * @param i Index of the element
-         * @return T Copy of the element at position i
-         */
-        bool at(uint64_t i) const
-        {
-            return (*this)[i];
-        }
-
-        /**
-         * @brief Save deque to a byte vector
-         *
-         * @param item The deque to save
-         * @param output Vector to store the serialized data
-         * @param pos Current position in the output vector (will be updated)
-         */
-        static void store_to_bytes(const NaiveBitVector &item, std::vector<uint8_t> &output, uint64_t &pos)
-        {
-            std::memcpy(output.data() + pos, &item.bit_count_, sizeof(item.bit_count_));
-            pos += sizeof(item.bit_count_);
-            std::memcpy(output.data() + pos, &item.num1_, sizeof(item.num1_));
-            pos += sizeof(item.num1_);
-            std::memcpy(output.data() + pos, &item.buffer_size_, sizeof(item.buffer_size_));
-            pos += sizeof(item.buffer_size_);
-            std::memcpy(output.data() + pos, item.buffer_, item.buffer_size_ * sizeof(uint64_t));
-            pos += item.buffer_size_ * sizeof(uint64_t);
-        }
-
-        /**
-         * @brief Save deque to a file stream
-         *
-         * @param item The deque to save
-         * @param os Output file stream
-         */
-        static void store_to_file(const NaiveBitVector &item, std::ofstream &os)
-        {
-            os.write(reinterpret_cast<const char *>(&item.bit_count_), sizeof(item.bit_count_));
-            os.write(reinterpret_cast<const char *>(&item.num1_), sizeof(item.num1_));
-            os.write(reinterpret_cast<const char *>(&item.buffer_size_), sizeof(item.buffer_size_));
-            os.write(reinterpret_cast<const char *>(item.buffer_), item.buffer_size_ * sizeof(uint64_t));
-        }
-
-        /**
-         * @brief Load deque from a byte vector
-         *
-         * @param data Vector containing the serialized data
-         * @param pos Current position in the data vector (will be updated)
-         * @return NaiveBitVector The loaded deque
-         */
-        static NaiveBitVector load_from_bytes(const std::vector<uint8_t> &data, uint64_t &pos)
-        {
-
-            uint16_t _bit_count;
-            uint16_t _num1;
-            uint16_t _buffer_size;
-
-            std::memcpy(&_bit_count, data.data() + pos, sizeof(uint16_t));
-            pos += sizeof(uint16_t);
-            std::memcpy(&_num1, data.data() + pos, sizeof(uint16_t));
-            pos += sizeof(uint16_t);
-            std::memcpy(&_buffer_size, data.data() + pos, sizeof(uint16_t));
-            pos += sizeof(uint16_t);
-
-            NaiveBitVector r(_buffer_size);
-            r.buffer_size_ = _buffer_size;
-            r.bit_count_ = _bit_count;
-            r.num1_ = _num1;
-
-            std::memcpy(r.buffer_, data.data() + pos, sizeof(uint64_t) * (size_t)_buffer_size);
-            pos += sizeof(uint64_t) * _buffer_size;
-
-            return r;
-        }
-
-        /**
-         * @brief Load deque from a file stream
-         *
-         * @param ifs Input file stream
-         * @return NaiveBitVector The loaded deque
-         */
-        static NaiveBitVector load_from_file(std::ifstream &ifs)
-        {
-            uint16_t _bit_count;
-            uint16_t _num1;
-            uint16_t _buffer_size;
-
-            ifs.read(reinterpret_cast<char *>(&_bit_count), sizeof(uint16_t));
-            ifs.read(reinterpret_cast<char *>(&_num1), sizeof(uint16_t));
-            ifs.read(reinterpret_cast<char *>(&_buffer_size), sizeof(uint16_t));
-
-            NaiveBitVector r(_buffer_size);
-            r.bit_count_ = _bit_count;
-            r.num1_ = _num1;
-            r.buffer_size_ = _buffer_size;
-            ifs.read(reinterpret_cast<char *>(r.buffer_), sizeof(uint64_t) * (size_t)_buffer_size);
-
-            return r;
-        }
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Static functions
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
 
         /**
          * @brief Calculate the serialized size of a deque
@@ -1669,87 +1762,24 @@ namespace stool
             }
             return size;
         }
-        static void save(const std::vector<NaiveBitVector> &items, std::vector<uint8_t> &output, uint64_t &pos)
+        static uint64_t get_appropriate_buffer_size_index(int64_t size)
         {
-            uint64_t size = get_byte_size(items);
-            if (pos + size > output.size())
-            {
-                output.resize(pos + size);
-            }
 
-            uint64_t items_size = items.size();
-            std::memcpy(output.data() + pos, &items_size, sizeof(uint64_t));
-            pos += sizeof(uint64_t);
-
-            for (const auto &item : items)
+            for (uint64_t i = 0; i < size_array.size(); i++)
             {
-                NaiveBitVector::save(item, output, pos);
+                int64_t xsize = size_array[i] * 64;
+                if (xsize > size)
+                {
+                    return i;
+                }
             }
+            throw std::runtime_error("size is too large");
         }
-        static void save(const std::vector<NaiveBitVector> &items, std::ofstream &os)
+        static uint64_t max_deque_size()
         {
-            uint64_t items_size = items.size();
-            os.write(reinterpret_cast<const char *>(&items_size), sizeof(uint64_t));
-
-            for (const auto &item : items)
-            {
-                NaiveBitVector::save(item, os);
-            }
-        }
-        uint64_t psum(uint64_t i, uint64_t j) const
-        {
-            if (i == j)
-            {
-                return this->at(i);
-            }
-            else
-            {
-                throw std::runtime_error("No implementation");
-            }
-        }
-        static std::vector<NaiveBitVector> load_vector(const std::vector<uint8_t> &data, uint64_t &pos)
-        {
-            uint64_t size = 0;
-            std::memcpy(&size, data.data() + pos, sizeof(uint64_t));
-            pos += sizeof(uint64_t);
-
-            std::vector<NaiveBitVector> output;
-            output.resize(size);
-            for (uint64_t i = 0; i < size; i++)
-            {
-                output[i] = NaiveBitVector::load_from_bytes(data, pos);
-            }
-            return output;
-        }
-        static std::vector<NaiveBitVector> load_vector(std::ifstream &ifs)
-        {
-            uint64_t size = 0;
-            ifs.read(reinterpret_cast<char *>(&size), sizeof(uint64_t));
-
-            std::vector<NaiveBitVector> output;
-            output.resize(size);
-            for (uint64_t i = 0; i < size; i++)
-            {
-                output[i] = NaiveBitVector::load_from_file(ifs);
-            }
-
-            return output;
+            return (uint64_t)UINT16_MAX * 64;
         }
 
-        NaiveBitVectorIterator begin() const
-        {
-            if (!this->empty())
-            {
-                return NaiveBitVectorIterator(this, 0, this->size());
-            }
-            else
-            {
-                return this->end();
-            }
-        }
-        NaiveBitVectorIterator end() const
-        {
-            return NaiveBitVectorIterator(this, this->size(), this->size());
-        }
+        //}@
     };
 }

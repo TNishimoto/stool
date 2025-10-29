@@ -4,8 +4,8 @@
 #include <bitset>
 #include <cassert>
 #include <cstring>
-#include "../../basic/byte.hpp"
-#include "../../debug/debug_printer.hpp"
+#include "../basic/byte.hpp"
+#include "../debug/debug_printer.hpp"
 
 namespace stool
 {

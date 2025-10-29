@@ -2,8 +2,7 @@
 #include <chrono>
 #include "../../../include/light_stool.hpp"
 #include "../template/dynamic_integer_test.hpp"
-
-
+#include "../../../include/develop/eytzinger_layout_for_psum.hpp"
 
 
 template<uint64_t SIZE>
