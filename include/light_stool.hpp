@@ -26,6 +26,7 @@
 #include "./strings/alphabet.hpp"
 #include "./strings/delta.hpp"
 #include "./strings/random_string.hpp"
+#include "./strings/forward_rle.hpp"
 #include "./strings/text_statistics.hpp"
 #include "./strings/lcp_interval.hpp"
 #include "./strings/lcp_interval_comparator_in_preorder.hpp"
@@ -37,7 +38,6 @@
 
 #include "./third_party/cmdline.h"
 
-#include "./specialized_collection/forward_rle.hpp"
 #include "./specialized_collection/integer_deque.hpp"
 #include "./specialized_collection/simple_deque.hpp"
 #include "./specialized_collection/value_array.hpp"

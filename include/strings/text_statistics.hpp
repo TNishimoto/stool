@@ -1,5 +1,5 @@
 #pragma once
-#include "../specialized_collection/forward_rle.hpp"
+#include "./forward_rle.hpp"
 #include "../debug/message.hpp"
 #include "../io/online_file_reader.hpp"
 

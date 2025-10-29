@@ -10,7 +10,7 @@
 #include "../strings/text_statistics.hpp"
 #include "../io/online_file_reader.hpp"
 #include "../specialized_collection/elias_fano_vector.hpp"
-#include "../specialized_collection/forward_rle.hpp"
+#include "../strings/forward_rle.hpp"
 
 #include "../strings/string_functions.hpp"
 
