@@ -442,7 +442,7 @@ namespace stool
          * @brief Returns the bits B[I..I+63] of 64-bit sequence B[0..(array_size*64)-1] as a 64-bit integer, where I = block_index * 64 + bit_index, and B[total_bitsize..] = 0....0.
          */
         template <typename BIT64_SEQUENCE>
-        static uint64_t access_64bits(BIT64_SEQUENCE &B, uint64_t block_index, uint64_t bit_index, [[maybe_unused]] uint64_t array_size, uint64_t total_bitsize)
+        static uint64_t access_64bits(BIT64_SEQUENCE &B, uint64_t block_index, uint64_t bit_index, uint64_t total_bitsize, [[maybe_unused]] uint64_t array_size)
         {
             uint64_t pos = block_index * 64 + bit_index;
             uint64_t bits = stool::MSBByte::access_64bits(B, block_index, bit_index, array_size);
