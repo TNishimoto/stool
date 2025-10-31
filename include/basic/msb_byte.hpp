@@ -415,8 +415,7 @@ namespace stool
         }
 
         /*!
-         * @brief Returns the bits B[I..I+63] of 64-bit sequence B as a 64-bit integer, where I = block_index * 64 + bit_index.
-         * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
+         * @brief Returns the bits B[I..I+63] of 64-bit sequence B[0..(array_size*64)-1] as a 64-bit integer, where I = block_index * 64 + bit_index, and B[(array_size*64)..] = 0....0.
          */
         template <typename BIT64_SEQUENCE>
         static uint64_t access_64bits(BIT64_SEQUENCE &B, uint64_t block_index, uint64_t bit_index, uint64_t array_size)
@@ -438,6 +437,37 @@ namespace stool
                 return L;
             }
         }
+
+        /*!
+         * @brief Returns the bits B[I..I+63] of 64-bit sequence B[0..(array_size*64)-1] as a 64-bit integer, where I = block_index * 64 + bit_index, and B[total_bitsize..] = 0....0.
+         */
+        template <typename BIT64_SEQUENCE>
+        static uint64_t access_64bits(BIT64_SEQUENCE &B, uint64_t block_index, uint64_t bit_index, [[maybe_unused]] uint64_t array_size, uint64_t total_bitsize)
+        {
+            uint64_t pos = block_index * 64 + bit_index;
+            uint64_t bits = stool::MSBByte::access_64bits(B, block_index, bit_index, array_size);
+            if (pos + 64 <= total_bitsize)
+            {
+                return bits;
+            }
+            else
+            {
+                uint64_t bitsize = total_bitsize - pos;
+                uint64_t mask = UINT64_MAX << (64 - bitsize);
+                return bits & mask;
+            }
+        }
+
+        /*!
+         * @brief Returns the bits 0^{64-L}B[I..I+L-1] of 64-bit sequence B[0..array_size-1] as a 64-bit integer, where I = block_index * 64 + bit_index.
+         */
+        template <typename BIT64_SEQUENCE>
+        static uint64_t access_right_alligned_64bits(BIT64_SEQUENCE &B, uint64_t block_index, uint64_t bit_index, uint64_t code_len_L, uint64_t array_size)
+        {
+            assert(block_index < array_size);
+            return stool::MSBByte::access_64bits(B, block_index, bit_index, array_size) >> (64 - code_len_L);
+        }
+
 
         /*!
          * @brief Returns the bits B[i..i+len-1] of 64-bit sequence B as a 64-bit integer, i.e., B[i..i+len-1] | 0^{64-len}.

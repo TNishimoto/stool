@@ -10,7 +10,7 @@
 namespace stool
 {
     /*!
-     * @brief A simple bit vector B[0..n-1] implementation with push/pop operations
+     * @brief A simple bit vector B[0..n-1] implementation with push/pop operations [in progress]
      * @note The bits are stored in 64-bit integers S[0..m-1] (uint64_t *buffer_)
      * @tparam MAX_BIT_LENGTH Maximum number of bits that can be stored (default: 8092)
      */
@@ -177,7 +177,7 @@ namespace stool
             {
                 uint64_t block_index = this->index / 64;
                 uint64_t bit_index = this->index % 64;
-                uint64_t value = this->_m_deq->read_64bit_string(block_index, bit_index);
+                uint64_t value = this->_m_deq->read_as_64bit_integer(block_index, bit_index);
 
                 return value;
             }
@@ -656,6 +656,10 @@ namespace stool
             return this->rank1(0, 0, i + 1);
         }
 
+        /**
+         * @brief Returns the position \p p of the (i+1)-th 0 in \p B if such a position exists, otherwise returns -1
+         * @note \p O(p) time
+         */
         int64_t select0(uint64_t i) const
         {
             if (this->empty())
@@ -675,6 +679,11 @@ namespace stool
                 return stool::MSBByte::select0(this->buffer_, i, this->buffer_size_);
             }
         }
+
+        /**
+         * @brief Returns the position \p p of the (i+1)-th 1 in \p B if such a position exists, otherwise returns -1
+         * @note \p O(p) time
+         */
         int64_t select1(uint64_t i) const
         {
             // int64_t true_result = this->select1__(i);
@@ -694,6 +703,11 @@ namespace stool
                 return stool::MSBByte::select1(this->buffer_, i, this->buffer_size_);
             }
         }
+    
+        /**
+         * @brief Returns the first occurrence position \p p of 1 in \p B such that p >= i (if such a position does not exist, returns -1)
+         * @note \p O(p-i) time
+         */
         int64_t select1_successor(uint64_t i) const
         {
 
@@ -772,6 +786,10 @@ namespace stool
                 }
             }
         }
+        /**
+         * @brief Returns the last occurrence position \p p of 1 in \p B such that p <= i (if such a position does not exist, returns -1)
+         * @note \p O(i-p) time
+         */
         int64_t select1_predecessor(uint64_t i) const
         {
             uint64_t block_index = (i - 1) / 64;
@@ -804,6 +822,12 @@ namespace stool
             }
             return -1;
         }
+
+
+        /**
+         * @brief Returns the position \p p of the (u - i)-th 1 in \p B if such a position exists, otherwise returns -1. Here, \p u is the number of 1s in \p B.
+         * @note \p O(|B| - p) time
+         */
         int64_t rev_select1(uint64_t i) const
         {
             uint64_t sum = this->rank1();
@@ -862,76 +886,38 @@ namespace stool
         }
 
         /**
-         * @brief Get element at specified position
-         *
-         * @param i Index of the element
-         * @return T Copy of the element at position i
+         * @brief Returns bit value B[i]
          */
         bool at(uint64_t i) const
         {
             return (*this)[i];
         }
-        uint64_t read_last_64bit() const
+
+        /*!
+         * @brief Returns the bits B[I..I+63] as a 64-bit integer, where I = block_index * 64 + bit_index, and B[n..] = 0....0.
+         */
+        uint64_t read_as_64bit_integer(uint64_t block_index, uint8_t bit_index = 0) const
         {
-            uint64_t last_block_index = (this->bit_count_ - 1) / 64;
-            uint8_t last_bit_index = (this->bit_count_ - 1) % 64;
-            return this->read_prev_64bit(last_block_index, last_bit_index);
-        }
-        uint64_t read_64bit_string(uint64_t block_index, uint8_t bit_index) const
-        {
-            uint64_t pos = block_index * 64 + bit_index;
-            uint64_t bits = stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_);
-            if (pos + 64 <= this->bit_count_)
-            {
-                return bits;
-            }
-            else
-            {
-                uint64_t bitsize = this->bit_count_ - pos;
-                uint64_t mask = UINT64_MAX << (64 - bitsize);
-                return bits & mask;
-            }
-        }
-        uint64_t read_64bit_string(uint64_t block_index, uint8_t bit_index, uint8_t code_len) const
-        {
-            uint64_t mask = UINT64_MAX << (64 - code_len);
-            return this->read_64bit_string(block_index, bit_index) & mask;
-        }
-        uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index) const
-        {
-            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_);
-        }
-        uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index, uint64_t code_len) const
-        {
-            assert(block_index < this->buffer_size_);
-            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_) >> (64 - code_len);
-        }
-        uint64_t read_as_64bit_integer(uint16_t block_index) const
-        {
-            return this->buffer_[block_index];
+            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->bit_count_, this->buffer_size_);
         }
 
-        uint64_t read_prev_64bit(uint64_t block_index, uint8_t bit_index) const
+        /*!
+         * @brief Returns the bits B[I..I+L-1]0^{64-L} as a 64-bit integer, where I = block_index * 64 + bit_index, and B[n..] = 0....0.
+         */
+        uint64_t read_as_64bit_integer(uint64_t block_index, uint8_t bit_index, uint8_t code_len_L) const
         {
-
-            if (block_index > 0)
-            {
-                if (bit_index == 63)
-                {
-                    return this->buffer_[block_index - 1];
-                }
-                else
-                {
-                    return stool::MSBByte::access_64bits(this->buffer_, block_index - 1, bit_index + 1, this->buffer_size_);
-                }
-            }
-            else
-            {
-                uint64_t prev_size = bit_index + 1;
-                uint64_t fst_bits = this->buffer_[0];
-                return (fst_bits >> (64 - prev_size)) << (64 - prev_size);
-            }
+            uint64_t mask = UINT64_MAX << (64 - code_len_L);
+            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->bit_count_, this->buffer_size_) & mask;
         }
+
+        /*!
+         * @brief Returns the bits 0^{64-L}B[I..I+L-1] as a 64-bit integer, where I = block_index * 64 + bit_index.
+         */
+        uint64_t read_as_right_alligned_64bit_integer(uint16_t block_index, uint8_t bit_index, uint64_t code_len_L) const
+        {
+            return stool::MSBByte::access_right_alligned_64bits(this->buffer_, block_index, bit_index, code_len_L, this->buffer_size_);
+        }
+
 
         //}@
 
