@@ -1,0 +1,13 @@
+<map id="stool::SimpleDeque::shrink_to_fit" name="stool::SimpleDeque::shrink_to_fit">
+<area shape="rect" id="Node000001" title="Resize buffer to specified bit size." alt="" coords="5,92,155,132"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#a114406dc09d4243c08f72023feb8e520" title="Get iterator to the first element." alt="" coords="219,5,368,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,89,202,55,220,48,222,53,204,60,125,94"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#aea416dcf4131e5ad7f65e13a44bd088b" title="Get iterator past the last element." alt="" coords="203,70,384,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="155,99,189,94,189,100,155,104"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1SimpleDeque.html#ad7adbac585aa1b9d05bf155e0dec8dc0" title="Get the maximum possible deque size for the given index type." alt="" coords="219,120,368,160"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="155,119,205,126,204,131,155,124"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="219,184,368,224"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="120,130,204,170,222,177,220,182,202,174,118,134"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="432,120,577,160"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="368,137,418,137,418,143,368,143"/>
+</map>

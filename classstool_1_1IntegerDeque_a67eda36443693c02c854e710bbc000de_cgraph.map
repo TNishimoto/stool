@@ -1,0 +1,20 @@
+<map id="stool::IntegerDeque::push_front" name="stool::IntegerDeque::push_front">
+<area shape="rect" id="Node000001" title="Add an element to the front of the deque." alt="" coords="5,55,156,95"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1IntegerDeque.html#ae3e280b34b95c7c92eb40da221ae5fcd" title="Access element by index with bounds checking." alt="" coords="208,5,379,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,53,231,32,233,37,156,58"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1IntegerDeque.html#a54c0c89c8181ec4df704187841356c69" title="Get the current number of elements." alt="" coords="218,55,369,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,73,205,73,205,78,156,78"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1IntegerDeque.html#aab8a4ae2408b9885748ee7e6987133d1" title="Update the size if needed based on current usage." alt="" coords="204,119,383,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="149,93,214,113,212,118,147,98"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1IntegerDeque.html#a8ec2babed3d470d65fa705aaa75a37b5" title="Get the bit size needed for the buffer." alt="" coords="629,62,780,102"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="382,124,615,92,616,97,383,130"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="828,119,973,159"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="383,137,814,137,814,142,383,142"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1IntegerDeque.html#a027a097bab79c945b52fc2d9843d931e" title="Reserve space for a specific capacity and byte size." alt="" coords="431,189,581,229"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="356,157,432,182,431,187,355,162"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="774,99,819,113,818,118,773,105"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1IntegerDeque.html#a12abab649936f28c82873e7c1bbf8eb1" title="Shrink the deque to fit its current size." alt="" coords="629,201,780,241"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="582,211,616,213,616,218,581,216"/>
+<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="753,198,838,162,840,167,755,203"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="668,201,666,191,672,182,685,176,705,174,728,177,740,184,737,189,726,182,705,179,686,181,675,186,671,192,673,200"/>
+</map>

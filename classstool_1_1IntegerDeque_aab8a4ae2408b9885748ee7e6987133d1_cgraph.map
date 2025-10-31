@@ -1,0 +1,14 @@
+<map id="stool::IntegerDeque::update_size_if_needed" name="stool::IntegerDeque::update_size_if_needed">
+<area shape="rect" id="Node000001" title="Update the size if needed based on current usage." alt="" coords="5,63,184,103"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1IntegerDeque.html#a8ec2babed3d470d65fa705aaa75a37b5" title="Get the bit size needed for the buffer." alt="" coords="431,5,581,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,68,417,35,417,40,185,73"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="629,63,775,103"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="185,80,615,80,615,85,185,85"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1IntegerDeque.html#a027a097bab79c945b52fc2d9843d931e" title="Reserve space for a specific capacity and byte size." alt="" coords="232,132,383,172"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="158,100,234,125,232,130,156,105"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="576,43,621,56,619,61,574,48"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1IntegerDeque.html#a12abab649936f28c82873e7c1bbf8eb1" title="Shrink the deque to fit its current size." alt="" coords="431,144,581,184"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="383,154,417,156,417,161,383,159"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="554,141,639,106,641,110,556,146"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="469,144,467,134,473,125,486,119,506,117,529,120,541,128,539,132,527,125,506,123,487,125,476,129,472,135,474,143"/>
+</map>

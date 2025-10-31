@@ -1,0 +1,9 @@
+<map id="stool::NaiveIntegerArray::erase" name="stool::NaiveIntegerArray::erase">
+<area shape="rect" id="Node000001" title="Erase an element at a specific position." alt="" coords="5,37,187,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveIntegerArray.html#a39fb512a494fc2ccf3ad612304f0b8b1" title="Remove the last element from the deque." alt="" coords="235,5,416,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,42,221,37,221,43,187,47"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveIntegerArray.html#ad11c7d53087f23be8c92d895291659a0" title="Remove the first element from the deque." alt="" coords="235,69,416,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="187,67,221,72,221,77,187,73"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveIntegerArray.html#a8cb28dbc21412bb82205a4c7b905b63a" title="Clear all elements from the deque." alt="" coords="464,69,645,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="416,87,450,87,450,92,416,92"/>
+</map>

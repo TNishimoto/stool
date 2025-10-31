@@ -1,0 +1,5 @@
+<map id="stool::FileWriter::write_vector" name="stool::FileWriter::write_vector">
+<area shape="rect" id="Node000001" title="Writes vector data to an output stream." alt="" coords="187,5,320,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1FileWriter.html#aba19c5010aedfc4733123537f011b0d9" title="Writes vector data to a file." alt="" coords="5,5,139,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,28,139,28,139,23,173,23"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="stool::PackedSearch::search32x2bits" name="stool::PackedSearch::search32x2bits">
+<area shape="rect" id="Node000001" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in 2 bit sequen..." alt="" coords="5,49,156,89"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1PackedSearch.html#a7d92318c596fcd759a52ee29a16bf9f6" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in 2&#45;bit sequen..." alt="" coords="204,5,379,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,53,190,47,191,53,157,58"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1PackedPSum.html#aa3dca8dd74f05e6806a661745b3b475e" title="Computes the sum of 32&#45;bit integer sequence S = s_{0}, s_{1} packed into a 64 bit integer B." alt="" coords="215,85,367,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="157,79,203,87,202,92,156,84"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1Byte.html#a4c7908e38dd210938f5cd86298d70bcb" title="Counts the number of 1 bits in a 64&#45;bit integer x." alt="" coords="427,92,587,117"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="368,102,413,102,413,107,368,107"/>
+</map>

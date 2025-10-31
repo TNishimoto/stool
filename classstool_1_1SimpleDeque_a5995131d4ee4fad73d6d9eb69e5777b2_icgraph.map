@@ -1,0 +1,7 @@
+<map id="stool::SimpleDeque::get_byte_size" name="stool::SimpleDeque::get_byte_size">
+<area shape="rect" id="Node000001" title="Calculate the serialized size of a deque." alt="" coords="419,5,568,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#ab33fbc3df933033dc54ce082762c77f4" title="Calculates the memory size in bytes of a VLCDeque instance." alt="" coords="212,5,371,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="405,28,371,28,371,23,405,23"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1VLCDeque.html#a37e67bb1e23c8eb56c97c6cd5d8d67fa" title="Calculates the total memory size in bytes of a vector of VLCDeque instances." alt="" coords="5,5,164,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="198,28,164,28,164,23,198,23"/>
+</map>

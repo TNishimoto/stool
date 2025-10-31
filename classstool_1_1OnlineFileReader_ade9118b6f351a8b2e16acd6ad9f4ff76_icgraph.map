@@ -1,0 +1,11 @@
+<map id="stool::OnlineFileReader::read" name="stool::OnlineFileReader::read">
+<area shape="rect" id="Node000001" title="Reads T[i..i+m&#45;1] from a given file F and writes the read data into a vector output." alt="" coords="243,105,416,145"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1OnlineFileReader.html#a9ec0bf07f0eb00971bfb38fad955a274" title="Compares two files F and Q for equality." alt="" coords="13,5,187,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="279,101,194,60,163,48,165,43,196,55,281,96"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1OnlineFileReader.html#ade3f931a41b2df639bc174d03d0d2fdc" title="Returns the alphabet U of the text T stored in the file filepath." alt="" coords="13,69,187,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="229,112,186,106,187,100,229,107"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1OnlineFileReader_1_1OnlineFileReaderIterator.html#a46e22f7e397029e4a4e6c8614bcfa3db" title="Constructs an OnlineFileReaderIterator for a given file F representing a text T[0...." alt="" coords="5,134,195,189"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="229,144,195,149,194,144,229,138"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1OnlineFileReader_1_1OnlineFileReaderIterator.html#a90844c8238c3721a89545c08ccf4276a" title="Increments the current position i by 1." alt="" coords="5,213,195,267"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="284,154,196,202,169,215,167,210,193,198,282,150"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="stool::Alphabet::create_alphabet" name="stool::Alphabet::create_alphabet">
+<area shape="rect" id="Node000001" title="Creates an alphabet based on the specified type." alt="" coords="5,133,175,173"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Alphabet.html#a5e615b161a39231d38a392ad6f9563ea" title="Creates a binary alphabet containing &#39;a&#39; and &#39;b&#39;." alt="" coords="223,5,392,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,131,161,94,221,55,234,49,237,53,224,60,165,98,116,135"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1Alphabet.html#af3556c88bcb56f9a0394732def02bfa4" title="Creates an alphabet containing the first 8 lowercase letters (a&#45;h)" alt="" coords="223,69,392,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="158,131,225,111,227,116,159,136"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1Alphabet.html#afa1a3334fd1f455b98bb7eb75c0b1090" title="Creates a binary alphabet containing &#39;A&#39;, &#39;C&#39;, &#39;G&#39;, &#39;T&#39;." alt="" coords="223,133,392,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="175,151,209,151,209,156,175,156"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1Alphabet.html#a666481a0cc151d8058d39568d2c59e81" title="Creates an alphabet containing all uppercase English letters (A&#45;Z)" alt="" coords="223,197,392,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="159,171,227,191,225,196,158,176"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1Alphabet.html#a2b746f433e777b499b1704da26519844" title="Creates a full alphabet containing ASCII values from 2 to 249." alt="" coords="223,261,392,301"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="116,171,165,209,224,247,237,253,234,258,221,252,161,213,113,176"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="stool::NaiveIntegerArrayForFasterPsum::at" name="stool::NaiveIntegerArrayForFasterPsum::at">
+<area shape="rect" id="Node000001" title="Access element by index with bounds checking." alt="" coords="241,37,423,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveIntegerArrayForFasterPsum.html#a3fda91d281dff28d5ee7412b21ce2ebc" title="Erase an element at a specific position." alt="" coords="9,5,190,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,46,190,40,190,35,228,40"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveIntegerArrayForFasterPsum.html#a1b522a39add86d01bb49327a8d3e4b23" title="Set a value at a specific index." alt="" coords="5,69,193,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,74,194,79,193,74,227,69"/>
+</map>

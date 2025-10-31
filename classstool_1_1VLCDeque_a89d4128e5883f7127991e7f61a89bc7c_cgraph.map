@@ -1,0 +1,8 @@
+<map id="stool::VLCDeque::shrink_to_front" name="stool::VLCDeque::shrink_to_front">
+<area shape="rect" id="Node000001" title="Shrinks the internal containers to fit their contents." alt="" coords="5,29,183,69"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#a96fba47cfded5010217f7ba13ac47d14" title="Reduce buffer size to fit current content." alt="" coords="231,29,380,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,47,217,47,217,52,183,52"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="269,30,266,20,272,11,285,5,305,3,328,6,341,13,338,17,327,11,305,8,287,10,276,15,272,21,274,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="428,29,573,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="380,47,414,47,414,52,380,52"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="stool::NaiveBitVector::psum" name="stool::NaiveBitVector::psum">
+<area shape="rect" id="Node000001" title="Returns the number of 1s in B[i..j] (i.e., rank1(j) &#45; rank1(i&#45;1))" alt="" coords="5,27,164,67"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a7ca81532484bf4cdf5335ac833f95f5b" title="Returns bit value B[i]." alt="" coords="212,5,392,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,34,198,29,199,35,164,39"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#a5832ae2d9f25fa45df6c9543083bd201" title="Returns the number of 1s in B." alt="" coords="223,55,381,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,55,209,61,209,66,164,60"/>
+</map>

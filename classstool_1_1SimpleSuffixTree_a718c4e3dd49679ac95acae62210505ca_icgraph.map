@@ -1,0 +1,5 @@
+<map id="stool::SimpleSuffixTree::build_children_array" name="stool::SimpleSuffixTree::build_children_array">
+<area shape="rect" id="Node000001" title="Build the children array for the suffix tree nodes." alt="" coords="224,5,395,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleSuffixTree.html#ac683426b1ef5551ea5eadcb26f49b9f9" title="Build a SimpleSuffixTree from text, suffix array, and LCP intervals." alt="" coords="5,5,176,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="210,28,176,28,176,23,210,23"/>
+</map>

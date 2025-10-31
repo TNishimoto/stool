@@ -1,0 +1,5 @@
+<map id="stool::OnlineFileReader::begin" name="stool::OnlineFileReader::begin">
+<area shape="rect" id="Node000001" title="Returns an iterator pointing to the beginning of the file." alt="" coords="203,5,376,45"/>
+<area shape="rect" id="Node000002" href="$structstool_1_1TextStatistics.html#a0ea99925551722ee7b17174772e36773" title="Build the text statistics of T from a file filename storing T." alt="" coords="5,5,155,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,28,155,28,155,23,189,23"/>
+</map>
