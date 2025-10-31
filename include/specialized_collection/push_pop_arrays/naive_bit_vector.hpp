@@ -10,23 +10,8 @@
 namespace stool
 {
     /*!
-     * @brief A simple bit vector implementation with push/pop operations [Unchecked AI's Comment]
-     *
-     * This class provides a basic bit vector data structure that supports dynamic
-     * push and pop operations. It stores bits in an array of 64-bit integers and
-     * maintains counts of total bits and set bits (1s).
-     *
-     * Key features:
-     * - Dynamic resizing based on predefined size thresholds
-     * - O(1) push/pop operations at the end
-     * - Bit-level access and manipulation
-     * - Memory efficient storage using 64-bit blocks
-     *
-     * The implementation is particularly suited for:
-     * - Small to medium sized bit sequences
-     * - Applications requiring frequent append/remove operations
-     * - Cases where simple bit vector functionality is sufficient
-     *
+     * @brief A simple bit vector B[0..n-1] implementation with push/pop operations
+     * @note The bits are stored in 64-bit integers S[0..m-1] (uint64_t *buffer_)
      * @tparam MAX_BIT_LENGTH Maximum number of bits that can be stored (default: 8092)
      */
 
@@ -49,14 +34,18 @@ namespace stool
 
             return std::make_pair(block_index, bit_index);
         }
+        uint64_t *buffer_ = nullptr; // 64-bit integers S
+        uint16_t bit_count_; // |B|
+        uint16_t num1_; // The number of 1s in B
+        uint16_t buffer_size_; // |S|
+
 
     public:
         using INDEX_TYPE = uint16_t;
-        uint64_t *buffer_ = nullptr;
-        uint16_t bit_count_;
-        uint16_t num1_;
-        uint16_t buffer_size_;
 
+        /*!
+         * @brief Bit vector iterator
+         */
         class NaiveBitVectorIterator
         {
 
@@ -226,26 +215,59 @@ namespace stool
 
         // INDEX_TYPE deque_size_;
 
+    private: 
+    int64_t get_current_buffer_size_index() const
+    {
+        if (this->buffer_size_ == 0)
+        {
+            return -1;
+        }
+        else
+        {
+            for (uint64_t i = 0; i < size_array.size(); i++)
+            {
+                if (this->buffer_size_ == size_array[i])
+                {
+                    return i;
+                }
+            }
+        }
+        throw std::runtime_error("buffer_size_ is not found");
+    }
+
+
     public:
         ////////////////////////////////////////////////////////////////////////////////
-        ///   @name Initializers
+        ///   @name Constructors and Destructor
         ////////////////////////////////////////////////////////////////////////////////
         //@{
-        /**
-         * @brief Copy constructor
-         *
-         * @param other The NaiveBitVector to copy from
-         */
-        NaiveBitVector(const NaiveBitVector &other) noexcept
-        {
-            this->buffer_size_ = other.buffer_size_;
-            this->num1_ = other.num1_;
-            this->buffer_ = new uint64_t[this->buffer_size_];
-            this->bit_count_ = other.bit_count_;
 
-            std::memcpy(this->buffer_, other.buffer_, this->buffer_size_ * sizeof(uint64_t));
+        /**
+         * @brief Default constructor
+         */
+        NaiveBitVector()
+        {
+            this->initialize();
+        }
+        /**
+         * @brief Constructor with buffer size |S| = m
+         */
+        NaiveBitVector(uint64_t _buffer_size_m)
+        {
+            if (this->buffer_ != nullptr)
+            {
+                delete[] this->buffer_;
+                this->buffer_ = nullptr;
+            }
+            this->buffer_ = new uint64_t[_buffer_size_m];
+            this->num1_ = 0;
+            this->bit_count_ = 0;
+            this->buffer_size_ = _buffer_size_m;
         }
 
+        /**
+         * @brief Constructor with B[0..n-1] = bv[0..n-1]
+         */
         NaiveBitVector(const std::vector<bool> &bv) noexcept
         {
             if (bv.size() == 0)
@@ -270,11 +292,21 @@ namespace stool
                 assert(this->size() == bv.size());
             }
         }
+        /**
+         * @brief Copy constructor
+         */
+        NaiveBitVector(const NaiveBitVector &other) noexcept
+        {
+            this->buffer_size_ = other.buffer_size_;
+            this->num1_ = other.num1_;
+            this->buffer_ = new uint64_t[this->buffer_size_];
+            this->bit_count_ = other.bit_count_;
+
+            std::memcpy(this->buffer_, other.buffer_, this->buffer_size_ * sizeof(uint64_t));
+        }
 
         /**
          * @brief Move constructor
-         *
-         * @param other The NaiveBitVector to move from
          */
         NaiveBitVector(NaiveBitVector &&other) noexcept
             : buffer_(other.buffer_),
@@ -289,17 +321,21 @@ namespace stool
             other.num1_ = 0;
             other.buffer_size_ = 0;
         }
-
         /**
-         * @brief Default constructor
-         *
-         * Creates an empty deque with initial capacity of 2 elements.
+         * @brief Destructor
          */
-        NaiveBitVector()
+        ~NaiveBitVector()
         {
-            this->initialize();
+            if (this->buffer_ != nullptr)
+            {
+                delete[] this->buffer_;
+                this->buffer_ = nullptr;
+            }
         }
 
+        /**
+         * @brief Initialize the bit vector with |B| = 0 and |S| = 2
+         */
         void initialize()
         {
             if (this->buffer_ != nullptr)
@@ -314,46 +350,21 @@ namespace stool
             this->bit_count_ = 0;
             this->buffer_size_ = 2;
         }
+
+        /**
+         * @brief Initialize the bit vector with S = S_[0..m-1] and |B| = n_, and |S| = m_
+         * @param num1 The number of 1s in the new B
+         */
         template <typename T>
-        void initialize(const T &bit64_array, uint64_t bit_size, uint64_t num1, uint64_t array_size)
+        void initialize(const T &bit64_array_S_, uint64_t bit_size_n_, uint64_t num1, uint64_t array_size_m)
         {
-            this->update_size_if_needed(bit_size);
-            std::memcpy(this->buffer_, &bit64_array[0], array_size * sizeof(uint64_t));
-            this->bit_count_ = bit_size;
+            this->update_size_if_needed(bit_size_n_);
+            std::memcpy(this->buffer_, &bit64_array_S_[0], array_size_m * sizeof(uint64_t));
+            this->bit_count_ = bit_size_n_;
             this->num1_ = num1;
         }
 
-        /**
-         * @brief Constructor with specified buffer size
-         *
-         * @param _buffer_size Initial capacity of the circular buffer
-         */
-        NaiveBitVector(uint64_t _buffer_size)
-        {
-            if (this->buffer_ != nullptr)
-            {
-                delete[] this->buffer_;
-                this->buffer_ = nullptr;
-            }
-            this->buffer_ = new uint64_t[_buffer_size];
-            this->num1_ = 0;
-            this->bit_count_ = 0;
-            this->buffer_size_ = _buffer_size;
-        }
 
-        /**
-         * @brief Destructor
-         *
-         * Frees the allocated circular buffer memory.
-         */
-        ~NaiveBitVector()
-        {
-            if (this->buffer_ != nullptr)
-            {
-                delete[] this->buffer_;
-                this->buffer_ = nullptr;
-            }
-        }
         //}@
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -361,6 +372,9 @@ namespace stool
         ////////////////////////////////////////////////////////////////////////////////
         //@{
 
+        /**
+         * @brief Get iterator to the first element
+         */
         NaiveBitVectorIterator begin() const
         {
             if (!this->empty())
@@ -372,6 +386,10 @@ namespace stool
                 return this->end();
             }
         }
+
+        /**
+         * @brief Get iterator to the end element
+         */
         NaiveBitVectorIterator end() const
         {
             return NaiveBitVectorIterator(this, this->size(), this->size());
@@ -385,9 +403,7 @@ namespace stool
         //@{
 
         /**
-         * @brief Get the current buffer capacity
-         *
-         * @return size_t The number of elements the buffer can hold
+         * @brief Return the maximum number of bits that can be stored without resizing the buffer (i.e., |S| * 64)
          */
         size_t capacity() const
         {
@@ -395,19 +411,15 @@ namespace stool
         }
 
         /**
-         * @brief Update buffer size if needed based on current usage
-         *
-         * Automatically resizes the buffer to maintain optimal memory efficiency.
+         * @brief Update the buffer so that its capacity is larger than \p m
          */
-        void update_size_if_needed(int64_t new_size)
+        void update_size_if_needed(int64_t m)
         {
-            this->shrink_to_fit(new_size);
+            this->shrink_to_fit(m);
         }
 
         /**
-         * @brief Check if the deque is empty
-         *
-         * @return bool True if the deque contains no elements
+         * @brief Check if the array is empty
          */
         bool empty() const
         {
@@ -415,45 +427,28 @@ namespace stool
         }
 
         /**
-         * @brief Get the current number of elements
-         *
-         * @return size_t Number of elements in the deque
+         * @brief Get the current number of bits (i.e., |B|)
          */
         size_t size() const
         {
             return this->bit_count_;
         }
 
-        uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index) const
-        {
-            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_);
-        }
-        uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index, uint64_t code_len) const
-        {
-            assert(block_index < this->buffer_size_);
-            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_) >> (64 - code_len);
-        }
-        uint64_t read_as_64bit_integer(uint16_t block_index) const
-        {
-            return this->buffer_[block_index];
-        }
+        /**
+         * @brief Get the pointer to the buffer
+         */
         uint64_t *get_buffer_pointer() const
         {
             return this->buffer_;
         }
-        uint64_t get_buffer_size() const
-        {
-            return this->buffer_size_;
-        }
 
         /**
-         * @brief Calculate the total memory usage in bytes
-         *
-         * @return uint64_t Total memory usage including object overhead and buffer
+         * @brief Returns the total memory usage in bytes
+         * @param only_dynamic_memory If true, only the size of the dynamic memory is returned
          */
-        uint64_t size_in_bytes(bool only_extra_bytes = false) const
+        uint64_t size_in_bytes(bool only_dynamic_memory = false) const
         {
-            if (only_extra_bytes)
+            if (only_dynamic_memory)
             {
                 return sizeof(uint64_t) * this->buffer_size_;
             }
@@ -463,28 +458,14 @@ namespace stool
             }
         }
 
+        /**
+         * @brief Returns the size of the unused memory in bytes (i.e., (|S| * 64 - |B|) / 64 * sizeof(uint64_t))
+         */
         uint64_t unused_size_in_bytes() const
         {
             return (this->capacity() - this->size() / 64) * sizeof(uint64_t);
         }
-        int64_t get_current_buffer_size_index() const
-        {
-            if (this->buffer_size_ == 0)
-            {
-                return -1;
-            }
-            else
-            {
-                for (uint64_t i = 0; i < size_array.size(); i++)
-                {
-                    if (this->buffer_size_ == size_array[i])
-                    {
-                        return i;
-                    }
-                }
-            }
-            throw std::runtime_error("buffer_size_ is not found");
-        }
+
         //}@
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -494,9 +475,6 @@ namespace stool
 
         /**
          * @brief Move assignment operator
-         *
-         * @param other The NaiveBitVector to move from
-         * @return NaiveBitVector& Reference to this object
          */
         NaiveBitVector &operator=(NaiveBitVector &&other) noexcept
         {
@@ -516,15 +494,12 @@ namespace stool
         }
 
         /**
-         * @brief Const subscript operator for element access
-         *
-         * @param index Position of the element to access
-         * @return const T& Const reference to the element
+         * @brief Returns bit value B[i]
          */
-        bool operator[](size_t index) const
+        bool operator[](size_t i) const
         {
-            uint64_t block_index = index / 64;
-            uint64_t bit_index = index % 64;
+            uint64_t block_index = i / 64;
+            uint64_t bit_index = i % 64;
             return stool::MSBByte::get_bit(this->buffer_[block_index], bit_index);
         }
         //}@
@@ -534,20 +509,37 @@ namespace stool
         ////////////////////////////////////////////////////////////////////////////////
         //@{
 
+        /**
+         * @brief Returns the number of 1s in the bit vector \p B
+         * @note \p O(1) time
+         */
         uint64_t psum() const
         {
             return this->rank1();
         }
-
+        
+        /**
+         * @brief Returns the number of 1s in \p B[0..i] (i.e., rank1(i))
+         * @note \p O(i) time
+         */
         uint64_t psum(uint64_t i) const
         {
             return this->rank1(i);
         }
+
+        /**
+         * @brief Returns the number of 1s in \p B[i..j] (i.e., rank1(j) - rank1(i-1))
+         * @note \p O(n) time
+         */
         uint64_t psum(uint64_t i, uint64_t j) const
         {
             if (i == j)
             {
                 return this->at(i);
+            }
+            else if (i > j)
+            {
+                return this->rank1(j) - this->rank1(i) - this->at(i);
             }
             else
             {
@@ -555,6 +547,10 @@ namespace stool
             }
         }
 
+        /**
+         * @brief Returns the number of 1s in \p B[(n-1)-i..n-1]
+         * @note \p O(n) time
+         */
         uint64_t reverse_psum(uint64_t i) const
         {
             uint64_t size = this->size();
@@ -569,6 +565,10 @@ namespace stool
             }
         }
 
+        /**
+         * @brief Returns the first position \p p such that psum(p) >= x if such a position exists, otherwise returns -1
+         * @note \p O(p) time
+         */
         int64_t search(uint64_t x) const noexcept
         {
             if (x == 0)
@@ -589,15 +589,29 @@ namespace stool
                 }
             }
         }
+
+        /**
+         * @brief Returns the number of 0s in \p B[0..i]
+         * @note \p O(i) time
+         */
         uint64_t rank0(uint64_t i) const
         {
             return (i + 1) - this->rank1(i);
         }
+
+        /**
+         * @brief Returns the number of 0s in \p B
+         * @note \p O(1) time
+         */
         uint64_t rank0() const
         {
             return this->size() - this->rank1();
         }
 
+        /**
+         * @brief Returns the number of 1s in \p B[i..j]
+         * @note \p O(j-i) time
+         */
         uint64_t rank1(uint64_t i, uint64_t j) const
         {
             uint64_t len = j - i + 1;
@@ -606,14 +620,22 @@ namespace stool
 
             return this->rank1(block_index, bit_index, len);
         }
+
+        /**
+         * @brief Returns the number of 1s in \p B
+         * @note \p O(1) time
+         */
         uint64_t rank1() const
         {
             return this->num1_;
         }
 
+        /**
+         * @brief Returns the number of 1s in \p B[(block_index / 64) + bit_index..(block_index / 64) + bit_index + len - 1]
+         * @note \p O(len) time
+         */
         uint64_t rank1(uint16_t block_index, uint8_t bit_index, uint16_t len) const
         {
-
             if (len == 0)
             {
                 return 0;
@@ -625,6 +647,10 @@ namespace stool
             return num;
         }
 
+        /**
+         * @brief Returns the number of 1s in \p B[0..i]
+         * @note \p O(i) time
+         */
         uint64_t rank1(uint64_t i) const
         {
             return this->rank1(0, 0, i + 1);
@@ -871,6 +897,19 @@ namespace stool
             uint64_t mask = UINT64_MAX << (64 - code_len);
             return this->read_64bit_string(block_index, bit_index) & mask;
         }
+        uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index) const
+        {
+            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_);
+        }
+        uint64_t read_as_64bit_integer(uint16_t block_index, uint8_t bit_index, uint64_t code_len) const
+        {
+            assert(block_index < this->buffer_size_);
+            return stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_) >> (64 - code_len);
+        }
+        uint64_t read_as_64bit_integer(uint16_t block_index) const
+        {
+            return this->buffer_[block_index];
+        }
 
         uint64_t read_prev_64bit(uint64_t block_index, uint8_t bit_index) const
         {
@@ -893,8 +932,6 @@ namespace stool
                 return (fst_bits >> (64 - prev_size)) << (64 - prev_size);
             }
         }
-
-        
 
         //}@
 
@@ -1264,7 +1301,7 @@ namespace stool
 
             this->shift_right(0, bit_count);
             this->replace_64bit_string_sequence(0, bits64_array, bit_count, array_size);
-        }        
+        }
 
         /**
          * @brief Add an element to the beginning of the deque
@@ -1285,7 +1322,6 @@ namespace stool
                 this->insert(0, value);
             }
         }
-
 
         /**
          * @brief Remove the last element from the deque
@@ -1404,7 +1440,6 @@ namespace stool
             }
         }
 
-
         void insert(size_t position, bool value)
         {
             uint64_t value64 = value ? (1ULL << 63) : 0;
@@ -1447,7 +1482,6 @@ namespace stool
             this->replace_64bit_string_sequence(position, bits64_array, bit_size, array_size);
         }
 
-
         void erase(size_t position)
         {
             this->erase(position, 1);
@@ -1470,7 +1504,6 @@ namespace stool
         {
             this->erase(position, 1);
         }
-
 
         void shift_right(uint64_t position, uint64_t len)
         {
