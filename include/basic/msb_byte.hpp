@@ -345,7 +345,7 @@ namespace stool
          * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
          */
         template <typename BIT64_SEQUENCE>
-        static int64_t select1(BIT64_SEQUENCE B, uint64_t i, [[maybe_unused]] uint64_t array_size)
+        static int64_t select1(BIT64_SEQUENCE &B, uint64_t i, [[maybe_unused]] uint64_t array_size)
         {
             int64_t counter = i + 1;
             uint64_t gap = 0;
@@ -370,11 +370,56 @@ namespace stool
         }
 
         /*!
+         * @brief Returns the position of the (i+Q+1)-th 1 in 64-bit sequence \p B[0..array_size-1] if such bit exists; otherwise return -1.
+         * @note \p Q is the number of bits in B[0..u-1], where \p u is the position specified by \p block_index_x and \p bit_index_y (i.e., u = block_index_x * 64 + bit_index_y).
+         * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
+         */
+        template <typename BIT64_SEQUENCE>
+        static int64_t special_select1(BIT64_SEQUENCE &B, uint64_t i, uint64_t block_index_x, uint8_t bit_index_y, [[maybe_unused]] uint64_t array_size)
+        {
+            int64_t counter = i + 1;
+            uint64_t gap = block_index_x * 64 + bit_index_y;
+            uint64_t x = block_index_x;
+
+            if(bit_index_y > 0){
+                uint64_t block = B[x] << (uint64_t)bit_index_y;
+                uint8_t bit_count = stool::Byte::popcount(block);
+
+                if(bit_count < counter){
+                    counter -= bit_count;
+                    gap += 64 - (uint64_t)bit_index_y;
+                    x++;
+                }else{
+                    int64_t result = stool::MSBByte::select1(block, counter - 1) + gap;
+                    return result;
+                }
+            }
+
+            for (uint64_t j = x; j < array_size; j++)
+            {
+                uint64_t block = B[j];
+                uint8_t bit_count = stool::Byte::popcount(block);
+
+                if (bit_count < counter)
+                {
+                    counter -= bit_count;
+                    gap += 64;
+                }
+                else
+                {
+                    int64_t result = stool::MSBByte::select1(block, counter - 1) + gap;
+                    return result;
+                }
+            }
+            return -1;
+        }
+
+        /*!
          * @brief Returns the position of the (i+1)-th 0 in 64-bit sequence \p B[0..array_size-1] if such bit exists; otherwise return -1.
          * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
          */
         template <typename BIT64_SEQUENCE>
-        static int64_t select0(BIT64_SEQUENCE B, uint64_t i, [[maybe_unused]] uint64_t array_size)
+        static int64_t select0(BIT64_SEQUENCE &B, uint64_t i, [[maybe_unused]] uint64_t array_size)
         {
             int64_t counter = i + 1;
             uint64_t gap = 0;
@@ -490,6 +535,21 @@ namespace stool
             uint64_t end_bit_index = i % 64;
             return rank1(B, 0, 0, end_block_index, end_bit_index, array_size);
         }
+
+        /*!
+         * @brief Counts the number of 1 bits in the bits B[i..j] of 64-bit sequence B.
+         * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
+         */
+        template <typename BIT64_SEQUENCE>
+        static uint64_t rank1(BIT64_SEQUENCE &B, uint64_t i, uint64_t j, [[maybe_unused]] uint64_t array_size)
+        {
+            uint64_t start_block_index = i / 64;
+            uint64_t start_bit_index = i % 64;
+            uint64_t end_block_index = j / 64;
+            uint64_t end_bit_index = j % 64;
+            return rank1(B, start_block_index, start_bit_index, end_block_index, end_bit_index, array_size);
+        }
+
 
         /*!
          * @brief Counts the number of 1 bits in the bits B[I..J] of 64-bit sequence B, where I = start_block_index * 64 + start_bit_index and J = end_block_index * 64 + end_bit_index.
