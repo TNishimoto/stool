@@ -1171,7 +1171,7 @@ namespace stool
         }
 
         /**
-         * @brief Remove all elements from the deque
+         * @brief Remove all elements from the bits \p B
          */
         void clear()
         {
@@ -1181,12 +1181,10 @@ namespace stool
         }
 
         /**
-         * @brief Add an element to the end of the deque
-         *
-         * @param value The element to add
-         * @throws std::invalid_argument If the deque would exceed maximum size
+         * @brief Add a bit \p v to the end of the bits \p B
+         * @note \p O(|B|) time
          */
-        void push_back(bool value)
+        void push_back(bool v)
         {
 #if DEBUG
             uint64_t prev_size = this->size();
@@ -1201,10 +1199,10 @@ namespace stool
 
             uint64_t block_index = (this->bit_count_) / 64;
             uint64_t bit_index = (this->bit_count_) % 64;
-            this->buffer_[block_index] = stool::MSBByte::write_bit(this->buffer_[block_index], bit_index, value);
+            this->buffer_[block_index] = stool::MSBByte::write_bit(this->buffer_[block_index], bit_index, v);
             this->bit_count_++;
 
-            if (value)
+            if (v)
             {
                 this->num1_++;
             }
@@ -1213,6 +1211,10 @@ namespace stool
 #endif
         }
 
+        /**
+         * @brief Add the first len bits of the 64-bit integer \p value to the end of the bits \p B
+         * @note \p O(|B|) time
+         */
         void push_back64(uint64_t value, uint8_t len = 64)
         {
             assert(len <= 64);
@@ -1255,24 +1257,51 @@ namespace stool
             }
             this->bit_count_ += len;
         }
+
+        /**
+         * @brief Add the first w bits of the 64-bit integers \p R of length \p q to the end of the bits \p B
+         * @note \p O(|B|) time
+         */
         template <typename T>
-        void push_back64(const T &bits64_array, uint64_t bit_count, [[maybe_unused]] uint64_t array_size)
+        void push_back64(const T &bits64_array_R, uint64_t bit_count_w, [[maybe_unused]] uint64_t array_size_q)
         {
-            if (bit_count == 0)
+            if (bit_count_w == 0)
                 return;
 
             uint64_t size = this->size();
-            if (size + bit_count > MAX_BIT_LENGTH)
+            if (size + bit_count_w > MAX_BIT_LENGTH)
             {
                 throw std::invalid_argument("Error: push_back64()");
             }
             uint64_t old_size = this->size();
 
-            this->shift_right(old_size, bit_count);
+            this->shift_right(old_size, bit_count_w);
 
-            this->replace_64bit_string_sequence(old_size, bits64_array, bit_count, array_size);
+            this->replace_64bit_string_sequence(old_size, bits64_array_R, bit_count_w, array_size_q);
         }
 
+        /**
+         * @brief Add a bit \p v to the beginning of the bits \p B
+         * @note \p O(|B|) time
+         */
+        void push_front(bool v)
+        {
+
+            uint64_t size = this->size();
+            if (size == 0)
+            {
+                this->push_back(v);
+            }
+            else
+            {
+                this->insert(0, v);
+            }
+        }
+
+        /**
+         * @brief Add the first \p len bits of the 64-bit integer \p value to the beginning of the bits \p B
+         * @note \p O(|B|) time
+         */
         void push_front64(uint64_t value, uint8_t len = 64)
         {
 
@@ -1285,44 +1314,32 @@ namespace stool
                 this->insert_64bit_string(0, value, len);
             }
         }
+
+
+        /**
+         * @brief Add the first w bits of the 64-bit integers \p R of length \p q to the beginning of the bits \p B
+         * @note \p O(|B|) time
+         */
         template <typename T>
-        void push_front64(const T &bits64_array, uint64_t bit_count, [[maybe_unused]] uint64_t array_size)
+        void push_front64(const T &bits64_array_R, uint64_t bit_count_w, [[maybe_unused]] uint64_t array_size_q)
         {
-            if (bit_count == 0)
+            if (bit_count_w == 0)
                 return;
 
             uint64_t size = this->size();
-            if (size + bit_count > MAX_BIT_LENGTH)
+            if (size + bit_count_w > MAX_BIT_LENGTH)
             {
                 throw std::invalid_argument("Error: push_front64()");
             }
 
-            this->shift_right(0, bit_count);
-            this->replace_64bit_string_sequence(0, bits64_array, bit_count, array_size);
+            this->shift_right(0, bit_count_w);
+            this->replace_64bit_string_sequence(0, bits64_array_R, bit_count_w, array_size_q);
         }
 
-        /**
-         * @brief Add an element to the beginning of the deque
-         *
-         * @param value The element to add
-         * @throws std::invalid_argument If the deque would exceed maximum size
-         */
-        void push_front(bool value)
-        {
-
-            uint64_t size = this->size();
-            if (size == 0)
-            {
-                this->push_back(value);
-            }
-            else
-            {
-                this->insert(0, value);
-            }
-        }
 
         /**
-         * @brief Remove the last element from the deque
+         * @brief Remove the last bit from the bits \p B
+         * @note \p O(|B|) time
          */
         void pop_back()
         {
@@ -1345,6 +1362,11 @@ namespace stool
                 this->bit_count_--;
             }
         }
+
+        /**
+         * @brief Remove the last \p len bits from the bits \p B
+         * @note \p O(|B|) time
+         */
         void pop_back(uint64_t len)
         {
 
@@ -1381,7 +1403,8 @@ namespace stool
         }
 
         /**
-         * @brief Remove the first element from the deque
+         * @brief Remove the first bit from the bits \p B
+         * @note \p O(|B|) time
          */
         void pop_front()
         {
@@ -1400,6 +1423,10 @@ namespace stool
             }
         }
 
+        /**
+         * @brief Remove the first \p len bits from the bits \p B
+         * @note \p O(|B|) time
+         */
         void pop_front(uint64_t len)
         {
             if (len == 1)
@@ -1411,8 +1438,13 @@ namespace stool
                 this->erase(0, len);
             }
         }
+
+        /**
+         * @brief Remove the first \p len bits from the bits \p B and store the removed bits to the array \p output_bits64_array_R of length \p q
+         * @note \p O(|B|) time
+         */
         template <typename T>
-        void pop_front(uint64_t len, T &output_bits64_array, [[maybe_unused]] uint64_t array_size)
+        void pop_front(uint64_t len, T &output_bits64_array_R, [[maybe_unused]] uint64_t array_size_q)
         {
             if (len == 0)
             {
@@ -1425,7 +1457,7 @@ namespace stool
             uint64_t block_size = (len - 1) / 64 + 1;
             for (uint64_t i = 0; i < block_size; i++)
             {
-                output_bits64_array[i] = this->buffer_[i];
+                output_bits64_array_R[i] = this->buffer_[i];
             }
 
             if (len == 1)
