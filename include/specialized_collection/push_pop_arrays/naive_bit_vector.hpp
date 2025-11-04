@@ -925,6 +925,10 @@ namespace stool
         ///   @name Convertion functions
         ////////////////////////////////////////////////////////////////////////////////
         //@{
+
+        /*!
+         * @brief Returns the bits \p B as a binary string
+         */
         std::string to_string(bool use_partition = false) const
         {
             std::string s;
@@ -938,6 +942,10 @@ namespace stool
             }
             return s;
         }
+
+        /*!
+         * @brief Returns the bits \p B as a bit vector
+         */
         std::vector<bool> to_bit_vector() const
         {
             std::vector<bool> bv;
@@ -947,6 +955,10 @@ namespace stool
             }
             return bv;
         }
+
+        /*!
+         * @brief Returns the 64-bit integers \p S as a binary string
+         */
         std::string get_buffer_bit_string() const
         {
             std::vector<uint64_t> bits;
@@ -967,7 +979,7 @@ namespace stool
         //@{
 
         /**
-         * @brief Print debug information about the deque
+         * @brief Print debug information about this instance
          */
         void print_info() const
         {
@@ -996,11 +1008,7 @@ namespace stool
         //@{
 
         /**
-         * @brief Save deque to a byte vector
-         *
-         * @param item The deque to save
-         * @param output Vector to store the serialized data
-         * @param pos Current position in the output vector (will be updated)
+         * @brief Save the given instance \p item to a byte vector \p output at the position \p pos
          */
         static void store_to_bytes(const NaiveBitVector &item, std::vector<uint8_t> &output, uint64_t &pos)
         {
@@ -1015,10 +1023,7 @@ namespace stool
         }
 
         /**
-         * @brief Save deque to a file stream
-         *
-         * @param item The deque to save
-         * @param os Output file stream
+         * @brief Save the given instance \p item to a file stream \p os
          */
         static void store_to_file(const NaiveBitVector &item, std::ofstream &os)
         {
@@ -1029,11 +1034,41 @@ namespace stool
         }
 
         /**
-         * @brief Load deque from a byte vector
-         *
-         * @param data Vector containing the serialized data
-         * @param pos Current position in the data vector (will be updated)
-         * @return NaiveBitVector The loaded deque
+         * @brief Save the given vector of NaiveBitVector instances \p items to a byte vector \p output at the position \p pos
+         */
+        static void store_to_bytes(const std::vector<NaiveBitVector> &items, std::vector<uint8_t> &output, uint64_t &pos)
+        {
+            uint64_t size = get_byte_size(items);
+            if (pos + size > output.size())
+            {
+                output.resize(pos + size);
+            }
+
+            uint64_t items_size = items.size();
+            std::memcpy(output.data() + pos, &items_size, sizeof(uint64_t));
+            pos += sizeof(uint64_t);
+
+            for (const auto &item : items)
+            {
+                NaiveBitVector::store_to_file(item, output, pos);
+            }
+        }
+        /**
+         * @brief Save the given vector of NaiveBitVector instances \p items to a file stream \p os
+         */
+        static void store_to_file(const std::vector<NaiveBitVector> &items, std::ofstream &os)
+        {
+            uint64_t items_size = items.size();
+            os.write(reinterpret_cast<const char *>(&items_size), sizeof(uint64_t));
+
+            for (const auto &item : items)
+            {
+                NaiveBitVector::store_to_file(item, os);
+            }
+        }
+
+        /**
+         * @brief Returns the NaiveBitVector instance loaded from a byte vector \p data at the position \p pos
          */
         static NaiveBitVector load_from_bytes(const std::vector<uint8_t> &data, uint64_t &pos)
         {
@@ -1061,10 +1096,7 @@ namespace stool
         }
 
         /**
-         * @brief Load deque from a file stream
-         *
-         * @param ifs Input file stream
-         * @return NaiveBitVector The loaded deque
+         * @brief Returns the NaiveBitVector instance loaded from a file stream \p ifs
          */
         static NaiveBitVector load_from_file(std::ifstream &ifs)
         {
@@ -1084,34 +1116,11 @@ namespace stool
 
             return r;
         }
-        static void save(const std::vector<NaiveBitVector> &items, std::vector<uint8_t> &output, uint64_t &pos)
-        {
-            uint64_t size = get_byte_size(items);
-            if (pos + size > output.size())
-            {
-                output.resize(pos + size);
-            }
 
-            uint64_t items_size = items.size();
-            std::memcpy(output.data() + pos, &items_size, sizeof(uint64_t));
-            pos += sizeof(uint64_t);
-
-            for (const auto &item : items)
-            {
-                NaiveBitVector::save(item, output, pos);
-            }
-        }
-        static void save(const std::vector<NaiveBitVector> &items, std::ofstream &os)
-        {
-            uint64_t items_size = items.size();
-            os.write(reinterpret_cast<const char *>(&items_size), sizeof(uint64_t));
-
-            for (const auto &item : items)
-            {
-                NaiveBitVector::save(item, os);
-            }
-        }
-        static std::vector<NaiveBitVector> load_vector(const std::vector<uint8_t> &data, uint64_t &pos)
+        /**
+         * @brief Returns the vector of NaiveBitVector instances loaded from a byte vector \p data at the position \p pos
+         */
+        static std::vector<NaiveBitVector> load_vector_from_bytes(const std::vector<uint8_t> &data, uint64_t &pos)
         {
             uint64_t size = 0;
             std::memcpy(&size, data.data() + pos, sizeof(uint64_t));
@@ -1125,7 +1134,11 @@ namespace stool
             }
             return output;
         }
-        static std::vector<NaiveBitVector> load_vector(std::ifstream &ifs)
+
+        /**
+         * @brief Returns the vector of NaiveBitVector instances loaded from a file stream \p ifs
+         */
+        static std::vector<NaiveBitVector> load_vector_from_file(std::ifstream &ifs)
         {
             uint64_t size = 0;
             ifs.read(reinterpret_cast<char *>(&size), sizeof(uint64_t));
@@ -1145,10 +1158,9 @@ namespace stool
         ///   @name Update Operations
         ////////////////////////////////////////////////////////////////////////////////
         //@{
+
         /**
-         * @brief Swap contents with another NaiveBitVector
-         *
-         * @param item The NaiveBitVector to swap with
+         * @brief Swap operation
          */
         void swap(NaiveBitVector &item)
         {
