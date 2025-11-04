@@ -617,7 +617,7 @@ namespace stool
         }
 
         /*!
-         * @brief Shifts the suffix B[pos..] of 64-bit integer sequence B[0..] to the left by len bits, i.e., B is changed to B[0..pos-1-len] | B[pos..63] | 0^{len}.
+         * @brief Shifts the suffix B[pos..] of 64-bit integer sequence B[0..] to the left by len bits, i.e., B is changed to B[0..pos-1-len] | B[pos..] | 0^{len}.
          * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
          */
         static void shift_left(uint64_t *B, uint64_t pos, uint64_t len, uint64_t array_size)

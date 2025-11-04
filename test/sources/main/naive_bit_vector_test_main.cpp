@@ -499,7 +499,7 @@ void replace_test(uint64_t max_len, uint64_t number_of_trials, uint64_t seed, bo
                     bv[j + k] = s[k] == '1';
                 }
                 
-                bit_deque.replace_64bit_string(j, new_value, plen);
+                bit_deque.replace64(j, new_value, plen);
 
                 if(detail_check){
                     equal_test(bit_deque, bv);
@@ -557,7 +557,7 @@ void insert_and_erase_test(uint64_t max_len, uint64_t number_of_trials, uint64_t
 
 
 
-                bit_deque.insert_64bit_string(pos, new_value, plen);
+                bit_deque.insert64(pos, new_value, plen);
 
                 if(detail_check){
                     try{
@@ -654,7 +654,7 @@ void insert64_and_erase64_test(uint64_t max_len, uint64_t number_of_trials, uint
                 }
 
                 assert(pos <= bit_deque.size());
-                bit_deque.insert_64bit_string(pos, new_pattern, new_pattern_size, new_pattern.size());
+                bit_deque.insert64(pos, new_pattern, new_pattern_size, new_pattern.size());
 
                 if(detail_check){
                     try{

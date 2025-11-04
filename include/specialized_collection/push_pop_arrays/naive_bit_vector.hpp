@@ -10,11 +10,10 @@
 namespace stool
 {
     /*!
-     * @brief A simple bit vector B[0..n-1] implementation with push/pop operations [in progress]
-     * @note The bits are stored in 64-bit integers S[0..m-1] (uint64_t *buffer_)
+     * @brief A simple bit vector \p B[0..n-1] implementation with push/pop operations [in progress]
+     * @note The bits \p B[0..n-1] are stored in 64-bit integers \p S[0..m-1] (uint64_t *buffer_)
      * @tparam MAX_BIT_LENGTH Maximum number of bits that can be stored (default: 8092)
      */
-
     template <uint64_t MAX_BIT_LENGTH = 8092>
     class NaiveBitVector
     {
@@ -1277,7 +1276,7 @@ namespace stool
 
             this->shift_right(old_size, bit_count_w);
 
-            this->replace_64bit_string_sequence(old_size, bits64_array_R, bit_count_w, array_size_q);
+            this->replace64(old_size, bits64_array_R, bit_count_w, array_size_q);
         }
 
         /**
@@ -1311,7 +1310,7 @@ namespace stool
             }
             else
             {
-                this->insert_64bit_string(0, value, len);
+                this->insert64(0, value, len);
             }
         }
 
@@ -1333,7 +1332,7 @@ namespace stool
             }
 
             this->shift_right(0, bit_count_w);
-            this->replace_64bit_string_sequence(0, bits64_array_R, bit_count_w, array_size_q);
+            this->replace64(0, bits64_array_R, bit_count_w, array_size_q);
         }
 
 
@@ -1469,14 +1468,22 @@ namespace stool
                 this->erase(0, len);
             }
         }
-
-        void insert(size_t position, bool value)
+        /**
+         * @brief Insert a bit \p v at the position \p p in the bits \p B
+         * @note \p O(|B|) time
+         */
+        void insert(size_t p, bool v)
         {
-            uint64_t value64 = value ? (1ULL << 63) : 0;
+            uint64_t value64 = v ? (1ULL << 63) : 0;
 
-            this->insert_64bit_string(position, value64, 1);
+            this->insert64(p, value64, 1);
         }
-        void insert_64bit_string(size_t position, uint64_t value, uint64_t len)
+
+        /**
+         * @brief Insert the first \p len bits of the 64-bit integer \p value at the position \p p in the bits \p B
+         * @note \p O(|B|) time
+         */
+        void insert64(size_t p, uint64_t value, uint64_t len)
         {
 
             uint64_t size = this->size();
@@ -1485,57 +1492,76 @@ namespace stool
                 throw std::invalid_argument("Error: insert_64bit_string()");
             }
 
-            if (position == size)
+            if (p == size)
             {
                 this->push_back64(value, len);
                 assert(this->num1_ == this->rank1(0, this->size() - 1));
             }
-            else if (position < size)
+            else if (p < size)
             {
                 assert(this->num1_ == this->rank1(0, this->size() - 1));
 
-                this->shift_right(position, len);
+                this->shift_right(p, len);
 
-                assert(position + len <= this->size());
-                this->replace_64bit_string(position, value, len);
+                assert(p + len <= this->size());
+                this->replace64(p, value, len);
             }
             else
             {
                 throw std::invalid_argument("Error: insert64()");
             }
         }
+
+        /**
+         * @brief Insert the first \p w bits of the 64-bit integers \p R of length \p q at the position \p p in the bits \p B
+         * @note \p O(|B|) time
+         */
         template <typename T>
-        void insert_64bit_string(size_t position, const T &bits64_array, uint64_t bit_size, uint64_t array_size)
+        void insert64(size_t p, const T &bits64_array_R, uint64_t bit_size_w, uint64_t array_size_q)
         {
-            this->shift_right(position, bit_size);
-
-            this->replace_64bit_string_sequence(position, bits64_array, bit_size, array_size);
+            this->shift_right(p, bit_size_w);
+            this->replace64(p, bits64_array_R, bit_size_w, array_size_q);
         }
 
-        void erase(size_t position)
+        /**
+         * @brief Remove the bit at the position \p p in the bits \p B
+         */
+        void erase(size_t p)
         {
-            this->erase(position, 1);
+            this->erase(p, 1);
         }
-        void erase(size_t position, size_t len)
+        /**
+         * @brief Remove the \p len bits from the bits \p B starting from the position \p p
+         * @note \p O(|B|) time
+         */
+        void erase(size_t p, size_t len)
         {
             uint64_t size = this->size();
-            if (position + len == size)
+            if (p + len == size)
             {
 
                 this->pop_back(len);
             }
-            else if (position + len < size)
+            else if (p + len < size)
             {
 
-                this->shift_left(position + len, len);
+                this->shift_left(p + len, len);
             }
         }
-        void remove(size_t position)
+        /**
+         * @brief Remove the \p len bits from the bits \p B starting from the position \p p
+         * @note \p O(|B|) time
+         */
+        void remove(size_t p)
         {
-            this->erase(position, 1);
+            this->erase(p, 1);
         }
 
-        void shift_right(uint64_t position, uint64_t len)
+        /**
+         * @brief Insert the bits 0^{len} to the bits \p B at the position \p p
+         * @note \p O(|B|) time
+         */
+        void shift_right(uint64_t p, uint64_t len)
         {
             uint64_t size = this->size();
 
@@ -1560,27 +1586,24 @@ namespace stool
 
                 this->update_size_if_needed(size + len);
 
-                stool::MSBByte::shift_right(this->buffer_, position, len, this->buffer_size_);
+                stool::MSBByte::shift_right(this->buffer_, p, len, this->buffer_size_);
                 this->bit_count_ += len;
 
                 assert(this->num1_ == this->rank1(0, this->size() - 1));
-
-                /*
-                uint64_t src_block_index = position / 64;
-                uint64_t src_bit_index = position % 64;
-                uint64_t dst_block_index = (position + len) / 64;
-                uint64_t dst_bit_index = (position + len) % 64;
-
-                stool::MSBByte::move_suffix_blocks_to_a_block_position<uint64_t *, TMP_BUFFER_SIZE>(this->buffer_, src_block_index, src_bit_index, dst_block_index, dst_bit_index, this->buffer_size_);
-                */
             }
         }
-        void shift_left(uint64_t position, uint64_t len)
+
+
+        /*!
+         * @brief Shifts the suffix B[p..] of the bits B[0..] to the left by \p len bits, i.e., B is changed to B[0..p-1-len] | B[p..n] | 0^{len}.
+         * @note \p O(|B|) time
+         */
+        void shift_left(uint64_t p, uint64_t len)
         {
 
             uint64_t size = this->size();
 
-            if (position == size)
+            if (p == size)
             {
                 this->pop_back(len);
             }
@@ -1588,30 +1611,16 @@ namespace stool
             {
                 return;
             }
-            else if (position == 0)
+            else if (p == 0)
             {
                 throw std::runtime_error("shift_left is not implemented for position == 0");
             }
             else
             {
-                int64_t posL = (int64_t)position - (int64_t)len;
-                uint64_t removed_num1 = this->rank1(posL, position - 1);
+                int64_t posL = (int64_t)p - (int64_t)len;
+                uint64_t removed_num1 = this->rank1(posL, p - 1);
 
-                stool::MSBByte::shift_left(this->buffer_, position, len, this->buffer_size_);
-
-                /*
-                uint64_t dst_block_index = posL / 64;
-                uint64_t dst_bit_index = posL % 64;
-                uint64_t src_block_index = position / 64;
-                uint64_t src_bit_index = position % 64;
-
-                assert(dst_block_index <= src_block_index);
-
-                stool::MSBByte::move_suffix_blocks_to_a_block_position<uint64_t *, TMP_BUFFER_SIZE>(this->buffer_, src_block_index, src_bit_index, dst_block_index, dst_bit_index, this->buffer_size_);
-                */
-
-                // stool::MSBByte::block_shift_left(this->buffer_, position, len, this->buffer_size_);
-
+                stool::MSBByte::shift_left(this->buffer_, p, len, this->buffer_size_);
                 this->num1_ -= removed_num1;
                 this->bit_count_ -= len;
 
@@ -1619,14 +1628,23 @@ namespace stool
             }
         }
 
-        void replace(uint64_t position, bool value)
+        /**
+         * @brief Replace the p-th bit in the bits \p B with the bit \p v
+         * @note \p O(1) time
+         */
+        void replace(uint64_t p, bool v)
         {
-            this->replace_64bit_string(position, value ? (1ULL << 63) : 0, 1);
+            this->replace64(p, v ? (1ULL << 63) : 0, 1);
         }
-        void replace_64bit_string(uint64_t position, uint64_t value, uint64_t len)
+
+        /**
+         * @brief Replace the \p len bits starting from the position \p p in the bits \p B with the first \p len bits of the 64-bit integer \p v
+         * @note \p O(1) time
+         */
+        void replace64(uint64_t p, uint64_t v, uint64_t len)
         {
             assert(this->num1_ == this->rank1(0, this->size() - 1));
-            if (position + len > this->size())
+            if (p + len > this->size())
             {
                 throw std::invalid_argument("Error: replace()");
             }
@@ -1635,33 +1653,37 @@ namespace stool
                 return;
             }
 
-            uint64_t block_index = position / 64;
-            uint64_t bit_index = position % 64;
+            uint64_t block_index = p / 64;
+            uint64_t bit_index = p % 64;
 
             uint64_t removed_bits = stool::MSBByte::access_64bits(this->buffer_, block_index, bit_index, this->buffer_size_);
 
-            uint64_t added_num1 = stool::MSBByte::popcount(value, len - 1);
+            uint64_t added_num1 = stool::MSBByte::popcount(v, len - 1);
             uint64_t removed_num1 = stool::MSBByte::popcount(removed_bits, len - 1);
             this->num1_ += added_num1;
             this->num1_ -= removed_num1;
 
-            stool::MSBByte::write_bits(this->buffer_, value, len, block_index, bit_index, this->buffer_size_);
+            stool::MSBByte::write_bits(this->buffer_, v, len, block_index, bit_index, this->buffer_size_);
 
             assert(this->num1_ == this->rank1(0, this->size() - 1));
         }
 
+        /**
+         * @brief Replace the \p w bits starting from the position \p p in the bits \p B with the first \p w bits of the 64-bit integers \p R of length \p q
+         * @note \p O(w) time
+         */
         template <typename T>
-        void replace_64bit_string_sequence(uint64_t position, const T &bits64_array, uint64_t bit_size, uint64_t array_size)
+        void replace64(uint64_t p, const T &bits64_array_R, uint64_t bit_size_w, uint64_t array_size_q)
         {
-            if (bit_size == 0)
+            if (bit_size_w == 0)
             {
                 return;
             }
 
-            uint64_t start_block_index = position / 64;
-            uint64_t start_bit_index = position % 64;
-            uint64_t end_block_index = (position + bit_size - 1) / 64;
-            uint64_t end_bit_index = (position + bit_size - 1) % 64;
+            uint64_t start_block_index = p / 64;
+            uint64_t start_bit_index = p % 64;
+            uint64_t end_block_index = (p + bit_size_w - 1) / 64;
+            uint64_t end_bit_index = (p + bit_size_w - 1) % 64;
 
             uint64_t blockL_size = start_bit_index;
             uint64_t blockR_size = 64 - start_bit_index;
@@ -1670,7 +1692,7 @@ namespace stool
             {
                 uint64_t old_block = this->buffer_[start_block_index];
                 uint64_t removed_num = stool::Byte::popcount(old_block);
-                uint64_t new_block = stool::MSBByte::write_bits(old_block, start_bit_index, bit_size, bits64_array[0]);
+                uint64_t new_block = stool::MSBByte::write_bits(old_block, start_bit_index, bit_size_w, bits64_array_R[0]);
                 uint64_t added_num = stool::Byte::popcount(new_block);
                 this->num1_ += added_num;
                 this->num1_ -= removed_num;
@@ -1681,7 +1703,7 @@ namespace stool
                 {
                     uint64_t old_block = this->buffer_[start_block_index];
                     uint64_t removed_num = stool::Byte::popcount(old_block);
-                    uint64_t new_block = stool::MSBByte::write_suffix(old_block, blockR_size, bits64_array[0]);
+                    uint64_t new_block = stool::MSBByte::write_suffix(old_block, blockR_size, bits64_array_R[0]);
                     uint64_t added_num = stool::Byte::popcount(new_block);
                     this->num1_ += added_num;
                     this->num1_ -= removed_num;
@@ -1694,7 +1716,7 @@ namespace stool
                     {
                         uint64_t old_block = this->buffer_[i];
                         uint64_t removed_num = stool::Byte::popcount(old_block);
-                        uint64_t new_block = bits64_array[i - start_block_index];
+                        uint64_t new_block = bits64_array_R[i - start_block_index];
                         uint64_t added_num = stool::Byte::popcount(new_block);
                         this->num1_ += added_num;
                         this->num1_ -= removed_num;
@@ -1707,8 +1729,8 @@ namespace stool
                     {
                         uint64_t old_block = this->buffer_[i];
                         uint64_t removed_num = stool::Byte::popcount(old_block);
-                        uint64_t blockL = bits64_array[(i - 1) - start_block_index] << blockR_size;
-                        uint64_t blockR = bits64_array[i - start_block_index] >> blockL_size;
+                        uint64_t blockL = bits64_array_R[(i - 1) - start_block_index] << blockR_size;
+                        uint64_t blockR = bits64_array_R[i - start_block_index] >> blockL_size;
                         uint64_t new_block = blockL | blockR;
                         uint64_t added_num = stool::Byte::popcount(new_block);
                         this->num1_ += added_num;
@@ -1719,17 +1741,9 @@ namespace stool
 
                 {
                     uint64_t last_block_size = end_bit_index + 1;
-
-                    /*
-                    CircularBitPointer start_value_bp(array_size, 0, 0);
-                    CircularBitPointer end_value_bp(array_size, 0, 0);
-                    start_value_bp.add(bit_size - last_block_size);
-                    end_value_bp.add(bit_size - 1);
-                    uint64_t pattern = start_value_bp.read64(bits64_array);
-                    */
-                    uint64_t __block_index = (bit_size - last_block_size) / 64;
-                    uint64_t __bit_index = (bit_size - last_block_size) % 64;
-                    uint64_t pattern = stool::MSBByte::access_64bits(bits64_array, __block_index, __bit_index, array_size);
+                    uint64_t __block_index = (bit_size_w - last_block_size) / 64;
+                    uint64_t __bit_index = (bit_size_w - last_block_size) % 64;
+                    uint64_t pattern = stool::MSBByte::access_64bits(bits64_array_R, __block_index, __bit_index, array_size_q);
                     uint64_t old_block = this->buffer_[end_block_index];
                     uint64_t removed_num = stool::Byte::popcount(old_block);
                     assert(last_block_size <= 64 && last_block_size > 0);
@@ -1742,6 +1756,10 @@ namespace stool
             }
         }
 
+        /**
+         * @brief Increment the bit at the position \p i in the bits \p B by \p delta
+         * @note \p O(1) time
+         */
         void increment(uint64_t i, int64_t delta)
         {
             if (delta >= 1)
@@ -1756,8 +1774,6 @@ namespace stool
 
         /**
          * @brief Reduce buffer size to fit current content
-         *
-         * Resizes the buffer to the minimum size needed to hold current elements.
          */
         void shrink_to_fit(int64_t new_size)
         {

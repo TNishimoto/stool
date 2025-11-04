@@ -1174,7 +1174,7 @@ namespace stool
             if (old_code_len == new_code_len)
             {
                 uint64_t code_value = new_value << (64 - new_code_len);
-                this->code_deque.replace_64bit_string(code_pos, code_value, new_code_len);
+                this->code_deque.replace64(code_pos, code_value, new_code_len);
                 this->psum_ += new_value;
                 this->psum_ -= old_value;
             }
