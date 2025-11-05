@@ -14,27 +14,17 @@ namespace stool
     template <bool USE_PSUM = true>
     class NaiveFLCVector
     {
+    private:
         inline static std::vector<int> size_array{1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 18, 22, 27, 33, 40, 48, 58, 70, 84, 101, 122, 147, 177, 213, 256, 308, 370, 444, 533, 640, 768, 922, 1107, 1329, 1595, 1914, 2297, 2757, 3309, 3971, 4766};
         inline static const uint64_t MAX_SIZE = 4000;
 
-        static uint64_t read_as_64bit_integer(uint64_t B, uint8_t i, uint8_t len)
-        {
-            uint64_t end_bit_index = i + len - 1;
-            uint64_t mask = UINT64_MAX >> (64 - len);
-
-            uint64_t value = B >> (63 - end_bit_index);
-            value = value & mask;
-
-            return value;
-        }
+        uint64_t *buffer_ = nullptr; // Buffer B[0..m-1]
+        uint64_t psum_;              // The sum of the elements in integer sequence S[0..n-1]
+        uint16_t size_;              // |S|
+        uint16_t buffer_size_;       // |B|
+        uint8_t code_type_;          // The bitsize of elements in S
 
     public:
-        uint64_t *buffer_ = nullptr;
-        uint64_t psum_;
-        uint16_t size_;
-        uint16_t buffer_size_;
-        uint8_t code_type_;
-
         // INDEX_TYPE deque_size_;
 
         /*!
@@ -241,39 +231,6 @@ namespace stool
             bool operator>=(const NaiveFLCVectorIterator &other) const { return this->_m_idx >= other._m_idx; }
         };
 
-        static uint64_t get_appropriate_buffer_size_index2(int64_t num_elements, uint8_t code_type)
-        {
-            uint64_t total_code_size = num_elements << code_type;
-
-            for (uint64_t i = 0; i < size_array.size(); i++)
-            {
-                uint64_t xsize = size_array[i] * 64;
-                if (xsize > total_code_size)
-                {
-                    return i;
-                }
-            }
-            throw std::runtime_error("size is too large");
-        }
-        int64_t get_current_buffer_size_index() const
-        {
-            if (this->buffer_size_ == 0)
-            {
-                return -1;
-            }
-            else
-            {
-                for (uint64_t i = 0; i < size_array.size(); i++)
-                {
-                    if (this->buffer_size_ == size_array[i])
-                    {
-                        return i;
-                    }
-                }
-            }
-            throw std::runtime_error("buffer_size_ is not found");
-        }
-
     public:
         ////////////////////////////////////////////////////////////////////////////////
         ///   @name Constructors and Destructor
@@ -459,32 +416,31 @@ namespace stool
 
         ////////////////////////////////////////////////////////////////////////////////
         ///   @name Lightweight functions for accessing to properties of this class
-        ///   The properties of this class.
         ////////////////////////////////////////////////////////////////////////////////
         //@{
         /**
-         * @brief Get the current number of elements
-         *
-         * @return size_t Number of elements in the deque
+         * @brief Return the number of lements in S (i.e., |S|)
          */
         size_t size() const
         {
             return this->size_;
         }
 
+        /**
+         * @brief Check if the integer sequence is empty (i.e., |S| == 0)
+         */
         bool empty() const
         {
             return this->size_ == 0;
         }
 
         /**
-         * @brief Calculate the total memory usage in bytes
-         *
-         * @return uint64_t Total memory usage including object overhead and buffer
+         * @brief Returns the total memory usage in bytes
+         * @param only_dynamic_memory If true, only the size of the dynamic memory is returned
          */
-        uint64_t size_in_bytes(bool only_extra_bytes = false) const
+        uint64_t size_in_bytes(bool only_dynamic_memory = false) const
         {
-            if (only_extra_bytes)
+            if (only_dynamic_memory)
             {
                 return sizeof(uint64_t) * this->buffer_size_;
             }
@@ -494,6 +450,9 @@ namespace stool
             }
         }
 
+        /**
+         * @brief Returns the size of the unused memory in bytes (i.e., ((|B| * 8) - (|S| * W / 8), where W is the bitsize of elements in S)
+         */
         uint64_t unused_size_in_bytes() const
         {
             uint64_t buffer_bytes = this->buffer_size_ * sizeof(uint64_t);
@@ -503,9 +462,7 @@ namespace stool
         }
 
         /**
-         * @brief Get the current buffer capacity
-         *
-         * @return size_t The number of elements the buffer can hold
+         * @brief Return the maximum number of bits that can be stored without resizing the buffer (i.e., |S| * 64 / W, where W is the bitsize of elements in S)
          */
         size_t capacity() const
         {
@@ -513,17 +470,6 @@ namespace stool
             return (this->buffer_size_ * 64) / code_length;
         }
 
-        std::string get_buffer_bit_string() const
-        {
-            std::vector<uint64_t> bits;
-            bits.resize(this->buffer_size_);
-            for (uint64_t i = 0; i < this->buffer_size_; i++)
-            {
-                bits[i] = this->buffer_[i];
-            }
-
-            return stool::Byte::to_bit_string(bits, true);
-        }
         //}@
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -602,31 +548,6 @@ namespace stool
         int64_t search(uint64_t x) const noexcept
         {
             return stool::PackedSearch::search(this->buffer_, x, (stool::PackedSearch::PackedBitType)this->code_type_, this->psum_, this->buffer_size_);
-            /*
-            uint64_t sum = 0;
-            uint64_t i = 0;
-
-            if (x > this->psum_)
-            {
-                return -1;
-            }
-            else
-            {
-                while (true)
-                {
-                    sum += this->at(i);
-                    if (sum >= x)
-                    {
-                        return i;
-                    }
-                    else
-                    {
-                        i++;
-                    }
-                }
-                return -1;
-            }
-            */
         }
         //}@
 
@@ -679,6 +600,17 @@ namespace stool
                 output_vec[i] = this->at(i);
             }
         }
+        std::string convert_buffer_to_binary_string() const
+        {
+            std::vector<uint64_t> bits;
+            bits.resize(this->buffer_size_);
+            for (uint64_t i = 0; i < this->buffer_size_; i++)
+            {
+                bits[i] = this->buffer_[i];
+            }
+
+            return stool::Byte::to_bit_string(bits, true);
+        }
 
         //}@
 
@@ -698,7 +630,7 @@ namespace stool
 
             if (this->buffer_ != nullptr)
             {
-                std::cout << "Buffer: " << this->get_buffer_bit_string() << std::endl;
+                std::cout << "Buffer: " << this->convert_buffer_to_binary_string() << std::endl;
             }
             else
             {
@@ -1160,6 +1092,32 @@ namespace stool
         }
         //}@
 
+    private:
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Private functions
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+        int64_t get_current_buffer_size_index() const
+        {
+            if (this->buffer_size_ == 0)
+            {
+                return -1;
+            }
+            else
+            {
+                for (uint64_t i = 0; i < size_array.size(); i++)
+                {
+                    if (this->buffer_size_ == size_array[i])
+                    {
+                        return i;
+                    }
+                }
+            }
+            throw std::runtime_error("buffer_size_ is not found");
+        }
+        //}@
+
+    public:
         ////////////////////////////////////////////////////////////////////////////////
         ///   @name Load, save, and builder functions
         ////////////////////////////////////////////////////////////////////////////////
@@ -1391,6 +1349,37 @@ namespace stool
             return bytes;
         }
 
+        //}@
+
+    private:
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Private static functions
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+        static uint64_t read_as_64bit_integer(uint64_t B, uint8_t i, uint8_t len)
+        {
+            uint64_t end_bit_index = i + len - 1;
+            uint64_t mask = UINT64_MAX >> (64 - len);
+
+            uint64_t value = B >> (63 - end_bit_index);
+            value = value & mask;
+
+            return value;
+        }
+        static uint64_t get_appropriate_buffer_size_index2(int64_t num_elements, uint8_t code_type)
+        {
+            uint64_t total_code_size = num_elements << code_type;
+
+            for (uint64_t i = 0; i < size_array.size(); i++)
+            {
+                uint64_t xsize = size_array[i] * 64;
+                if (xsize > total_code_size)
+                {
+                    return i;
+                }
+            }
+            throw std::runtime_error("size is too large");
+        }
         //}@
     };
 }
