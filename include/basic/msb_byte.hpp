@@ -371,7 +371,7 @@ namespace stool
 
         /*!
          * @brief Returns the position of the (i+Q+1)-th 1 in 64-bit sequence \p B[0..array_size-1] if such bit exists; otherwise return -1.
-         * @note \p Q is the number of bits in B[0..u-1], where \p u is the position specified by \p block_index_x and \p bit_index_y (i.e., u = block_index_x * 64 + bit_index_y).
+         * @note \p Q is the number of 1s in B[0..u-1], where \p u is the position specified by \p block_index_x and \p bit_index_y (i.e., u = block_index_x * 64 + bit_index_y).
          * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
          */
         template <typename BIT64_SEQUENCE>
@@ -382,7 +382,7 @@ namespace stool
             uint64_t x = block_index_x;
 
             if(bit_index_y > 0){
-                uint64_t block = B[x] << (uint64_t)bit_index_y;
+                uint64_t block = ((uint64_t)B[x]) << (uint64_t)bit_index_y;
                 uint8_t bit_count = stool::Byte::popcount(block);
 
                 if(bit_count < counter){
@@ -437,6 +437,53 @@ namespace stool
                 else
                 {
                     int64_t result = stool::MSBByte::select0(block, counter - 1) + gap;
+                    return result;
+                }
+            }
+            return -1;
+        }
+        /*!
+         * @brief Returns the position of the (i+Q+1)-th 0 in 64-bit sequence \p B[0..array_size-1] if such bit exists; otherwise return -1.
+         * @note \p Q is the number of 0s in B[0..u-1], where \p u is the position specified by \p block_index_x and \p bit_index_y (i.e., u = block_index_x * 64 + bit_index_y).
+         * @param array_size the length of the 64-bit sequence B, i.e., the number of 64-bit blocks in B.
+         */
+
+        template <typename BIT64_SEQUENCE>
+        static int64_t special_select0(BIT64_SEQUENCE &B, uint64_t i, uint64_t block_index_x, uint8_t bit_index_y, [[maybe_unused]] uint64_t array_size)
+        {
+            int64_t counter = i + 1;
+            uint64_t gap = block_index_x * 64;
+            uint64_t x = block_index_x;
+
+            if(bit_index_y > 0){
+                gap += bit_index_y;
+                uint64_t block = ((uint64_t)B[x]) << (uint64_t)bit_index_y;
+                uint8_t bit_count_0 = (64 - bit_index_y) - stool::Byte::popcount(block);
+
+                if(bit_count_0 < counter){
+                    counter -= bit_count_0;
+                    gap += 64 - (uint64_t)bit_index_y;
+                    x++;
+                }else{
+                    int64_t result = stool::MSBByte::select0(block, counter - 1) + gap;
+                    return result;
+                }
+            }
+
+            for (uint64_t j = x; j < array_size; j++)
+            {
+                uint64_t block = B[j];
+                uint8_t bit_count_0 = 64 - stool::Byte::popcount(block);
+
+                if (bit_count_0 < counter)
+                {
+                    counter -= bit_count_0;
+                    gap += 64;
+                }
+                else
+                {
+                    int64_t result = stool::MSBByte::select0(block, counter - 1) + gap;
+                    std::cout << "select0(" << i << ") = " << result << std::endl;
                     return result;
                 }
             }
@@ -617,6 +664,19 @@ namespace stool
             }
             return s;
         }
+
+        static std::string to_bit_string(std::vector<uint64_t> &B, bool use_partition = false)
+        {
+            std::string s = "";
+            for(uint64_t i = 0; i < B.size(); i++){
+                s += stool::Byte::to_bit_string(B[i], true);
+                if(use_partition && i != B.size() - 1){
+                    s += "|";
+                }
+            }
+            return s;
+        }
+
 
         /*!
          * @brief Shifts the suffix B[pos..] of 64 bit sequence B[0..] to the right by len bits, i.e., B is changed to B[0..pos-1] | 0^{len} | B[pos..63 - len].
