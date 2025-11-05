@@ -483,7 +483,6 @@ namespace stool
                 else
                 {
                     int64_t result = stool::MSBByte::select0(block, counter - 1) + gap;
-                    std::cout << "select0(" << i << ") = " << result << std::endl;
                     return result;
                 }
             }
