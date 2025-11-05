@@ -8,7 +8,8 @@
 namespace stool
 {
     /*!
-     * @brief A naive vector implementation using fixed-length codes for integer sequences [in progress]
+     * @brief A naive vector implementation using fixed-length codes for non-negative integer sequences \p S[0..n-1] [in progress]
+     * @note The non-negative integer sequence \p S[0..n-1] is stored in the 64-bit integers buffer B[0..m-1]. Each integer of \p S is encoded as a fixed-length code of bit length \p 2^{x} for an integer \p x in { 1, 2, 4, 8, 16, 32, 64  }. 
      * @tparam USE_PSUM Boolean parameter to enable/disable prefix sum maintenance
      */
     template <bool USE_PSUM = true>
@@ -22,7 +23,7 @@ namespace stool
         uint64_t psum_;              // The sum of the elements in integer sequence S[0..n-1]
         uint16_t size_;              // |S|
         uint16_t buffer_size_;       // |B|
-        uint8_t code_type_;          // The bitsize of elements in S
+        uint8_t code_type_;          // The bit length \p x of each integer in \p S, where \p x in { 1, 2, 4, 8, 16, 32, 64 }.
 
     public:
         // INDEX_TYPE deque_size_;
