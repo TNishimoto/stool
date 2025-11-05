@@ -10,7 +10,7 @@
 namespace stool
 {
     /*!
-     * @brief A simple bit vector \p B[0..n-1] implementation with push/pop operations [in progress]
+     * @brief A simple bit vector \p B[0..n-1] implementation with push/pop operations
      * @note The bits \p B[0..n-1] are stored in 64-bit integers \p S[0..m-1] (uint64_t *buffer_)
      * @tparam MAX_BIT_LENGTH Maximum number of bits that can be stored (default: 8092)
      */
@@ -20,24 +20,10 @@ namespace stool
         inline static std::vector<int> size_array{1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 18, 22, 27, 33, 40, 48, 58, 70, 84, 101, 122, 147, 177, 213, 256, 308, 370, 444, 533, 640, 768, 922, 1107, 1329, 1595, 1914, 2297, 2757, 3309, 3971, 4766};
         inline static const uint64_t TMP_BUFFER_SIZE = MAX_BIT_LENGTH / 64;
 
-        static std::pair<uint64_t, uint8_t> add_bit_length(uint64_t block_index, uint64_t bit_index, uint64_t bit_length)
-        {
-            block_index += bit_length / 64;
-            bit_index += bit_length % 64;
-
-            if (bit_index >= 64)
-            {
-                bit_index -= 64;
-                block_index++;
-            }
-
-            return std::make_pair(block_index, bit_index);
-        }
         uint64_t *buffer_ = nullptr; // 64-bit integers S
-        uint16_t bit_count_; // |B|
-        uint16_t num1_; // The number of 1s in B
-        uint16_t buffer_size_; // |S|
-
+        uint16_t bit_count_;         // |B|
+        uint16_t num1_;              // The number of 1s in B
+        uint16_t buffer_size_;       // |S|
 
     public:
         using INDEX_TYPE = uint16_t;
@@ -214,26 +200,25 @@ namespace stool
 
         // INDEX_TYPE deque_size_;
 
-    private: 
-    int64_t get_current_buffer_size_index() const
-    {
-        if (this->buffer_size_ == 0)
+    private:
+        int64_t get_current_buffer_size_index() const
         {
-            return -1;
-        }
-        else
-        {
-            for (uint64_t i = 0; i < size_array.size(); i++)
+            if (this->buffer_size_ == 0)
             {
-                if (this->buffer_size_ == size_array[i])
+                return -1;
+            }
+            else
+            {
+                for (uint64_t i = 0; i < size_array.size(); i++)
                 {
-                    return i;
+                    if (this->buffer_size_ == size_array[i])
+                    {
+                        return i;
+                    }
                 }
             }
+            throw std::runtime_error("buffer_size_ is not found");
         }
-        throw std::runtime_error("buffer_size_ is not found");
-    }
-
 
     public:
         ////////////////////////////////////////////////////////////////////////////////
@@ -362,7 +347,6 @@ namespace stool
             this->bit_count_ = bit_size_n_;
             this->num1_ = num1;
         }
-
 
         //}@
 
@@ -504,7 +488,7 @@ namespace stool
         //}@
 
         ////////////////////////////////////////////////////////////////////////////////
-        ///   @name Access, search, psum, rank, and select operations
+        ///   @name Main queries (Access, search, psum, rank, and select operations)
         ////////////////////////////////////////////////////////////////////////////////
         //@{
 
@@ -516,7 +500,7 @@ namespace stool
         {
             return this->rank1();
         }
-        
+
         /**
          * @brief Returns the number of 1s in \p B[0..i] (i.e., rank1(i))
          * @note \p O(i) time
@@ -702,7 +686,7 @@ namespace stool
                 return stool::MSBByte::select1(this->buffer_, i, this->buffer_size_);
             }
         }
-    
+
         /**
          * @brief Returns the first occurrence position \p p of 1 in \p B such that p >= i (if such a position does not exist, returns -1)
          * @note \p O(p-i) time
@@ -822,7 +806,6 @@ namespace stool
             return -1;
         }
 
-
         /**
          * @brief Returns the position \p p of the (u - i)-th 1 in \p B if such a position exists, otherwise returns -1. Here, \p u is the number of 1s in \p B.
          * @note \p O(|B| - p) time
@@ -917,7 +900,6 @@ namespace stool
             return stool::MSBByte::access_right_alligned_64bits(this->buffer_, block_index, bit_index, code_len_L, this->buffer_size_);
         }
 
-
         //}@
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -1002,7 +984,7 @@ namespace stool
         //}@
 
         ////////////////////////////////////////////////////////////////////////////////
-        ///   @name Load and save functions
+        ///   @name Load, save, and builder functions
         ////////////////////////////////////////////////////////////////////////////////
         //@{
 
@@ -1314,7 +1296,6 @@ namespace stool
             }
         }
 
-
         /**
          * @brief Add the first w bits of the 64-bit integers \p R of length \p q to the beginning of the bits \p B
          * @note \p O(|B|) time
@@ -1334,7 +1315,6 @@ namespace stool
             this->shift_right(0, bit_count_w);
             this->replace64(0, bits64_array_R, bit_count_w, array_size_q);
         }
-
 
         /**
          * @brief Remove the last bit from the bits \p B
@@ -1593,7 +1573,6 @@ namespace stool
             }
         }
 
-
         /*!
          * @brief Shifts the suffix B[p..] of the bits B[0..] to the left by \p len bits, i.e., B is changed to B[0..p-1-len] | B[p..n] | 0^{len}.
          * @note \p O(|B|) time
@@ -1812,21 +1791,22 @@ namespace stool
         //}@
 
         ////////////////////////////////////////////////////////////////////////////////
-        ///   @name Static functions
+        ///   @name Other static functions
         ////////////////////////////////////////////////////////////////////////////////
         //@{
 
         /**
-         * @brief Calculate the serialized size of a deque
-         *
-         * @param item The deque to measure
-         * @return uint64_t Size in bytes when serialized
+         * @brief Returns the total memory usage in bytes of a NaiveBitVector instance
          */
         static uint64_t get_byte_size(const NaiveBitVector &item)
         {
             uint64_t bytes = (sizeof(uint64_t)) + (item.buffer_size_ * sizeof(uint64_t));
             return bytes;
         }
+
+        /**
+         * @brief Returns the total memory usage in bytes of a vector of NaiveBitVector instances \p items
+         */
         static uint64_t get_byte_size(const std::vector<NaiveBitVector> &items)
         {
             uint64_t size = sizeof(uint64_t);
@@ -1835,6 +1815,35 @@ namespace stool
                 size += get_byte_size(item);
             }
             return size;
+        }
+
+        /*
+        static uint64_t max_deque_size()
+        {
+            return (uint64_t)UINT16_MAX * 64;
+        }
+        */
+
+        //}@
+
+        private: 
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Private static functions
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+        static std::pair<uint64_t, uint8_t> add_bit_length(uint64_t block_index, uint64_t bit_index, uint64_t bit_length)
+        {
+            block_index += bit_length / 64;
+            bit_index += bit_length % 64;
+
+            if (bit_index >= 64)
+            {
+                bit_index -= 64;
+                block_index++;
+            }
+
+            return std::make_pair(block_index, bit_index);
         }
         static uint64_t get_appropriate_buffer_size_index(int64_t size)
         {
@@ -1849,11 +1858,6 @@ namespace stool
             }
             throw std::runtime_error("size is too large");
         }
-        static uint64_t max_deque_size()
-        {
-            return (uint64_t)UINT16_MAX * 64;
-        }
-
         //}@
     };
 }

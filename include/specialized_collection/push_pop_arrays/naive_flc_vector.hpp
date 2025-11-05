@@ -8,23 +8,10 @@
 namespace stool
 {
     /*!
-     * @brief A vector implementation using fixed-length codes for integer storage [Unchecked AI's Comment] 
-     * 
-     * NaiveFLCVector is a specialized vector class that stores integers using fixed-length codes (FLC).
-     * It provides efficient storage and access for integers by adaptively choosing appropriate bit widths.
-     * The class supports:
-     * - Dynamic resizing of storage as elements are added/removed
-     * - Efficient bit-level operations for reading/writing elements
-     * - Optional prefix sum maintenance for quick range queries
-     * - Iterator-based access to elements
-     * 
-     * The implementation uses a buffer of 64-bit words to store the encoded integers,
-     * with automatic code length selection based on the magnitude of stored values.
-     * 
+     * @brief A naive vector implementation using fixed-length codes for integer sequences [in progress]
      * @tparam USE_PSUM Boolean parameter to enable/disable prefix sum maintenance
      */
-
-    template<bool USE_PSUM = true>
+    template <bool USE_PSUM = true>
     class NaiveFLCVector
     {
         inline static std::vector<int> size_array{1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 18, 22, 27, 33, 40, 48, 58, 70, 84, 101, 122, 147, 177, 213, 256, 308, 370, 444, 533, 640, 768, 922, 1107, 1329, 1595, 1914, 2297, 2757, 3309, 3971, 4766};
@@ -41,7 +28,6 @@ namespace stool
             return value;
         }
 
-
     public:
         uint64_t *buffer_ = nullptr;
         uint64_t psum_;
@@ -51,7 +37,9 @@ namespace stool
 
         // INDEX_TYPE deque_size_;
 
-
+        /*!
+         * @brief Integer sequence vector iterator
+         */
         class NaiveFLCVectorIterator
         {
 
@@ -61,22 +49,23 @@ namespace stool
 
             using iterator_category = std::random_access_iterator_tag;
             using difference_type = std::ptrdiff_t;
-            
+
             /**
              * @brief Construct an iterator
-             * 
+             *
              * @param _deque Pointer to the deque
              * @param _idx Index position
              */
             NaiveFLCVectorIterator(NaiveFLCVector *_deque, uint64_t _idx) : _m_deq(_deque), _m_idx(_idx) {}
 
-            bool is_end() const {
+            bool is_end() const
+            {
                 return this->_m_idx >= this->_m_deq->size();
             }
 
             /**
              * @brief Dereference operator
-             * 
+             *
              * @return T The element at the current position
              */
             uint64_t operator*() const
@@ -93,7 +82,7 @@ namespace stool
 
             /**
              * @brief Pre-increment operator
-             * 
+             *
              * @return SimpleDequeIterator& Reference to the incremented iterator
              */
             NaiveFLCVectorIterator &operator++()
@@ -104,7 +93,7 @@ namespace stool
 
             /**
              * @brief Post-increment operator
-             * 
+             *
              * @return SimpleDequeIterator Copy of the iterator before increment
              */
             NaiveFLCVectorIterator operator++(int)
@@ -117,7 +106,7 @@ namespace stool
 
             /**
              * @brief Pre-decrement operator
-             * 
+             *
              * @return SimpleDequeIterator& Reference to the decremented iterator
              */
             NaiveFLCVectorIterator &operator--()
@@ -128,7 +117,7 @@ namespace stool
 
             /**
              * @brief Post-decrement operator
-             * 
+             *
              * @return SimpleDequeIterator Copy of the iterator before decrement
              */
             NaiveFLCVectorIterator operator--(int)
@@ -137,10 +126,10 @@ namespace stool
                 --(*this);
                 return temp;
             }
-            
+
             /**
              * @brief Addition operator for random access
-             * 
+             *
              * @param n Number of positions to advance
              * @return SimpleDequeIterator Iterator at the new position
              */
@@ -149,10 +138,10 @@ namespace stool
                 int16_t sum = (int16_t)this->_m_idx + (int16_t)n;
                 return NaiveFLCVectorIterator(this->_m_deq, sum);
             }
-            
+
             /**
              * @brief Compound addition assignment
-             * 
+             *
              * @param n Number of positions to advance
              * @return SimpleDequeIterator& Reference to this iterator
              */
@@ -161,10 +150,10 @@ namespace stool
                 this->_m_idx += n;
                 return *this;
             }
-            
+
             /**
              * @brief Subtraction operator for random access
-             * 
+             *
              * @param n Number of positions to retreat
              * @return SimpleDequeIterator Iterator at the new position
              */
@@ -173,10 +162,10 @@ namespace stool
                 int16_t sum = (int16_t)this->_m_idx - (int16_t)n;
                 return NaiveFLCVectorIterator(this->_m_deq, sum);
             }
-            
+
             /**
              * @brief Compound subtraction assignment
-             * 
+             *
              * @param n Number of positions to retreat
              * @return SimpleDequeIterator& Reference to this iterator
              */
@@ -188,7 +177,7 @@ namespace stool
 
             /**
              * @brief Difference between two iterators
-             * 
+             *
              * @param other The other iterator
              * @return difference_type Number of positions between iterators
              */
@@ -199,7 +188,7 @@ namespace stool
 
             /**
              * @brief Subscript operator for random access
-             * 
+             *
              * @param n Offset from current position
              * @return T& Reference to the element at offset n
              */
@@ -211,7 +200,7 @@ namespace stool
 
             /**
              * @brief Const subscript operator for random access
-             * 
+             *
              * @param n Offset from current position
              * @return const T& Const reference to the element at offset n
              */
@@ -220,38 +209,37 @@ namespace stool
                 int16_t sum = (int16_t)this->_m_idx + (int16_t)n;
                 return (*this->_m_deq)[sum];
             }
-            
+
             /**
              * @brief Equality comparison
              */
             bool operator==(const NaiveFLCVectorIterator &other) const { return _m_idx == other._m_idx; }
-            
+
             /**
              * @brief Inequality comparison
              */
             bool operator!=(const NaiveFLCVectorIterator &other) const { return _m_idx != other._m_idx; }
-            
+
             /**
              * @brief Less than comparison
              */
             bool operator<(const NaiveFLCVectorIterator &other) const { return this->_m_idx < other._m_idx; }
-            
+
             /**
              * @brief Greater than comparison
              */
             bool operator>(const NaiveFLCVectorIterator &other) const { return this->_m_idx > other._m_idx; }
-            
+
             /**
              * @brief Less than or equal comparison
              */
             bool operator<=(const NaiveFLCVectorIterator &other) const { return this->_m_idx <= other._m_idx; }
-            
+
             /**
              * @brief Greater than or equal comparison
              */
             bool operator>=(const NaiveFLCVectorIterator &other) const { return this->_m_idx >= other._m_idx; }
         };
-
 
         static uint64_t get_appropriate_buffer_size_index2(int64_t num_elements, uint8_t code_type)
         {
@@ -287,31 +275,10 @@ namespace stool
         }
 
     public:
-        /**
-         * @brief Calculate the total memory usage in bytes
-         *
-         * @return uint64_t Total memory usage including object overhead and buffer
-         */
-        uint64_t size_in_bytes(bool only_extra_bytes = false) const
-        {
-            if (only_extra_bytes)
-            {
-                return sizeof(uint64_t) * this->buffer_size_;
-            }
-            else
-            {
-                return sizeof(uint64_t) + sizeof(uint16_t) + sizeof(uint16_t) + sizeof(uint8_t) + (sizeof(uint64_t) * this->buffer_size_);
-            }
-        }
-
-        uint64_t unused_size_in_bytes() const
-        {
-            uint64_t buffer_bytes = this->buffer_size_ * sizeof(uint64_t);
-            uint64_t bitsize = 1ULL << this->code_type_;
-            uint64_t item_bytes = (this->size_ * bitsize) / 8;
-            return buffer_bytes - item_bytes;
-        }
-
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Constructors and Destructor
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
         /**
          * @brief Copy constructor
          *
@@ -371,6 +338,77 @@ namespace stool
             other.size_ = 0;
             other.psum_ = 0;
         }
+        /**
+         * @brief Default constructor
+         *
+         * Creates an empty deque with initial capacity of 2 elements.
+         */
+        NaiveFLCVector()
+        {
+            this->initialize();
+        }
+        /**
+         * @brief Destructor
+         *
+         * Frees the allocated circular buffer memory.
+         */
+        ~NaiveFLCVector()
+        {
+            if (this->buffer_ != nullptr)
+            {
+                delete[] this->buffer_;
+                this->buffer_ = nullptr;
+            }
+        }
+
+        void initialize()
+        {
+            if (this->buffer_ != nullptr)
+            {
+                delete[] this->buffer_;
+                this->buffer_ = nullptr;
+            }
+            this->buffer_ = new uint64_t[2];
+            this->buffer_[0] = 0;
+            this->buffer_[1] = 0;
+            this->size_ = 0;
+            this->code_type_ = 0;
+            this->psum_ = 0;
+            this->buffer_size_ = 2;
+        }
+
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Begin and end iterators
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+        /**
+         * @brief Get iterator to the first element
+         *
+         * @return SimpleDequeIterator Iterator pointing to the beginning
+         */
+        NaiveFLCVectorIterator begin() const
+        {
+            return NaiveFLCVectorIterator(const_cast<NaiveFLCVector *>(this), 0);
+        }
+
+        /**
+         * @brief Get iterator past the last element
+         *
+         * @return SimpleDequeIterator Iterator pointing past the end
+         */
+        NaiveFLCVectorIterator end() const
+        {
+            return NaiveFLCVectorIterator(const_cast<NaiveFLCVector *>(this), this->size());
+        }
+
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Operators
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
 
         /**
          * @brief Move assignment operator
@@ -396,6 +434,73 @@ namespace stool
             }
             return *this;
         }
+        /**
+         * @brief Const subscript operator for element access
+         *
+         * @param index Position of the element to access
+         * @return const T& Const reference to the element
+         */
+        uint64_t operator[](size_t index) const
+        {
+            // PackedBitType code_type = (PackedBitType)this->code_type_;
+            uint8_t code_length = 1ULL << this->code_type_;
+            uint64_t pos = index << this->code_type_;
+            uint64_t block_index = pos / 64;
+            uint64_t bit_index = pos % 64;
+            uint64_t block = this->buffer_[block_index];
+            uint64_t end_bit_index = bit_index + code_length - 1;
+            uint64_t mask = UINT64_MAX >> (64 - code_length);
+
+            uint64_t value = block >> (63 - end_bit_index);
+            value = value & mask;
+            return value;
+        }
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Lightweight functions for accessing to properties of this class
+        ///   The properties of this class.
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+        /**
+         * @brief Get the current number of elements
+         *
+         * @return size_t Number of elements in the deque
+         */
+        size_t size() const
+        {
+            return this->size_;
+        }
+
+        bool empty() const
+        {
+            return this->size_ == 0;
+        }
+
+        /**
+         * @brief Calculate the total memory usage in bytes
+         *
+         * @return uint64_t Total memory usage including object overhead and buffer
+         */
+        uint64_t size_in_bytes(bool only_extra_bytes = false) const
+        {
+            if (only_extra_bytes)
+            {
+                return sizeof(uint64_t) * this->buffer_size_;
+            }
+            else
+            {
+                return sizeof(uint64_t) + sizeof(uint16_t) + sizeof(uint16_t) + sizeof(uint8_t) + (sizeof(uint64_t) * this->buffer_size_);
+            }
+        }
+
+        uint64_t unused_size_in_bytes() const
+        {
+            uint64_t buffer_bytes = this->buffer_size_ * sizeof(uint64_t);
+            uint64_t bitsize = 1ULL << this->code_type_;
+            uint64_t item_bytes = (this->size_ * bitsize) / 8;
+            return buffer_bytes - item_bytes;
+        }
 
         /**
          * @brief Get the current buffer capacity
@@ -408,6 +513,222 @@ namespace stool
             return (this->buffer_size_ * 64) / code_length;
         }
 
+        std::string get_buffer_bit_string() const
+        {
+            std::vector<uint64_t> bits;
+            bits.resize(this->buffer_size_);
+            for (uint64_t i = 0; i < this->buffer_size_; i++)
+            {
+                bits[i] = this->buffer_[i];
+            }
+
+            return stool::Byte::to_bit_string(bits, true);
+        }
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Main queries (Access, search, and psum operations)
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+        uint64_t head() const
+        {
+            return this->at(0);
+        }
+        uint64_t tail() const
+        {
+            return this->at(this->size() - 1);
+        }
+
+        /**
+         * @brief Get element at specified position
+         *
+         * @param i Index of the element
+         * @return T Copy of the element at position i
+         */
+        uint64_t at(uint64_t i) const
+        {
+            assert(i < this->size());
+            return (*this)[i];
+        }
+
+        uint64_t psum() const
+        {
+            return this->psum_;
+        }
+
+        uint64_t psum(uint64_t i) const
+        {
+            uint64_t sum = stool::PackedPSum::psum(this->buffer_, i, (stool::PackedPSum::PackedBitType)this->code_type_, this->buffer_size_);
+            return sum;
+        }
+        uint64_t psum(uint64_t i, uint64_t j) const
+        {
+            uint64_t sum = stool::PackedPSum::psum(this->buffer_, i, j, (stool::PackedPSum::PackedBitType)this->code_type_, this->buffer_size_);
+
+#if DEBUG
+            uint64_t true_sum = 0;
+            for (uint64_t k = i; k <= j; k++)
+            {
+                true_sum += this->at(k);
+            }
+            if (true_sum != sum)
+            {
+                std::cout << "psum(" << i << ", " << j << ") = " << sum << ", true_sum = " << true_sum << std::endl;
+            }
+#endif
+            return sum;
+        }
+
+        uint64_t reverse_psum(uint64_t i) const
+        {
+            uint64_t size = this->size();
+            if (size == 0)
+            {
+                return 0;
+            }
+            else if (i + 1 == size)
+            {
+                assert(this->verify());
+                assert(this->psum() == this->psum(size - i - 1, size - 1));
+                return this->psum(size - i - 1, size - 1);
+
+                // return this->psum();
+            }
+            else
+            {
+                return this->psum(size - i - 1, size - 1);
+            }
+        }
+        int64_t search(uint64_t x) const noexcept
+        {
+            return stool::PackedSearch::search(this->buffer_, x, (stool::PackedSearch::PackedBitType)this->code_type_, this->psum_, this->buffer_size_);
+            /*
+            uint64_t sum = 0;
+            uint64_t i = 0;
+
+            if (x > this->psum_)
+            {
+                return -1;
+            }
+            else
+            {
+                while (true)
+                {
+                    sum += this->at(i);
+                    if (sum >= x)
+                    {
+                        return i;
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+                return -1;
+            }
+            */
+        }
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Convertion functions
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+
+        std::string to_string() const
+        {
+            std::string s;
+            s += "[";
+            for (uint64_t i = 0; i < this->size(); i++)
+            {
+                s += std::to_string(this->at(i));
+                if (i < this->size() - 1)
+                {
+                    s += ", ";
+                }
+            }
+            s += "]";
+            return s;
+        }
+        std::deque<uint64_t> to_deque() const
+        {
+            std::deque<uint64_t> r;
+            for (uint64_t i = 0; i < this->size(); i++)
+            {
+                r.push_back(this->at(i));
+            }
+            return r;
+        }
+
+        std::vector<uint64_t> to_vector() const
+        {
+            std::vector<uint64_t> v;
+            for (uint64_t i = 0; i < this->size(); i++)
+            {
+                v.push_back(this->at(i));
+            }
+            return v;
+        }
+        template <typename VEC>
+        void to_values(VEC &output_vec) const
+        {
+            output_vec.clear();
+            output_vec.resize(this->size());
+            for (uint64_t i = 0; i < this->size(); i++)
+            {
+                output_vec[i] = this->at(i);
+            }
+        }
+
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Print and verification functions
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+
+        void print_info() const
+        {
+            std::cout << "NaiveFLCVector = {" << std::endl;
+            std::cout << "size = " << this->size() << std::endl;
+            std::cout << "capacity = " << this->capacity() << std::endl;
+            std::cout << "buffer_size = " << this->buffer_size_ << std::endl;
+            std::cout << "code_type = " << (int)this->code_type_ << std::endl;
+            std::cout << "psum = " << this->psum_ << std::endl;
+
+            if (this->buffer_ != nullptr)
+            {
+                std::cout << "Buffer: " << this->get_buffer_bit_string() << std::endl;
+            }
+            else
+            {
+                std::cout << "Buffer: nullptr" << std::endl;
+            }
+            std::cout << "Content: " << this->to_string() << std::endl;
+
+            std::cout << "}" << std::endl;
+        }
+
+        bool verify() const
+        {
+            uint64_t true_sum = 0;
+            for (uint64_t i = 0; i < this->size(); i++)
+            {
+                true_sum += this->at(i);
+            }
+            if (true_sum != this->psum())
+            {
+                std::cout << "psum = " << this->psum() << ", true_sum = " << true_sum << std::endl;
+                throw std::runtime_error("Error: verify");
+            }
+            return true;
+        }
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Update Operations
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
         /**
          * @brief Remove all elements from the deque
          */
@@ -418,66 +739,6 @@ namespace stool
             this->code_type_ = 0;
             this->shrink_to_fit(0, this->code_type_);
         }
-        bool empty() const
-        {
-            return this->size_ == 0;
-        }
-
-        static NaiveFLCVector build(const std::vector<uint64_t> &values){
-            NaiveFLCVector flc_vector(values);
-            return flc_vector;
-
-        }
-
-        /**
-         * @brief Default constructor
-         *
-         * Creates an empty deque with initial capacity of 2 elements.
-         */
-        NaiveFLCVector()
-        {
-            this->initialize();
-        }
-
-        void initialize()
-        {
-            if (this->buffer_ != nullptr)
-            {
-                delete[] this->buffer_;
-                this->buffer_ = nullptr;
-            }
-            this->buffer_ = new uint64_t[2];
-            this->buffer_[0] = 0;
-            this->buffer_[1] = 0;
-            this->size_ = 0;
-            this->code_type_ = 0;
-            this->psum_ = 0;
-            this->buffer_size_ = 2;
-        }
-
-        /**
-         * @brief Destructor
-         *
-         * Frees the allocated circular buffer memory.
-         */
-        ~NaiveFLCVector()
-        {
-            if (this->buffer_ != nullptr)
-            {
-                delete[] this->buffer_;
-                this->buffer_ = nullptr;
-            }
-        }
-
-        uint64_t head() const
-        {
-            return this->at(0);
-        }
-        uint64_t tail() const
-        {
-            return this->at(this->size() - 1);
-        }
-
         /**
          * @brief Reduce buffer size to fit current content
          *
@@ -545,7 +806,6 @@ namespace stool
             }
         }
 
-
         /**
          * @brief Add an element to the end of the deque
          *
@@ -578,16 +838,16 @@ namespace stool
             this->size_++;
             this->psum_ += value;
 
-            #ifdef DEBUG
+#ifdef DEBUG
             uint64_t v = this->at(this->size() - 1);
-            if(v != value){
+            if (v != value)
+            {
                 std::cout << "push_back: " << v << " != " << value << std::endl;
                 std::cout << "new_code_type: " << new_code_type << std::endl;
                 std::cout << "code_candidate: " << code_type_candidate << std::endl;
-
             }
             assert(v == value);
-            #endif
+#endif
 
             assert(this->verify());
         }
@@ -601,10 +861,10 @@ namespace stool
         void push_front(uint64_t value)
         {
             this->insert(0, value);
-            #ifdef DEBUG
+#ifdef DEBUG
             uint64_t v = this->at(0);
             assert(v == value);
-            #endif
+#endif
 
             assert(this->verify());
         }
@@ -616,12 +876,13 @@ namespace stool
             }
 
             assert(this->verify());
-            #ifdef DEBUG
-            for(uint64_t i = 0; i < new_items.size(); i++){
+#ifdef DEBUG
+            for (uint64_t i = 0; i < new_items.size(); i++)
+            {
                 uint64_t v = this->at(this->size() + i - new_items.size());
                 assert(v == new_items[i]);
             }
-            #endif
+#endif
         }
         void push_front(const std::vector<uint64_t> &new_items)
         {
@@ -643,7 +904,6 @@ namespace stool
             this->shift_right(0, x_size, new_code_type);
             uint64_t code_length = 1ULL << new_code_type;
 
-
             for (uint64_t i = 0; i < x_size; i++)
             {
                 uint64_t pos = i << new_code_type;
@@ -657,15 +917,14 @@ namespace stool
             this->psum_ += x_sum;
 
             assert(this->verify());
-            #ifdef DEBUG
-            for(uint64_t i = 0; i < new_items.size(); i++){
+#ifdef DEBUG
+            for (uint64_t i = 0; i < new_items.size(); i++)
+            {
                 uint64_t v = this->at(i);
                 assert(v == new_items[i]);
             }
-            #endif
-            
+#endif
         }
-
 
         /**
          * @brief Remove the last element from the deque
@@ -738,16 +997,6 @@ namespace stool
         }
 
         /**
-         * @brief Get the current number of elements
-         *
-         * @return size_t Number of elements in the deque
-         */
-        size_t size() const
-        {
-            return this->size_;
-        }
-
-        /**
          * @brief Swap contents with another NaiveBitVector
          *
          * @param item The NaiveBitVector to swap with
@@ -761,115 +1010,10 @@ namespace stool
             std::swap(this->code_type_, item.code_type_);
         }
 
-        uint64_t psum() const
-        {
-            return this->psum_;
-        }
-
-        uint64_t psum(uint64_t i) const
-        {
-            uint64_t sum = stool::PackedPSum::psum(this->buffer_, i, (stool::PackedPSum::PackedBitType)this->code_type_, this->buffer_size_);
-            return sum;
-        }
-        uint64_t psum(uint64_t i, uint64_t j) const
-        {
-            uint64_t sum = stool::PackedPSum::psum(this->buffer_, i, j, (stool::PackedPSum::PackedBitType)this->code_type_, this->buffer_size_);
-
-            #if DEBUG
-            uint64_t true_sum = 0;
-            for(uint64_t k = i; k <= j; k++){
-                true_sum += this->at(k);
-            }
-            if(true_sum != sum){
-                std::cout << "psum(" << i << ", " << j << ") = " << sum << ", true_sum = " << true_sum << std::endl;
-            }
-            #endif 
-            return sum;
-        }
-
-        uint64_t reverse_psum(uint64_t i) const
-        {
-            uint64_t size = this->size();
-            if(size == 0){
-                return 0;
-            }else if(i+1 == size){
-                assert(this->verify());
-                assert(this->psum() == this->psum(size - i - 1, size - 1));
-                return this->psum(size - i - 1, size - 1);
-
-                //return this->psum();
-            }
-            else{
-                return this->psum(size - i - 1, size - 1);
-            }
-        }
-        int64_t search(uint64_t x) const noexcept
-        {
-            return stool::PackedSearch::search(this->buffer_, x, (stool::PackedSearch::PackedBitType)this->code_type_, this->psum_, this->buffer_size_);
-            /*
-            uint64_t sum = 0;
-            uint64_t i = 0;
-
-            if (x > this->psum_)
-            {
-                return -1;
-            }
-            else
-            {
-                while (true)
-                {
-                    sum += this->at(i);
-                    if (sum >= x)
-                    {
-                        return i;
-                    }
-                    else
-                    {
-                        i++;
-                    }
-                }
-                return -1;
-            }
-            */
-        }
-        /**
-         * @brief Const subscript operator for element access
-         *
-         * @param index Position of the element to access
-         * @return const T& Const reference to the element
-         */
-        uint64_t operator[](size_t index) const
-        {
-            //PackedBitType code_type = (PackedBitType)this->code_type_;
-            uint8_t code_length = 1ULL << this->code_type_;
-            uint64_t pos = index << this->code_type_;
-            uint64_t block_index = pos / 64;
-            uint64_t bit_index = pos % 64;
-            uint64_t block = this->buffer_[block_index];            
-            uint64_t end_bit_index = bit_index + code_length - 1;
-            uint64_t mask = UINT64_MAX >> (64 - code_length);
-
-            uint64_t value = block >> (63 - end_bit_index);
-            value = value & mask;
-            return value;
-        }
-
-        /**
-         * @brief Get element at specified position
-         *
-         * @param i Index of the element
-         * @return T Copy of the element at position i
-         */
-        uint64_t at(uint64_t i) const
-        {
-            assert(i < this->size());
-            return (*this)[i];
-        }
-
         void shift_right(uint64_t position, uint64_t len, uint64_t new_code_type)
         {
             uint64_t size = this->size();
-            //uint64_t code_length = 1ULL << new_code_type;
+            // uint64_t code_length = 1ULL << new_code_type;
 
             this->shrink_to_fit(size + len, new_code_type);
             this->size_ += len;
@@ -879,8 +1023,6 @@ namespace stool
 
             stool::MSBByte::shift_right(this->buffer_, bit_position, bit_length, this->buffer_size_);
             assert(this->verify());
-
-
         }
         void shift_left(uint64_t position, uint64_t len)
         {
@@ -889,15 +1031,14 @@ namespace stool
             uint64_t new_size = size - len;
             uint64_t bit_position = position << this->code_type_;
             uint64_t bit_length = len << this->code_type_;
-            //uint64_t move_size = size - position;
-            //uint64_t code_length = 1ULL << this->code_type_;
+            // uint64_t move_size = size - position;
+            // uint64_t code_length = 1ULL << this->code_type_;
 
             stool::MSBByte::shift_left(this->buffer_, bit_position, bit_length, this->buffer_size_);
             this->shrink_to_fit(new_size, this->code_type_);
             this->psum_ -= removed_sum;
             this->size_ -= len;
             assert(this->verify());
-
         }
 
         void insert(uint64_t pos, uint64_t value)
@@ -933,7 +1074,6 @@ namespace stool
                 this->psum_ += value;
             }
             assert(this->verify());
-
         }
         uint64_t remove(uint64_t pos)
         {
@@ -956,17 +1096,18 @@ namespace stool
                 return value;
             }
             assert(this->verify());
-
         }
         void remove(uint64_t pos, uint64_t len)
         {
-            if(pos + len == this->size()){
+            if (pos + len == this->size())
+            {
                 this->pop_back(len);
-            }else{
+            }
+            else
+            {
                 this->shift_left(pos + len, len);
             }
             assert(this->verify());
-
         }
 
         void set_value(uint64_t position, uint64_t value)
@@ -998,77 +1139,7 @@ namespace stool
             uint64_t write_value = value << (64 - code_length);
             this->buffer_[block_index] = stool::MSBByte::write_bits(this->buffer_[block_index], bit_index, code_length, write_value);
 
-
             assert(this->verify());
-
-        }
-
-        std::string get_buffer_bit_string() const
-        {
-            std::vector<uint64_t> bits;
-            bits.resize(this->buffer_size_);
-            for (uint64_t i = 0; i < this->buffer_size_; i++)
-            {
-                bits[i] = this->buffer_[i];
-            }
-
-            return stool::Byte::to_bit_string(bits, true);
-        }
-        std::string to_string() const
-        {
-            std::string s;
-            s += "[";
-            for (uint64_t i = 0; i < this->size(); i++)
-            {
-                s += std::to_string(this->at(i));
-                if (i < this->size() - 1)
-                {
-                    s += ", ";
-                }
-            }
-            s += "]";
-            return s;
-        }
-        std::deque<uint64_t> to_deque() const
-        {
-            std::deque<uint64_t> r;
-            for (uint64_t i = 0; i < this->size(); i++)
-            {
-                r.push_back(this->at(i));
-            }
-            return r;
-        }
-
-        std::vector<uint64_t> to_vector() const
-        {
-            std::vector<uint64_t> v;
-            for (uint64_t i = 0; i < this->size(); i++)
-            {
-                v.push_back(this->at(i));
-            }
-            return v;
-        }
-
-        void print_info() const
-        {
-            std::cout << "NaiveFLCVector = {" << std::endl;
-            std::cout << "size = " << this->size() << std::endl;
-            std::cout << "capacity = " << this->capacity() << std::endl;
-            std::cout << "buffer_size = " << this->buffer_size_ << std::endl;
-            std::cout << "code_type = " << (int)this->code_type_ << std::endl;
-            std::cout << "psum = " << this->psum_ << std::endl;
-
-            if (this->buffer_ != nullptr)
-            {
-                std::cout << "Buffer: " << this->get_buffer_bit_string() << std::endl;
-            }
-            else
-            {
-                std::cout << "Buffer: nullptr" << std::endl;
-            }
-            std::cout << "Content: " << this->to_string() << std::endl;
-
-            std::cout << "}" << std::endl;
         }
 
         /**
@@ -1087,35 +1158,17 @@ namespace stool
             this->set_value(i, new_value);
             assert(this->verify());
         }
+        //}@
 
-        /**
-         * @brief Calculates the memory size in bytes of a VLCDeque instance
-         *
-         * @param item The VLCDeque instance to measure
-         * @return Number of bytes used by the VLCDeque
-         */
-        static uint64_t get_byte_size(const NaiveFLCVector &item)
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Load, save, and builder functions
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+        static NaiveFLCVector build(const std::vector<uint64_t> &values)
         {
-            uint64_t bytes = sizeof(item.psum_) + sizeof(item.size_) + sizeof(item.buffer_size_) + sizeof(item.code_type_) + (sizeof(uint64_t) * item.buffer_size_);
-            return bytes;
+            NaiveFLCVector flc_vector(values);
+            return flc_vector;
         }
-
-        /**
-         * @brief Calculates the total memory size in bytes of a vector of VLCDeque instances
-         *
-         * @param items Vector of VLCDeque instances to measure
-         * @return Total number of bytes used by all VLCDeque instances
-         */
-        static uint64_t get_byte_size(const std::vector<NaiveFLCVector> &items)
-        {
-            uint64_t bytes = sizeof(uint64_t);
-            for (auto &it : items)
-            {
-                bytes += NaiveFLCVector::get_byte_size(it);
-            }
-            return bytes;
-        }
-
         /**
          * @brief Saves a VLCDeque instance to a file stream
          *
@@ -1135,10 +1188,10 @@ namespace stool
         static void store_to_bytes(const NaiveFLCVector &item, std::vector<uint8_t> &output, uint64_t &pos)
         {
             uint64_t bytes = item.size_in_bytes();
-            if(output.size() < pos + bytes){
+            if (output.size() < pos + bytes)
+            {
                 output.resize(pos + bytes);
             }
-
 
             std::memcpy(output.data() + pos, &item.psum_, sizeof(item.psum_));
             pos += sizeof(item.psum_);
@@ -1224,10 +1277,9 @@ namespace stool
             r.size_ = _size;
             r.buffer_size_ = _buffer_size;
             r.code_type_ = _code_type;
-            
-            std::memcpy(r.buffer_, data.data() + pos, sizeof(uint64_t) * r.buffer_size_);
-            pos += sizeof(uint64_t) * r.buffer_size_; 
 
+            std::memcpy(r.buffer_, data.data() + pos, sizeof(uint64_t) * r.buffer_size_);
+            pos += sizeof(uint64_t) * r.buffer_size_;
 
             return r;
         }
@@ -1305,48 +1357,40 @@ namespace stool
             }
             return r;
         }
-        template <typename VEC>
-        void to_values(VEC &output_vec) const
+        //}@
+
+        ////////////////////////////////////////////////////////////////////////////////
+        ///   @name Other static functions
+        ////////////////////////////////////////////////////////////////////////////////
+        //@{
+        /**
+         * @brief Calculates the memory size in bytes of a VLCDeque instance
+         *
+         * @param item The VLCDeque instance to measure
+         * @return Number of bytes used by the VLCDeque
+         */
+        static uint64_t get_byte_size(const NaiveFLCVector &item)
         {
-            output_vec.clear();
-            output_vec.resize(this->size());
-            for (uint64_t i = 0; i < this->size(); i++)
+            uint64_t bytes = sizeof(item.psum_) + sizeof(item.size_) + sizeof(item.buffer_size_) + sizeof(item.code_type_) + (sizeof(uint64_t) * item.buffer_size_);
+            return bytes;
+        }
+
+        /**
+         * @brief Calculates the total memory size in bytes of a vector of VLCDeque instances
+         *
+         * @param items Vector of VLCDeque instances to measure
+         * @return Total number of bytes used by all VLCDeque instances
+         */
+        static uint64_t get_byte_size(const std::vector<NaiveFLCVector> &items)
+        {
+            uint64_t bytes = sizeof(uint64_t);
+            for (auto &it : items)
             {
-                output_vec[i] = this->at(i);
+                bytes += NaiveFLCVector::get_byte_size(it);
             }
+            return bytes;
         }
 
-
-        /**
-         * @brief Get iterator to the first element
-         * 
-         * @return SimpleDequeIterator Iterator pointing to the beginning
-         */
-        NaiveFLCVectorIterator begin() const
-        {
-            return NaiveFLCVectorIterator(const_cast<NaiveFLCVector *>(this), 0);
-        }
-        
-        /**
-         * @brief Get iterator past the last element
-         * 
-         * @return SimpleDequeIterator Iterator pointing past the end
-         */
-        NaiveFLCVectorIterator end() const
-        {
-            return NaiveFLCVectorIterator(const_cast<NaiveFLCVector *>(this), this->size());
-        }
-        bool verify() const{
-            uint64_t true_sum = 0;
-            for(uint64_t i = 0; i < this->size(); i++){
-                true_sum += this->at(i);
-            }
-            if(true_sum != this->psum()){
-                std::cout << "psum = " << this->psum() << ", true_sum = " << true_sum << std::endl;
-                throw std::runtime_error("Error: verify");
-            }
-            return true;
-        }
-        
+        //}@
     };
 }
