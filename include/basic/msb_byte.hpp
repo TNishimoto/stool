@@ -664,7 +664,7 @@ namespace stool
             return s;
         }
 
-        static std::string to_bit_string(std::vector<uint64_t> &B, bool use_partition = false)
+        static std::string to_bit_string(const std::vector<uint64_t> &B, bool use_partition = false)
         {
             std::string s = "";
             for(uint64_t i = 0; i < B.size(); i++){
@@ -675,7 +675,7 @@ namespace stool
             }
             return s;
         }
-        static std::string to_bit_string(std::vector<uint64_t> &B, uint64_t i, uint64_t j)
+        static std::string to_bit_string(const std::vector<uint64_t> &B, uint64_t i, uint64_t j)
         {
             std::string s = "";
             for(uint64_t k = i; k <= j; k++){
