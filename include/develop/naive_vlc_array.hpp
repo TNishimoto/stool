@@ -1401,7 +1401,7 @@ namespace stool
          * @param pos Current position in the input array, updated after reading
          * @return Vector containing the deserialized VLCDeque instances
          */
-        static std::vector<NaiveVLCArray> load_vector(const std::vector<uint8_t> &data, uint64_t &pos)
+        static std::vector<NaiveVLCArray> load_vector_from_bytes(const std::vector<uint8_t> &data, uint64_t &pos)
         {
             uint64_t size;
             std::memcpy(&size, data.data() + pos, sizeof(size));
@@ -1424,7 +1424,7 @@ namespace stool
          * @param ifs The input file stream to read from
          * @return Vector containing the deserialized VLCDeque instances
          */
-        static std::vector<NaiveVLCArray> load_vector(std::ifstream &ifs)
+        static std::vector<NaiveVLCArray> load_vector_from_file(std::ifstream &ifs)
         {
             uint64_t size = 0;
             ifs.read(reinterpret_cast<char *>(&size), sizeof(size));
