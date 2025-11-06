@@ -1,4 +1,10 @@
 #pragma once
+#include <fstream>
+#include <iostream>
+#include <cassert>
+#include <cstring>
+#include <stdexcept>
+
 #include "../../basic/byte.hpp"
 #include "../../basic/lsb_byte.hpp"
 #include "../../basic/packed_psum.hpp"
@@ -9,7 +15,7 @@ namespace stool
 {
     /*!
      * @brief A naive vector implementation using fixed-length codes for non-negative integer sequences \p S[0..n-1] [in progress]
-     * @note The non-negative integer sequence \p S[0..n-1] is stored in the 64-bit integers buffer B[0..m-1]. Each integer of \p S is encoded as a fixed-length code of bit length \p 2^{x} for an integer \p x in { 1, 2, 4, 8, 16, 32, 64  }. 
+     * @note The non-negative integer sequence \p S[0..n-1] is stored in the 64-bit integers buffer B[0..m-1]. Each integer of \p S is encoded as a fixed-length code of bit length \p 2^{x} for an integer \p x in { 1, 2, 4, 8, 16, 32, 64  }.
      * @tparam USE_PSUM Boolean parameter to enable/disable prefix sum maintenance
      */
     template <bool USE_PSUM = true>
@@ -237,10 +243,47 @@ namespace stool
         ///   @name Constructors and Destructor
         ////////////////////////////////////////////////////////////////////////////////
         //@{
+
+        /**
+         * @brief Default constructor with |S| = 0 and |B| = 2
+         */
+        NaiveFLCVector()
+        {
+            this->initialize();
+        }
+        /**
+         * @brief Constructor with |S| = 0 and |B| = buffer_size
+         */
+        NaiveFLCVector(uint64_t buffer_size) noexcept
+        {
+            this->buffer_size_ = buffer_size;
+            this->code_type_ = 0;
+            this->size_ = 0;
+            this->psum_ = 0;
+            this->buffer_ = new uint64_t[this->buffer_size_];
+        }
+
+        /**
+         * @brief Constructor with S = _S
+         */
+        NaiveFLCVector(const std::vector<uint64_t> &_S) noexcept
+        {
+            this->initialize();
+            if (_S.size() == 0)
+            {
+                this->initialize();
+            }
+            else
+            {
+                for (auto &value : _S)
+                {
+                    this->push_back(value);
+                }
+            }
+        }
+
         /**
          * @brief Copy constructor
-         *
-         * @param other The NaiveBitVector to copy from
          */
         NaiveFLCVector(const NaiveFLCVector &other) noexcept
         {
@@ -252,35 +295,9 @@ namespace stool
 
             std::memcpy(this->buffer_, other.buffer_, this->buffer_size_ * sizeof(uint64_t));
         }
-        NaiveFLCVector(uint64_t buffer_size) noexcept
-        {
-            this->buffer_size_ = buffer_size;
-            this->code_type_ = 0;
-            this->size_ = 0;
-            this->psum_ = 0;
-            this->buffer_ = new uint64_t[this->buffer_size_];
-        }
-
-        NaiveFLCVector(const std::vector<uint64_t> &bv) noexcept
-        {
-            this->initialize();
-            if (bv.size() == 0)
-            {
-                this->initialize();
-            }
-            else
-            {
-                for (auto &value : bv)
-                {
-                    this->push_back(value);
-                }
-            }
-        }
 
         /**
          * @brief Move constructor
-         *
-         * @param other The NaiveBitVector to move from
          */
         NaiveFLCVector(NaiveFLCVector &&other) noexcept
             : buffer_(other.buffer_),
@@ -296,19 +313,9 @@ namespace stool
             other.size_ = 0;
             other.psum_ = 0;
         }
-        /**
-         * @brief Default constructor
-         *
-         * Creates an empty deque with initial capacity of 2 elements.
-         */
-        NaiveFLCVector()
-        {
-            this->initialize();
-        }
+
         /**
          * @brief Destructor
-         *
-         * Frees the allocated circular buffer memory.
          */
         ~NaiveFLCVector()
         {
@@ -319,6 +326,10 @@ namespace stool
             }
         }
 
+        /**
+         * @brief Initialize this instance as an empty vector
+         *
+         */
         void initialize()
         {
             if (this->buffer_ != nullptr)
@@ -477,20 +488,25 @@ namespace stool
         ///   @name Main queries (Access, search, and psum operations)
         ////////////////////////////////////////////////////////////////////////////////
         //@{
+
+        /**
+         * @brief Returns the first element \p S[0] of \p S
+         */
         uint64_t head() const
         {
             return this->at(0);
         }
+
+        /**
+         * @brief Returns the last element \p S[n-1] of \p S
+         */
         uint64_t tail() const
         {
             return this->at(this->size() - 1);
         }
 
         /**
-         * @brief Get element at specified position
-         *
-         * @param i Index of the element
-         * @return T Copy of the element at position i
+         * @brief Returns the (i+1)-th element \p S[i] of \p S
          */
         uint64_t at(uint64_t i) const
         {
@@ -498,34 +514,39 @@ namespace stool
             return (*this)[i];
         }
 
+        /**
+         * @brief Returns the sum of the elements in \p S[0..n-1] (i.e., \p psum(n-1))
+         * @note \p O(1) time
+         */
         uint64_t psum() const
         {
             return this->psum_;
         }
 
+        /**
+         * @brief Returns the sum of integers in \p S[0..i]
+         * @note \p O(i) time
+         */
         uint64_t psum(uint64_t i) const
         {
             uint64_t sum = stool::PackedPSum::psum(this->buffer_, i, (stool::PackedPSum::PackedBitType)this->code_type_, this->buffer_size_);
             return sum;
         }
+
+        /**
+         * @brief Returns the sum of integers in \p S[i..j]
+         * @note \p O(j-i) time
+         */
         uint64_t psum(uint64_t i, uint64_t j) const
         {
             uint64_t sum = stool::PackedPSum::psum(this->buffer_, i, j, (stool::PackedPSum::PackedBitType)this->code_type_, this->buffer_size_);
-
-#if DEBUG
-            uint64_t true_sum = 0;
-            for (uint64_t k = i; k <= j; k++)
-            {
-                true_sum += this->at(k);
-            }
-            if (true_sum != sum)
-            {
-                std::cout << "psum(" << i << ", " << j << ") = " << sum << ", true_sum = " << true_sum << std::endl;
-            }
-#endif
             return sum;
         }
 
+        /**
+         * @brief Returns the sum of integers in \p S[(n-1)-i..n-1]
+         * @note \p O(n) time
+         */
         uint64_t reverse_psum(uint64_t i) const
         {
             uint64_t size = this->size();
@@ -546,6 +567,11 @@ namespace stool
                 return this->psum(size - i - 1, size - 1);
             }
         }
+
+        /**
+         * @brief Returns the first position \p p such that psum(p) >= x if such a position exists, otherwise returns -1
+         * @note \p O(p) time
+         */
         int64_t search(uint64_t x) const noexcept
         {
             return stool::PackedSearch::search(this->buffer_, x, (stool::PackedSearch::PackedBitType)this->code_type_, this->psum_, this->buffer_size_);
@@ -557,6 +583,9 @@ namespace stool
         ////////////////////////////////////////////////////////////////////////////////
         //@{
 
+        /*!
+         * @brief Returns \p S as a string
+         */
         std::string to_string() const
         {
             std::string s;
@@ -572,6 +601,10 @@ namespace stool
             s += "]";
             return s;
         }
+
+        /*!
+         * @brief Returns \p S as a deque
+         */
         std::deque<uint64_t> to_deque() const
         {
             std::deque<uint64_t> r;
@@ -582,6 +615,9 @@ namespace stool
             return r;
         }
 
+        /*!
+         * @brief Returns \p S as a vector
+         */
         std::vector<uint64_t> to_vector() const
         {
             std::vector<uint64_t> v;
@@ -591,7 +627,11 @@ namespace stool
             }
             return v;
         }
-        template <typename VEC>
+
+        /*!
+         * @brief Clears a given sequence \p output_vec (e.g., std::vector<uint64_t>) and fills it with the elements of \p S
+         */
+        template <typename VEC = std::vector<uint64_t>>
         void to_values(VEC &output_vec) const
         {
             output_vec.clear();
@@ -601,6 +641,10 @@ namespace stool
                 output_vec[i] = this->at(i);
             }
         }
+
+        /*!
+         * @brief Returns the 64-bit integers \p B as a binary string
+         */
         std::string convert_buffer_to_binary_string() const
         {
             std::vector<uint64_t> bits;
@@ -620,6 +664,9 @@ namespace stool
         ////////////////////////////////////////////////////////////////////////////////
         //@{
 
+        /**
+         * @brief Print debug information about this instance
+         */
         void print_info() const
         {
             std::cout << "NaiveFLCVector = {" << std::endl;
@@ -642,6 +689,10 @@ namespace stool
             std::cout << "}" << std::endl;
         }
 
+        /**
+         * @brief Verifies this instance
+         * @note this function is used to debug this instance
+         */
         bool verify() const
         {
             uint64_t true_sum = 0;
@@ -662,8 +713,67 @@ namespace stool
         ///   @name Update Operations
         ////////////////////////////////////////////////////////////////////////////////
         //@{
+
         /**
-         * @brief Remove all elements from the deque
+         * @brief Set a given value \p v at a given position \p i in \p S
+         * @note \p O(|S|) time
+         */
+        void set_value(uint64_t position_i, uint64_t value_v)
+        {
+            assert(position_i < this->size());
+
+            uint8_t code_type_candidate = (uint8_t)stool::PackedPSum::get_code_type(value_v);
+            uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
+            if (new_code_type != this->code_type_)
+            {
+                this->shrink_to_fit(this->size(), new_code_type);
+            }
+            uint64_t code_length = 1ULL << new_code_type;
+
+            uint64_t new_pos = position_i << new_code_type;
+            uint64_t block_index = new_pos / 64;
+            uint8_t bit_index = new_pos % 64;
+
+            uint64_t old_value = NaiveFLCVector::read_as_64bit_integer(this->buffer_[block_index], bit_index, code_length);
+            if (value_v > old_value)
+            {
+                this->psum_ += value_v - old_value;
+            }
+            else
+            {
+                this->psum_ -= old_value - value_v;
+            }
+
+            uint64_t write_value = value_v << (64 - code_length);
+            this->buffer_[block_index] = stool::MSBByte::write_bits(this->buffer_[block_index], bit_index, code_length, write_value);
+
+            assert(this->verify());
+        }
+
+        /**
+         * @brief Set the value \p \p S[i+delta] at a given position \p i in \p S
+         * @note \p O(|S|) time
+         */
+        void increment(uint64_t i, int64_t delta)
+        {
+            uint64_t new_value = this->at(i) + delta;
+            this->set_value(i, new_value);
+            assert(this->verify());
+        }
+
+        /**
+         * @brief Swap operation
+         */
+        void swap(NaiveFLCVector &item)
+        {
+            std::swap(this->buffer_, item.buffer_);
+            std::swap(this->psum_, item.psum_);
+            std::swap(this->size_, item.size_);
+            std::swap(this->buffer_size_, item.buffer_size_);
+            std::swap(this->code_type_, item.code_type_);
+        }
+        /**
+         * @brief Remove all elements in \p S and appropriately resize the buffer \p B
          */
         void clear()
         {
@@ -672,10 +782,9 @@ namespace stool
             this->code_type_ = 0;
             this->shrink_to_fit(0, this->code_type_);
         }
+
         /**
          * @brief Reduce buffer size to fit current content
-         *
-         * Resizes the buffer to the minimum size needed to hold current elements.
          */
         void shrink_to_fit(int64_t new_element_count, uint8_t new_code_type)
         {
@@ -740,10 +849,8 @@ namespace stool
         }
 
         /**
-         * @brief Add an element to the end of the deque
-         *
-         * @param value The element to add
-         * @throws std::invalid_argument If the deque would exceed maximum size
+         * @brief Add a given integer to the end of \p S
+         * @note \p O(|S|) time
          */
         void push_back(uint64_t value)
         {
@@ -784,26 +891,13 @@ namespace stool
 
             assert(this->verify());
         }
-
         /**
-         * @brief Add an element to the beginning of the deque
-         *
-         * @param value The element to add
-         * @throws std::invalid_argument If the deque would exceed maximum size
+         * @brief Add a given sequence \p Q[0..k-1] to the end of \p S[0..n-1] (i.e., \p S = S[0..n-1]Q[0..k-1])
+         * @note \p O(|S| + |Q|) time
          */
-        void push_front(uint64_t value)
+        void push_back(const std::vector<uint64_t> &new_items_Q)
         {
-            this->insert(0, value);
-#ifdef DEBUG
-            uint64_t v = this->at(0);
-            assert(v == value);
-#endif
-
-            assert(this->verify());
-        }
-        void push_back(const std::vector<uint64_t> &new_items)
-        {
-            for (uint64_t v : new_items)
+            for (uint64_t v : new_items_Q)
             {
                 this->push_back(v);
             }
@@ -817,12 +911,32 @@ namespace stool
             }
 #endif
         }
-        void push_front(const std::vector<uint64_t> &new_items)
+
+        /**
+         * @brief Add a given value to the beginning of \p S
+         * @note \p O(|S|) time
+         */
+        void push_front(uint64_t value)
+        {
+            this->insert(0, value);
+#ifdef DEBUG
+            uint64_t v = this->at(0);
+            assert(v == value);
+#endif
+
+            assert(this->verify());
+        }
+
+        /**
+         * @brief Add a given sequence \p Q[0..k-1] to the beginning of \p S[0..n-1] (i.e., \p S = Q[0..k-1]S[0..n-1])
+         * @note \p O(|S| + |Q|) time
+         */
+        void push_front(const std::vector<uint64_t> &new_items_Q)
         {
             uint64_t max_value = 0;
             uint64_t x_sum = 0;
-            uint64_t x_size = new_items.size();
-            for (uint64_t v : new_items)
+            uint64_t x_size = new_items_Q.size();
+            for (uint64_t v : new_items_Q)
             {
                 if (v > max_value)
                 {
@@ -842,7 +956,7 @@ namespace stool
                 uint64_t pos = i << new_code_type;
                 uint64_t block_index = pos / 64;
                 uint64_t bit_index = pos % 64;
-                uint64_t value = new_items[i] << (64 - code_length);
+                uint64_t value = new_items_Q[i] << (64 - code_length);
                 assert(block_index < this->buffer_size_);
                 this->buffer_[block_index] = stool::MSBByte::write_bits(this->buffer_[block_index], bit_index, code_length, value);
             }
@@ -860,7 +974,8 @@ namespace stool
         }
 
         /**
-         * @brief Remove the last element from the deque
+         * @brief Remove the last element from S and return it
+         * @note \p O(|S|) time
          */
         uint64_t pop_back()
         {
@@ -887,17 +1002,10 @@ namespace stool
                 return value;
             }
         }
-
         /**
-         * @brief Remove the first element from the deque
+         * @brief Remove the last \p len elements from S and return them as a vector
+         * @note \p O(|S|) time
          */
-        uint64_t pop_front()
-        {
-            uint64_t value = this->remove(0);
-            assert(this->verify());
-            return value;
-        }
-
         std::vector<uint64_t> pop_back(uint64_t len)
         {
             std::vector<uint64_t> r;
@@ -911,6 +1019,21 @@ namespace stool
 
             return r;
         }
+        /**
+         * @brief Remove the first element from \p S and return it
+         * @note \p O(|S|) time
+         */
+        uint64_t pop_front()
+        {
+            uint64_t value = this->remove(0);
+            assert(this->verify());
+            return value;
+        }
+
+        /**
+         * @brief Remove the first \p len elements from \p S and return them as a vector
+         * @note \p O(|S|) time
+         */
         std::vector<uint64_t> pop_front(uint64_t len)
         {
             std::vector<uint64_t> r;
@@ -930,50 +1053,9 @@ namespace stool
         }
 
         /**
-         * @brief Swap contents with another NaiveBitVector
-         *
-         * @param item The NaiveBitVector to swap with
+         * @brief Insert a given integer \p value into \p S as the \p (pos+1)-th element
+         * @note \p O(|S|) time
          */
-        void swap(NaiveFLCVector &item)
-        {
-            std::swap(this->buffer_, item.buffer_);
-            std::swap(this->psum_, item.psum_);
-            std::swap(this->size_, item.size_);
-            std::swap(this->buffer_size_, item.buffer_size_);
-            std::swap(this->code_type_, item.code_type_);
-        }
-
-        void shift_right(uint64_t position, uint64_t len, uint64_t new_code_type)
-        {
-            uint64_t size = this->size();
-            // uint64_t code_length = 1ULL << new_code_type;
-
-            this->shrink_to_fit(size + len, new_code_type);
-            this->size_ += len;
-
-            uint64_t bit_position = position << new_code_type;
-            uint64_t bit_length = len << new_code_type;
-
-            stool::MSBByte::shift_right(this->buffer_, bit_position, bit_length, this->buffer_size_);
-            assert(this->verify());
-        }
-        void shift_left(uint64_t position, uint64_t len)
-        {
-            uint64_t size = this->size();
-            uint64_t removed_sum = this->psum(position - len, position - 1);
-            uint64_t new_size = size - len;
-            uint64_t bit_position = position << this->code_type_;
-            uint64_t bit_length = len << this->code_type_;
-            // uint64_t move_size = size - position;
-            // uint64_t code_length = 1ULL << this->code_type_;
-
-            stool::MSBByte::shift_left(this->buffer_, bit_position, bit_length, this->buffer_size_);
-            this->shrink_to_fit(new_size, this->code_type_);
-            this->psum_ -= removed_sum;
-            this->size_ -= len;
-            assert(this->verify());
-        }
-
         void insert(uint64_t pos, uint64_t value)
         {
             uint64_t size = this->size();
@@ -1008,6 +1090,10 @@ namespace stool
             }
             assert(this->verify());
         }
+        /**
+         * @brief Remove the element at the position \p pos from \p S and return it
+         * @note \p O(|S|) time
+         */
         uint64_t remove(uint64_t pos)
         {
 
@@ -1030,6 +1116,10 @@ namespace stool
             }
             assert(this->verify());
         }
+        /**
+         * @brief Remove the \p len elements starting from the position \p pos from \p S
+         * @note \p O(|S|) time
+         */
         void remove(uint64_t pos, uint64_t len)
         {
             if (pos + len == this->size())
@@ -1043,54 +1133,46 @@ namespace stool
             assert(this->verify());
         }
 
-        void set_value(uint64_t position, uint64_t value)
+        /**
+         * @brief Change \p S[0..n-1] to \p S[0..p-1]0^{len}S[p..n-1]  
+         * @note \p O(|S|) time
+         */
+        void shift_right(uint64_t position_p, uint64_t len, uint64_t new_code_type)
         {
-            assert(position < this->size());
+            uint64_t size = this->size();
+            // uint64_t code_length = 1ULL << new_code_type;
 
-            uint8_t code_type_candidate = (uint8_t)stool::PackedPSum::get_code_type(value);
-            uint64_t new_code_type = std::max(this->code_type_, code_type_candidate);
-            if (new_code_type != this->code_type_)
-            {
-                this->shrink_to_fit(this->size(), new_code_type);
-            }
-            uint64_t code_length = 1ULL << new_code_type;
+            this->shrink_to_fit(size + len, new_code_type);
+            this->size_ += len;
 
-            uint64_t new_pos = position << new_code_type;
-            uint64_t block_index = new_pos / 64;
-            uint8_t bit_index = new_pos % 64;
+            uint64_t bit_position = position_p << new_code_type;
+            uint64_t bit_length = len << new_code_type;
 
-            uint64_t old_value = NaiveFLCVector::read_as_64bit_integer(this->buffer_[block_index], bit_index, code_length);
-            if (value > old_value)
-            {
-                this->psum_ += value - old_value;
-            }
-            else
-            {
-                this->psum_ -= old_value - value;
-            }
-
-            uint64_t write_value = value << (64 - code_length);
-            this->buffer_[block_index] = stool::MSBByte::write_bits(this->buffer_[block_index], bit_index, code_length, write_value);
-
+            stool::MSBByte::shift_right(this->buffer_, bit_position, bit_length, this->buffer_size_);
             assert(this->verify());
         }
 
         /**
-         * @brief Increments a value at a given index by a delta
-         *
-         * Adds the specified delta to the value at index i. If the new value
-         * requires a different number of bits to encode, the value is removed
-         * and reinserted to maintain proper encoding.
-         *
-         * @param i Index of the value to increment
-         * @param delta Amount to add to the value (can be negative)
+         * @brief Change \p S[0..n-1] to \p S[0..p-len-1]S[p..n-1]  
+         * @note \p O(|S|) time
          */
-        void increment(uint64_t i, int64_t delta)
+        void shift_left(uint64_t position_p, uint64_t len)
         {
-            uint64_t new_value = this->at(i) + delta;
-            this->set_value(i, new_value);
+            uint64_t size = this->size();
+            uint64_t removed_sum = this->psum(position_p - len, position_p - 1);
+            uint64_t new_size = size - len;
+            uint64_t bit_position = position_p << this->code_type_;
+            uint64_t bit_length = len << this->code_type_;
+            // uint64_t move_size = size - position;
+            // uint64_t code_length = 1ULL << this->code_type_;
+
+            stool::MSBByte::shift_left(this->buffer_, bit_position, bit_length, this->buffer_size_);
+            this->shrink_to_fit(new_size, this->code_type_);
+            this->psum_ -= removed_sum;
+            this->size_ -= len;
             assert(this->verify());
         }
+        
         //}@
 
     private:
