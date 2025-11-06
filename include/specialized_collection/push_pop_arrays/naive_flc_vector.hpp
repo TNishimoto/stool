@@ -1205,27 +1205,19 @@ namespace stool
         ///   @name Load, save, and builder functions
         ////////////////////////////////////////////////////////////////////////////////
         //@{
+
+        /**
+         * @brief Construct an instance such that \p S = \p values
+         */
         static NaiveFLCVector build(const std::vector<uint64_t> &values)
         {
             NaiveFLCVector flc_vector(values);
             return flc_vector;
         }
+
         /**
-         * @brief Saves a VLCDeque instance to a file stream
-         *
-         * Serializes the VLCDeque by writing its members to the provided output file stream.
-         *
-         * @param item The VLCDeque instance to save
-         * @param os The output file stream to write to
+         * @brief Save the given instance \p item to a byte vector \p output at the position \p pos
          */
-        static void store_to_file(const NaiveFLCVector &item, std::ofstream &os)
-        {
-            os.write(reinterpret_cast<const char *>(&item.psum_), sizeof(item.psum_));
-            os.write(reinterpret_cast<const char *>(&item.size_), sizeof(item.size_));
-            os.write(reinterpret_cast<const char *>(&item.buffer_size_), sizeof(item.buffer_size_));
-            os.write(reinterpret_cast<const char *>(&item.code_type_), sizeof(item.code_type_));
-            os.write(reinterpret_cast<const char *>(item.buffer_), sizeof(uint64_t) * item.buffer_size_);
-        }
         static void store_to_bytes(const NaiveFLCVector &item, std::vector<uint8_t> &output, uint64_t &pos)
         {
             uint64_t bytes = item.size_in_bytes();
@@ -1247,14 +1239,7 @@ namespace stool
         }
 
         /**
-         * @brief Saves a vector of VLCDeque instances to a byte array
-         *
-         * Serializes multiple VLCDeque instances by first writing the vector size
-         * followed by each VLCDeque instance.
-         *
-         * @param items Vector of VLCDeque instances to save
-         * @param output The output byte array to write to
-         * @param pos Current position in the output array, updated after writing
+         * @brief Save the given vector of NaiveFLCVector instances \p items to a byte vector \p output at the position \p pos
          */
         static void store_to_bytes(const std::vector<NaiveFLCVector> &items, std::vector<uint8_t> &output, uint64_t &pos)
         {
@@ -1269,13 +1254,18 @@ namespace stool
         }
 
         /**
-         * @brief Saves a vector of VLCDeque instances to a file stream
-         *
-         * Serializes multiple VLCDeque instances by first writing the vector size
-         * followed by each VLCDeque instance.
-         *
-         * @param items Vector of VLCDeque instances to save
-         * @param os The output file stream to write to
+         * @brief Save the given instance \p item to a file stream \p os
+         */
+        static void store_to_file(const NaiveFLCVector &item, std::ofstream &os)
+        {
+            os.write(reinterpret_cast<const char *>(&item.psum_), sizeof(item.psum_));
+            os.write(reinterpret_cast<const char *>(&item.size_), sizeof(item.size_));
+            os.write(reinterpret_cast<const char *>(&item.buffer_size_), sizeof(item.buffer_size_));
+            os.write(reinterpret_cast<const char *>(&item.code_type_), sizeof(item.code_type_));
+            os.write(reinterpret_cast<const char *>(item.buffer_), sizeof(uint64_t) * item.buffer_size_);
+        }
+        /**
+         * @brief Save the given vector of NaiveFLCVector instances \p items to a file stream \p os
          */
         static void store_to_file(const std::vector<NaiveFLCVector> &items, std::ofstream &os)
         {
@@ -1287,15 +1277,9 @@ namespace stool
             }
         }
 
+
         /**
-         * @brief Loads a VLCDeque instance from a byte array
-         *
-         * Deserializes a VLCDeque by reading its members from the input byte array
-         * at the specified position.
-         *
-         * @param data The input byte array to read from
-         * @param pos Current position in the input array, updated after reading
-         * @return The deserialized VLCDeque instance
+         * @brief Returns the NaiveFLCVector instance loaded from a byte vector \p data at the position \p pos
          */
         static NaiveFLCVector load_from_bytes(const std::vector<uint8_t> &data, uint64_t &pos)
         {
@@ -1326,12 +1310,7 @@ namespace stool
         }
 
         /**
-         * @brief Loads a VLCDeque instance from a file stream
-         *
-         * Deserializes a VLCDeque by reading its members from the provided input file stream.
-         *
-         * @param ifs The input file stream to read from
-         * @return The deserialized VLCDeque instance
+         * @brief Returns the NaiveFLCVector instance loaded from a file stream \p ifs
          */
         static NaiveFLCVector load_from_file(std::ifstream &ifs)
         {
@@ -1354,16 +1333,10 @@ namespace stool
             return r;
         }
         /**
-         * @brief Loads a vector of VLCDeque instances from a byte array
-         *
-         * Deserializes multiple VLCDeque instances by first reading the vector size,
-         * then loading each VLCDeque instance sequentially from the input byte array.
-         *
-         * @param data The input byte array to read from
-         * @param pos Current position in the input array, updated after reading
-         * @return Vector containing the deserialized VLCDeque instances
+         * @brief Returns the vector of NaiveFLCVector instances loaded from a byte vector \p data at the position \p pos
          */
-        static std::vector<NaiveFLCVector> load_vector(const std::vector<uint8_t> &data, uint64_t &pos)
+
+        static std::vector<NaiveFLCVector> load_vector_from_bytes(const std::vector<uint8_t> &data, uint64_t &pos)
         {
             uint64_t size;
             std::memcpy(&size, data.data() + pos, sizeof(size));
@@ -1377,16 +1350,11 @@ namespace stool
             return r;
         }
 
+
         /**
-         * @brief Loads a vector of VLCDeque instances from a file stream
-         *
-         * Deserializes multiple VLCDeque instances by first reading the vector size,
-         * then loading each VLCDeque instance sequentially from the input file stream.
-         *
-         * @param ifs The input file stream to read from
-         * @return Vector containing the deserialized VLCDeque instances
+         * @brief Returns the vector of NaiveFLCVector instances loaded from a file stream \p ifs
          */
-        static std::vector<NaiveFLCVector> load_vector(std::ifstream &ifs)
+        static std::vector<NaiveFLCVector> load_vector_from_file(std::ifstream &ifs)
         {
             uint64_t size = 0;
             ifs.read(reinterpret_cast<char *>(&size), sizeof(size));
@@ -1404,11 +1372,9 @@ namespace stool
         ///   @name Other static functions
         ////////////////////////////////////////////////////////////////////////////////
         //@{
+
         /**
-         * @brief Calculates the memory size in bytes of a VLCDeque instance
-         *
-         * @param item The VLCDeque instance to measure
-         * @return Number of bytes used by the VLCDeque
+         * @brief Returns the total memory usage in bytes of a given instance
          */
         static uint64_t get_byte_size(const NaiveFLCVector &item)
         {
@@ -1417,10 +1383,7 @@ namespace stool
         }
 
         /**
-         * @brief Calculates the total memory size in bytes of a vector of VLCDeque instances
-         *
-         * @param items Vector of VLCDeque instances to measure
-         * @return Total number of bytes used by all VLCDeque instances
+         * @brief Returns the total memory usage in bytes of a vector of NaiveFLCVector instances \p items
          */
         static uint64_t get_byte_size(const std::vector<NaiveFLCVector> &items)
         {

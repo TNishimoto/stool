@@ -1002,16 +1002,6 @@ namespace stool
             pos += item.buffer_size_ * sizeof(uint64_t);
         }
 
-        /**
-         * @brief Save the given instance \p item to a file stream \p os
-         */
-        static void store_to_file(const NaiveBitVector &item, std::ofstream &os)
-        {
-            os.write(reinterpret_cast<const char *>(&item.bit_count_), sizeof(item.bit_count_));
-            os.write(reinterpret_cast<const char *>(&item.num1_), sizeof(item.num1_));
-            os.write(reinterpret_cast<const char *>(&item.buffer_size_), sizeof(item.buffer_size_));
-            os.write(reinterpret_cast<const char *>(item.buffer_), item.buffer_size_ * sizeof(uint64_t));
-        }
 
         /**
          * @brief Save the given vector of NaiveBitVector instances \p items to a byte vector \p output at the position \p pos
@@ -1032,6 +1022,16 @@ namespace stool
             {
                 NaiveBitVector::store_to_file(item, output, pos);
             }
+        }
+        /**
+         * @brief Save the given instance \p item to a file stream \p os
+         */
+        static void store_to_file(const NaiveBitVector &item, std::ofstream &os)
+        {
+            os.write(reinterpret_cast<const char *>(&item.bit_count_), sizeof(item.bit_count_));
+            os.write(reinterpret_cast<const char *>(&item.num1_), sizeof(item.num1_));
+            os.write(reinterpret_cast<const char *>(&item.buffer_size_), sizeof(item.buffer_size_));
+            os.write(reinterpret_cast<const char *>(item.buffer_), item.buffer_size_ * sizeof(uint64_t));
         }
         /**
          * @brief Save the given vector of NaiveBitVector instances \p items to a file stream \p os
