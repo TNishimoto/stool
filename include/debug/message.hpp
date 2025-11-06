@@ -15,12 +15,14 @@ namespace stool
         /** @brief Constant indicating a message should be shown */
         static inline constexpr int SHOW_MESSAGE = 0;
 
+        static inline int64_t paragraph_level_threshold = INT64_MAX;
+
         /**
          * @brief Increments the message paragraph level if the given paragraph level is non-negative
          */
         static int increment_paragraph_level(int paragraph_level)
         {
-            if (paragraph_level >= 0)
+            if (paragraph_level >= 0 && paragraph_level < Message::paragraph_level_threshold)
             {
                 return paragraph_level + 1;
             }
