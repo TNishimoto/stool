@@ -675,6 +675,18 @@ namespace stool
             }
             return s;
         }
+        static std::string to_bit_string(std::vector<uint64_t> &B, uint64_t i, uint64_t j)
+        {
+            std::string s = "";
+            for(uint64_t k = i; k <= j; k++){
+                uint64_t block_index = k / 64;
+                uint64_t bit_index = k % 64;
+                uint64_t block = B[block_index];
+                s += stool::Byte::to_bit_string(block, true)[bit_index];
+            }
+            return s;
+        }
+
 
 
         /*!
