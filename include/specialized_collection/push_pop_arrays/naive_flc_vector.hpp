@@ -14,7 +14,7 @@
 namespace stool
 {
     /*!
-     * @brief A naive vector implementation using fixed-length codes for non-negative integer sequences \p S[0..n-1] [in progress]
+     * @brief A naive vector implementation using fixed-length codes for non-negative integer sequences \p S[0..n-1]
      * @note The non-negative integer sequence \p S[0..n-1] is stored in the 64-bit integers buffer B[0..m-1]. Each integer of \p S is encoded as a fixed-length code of bit length \p 2^{x} for an integer \p x in { 1, 2, 4, 8, 16, 32, 64  }.
      * @tparam USE_PSUM Boolean parameter to enable/disable prefix sum maintenance
      */
@@ -904,10 +904,10 @@ namespace stool
 
             assert(this->verify());
 #ifdef DEBUG
-            for (uint64_t i = 0; i < new_items.size(); i++)
+            for (uint64_t i = 0; i < new_items_Q.size(); i++)
             {
-                uint64_t v = this->at(this->size() + i - new_items.size());
-                assert(v == new_items[i]);
+                uint64_t v = this->at(this->size() + i - new_items_Q.size());
+                assert(v == new_items_Q[i]);
             }
 #endif
         }
@@ -965,10 +965,10 @@ namespace stool
 
             assert(this->verify());
 #ifdef DEBUG
-            for (uint64_t i = 0; i < new_items.size(); i++)
+            for (uint64_t i = 0; i < new_items_Q.size(); i++)
             {
                 uint64_t v = this->at(i);
-                assert(v == new_items[i]);
+                assert(v == new_items_Q[i]);
             }
 #endif
         }
