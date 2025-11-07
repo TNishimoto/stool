@@ -9,10 +9,16 @@
 
 namespace stool
 {
+    /// \defgroup CollectionClasses Classes for storing elements
+    /// Collections for storing elements (e.g., vector, array, deque, etc.)
+    /// @{
+    /// @}
+
     /*!
      * @brief A simple bit vector \p B[0..n-1] implementation with push/pop operations
      * @note The bits \p B[0..n-1] are stored in 64-bit integers \p S[0..m-1] (uint64_t *buffer_)
      * @tparam MAX_BIT_LENGTH Maximum number of bits that can be stored (default: 8092)
+     * \ingroup CollectionClasses
      */
     template <uint64_t MAX_BIT_LENGTH = 8092>
     class NaiveBitVector

@@ -13,6 +13,7 @@ namespace stool
     /**
      * @brief A naive unsigned 64-bit integer vector \p S[0..n-1] stored in std::array<uint64_t, SIZE> \p B[0..SIZE-1]
      * @tparam SIZE The size of the array
+     * \ingroup CollectionClasses
      */
     template <uint64_t SIZE = 1024>
     class NaiveIntegerArray

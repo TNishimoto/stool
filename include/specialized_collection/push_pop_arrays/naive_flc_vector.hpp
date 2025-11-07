@@ -17,6 +17,7 @@ namespace stool
      * @brief A naive vector implementation using fixed-length codes for non-negative integer sequences \p S[0..n-1]
      * @note The non-negative integer sequence \p S[0..n-1] is stored in the 64-bit integers buffer B[0..m-1]. Each integer of \p S is encoded as a fixed-length code of bit length \p 2^{x} for an integer \p x in { 1, 2, 4, 8, 16, 32, 64  }.
      * @tparam USE_PSUM Boolean parameter to enable/disable prefix sum maintenance
+     * \ingroup CollectionClasses
      */
     template <bool USE_PSUM = true>
     class NaiveFLCVector
