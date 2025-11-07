@@ -16,6 +16,7 @@ namespace stool
 
 	/**
 	 * @brief A utility class for comparing containers for equality
+     * \ingroup DebugClasses
 	 */
 	class EqualChecker
 	{

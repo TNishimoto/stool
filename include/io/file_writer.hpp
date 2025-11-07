@@ -10,6 +10,7 @@ namespace stool
 
     /**
      * @brief A utility class for file writing operations
+     * \ingroup IOClasses
      */
     class FileWriter
     {

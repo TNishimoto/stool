@@ -7,8 +7,6 @@ namespace stool
     /// @{
     /// @}
 
-
-
     /**
      * @brief Predecessors and successors on vectors.
      * \ingroup BasicClasses

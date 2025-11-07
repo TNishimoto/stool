@@ -10,6 +10,7 @@ namespace stool
 
 	/**
 	 * @brief A utility class for printing data structures
+     * \ingroup DebugClasses
 	 */
 	class DebugPrinter
 	{

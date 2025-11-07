@@ -9,6 +9,7 @@ namespace stool
 {
 	/**
 	 * @brief A class for reading files in an online (streaming) manner
+     * \ingroup IOClasses
 	 */
 	class OnlineFileReader
 	{

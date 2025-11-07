@@ -16,6 +16,7 @@ namespace stool
 {
 	/**
 	 * @brief A utility class for monitoring memory usage
+     * \ingroup DebugClasses
 	 */
 	class Memory
 	{

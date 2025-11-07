@@ -5,6 +5,7 @@ namespace stool
 {
     /**
      * @brief Message utility class for computing the paragraph level of log messages 
+     * \ingroup DebugClasses
      */
     class Message
     {

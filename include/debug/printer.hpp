@@ -16,10 +16,7 @@ namespace stool
 {
     /**
 	 * @brief General purpose printing utility class for various data structures [Obsolete Implementations] 
-	 * 
-	 * This class provides comprehensive printing and formatting capabilities for
-	 * different data types including vectors, deques, strings, and specialized
-	 * data structures like BWT tables and suffix arrays.
+     * \ingroup DebugClasses
 	 */
 	class Printer
 	{

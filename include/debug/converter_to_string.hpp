@@ -8,9 +8,14 @@
 
 namespace stool
 {
+    /// \defgroup DebugClasses Classes for debugging
+    /// @{
+    /// @}
+
 
 	/**
 	 * @brief A utility class for converting data structures to strings
+     * \ingroup DebugClasses
 	 */
 	class ConverterToString
 	{

@@ -7,9 +7,14 @@
 
 namespace stool
 {
+    /// \defgroup IOClasses Classes for input/output
+    /// @{
+    /// @}
+
 
     /**
      * @brief A utility class for file reading operations
+     * \ingroup IOClasses
      */
 	class FileReader
 	{
