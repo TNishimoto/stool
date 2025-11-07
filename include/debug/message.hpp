@@ -17,6 +17,7 @@ namespace stool
 
         static inline int64_t paragraph_level_threshold = INT64_MAX;
 
+
         /**
          * @brief Increments the message paragraph level if the given paragraph level is non-negative
          */

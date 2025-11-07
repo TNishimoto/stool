@@ -559,8 +559,6 @@ namespace stool
                 assert(this->verify());
                 assert(this->psum() == this->psum(size - i - 1, size - 1));
                 return this->psum(size - i - 1, size - 1);
-
-                // return this->psum();
             }
             else
             {
@@ -895,7 +893,7 @@ namespace stool
          * @brief Add a given sequence \p Q[0..k-1] to the end of \p S[0..n-1] (i.e., \p S = S[0..n-1]Q[0..k-1])
          * @note \p O(|S| + |Q|) time
          */
-        void push_back(const std::vector<uint64_t> &new_items_Q)
+        void push_back_many(const std::vector<uint64_t> &new_items_Q)
         {
             for (uint64_t v : new_items_Q)
             {
@@ -931,7 +929,7 @@ namespace stool
          * @brief Add a given sequence \p Q[0..k-1] to the beginning of \p S[0..n-1] (i.e., \p S = Q[0..k-1]S[0..n-1])
          * @note \p O(|S| + |Q|) time
          */
-        void push_front(const std::vector<uint64_t> &new_items_Q)
+        void push_front_many(const std::vector<uint64_t> &new_items_Q)
         {
             uint64_t max_value = 0;
             uint64_t x_sum = 0;
@@ -1006,7 +1004,7 @@ namespace stool
          * @brief Remove the last \p len elements from S and return them as a vector
          * @note \p O(|S|) time
          */
-        std::vector<uint64_t> pop_back(uint64_t len)
+        std::vector<uint64_t> pop_back_many(uint64_t len)
         {
             std::vector<uint64_t> r;
             r.resize(len, UINT64_MAX);
@@ -1034,7 +1032,7 @@ namespace stool
          * @brief Remove the first \p len elements from \p S and return them as a vector
          * @note \p O(|S|) time
          */
-        std::vector<uint64_t> pop_front(uint64_t len)
+        std::vector<uint64_t> pop_front_many(uint64_t len)
         {
             std::vector<uint64_t> r;
             r.resize(len, UINT64_MAX);
