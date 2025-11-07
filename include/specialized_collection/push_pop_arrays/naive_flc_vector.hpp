@@ -1122,7 +1122,7 @@ namespace stool
         {
             if (pos + len == this->size())
             {
-                this->pop_back(len);
+                this->pop_back_many(len);
             }
             else
             {
