@@ -359,7 +359,7 @@ namespace stool
          * 
          * @param new_items Vector containing the values to add
          */
-        void push_front(std::vector<uint64_t> &new_items)
+        void push_front_many(std::vector<uint64_t> &new_items)
         {
             for (auto i = new_items.rbegin(), e = new_items.rend(); i != e; ++i)
             {
@@ -375,7 +375,7 @@ namespace stool
          * 
          * @param new_items Vector containing the values to add
          */
-        void push_back(std::vector<uint64_t> &new_items)
+        void push_back_many(std::vector<uint64_t> &new_items)
         {
             for (uint64_t v : new_items)
             {
@@ -392,7 +392,7 @@ namespace stool
          * @param len Number of values to remove from the front
          * @return Vector containing the removed values in order
          */
-        std::vector<uint64_t> pop_front(uint64_t len)
+        std::vector<uint64_t> pop_front_many(uint64_t len)
         {
             std::vector<uint64_t> r;
             r.resize(len, UINT64_MAX);
@@ -413,7 +413,7 @@ namespace stool
          * @param len Number of values to remove from the back
          * @return Vector containing the removed values in order
          */
-        std::vector<uint64_t> pop_back(uint64_t len)
+        std::vector<uint64_t> pop_back_many(uint64_t len)
         {
             std::vector<uint64_t> r;
             r.resize(len, UINT64_MAX);
