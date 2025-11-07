@@ -6,6 +6,7 @@ namespace stool
 {
     /**
      * @brief The structure representing a run of characters
+     * \ingroup BasicClasses
      */
     template <typename CHAR = uint8_t, typename INDEX = uint64_t>
     struct CharacterRun{

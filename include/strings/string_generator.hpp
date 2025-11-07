@@ -5,6 +5,7 @@ namespace stool
 {
 	/**
 	 * @brief A utility class for generating various types of random strings and sequences. [Obsolete Implementations] 
+     * \ingroup StringClasses
 	 */
 	class StringGenerator
 	{

@@ -49,6 +49,7 @@ namespace stool
      * @brief A class for handling least significant bit (LSB) operations on bytes
      * @note This implementation includes optimized lookup tables and bit manipulation techniques
      *       for improved performance on LSB-oriented byte operations
+     * \ingroup BasicClasses
      */
     class LSBByte
     {

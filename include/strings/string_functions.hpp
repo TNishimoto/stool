@@ -8,6 +8,7 @@ namespace stool
 
     /**
      * @brief A utility class for functions on strings. 
+     * \ingroup StringClasses
      */
     class StringFunctions
     {

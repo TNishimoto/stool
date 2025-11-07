@@ -17,6 +17,7 @@ namespace stool
      * It uses a circular buffer to efficiently handle front and back operations.
      * 
      * @tparam INDEX_TYPE The type used for indexing (uint16_t, uint32_t, uint64_t)
+     * \ingroup CollectionClasses
      */
     template <typename INDEX_TYPE = uint16_t>
     class IntegerDeque

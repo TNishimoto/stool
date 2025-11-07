@@ -29,6 +29,7 @@ namespace stool
      * are stored as a unary-coded bit vector and lower bits are stored directly.
      * 
      * @tparam T The type of values to be stored (typically uint64_t)
+     * \ingroup CollectionClasses
      */
     class EliasFanoVectorBuilder
     {

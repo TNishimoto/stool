@@ -25,6 +25,7 @@ namespace stool
      * - File I/O operations (save/load)
      * - Random access to elements
      * - Type conversion and decoding
+     * \ingroup CollectionClasses
      */
     class ValueArray
     {

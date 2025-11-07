@@ -19,6 +19,7 @@ namespace stool
      * This class provides a memory-efficient deque implementation using a circular buffer.
      * It supports O(1) push/pop operations at both ends and random access to elements.
      * The buffer size is automatically managed to maintain optimal memory usage.
+     * \ingroup CollectionClasses
      */
     template <typename T, typename INDEX_TYPE = uint16_t>
     class SimpleDeque

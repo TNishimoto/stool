@@ -10,6 +10,7 @@ namespace stool
 
     /**
      * @brief A utility class providing string functions on suffix arrays
+     * \ingroup StringClasses
      */
     class StringFunctionsOnSA
     {

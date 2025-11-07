@@ -9,6 +9,7 @@ namespace stool
 {
 	/*!
 	 * @brief Utility class for byte operations
+     * \ingroup BasicClasses
 	 */
 	class Byte
 	{

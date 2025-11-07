@@ -9,6 +9,7 @@ namespace stool
 {
     /**
      * @brief A utility class for writing and reading binary data to/from vectors. 
+     * \ingroup BasicClasses
      */
     class ByteVectorFunctions
     {

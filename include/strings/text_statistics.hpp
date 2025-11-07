@@ -9,6 +9,7 @@ namespace stool
 {
     /**
      * @brief Class that holds statistical information about a text \p T
+     * \ingroup StringClasses
      */
     struct TextStatistics
     {

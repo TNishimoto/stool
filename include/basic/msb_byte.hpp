@@ -44,6 +44,7 @@ namespace stool
      * @brief A class for handling most significant bit (MSB) operations on bytes
      * @note This implementation includes optimized lookup tables and bit manipulation techniques
      *       for improved performance on MSB-oriented byte operations
+     * \ingroup BasicClasses
      */
     class MSBByte
     {

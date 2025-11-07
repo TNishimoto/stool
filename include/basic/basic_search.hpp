@@ -2,11 +2,17 @@
 #include <vector>
 namespace stool
 {
+    /// \defgroup BasicClasses Classes for basic operations
+    /// Basic functions
+    /// @{
+    /// @}
 
-    ////////////////////////////////////////////////////////////////////////////////
-    /// @brief      Predecessors and successors on vectors.
-    ///
-    ////////////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * @brief Predecessors and successors on vectors.
+     * \ingroup BasicClasses
+     */
     class BasicSearch
     {
     public:

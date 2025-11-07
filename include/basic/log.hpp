@@ -12,6 +12,7 @@ namespace stool
 
 	/*!
 	* @brief A utility class for logarithmic functions
+     * \ingroup BasicClasses
 	*/
 
 	class Log

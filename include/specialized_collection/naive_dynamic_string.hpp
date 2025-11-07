@@ -9,6 +9,7 @@ namespace stool
      * This class provides basic string manipulation operations including insertion,
      * deletion, and modification of characters and substrings. It uses a vector
      * of uint8_t to store the string data internally.
+     * \ingroup CollectionClasses
      */
     class NaiveDynamicString
     {

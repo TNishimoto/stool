@@ -14,6 +14,7 @@ namespace stool
     * 
     * This class provides methods for computing substring complexity delta. 
     * See https://arxiv.org/abs/2007.08357 for the definition of delta.
+     * \ingroup StringClasses
     */
     class SubstringComplexityFunctions
     {

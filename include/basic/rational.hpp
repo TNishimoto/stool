@@ -6,8 +6,8 @@ namespace stool
 {
     /*! 
     * @brief Class for representing rational numbers
+     * \ingroup BasicClasses
     */
-
     struct Rational
     {
     public:

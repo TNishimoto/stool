@@ -3,8 +3,15 @@
 
 namespace stool
 {
+    /// \defgroup StringClasses Classes for strings
+    /// Functions for strings
+    /// @{
+    /// @}
+
+
     /**
      * @brief A utility class for creating alphabets.
+     * \ingroup StringClasses
      */
     class Alphabet
     {

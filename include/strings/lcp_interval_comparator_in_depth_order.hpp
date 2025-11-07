@@ -6,6 +6,7 @@ namespace stool
     /**
 	 * @brief Comparator for LCP intervals in depth-first order 
 	 * @tparam INDEX The index type
+     * \ingroup StringClasses
 	 */
 	template <typename INDEX = uint64_t>
 	struct LCPIntervalComparatorInDepthOrder

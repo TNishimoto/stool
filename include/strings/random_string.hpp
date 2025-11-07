@@ -15,6 +15,7 @@ namespace stool
 {
 	/**
 	 * @brief A utility class for generating random strings
+     * \ingroup StringClasses
 	 */
 	class RandomString
 	{

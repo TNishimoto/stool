@@ -14,6 +14,7 @@ namespace stool
 
 	/**
 	 * @brief A utility class for constructing various arrays (e.g., ISA, LCP array, BWT)
+     * \ingroup StringClasses
 	 */
 	class ArrayConstructor
 	{

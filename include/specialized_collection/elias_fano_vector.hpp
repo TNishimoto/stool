@@ -22,6 +22,7 @@ namespace stool
          * This iterator implements the standard random access iterator interface,
          * allowing traversal of the encoded sequence with O(1) access time.
          * Note that decrement operations are not supported.
+         * \ingroup CollectionClasses
          */
         class iterator
         {

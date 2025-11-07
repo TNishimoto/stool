@@ -18,6 +18,7 @@ namespace stool
      * and supports push/pop operations on both ends as well as random access,
      * prefix sums, and search functionalities. Internally, it uses a bit-packed
      * representation for space efficiency.
+     * \ingroup CollectionClasses
      */
     class VLCDeque
     {

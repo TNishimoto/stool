@@ -19,6 +19,7 @@ namespace stool
      * @tparam TEXT_ITERATOR_BEGIN Iterator type for the beginning of text
      * @tparam TEXT_ITERATOR_END Iterator type for the end of text
      * @tparam CHAR The character type (default: uint8_t)
+     * \ingroup StringClasses
      */
     template <typename TEXT_ITERATOR_BEGIN, typename TEXT_ITERATOR_END, typename CHAR = uint8_t>
     class ForwardRLE
