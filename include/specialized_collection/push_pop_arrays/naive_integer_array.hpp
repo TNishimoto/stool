@@ -259,7 +259,6 @@ namespace stool
          * @brief Set a given value \p v at a given position \p i in \p S
          * @note \p O(1) time
          */
-
         void set_value(uint64_t index, uint64_t value)
         {
             uint64_t old_value = this->buffer_[index];
@@ -270,7 +269,7 @@ namespace stool
         }
 
         /**
-         * @brief Set the value \p \p S[i+delta] at a given position \p i in \p S
+         * @brief Set the value \p S[i+delta] at a given position \p i in \p S
          * @note \p O(1) time
          */
         void increment(uint64_t pos, int64_t delta)
@@ -280,7 +279,7 @@ namespace stool
         }
 
         /**
-         * @brief Set the value \p \p S[i-delta] at a given position \p i in \p S
+         * @brief Set the value \p S[i-delta] at a given position \p i in \p S
          * @note \p O(1) time
          */
         void decrement(uint64_t pos, int64_t delta)

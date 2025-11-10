@@ -285,10 +285,10 @@ namespace stool
         }
 
         /**
-         * @brief Counts the number of occurrences of a character \p c in a given suffix \p T[i..n-1] of a text \p T[0..n-1].
+         * @brief Counts the number of occurrences of a character \p c in a given prefix \p T[0..i-1] of a text \p T[0..n-1].
          */
         template <typename CHAR = uint8_t>
-        static int64_t rank_query(const std::vector<CHAR> &T, uint64_t i, CHAR c)
+        static int64_t one_based_rank_query(const std::vector<CHAR> &T, uint64_t i, CHAR c)
         {
             uint64_t counter = 0;
             for (uint64_t x = 0; x < i; x++)
