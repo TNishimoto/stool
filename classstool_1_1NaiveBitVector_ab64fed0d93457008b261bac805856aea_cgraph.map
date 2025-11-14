@@ -1,0 +1,6 @@
+<map id="stool::NaiveBitVector::remove" name="stool::NaiveBitVector::remove">
+<area shape="rect" id="Node000001" title="Remove the len bits from the bits B starting from the position p." alt="" coords="5,29,164,69"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#acea1f999ad267518c89439406a8e1555" title="Remove the bit at the position p in the bits B." alt="" coords="212,29,371,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,47,198,47,198,52,164,52"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="253,30,250,20,257,11,270,5,291,3,315,6,329,13,326,18,314,11,291,8,272,10,260,15,256,21,258,28"/>
+</map>

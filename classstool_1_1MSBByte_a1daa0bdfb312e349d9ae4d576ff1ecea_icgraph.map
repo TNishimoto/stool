@@ -1,0 +1,8 @@
+<map id="stool::MSBByte::select0" name="stool::MSBByte::select0">
+<area shape="rect" id="Node000001" title="Returns the position of the (i+1)&#45;th 0 in 64&#45;bit sequence B[0..array_size&#45;1] if such bit exists; othe..." alt="" coords="228,45,404,70"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="356,35,345,27,316,23,292,25,280,30,277,36,284,43,280,46,272,36,276,26,291,20,316,18,347,22,359,31"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a32657f39c8734659cc07cce1cd075846" title="Returns the position p of the (i+1)&#45;th 0 in B if such a position exists, otherwise returns &#45;1." alt="" coords="13,5,172,45"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="214,45,172,39,173,34,214,40"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1MSBByte.html#a13b567616416f1d0d78abc165132bd29" title="Returns the position of the (i+Q+1)&#45;th 0 in 64&#45;bit sequence B[0..array_size&#45;1] if such bit exists; ot..." alt="" coords="5,69,180,109"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="215,75,181,79,180,74,214,69"/>
+</map>

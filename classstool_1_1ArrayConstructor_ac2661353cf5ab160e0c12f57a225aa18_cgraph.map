@@ -1,0 +1,5 @@
+<map id="stool::ArrayConstructor::construct_ISA" name="stool::ArrayConstructor::construct_ISA">
+<area shape="rect" id="Node000001" title="Constructs the Inverse Suffix Array (ISA) from a suffix array (SA)" alt="" coords="5,5,177,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Message.html#a4ce82615b8f27a0c37991c04fdd58de3" title="Generates indentation string based on paragraph level (e.g., get_paragraph_string(1) returns &quot; &#160;&quot;)" alt="" coords="225,5,375,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,23,212,23,212,28,178,28"/>
+</map>

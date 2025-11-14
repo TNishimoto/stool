@@ -1,0 +1,19 @@
+<map id="stool::NaiveIntegerArray::remove" name="stool::NaiveIntegerArray::remove">
+<area shape="rect" id="Node000001" title="Remove the element at the position pos from S and return it." alt="" coords="5,149,187,189"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveIntegerArray.html#aa8969e1153632421feb70a2ace253fac" title="Remove the element at the position pos from S and return it." alt="" coords="235,149,416,189"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,167,221,167,221,172,187,172"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveIntegerArray.html#a39fb512a494fc2ccf3ad612304f0b8b1" title="Remove the last element from S." alt="" coords="693,5,875,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,147,463,105,574,71,679,45,681,50,576,76,465,111,368,152"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveIntegerArray.html#a85e542d488a3cad60adb4b91b35effb6" title="Verifies this instance." alt="" coords="923,120,1104,160"/>
+<area shape="poly" id="edge10_Node000002_Node000004" title=" " alt="" coords="416,174,626,181,750,179,874,169,926,160,927,166,875,175,751,184,626,186,416,179"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveIntegerArray.html#ab55a61d0960f8c3a10b555454781ac50" title="Returns |S|." alt="" coords="1152,175,1333,215"/>
+<area shape="poly" id="edge9_Node000002_Node000005" title=" " alt="" coords="417,182,464,187,650,196,836,200,1138,196,1138,201,836,205,650,202,464,192,416,187"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveIntegerArray.html#ad11c7d53087f23be8c92d895291659a0" title="Remove the first element from S." alt="" coords="464,120,645,160"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="416,155,450,151,451,156,417,160"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="835,43,876,62,967,110,964,115,873,66,833,48"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="1098,157,1146,169,1145,174,1097,163"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="628,117,693,105,784,98,875,105,927,114,926,120,874,111,784,104,694,111,629,123"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1NaiveIntegerArray.html#a8cb28dbc21412bb82205a4c7b905b63a" title="Clear all elements from S." alt="" coords="693,120,875,160"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="646,137,679,137,679,143,646,143"/>
+<area shape="poly" id="edge7_Node000007_Node000004" title=" " alt="" coords="875,137,909,137,909,143,875,143"/>
+</map>

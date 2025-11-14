@@ -1,0 +1,10 @@
+<map id="stool::NaiveIntegerArray::pop_front" name="stool::NaiveIntegerArray::pop_front">
+<area shape="rect" id="Node000001" title="Remove the first element from S." alt="" coords="5,35,187,75"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveIntegerArray.html#a8cb28dbc21412bb82205a4c7b905b63a" title="Clear all elements from S." alt="" coords="235,5,416,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,40,221,36,221,41,187,46"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveIntegerArray.html#a85e542d488a3cad60adb4b91b35effb6" title="Verifies this instance." alt="" coords="464,35,645,75"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="187,54,235,55,416,55,450,54,450,60,416,60,235,60,187,59"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="417,34,451,39,450,44,416,40"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveIntegerArray.html#ab55a61d0960f8c3a10b555454781ac50" title="Returns |S|." alt="" coords="693,35,875,75"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="646,52,679,52,679,57,646,57"/>
+</map>

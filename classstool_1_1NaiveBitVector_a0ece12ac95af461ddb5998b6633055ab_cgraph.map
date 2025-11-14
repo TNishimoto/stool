@@ -1,0 +1,15 @@
+<map id="stool::NaiveBitVector::replace" name="stool::NaiveBitVector::replace">
+<area shape="rect" id="Node000001" title="Replace the p&#45;th bit in the bits B with the bit v." alt="" coords="5,120,164,160"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a2efb661a0963958110a969f679b5bf9d" title="Replace the len bits starting from the position p in the bits B with the first len bits of the 64&#45;bit..." alt="" coords="212,120,371,160"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,137,198,137,198,143,164,143"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1MSBByte.html#acb56c16ca0d7387635eee45f892ffd83" title="Returns the bits B[I..I+63] of 64&#45;bit sequence B[0..(array_size*64)&#45;1] as a 64&#45;bit integer,..." alt="" coords="429,5,602,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="317,118,363,86,417,55,433,48,435,53,420,60,366,91,321,122"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1MSBByte.html#a01da0e6ee4e83bc6520821aebd12c451" title="Counts the number of 1 bits in B[0..i] for a given bit sequence B." alt="" coords="421,70,610,95"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="369,117,451,96,452,101,371,123"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveBitVector.html#a5832ae2d9f25fa45df6c9543083bd201" title="Returns the number of 1s in B." alt="" coords="436,120,595,160"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="371,137,422,137,422,143,371,143"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveBitVector.html#ad1bc5c560634ef782de943bf003eb3a1" title="Get the current number of bits (i.e., |B|)" alt="" coords="436,184,595,224"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="363,158,432,178,431,183,361,163"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1MSBByte.html#af531ce8b8cd1161ced1e6d8659fbe6a4" title="Replaces B[pos..pos+len&#45;1] of 64 bits B[0..63] with the first len bits of 64 bits Q[0...." alt="" coords="419,249,612,274"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="315,158,361,197,420,234,440,242,438,247,417,238,358,201,312,162"/>
+</map>

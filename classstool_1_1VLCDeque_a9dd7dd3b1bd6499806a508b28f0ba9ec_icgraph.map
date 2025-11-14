@@ -1,0 +1,18 @@
+<map id="stool::VLCDeque::pop_back" name="stool::VLCDeque::pop_back">
+<area shape="rect" id="Node000001" title="Removes and returns the last element from the deque." alt="" coords="1160,42,1359,67"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#a2a035ad53e1788252b39ebacd57e5af0" title="Pops multiple values from the back of the deque." alt="" coords="935,5,1096,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1146,44,1096,38,1097,32,1147,38"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1VLCDeque.html#a25eaa6647dcbf21752bf593b600889fe" title="Shifts values to the left starting from a given position." alt="" coords="919,70,1112,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1147,70,1112,74,1112,69,1146,65"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1VLCDeque.html#aa2d61091b7d5b4140b1a85e8fd146af8" title="Removes the value at the specified position." alt="" coords="684,70,871,95"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="905,85,871,85,871,80,905,80"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1VLCDeque.html#aa40877a7957a420b563c70e894ef6802" title="Increments a value at a given index by a delta." alt="" coords="5,70,208,95"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="670,82,636,81,256,81,208,82,208,77,256,76,636,76,670,77"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1VLCDeque.html#a5ad08a0c01569f427b58f436f69d5808" title="Sets a new value at the specified position." alt="" coords="479,91,636,131"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="671,99,637,103,636,98,670,94"/>
+<area shape="poly" id="edge6_Node000006_Node000005" title=" " alt="" coords="465,108,208,92,208,86,465,102"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1VLCDeque.html#a085a9a345d5356f432afb5ff709a0a61" title="Inserts a value at the specified position." alt="" coords="256,121,431,146"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="465,132,431,136,430,130,465,127"/>
+<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="269,120,166,98,167,93,270,115"/>
+<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="405,116,478,108,479,113,406,121"/>
+</map>

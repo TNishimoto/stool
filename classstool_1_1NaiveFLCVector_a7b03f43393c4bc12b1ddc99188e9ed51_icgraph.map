@@ -1,0 +1,5 @@
+<map id="stool::NaiveFLCVector::pop_back_many" name="stool::NaiveFLCVector::pop_back_many">
+<area shape="rect" id="Node000001" title="Remove the last len elements from S and return them as a vector." alt="" coords="219,5,384,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveFLCVector.html#a55f36f254b090ce3cc843a413a6a0832" title="Remove the len elements starting from the position pos from S." alt="" coords="5,5,171,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,28,171,28,171,23,205,23"/>
+</map>

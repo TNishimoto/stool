@@ -1,0 +1,7 @@
+<map id="stool::PackedSearch::search16x4bits" name="stool::PackedSearch::search16x4bits">
+<area shape="rect" id="Node000001" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in 4 bit sequen..." alt="" coords="5,49,156,89"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1PackedSearch.html#a68dc5367e24a8cb3e73889541659fe2c" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in 4 bit sequen..." alt="" coords="204,5,399,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,54,190,48,191,53,157,59"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1PackedPSum.html#aee238975eb10f060f543544da0ae8609" title="Computes the sum of 16&#45;bit integer sequence S = s_{0}, s_{1}, ..., s_{3} packed into a 64 bit integer..." alt="" coords="225,85,377,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="157,78,212,87,212,93,156,84"/>
+</map>

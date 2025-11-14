@@ -1,0 +1,12 @@
+<map id="stool::NaiveBitVector::pop_front" name="stool::NaiveBitVector::pop_front">
+<area shape="rect" id="Node000001" title="Remove the first bit from the bits B." alt="" coords="5,93,164,133"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a82dd521b43e4980beadf9e3928e3b5ef" title="Remove all elements from the bits B." alt="" coords="212,5,371,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,91,211,55,227,48,229,53,213,60,131,96"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveBitVector.html#acea1f999ad267518c89439406a8e1555" title="Remove the bit at the position p in the bits B." alt="" coords="212,93,371,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="164,111,198,111,198,116,164,116"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveBitVector.html#ad1bc5c560634ef782de943bf003eb3a1" title="Get the current number of bits (i.e., |B|)" alt="" coords="212,157,371,197"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="151,131,214,151,213,156,149,136"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#a83f4b3502882fe4447f5ae92b11520af" title="Reduce buffer size to fit current content." alt="" coords="419,5,577,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="371,23,405,23,405,28,371,28"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="253,94,250,84,257,75,270,69,291,67,315,70,329,77,326,82,314,75,291,72,272,74,260,79,256,85,258,92"/>
+</map>

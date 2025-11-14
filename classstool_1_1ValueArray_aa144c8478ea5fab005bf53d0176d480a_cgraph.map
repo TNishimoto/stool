@@ -1,0 +1,12 @@
+<map id="stool::ValueArray::write" name="stool::ValueArray::write">
+<area shape="rect" id="Node000001" title="Writes the ValueArray to a file." alt="" coords="5,22,145,62"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1ValueArray.html#a0620cf93e081c0ba82903d255fc0356a" title="Sets the ValueArray from a vector of values." alt="" coords="381,29,541,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,37,193,35,333,35,368,36,368,41,333,41,193,41,146,42"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1ValueArray.html#a3bd864ea756b65c21ba27fcfa484d3e3" title="Writes the ValueArray to an output file stream." alt="" coords="193,50,333,90"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="146,50,180,55,179,60,145,55"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="429,31,422,21,425,11,439,5,461,3,488,6,500,15,496,19,486,11,461,8,440,10,429,15,427,20,433,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1ValueArray.html#a68ab6b7980013147a71a17cf9fa787c7" title="Translates a vector from type X to type Y." alt="" coords="589,22,729,62"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="542,48,575,48,575,54,542,54"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="589,36,555,36,555,30,589,31"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="333,57,367,53,368,58,334,63"/>
+</map>

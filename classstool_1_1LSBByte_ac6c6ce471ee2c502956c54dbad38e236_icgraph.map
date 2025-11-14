@@ -1,0 +1,30 @@
+<map id="stool::LSBByte::select1" name="stool::LSBByte::select1">
+<area shape="rect" id="Node000001" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit B[63..0]." alt="" coords="873,125,1044,150"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="998,115,987,107,959,103,935,105,922,110,920,116,927,123,923,126,915,116,919,106,934,100,959,98,989,102,1002,111"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a820be8f28ee6a9611335dc0c5fbe366f" title="Returns the position p of the (u &#45; i)&#45;th 1 in B if such a position exists, otherwise returns &#45;1...." alt="" coords="658,35,817,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="911,122,824,89,792,77,794,72,826,84,913,117"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1LSBByte.html#ae0cfe598cd0622a47fb71ff8a0574543" title="Returns the position of the (i+1)&#45;th 0 in 64&#45;bit B[63..0]." alt="" coords="652,99,823,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="859,129,823,124,823,119,860,123"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1MSBByte.html#ab54bab77c74a5a7abca9e9d6e8b8336e" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit B if such bit exists; otherwise return &#45;1." alt="" coords="649,149,825,174"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="859,151,826,154,825,149,859,145"/>
+<area shape="rect" id="Node000014" href="$classstool_1_1NaiveBitVector.html#a13663141b1160d7d1d48dd0a306bdb85" title="Returns the last occurrence position p of 1 in B such that p &lt;= i (if such a position does not exist,..." alt="" coords="656,199,819,239"/>
+<area shape="poly" id="edge14_Node000001_Node000014" title=" " alt="" coords="912,157,794,201,792,196,910,152"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1PackedSearch.html#ae7da077b9aab762b4dc6dbfb05b34edf" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in 1 bit sequen..." alt="" coords="438,5,589,45"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="658,145,648,138,630,118,623,98,615,78,600,59,581,48,584,43,603,55,620,76,627,96,635,115,651,134,661,141"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1MSBByte.html#a3a9bc80e6ab2c5c0eef4ba399bc551f7" title="Returns the position of the i&#45;th 0 in 64&#45;bit B if such bit exists; otherwise return &#45;1." alt="" coords="425,70,601,95"/>
+<area shape="poly" id="edge8_Node000004_Node000008" title=" " alt="" coords="671,147,648,138,624,124,600,109,569,98,570,93,602,104,627,119,651,134,673,142"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1MSBByte.html#a1bc36c991a2bd853b5578c2e439293bd" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit sequence B[0..array_size&#45;1] if such bit exists; othe..." alt="" coords="425,119,601,145"/>
+<area shape="poly" id="edge9_Node000004_Node000009" title=" " alt="" coords="635,151,601,146,602,141,636,145"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1NaiveBitVector.html#a22c8a27868aed12765ed34143c2083ed" title="Returns the position p of the (i+1)&#45;th 1 in B if such a position exists, otherwise returns &#45;1." alt="" coords="434,169,593,209"/>
+<area shape="poly" id="edge10_Node000004_Node000010" title=" " alt="" coords="636,177,593,182,593,177,635,171"/>
+<area shape="rect" id="Node000012" href="$classstool_1_1NaiveBitVector.html#a258fde0096952cf34533f9bcc52bc970" title="Returns the first occurrence position p of 1 in B such that p &gt;= i (if such a position does not exist..." alt="" coords="434,233,593,273"/>
+<area shape="poly" id="edge12_Node000004_Node000012" title=" " alt="" coords="670,181,651,189,627,206,603,224,577,236,575,231,600,219,624,202,648,184,668,176"/>
+<area shape="rect" id="Node000013" href="$classstool_1_1MSBByte.html#aefe4933179610fcc6e9af70659a83e8f" title="Returns the position of the (i+Q+1)&#45;th 1 in 64&#45;bit sequence B[0..array_size&#45;1] if such bit exists; ot..." alt="" coords="426,297,601,337"/>
+<area shape="poly" id="edge13_Node000004_Node000013" title=" " alt="" coords="659,183,651,189,640,200,634,212,628,236,621,262,603,287,586,299,583,295,599,283,616,259,622,235,629,210,636,197,648,185,656,178"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1PackedSearch.html#af75bfa54d698d4cf1e967d00b6d49eeb" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in k bit sequen..." alt="" coords="223,5,373,45"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="424,28,374,28,374,23,424,23"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1NaiveFLCVector.html#a324c98e66aa0490a325aca768d1ba3e5" title="Returns the first position p such that psum(p) &gt;= x if such a position exists, otherwise returns &#45;1." alt="" coords="5,5,171,45"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="209,28,171,28,171,23,209,23"/>
+<area shape="rect" id="Node000011" href="$classstool_1_1NaiveBitVector.html#adb8b5cb10a42259222b2e1dc5e209695" title="Returns the first position p such that psum(p) &gt;= x if such a position exists, otherwise returns &#45;1." alt="" coords="219,169,377,209"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="420,192,378,192,378,187,420,187"/>
+</map>

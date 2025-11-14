@@ -1,0 +1,24 @@
+<map id="stool::NaiveFLCVector::increment" name="stool::NaiveFLCVector::increment">
+<area shape="rect" id="Node000001" title="Set the value S[i+delta] at a given position i in S." alt="" coords="5,235,171,275"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveFLCVector.html#acec621e1453cdcd6da4cdccfa257feb5" title="Returns the (i+1)&#45;th element S[i] of S." alt="" coords="649,299,835,325"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,260,432,284,635,301,635,306,432,289,171,265"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveFLCVector.html#af8a344e8214da759aa7579e3369b08d2" title="Set a given value v at a given position i in S." alt="" coords="219,143,384,183"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="134,232,240,186,243,191,137,237"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1NaiveFLCVector.html#a3a09818545f0499b0a9578a7ca179dcd" title="Verifies this instance." alt="" coords="432,235,597,275"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="171,252,418,252,418,257,171,257"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveFLCVector.html#a188b8cb84d6f14eb290bf6be31389f5b" title="Return the number of lements in S (i.e., |S|)" alt="" coords="887,177,1052,217"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="803,297,838,284,888,255,932,224,935,228,891,260,840,289,805,302"/>
+<area shape="poly" id="edge7_Node000004_Node000003" title=" " alt="" coords="384,157,432,156,515,154,597,156,743,167,873,182,873,187,742,173,597,161,515,159,432,161,384,162"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1PackedPSum.html#a8982ece2300b81705bbef809e95d7ad7" title="Determines the optimal bit width for storing a given value." alt="" coords="439,171,591,211"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="384,171,426,176,425,182,384,176"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveFLCVector.html#aefd99c46b7ec7830bb7cb080b6f98c1c" title="Reduce buffer size to fit current content." alt="" coords="432,5,597,45"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="324,140,372,102,431,62,453,49,456,54,433,66,375,106,328,145"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1MSBByte.html#af531ce8b8cd1161ced1e6d8659fbe6a4" title="Replaces B[pos..pos+len&#45;1] of 64 bits B[0..63] with the first len bits of 64 bits Q[0...." alt="" coords="645,42,839,67"/>
+<area shape="poly" id="edge12_Node000004_Node000007" title=" " alt="" coords="350,140,431,112,539,86,641,67,642,72,540,91,433,117,352,145"/>
+<area shape="poly" id="edge8_Node000004_Node000008" title=" " alt="" coords="345,180,433,220,450,227,448,232,431,225,343,185"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="598,33,632,38,631,43,597,39"/>
+<area shape="poly" id="edge9_Node000008_Node000002" title=" " alt="" coords="595,272,679,293,677,299,594,277"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="588,232,645,220,763,206,873,198,873,203,764,211,646,225,589,237"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1NaiveFLCVector.html#a37f03b453288c635521b05488cdbf43d" title="Returns the sum of the elements in S[0..n&#45;1] (i.e., psum(n&#45;1))" alt="" coords="659,235,825,275"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="598,252,645,252,645,257,598,257"/>
+</map>

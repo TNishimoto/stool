@@ -1,0 +1,5 @@
+<map id="stool::NaiveBitVector::shift_left" name="stool::NaiveBitVector::shift_left">
+<area shape="rect" id="Node000001" title="Shifts the suffix B[p..] of the bits B[0..] to the left by len bits, i.e., B is changed to B[0...." alt="" coords="212,5,371,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a00b4d1b212f326031a2321b9f99ad250" title="Remove the len bits from the bits B starting from the position p." alt="" coords="5,5,164,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,28,164,28,164,23,198,23"/>
+</map>

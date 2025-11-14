@@ -1,0 +1,5 @@
+<map id="stool::NaiveBitVector::rank0" name="stool::NaiveBitVector::rank0">
+<area shape="rect" id="Node000001" title="Returns the number of 0s in B[0..i]." alt="" coords="5,5,164,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a5832ae2d9f25fa45df6c9543083bd201" title="Returns the number of 1s in B." alt="" coords="212,5,371,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,23,198,23,198,28,164,28"/>
+</map>

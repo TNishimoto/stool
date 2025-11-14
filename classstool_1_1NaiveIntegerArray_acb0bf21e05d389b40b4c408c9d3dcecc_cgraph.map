@@ -1,0 +1,5 @@
+<map id="stool::NaiveIntegerArray::psum" name="stool::NaiveIntegerArray::psum">
+<area shape="rect" id="Node000001" title="Returns the sum of integers in S[i..j]." alt="" coords="5,5,187,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveIntegerArray.html#ab55a61d0960f8c3a10b555454781ac50" title="Returns |S|." alt="" coords="235,5,416,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,23,221,23,221,28,187,28"/>
+</map>

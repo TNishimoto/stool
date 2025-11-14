@@ -1,0 +1,5 @@
+<map id="stool::MSBByte::write_bits" name="stool::MSBByte::write_bits">
+<area shape="rect" id="Node000001" title="Replaces the bits B[I..I+len&#45;1] in 64&#45;bit sequence B with the first len bits of 64 bits Q[0...." alt="" coords="5,5,199,31"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1MSBByte.html#af531ce8b8cd1161ced1e6d8659fbe6a4" title="Replaces B[pos..pos+len&#45;1] of 64 bits B[0..63] with the first len bits of 64 bits Q[0...." alt="" coords="247,5,440,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,15,233,15,233,21,199,21"/>
+</map>

@@ -1,0 +1,17 @@
+<map id="stool::NaiveBitVector::shift_right" name="stool::NaiveBitVector::shift_right">
+<area shape="rect" id="Node000001" title="Insert the bits 0^{len} to the bits B at the position p." alt="" coords="625,101,784,141"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#adcba5f58469e611e187725454f5662b6" title="Insert the first w bits of the 64&#45;bit integers R of length q at the position p in the bits B." alt="" coords="419,5,577,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="652,97,576,60,549,48,551,43,578,55,655,92"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#aa2a8fdfbfbc390753ad53ff1904f7b28" title="Insert the first len bits of the 64&#45;bit integer value at the position p in the bits B." alt="" coords="419,69,577,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="611,110,577,104,578,99,612,104"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1NaiveBitVector.html#a84e1155c3f9c3ed993eec3c0683744fa" title="Add the first w bits of the 64&#45;bit integers R of length q to the end of the bits B." alt="" coords="419,133,577,173"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="612,138,578,144,577,138,611,133"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1NaiveBitVector.html#a58a40b00229f3caf75150cdc69fd0d64" title="Add the first w bits of the 64&#45;bit integers R of length q to the beginning of the bits B." alt="" coords="419,197,577,237"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="655,150,578,188,551,200,549,195,576,183,652,145"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveBitVector.html#a965a42344ad80cf7495f54998244a902" title="Insert a bit v at the position p in the bits B." alt="" coords="212,37,371,77"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="405,78,370,72,371,67,405,72"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveBitVector.html#a14f85faa322ce5c0f4bcec266f1b632a" title="Add the first len bits of the 64&#45;bit integer value to the beginning of the bits B." alt="" coords="212,101,371,141"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="405,106,371,112,370,106,405,101"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveBitVector.html#ac7fd654a0221663c7973fe002b0b1174" title="Add a bit v to the beginning of the bits B." alt="" coords="5,37,164,77"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="198,60,164,60,164,55,198,55"/>
+</map>

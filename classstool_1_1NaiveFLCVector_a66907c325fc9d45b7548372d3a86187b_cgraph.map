@@ -1,0 +1,26 @@
+<map id="stool::NaiveFLCVector::push_front_many" name="stool::NaiveFLCVector::push_front_many">
+<area shape="rect" id="Node000001" title="Add a given sequence Q[0..k&#45;1] to the beginning of S[0..n&#45;1] (i.e., S = Q[0..k&#45;1]S[0...." alt="" coords="5,113,171,153"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveFLCVector.html#acec621e1453cdcd6da4cdccfa257feb5" title="Returns the (i+1)&#45;th element S[i] of S." alt="" coords="649,12,835,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,111,156,73,186,55,218,41,271,26,326,15,438,4,544,4,635,9,635,15,544,9,438,10,327,21,272,31,220,46,188,60,159,78,112,115"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1PackedPSum.html#a8982ece2300b81705bbef809e95d7ad7" title="Determines the optimal bit width for storing a given value." alt="" coords="225,56,377,96"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="162,111,212,97,214,102,164,116"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveFLCVector.html#ab886861f33e36cd15a815214822e2b05" title="Change S[0..n&#45;1] to S[0..p&#45;1]0^{len}S[p..n&#45;1]" alt="" coords="219,170,384,210"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="164,151,214,164,212,169,162,156"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1MSBByte.html#af531ce8b8cd1161ced1e6d8659fbe6a4" title="Replaces B[pos..pos+len&#45;1] of 64 bits B[0..63] with the first len bits of 64 bits Q[0...." alt="" coords="645,270,839,295"/>
+<area shape="poly" id="edge14_Node000001_Node000008" title=" " alt="" coords="115,151,162,186,220,220,277,246,323,263,370,274,432,284,478,288,514,288,597,284,632,283,632,288,597,289,514,294,478,294,432,289,369,279,321,268,275,251,217,225,159,191,112,156"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1NaiveFLCVector.html#a3a09818545f0499b0a9578a7ca179dcd" title="Verifies this instance." alt="" coords="432,56,597,96"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="171,127,273,119,384,105,427,96,428,102,384,110,273,124,171,132"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveFLCVector.html#a188b8cb84d6f14eb290bf6be31389f5b" title="Return the number of lements in S (i.e., |S|)" alt="" coords="887,56,1052,96"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="801,35,874,52,872,57,799,41"/>
+<area shape="poly" id="edge8_Node000005_Node000003" title=" " alt="" coords="384,198,479,204,594,203,717,191,779,179,838,163,865,151,891,136,935,103,938,107,894,140,867,156,840,168,780,185,718,197,594,209,479,209,384,203"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1MSBByte.html#a312402ac917597333488ec7f59577f36" title="Shifts the suffix B[pos..63] of 64 bits B[0..63] to the right by len bits and returns the new B,..." alt="" coords="436,120,593,160"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="383,168,422,159,423,164,385,173"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1NaiveFLCVector.html#aefd99c46b7ec7830bb7cb080b6f98c1c" title="Reduce buffer size to fit current content." alt="" coords="432,234,597,274"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="370,208,435,228,434,233,368,213"/>
+<area shape="poly" id="edge9_Node000005_Node000009" title=" " alt="" coords="350,168,382,150,406,128,430,106,441,99,444,104,434,110,410,131,386,154,353,173"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="598,262,632,266,632,272,597,267"/>
+<area shape="poly" id="edge10_Node000009_Node000002" title=" " alt="" coords="597,55,670,38,672,43,598,60"/>
+<area shape="poly" id="edge12_Node000009_Node000003" title=" " alt="" coords="598,73,873,73,873,78,598,78"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1NaiveFLCVector.html#a37f03b453288c635521b05488cdbf43d" title="Returns the sum of the elements in S[0..n&#45;1] (i.e., psum(n&#45;1))" alt="" coords="659,113,825,153"/>
+<area shape="poly" id="edge11_Node000009_Node000010" title=" " alt="" coords="595,93,650,107,648,112,594,98"/>
+</map>

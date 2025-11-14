@@ -1,0 +1,15 @@
+<map id="stool::SimpleDeque::push_back" name="stool::SimpleDeque::push_back">
+<area shape="rect" id="Node000001" title="Add an element to the end of the deque." alt="" coords="5,37,155,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="217,5,367,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,43,203,36,204,41,156,49"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#a0e8ebcc4439ffeba29503945ac8ebcd9" title="Update buffer size if needed based on current usage." alt="" coords="203,69,381,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,66,189,71,189,76,155,71"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="824,69,969,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="381,78,563,68,670,67,776,71,810,74,810,79,776,76,670,72,564,74,382,84"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1SimpleDeque.html#ab3589e9b71254c5f3f8ae865666ba3ae" title="Reserve buffer space with specified bit size." alt="" coords="429,97,579,137"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="382,98,416,103,415,108,381,104"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1SimpleDeque.html#a96fba47cfded5010217f7ba13ac47d14" title="Reduce buffer size to fit current content." alt="" coords="627,109,776,149"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="579,119,613,121,613,127,579,125"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="776,111,810,104,811,110,777,117"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="665,110,662,100,668,91,681,85,701,83,724,86,737,93,734,97,723,91,701,88,683,90,672,95,668,101,670,108"/>
+</map>

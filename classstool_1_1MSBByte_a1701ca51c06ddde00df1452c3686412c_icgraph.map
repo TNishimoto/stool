@@ -1,0 +1,8 @@
+<map id="stool::MSBByte::rank1" name="stool::MSBByte::rank1">
+<area shape="rect" id="Node000001" title="Counts the number of 1 bits in the bits B[0..i] of 64&#45;bit sequence B." alt="" coords="220,35,387,60"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="342,25,331,17,303,13,281,15,269,20,266,26,273,33,268,36,261,26,265,16,279,10,303,8,333,12,345,21"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1MSBByte.html#a5a06a00f279cc166aae175f2f0eac8b5" title="Counts the number of 1 bits in the bits B[i..j] of 64&#45;bit sequence B." alt="" coords="5,5,172,31"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="206,37,172,32,173,27,206,31"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#a057935e5b06aaff1fe16c6360f61c34e" title="Returns the number of 1s in B[(block_index / 64) + bit_index..(block_index / 64) + bit_index + len &#45; ..." alt="" coords="9,55,168,95"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="206,63,169,68,168,62,206,57"/>
+</map>

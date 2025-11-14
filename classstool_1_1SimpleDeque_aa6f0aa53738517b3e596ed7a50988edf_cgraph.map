@@ -1,0 +1,17 @@
+<map id="stool::SimpleDeque::push_front" name="stool::SimpleDeque::push_front">
+<area shape="rect" id="Node000001" title="Add an element to the beginning of the deque." alt="" coords="5,55,155,95"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#a05feacad4adfb7eca7c7546da9895e9b" title="Get element at specified position." alt="" coords="207,5,377,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,53,230,32,231,37,155,58"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="217,55,367,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="155,73,204,73,204,78,155,78"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1SimpleDeque.html#a0e8ebcc4439ffeba29503945ac8ebcd9" title="Update buffer size if needed based on current usage." alt="" coords="203,119,381,159"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="148,93,213,113,211,118,146,98"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="824,119,969,159"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="381,128,563,118,670,117,776,121,810,124,810,129,776,126,670,122,564,124,382,134"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1SimpleDeque.html#ab3589e9b71254c5f3f8ae865666ba3ae" title="Reserve buffer space with specified bit size." alt="" coords="429,147,579,187"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="382,148,416,153,415,158,381,154"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1SimpleDeque.html#a96fba47cfded5010217f7ba13ac47d14" title="Reduce buffer size to fit current content." alt="" coords="627,159,776,199"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="579,169,613,171,613,177,579,175"/>
+<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="776,161,810,154,811,160,777,167"/>
+<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="665,160,662,150,668,141,681,135,701,133,724,136,737,143,734,147,723,141,701,138,683,140,672,145,668,151,670,158"/>
+</map>

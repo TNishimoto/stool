@@ -1,0 +1,17 @@
+<map id="stool::NaiveBitVector::increment" name="stool::NaiveBitVector::increment">
+<area shape="rect" id="Node000001" title="Increment the bit at the position i in the bits B by delta." alt="" coords="5,120,164,160"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a0ece12ac95af461ddb5998b6633055ab" title="Replace the p&#45;th bit in the bits B with the bit v." alt="" coords="212,120,371,160"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,137,198,137,198,143,164,143"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#a2efb661a0963958110a969f679b5bf9d" title="Replace the len bits starting from the position p in the bits B with the first len bits of the 64&#45;bit..." alt="" coords="419,120,577,160"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="371,137,405,137,405,143,371,143"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1MSBByte.html#acb56c16ca0d7387635eee45f892ffd83" title="Returns the bits B[I..I+63] of 64&#45;bit sequence B[0..(array_size*64)&#45;1] as a 64&#45;bit integer,..." alt="" coords="635,5,809,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="524,118,570,86,624,55,640,48,642,53,627,60,573,91,527,122"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1MSBByte.html#a01da0e6ee4e83bc6520821aebd12c451" title="Counts the number of 1 bits in B[0..i] for a given bit sequence B." alt="" coords="627,70,817,95"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="576,117,657,96,659,101,577,123"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveBitVector.html#a5832ae2d9f25fa45df6c9543083bd201" title="Returns the number of 1s in B." alt="" coords="643,120,801,160"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="577,137,629,137,629,143,577,143"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1NaiveBitVector.html#ad1bc5c560634ef782de943bf003eb3a1" title="Get the current number of bits (i.e., |B|)" alt="" coords="643,184,801,224"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="569,158,639,178,638,183,568,163"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1MSBByte.html#af531ce8b8cd1161ced1e6d8659fbe6a4" title="Replaces B[pos..pos+len&#45;1] of 64 bits B[0..63] with the first len bits of 64 bits Q[0...." alt="" coords="625,249,819,274"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="522,158,568,197,627,234,647,242,645,247,624,238,565,201,519,162"/>
+</map>

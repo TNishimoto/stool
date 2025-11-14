@@ -1,0 +1,14 @@
+<map id="stool::RMQSmallSparseTable::rmq" name="stool::RMQSmallSparseTable::rmq">
+<area shape="rect" id="Node000001" title="Returns the minimum element in the range [i, j] of the array." alt="" coords="5,32,248,57"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1RMQSmallSparseTable.html#a9b496a75acd9d4bbc2da217eb4f187ff" title="Finds the index of the minimum element in the range [i, j] of the array." alt="" coords="296,25,504,65"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="248,42,282,42,282,47,248,47"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1Log.html#aac2d1df1a039ee2e80efc426541c5762" title="Computes ⌊ log_{2}(n) ⌋." alt="" coords="771,36,928,61"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="480,22,552,10,637,3,723,10,801,29,800,34,722,15,637,8,552,15,481,27"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1RMQSparseTable.html#a6413813825234f2f259511bc79b1908f" title="Naive implementation of range minimum query index." alt="" coords="552,25,723,65"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="504,42,538,42,538,47,504,47"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1RMQSparseTable.html#a0a582cf5f2b11348c8a178c7a046baa0" title="Finds the index of the minimum element in the range [i, j]." alt="" coords="552,89,723,129"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="476,62,550,82,549,88,474,67"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="976,29,1121,69"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="928,46,962,46,962,51,928,51"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="708,86,790,62,791,68,710,91"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="stool::SimpleSuffixTree::build" name="stool::SimpleSuffixTree::build">
+<area shape="rect" id="Node000001" title="Build a SimpleSuffixTree from text, suffix array, and LCP intervals." alt="" coords="5,69,176,109"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleSuffixTree.html#a718c4e3dd49679ac95acae62210505ca" title="Build the children array for the suffix tree nodes." alt="" coords="239,5,409,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,67,237,46,238,52,165,72"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleSuffixTree.html#a17e7584d69aa6e69bc9b6b2975978e36" title="Build the parent array for the suffix tree nodes." alt="" coords="239,69,409,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,87,225,87,225,92,177,92"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1SimpleSuffixTree.html#a2cb466c3f6dbb5a1ca0e655a7aee12ec" title="Build sorted LCP intervals with leaf nodes included." alt="" coords="224,134,424,189"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="157,107,223,127,221,132,155,112"/>
+<area shape="rect" id="Node000005" href="$structstool_1_1LCPIntervalComparatorInPreorder.html#a1128e04dffc527a5844417d7553fa7c0" title="Sorts LCP intervals in preorder." alt="" coords="472,141,685,181"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="424,159,458,159,458,164,424,164"/>
+</map>

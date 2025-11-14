@@ -1,0 +1,7 @@
+<map id="stool::PackedPSum::psum" name="stool::PackedPSum::psum">
+<area shape="rect" id="Node000001" title="Computes the sum of (i+1) elements (i.e., S[0..i]) of k&#45;bit integer sequence S packed into a 64 bit i..." alt="" coords="219,45,407,70"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveFLCVector.html#aca290635d2121e19230e6775274f7bf5" title="Returns the sum of integers in S[0..i]." alt="" coords="5,5,171,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,45,171,40,171,34,210,40"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveFLCVector.html#a00235eee937e3830d4388d8035ce57b8" title="Returns the sum of integers in S[i..j]." alt="" coords="5,69,171,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="210,75,171,80,171,75,209,69"/>
+</map>

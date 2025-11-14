@@ -1,0 +1,7 @@
+<map id="stool::SubstringComplexityFunctions::construct_distinct_substring_counter_array" name="stool::SubstringComplexityFunctions::construct_distinct_substring_counter_array">
+<area shape="rect" id="Node000001" title="Constructs a distinct substring counter array (DSCA) from an LCP array." alt="" coords="5,49,212,104"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SubstringComplexityFunctions.html#abe65a7e2e934b737e64a371e48aa3964" title="Computes the LCP statistics (LCPS) array from an LCP array." alt="" coords="273,5,471,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,57,259,49,259,54,213,62"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SubstringComplexityFunctions.html#a64ac80d2ab99abec38a1291d47fee028" title="Constructs a distinct substring counter array (DSCA) from LCP statistics (LCPS) array." alt="" coords="260,85,484,154"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="213,91,247,96,246,102,212,96"/>
+</map>

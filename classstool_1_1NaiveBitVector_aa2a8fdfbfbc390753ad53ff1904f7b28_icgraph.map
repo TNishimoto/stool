@@ -1,0 +1,9 @@
+<map id="stool::NaiveBitVector::insert64" name="stool::NaiveBitVector::insert64">
+<area shape="rect" id="Node000001" title="Insert the first len bits of the 64&#45;bit integer value at the position p in the bits B." alt="" coords="419,37,577,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a965a42344ad80cf7495f54998244a902" title="Insert a bit v at the position p in the bits B." alt="" coords="212,5,371,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="405,46,370,40,371,35,405,40"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveBitVector.html#a14f85faa322ce5c0f4bcec266f1b632a" title="Add the first len bits of the 64&#45;bit integer value to the beginning of the bits B." alt="" coords="212,69,371,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="405,74,371,80,370,74,405,69"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#ac7fd654a0221663c7973fe002b0b1174" title="Add a bit v to the beginning of the bits B." alt="" coords="5,5,164,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="198,28,164,28,164,23,198,23"/>
+</map>
