@@ -4,7 +4,7 @@
 #include <vector>
 #include <list>
 #include <iterator>
-#include "../../../include/light_stool.hpp"
+#include "../../../include/all.hpp"
 #include "../../../include/develop/integer_sketch8.hpp"
 
 /*

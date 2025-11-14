@@ -1,5 +1,5 @@
 #pragma once
-#include "./light_stool.hpp"
+#include "./all.hpp"
 
 #include "./specialized_collection/elias_fano_vector.hpp"
 #include "./rlbwt/bwt_decompress.hpp"

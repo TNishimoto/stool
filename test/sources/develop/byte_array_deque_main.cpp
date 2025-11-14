@@ -1,6 +1,6 @@
 #include <cassert>
 #include <chrono>
-#include "../../include/light_stool.hpp"
+#include "../../include/all.hpp"
 
 void random_bit_string256(int64_t bit_length, std::vector<uint64_t> &new_pattern, std::bitset<256> &bs, uint64_t seed)
 {

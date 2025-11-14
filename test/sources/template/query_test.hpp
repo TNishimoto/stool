@@ -7,7 +7,7 @@
 #include <chrono>
 #include <random>
 #include <bitset>
-#include "../../../include/light_stool.hpp"
+#include "../../../include/all.hpp"
 
 namespace stool
 {

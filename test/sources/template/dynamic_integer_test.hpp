@@ -7,7 +7,7 @@
 #include <chrono>
 #include <random>
 #include <bitset>
-#include "../../../include/light_stool.hpp"
+#include "../../../include/all.hpp"
 #include "./load_and_save_test.hpp"
 #include "./build_test.hpp"
 #include "./update_test.hpp"

@@ -1,6 +1,6 @@
 #include <cassert>
 #include <chrono>
-#include "../../../include/light_stool.hpp"
+#include "../../../include/all.hpp"
 #include "../template/dynamic_integer_test.hpp"
 #include "../../../include/develop/eytzinger_layout_for_psum.hpp"
 

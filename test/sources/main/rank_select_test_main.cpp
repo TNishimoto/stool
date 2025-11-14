@@ -6,7 +6,7 @@
 #include <iterator>
 // #include "../../include/io.hpp"
 // #include "../../include/cmdline.h"
-#include "../../../include/light_stool.hpp"
+#include "../../../include/all.hpp"
 
 
 /*

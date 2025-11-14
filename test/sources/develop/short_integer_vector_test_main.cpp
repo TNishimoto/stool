@@ -1,6 +1,6 @@
 #include <cassert>
 #include <chrono>
-#include "../../../include/light_stool.hpp"
+#include "../../../include/all.hpp"
 #include "../../../include/develop/short_integer_vector.hpp"
 
 void equal_test(const stool::ShortIntegerVector &seq1, const std::vector<uint64_t> &seq2)

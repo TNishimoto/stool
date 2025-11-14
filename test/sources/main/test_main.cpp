@@ -4,7 +4,7 @@
 #include <bitset>
 #include <cassert>
 #include <chrono>
-#include "../../include/light_stool.hpp"
+#include "../../include/all.hpp"
 
 int main(int argc, char *argv[])
 {

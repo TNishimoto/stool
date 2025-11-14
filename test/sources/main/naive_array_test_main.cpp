@@ -1,6 +1,6 @@
 #include <cassert>
 #include <chrono>
-#include "../../../include/light_stool.hpp"
+#include "../../../include/all.hpp"
 #include "../template/dynamic_integer_test.hpp"
 
 template<uint64_t SIZE>

@@ -7,7 +7,7 @@
 // #include "qgram_tree.h"
 // #include "include/debug/debug.hpp"
 
-#include "../include/light_stool.hpp"
+#include "../include/all.hpp"
 
 int main(int argc, char *argv[])
 {
