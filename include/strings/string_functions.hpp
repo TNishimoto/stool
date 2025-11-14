@@ -140,6 +140,26 @@ namespace stool
             }
             return x;
         }
+        /**
+         * @brief Computes the Longest Common Extension (LCE) between two positions \p i and \p j in a text \p T[0..n-1] (i.e., the length of the longest common prefix of \p T[i..n-1] and \p T[j..n-1]).
+         */
+        template <typename CHAR = uint8_t>
+        static uint64_t lce(const std::vector<CHAR> &T, uint64_t i, uint64_t j)
+        {
+            if (i > j)
+                return lce(T, j, i);
+            uint64_t max = T.size() - j;
+            uint64_t x = 0;
+            for (x = 0; x < max; x++)
+            {
+                if (T[i + x] != T[j + x])
+                {
+                    break;
+                }
+            }
+            return x;
+        }
+
 
         /**
          * @brief Reverses the input text \p T[0..n-1] in-place.
