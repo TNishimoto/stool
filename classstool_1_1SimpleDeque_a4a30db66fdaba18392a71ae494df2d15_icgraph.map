@@ -1,0 +1,7 @@
+<map id="stool::SimpleDeque::SimpleDeque" name="stool::SimpleDeque::SimpleDeque">
+<area shape="rect" id="Node000001" title="Default constructor." alt="" coords="413,5,563,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#a8e40d939e22338df909659acccee916e" title="Calculate the total memory usage in bytes." alt="" coords="216,5,365,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="399,28,366,28,366,23,399,23"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1VLCDeque.html#aac752a8b1630711e9c69768f79aa3ea1" title="Returns the size of the data structure in bytes." alt="" coords="5,5,168,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="202,28,168,28,168,23,202,23"/>
+</map>

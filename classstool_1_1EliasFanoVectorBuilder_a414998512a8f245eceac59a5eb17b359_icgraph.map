@@ -1,0 +1,10 @@
+<map id="stool::EliasFanoVectorBuilder::upper_selecter" name="stool::EliasFanoVectorBuilder::upper_selecter">
+<area shape="rect" id="Node000001" title="Find the position of the i&#45;th 1 in upper bits." alt="" coords="523,37,733,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1EliasFanoVectorBuilder.html#a1b5e3f4aa7bba27b690d55966270a2cb" title="Access the i&#45;th element in the sequence." alt="" coords="264,37,475,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="509,60,475,60,475,55,509,55"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="413,26,398,19,369,16,345,18,330,23,324,29,327,36,322,38,319,28,327,18,343,13,369,11,399,14,415,21"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1EliasFanoVectorBuilder.html#a8513d04432498a1aa3df9aa039c18c9e" title="Merge another builder&#39;s contents with an offset." alt="" coords="5,5,216,45"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="250,45,216,41,216,36,251,40"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1EliasFanoVectorBuilder.html#a3c1dff06ba798e423aed0ec7a053508a" title="Print the current state for debugging." alt="" coords="5,69,216,109"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="251,75,216,79,216,74,250,69"/>
+</map>

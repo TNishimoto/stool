@@ -1,0 +1,6 @@
+<map id="stool::SimpleDeque::shrink_to_fit" name="stool::SimpleDeque::shrink_to_fit">
+<area shape="rect" id="Node000001" title="Reduce buffer size to fit current content." alt="" coords="5,29,155,69"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="43,30,41,20,47,11,60,5,80,3,103,6,115,13,113,17,101,11,80,8,61,10,50,15,46,21,48,28"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="203,29,348,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,47,188,47,188,52,155,52"/>
+</map>

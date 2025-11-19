@@ -1,0 +1,16 @@
+<map id="stool::NaiveIntegerArray::insert" name="stool::NaiveIntegerArray::insert">
+<area shape="rect" id="Node000001" title="Insert a given integer value into S as the (pos+1)&#45;th element." alt="" coords="5,113,187,153"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveIntegerArray.html#ac12f53ddeaeef6c8d6aa78ceb5ea9405" title="Return S[i]." alt="" coords="235,5,436,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,110,171,75,234,41,257,32,259,37,236,46,174,80,124,115"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveIntegerArray.html#aad0ab32e0d4dfcab65af553cd917b9b3" title="Add a given integer to the end of S." alt="" coords="245,55,426,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="179,110,237,96,239,101,181,115"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveIntegerArray.html#a85e542d488a3cad60adb4b91b35effb6" title="Verifies this instance." alt="" coords="484,142,665,182"/>
+<area shape="poly" id="edge8_Node000001_Node000004" title=" " alt="" coords="187,136,470,153,470,158,187,141"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveIntegerArray.html#ab55a61d0960f8c3a10b555454781ac50" title="Returns |S|." alt="" coords="713,199,895,239"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="121,151,171,188,202,206,235,219,295,234,357,244,482,251,600,246,699,235,700,240,600,251,482,256,357,249,294,239,234,225,200,211,168,193,118,155"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveIntegerArray.html#a192d509ba5ed8f5b92d9e27a3b025e67" title="Add a given value to the beginning of S." alt="" coords="245,170,426,210"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="181,150,239,164,237,169,179,155"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="392,93,506,135,504,140,391,98"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="656,179,711,193,710,199,655,185"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="426,177,470,172,471,177,426,182"/>
+</map>

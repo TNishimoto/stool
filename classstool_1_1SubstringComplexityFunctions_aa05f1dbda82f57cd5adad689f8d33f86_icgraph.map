@@ -1,0 +1,5 @@
+<map id="stool::SubstringComplexityFunctions::construct_distinct_substring_counter_array" name="stool::SubstringComplexityFunctions::construct_distinct_substring_counter_array">
+<area shape="rect" id="Node000001" title="Constructs a distinct substring counter array (DSCA) from a text and its suffix array." alt="" coords="252,5,459,60"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SubstringComplexityFunctions.html#afd1de007f68296396a608b52c5be9724" title="Prints the distinct substring counter array (DSCA) in a formatted table." alt="" coords="5,5,204,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,35,204,35,204,30,238,30"/>
+</map>

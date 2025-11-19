@@ -1,0 +1,7 @@
+<map id="stool::EliasFanoVectorBuilder::push" name="stool::EliasFanoVectorBuilder::push">
+<area shape="rect" id="Node000001" title="Add a value to the sequence." alt="" coords="264,37,475,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1EliasFanoVector.html#afadaccf47c4cd061db4a37ae8da2b0ee" title="Constructs the Elias&#45;Fano vector from a sequence of integers." alt="" coords="29,5,193,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="250,45,193,38,193,33,251,40"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1EliasFanoVectorBuilder.html#a8513d04432498a1aa3df9aa039c18c9e" title="Merge another builder&#39;s contents with an offset." alt="" coords="5,69,216,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="251,75,216,79,216,74,250,69"/>
+</map>

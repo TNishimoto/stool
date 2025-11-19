@@ -1,0 +1,10 @@
+<map id="stool::NaiveIntegerArray::push_front_many" name="stool::NaiveIntegerArray::push_front_many">
+<area shape="rect" id="Node000001" title="Add a given sequence Q[0..k&#45;1] to the beginning of S[0..n&#45;1] (i.e., S = Q[0..k&#45;1]S[0...." alt="" coords="5,35,187,75"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveIntegerArray.html#a192d509ba5ed8f5b92d9e27a3b025e67" title="Add a given value to the beginning of S." alt="" coords="235,5,416,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,40,221,36,221,41,187,46"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveIntegerArray.html#ab55a61d0960f8c3a10b555454781ac50" title="Returns |S|." alt="" coords="693,35,875,75"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="187,54,235,55,645,55,680,54,680,60,645,60,235,60,187,59"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveIntegerArray.html#a85e542d488a3cad60adb4b91b35effb6" title="Verifies this instance." alt="" coords="464,5,645,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="416,23,450,23,450,28,416,28"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="646,34,680,39,679,44,645,40"/>
+</map>

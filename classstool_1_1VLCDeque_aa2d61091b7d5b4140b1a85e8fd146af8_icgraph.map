@@ -1,0 +1,12 @@
+<map id="stool::VLCDeque::remove" name="stool::VLCDeque::remove">
+<area shape="rect" id="Node000001" title="Removes the value at the specified position." alt="" coords="684,5,871,31"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#aa40877a7957a420b563c70e894ef6802" title="Increments a value at a given index by a delta." alt="" coords="5,5,208,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="670,17,636,17,256,17,208,18,208,12,256,11,636,11,670,12"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1VLCDeque.html#a5ad08a0c01569f427b58f436f69d5808" title="Sets a new value at the specified position." alt="" coords="479,26,636,66"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="671,34,637,39,636,33,670,29"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="465,43,208,27,208,22,465,38"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1VLCDeque.html#a085a9a345d5356f432afb5ff709a0a61" title="Inserts a value at the specified position." alt="" coords="256,56,431,81"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="465,67,431,71,430,66,465,62"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="269,56,166,33,167,28,270,50"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="405,51,478,43,479,48,406,57"/>
+</map>

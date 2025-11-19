@@ -1,0 +1,9 @@
+<map id="stool::NaiveFLCVector::shift_right" name="stool::NaiveFLCVector::shift_right">
+<area shape="rect" id="Node000001" title="Change S[0..n&#45;1] to S[0..p&#45;1]0^{len}S[p..n&#45;1]" alt="" coords="432,37,597,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveFLCVector.html#adc662f35781d8f786d2265f393fa7ee5" title="Insert a given integer value into S as the (pos+1)&#45;th element." alt="" coords="219,5,384,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="418,46,384,40,385,35,419,40"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveFLCVector.html#a66907c325fc9d45b7548372d3a86187b" title="Add a given sequence Q[0..k&#45;1] to the beginning of S[0..n&#45;1] (i.e., S = Q[0..k&#45;1]S[0...." alt="" coords="219,69,384,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="419,74,385,80,384,74,418,69"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveFLCVector.html#aedccbeceb212c58043996f87ca6178af" title="Add a given value to the beginning of S." alt="" coords="5,5,171,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="205,28,171,28,171,23,205,23"/>
+</map>

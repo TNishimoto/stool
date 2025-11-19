@@ -1,0 +1,12 @@
+<map id="stool::RMQSmallSparseTable::build" name="stool::RMQSmallSparseTable::build">
+<area shape="rect" id="Node000001" title="Builds the small sparse table from the given array." alt="" coords="5,35,213,75"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1RMQSparseTable.html#a84d21d8403e657ef9620ff5d322444ec" title="Builds the sparse table from the given array." alt="" coords="261,5,432,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,39,247,35,248,40,214,44"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1Log.html#aac2d1df1a039ee2e80efc426541c5762" title="Computes ⌊ log_{2}(n) ⌋." alt="" coords="487,70,644,95"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="214,58,473,74,473,80,213,64"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1RMQSparseTable.html#a629a8ba486ab70037ea3468995833241" title="Clears the sparse table." alt="" coords="480,5,651,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="432,23,466,23,466,28,432,28"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="424,43,503,64,502,69,423,48"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="699,63,844,103"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="644,80,684,80,684,85,644,85"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="stool::StringFunctionsOnSA::compute_sa_interval" name="stool::StringFunctionsOnSA::compute_sa_interval">
+<area shape="rect" id="Node000001" title="Computes the suffix array interval [L..R] (sa&#45;interval) of a given pattern P on the suffix array SA o..." alt="" coords="233,5,417,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1StringFunctionsOnSA.html#aac57c9dcaa6a9294deebeb7f3c28976d" title="Locates all occurrences of a pattern P in the text T using the binary search on the suffix array SA." alt="" coords="5,5,185,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,28,186,28,186,23,219,23"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="stool::OnlineFileReader::OnlineFileReaderIterator::OnlineFileReaderIterator" name="stool::OnlineFileReader::OnlineFileReaderIterator::OnlineFileReaderIterator">
+<area shape="rect" id="Node000001" title="Constructs an OnlineFileReaderIterator for a given file F representing a text T[0...." alt="" coords="5,5,195,60"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1OnlineFileReader.html#ade9118b6f351a8b2e16acd6ad9f4ff76" title="Reads T[i..i+m&#45;1] from a given file F and writes the read data into a vector output." alt="" coords="243,13,416,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,30,229,30,229,35,195,35"/>
+</map>

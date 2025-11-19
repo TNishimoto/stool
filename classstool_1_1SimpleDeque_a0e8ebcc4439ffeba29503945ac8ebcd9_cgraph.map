@@ -1,0 +1,11 @@
+<map id="stool::SimpleDeque::update_size_if_needed" name="stool::SimpleDeque::update_size_if_needed">
+<area shape="rect" id="Node000001" title="Update buffer size if needed based on current usage." alt="" coords="5,5,184,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="627,5,772,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,15,366,4,473,3,579,7,613,10,613,15,578,12,473,8,366,10,184,20"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#ab3589e9b71254c5f3f8ae865666ba3ae" title="Reserve buffer space with specified bit size." alt="" coords="232,33,381,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,35,219,39,218,44,184,40"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1SimpleDeque.html#a96fba47cfded5010217f7ba13ac47d14" title="Reduce buffer size to fit current content." alt="" coords="429,45,579,85"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="382,55,416,57,415,63,381,61"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="578,48,612,40,613,46,579,53"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="467,46,465,36,471,27,484,21,504,19,527,22,539,29,537,34,525,27,504,24,485,26,474,31,470,37,472,44"/>
+</map>

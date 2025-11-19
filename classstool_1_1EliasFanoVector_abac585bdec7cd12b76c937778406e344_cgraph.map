@@ -1,0 +1,14 @@
+<map id="stool::EliasFanoVector::build_from_bit_vector" name="stool::EliasFanoVector::build_from_bit_vector">
+<area shape="rect" id="Node000001" title="Builds the Elias&#45;Fano vector from a bit vector representation." alt="" coords="5,113,177,153"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1EliasFanoVector.html#a2aece7d6c31a3b5ad5bd2d33a3cdcf1a" title="Builds the Elias&#45;Fano vector from a builder object." alt="" coords="249,5,413,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,111,169,83,224,55,243,48,245,53,226,60,172,87,125,115"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1EliasFanoVectorBuilder.html#a907c2a307c0f7ad5ec0b7aac27ca215f" title="Finalize the construction by adding the final zero bit." alt="" coords="225,69,436,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,115,212,109,213,114,178,120"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1EliasFanoVectorBuilder.html#af6626f42cb3bddd6ff1e6b8ba8d8263a" title="Initialize the builder with universe size and element count." alt="" coords="225,157,436,197"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="178,146,213,153,212,158,177,152"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1EliasFanoVectorBuilder.html#a440637da0fa00ad3b638e4287042ad41" title="Push a single bit (for bit&#45;by&#45;bit construction)" alt="" coords="225,221,436,261"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="125,151,172,179,226,207,245,214,243,219,224,212,169,184,122,156"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="286,158,284,148,291,138,307,133,331,131,358,134,373,141,371,146,357,139,331,136,308,138,294,143,289,149,292,156"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1EliasFanoVectorBuilder.html#a277a6d927486ad735512e7d0afd24492" title="Split a value into upper and lower bits." alt="" coords="484,221,695,261"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="436,239,471,239,471,244,436,244"/>
+</map>

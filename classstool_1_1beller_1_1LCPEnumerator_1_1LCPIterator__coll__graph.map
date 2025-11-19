@@ -1,0 +1,9 @@
+<map id="stool::beller::LCPEnumerator::LCPIterator" name="stool::beller::LCPEnumerator::LCPIterator">
+<area shape="rect" id="Node000001" title=" " alt="" coords="169,196,376,236"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1beller_1_1BellerComponent.html" title="A component class for Beller&#39;s LCP array construction algorithm [Unchecked AI&#39;s Comment]." alt="" coords="5,108,225,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,138,242,194,239,198,145,142"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1IntervalSearchDataStructure.html" title=" " alt="" coords="22,5,209,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="118,59,118,108,113,108,113,59"/>
+<area shape="rect" id="Node000004" href="$structstool_1_1beller_1_1LCPInfo.html" title="A structure to store LCP (Longest Common Prefix) information [Unchecked AI&#39;s Comment]." alt="" coords="249,108,405,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="316,147,286,197,281,194,311,144"/>
+</map>

@@ -1,0 +1,22 @@
+<map id="stool::VLCDeque::push_back" name="stool::VLCDeque::push_back">
+<area shape="rect" id="Node000001" title="Adds a value to the end of the deque." alt="" coords="5,69,212,94"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="1104,63,1249,103"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,66,233,47,336,26,452,10,571,3,785,3,871,8,956,21,1035,38,1101,56,1100,61,1034,43,955,26,870,13,785,8,571,8,453,15,337,31,235,52,157,71"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#a06d6c825da7c6bb3fbea791fc3551997" title="Add an element to the end of the deque." alt="" coords="273,144,422,184"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="147,92,277,137,275,142,145,97"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="497,80,647,120"/>
+<area shape="poly" id="edge10_Node000001_Node000004" title=" " alt="" coords="212,75,320,74,435,79,484,84,483,89,434,84,319,80,212,80"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1VLCDeque.html#adf10b04d9933ce6e53bb3f387c5457fc" title="Verifies the integrity of the variable&#45;length coded deque." alt="" coords="260,94,435,119"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="212,90,247,93,246,99,212,95"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="418,141,487,121,489,126,419,146"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1SimpleDeque.html#a0e8ebcc4439ffeba29503945ac8ebcd9" title="Update buffer size if needed based on current usage." alt="" coords="483,144,661,184"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="423,161,469,161,469,167,423,167"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="651,141,709,129,914,101,1090,85,1091,91,915,106,710,135,652,147"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1SimpleDeque.html#ab3589e9b71254c5f3f8ae865666ba3ae" title="Reserve buffer space with specified bit size." alt="" coords="709,144,859,184"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="662,161,696,161,696,167,662,167"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1SimpleDeque.html#a96fba47cfded5010217f7ba13ac47d14" title="Reduce buffer size to fit current content." alt="" coords="907,144,1056,184"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="859,161,893,161,893,167,859,167"/>
+<area shape="poly" id="edge8_Node000007_Node000002" title=" " alt="" coords="1029,141,1114,106,1116,110,1031,146"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="945,144,942,134,948,125,961,119,981,117,1004,120,1017,128,1014,132,1003,125,981,123,963,125,952,129,948,135,950,143"/>
+<area shape="poly" id="edge12_Node000008_Node000004" title=" " alt="" coords="435,101,483,100,483,105,435,107"/>
+</map>

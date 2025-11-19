@@ -1,0 +1,7 @@
+<map id="stool::VLCDeque::to_string" name="stool::VLCDeque::to_string">
+<area shape="rect" id="Node000001" title="Converts the deque contents to a string representation." alt="" coords="5,5,156,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#adf3de5a293ca35b2ed2b771ae80dbc15" title="Returns the number of elements in the deque." alt="" coords="204,13,367,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,23,190,23,190,28,156,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="415,5,564,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="367,23,401,23,401,28,367,28"/>
+</map>

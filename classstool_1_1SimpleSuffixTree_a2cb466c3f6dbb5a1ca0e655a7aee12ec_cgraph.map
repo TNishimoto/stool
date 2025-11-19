@@ -1,0 +1,5 @@
+<map id="stool::SimpleSuffixTree::build_sorted_lcp_intervals_with_leaves" name="stool::SimpleSuffixTree::build_sorted_lcp_intervals_with_leaves">
+<area shape="rect" id="Node000001" title="Build sorted LCP intervals with leaf nodes included." alt="" coords="5,5,205,60"/>
+<area shape="rect" id="Node000002" href="$structstool_1_1LCPIntervalComparatorInPreorder.html#a1128e04dffc527a5844417d7553fa7c0" title="Sorts LCP intervals in preorder." alt="" coords="253,13,467,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="206,30,240,30,240,35,206,35"/>
+</map>

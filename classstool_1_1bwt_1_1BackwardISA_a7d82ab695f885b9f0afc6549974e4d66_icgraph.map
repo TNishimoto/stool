@@ -1,0 +1,10 @@
+<map id="stool::bwt::BackwardISA::set" name="stool::bwt::BackwardISA::set">
+<area shape="rect" id="Node000001" title="Set the parameters for the BackwardISA object." alt="" coords="233,77,441,102"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="381,68,369,59,337,55,312,57,298,62,295,68,302,75,298,78,290,68,294,58,310,52,337,50,371,54,384,63"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1bwt_1_1BackwardISA.html#a9817b1b98d26e6104eb587ae49c17aa9" title="Get iterator pointing to the beginning." alt="" coords="5,5,185,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="274,76,171,48,172,43,276,70"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1bwt_1_1BackwardISA_1_1iterator.html#acac31926062bb30be4c91a79977bbe8e" title="Inequality comparison operator." alt="" coords="5,69,185,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="220,92,186,92,186,87,220,87"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1bwt_1_1BackwardISA.html#ad842e344163d713a92ba6603c77d1fd3" title="Convert the backward ISA iteration to a complete ISA array." alt="" coords="5,133,185,173"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="276,108,172,136,171,131,274,103"/>
+</map>

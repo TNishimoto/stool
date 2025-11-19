@@ -1,0 +1,11 @@
+<map id="stool::VLCDeque::load_vector_from_bytes" name="stool::VLCDeque::load_vector_from_bytes">
+<area shape="rect" id="Node000001" title="Loads a vector of VLCDeque instances from a byte array." alt="" coords="5,39,171,79"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#a81c9d6b4887cabd7364629adee6aa984" title="Loads a VLCDeque instance from a byte array." alt="" coords="219,17,384,42"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,45,205,40,205,45,171,50"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1VLCDeque.html#adf3de5a293ca35b2ed2b771ae80dbc15" title="Returns the number of elements in the deque." alt="" coords="220,70,383,95"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="171,65,207,69,206,75,170,71"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#aa2acbb3621434705301ef1672009721b" title="Load deque from a byte vector." alt="" coords="432,5,581,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="384,25,418,24,418,30,385,30"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="432,69,581,109"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="383,83,418,84,418,89,383,88"/>
+</map>

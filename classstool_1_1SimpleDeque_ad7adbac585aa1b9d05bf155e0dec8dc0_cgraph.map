@@ -1,0 +1,5 @@
+<map id="stool::SimpleDeque::max_deque_size" name="stool::SimpleDeque::max_deque_size">
+<area shape="rect" id="Node000001" title="Get the maximum possible deque size for the given index type." alt="" coords="5,5,155,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="203,5,348,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,23,188,23,188,28,155,28"/>
+</map>

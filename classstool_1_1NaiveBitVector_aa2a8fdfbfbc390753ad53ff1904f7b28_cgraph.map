@@ -1,0 +1,34 @@
+<map id="stool::NaiveBitVector::insert64" name="stool::NaiveBitVector::insert64">
+<area shape="rect" id="Node000001" title="Insert the first len bits of the 64&#45;bit integer value at the position p in the bits B." alt="" coords="5,232,164,272"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#aa862d26b46078662c9e84e6379474508" title="Add the first len bits of the 64&#45;bit integer value to the end of the bits B." alt="" coords="426,411,585,451"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,270,152,314,182,336,213,355,262,377,314,394,413,416,412,421,313,399,261,382,211,360,179,341,149,318,103,274"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveBitVector.html#ad1bc5c560634ef782de943bf003eb3a1" title="Get the current number of bits (i.e., |B|)" alt="" coords="657,263,816,303"/>
+<area shape="poly" id="edge20_Node000001_Node000004" title=" " alt="" coords="102,230,182,154,239,108,304,64,375,28,412,15,449,7,486,3,522,5,558,14,593,30,622,51,648,77,669,105,687,136,714,198,730,249,725,250,709,199,683,139,665,108,644,80,619,55,591,35,557,19,522,10,486,8,449,12,413,20,377,33,307,68,242,112,185,158,106,234"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1NaiveBitVector.html#a5832ae2d9f25fa45df6c9543083bd201" title="Returns the number of 1s in B." alt="" coords="426,232,585,272"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="164,250,412,250,412,255,164,255"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1NaiveBitVector.html#a2efb661a0963958110a969f679b5bf9d" title="Replace the len bits starting from the position p in the bits B with the first len bits of the 64&#45;bit..." alt="" coords="212,146,371,186"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="132,230,229,188,231,193,134,235"/>
+<area shape="rect" id="Node000011" href="$classstool_1_1NaiveBitVector.html#a8f28327ad81a126a43b53bcfa7bf8a25" title="Insert the bits 0^{len} to the bits B at the position p." alt="" coords="212,306,371,346"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="143,270,222,298,221,303,141,275"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1MSBByte.html#a01da0e6ee4e83bc6520821aebd12c451" title="Counts the number of 1 bits in B[0..i] for a given bit sequence B." alt="" coords="642,329,831,354"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="564,408,591,397,614,382,639,367,669,356,671,361,641,372,617,386,593,401,566,413"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="572,409,590,397,606,377,613,357,621,335,638,314,647,308,650,312,642,318,626,338,618,358,611,379,594,401,575,413"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveBitVector.html#a78469adb6e930db43ff661db95e75c45" title="Update the buffer so that its capacity is larger than m." alt="" coords="647,439,826,479"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="585,438,634,444,633,449,584,443"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1MSBByte.html#af531ce8b8cd1161ced1e6d8659fbe6a4" title="Replaces B[pos..pos+len&#45;1] of 64 bits B[0..63] with the first len bits of 64 bits Q[0...." alt="" coords="640,382,833,408"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="584,416,641,407,641,412,585,421"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveBitVector.html#a83f4b3502882fe4447f5ae92b11520af" title="Reduce buffer size to fit current content." alt="" coords="881,439,1040,479"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="826,456,868,456,868,462,826,462"/>
+<area shape="poly" id="edge10_Node000009_Node000003" title=" " alt="" coords="321,143,377,112,448,85,487,78,524,77,561,85,594,103,615,127,624,153,625,180,622,207,618,234,618,261,625,287,642,313,650,320,646,324,638,317,620,290,613,262,613,234,617,206,620,180,619,154,611,130,590,108,559,90,524,82,487,83,450,90,379,117,324,148"/>
+<area shape="poly" id="edge12_Node000009_Node000004" title=" " alt="" coords="307,144,353,98,384,76,418,59,466,43,507,35,547,40,593,59,620,77,643,99,682,150,710,203,728,249,723,250,705,205,677,153,640,102,617,81,591,64,546,45,507,41,467,48,420,64,386,80,356,102,311,147"/>
+<area shape="poly" id="edge13_Node000009_Node000007" title=" " alt="" coords="371,168,499,185,555,199,578,208,594,218,609,236,617,254,620,292,622,328,628,346,642,364,655,374,652,378,638,367,624,349,617,330,614,292,612,256,605,239,590,222,575,213,554,204,498,190,370,173"/>
+<area shape="poly" id="edge11_Node000009_Node000008" title=" " alt="" coords="343,183,444,225,441,229,341,188"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1MSBByte.html#acb56c16ca0d7387635eee45f892ffd83" title="Returns the bits B[I..I+63] of 64&#45;bit sequence B[0..(array_size*64)&#45;1] as a 64&#45;bit integer,..." alt="" coords="419,118,592,158"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="370,153,405,148,405,153,371,158"/>
+<area shape="poly" id="edge15_Node000011_Node000002" title=" " alt="" coords="325,343,420,396,435,403,433,408,417,401,323,348"/>
+<area shape="poly" id="edge18_Node000011_Node000004" title=" " alt="" coords="371,315,643,289,644,294,371,321"/>
+<area shape="poly" id="edge19_Node000011_Node000005" title=" " alt="" coords="306,344,324,373,350,406,382,437,420,460,472,477,528,484,583,483,634,478,634,484,583,489,527,489,471,482,418,465,379,441,346,409,320,376,301,347"/>
+<area shape="poly" id="edge16_Node000011_Node000008" title=" " alt="" coords="350,303,433,274,434,279,351,308"/>
+<area shape="rect" id="Node000012" href="$classstool_1_1MSBByte.html#a312402ac917597333488ec7f59577f36" title="Shifts the suffix B[pos..63] of 64 bits B[0..63] to the right by len bits and returns the new B,..." alt="" coords="427,347,584,387"/>
+<area shape="poly" id="edge17_Node000011_Node000012" title=" " alt="" coords="371,338,414,346,413,352,370,343"/>
+</map>

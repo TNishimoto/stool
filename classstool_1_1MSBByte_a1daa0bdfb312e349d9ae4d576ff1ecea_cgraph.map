@@ -1,0 +1,6 @@
+<map id="stool::MSBByte::select0" name="stool::MSBByte::select0">
+<area shape="rect" id="Node000001" title="Returns the position of the (i+1)&#45;th 0 in 64&#45;bit sequence B[0..array_size&#45;1] if such bit exists; othe..." alt="" coords="5,29,181,55"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="58,31,50,21,54,11,69,5,93,3,123,6,135,15,132,20,121,11,93,8,70,10,58,15,56,20,62,28"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Byte.html#a4c7908e38dd210938f5cd86298d70bcb" title="Counts the number of 1 bits in a 64&#45;bit integer x." alt="" coords="229,29,389,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,39,216,39,216,45,181,45"/>
+</map>

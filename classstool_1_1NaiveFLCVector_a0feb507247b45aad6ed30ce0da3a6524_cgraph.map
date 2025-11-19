@@ -1,0 +1,26 @@
+<map id="stool::NaiveFLCVector::push_back_many" name="stool::NaiveFLCVector::push_back_many">
+<area shape="rect" id="Node000001" title="Add a given sequence Q[0..k&#45;1] to the end of S[0..n&#45;1] (i.e., S = S[0..n&#45;1]Q[0..k&#45;1])" alt="" coords="5,135,171,175"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveFLCVector.html#acec621e1453cdcd6da4cdccfa257feb5" title="Returns the (i+1)&#45;th element S[i] of S." alt="" coords="649,5,835,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,133,273,89,352,66,431,47,536,31,635,21,635,26,536,36,433,53,353,71,274,94,144,138"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveFLCVector.html#a188b8cb84d6f14eb290bf6be31389f5b" title="Return the number of lements in S (i.e., |S|)" alt="" coords="887,138,1052,178"/>
+<area shape="poly" id="edge14_Node000001_Node000003" title=" " alt="" coords="111,174,163,221,238,281,331,341,381,365,433,385,495,400,549,407,598,405,643,395,688,377,734,353,837,286,868,263,896,237,942,187,946,190,900,241,871,267,840,291,736,358,690,382,645,400,598,410,549,412,494,406,431,390,379,370,328,345,235,286,159,225,108,178"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveFLCVector.html#a5a0399b3bf1d2ebeb50de3a51ba1da81" title="Add a given integer to the end of S." alt="" coords="219,163,384,203"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="171,164,205,168,205,173,170,169"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1NaiveFLCVector.html#a3a09818545f0499b0a9578a7ca179dcd" title="Verifies this instance." alt="" coords="432,106,597,146"/>
+<area shape="poly" id="edge15_Node000001_Node000008" title=" " alt="" coords="171,147,418,130,418,135,171,152"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="809,28,840,41,870,60,898,82,944,126,940,130,894,86,867,64,837,46,807,33"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="325,161,372,125,431,92,483,71,537,54,640,31,641,36,539,59,485,76,433,96,375,130,328,165"/>
+<area shape="poly" id="edge8_Node000004_Node000003" title=" " alt="" coords="384,178,873,159,873,164,384,183"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1PackedPSum.html#a8982ece2300b81705bbef809e95d7ad7" title="Determines the optimal bit width for storing a given value." alt="" coords="439,335,591,375"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="319,202,366,260,398,293,434,321,442,327,439,331,430,326,394,297,362,264,315,205"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveFLCVector.html#aefd99c46b7ec7830bb7cb080b6f98c1c" title="Reduce buffer size to fit current content." alt="" coords="432,271,597,311"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="340,201,433,250,459,263,456,268,431,255,338,206"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1MSBByte.html#af531ce8b8cd1161ced1e6d8659fbe6a4" title="Replaces B[pos..pos+len&#45;1] of 64 bits B[0..63] with the first len bits of 64 bits Q[0...." alt="" coords="645,251,839,276"/>
+<area shape="poly" id="edge13_Node000004_Node000007" title=" " alt="" coords="385,196,659,246,658,251,384,201"/>
+<area shape="poly" id="edge9_Node000004_Node000008" title=" " alt="" coords="376,161,426,147,427,152,377,166"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="597,278,632,274,632,280,598,284"/>
+<area shape="poly" id="edge10_Node000008_Node000002" title=" " alt="" coords="563,103,596,85,619,63,629,52,644,41,662,33,664,38,647,46,632,56,623,66,599,89,566,108"/>
+<area shape="poly" id="edge12_Node000008_Node000003" title=" " alt="" coords="598,129,873,149,872,154,598,134"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1NaiveFLCVector.html#a37f03b453288c635521b05488cdbf43d" title="Returns the sum of the elements in S[0..n&#45;1] (i.e., psum(n&#45;1))" alt="" coords="659,55,825,95"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="597,105,645,94,646,99,598,110"/>
+</map>

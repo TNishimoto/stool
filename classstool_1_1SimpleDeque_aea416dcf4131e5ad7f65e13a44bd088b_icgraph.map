@@ -1,0 +1,7 @@
+<map id="stool::SimpleDeque::end" name="stool::SimpleDeque::end">
+<area shape="rect" id="Node000001" title="Get iterator past the last element." alt="" coords="203,45,384,70"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#a8eaa5fa0f1689275c98e08116cf5d447" title="Resize buffer to specified bit size." alt="" coords="5,5,155,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,45,154,39,155,34,195,40"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#ad0f737224160e8d5ea44d0b5616d163e" title="Convert to std::deque." alt="" coords="5,69,155,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="195,75,155,81,154,76,194,69"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="stool::VLCDeque::print" name="stool::VLCDeque::print">
+<area shape="rect" id="Node000001" title="Prints the internal state of the VLCDeque for debugging." alt="" coords="5,13,172,38"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="220,5,369,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,23,206,23,206,28,172,28"/>
+</map>

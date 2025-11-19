@@ -1,0 +1,17 @@
+<map id="stool::NaiveBitVector::rev_select1" name="stool::NaiveBitVector::rev_select1">
+<area shape="rect" id="Node000001" title="Returns the position p of the (u &#45; i)&#45;th 1 in B if such a position exists, otherwise returns &#45;1...." alt="" coords="5,71,164,111"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Byte.html#a4c7908e38dd210938f5cd86298d70bcb" title="Counts the number of 1 bits in a 64&#45;bit integer x." alt="" coords="431,21,591,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,69,155,39,183,25,211,15,272,5,334,3,392,8,443,16,442,21,392,13,333,9,272,10,213,20,185,30,158,44,113,73"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#a5832ae2d9f25fa45df6c9543083bd201" title="Returns the number of 1s in B." alt="" coords="218,30,377,70"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,73,204,65,205,70,165,78"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1LSBByte.html#ac6c6ce471ee2c502956c54dbad38e236" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit B[63..0]." alt="" coords="212,118,383,144"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="165,103,217,113,216,118,164,109"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1NaiveBitVector.html#ad1bc5c560634ef782de943bf003eb3a1" title="Get the current number of bits (i.e., |B|)" alt="" coords="218,168,377,208"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="124,109,213,154,229,161,227,166,211,159,121,114"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="325,116,468,50,471,55,327,121"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="263,120,255,110,259,100,274,94,297,92,327,95,338,105,335,109,325,100,297,97,275,99,263,104,261,109,267,117"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1LSBByte.html#af8dbf01c26d534e1b0b341ac2dff5a2f" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit B[63..0]." alt="" coords="431,111,591,151"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="383,128,417,128,417,134,383,134"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1LSBByte.html#a27e9b5fe24b07343f29aeb9deeb19e2f" title="Returns the i&#45;th bit of 64&#45;bit B[63..0]." alt="" coords="639,118,808,144"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="591,128,625,128,625,134,591,134"/>
+</map>

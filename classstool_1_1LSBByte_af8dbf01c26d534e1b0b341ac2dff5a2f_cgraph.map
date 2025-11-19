@@ -1,0 +1,5 @@
+<map id="stool::LSBByte::naive_select1" name="stool::LSBByte::naive_select1">
+<area shape="rect" id="Node000001" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit B[63..0]." alt="" coords="5,5,165,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1LSBByte.html#a27e9b5fe24b07343f29aeb9deeb19e2f" title="Returns the i&#45;th bit of 64&#45;bit B[63..0]." alt="" coords="213,13,383,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,23,200,23,200,28,165,28"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="stool::LZFactor::is_char" name="stool::LZFactor::is_char">
+<area shape="rect" id="Node000001" title="Checks if this factor represents a literal character." alt="" coords="200,45,371,70"/>
+<area shape="rect" id="Node000002" href="$structstool_1_1LZFactor.html#a55bf9df8d9c65a9a0ed65650501d6e79" title="Gets the length of this factor." alt="" coords="5,5,152,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,45,152,39,153,34,190,40"/>
+<area shape="rect" id="Node000003" href="$structstool_1_1LZFactor.html#a6ca53fa7c77ca457bb5d5ea62ac7d279" title="Converts this factor to a string representation." alt="" coords="9,69,148,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="190,75,149,81,148,76,189,70"/>
+</map>

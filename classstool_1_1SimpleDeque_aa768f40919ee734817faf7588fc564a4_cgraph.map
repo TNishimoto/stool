@@ -1,0 +1,16 @@
+<map id="stool::SimpleDeque::erase" name="stool::SimpleDeque::erase">
+<area shape="rect" id="Node000001" title="Remove element at the specified position." alt="" coords="5,35,155,75"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#a495dd6e6e3bcb13d9e71a2b990a058d0" title="Remove the first element from the deque." alt="" coords="203,5,352,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,41,189,36,189,41,155,46"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#a0e8ebcc4439ffeba29503945ac8ebcd9" title="Update buffer size if needed based on current usage." alt="" coords="400,35,579,75"/>
+<area shape="poly" id="edge8_Node000001_Node000003" title=" " alt="" coords="155,54,203,55,352,55,386,54,386,60,352,60,203,60,155,59"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="353,33,387,38,386,43,352,38"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="1021,35,1167,75"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="579,44,761,34,867,32,974,36,1008,39,1007,45,973,41,867,38,761,39,579,49"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1SimpleDeque.html#ab3589e9b71254c5f3f8ae865666ba3ae" title="Reserve buffer space with specified bit size." alt="" coords="627,63,776,103"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="579,64,613,68,613,74,578,69"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1SimpleDeque.html#a96fba47cfded5010217f7ba13ac47d14" title="Reduce buffer size to fit current content." alt="" coords="824,75,973,115"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="776,85,810,87,810,92,776,90"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="973,77,1007,70,1008,75,974,82"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="862,75,860,65,866,56,879,50,899,48,922,51,934,58,931,63,920,56,899,53,880,55,869,60,865,66,867,74"/>
+</map>

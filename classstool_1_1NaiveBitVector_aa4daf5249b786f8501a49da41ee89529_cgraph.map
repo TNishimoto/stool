@@ -1,0 +1,7 @@
+<map id="stool::NaiveBitVector::initialize" name="stool::NaiveBitVector::initialize">
+<area shape="rect" id="Node000001" title="Initialize the bit vector with S = S_[0..m&#45;1] and |B| = n_, and |S| = m_." alt="" coords="5,5,164,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a78469adb6e930db43ff661db95e75c45" title="Update the buffer so that its capacity is larger than m." alt="" coords="212,5,391,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,23,198,23,198,28,164,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#a83f4b3502882fe4447f5ae92b11520af" title="Reduce buffer size to fit current content." alt="" coords="439,5,597,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="391,23,425,23,425,28,391,28"/>
+</map>

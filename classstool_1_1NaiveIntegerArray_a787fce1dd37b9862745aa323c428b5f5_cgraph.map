@@ -1,0 +1,8 @@
+<map id="stool::NaiveIntegerArray::search" name="stool::NaiveIntegerArray::search">
+<area shape="rect" id="Node000001" title="Returns the first position p such that psum(p) &gt;= x if such a position exists, otherwise returns &#45;1." alt="" coords="5,5,187,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveIntegerArray.html#ab55a61d0960f8c3a10b555454781ac50" title="Returns |S|." alt="" coords="464,5,645,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,20,235,19,416,19,450,19,450,25,416,24,235,24,187,25"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveIntegerArray.html#a85e542d488a3cad60adb4b91b35effb6" title="Verifies this instance." alt="" coords="235,33,416,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="187,34,221,38,221,43,187,39"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="416,40,450,35,451,41,417,45"/>
+</map>

@@ -1,0 +1,22 @@
+<map id="stool::SimpleDeque::swap" name="stool::SimpleDeque::swap">
+<area shape="rect" id="Node000001" title="Swap contents with another SimpleDeque." alt="" coords="1596,35,1745,75"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#a741bbe1d1dd6810b6529d1168faac5e7" title="Remove all elements from the deque." alt="" coords="1388,5,1537,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1582,45,1537,38,1538,33,1583,40"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1VLCDeque.html#a4dc1fa4463627ce22b48f21b4ce9b8e5" title="Swaps the contents of this deque with another VLCDeque." alt="" coords="1377,70,1548,95"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="1583,69,1549,74,1548,69,1582,64"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1VLCDeque.html#adc2f44941a1fb02fcd38cf09f0601a01" title="Clears all contents and resets the deque to initial state." alt="" coords="1160,13,1329,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="1374,28,1330,28,1330,23,1374,23"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1VLCDeque.html#a25eaa6647dcbf21752bf593b600889fe" title="Shifts values to the left starting from a given position." alt="" coords="919,13,1112,38"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="1146,28,1112,28,1112,23,1146,23"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1VLCDeque.html#aa2d61091b7d5b4140b1a85e8fd146af8" title="Removes the value at the specified position." alt="" coords="684,13,871,38"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="905,28,871,28,871,23,905,23"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1VLCDeque.html#aa40877a7957a420b563c70e894ef6802" title="Increments a value at a given index by a delta." alt="" coords="5,13,208,38"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="670,25,636,24,256,24,208,25,208,20,256,19,636,19,670,19"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1VLCDeque.html#a5ad08a0c01569f427b58f436f69d5808" title="Sets a new value at the specified position." alt="" coords="479,33,636,73"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="671,42,637,46,636,41,670,36"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="465,50,208,34,208,29,465,45"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1VLCDeque.html#a085a9a345d5356f432afb5ff709a0a61" title="Inserts a value at the specified position." alt="" coords="256,63,431,89"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="465,75,431,78,430,73,465,69"/>
+<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="269,63,166,41,167,35,270,58"/>
+<area shape="poly" id="edge10_Node000008_Node000007" title=" " alt="" coords="405,59,478,50,479,56,406,64"/>
+</map>

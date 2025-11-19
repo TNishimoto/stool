@@ -1,0 +1,9 @@
+<map id="stool::NaiveIntegerArray::push_back" name="stool::NaiveIntegerArray::push_back">
+<area shape="rect" id="Node000001" title="Add a given integer to the end of S." alt="" coords="235,69,416,109"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveIntegerArray.html#aada47203f274bedeab3509ca52330282" title="Insert a given integer value into S as the (pos+1)&#45;th element." alt="" coords="5,5,187,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="239,68,167,48,169,43,241,63"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveIntegerArray.html#acc52f71672cf1e3dcd1e878ce1247dca" title="Constructor with S = S_." alt="" coords="5,69,187,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="221,92,187,92,187,87,221,87"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveIntegerArray.html#af6d624e078ef3c93c9870cffe0539a4c" title="Add a given sequence Q[0..k&#45;1] to the end of S[0..n&#45;1] (i.e., S = S[0..n&#45;1]Q[0..k&#45;1])" alt="" coords="5,133,187,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="241,116,169,136,167,131,239,110"/>
+</map>

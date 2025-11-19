@@ -1,0 +1,7 @@
+<map id="stool::PackedSearch::search8x8bits" name="stool::PackedSearch::search8x8bits">
+<area shape="rect" id="Node000001" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in 8 bit sequen..." alt="" coords="5,49,156,89"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1PackedSearch.html#abd466a48ea41571c73411798b1b78ec7" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in 8 bit sequen..." alt="" coords="204,5,391,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,54,190,48,191,53,157,59"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1PackedPSum.html#a0db4a35816ee3997a367cc43815a1a16" title="Computes the sum of 8&#45;bit integer sequence S = s_{0}, s_{1}, ..., s_{7} packed into a 64 bit integer ..." alt="" coords="221,85,373,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="157,79,208,87,207,92,156,84"/>
+</map>

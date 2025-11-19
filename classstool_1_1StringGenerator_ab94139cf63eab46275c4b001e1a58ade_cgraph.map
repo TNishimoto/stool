@@ -1,0 +1,5 @@
+<map id="stool::StringGenerator::create_uint8_t_binary_string" name="stool::StringGenerator::create_uint8_t_binary_string">
+<area shape="rect" id="Node000001" title="Creates a binary string of specified length using a given seed." alt="" coords="5,5,176,60"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1StringGenerator.html#a9d7d1348a7f9107f9a00ce1f19759c41" title="Converts a sequence of integers to a string using an 8&#45;character alphabet." alt="" coords="224,13,391,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,30,210,30,210,35,177,35"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="stool::VLCDeque::save" name="stool::VLCDeque::save">
+<area shape="rect" id="Node000001" title="Saves a VLCDeque instance to a byte array." alt="" coords="5,13,173,38"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#aa3c4c3760e1f327dc9940c06238891b2" title="Save deque to a byte vector." alt="" coords="221,5,371,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,23,207,23,207,28,174,28"/>
+</map>

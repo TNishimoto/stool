@@ -1,0 +1,5 @@
+<map id="stool::MSBByte::shift_left" name="stool::MSBByte::shift_left">
+<area shape="rect" id="Node000001" title="Shifts the suffix B[pos..] of 64&#45;bit integer sequence B[0..] to the left by len bits,..." alt="" coords="5,5,191,31"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1MSBByte.html#a961ba1b61f0d557a042b6d1a7a9554ad" title="Fills the bits B[pos..pos+len&#45;1] of 64&#45;bit B with b and returns the new B." alt="" coords="239,5,384,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,15,225,15,225,21,191,21"/>
+</map>

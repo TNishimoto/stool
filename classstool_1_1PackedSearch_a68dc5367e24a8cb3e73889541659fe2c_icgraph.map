@@ -1,0 +1,9 @@
+<map id="stool::PackedSearch::find_prefix_ge_y_nib4x16_branchless" name="stool::PackedSearch::find_prefix_ge_y_nib4x16_branchless">
+<area shape="rect" id="Node000001" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in 4 bit sequen..." alt="" coords="616,5,811,60"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1PackedSearch.html#ac9796e442236ce07b0ebabf33fa1c851" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in 4 bit sequen..." alt="" coords="417,13,568,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="602,35,568,35,568,30,602,30"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1PackedSearch.html#af75bfa54d698d4cf1e967d00b6d49eeb" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in k bit sequen..." alt="" coords="219,13,369,53"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="404,35,370,35,370,30,404,30"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveFLCVector.html#a324c98e66aa0490a325aca768d1ba3e5" title="Returns the first position p such that psum(p) &gt;= x if such a position exists, otherwise returns &#45;1." alt="" coords="5,13,171,53"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="205,35,171,35,171,30,205,30"/>
+</map>

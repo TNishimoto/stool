@@ -1,0 +1,57 @@
+<map id="stool::NaiveBitVector::rank1" name="stool::NaiveBitVector::rank1">
+<area shape="rect" id="Node000001" title="Returns the number of 1s in B." alt="" coords="832,453,991,493"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#aa2a8fdfbfbc390753ad53ff1904f7b28" title="Insert the first len bits of the 64&#45;bit integer value at the position p in the bits B." alt="" coords="419,37,577,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="907,440,900,369,882,277,866,229,844,183,817,141,782,105,760,89,736,76,683,60,628,53,578,52,578,47,629,47,684,55,738,71,763,84,786,101,821,138,849,180,871,227,887,276,906,368,912,439"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveBitVector.html#a4efcfa42e0df0489782f69a55b6c242d" title="Remove the last len bits from the bits B." alt="" coords="625,243,784,283"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="891,443,846,374,816,337,782,303,754,285,757,281,786,299,820,333,850,371,895,440"/>
+<area shape="rect" id="Node000007" href="$classstool_1_1NaiveBitVector.html#ade08bfe2b80311da25f9dab2307cf1a6" title="Returns the number of 1s in the bit vector B." alt="" coords="625,357,784,397"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="859,449,783,412,756,400,758,395,785,407,861,444"/>
+<area shape="rect" id="Node000008" href="$classstool_1_1NaiveBitVector.html#a41b809604b5cbad8b921da910cfe6a88" title="Returns the number of 1s in B[(n&#45;1)&#45;i..n&#45;1]." alt="" coords="419,357,577,397"/>
+<area shape="poly" id="edge23_Node000001_Node000008" title=" " alt="" coords="888,443,844,391,816,366,783,348,754,338,723,333,660,334,600,345,550,360,549,355,599,340,659,329,723,328,755,333,785,343,819,362,848,387,892,440"/>
+<area shape="rect" id="Node000010" href="$classstool_1_1NaiveBitVector.html#ace74400325aebc90f774725e79724a8d" title="Returns the number of 1s in B[0..i] (i.e., rank1(i))" alt="" coords="625,421,784,461"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="818,462,784,456,784,451,819,456"/>
+<area shape="rect" id="Node000011" href="$classstool_1_1NaiveBitVector.html#a27ed516ef8d787beba6833b5d475e79f" title="Returns the number of 1s in B[i..j] (i.e., rank1(j) &#45; rank1(i&#45;1))" alt="" coords="625,485,784,525"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="819,490,784,496,784,490,818,485"/>
+<area shape="rect" id="Node000012" href="$classstool_1_1NaiveBitVector.html#ac53c488cdfaa1c2d3abca2d7398139e5" title="Returns the number of 0s in B." alt="" coords="625,549,784,589"/>
+<area shape="poly" id="edge11_Node000001_Node000012" title=" " alt="" coords="861,502,785,540,758,552,756,547,783,535,859,497"/>
+<area shape="rect" id="Node000013" href="$classstool_1_1NaiveBitVector.html#a5b805fb5ea8c7665714ae51d1bc91a85" title="Returns the number of 0s in B[0..i]." alt="" coords="625,613,784,653"/>
+<area shape="poly" id="edge12_Node000001_Node000013" title=" " alt="" coords="888,506,843,555,786,604,764,616,761,611,782,599,839,551,884,502"/>
+<area shape="rect" id="Node000014" href="$classstool_1_1NaiveBitVector.html#a6be0825bcd0c39461d03ba3acb62b559" title="Returns the number of 1s in B[0..i]." alt="" coords="625,677,784,717"/>
+<area shape="poly" id="edge13_Node000001_Node000014" title=" " alt="" coords="898,507,855,586,823,629,786,667,768,679,765,675,782,663,819,626,851,584,894,505"/>
+<area shape="rect" id="Node000015" href="$classstool_1_1NaiveBitVector.html#a2443278be1be8b2f1ec9ba8b3baf249d" title="Returns the number of 1s in B[i..j]." alt="" coords="625,741,784,781"/>
+<area shape="poly" id="edge14_Node000001_Node000015" title=" " alt="" coords="904,507,889,556,865,616,831,677,810,706,786,731,769,743,766,739,782,727,806,702,826,674,860,614,884,554,899,506"/>
+<area shape="rect" id="Node000016" href="$classstool_1_1NaiveBitVector.html#a2efb661a0963958110a969f679b5bf9d" title="Replace the len bits starting from the position p in the bits B with the first len bits of the 64&#45;bit..." alt="" coords="625,179,784,219"/>
+<area shape="poly" id="edge15_Node000001_Node000016" title=" " alt="" coords="898,441,882,395,858,339,825,282,782,233,766,221,769,217,786,229,829,279,863,337,887,393,903,439"/>
+<area shape="rect" id="Node000022" href="$classstool_1_1NaiveBitVector.html#a820be8f28ee6a9611335dc0c5fbe366f" title="Returns the position p of the (u &#45; i)&#45;th 1 in B if such a position exists, otherwise returns &#45;1...." alt="" coords="625,805,784,845"/>
+<area shape="poly" id="edge22_Node000001_Node000022" title=" " alt="" coords="908,508,896,568,874,644,838,724,814,762,786,795,770,807,767,803,782,791,810,759,833,722,869,643,891,567,903,507"/>
+<area shape="rect" id="Node000023" href="$classstool_1_1NaiveBitVector.html#a6ab54943c3440f1b930f38e183db3f44" title="Shifts the suffix B[p..] of the bits B[0..] to the left by len bits, i.e., B is changed to B[0...." alt="" coords="625,869,784,909"/>
+<area shape="poly" id="edge24_Node000001_Node000023" title=" " alt="" coords="911,507,902,579,882,672,866,722,845,771,819,817,786,859,771,871,768,867,782,855,814,814,840,769,861,720,877,671,897,578,906,507"/>
+<area shape="rect" id="Node000025" href="$classstool_1_1NaiveBitVector.html#a8f28327ad81a126a43b53bcfa7bf8a25" title="Insert the bits 0^{len} to the bits B at the position p." alt="" coords="625,115,784,155"/>
+<area shape="poly" id="edge26_Node000001_Node000025" title=" " alt="" coords="902,440,890,383,867,310,832,235,809,200,782,169,767,157,770,153,786,165,813,197,837,232,872,308,895,381,908,439"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#a965a42344ad80cf7495f54998244a902" title="Insert a bit v at the position p in the bits B." alt="" coords="212,69,371,109"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="405,74,371,80,370,74,405,69"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1NaiveBitVector.html#a14f85faa322ce5c0f4bcec266f1b632a" title="Add the first len bits of the 64&#45;bit integer value to the beginning of the bits B." alt="" coords="212,5,371,45"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="405,46,370,40,371,35,405,40"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveBitVector.html#ac7fd654a0221663c7973fe002b0b1174" title="Add a bit v to the beginning of the bits B." alt="" coords="5,69,164,109"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="198,92,164,92,164,87,198,87"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="611,380,577,380,577,375,611,375"/>
+<area shape="rect" id="Node000009" href="$classstool_1_1NaiveBitVector.html#adb8b5cb10a42259222b2e1dc5e209695" title="Returns the first position p such that psum(p) &gt;= x if such a position exists, otherwise returns &#45;1." alt="" coords="419,421,577,461"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="627,404,564,424,562,419,626,399"/>
+<area shape="poly" id="edge17_Node000016_Node000002" title=" " alt="" coords="630,174,623,169,607,149,599,129,591,110,576,91,558,80,561,75,579,87,596,107,604,127,611,146,627,165,633,169"/>
+<area shape="rect" id="Node000017" href="$classstool_1_1NaiveBitVector.html#adcba5f58469e611e187725454f5662b6" title="Insert the first w bits of the 64&#45;bit integers R of length q at the position p in the bits B." alt="" coords="419,101,577,141"/>
+<area shape="poly" id="edge16_Node000016_Node000017" title=" " alt="" coords="637,176,551,144,553,139,638,171"/>
+<area shape="rect" id="Node000018" href="$classstool_1_1NaiveBitVector.html#a84e1155c3f9c3ed993eec3c0683744fa" title="Add the first w bits of the 64&#45;bit integers R of length q to the end of the bits B." alt="" coords="419,165,577,205"/>
+<area shape="poly" id="edge18_Node000016_Node000018" title=" " alt="" coords="612,195,577,193,578,188,612,190"/>
+<area shape="rect" id="Node000019" href="$classstool_1_1NaiveBitVector.html#a58a40b00229f3caf75150cdc69fd0d64" title="Add the first w bits of the 64&#45;bit integers R of length q to the beginning of the bits B." alt="" coords="419,229,577,269"/>
+<area shape="poly" id="edge19_Node000016_Node000019" title=" " alt="" coords="613,224,578,233,577,227,611,219"/>
+<area shape="rect" id="Node000020" href="$classstool_1_1NaiveBitVector.html#a0ece12ac95af461ddb5998b6633055ab" title="Replace the p&#45;th bit in the bits B with the bit v." alt="" coords="419,293,577,333"/>
+<area shape="poly" id="edge20_Node000016_Node000020" title=" " alt="" coords="636,227,627,233,613,245,603,258,594,270,579,284,558,295,555,291,576,279,590,267,599,254,609,242,624,229,633,223"/>
+<area shape="rect" id="Node000021" href="$classstool_1_1NaiveBitVector.html#aed95a71b19a889ace3ac2418a5676065" title="Increment the bit at the position i in the bits B by delta." alt="" coords="212,293,371,333"/>
+<area shape="poly" id="edge21_Node000020_Node000021" title=" " alt="" coords="405,316,371,316,371,311,405,311"/>
+<area shape="rect" id="Node000024" href="$classstool_1_1NaiveBitVector.html#a00b4d1b212f326031a2321b9f99ad250" title="Remove the len bits from the bits B starting from the position p." alt="" coords="419,869,577,909"/>
+<area shape="poly" id="edge25_Node000023_Node000024" title=" " alt="" coords="611,892,577,892,577,887,611,887"/>
+<area shape="poly" id="edge28_Node000025_Node000002" title=" " alt="" coords="637,112,551,80,553,75,638,107"/>
+<area shape="poly" id="edge27_Node000025_Node000017" title=" " alt="" coords="612,131,577,129,578,124,612,126"/>
+<area shape="poly" id="edge29_Node000025_Node000018" title=" " alt="" coords="613,160,578,169,577,163,611,155"/>
+<area shape="poly" id="edge30_Node000025_Node000019" title=" " alt="" coords="636,163,627,169,613,181,603,194,594,206,579,220,558,231,555,227,576,215,590,203,599,190,609,178,624,165,633,159"/>
+</map>

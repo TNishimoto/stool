@@ -1,0 +1,7 @@
+<map id="stool::RMQSparseTable::rmq_index" name="stool::RMQSparseTable::rmq_index">
+<area shape="rect" id="Node000001" title="Finds the index of the minimum element in the range [i, j]." alt="" coords="5,5,176,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Log.html#aac2d1df1a039ee2e80efc426541c5762" title="Computes ⌊ log_{2}(n) ⌋." alt="" coords="224,13,381,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,23,210,23,210,28,177,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="429,5,575,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="382,23,416,23,416,28,382,28"/>
+</map>

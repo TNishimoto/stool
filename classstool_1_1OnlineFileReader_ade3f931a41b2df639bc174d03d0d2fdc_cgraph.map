@@ -1,0 +1,7 @@
+<map id="stool::OnlineFileReader::get_alphabet" name="stool::OnlineFileReader::get_alphabet">
+<area shape="rect" id="Node000001" title="Returns the alphabet U of the text T stored in the file filepath." alt="" coords="5,37,179,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1OnlineFileReader.html#aa1c44346d401e00c98732917e0e154ab" title="Returns the length n of the text T[0..n&#45;1] stored in the file F." alt="" coords="227,5,400,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,42,213,37,214,42,180,47"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1OnlineFileReader.html#ade9118b6f351a8b2e16acd6ad9f4ff76" title="Reads T[i..i+m&#45;1] from a given file F and writes the read data into a vector output." alt="" coords="227,69,400,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,67,214,72,213,78,179,73"/>
+</map>

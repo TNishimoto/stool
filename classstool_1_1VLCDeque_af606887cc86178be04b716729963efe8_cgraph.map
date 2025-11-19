@@ -1,0 +1,8 @@
+<map id="stool::VLCDeque::psum" name="stool::VLCDeque::psum">
+<area shape="rect" id="Node000001" title="Computes the sum of elements between two indices." alt="" coords="5,29,179,55"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="57,31,49,21,53,11,68,5,92,3,122,6,134,15,131,20,120,11,92,8,69,10,57,15,54,20,61,28"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#adf3de5a293ca35b2ed2b771ae80dbc15" title="Returns the number of elements in the deque." alt="" coords="227,29,389,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="179,39,213,39,213,45,179,45"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="437,22,587,62"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="389,39,424,39,424,45,389,45"/>
+</map>

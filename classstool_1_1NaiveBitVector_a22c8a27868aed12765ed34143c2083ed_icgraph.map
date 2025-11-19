@@ -1,0 +1,5 @@
+<map id="stool::NaiveBitVector::select1" name="stool::NaiveBitVector::select1">
+<area shape="rect" id="Node000001" title="Returns the position p of the (i+1)&#45;th 1 in B if such a position exists, otherwise returns &#45;1." alt="" coords="212,5,371,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#adb8b5cb10a42259222b2e1dc5e209695" title="Returns the first position p such that psum(p) &gt;= x if such a position exists, otherwise returns &#45;1." alt="" coords="5,5,164,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,28,164,28,164,23,198,23"/>
+</map>

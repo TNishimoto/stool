@@ -1,0 +1,9 @@
+<map id="stool::RMQSparseTable::rmq" name="stool::RMQSparseTable::rmq">
+<area shape="rect" id="Node000001" title="Finds the minimum value in the range [i, j]." alt="" coords="5,13,211,38"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1RMQSparseTable.html#a0a582cf5f2b11348c8a178c7a046baa0" title="Finds the index of the minimum element in the range [i, j]." alt="" coords="259,5,429,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,23,245,23,245,28,211,28"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1Log.html#aac2d1df1a039ee2e80efc426541c5762" title="Computes ⌊ log_{2}(n) ⌋." alt="" coords="477,13,635,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="430,23,464,23,464,28,430,28"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1LSBByte.html#a964d8be5364e393c195d60e594fd92e4" title="Returns the bit size of 64&#45;bit B when B is represented as an integer (e.g., get_code_length(1000) = 4..." alt="" coords="683,5,828,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="635,23,669,23,669,28,635,28"/>
+</map>

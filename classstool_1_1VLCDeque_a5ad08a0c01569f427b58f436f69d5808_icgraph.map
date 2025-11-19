@@ -1,0 +1,9 @@
+<map id="stool::VLCDeque::set_value" name="stool::VLCDeque::set_value">
+<area shape="rect" id="Node000001" title="Sets a new value at the specified position." alt="" coords="479,23,636,63"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#aa40877a7957a420b563c70e894ef6802" title="Increments a value at a given index by a delta." alt="" coords="5,5,208,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="465,25,430,21,315,15,208,16,208,10,316,9,431,15,465,20"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1VLCDeque.html#a085a9a345d5356f432afb5ff709a0a61" title="Inserts a value at the specified position." alt="" coords="256,31,431,56"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="465,55,431,55,431,50,465,50"/>
+<area shape="poly" id="edge4_Node000003_Node000001" title=" " alt="" coords="444,32,479,32,478,37,444,37"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="242,35,208,32,209,26,242,30"/>
+</map>

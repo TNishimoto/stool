@@ -1,0 +1,7 @@
+<map id="stool::NaiveBitVector::push_back" name="stool::NaiveBitVector::push_back">
+<area shape="rect" id="Node000001" title="Add a bit v to the end of the bits B." alt="" coords="212,37,371,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveBitVector.html#a09c4dc95d904c850785839053896ad60" title="Constructor with B[0..n&#45;1] = bv[0..n&#45;1]." alt="" coords="5,5,164,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,46,164,40,164,35,199,40"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveBitVector.html#ac7fd654a0221663c7973fe002b0b1174" title="Add a bit v to the beginning of the bits B." alt="" coords="5,69,164,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="199,74,164,80,164,74,198,69"/>
+</map>

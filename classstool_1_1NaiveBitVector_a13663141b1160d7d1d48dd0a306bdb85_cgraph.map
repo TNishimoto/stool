@@ -1,0 +1,15 @@
+<map id="stool::NaiveBitVector::select1_predecessor" name="stool::NaiveBitVector::select1_predecessor">
+<area shape="rect" id="Node000001" title="Returns the last occurrence position p of 1 in B such that p &lt;= i (if such a position does not exist,..." alt="" coords="5,63,168,103"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Byte.html#a4c7908e38dd210938f5cd86298d70bcb" title="Counts the number of 1 bits in a 64&#45;bit integer x." alt="" coords="435,5,595,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,61,171,45,215,33,321,18,421,14,421,19,322,23,217,38,173,50,132,66"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1LSBByte.html#ac6c6ce471ee2c502956c54dbad38e236" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit B[63..0]." alt="" coords="216,71,387,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="168,81,202,81,202,86,168,86"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1NaiveBitVector.html#ad1bc5c560634ef782de943bf003eb3a1" title="Get the current number of bits (i.e., |B|)" alt="" coords="222,121,381,161"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="163,101,213,114,212,120,161,106"/>
+<area shape="poly" id="edge5_Node000003_Node000002" title=" " alt="" coords="343,68,459,32,460,37,345,73"/>
+<area shape="poly" id="edge6_Node000003_Node000003" title=" " alt="" coords="266,72,259,62,263,52,277,46,301,44,331,48,343,57,340,61,329,53,301,49,279,51,267,56,264,62,271,69"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1LSBByte.html#af8dbf01c26d534e1b0b341ac2dff5a2f" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit B[63..0]." alt="" coords="435,63,595,103"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="387,81,421,81,421,86,387,86"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1LSBByte.html#a27e9b5fe24b07343f29aeb9deeb19e2f" title="Returns the i&#45;th bit of 64&#45;bit B[63..0]." alt="" coords="643,71,812,96"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="595,81,629,81,629,86,595,86"/>
+</map>

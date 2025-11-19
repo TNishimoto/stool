@@ -1,0 +1,5 @@
+<map id="stool::RMQSmallSparseTable::rmq_index" name="stool::RMQSmallSparseTable::rmq_index">
+<area shape="rect" id="Node000001" title="Finds the index of the minimum element in the range [i, j] of the array." alt="" coords="296,5,504,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1RMQSmallSparseTable.html#af51ed7e712f7eb60f5ddd6b97d0abc74" title="Returns the minimum element in the range [i, j] of the array." alt="" coords="5,13,248,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="282,28,248,28,248,23,282,23"/>
+</map>

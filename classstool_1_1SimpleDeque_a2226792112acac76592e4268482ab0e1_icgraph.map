@@ -1,0 +1,14 @@
+<map id="stool::SimpleDeque::insert" name="stool::SimpleDeque::insert">
+<area shape="rect" id="Node000001" title="Insert an element at the specified iterator position." alt="" coords="897,29,1047,69"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="1007,18,994,11,972,8,952,10,941,15,936,21,938,28,933,30,931,20,937,11,951,5,972,3,996,6,1009,13"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#a16d96ec3c68cc8d74c68330705e5a12f" title="Shifts values to the right starting from a given position." alt="" coords="684,29,849,69"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="883,52,850,52,850,47,883,47"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1VLCDeque.html#a085a9a345d5356f432afb5ff709a0a61" title="Inserts a value at the specified position." alt="" coords="461,37,636,62"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="670,52,636,52,636,47,670,47"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1VLCDeque.html#aa40877a7957a420b563c70e894ef6802" title="Increments a value at a given index by a delta." alt="" coords="5,9,208,34"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="491,36,413,20,307,14,208,16,208,11,308,9,414,15,492,30"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1VLCDeque.html#a5ad08a0c01569f427b58f436f69d5808" title="Sets a new value at the specified position." alt="" coords="256,29,413,69"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="447,61,414,61,414,55,447,56"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="427,38,461,38,461,43,427,43"/>
+<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="242,41,208,36,209,31,243,35"/>
+</map>

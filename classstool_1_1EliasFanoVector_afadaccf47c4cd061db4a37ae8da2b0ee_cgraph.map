@@ -1,0 +1,14 @@
+<map id="stool::EliasFanoVector::construct" name="stool::EliasFanoVector::construct">
+<area shape="rect" id="Node000001" title="Constructs the Elias&#45;Fano vector from a sequence of integers." alt="" coords="5,113,169,153"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1EliasFanoVector.html#a2aece7d6c31a3b5ad5bd2d33a3cdcf1a" title="Builds the Elias&#45;Fano vector from a builder object." alt="" coords="241,5,405,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,111,163,83,216,55,235,47,237,52,218,60,165,87,120,115"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1EliasFanoVectorBuilder.html#a907c2a307c0f7ad5ec0b7aac27ca215f" title="Finalize the construction by adding the final zero bit." alt="" coords="217,69,428,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,115,203,109,204,114,170,121"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1EliasFanoVectorBuilder.html#af6626f42cb3bddd6ff1e6b8ba8d8263a" title="Initialize the builder with universe size and element count." alt="" coords="217,157,428,197"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="170,146,204,152,203,158,169,151"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1EliasFanoVectorBuilder.html#a9204b19930822be815d0b556f10af27d" title="Add a value to the sequence." alt="" coords="217,221,428,261"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="120,151,165,179,218,207,237,214,235,219,216,212,163,184,117,156"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="279,158,276,148,283,138,299,133,323,131,350,134,365,141,363,146,349,139,323,136,300,138,286,143,281,149,284,156"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1EliasFanoVectorBuilder.html#a277a6d927486ad735512e7d0afd24492" title="Split a value into upper and lower bits." alt="" coords="476,221,687,261"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="428,239,463,239,463,244,428,244"/>
+</map>

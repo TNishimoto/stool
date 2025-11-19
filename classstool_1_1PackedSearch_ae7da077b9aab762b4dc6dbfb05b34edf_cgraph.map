@@ -1,0 +1,16 @@
+<map id="stool::PackedSearch::search64x1bits" name="stool::PackedSearch::search64x1bits">
+<area shape="rect" id="Node000001" title="Computes the smallest position i such that S[0] + S[1] + ...+ S[i] &gt;= x for a given x in 1 bit sequen..." alt="" coords="5,5,156,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Byte.html#a4c7908e38dd210938f5cd86298d70bcb" title="Counts the number of 1 bits in a 64&#45;bit integer x." alt="" coords="647,38,807,63"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,20,356,19,478,22,599,29,636,34,635,39,598,35,477,27,356,24,156,25"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1MSBByte.html#ab54bab77c74a5a7abca9e9d6e8b8336e" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit B if such bit exists; otherwise return &#45;1." alt="" coords="204,38,380,63"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,32,191,36,190,41,156,37"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="380,48,633,48,633,53,380,53"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1LSBByte.html#ac6c6ce471ee2c502956c54dbad38e236" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit B[63..0]." alt="" coords="428,113,599,138"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="332,61,463,106,461,111,330,66"/>
+<area shape="poly" id="edge7_Node000004_Node000002" title=" " alt="" coords="550,110,676,65,678,70,552,115"/>
+<area shape="poly" id="edge8_Node000004_Node000004" title=" " alt="" coords="478,114,471,104,475,94,489,88,513,86,543,90,555,99,552,103,541,95,513,91,491,93,479,98,476,104,483,111"/>
+<area shape="rect" id="Node000005" href="$classstool_1_1LSBByte.html#af8dbf01c26d534e1b0b341ac2dff5a2f" title="Returns the position of the (i+1)&#45;th 1 in 64&#45;bit B[63..0]." alt="" coords="647,105,807,145"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="599,123,633,123,633,128,599,128"/>
+<area shape="rect" id="Node000006" href="$classstool_1_1LSBByte.html#a27e9b5fe24b07343f29aeb9deeb19e2f" title="Returns the i&#45;th bit of 64&#45;bit B[63..0]." alt="" coords="855,113,1024,138"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="807,123,841,123,841,128,807,128"/>
+</map>

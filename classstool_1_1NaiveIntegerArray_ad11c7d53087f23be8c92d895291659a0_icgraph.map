@@ -1,0 +1,9 @@
+<map id="stool::NaiveIntegerArray::pop_front" name="stool::NaiveIntegerArray::pop_front">
+<area shape="rect" id="Node000001" title="Remove the first element from S." alt="" coords="464,37,645,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveIntegerArray.html#aa8969e1153632421feb70a2ace253fac" title="Remove the element at the position pos from S and return it." alt="" coords="235,5,416,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="450,45,416,41,417,35,451,40"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1NaiveIntegerArray.html#ab07ddf25f2b7b9eee142fc7a9cbe8fdc" title="Remove the first len elements from S." alt="" coords="235,69,416,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="451,74,417,79,416,74,450,69"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveIntegerArray.html#a6fe1678007ea7b2f0856724661506c2e" title="Remove the element at the position pos from S and return it." alt="" coords="5,5,187,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="221,28,187,28,187,23,221,23"/>
+</map>

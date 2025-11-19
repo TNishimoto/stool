@@ -1,0 +1,6 @@
+<map id="stool::StringGenerator::create_all_permutations" name="stool::StringGenerator::create_all_permutations">
+<area shape="rect" id="Node000001" title="Recursively generates all possible permutations of a given length using the provided alphabet." alt="" coords="241,29,429,69"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="375,18,361,11,335,8,313,10,299,15,294,21,297,28,292,30,289,20,296,10,312,5,335,3,363,6,378,13"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1StringGenerator.html#a83c0d6b1afa0fca17ad02b1b9e66756d" title="Generates all possible permutations of a given length using the provided alphabet." alt="" coords="5,29,193,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,52,194,52,194,47,227,47"/>
+</map>

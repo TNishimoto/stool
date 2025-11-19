@@ -1,0 +1,5 @@
+<map id="stool::OnlineFileReader::equal_check" name="stool::OnlineFileReader::equal_check">
+<area shape="rect" id="Node000001" title="Compares two files F and Q for equality." alt="" coords="5,5,179,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1OnlineFileReader.html#ade9118b6f351a8b2e16acd6ad9f4ff76" title="Reads T[i..i+m&#45;1] from a given file F and writes the read data into a vector output." alt="" coords="227,5,400,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,23,213,23,213,28,179,28"/>
+</map>

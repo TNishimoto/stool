@@ -1,0 +1,9 @@
+<map id="stool::MSBByte::special_select0" name="stool::MSBByte::special_select0">
+<area shape="rect" id="Node000001" title="Returns the position of the (i+Q+1)&#45;th 0 in 64&#45;bit sequence B[0..array_size&#45;1] if such bit exists; ot..." alt="" coords="5,5,180,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1Byte.html#a4c7908e38dd210938f5cd86298d70bcb" title="Counts the number of 1 bits in a 64&#45;bit integer x." alt="" coords="452,13,612,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,14,228,11,316,8,404,11,438,13,438,18,404,16,316,13,228,16,180,19"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1MSBByte.html#a1daa0bdfb312e349d9ae4d576ff1ecea" title="Returns the position of the (i+1)&#45;th 0 in 64&#45;bit sequence B[0..array_size&#45;1] if such bit exists; othe..." alt="" coords="228,50,404,75"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,37,227,45,226,50,180,43"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="390,47,444,38,445,43,391,53"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="281,52,273,42,277,32,292,26,316,23,346,27,358,36,355,40,344,32,316,29,293,31,281,36,278,41,285,48"/>
+</map>

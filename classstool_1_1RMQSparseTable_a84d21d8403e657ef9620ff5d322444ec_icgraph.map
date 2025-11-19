@@ -1,0 +1,5 @@
+<map id="stool::RMQSparseTable::build" name="stool::RMQSparseTable::build">
+<area shape="rect" id="Node000001" title="Builds the sparse table from the given array." alt="" coords="261,5,432,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1RMQSmallSparseTable.html#a9b27348690cdeb1431f00e3dc4e28e09" title="Builds the small sparse table from the given array." alt="" coords="5,5,213,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="248,28,213,28,213,23,248,23"/>
+</map>

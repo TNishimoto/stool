@@ -1,0 +1,7 @@
+<map id="stool::RMQSparseTable::clear" name="stool::RMQSparseTable::clear">
+<area shape="rect" id="Node000001" title="Clears the sparse table." alt="" coords="480,5,651,45"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1RMQSparseTable.html#a84d21d8403e657ef9620ff5d322444ec" title="Builds the sparse table from the given array." alt="" coords="261,5,432,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="466,28,432,28,432,23,466,23"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1RMQSmallSparseTable.html#a9b27348690cdeb1431f00e3dc4e28e09" title="Builds the small sparse table from the given array." alt="" coords="5,5,213,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="248,28,213,28,213,23,248,23"/>
+</map>

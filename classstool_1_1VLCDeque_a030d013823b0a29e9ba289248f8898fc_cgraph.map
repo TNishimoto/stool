@@ -1,0 +1,5 @@
+<map id="stool::VLCDeque::end" name="stool::VLCDeque::end">
+<area shape="rect" id="Node000001" title="Returns an iterator to the end of the deque." alt="" coords="5,13,167,38"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="215,5,364,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,23,201,23,201,28,167,28"/>
+</map>

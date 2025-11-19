@@ -1,0 +1,5 @@
+<map id="stool::SubstringComplexityFunctions::compute_LCP_statistics" name="stool::SubstringComplexityFunctions::compute_LCP_statistics">
+<area shape="rect" id="Node000001" title="Computes the LCP statistics (LCPS) array from an LCP array." alt="" coords="260,5,459,60"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1SubstringComplexityFunctions.html#a2cadfdf6348ec40228db2caeac773395" title="Constructs a distinct substring counter array (DSCA) from an LCP array." alt="" coords="5,5,212,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,35,212,35,212,30,247,30"/>
+</map>

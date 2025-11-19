@@ -1,0 +1,7 @@
+<map id="stool::NaiveIntegerArray::set_value" name="stool::NaiveIntegerArray::set_value">
+<area shape="rect" id="Node000001" title="Set a given value v at a given position i in S." alt="" coords="235,37,416,77"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1NaiveIntegerArray.html#ae0cd4856d0e94cfd11cfb0e3cd79fe7d" title="Set the value S[i&#45;delta] at a given position i in S." alt="" coords="5,5,187,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,45,187,41,187,35,222,40"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1NaiveIntegerArray.html#a499bc8e2a93ad8ef520b574bafed3360" title="Set the value S[i+delta] at a given position i in S." alt="" coords="5,69,187,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="222,74,187,79,187,74,221,69"/>
+</map>

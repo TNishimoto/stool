@@ -1,0 +1,10 @@
+<map id="stool::VLCDeque::tail" name="stool::VLCDeque::tail">
+<area shape="rect" id="Node000001" title="Returns the value at the back of the deque." alt="" coords="5,31,164,56"/>
+<area shape="rect" id="Node000002" href="$classstool_1_1VLCDeque.html#a030d013823b0a29e9ba289248f8898fc" title="Returns an iterator to the end of the deque." alt="" coords="213,5,374,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,31,199,27,199,32,165,36"/>
+<area shape="rect" id="Node000004" href="$classstool_1_1VLCDeque.html#adf3de5a293ca35b2ed2b771ae80dbc15" title="Returns the number of elements in the deque." alt="" coords="212,55,375,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="165,50,198,54,198,59,164,55"/>
+<area shape="rect" id="Node000003" href="$classstool_1_1SimpleDeque.html#ad2ad160461ebaf8373a804620a5f940e" title="Get the current number of elements." alt="" coords="423,23,572,63"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="375,25,409,30,409,35,374,31"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="375,55,409,51,410,56,375,60"/>
+</map>
