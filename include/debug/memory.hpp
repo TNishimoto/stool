@@ -7,6 +7,7 @@
 #ifdef __linux__
 #include <malloc.h>
 #elif defined(__APPLE__)
+#include <sys/resource.h>
 #include <mach/mach.h>
 #include <iostream>
 #include <cstdint>
@@ -22,7 +23,8 @@ namespace stool
 	{
 	public:
 #if defined(__APPLE__)
-		static uint64_t current_memory_footprint_bytes()
+        /*		
+static uint64_t current_memory_footprint_bytes()
 		{
 			task_vm_info_data_t info;
 			mach_msg_type_number_t count = TASK_VM_INFO_COUNT;
@@ -34,6 +36,13 @@ namespace stool
 				return 0;
 			return static_cast<uint64_t>(info.phys_footprint);
 		}
+		*/
+		static uint64_t getPeakRSS() {
+			struct rusage r;
+			getrusage(RUSAGE_SELF, &r);
+			return r.ru_maxrss;
+		}
+		
 #endif
 
 		/**
@@ -49,7 +58,7 @@ namespace stool
 			struct mallinfo2 mi = mallinfo2();
 			std::cout << "Total allocated space: " << mi.uordblks << " bytes" << std::endl;
 #elif defined(__APPLE__)
-			const uint64_t bytes = current_memory_footprint_bytes();
+			const uint64_t bytes = Memory::getPeakRSS();
 			std::cout << "Memory footprint: "
 					  << (bytes / 1024) << " KB ("
 					  << (bytes / (1024 * 1024)) << " MB)"
