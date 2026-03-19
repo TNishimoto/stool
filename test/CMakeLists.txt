@@ -14,6 +14,10 @@ endif(CPP_STATIC)
 set(CMAKE_CXX_FLAGS_DEBUG  "-g -O0 -DDEBUG  -fsanitize=address -fno-omit-frame-pointer")
 set(CMAKE_CXX_FLAGS_RELEASE  "-O3 -DNDEBUG  -Rpass=loop-vectorize")
 
+INCLUDE_DIRECTORIES(../modules)
+INCLUDE_DIRECTORIES(../modules/sdsl-lite/include)
+
+
 #SDSL lib and include directory are here
 #Please modify it appropriately.
 
@@ -78,7 +82,8 @@ add_executable(naive_flc_vector_test.out sources/main/naive_flc_vector_test_main
 add_executable(naive_array_test.out sources/main/naive_array_test_main.cpp)
 add_executable(naive_array_for_faster_psum_test.out sources/main/naive_array_for_faster_psum_test_main.cpp)
 add_executable(eytzinger_layout_for_psum_test.out sources/main/eytzinger_layout_for_psum_test_main.cpp)
-
+add_executable(sa_test.out sources/main/sa_test_main.cpp)
+add_executable(lf_test.out sources/main/lf_test_main.cpp)
 
 #add_executable(naive_vlc_array_test.out sources/naive_vlc_array_test_main.cpp)
 

@@ -31,6 +31,7 @@
 #include "./strings/lcp_interval.hpp"
 #include "./strings/lcp_interval_comparator_in_preorder.hpp"
 #include "./strings/lcp_interval_comparator_in_depth_order.hpp"
+#include "./strings/sa_is.hpp"
 #include "./strings/array_constructor.hpp"
 #include "./strings/string_functions_on_sa.hpp"
 #include "./strings/string_functions.hpp"

@@ -239,10 +239,10 @@ namespace stool
             this->max_value = obj.max_value;
             this->upper_bits.swap(obj.upper_bits);
             this->upper_selecter.set_vector(&this->upper_bits);
-            this->upper_selecter.swap(obj.upper_selecter);
+            std::swap(this->upper_selecter, obj.upper_selecter);
 
             this->upper_0selecter.set_vector(&this->upper_bits);
-            this->upper_0selecter.swap(obj.upper_0selecter);
+            std::swap(this->upper_0selecter, obj.upper_0selecter);
         }
         
         /**
@@ -260,12 +260,12 @@ namespace stool
 
             
             this->upper_selecter.set_vector(&this->upper_bits);
-            this->upper_selecter.swap(obj.upper_selecter);
+            std::swap(this->upper_selecter, obj.upper_selecter);
             
 
             
             this->upper_0selecter.set_vector(&this->upper_bits);
-            this->upper_0selecter.swap(obj.upper_0selecter);
+            std::swap(this->upper_0selecter, obj.upper_0selecter);
 
             
         }
@@ -306,11 +306,11 @@ namespace stool
 
             sdsl::bit_vector::select_1_type b_sel(&upper_bits);
             upper_selecter.set_vector(&upper_bits);
-            upper_selecter.swap(b_sel);
+            std::swap(upper_selecter, b_sel);
 
             sdsl::bit_vector::select_0_type b0_sel(&upper_bits);
             upper_0selecter.set_vector(&upper_bits);
-            upper_0selecter.swap(b0_sel);
+            std::swap(upper_0selecter, b0_sel);
 
             this->lower_bits.swap(builder.lower_bits);
             /*

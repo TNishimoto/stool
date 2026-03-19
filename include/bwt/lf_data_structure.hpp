@@ -5,11 +5,12 @@
 #include <random>
 #include <algorithm>
 #include <set>
-#include <sdsl/bit_vectors.hpp>
-#include <sdsl/wt_gmr.hpp>
-#include <sdsl/int_vector.hpp>
-#include <sdsl/wavelet_trees.hpp>
-#include <sdsl/wt_algorithm.hpp>
+#include "./bwt_functions.hpp"
+#include "sdsl-lite/include/sdsl/bit_vectors.hpp"
+#include "sdsl-lite/include/sdsl/wt_gmr.hpp"
+#include "sdsl-lite/include/sdsl/int_vector.hpp"
+#include "sdsl-lite/include/sdsl/wavelet_trees.hpp"
+#include "sdsl-lite/include/sdsl/wt_algorithm.hpp"
 
 #include <queue>
 #include "../strings/array_constructor.hpp"
@@ -243,7 +244,8 @@ namespace stool
 
                 LFDataStructure r;
                 r.bwt.swap(_bwt);
-                r.wt.swap(wt_gmr);
+                std::swap(r.wt, wt_gmr);
+                //r.wt.swap(wt_gmr);
                 r.C.swap(c_array);
                 r.end_marker = end_marker;
                 r.end_marker_position = end_marker_position;

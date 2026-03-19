@@ -1,3 +1,6 @@
 [submodule "experiment/modules/libdivsufsort"]
 	path = experiment/modules/libdivsufsort
 	url = https://github.com/TNishimoto/libdivsufsort.git
+[submodule "modules/sdsl-lite"]
+	path = modules/sdsl-lite
+	url = https://github.com/xxsds/sdsl-lite.git

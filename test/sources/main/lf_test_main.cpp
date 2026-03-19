@@ -4,7 +4,7 @@
 #include <bitset>
 #include <cassert>
 #include <chrono>
-#include "../../include/lib.hpp"
+#include "../../../include/all_with_modules.hpp"
 
 
 int main(int argc, char *argv[])
@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
                 std::vector<uint8_t> text = stool::RandomString::create_random_sequence<uint8_t>(len, alphabet, seed++);
                 text.push_back(end_marker);
                 std::vector<uint64_t> sa = stool::ArrayConstructor::construct_naive_suffix_array(text);
-                std::vector<uint8_t> bwt = stool::ArrayConstructor::construct_BWT(text, sa);
-                auto ds = stool::bwt::LFDataStructure::build(bwt);
+                std::vector<uint8_t> bwt = stool::ArrayConstructor::construct_BWT(text, sa,stool::Message::NO_MESSAGE);
+                auto ds = stool::bwt::LFDataStructure::build(bwt,stool::Message::NO_MESSAGE);
                 
                 std::vector<uint64_t> test_sa = ds.construct_suffix_array();
 
