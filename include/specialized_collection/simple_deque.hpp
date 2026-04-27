@@ -3,6 +3,7 @@
 #include <deque>
 #include <bitset>
 #include <cassert>
+#include <fstream>
 #include "../basic/byte.hpp"
 #include "../basic/lsb_byte.hpp"
 #include "../debug/debug_printer.hpp"
@@ -645,7 +646,7 @@ namespace stool
         {
             if (position > 0)
             {
-                for (int64_t i = position + 1; i < this->deque_size_; ++i)
+                for (int64_t i = position + 1; i < (int64_t)this->deque_size_; ++i)
                 {
                     uint64_t pos = this->starting_position_ + i;
                     if (pos >= this->circular_buffer_size_)
@@ -686,8 +687,12 @@ namespace stool
 
             if (size > SimpleDeque<T, INDEX_TYPE>::max_deque_size())
             {
-                std::cout << "@@@" << capacity_bit_size << "/" << SimpleDeque<T, INDEX_TYPE>::max_deque_size() << "/" << size << "/" << this->deque_size_ << std::endl;
-                throw std::invalid_argument("shrink_to_fit");
+                //std::cout << "@@@" << capacity_bit_size << "/" << SimpleDeque<T, INDEX_TYPE>::max_deque_size() << "/" << size << "/" << this->deque_size_ << std::endl;
+                std::cout << "Max Size: " << SimpleDeque<T, INDEX_TYPE>::max_deque_size() << std::endl;
+                std::cout << "Size: " << size << std::endl;
+                std::cout << "Deque Size: " << this->deque_size_ << std::endl;
+                std::cout << "Capacity Bit Size: " << capacity_bit_size << std::endl;
+                throw std::invalid_argument("shrink_to_fit: size would exceed maximum allowed size");
             }
             else if (size > this->deque_size_)
             {

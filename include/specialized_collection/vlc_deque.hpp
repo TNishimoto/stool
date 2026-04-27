@@ -2,6 +2,7 @@
 #include <vector>
 #include <deque>
 #include <bitset>
+#include <fstream>
 #include "../basic/byte.hpp"
 #include "../basic/lsb_byte.hpp"
 #include "../basic/msb_byte.hpp"
@@ -40,6 +41,11 @@ namespace stool
 			uint64_t suf = code & mask;
 			return suf;
 		}
+        static uint64_t max_deque_size()
+        {
+            return 16380;
+        }
+
         /**
          * @class VLCDequeIterator
          * @brief Bidirectional iterator for VLCDeque.
@@ -721,6 +727,11 @@ namespace stool
         void push_back(uint64_t v)
         {
 
+            if(this->size() >= VLCDeque::max_deque_size()){
+                throw std::invalid_argument("push_back: size would exceed maximum allowed size");
+            }
+
+
             uint64_t value_length = stool::LSBByte::get_code_length(v);
             this->value_length_deque.push_back(value_length);
             if (v > 0)
@@ -768,6 +779,10 @@ namespace stool
          */
         void push_front(uint64_t v)
         {
+            if(this->size() >= VLCDeque::max_deque_size()){
+                throw std::invalid_argument("push_front: size would exceed maximum allowed size");
+            }
+
             uint64_t value_length = stool::LSBByte::get_code_length(v);
             this->value_length_deque.push_front(value_length);
             if (v > 0)

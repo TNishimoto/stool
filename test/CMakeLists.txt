@@ -18,15 +18,6 @@ INCLUDE_DIRECTORIES(../modules)
 INCLUDE_DIRECTORIES(../modules/sdsl-lite/include)
 
 
-#SDSL lib and include directory are here
-#Please modify it appropriately.
-
-#find_library(SDSL_LIBRARY_DIR sdsl REQUIRED)
-#find_path(SDSL_INCLUDE_DIR sdsl REQUIRED)
-
-#LINK_DIRECTORIES(${SDSL_LIBRARY_DIR})
-#include_directories(${SDSL_INCLUDE_DIR})
-
 #[[
 
 add_executable(elias_fano_test.out sources/elias_fano_test_main.cpp)
@@ -72,18 +63,21 @@ else()
     message(STATUS "Not a 64-bit architecture.")
 endif()
 
-add_executable(integer_sketch_test.out sources/main/integer_sketch_test_main.cpp)
+add_executable(simple_deque_test.out sources/main/specialized_collection/simple_deque_test_main.cpp)
+add_executable(vlc_deque_test.out sources/main/specialized_collection/vlc_deque_test_main.cpp)
 
+#add_executable(integer_sketch_test.out sources/main/integer_sketch_test_main.cpp)
 
 #add_executable(bit_deque_test.out sources/bit_deque_test_main.cpp)
 
-add_executable(naive_bit_vector_test.out sources/main/naive_bit_vector_test_main.cpp)
-add_executable(naive_flc_vector_test.out sources/main/naive_flc_vector_test_main.cpp)
-add_executable(naive_array_test.out sources/main/naive_array_test_main.cpp)
-add_executable(naive_array_for_faster_psum_test.out sources/main/naive_array_for_faster_psum_test_main.cpp)
-add_executable(eytzinger_layout_for_psum_test.out sources/main/eytzinger_layout_for_psum_test_main.cpp)
-add_executable(sa_test.out sources/main/sa_test_main.cpp)
-add_executable(lf_test.out sources/main/lf_test_main.cpp)
+#add_executable(naive_bit_vector_test.out sources/main/naive_bit_vector_test_main.cpp)
+#add_executable(naive_flc_vector_test.out sources/main/naive_flc_vector_test_main.cpp)
+#add_executable(naive_array_test.out sources/main/naive_array_test_main.cpp)
+#add_executable(naive_array_for_faster_psum_test.out sources/main/naive_array_for_faster_psum_test_main.cpp)
+#add_executable(eytzinger_layout_for_psum_test.out sources/main/eytzinger_layout_for_psum_test_main.cpp)
+#add_executable(sa_test.out sources/main/sa_test_main.cpp)
+#add_executable(lf_test.out sources/main/lf_test_main.cpp)
+
 
 #add_executable(naive_vlc_array_test.out sources/naive_vlc_array_test_main.cpp)
 
