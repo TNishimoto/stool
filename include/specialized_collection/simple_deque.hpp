@@ -734,7 +734,40 @@ namespace stool
 
             return r;
         }
-        
+
+        std::vector<T> to_vector() const
+        {
+            std::vector<T> r;
+            r.reserve(this->size());
+
+            for (SimpleDequeIterator it = this->begin(); it != this->end(); ++it)
+            {
+                r.push_back(*it);
+            }
+            assert(r.size() == this->size());
+
+            return r;
+        }
+        std::vector<std::string> to_xml_data(std::string name = "") const {
+            std::vector<std::string> r;
+            std::string s1 = "<SimpleDeque name=\"" + name + "\"" + "circular_buffer_size=\"" + std::to_string(this->circular_buffer_size_) + "\""
+            + "starting_position=\"" + std::to_string(this->starting_position_) + "\"" + "deque_size=\""  + std::to_string(this->deque_size_) + "\"" + ">";
+            std::string s2 = "";
+            for(size_t i = 0; i < this->circular_buffer_size_; i++){
+                s2 += std::to_string(this->circular_buffer_[i]);
+                if(i < this->circular_buffer_size_ - 1){
+                    s2 += ", ";
+                }
+            }
+            std::string s3 = "</SimpleDeque>";
+            r.push_back(s1);
+            r.push_back(s2);
+            r.push_back(s3);
+            return r;
+        } 
+
+
+
         /**
          * @brief Print debug information about the deque
          */

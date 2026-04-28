@@ -57,7 +57,20 @@ namespace stool
 			std::cout << name << ": " << ConverterToString::to_integer_string_with_characters(items, separator) << std::endl;
 		}
 
-		
+
+		template <typename T>
+		static void print_msb_64bits(T &X, uint64_t size_of_X, std::string name)
+		{
+			std::cout << name << ": ";
+			for (uint64_t i = 0; i < size_of_X; i++)
+			{
+				uint64_t x = X[i];
+				std::cout  << stool::Byte::to_bit_string(x, true) << " ";
+			}
+			std::cout << std::endl;
+		}
+
+
 
 /**
 		 * @brief Prints a suffix array and cyclic shifts for understanding a given BWT (Burrows-Wheeler Transform)

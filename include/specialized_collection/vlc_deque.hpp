@@ -45,6 +45,30 @@ namespace stool
         {
             return 16380;
         }
+        static void print_color_bits(const SimpleDeque16<uint64_t> &code_deque, const SimpleDeque16<uint8_t> &value_length_deque, uint8_t first_gap){
+            std::string s = "";
+            for(uint64_t i = 0; i < code_deque.size(); i++){
+                s += stool::Byte::to_bit_string(code_deque[i], true);
+            }
+            uint64_t x = 0;
+            bool b = false;
+            if(first_gap > 0){
+                x += first_gap;
+                std::cout << "\033[33m" << s.substr(0, first_gap) << "\033[0m" << std::flush;
+           
+            }
+            for(uint64_t i = 0; i < value_length_deque.size(); i++){
+                uint64_t len = value_length_deque[i];
+                if(b){
+                    std::cout << "\033[31m" << s.substr(x, len) << "\033[0m" << std::flush;           
+                }else{
+                    std::cout << "\033[36m" << s.substr(x, len) << "\033[0m" << std::flush;               
+                }
+                b = !b;
+                x += len;
+            }
+            std::cout << s.substr(x) << std::endl;
+        }
 
         /**
          * @class VLCDequeIterator
@@ -551,41 +575,71 @@ namespace stool
          * @return The extracted value from the specified bit range
          * @throws std::invalid_argument if the specified range is invalid
          */
-        static std::pair<uint64_t, uint64_t> renove_range(uint64_t code1, uint64_t code2, uint8_t pos, uint8_t len)
+        static std::pair<uint64_t, uint64_t> remove_range(uint64_t code1, uint64_t code2, uint8_t pos, uint8_t len)
         {
+
 
             if (len == 0)
             {
                 return std::pair<uint64_t, uint64_t>(code1, code2);
             }
 
+            std::pair<uint64_t, uint64_t> r;
+
             uint64_t end_pos = pos + len - 1;
             if (end_pos < 63)
             {
-                uint64_t tmp_code1 = VLCDeque::get_suffix(code1, 64 - pos);
-                // uint64_t tmp_code1_len = pos;
-                uint64_t suf = (VLCDeque::get_suffix(code1, end_pos + 1)) << len;
-                // uint64_t suf_len = 63 - end_pos;
-                uint64_t pref_len = len;
-                uint64_t pref = (code2 >> (64 - pref_len));
-                uint64_t new_code1 = tmp_code1 | suf | pref;
+                uint64_t tmp_code1 = stool::MSBByte::shift_left(code1, end_pos+1, len);
+                uint64_t pref = (code2 >> (64 - len));
+                uint64_t new_code1 = tmp_code1 | pref;
                 uint64_t new_code2 = code2 << len;
-                return std::pair<uint64_t, uint64_t>(new_code1, new_code2);
+            
+                r = std::pair<uint64_t, uint64_t>(new_code1, new_code2);
             }
             else
             {
-                uint64_t tmp_code1 = VLCDeque::get_suffix(code1, 64 - pos);
-                uint64_t pref_len = end_pos - 63;
-                uint64_t suf_len = len - pref_len;
-                uint64_t tmp_code2 = VLCDeque::get_suffix(code2, pref_len);
-                uint64_t tmp_code2_len = 64 - pref_len;
-                uint64_t xsuf = tmp_code2 >> (tmp_code2_len - suf_len);
-                uint64_t ysuf = tmp_code2 << (64 - (tmp_code2_len - suf_len));
-
-                uint64_t new_code1 = tmp_code1 | xsuf;
-                uint64_t new_code2 = ysuf;
-                return std::pair<uint64_t, uint64_t>(new_code1, new_code2);
+                uint64_t sufLen = end_pos - 63;
+                if(pos == 0){
+                    uint64_t new_code1 = code2 << sufLen;
+                    uint64_t new_code2 = 0;
+                    r = std::pair<uint64_t, uint64_t>(new_code1, new_code2);
+                }else{
+                    uint64_t tmp_code1 = code1 & (UINT64_MAX << (64-pos));
+                    uint64_t suf = (code2 << sufLen) >> pos;
+                    uint64_t new_code1 = tmp_code1 | suf;
+                    uint64_t tmp_code2 = code2 << sufLen;
+                    uint64_t new_code2 = tmp_code2 << (64 - pos);
+                    r = std::pair<uint64_t, uint64_t>(new_code1, new_code2);
+    
+                }
             }
+            #ifdef DEBUG
+            std::string code1_str = stool::Byte::to_bit_string(code1, true);
+            std::string code2_str = stool::Byte::to_bit_string(code2, true);
+            std::string new_code1_str = stool::Byte::to_bit_string(r.first, true);
+            std::string new_code2_str = stool::Byte::to_bit_string(r.second, true);
+            std::string concat = code1_str + code2_str;
+            concat.erase(pos, len);
+            while(concat.size() < 128){
+                concat.append("0");
+            }
+            std::string new_concat = new_code1_str + new_code2_str;
+            if(concat != new_concat){
+                std::cout << "#remove_range, concat: " << concat << std::endl;
+                std::cout << "#remove_range, new_concat: " << new_concat << std::endl;
+
+                std::cout << "#remove_range, code1: " << stool::Byte::to_bit_string(code1, true) << ", code2: " << stool::Byte::to_bit_string(code2, true) << ", pos: " << (int)pos << ", len: " << (int)len << std::endl;
+                std::cout << "#remove_range, new_code1: " << stool::Byte::to_bit_string(r.first, true) << ", new_code2: " << stool::Byte::to_bit_string(r.second, true) << std::endl;
+    
+                throw std::runtime_error("remove_range error");
+            }
+            assert(concat == new_concat);
+
+
+            #endif
+
+
+            return r;
         }
 
         /**
@@ -1124,6 +1178,9 @@ namespace stool
          */
         void remove(uint64_t pos)
         {
+            #if DEBUG
+            uint64_t size1 = this->size();
+            #endif
             if (pos < this->size())
             {
                 this->shift_left(pos);
@@ -1132,6 +1189,12 @@ namespace stool
             {
                 throw std::invalid_argument("Error: VLCDeque::remove");
             }
+
+            #if DEBUG
+            uint64_t size2 = this->size();
+            assert(size1 == size2 + 1);
+            #endif
+
 
             assert(this->verify());
         }
@@ -1169,7 +1232,8 @@ namespace stool
 
             if (stool::LSBByte::get_code_length(value) != this->value_length_deque[pos])
             {
-                throw std::invalid_argument("set_value");
+                std::cout << "set_value: value = " << value << ", " << "old_value = " << this->at(pos) << std::endl;
+                throw std::invalid_argument("set_value: code legnth overflow");
             }
             assert(stool::LSBByte::get_code_length(value) == this->value_length_deque[pos]);
             if (value == 0)
@@ -1240,15 +1304,16 @@ namespace stool
                     std::pair<uint64_t, uint8_t> code_pos = this->get_code_starting_position(pos);
                     if (code_pos.first + 1 < this->code_deque.size())
                     {
-                        std::pair<uint64_t, uint64_t> rmv_result = VLCDeque::renove_range(this->code_deque[code_pos.first], this->code_deque[code_pos.first + 1], code_pos.second, value_len);
+                        std::pair<uint64_t, uint64_t> rmv_result = VLCDeque::remove_range(this->code_deque[code_pos.first], this->code_deque[code_pos.first + 1], code_pos.second, value_len);
                         this->code_deque[code_pos.first] = rmv_result.first;
                         this->code_deque[code_pos.first + 1] = rmv_result.second;
                     }
                     else
                     {
-                        std::pair<uint64_t, uint64_t> rmv_result = VLCDeque::renove_range(this->code_deque[code_pos.first], 0, code_pos.second, value_len);
+                        std::pair<uint64_t, uint64_t> rmv_result = VLCDeque::remove_range(this->code_deque[code_pos.first], 0, code_pos.second, value_len);
                         this->code_deque[code_pos.first] = rmv_result.first;
                     }
+
                     for (size_t i = code_pos.first + 2; i < this->code_deque.size(); i++)
                     {
                         uint64_t left = this->code_deque[i] >> (64 - value_len);
@@ -1352,7 +1417,7 @@ namespace stool
             {
                 if (value_len > 0)
                 {
-                    this->push_front(1 << (value_len - 1));
+                    this->push_front(1ULL << (value_len - 1));
                 }
                 else
                 {
@@ -1363,7 +1428,7 @@ namespace stool
             {
                 if (value_len > 0)
                 {
-                    this->push_back(1 << (value_len - 1));
+                    this->push_back(1ULL << (value_len - 1));
                 }
                 else
                 {
@@ -1389,7 +1454,9 @@ namespace stool
         void print() const
         {
             std::cout << "============================" << std::endl;
-            //stool::Printer::print("Value Length", this->value_length_deque.to_deque());
+            print_color_bits(this->code_deque, this->value_length_deque, this->first_gap);
+
+            stool::DebugPrinter::print_integers(this->value_length_deque.to_deque(),"Value Length");
             std::cout << "Code: [" << std::flush;
             for (uint64_t i = 0; i < this->code_deque.size(); i++)
             {
@@ -1403,7 +1470,7 @@ namespace stool
             std::cout << "]" << std::endl;
             std::cout << "First Gap: " << (int)this->first_gap << std::endl;
             std::cout << "Last Gap: " << (int)this->last_gap << std::endl;
-            //stool::Printer::print("Values", this->to_vector());
+            stool::DebugPrinter::print_integers(this->to_vector(),"Values");
             std::cout << "============================" << std::endl;
         }
 
