@@ -62,6 +62,10 @@ namespace stool
         {
             return this->num;
         }
+        uint64_t get_byte_size() const
+        {
+            return this->byteSize;
+        }
 
         /**
          * @brief Writes the ValueArray to an output file stream
@@ -207,7 +211,7 @@ namespace stool
          * @param isShrink If true, automatically choose the smallest data type based on maximum value
          */
         template <typename BYTE>
-        void set(const std::vector<BYTE> &_arr, bool isShrink)
+        void set(const std::vector<BYTE> &_arr, bool isShrink = false)
         {
             if (!isShrink)
             {

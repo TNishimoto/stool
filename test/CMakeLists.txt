@@ -65,6 +65,8 @@ endif()
 
 add_executable(simple_deque_test.out sources/main/specialized_collection/simple_deque_test_main.cpp)
 add_executable(vlc_deque_test.out sources/main/specialized_collection/vlc_deque_test_main.cpp)
+add_executable(value_array_test.out sources/main/specialized_collection/value_array_test_main.cpp)
+add_executable(elias_fano_vector_test.out sources/main/specialized_collection/elias_fano_vector_test_main.cpp)
 
 #add_executable(integer_sketch_test.out sources/main/integer_sketch_test_main.cpp)
 

@@ -412,8 +412,12 @@ namespace stool
          */
         uint64_t rank(uint64_t value) const
         {
+            if(this->size() == 0){
+                return 0;
+            }
             auto min_value = this->access(0);
-            if (value > min_value)
+            auto max_value = this->access(this->size() - 1);
+            if (value > min_value && value <= max_value)
             {
                 std::pair<uint64_t, uint64_t> ul = get_upper_and_lower_bits(value);
 
@@ -445,9 +449,12 @@ namespace stool
                     return pos2;
                 }
             }
+            else if(value <= min_value){
+                return 0;
+            }
             else
             {
-                return 0;
+                return this->size();
             }
         }
 
@@ -485,7 +492,7 @@ namespace stool
          * @brief Converts the encoded sequence back to a standard vector
          * @return std::vector<uint64_t> containing all elements in order
          */
-        std::vector<uint64_t> to_vector()
+        std::vector<uint64_t> to_vector() const
         {
             std::vector<uint64_t> r;
             for (uint64_t i = 0; i < _size; i++)
