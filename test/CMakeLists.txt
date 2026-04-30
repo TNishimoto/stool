@@ -68,6 +68,7 @@ add_executable(vlc_deque_test.out sources/main/specialized_collection/vlc_deque_
 add_executable(value_array_test.out sources/main/specialized_collection/value_array_test_main.cpp)
 add_executable(elias_fano_vector_test.out sources/main/specialized_collection/elias_fano_vector_test_main.cpp)
 add_executable(naive_bit_vector_test.out sources/main/specialized_collection/naive_bit_vector_test_main.cpp)
+add_executable(naive_flc_vector_test.out sources/main/specialized_collection/naive_flc_vector_test_main.cpp)
 
 #add_executable(integer_sketch_test.out sources/main/integer_sketch_test_main.cpp)
 

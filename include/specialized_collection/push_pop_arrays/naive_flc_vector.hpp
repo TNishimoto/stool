@@ -439,6 +439,11 @@ namespace stool
             return this->size_;
         }
 
+        size_t max_size() const
+        {
+            return MAX_SIZE;
+        }
+
         /**
          * @brief Check if the integer sequence is empty (i.e., |S| == 0)
          */
@@ -857,7 +862,7 @@ namespace stool
             if (size + 1 > MAX_SIZE)
             {
                 std::cout << "Error: push_back() " << size + 1 << " > " << MAX_SIZE << std::endl;
-                throw std::invalid_argument("Error: push_back()");
+                throw std::invalid_argument("Error: push_back(), SIZE > MAX_SIZE");
             }
 
             uint8_t code_type_candidate = (uint8_t)stool::PackedPSum::get_code_type(value);
