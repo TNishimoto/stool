@@ -54,52 +54,22 @@ target_link_libraries(short_integer_vector_test.out sdsl)
 
 ]]
 
-add_executable(rank_select_test.out sources/main/rank_select_test_main.cpp)
-message(STATUS "CMAKE_SYSTEM_PROCESSOR = ${CMAKE_SYSTEM_PROCESSOR}")
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64)$")
-    target_compile_options(rank_select_test.out PRIVATE -mbmi2)
-    message(STATUS "64-bit architecture.")
-else()
-    message(STATUS "Not a 64-bit architecture.")
-endif()
+#add_executable(rank_select_test.out sources/main/rank_select_test_main.cpp)
+#message(STATUS "CMAKE_SYSTEM_PROCESSOR = ${CMAKE_SYSTEM_PROCESSOR}")
+#if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64)$")
+#    target_compile_options(rank_select_test.out PRIVATE -mbmi2)
+#    message(STATUS "64-bit architecture.")
+#else()
+#    message(STATUS "Not a 64-bit architecture.")
+#endif()
 
-add_executable(simple_deque_test.out sources/main/specialized_collection/simple_deque_test_main.cpp)
-add_executable(vlc_deque_test.out sources/main/specialized_collection/vlc_deque_test_main.cpp)
-add_executable(value_array_test.out sources/main/specialized_collection/value_array_test_main.cpp)
-add_executable(elias_fano_vector_test.out sources/main/specialized_collection/elias_fano_vector_test_main.cpp)
-add_executable(naive_bit_vector_test.out sources/main/specialized_collection/naive_bit_vector_test_main.cpp)
-add_executable(naive_flc_vector_test.out sources/main/specialized_collection/naive_flc_vector_test_main.cpp)
-add_executable(naive_integer_array_test.out sources/main/specialized_collection/naive_integer_array_test_main.cpp)
-
-#add_executable(integer_sketch_test.out sources/main/integer_sketch_test_main.cpp)
-
-#add_executable(bit_deque_test.out sources/bit_deque_test_main.cpp)
-
-#add_executable(naive_bit_vector_test.out sources/main/naive_bit_vector_test_main.cpp)
-#add_executable(naive_flc_vector_test.out sources/main/naive_flc_vector_test_main.cpp)
-#add_executable(naive_array_test.out sources/main/naive_array_test_main.cpp)
-#add_executable(naive_array_for_faster_psum_test.out sources/main/naive_array_for_faster_psum_test_main.cpp)
-#add_executable(eytzinger_layout_for_psum_test.out sources/main/eytzinger_layout_for_psum_test_main.cpp)
-#add_executable(sa_test.out sources/main/sa_test_main.cpp)
-#add_executable(lf_test.out sources/main/lf_test_main.cpp)
+add_executable(simple_deque_test sources/main/specialized_collection/simple_deque_test_main.cpp)
+add_executable(vlc_deque_test sources/main/specialized_collection/vlc_deque_test_main.cpp)
+add_executable(value_array_test sources/main/specialized_collection/value_array_test_main.cpp)
+add_executable(elias_fano_vector_test sources/main/specialized_collection/elias_fano_vector_test_main.cpp)
+add_executable(naive_bit_vector_test sources/main/specialized_collection/naive_bit_vector_test_main.cpp)
+add_executable(naive_flc_vector_test sources/main/specialized_collection/naive_flc_vector_test_main.cpp)
+add_executable(naive_integer_array_test sources/main/specialized_collection/naive_integer_array_test_main.cpp)
 
 
-#add_executable(naive_vlc_array_test.out sources/naive_vlc_array_test_main.cpp)
-
-#add_executable(short_elias_fano_test.out sources/develop/short_elias_fano_test_main.cpp)
-
-#add_executable(short_integer_vector_test.out sources/develop/short_integer_vector_test_main.cpp)
-
-
-#add_executable(integer_deque_test.out sources/integer_deque_test_main.cpp)
-#target_link_libraries(integer_deque_test.out sdsl)
-
-#add_executable(byte_array_deque_test.out sources/byte_array_deque_main.cpp)
-#target_link_libraries(byte_array_deque_test.out sdsl)
-
-#add_executable(static_array_deque_test.out sources/static_array_test_main.cpp)
-#target_link_libraries(static_array_deque_test.out sdsl)
-
-#add_executable(faster_static_array_deque_test.out sources/faster_static_array_deque_main.cpp)
-#target_link_libraries(faster_static_array_deque_test.out sdsl)
 

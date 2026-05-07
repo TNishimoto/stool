@@ -1,13 +1,12 @@
 #!/bin/sh
 
-./build/deque_test.out
-./build/elias_fano_test.out
-./build/fm_index_test.out
-./build/lcp_interval_test.out
-./build/performance_test.out
-./build/rank_select_test.out
-./build/rmq_test.out
-./build/test.out
+./build/naive_bit_vector_test
+./build/naive_flc_vector_test
+./build/naive_integer_array_test
+./build/simple_deque_test
+./build/vlc_deque_test
+./build/value_array_test
+./build/elias_fano_vector_test
 
 
 
