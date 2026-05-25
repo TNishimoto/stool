@@ -145,6 +145,14 @@ static uint64_t current_memory_footprint_bytes()
 
 			return sizeof(v) + v.capacity() * sizeof(ValueType);
 		}
+
+		template <class Alloc>
+		static std::size_t estimate_memory_usage(const std::vector<bool, Alloc> &v)
+		{
+			constexpr std::size_t bits_per_byte = 8;
+
+			return sizeof(v) + (v.capacity() + bits_per_byte - 1) / bits_per_byte;
+		}
 	};
 
 }
