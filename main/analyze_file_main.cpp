@@ -4,6 +4,7 @@
 #include <bitset>
 #include <cassert>
 #include <chrono>
+#include "cmdline/cmdline.h"
 // #include "qgram_tree.h"
 // #include "include/debug/debug.hpp"
 

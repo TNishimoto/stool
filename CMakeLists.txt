@@ -19,15 +19,24 @@ if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
 endif()
 
+include_directories(modules)
+
+
 #SDSL lib and include directory are here
 #Please modify it appropriately.
-find_library(SDSL_LIBRARY_DIR sdsl REQUIRED)
-find_path(SDSL_INCLUDE_DIR sdsl REQUIRED)
+#find_library(SDSL_LIBRARY_DIR sdsl REQUIRED)
+#find_path(SDSL_INCLUDE_DIR sdsl REQUIRED)
 
-LINK_DIRECTORIES(${SDSL_LIBRARY_DIR})
-include_directories(${SDSL_INCLUDE_DIR})
+#LINK_DIRECTORIES(${SDSL_LIBRARY_DIR})
+#include_directories(${SDSL_INCLUDE_DIR})
+
+
 
 add_executable(analyze_file.out main/analyze_file_main.cpp)
 
 add_executable(analyze_bwt.out main/analyze_bwt_main.cpp)
-target_link_libraries(analyze_bwt.out sdsl)
+target_link_libraries(analyze_bwt.out)
+target_include_directories(analyze_bwt.out PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/modules/sdsl-lite/include
+)
+

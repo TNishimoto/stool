@@ -4,3 +4,6 @@
 [submodule "modules/sdsl-lite"]
 	path = modules/sdsl-lite
 	url = https://github.com/xxsds/sdsl-lite.git
+[submodule "modules/cmdline"]
+	path = modules/cmdline
+	url = https://github.com/tanakh/cmdline.git

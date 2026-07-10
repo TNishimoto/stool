@@ -6,8 +6,9 @@
 #include <chrono>
 // #include "qgram_tree.h"
 // #include "include/debug/debug.hpp"
-
-#include "../include/lib.hpp"
+#include "cmdline/cmdline.h"
+#include "sdsl-lite/include/sdsl/int_vector.hpp"
+#include "../include/all_with_modules.hpp"
 
 int main(int argc, char *argv[])
 {
