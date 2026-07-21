@@ -37,6 +37,7 @@ add_executable(analyze_bwt main/analyze_bwt_main.cpp)
 add_executable(build_sa main/build_sa_main.cpp)
 add_executable(build_isa main/build_isa_main.cpp)
 add_executable(build_dsa main/build_dsa_main.cpp)
+add_executable(delta main/delta_main.cpp)
 
 target_link_libraries(analyze_bwt)
 target_include_directories(analyze_bwt PRIVATE
