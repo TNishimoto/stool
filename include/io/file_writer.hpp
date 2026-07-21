@@ -54,9 +54,43 @@ namespace stool
         static void write_vector(std::string &filename, std::vector<T> &data)
         {
             std::ofstream out(filename, std::ios::out | std::ios::binary);
+            if (!out) {
+                throw std::runtime_error("Failed to open file for writing");
+            }
+
             write_vector(out, data);
             out.close();
         }
+
+        template <typename T>
+        static void write_vector_as_text(std::string &filename, std::vector<T> &data)
+        {
+            std::ofstream file(filename);
+            if (!file) {
+                throw std::runtime_error("Failed to open file for writing");
+            }
+            std::string buffer = "";
+
+            for(size_t i = 0; i < data.size(); i++) {
+                buffer.append(std::to_string(data[i]));
+                if(i < data.size() - 1) {
+                    buffer.append("\n");
+                }
+
+                if(buffer.size() > 1024*1024) {
+                    file.write(buffer.c_str(), buffer.size());
+                    buffer.clear();
+                }
+            }
+
+            if(buffer.size() > 0) {
+                file.write(buffer.c_str(), buffer.size());
+                buffer.clear();
+            }
+
+            file.close();
+        }
+
 
         /**
          * @brief Writes string data to an output stream

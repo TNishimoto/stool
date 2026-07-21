@@ -191,7 +191,7 @@ namespace stool {
     std::vector<uint64_t> sais_suffix_array(const std::vector<C>& text) {
         using sais_detail::index_type;
     
-        static_assert(std::is_integral_v<C> || std::is_enum_v<C>,
+        static_assert(std::is_integral<C>::value || std::is_enum<C>::value,
                       "C must be an integral or enum-like character type.");
     
         const index_type n = static_cast<index_type>(text.size());
@@ -229,5 +229,42 @@ namespace stool {
         }
         return result;
     }
+
+    template <class C>
+    std::vector<uint64_t> sais_suffix_array_for_signed_characters(const std::vector<C>& text) {
+        using sais_detail::index_type;
+
+        static_assert(std::is_integral<C>::value || std::is_enum<C>::value,
+                      "C must be an integral or enum-like character type.");
+
+        const index_type n = static_cast<index_type>(text.size());
+        std::vector<uint64_t> result;
+
+        if (n == 0) return result;
+
+        // Coordinate compression using C's own ordering.
+        // This preserves negative-value order for signed integer-like alphabets.
+        std::vector<C> ord = text;
+        std::sort(ord.begin(), ord.end());
+        ord.erase(std::unique(ord.begin(), ord.end()), ord.end());
+
+        std::vector<uint64_t> s(n + 1);
+        for (index_type i = 0; i < n; ++i) {
+            s[i] = static_cast<uint64_t>(
+                std::lower_bound(ord.begin(), ord.end(), text[i]) - ord.begin()
+            ) + 1;
+        }
+        s[n] = 0; // sentinel
+
+        auto sa_all = sais_detail::build_sa_int(s, static_cast<uint64_t>(ord.size()));
+
+        // Remove the sentinel position.
+        result.reserve(n);
+        for (uint64_t p : sa_all) {
+            if (p != n) result.push_back(p);
+        }
+        return result;
+    }
+    
 }
 

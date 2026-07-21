@@ -7,6 +7,7 @@
 ./build/vlc_deque_test
 ./build/value_array_test
 ./build/elias_fano_vector_test
+./build/sa_is_test
 
 
 
