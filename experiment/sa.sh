@@ -53,7 +53,7 @@ case "$(uname -s)" in
         echo "skipped: ${output_data_path}/$1.sa"
       else
         echo "Building suffix array - text: $1"
-        nohup /usr/bin/time -f "#build sa, $1, %e sec, %M KB" ../build/build_sa -i ${dataset_folder_path}/$1 -o ${output_folder_path}/stool/$1.sa -c uint8_t >> ${log_folder_path}/stool/sa.log 2>&1
+        nohup /usr/bin/time -f "#build sa, $1, %e sec, %M KB" ../build/build_sa -i ${dataset_folder_path}/$1 -o ${output_data_path}/$1.sa -c uint8_t >> ${output_log_path}/sa.log 2>&1
       fi
     done
     ;;
