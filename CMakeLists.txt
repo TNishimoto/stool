@@ -19,6 +19,14 @@ if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
 endif()
 
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+  add_compile_definitions(RELEASE_BUILD)
+else()
+  add_compile_definitions(DEBUG_BUILD)
+endif()
+
+
+
 set(CMAKE_CXX_FLAGS_DEBUG  "-g -O0 -DDEBUG -fsanitize=address -fno-omit-frame-pointer")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-Og -DNDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE  "-O3 -DNDEBUG")
