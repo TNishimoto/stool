@@ -4,8 +4,8 @@ cd -- "$(dirname -- "${BASH_SOURCE[0]}")" || exit 1
 
 dataset_folder_path=$1
 output_folder_path=$2
-output_data_path=$2/stool_data
-output_log_path=$2/stool_logs
+output_data_path=$2/data
+output_log_path=$2/logs
 
 if [[ ! -d "${dataset_folder_path}" ]]; then
   echo "directory not found: ${dataset_folder_path}"
@@ -46,7 +46,7 @@ case "$(uname -s)" in
       set -- $item
       echo $1
       echo "Computing delta - text: $1"
-      nohup /usr/bin/time -f "#build delta, $1, %e sec, %M KB" ../build/delta -i ${dataset_folder_path}/$1 -c uint8_t >> ${output_log_path}/delta.log 2>&1
+      nohup /usr/bin/time -f "#build delta, $1, %e sec, %M KB" ../build/delta -i ${dataset_folder_path}/$1 -o ${output_data_path}/$1.delta_array.txt -c uint8_t >> ${output_log_path}/delta.log 2>&1
     done
     ;;
 

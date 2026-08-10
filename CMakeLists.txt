@@ -51,9 +51,13 @@ add_executable(build_sa main/build_sa_main.cpp)
 add_executable(build_isa main/build_isa_main.cpp)
 add_executable(build_dsa main/build_dsa_main.cpp)
 add_executable(delta main/delta_main.cpp)
+add_executable(vlc_deque_vector_benchmark performance_test/vlc_deque_vector_benchmark.cpp)
+
+target_include_directories(vlc_deque_vector_benchmark PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
 target_link_libraries(analyze_bwt)
 target_include_directories(analyze_bwt PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/modules/sdsl-lite/include
 )
-
