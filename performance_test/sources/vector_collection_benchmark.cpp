@@ -87,9 +87,9 @@ namespace
                              cmdline::oneof<uint32_t>(8, 16, 32));
         parser.add<std::string>(
             "container", 'c',
-            "container (all|vector|block16|block32|block64|block128)", false, "all",
-            cmdline::oneof<std::string>("all", "vector", "block16", "block32", "block64",
-                                       "block128"));
+            "container (all|none|vector|block16|block32|block64|block128)", false, "all",
+            cmdline::oneof<std::string>("all", "none", "vector", "block16", "block32",
+                                       "block64", "block128"));
         parser.add("help", '?', "print this message");
 
         const bool valid = parser.parse(argc, argv);
@@ -548,6 +548,15 @@ namespace
                                measurements.block_128);
     }
 
+    void print_dummy_measurement(size_t input_size,
+                                 const Config &config,
+                                 const std::string &operation)
+    {
+        std::cout << input_size << ',' << static_cast<uint32_t>(config.value_bits) << ','
+                  << operation << ",none," << config.trials << ',' << config.operations
+                  << ",0.000,0.000,0.000,0.000,0,0,0\n";
+    }
+
     void run_benchmark(size_t input_size, const Config &config, std::mt19937_64 &random)
     {
         const uint64_t maximum_value = (uint64_t{1} << config.value_bits) - 1;
@@ -696,6 +705,16 @@ namespace
                            "push_back", config, push_backs);
             run_tail_trial(initial_values, new_values, TailOperation::PopBack, input_size, trial,
                            "pop_back", config, pop_backs);
+        }
+
+        if (config.container == "none")
+        {
+            print_dummy_measurement(input_size, config, "read");
+            print_dummy_measurement(input_size, config, "write");
+            print_dummy_measurement(input_size, config, "write0");
+            print_dummy_measurement(input_size, config, "push_back");
+            print_dummy_measurement(input_size, config, "pop_back");
+            return;
         }
 
         if (should_run_container(config, "vector"))
