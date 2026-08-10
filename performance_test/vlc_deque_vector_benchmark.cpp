@@ -168,7 +168,8 @@ namespace
         }
     }
 
-    void verify_equal(const stool::BlockPackedVector &packed,
+    template <size_t BLOCK_SIZE>
+    void verify_equal(const stool::BlockPackedVector<BLOCK_SIZE> &packed,
                       const std::vector<uint64_t> &values,
                       size_t input_size,
                       size_t trial,
@@ -226,7 +227,8 @@ namespace
         return hash;
     }
 
-    uint64_t hash_values(const stool::BlockPackedVector &values)
+    template <size_t BLOCK_SIZE>
+    uint64_t hash_values(const stool::BlockPackedVector<BLOCK_SIZE> &values)
     {
         uint64_t hash = 1469598103934665603ULL;
         for (size_t i = 0; i < values.size(); ++i)
@@ -268,7 +270,8 @@ namespace
         });
     }
 
-    TimedResult measure_block_packed_read(const stool::BlockPackedVector &values,
+    template <size_t BLOCK_SIZE>
+    TimedResult measure_block_packed_read(const stool::BlockPackedVector<BLOCK_SIZE> &values,
                                           const std::vector<size_t> &indices)
     {
         return measure(indices.size(), [&]() {
@@ -311,7 +314,8 @@ namespace
         return result;
     }
 
-    TimedResult measure_block_packed_write(stool::BlockPackedVector &values,
+    template <size_t BLOCK_SIZE>
+    TimedResult measure_block_packed_write(stool::BlockPackedVector<BLOCK_SIZE> &values,
                                            const std::vector<size_t> &indices,
                                            const std::vector<uint64_t> &new_values)
     {
@@ -376,16 +380,28 @@ namespace
         }
 
         stool::VLCDeque read_vlc = make_vlc_deque(initial_values);
-        stool::BlockPackedVector read_block_packed(initial_values);
+        stool::BlockPackedVector<16> read_block_16(initial_values);
+        stool::BlockPackedVector<32> read_block_32(initial_values);
+        stool::BlockPackedVector<64> read_block_64(initial_values);
+        stool::BlockPackedVector<128> read_block_128(initial_values);
         verify_equal(read_vlc, initial_values, input_size, 0, "initialization");
-        verify_equal(read_block_packed, initial_values, input_size, 0, "initialization");
+        verify_equal(read_block_16, initial_values, input_size, 0, "initialization");
+        verify_equal(read_block_32, initial_values, input_size, 0, "initialization");
+        verify_equal(read_block_64, initial_values, input_size, 0, "initialization");
+        verify_equal(read_block_128, initial_values, input_size, 0, "initialization");
 
         Measurements vlc_reads;
         Measurements vector_reads;
-        Measurements block_packed_reads;
+        Measurements block_16_reads;
+        Measurements block_32_reads;
+        Measurements block_64_reads;
+        Measurements block_128_reads;
         Measurements vlc_writes;
         Measurements vector_writes;
-        Measurements block_packed_writes;
+        Measurements block_16_writes;
+        Measurements block_32_writes;
+        Measurements block_64_writes;
+        Measurements block_128_writes;
 
         for (size_t trial = 0; trial < config.trials; ++trial)
         {
@@ -397,32 +413,41 @@ namespace
                 new_values[i] = value_distribution(random);
             }
 
-            TimedResult vlc_read_result;
-            TimedResult vector_read_result;
-            TimedResult block_packed_read_result;
-            switch (trial % 3)
+            TimedResult vlc_read_result{};
+            TimedResult vector_read_result{};
+            TimedResult block_16_read_result{};
+            TimedResult block_32_read_result{};
+            TimedResult block_64_read_result{};
+            TimedResult block_128_read_result{};
+            for (size_t offset = 0; offset < 6; ++offset)
             {
-            case 0:
-                vlc_read_result = measure_vlc_read(read_vlc, indices);
-                vector_read_result = measure_vector_read(initial_values, indices);
-                block_packed_read_result =
-                    measure_block_packed_read(read_block_packed, indices);
-                break;
-            case 1:
-                vector_read_result = measure_vector_read(initial_values, indices);
-                block_packed_read_result =
-                    measure_block_packed_read(read_block_packed, indices);
-                vlc_read_result = measure_vlc_read(read_vlc, indices);
-                break;
-            default:
-                block_packed_read_result =
-                    measure_block_packed_read(read_block_packed, indices);
-                vlc_read_result = measure_vlc_read(read_vlc, indices);
-                vector_read_result = measure_vector_read(initial_values, indices);
-                break;
+                switch ((trial + offset) % 6)
+                {
+                case 0:
+                    vlc_read_result = measure_vlc_read(read_vlc, indices);
+                    break;
+                case 1:
+                    vector_read_result = measure_vector_read(initial_values, indices);
+                    break;
+                case 2:
+                    block_16_read_result = measure_block_packed_read(read_block_16, indices);
+                    break;
+                case 3:
+                    block_32_read_result = measure_block_packed_read(read_block_32, indices);
+                    break;
+                case 4:
+                    block_64_read_result = measure_block_packed_read(read_block_64, indices);
+                    break;
+                default:
+                    block_128_read_result = measure_block_packed_read(read_block_128, indices);
+                    break;
+                }
             }
             if (vlc_read_result.checksum != vector_read_result.checksum ||
-                block_packed_read_result.checksum != vector_read_result.checksum)
+                block_16_read_result.checksum != vector_read_result.checksum ||
+                block_32_read_result.checksum != vector_read_result.checksum ||
+                block_64_read_result.checksum != vector_read_result.checksum ||
+                block_128_read_result.checksum != vector_read_result.checksum)
             {
                 throw std::runtime_error("read checksum mismatch for N=" +
                                          std::to_string(input_size) + ", trial=" +
@@ -430,41 +455,62 @@ namespace
             }
             vlc_reads.add(vlc_read_result, read_vlc.size_in_bytes());
             vector_reads.add(vector_read_result, vector_size_in_bytes(initial_values));
-            block_packed_reads.add(block_packed_read_result,
-                                   read_block_packed.size_in_bytes());
+            block_16_reads.add(block_16_read_result, read_block_16.size_in_bytes());
+            block_32_reads.add(block_32_read_result, read_block_32.size_in_bytes());
+            block_64_reads.add(block_64_read_result, read_block_64.size_in_bytes());
+            block_128_reads.add(block_128_read_result, read_block_128.size_in_bytes());
 
             stool::VLCDeque write_vlc = make_vlc_deque(initial_values);
             std::vector<uint64_t> write_vector = initial_values;
-            stool::BlockPackedVector write_block_packed(initial_values);
-            TimedResult vlc_write_result;
-            TimedResult vector_write_result;
-            TimedResult block_packed_write_result;
-            switch (trial % 3)
+            stool::BlockPackedVector<16> write_block_16(initial_values);
+            stool::BlockPackedVector<32> write_block_32(initial_values);
+            stool::BlockPackedVector<64> write_block_64(initial_values);
+            stool::BlockPackedVector<128> write_block_128(initial_values);
+            TimedResult vlc_write_result{};
+            TimedResult vector_write_result{};
+            TimedResult block_16_write_result{};
+            TimedResult block_32_write_result{};
+            TimedResult block_64_write_result{};
+            TimedResult block_128_write_result{};
+            for (size_t offset = 0; offset < 6; ++offset)
             {
-            case 0:
-                vlc_write_result = measure_vlc_write(write_vlc, indices, new_values);
-                vector_write_result = measure_vector_write(write_vector, indices, new_values);
-                block_packed_write_result =
-                    measure_block_packed_write(write_block_packed, indices, new_values);
-                break;
-            case 1:
-                vector_write_result = measure_vector_write(write_vector, indices, new_values);
-                block_packed_write_result =
-                    measure_block_packed_write(write_block_packed, indices, new_values);
-                vlc_write_result = measure_vlc_write(write_vlc, indices, new_values);
-                break;
-            default:
-                block_packed_write_result =
-                    measure_block_packed_write(write_block_packed, indices, new_values);
-                vlc_write_result = measure_vlc_write(write_vlc, indices, new_values);
-                vector_write_result = measure_vector_write(write_vector, indices, new_values);
-                break;
+                switch ((trial + offset) % 6)
+                {
+                case 0:
+                    vlc_write_result = measure_vlc_write(write_vlc, indices, new_values);
+                    break;
+                case 1:
+                    vector_write_result = measure_vector_write(write_vector, indices, new_values);
+                    break;
+                case 2:
+                    block_16_write_result =
+                        measure_block_packed_write(write_block_16, indices, new_values);
+                    break;
+                case 3:
+                    block_32_write_result =
+                        measure_block_packed_write(write_block_32, indices, new_values);
+                    break;
+                case 4:
+                    block_64_write_result =
+                        measure_block_packed_write(write_block_64, indices, new_values);
+                    break;
+                default:
+                    block_128_write_result =
+                        measure_block_packed_write(write_block_128, indices, new_values);
+                    break;
+                }
             }
 
             verify_equal(write_vlc, write_vector, input_size, trial, "write");
-            verify_equal(write_block_packed, write_vector, input_size, trial, "write");
+            verify_equal(write_block_16, write_vector, input_size, trial, "write");
+            verify_equal(write_block_32, write_vector, input_size, trial, "write");
+            verify_equal(write_block_64, write_vector, input_size, trial, "write");
+            verify_equal(write_block_128, write_vector, input_size, trial, "write");
             if (vlc_write_result.checksum != vector_write_result.checksum ||
-                block_packed_write_result.checksum != vector_write_result.checksum)
+                block_16_write_result.checksum != vector_write_result.checksum ||
+                block_32_write_result.checksum != vector_write_result.checksum ||
+                block_64_write_result.checksum != vector_write_result.checksum ||
+                block_128_write_result.checksum != vector_write_result.checksum)
             {
                 throw std::runtime_error("write checksum mismatch for N=" +
                                          std::to_string(input_size) + ", trial=" +
@@ -472,22 +518,36 @@ namespace
             }
             vlc_writes.add(vlc_write_result, write_vlc.size_in_bytes());
             vector_writes.add(vector_write_result, vector_size_in_bytes(write_vector));
-            block_packed_writes.add(block_packed_write_result,
-                                    write_block_packed.size_in_bytes());
+            block_16_writes.add(block_16_write_result, write_block_16.size_in_bytes());
+            block_32_writes.add(block_32_write_result, write_block_32.size_in_bytes());
+            block_64_writes.add(block_64_write_result, write_block_64.size_in_bytes());
+            block_128_writes.add(block_128_write_result, write_block_128.size_in_bytes());
         }
 
         print_measurements(input_size, config.value_bits, "read", "VLCDeque", config.operations,
                            vlc_reads);
         print_measurements(input_size, config.value_bits, "read", "std::vector<uint64_t>",
                            config.operations, vector_reads);
-        print_measurements(input_size, config.value_bits, "read", "BlockPackedVector",
-                           config.operations, block_packed_reads);
+        print_measurements(input_size, config.value_bits, "read", "BlockPackedVector<16>",
+                           config.operations, block_16_reads);
+        print_measurements(input_size, config.value_bits, "read", "BlockPackedVector<32>",
+                           config.operations, block_32_reads);
+        print_measurements(input_size, config.value_bits, "read", "BlockPackedVector<64>",
+                           config.operations, block_64_reads);
+        print_measurements(input_size, config.value_bits, "read", "BlockPackedVector<128>",
+                           config.operations, block_128_reads);
         print_measurements(input_size, config.value_bits, "write", "VLCDeque", config.operations,
                            vlc_writes);
         print_measurements(input_size, config.value_bits, "write", "std::vector<uint64_t>",
                            config.operations, vector_writes);
-        print_measurements(input_size, config.value_bits, "write", "BlockPackedVector",
-                           config.operations, block_packed_writes);
+        print_measurements(input_size, config.value_bits, "write", "BlockPackedVector<16>",
+                           config.operations, block_16_writes);
+        print_measurements(input_size, config.value_bits, "write", "BlockPackedVector<32>",
+                           config.operations, block_32_writes);
+        print_measurements(input_size, config.value_bits, "write", "BlockPackedVector<64>",
+                           config.operations, block_64_writes);
+        print_measurements(input_size, config.value_bits, "write", "BlockPackedVector<128>",
+                           config.operations, block_128_writes);
     }
 }
 
