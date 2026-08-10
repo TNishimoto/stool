@@ -15,14 +15,16 @@ namespace stool
     class BlockPackedVector
     {
     public:
-        using value_type = BWPVBlock::value_type;
-        using size_type = BWPVBlock::size_type;
+        using block_type = BWPVBlock<BLOCK_SIZE>;
+        using value_type = typename block_type::value_type;
+        using size_type = typename block_type::size_type;
 
         static_assert(BLOCK_SIZE > 0, "BLOCK_SIZE must be greater than zero");
+        static_assert(block_type::item_count == BLOCK_SIZE);
 
     private:
         size_type size_ = 0;
-        std::vector<BWPVBlock> blocks_;
+        std::vector<block_type> blocks_;
 
         std::pair<size_type, size_type>
         locate(size_type i) const
@@ -187,6 +189,53 @@ namespace stool
             return Reference(this, i);
         }
 
+        /**
+         * @brief Appends a value to the end of the vector.
+         *
+         * @param value Value to append.
+         */
+        void push_back(value_type value)
+        {
+            const size_type offset = size_ % BLOCK_SIZE;
+            if (offset == 0)
+            {
+                block_type new_block;
+                new_block.assign(&value, 1);
+                blocks_.push_back(std::move(new_block));
+            }
+            else
+            {
+                blocks_.back().set(offset, value);
+            }
+            ++size_;
+        }
+
+        /**
+         * @brief Removes the last value from the vector.
+         *
+         * @throws std::out_of_range If the vector is empty.
+         */
+        void pop_back()
+        {
+            if (empty())
+            {
+                throw std::out_of_range(
+                    "BlockPackedVector::pop_back on empty vector");
+            }
+
+            const size_type last_index = size_ - 1;
+            const size_type offset = last_index % BLOCK_SIZE;
+            if (offset == 0)
+            {
+                blocks_.pop_back();
+            }
+            else
+            {
+                blocks_.back().set(offset, 0);
+            }
+            --size_;
+        }
+
         unsigned block_width(size_type block) const
         {
             if (block >= blocks_.size())
@@ -195,7 +244,7 @@ namespace stool
                     "Block index out of range");
             }
 
-            return blocks_[block].width;
+            return blocks_[block].item_bit_width;
         }
 
         size_type packed_bytes() const noexcept
@@ -214,7 +263,7 @@ namespace stool
         size_type size_in_bytes() const noexcept
         {
             size_type total =
-                sizeof(BlockPackedVector) + blocks_.capacity() * sizeof(BWPVBlock);
+                sizeof(BlockPackedVector) + blocks_.capacity() * sizeof(block_type);
 
             for (const auto &block : blocks_)
             {

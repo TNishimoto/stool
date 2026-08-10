@@ -1,47 +1,43 @@
-#include <algorithm>
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
 #include <limits>
-#include <stdexcept>
-#include <utility>
 #include <vector>
 
 namespace stool{
 
+    template <std::size_t ITEM_COUNT>
     struct BWPVBlock {
         using value_type = std::uint64_t;
         using size_type = std::size_t;
-    
-        size_type size = 0;
-        unsigned width = 0;
+
+        static_assert(ITEM_COUNT > 0, "ITEM_COUNT must be greater than zero");
+        static constexpr size_type item_count = ITEM_COUNT;
+
+        unsigned item_bit_width = 8;
         size_type max_width_count = 0;
         std::vector<std::uint64_t> words;
 
         private:
 
         /**
-         * @brief Returns the number of bits required to represent a value.
+         * @brief Selects the smallest supported width that can store a value.
          *
-         * @param x Value whose bit width is requested.
-         * @return Zero when @p x is zero; otherwise, the position of its most
-         * significant set bit plus one.
+         * @param value Value whose storage width is requested.
+         * @return The smallest supported width among 8, 16, 32, and 64 that can
+         * store @p value.
          */
-        static unsigned bits_required(std::uint64_t x) noexcept {
-            if (x == 0) {
-                return 0;
+        static unsigned select_item_bit_width(value_type value) noexcept {
+            if (value <= std::numeric_limits<std::uint8_t>::max()) {
+                return 8;
             }
-    
-    #if defined(__GNUC__) || defined(__clang__)
-            return 64u - static_cast<unsigned>(__builtin_clzll(x));
-    #else
-            unsigned bits = 0;
-            while (x != 0) {
-                ++bits;
-                x >>= 1;
+            if (value <= std::numeric_limits<std::uint16_t>::max()) {
+                return 16;
             }
-            return bits;
-    #endif
+            if (value <= std::numeric_limits<std::uint32_t>::max()) {
+                return 32;
+            }
+            return 64;
         }
 
         /**
@@ -49,43 +45,23 @@ namespace stool{
          *
          * @param bits Number of low-order bits to set.
          * @return A 64-bit mask whose lowest @p bits bits are one.
-         * @pre @p bits is at most 64.
+         * @pre @p bits is one of 8, 16, 32, or 64.
          */
         static std::uint64_t low_mask(unsigned bits) noexcept {
-            if (bits == 0) {
-                return 0;
-            }
-    
-            if (bits == 64) {
-                return ~std::uint64_t{0};
-            }
-    
-            return (std::uint64_t{1} << bits) - 1;
+            return ~std::uint64_t{0} >> (64 - bits);
         }
 
         /**
          * @brief Calculates the number of 64-bit words needed for packed values.
          *
-         * @param n Number of values to store.
          * @param width Bit width used for each value.
          * @return Number of 64-bit words required for the packed representation.
-         * @throws std::length_error If the packed bit count cannot be represented
-         * by size_type.
+         * @pre @p width is one of 8, 16, 32, or 64.
          */
-        static size_type word_count(size_type n, unsigned width) {
-            if (n == 0 || width == 0) {
-                return 0;
-            }
-    
-            if (n >
-                (std::numeric_limits<size_type>::max() - 63)
-                    / static_cast<size_type>(width)) {
-                throw std::length_error("Block is too large");
-            }
-    
-            return (
-                n * static_cast<size_type>(width) + 63
-            ) / 64;
+        static size_type word_count(unsigned width) noexcept {
+            const size_type values_per_word = 64 / width;
+            return (item_count / values_per_word)
+                + (item_count % values_per_word != 0);
         }
 
         /**
@@ -95,12 +71,12 @@ namespace stool{
          *
          * @param changed_index Index of the value to replace.
          * @param new_value Replacement value.
-         * @pre @p changed_index is less than size.
+         * @pre @p changed_index is less than item_count.
          */
         void repack_after_change(size_type changed_index, value_type new_value) {
-            std::vector<value_type> values(size);
+            std::vector<value_type> values(item_count);
     
-            for (size_type i = 0; i < size; ++i) {
+            for (size_type i = 0; i < item_count; ++i) {
                 values[i] = get(i);
             }
     
@@ -115,37 +91,20 @@ namespace stool{
          *
          * @param i Zero-based index of the value to read.
          * @return Decoded value at index @p i.
-         * @pre @p i is less than size.
+         * @pre @p i is less than item_count.
          */
         value_type get(size_type i) const noexcept {
-            assert(i < size);
-    
-            if (width == 0) {
-                return 0;
-            }
-    
+            assert(i < item_count);
+
             const size_type bit_pos =
-                i * static_cast<size_type>(width);
-    
+                i * static_cast<size_type>(item_bit_width);
+
             const size_type word_index = bit_pos >> 6;
             const unsigned shift =
                 static_cast<unsigned>(bit_pos & 63);
-    
-            if (shift + width <= 64) {
-                return (words[word_index] >> shift)
-                    & low_mask(width);
-            }
-    
-            const unsigned low_bits = 64 - shift;
-            const unsigned high_bits = width - low_bits;
-    
-            const std::uint64_t low =
-                words[word_index] >> shift;
-    
-            const std::uint64_t high =
-                words[word_index + 1] & low_mask(high_bits);
-    
-            return low | (high << low_bits);
+
+            return (words[word_index] >> shift)
+                & low_mask(item_bit_width);
         }
 
         /**
@@ -153,99 +112,63 @@ namespace stool{
          *
          * @param i Zero-based index of the value to replace.
          * @param x Replacement value.
-         * @pre @p i is less than size.
-         * @pre The bit width of @p x does not exceed width.
+         * @pre @p i is less than item_count.
+         * @pre The bit width of @p x does not exceed item_bit_width.
          */
         void set_raw(size_type i, value_type x) noexcept {
-            assert(i < size);
-            assert(bits_required(x) <= width);
-    
-            if (width == 0) {
-                return;
-            }
-    
+            assert(i < item_count);
+            assert(select_item_bit_width(x) <= item_bit_width);
+
             const size_type bit_pos =
-                i * static_cast<size_type>(width);
-    
+                i * static_cast<size_type>(item_bit_width);
+
             const size_type word_index = bit_pos >> 6;
             const unsigned shift =
                 static_cast<unsigned>(bit_pos & 63);
-    
-            if (shift + width <= 64) {
-                const std::uint64_t mask =
-                    low_mask(width);
-    
-                const std::uint64_t shifted_mask =
-                    mask << shift;
-    
-                words[word_index] =
-                    (words[word_index] & ~shifted_mask)
-                    | ((x & mask) << shift);
-    
-                return;
-            }
-    
-            const unsigned low_bits = 64 - shift;
-            const unsigned high_bits = width - low_bits;
-    
-            {
-                const std::uint64_t mask =
-                    low_mask(low_bits);
-    
-                const std::uint64_t shifted_mask =
-                    mask << shift;
-    
-                words[word_index] =
-                    (words[word_index] & ~shifted_mask)
-                    | ((x & mask) << shift);
-            }
-    
-            {
-                const std::uint64_t mask =
-                    low_mask(high_bits);
-    
-                words[word_index + 1] =
-                    (words[word_index + 1] & ~mask)
-                    | ((x >> low_bits) & mask);
-            }
+
+            const std::uint64_t mask = low_mask(item_bit_width);
+            const std::uint64_t shifted_mask = mask << shift;
+
+            words[word_index] =
+                (words[word_index] & ~shifted_mask)
+                | (x << shift);
         }
 
         /**
          * @brief Replaces the block contents with the supplied values.
          *
-         * Determines the minimum common width, allocates packed storage, and
-         * records how many values require that width.
+         * Determines the minimum supported common width among 8, 16, 32, and 64,
+         * allocates packed storage, and records how many values require that width.
          *
          * @param values Pointer to the values to pack.
-         * @param n Number of values in @p values.
+         * Values after @p n are initialized to zero.
+         *
+         * @param n Number of supplied values in @p values.
          * @pre @p values is non-null when @p n is greater than zero.
-         * @throws std::length_error If the packed bit count cannot be represented
-         * by size_type.
+         * @pre @p n is at most item_count.
          */
         void assign(const value_type* values, size_type n) {
-            size = n;
-            width = 0;
+            assert(n <= item_count);
+            item_bit_width = 8;
+            max_width_count = item_count - n;
     
             for (size_type i = 0; i < n; ++i) {
-                width = std::max(
-                    width,
-                    bits_required(values[i])
-                );
+                const unsigned value_width = select_item_bit_width(values[i]);
+                if (value_width > item_bit_width) {
+                    item_bit_width = value_width;
+                    max_width_count = 1;
+                } else if (value_width == item_bit_width) {
+                    ++max_width_count;
+                }
             }
     
             words.assign(
-                word_count(size, width),
+                word_count(item_bit_width),
                 0
             );
     
-            max_width_count = 0;
-    
             for (size_type i = 0; i < n; ++i) {
                 set_raw(i, values[i]);
-    
-                if (bits_required(values[i]) == width) {
-                    ++max_width_count;
-                }
             }
         }
 
@@ -257,10 +180,10 @@ namespace stool{
          *
          * @param i Zero-based index of the value to replace.
          * @param x Replacement value.
-         * @pre @p i is less than size.
+         * @pre @p i is less than item_count.
          */
         void set(size_type i, value_type x) {
-            assert(i < size);
+            assert(i < item_count);
     
             const value_type old_value = get(i);
     
@@ -268,14 +191,14 @@ namespace stool{
                 return;
             }
     
-            const unsigned old_bits =
-                bits_required(old_value);
+            const unsigned old_item_bit_width =
+                select_item_bit_width(old_value);
     
-            const unsigned new_bits =
-                bits_required(x);
+            const unsigned new_item_bit_width =
+                select_item_bit_width(x);
     
             // Block width must increase.
-            if (new_bits > width) {
+            if (new_item_bit_width > item_bit_width) {
                 repack_after_change(i, x);
                 return;
             }
@@ -283,8 +206,8 @@ namespace stool{
             // This was the only value requiring the current width,
             // so the block may be shrinkable.
             if (
-                old_bits == width &&
-                new_bits < width &&
+                old_item_bit_width == item_bit_width &&
+                new_item_bit_width < item_bit_width &&
                 max_width_count == 1
             ) {
                 repack_after_change(i, x);
@@ -292,13 +215,14 @@ namespace stool{
             }
     
             set_raw(i, x);
-    
-            if (old_bits == width) {
-                --max_width_count;
-            }
-    
-            if (new_bits == width) {
-                ++max_width_count;
+
+            if (old_item_bit_width != new_item_bit_width) {
+                if (old_item_bit_width == item_bit_width) {
+                    --max_width_count;
+                }
+                if (new_item_bit_width == item_bit_width) {
+                    ++max_width_count;
+                }
             }
         }
     };

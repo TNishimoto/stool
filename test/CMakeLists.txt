@@ -70,7 +70,7 @@ add_executable(elias_fano_vector_test sources/main/specialized_collection/elias_
 add_executable(naive_bit_vector_test sources/main/specialized_collection/naive_bit_vector_test_main.cpp)
 add_executable(naive_flc_vector_test sources/main/specialized_collection/naive_flc_vector_test_main.cpp)
 add_executable(naive_integer_array_test sources/main/specialized_collection/naive_integer_array_test_main.cpp)
+add_executable(block_wise_packed_vector_test sources/main/specialized_collection/block_wise_packed_vector_test_main.cpp)
 add_executable(sa_is_test sources/main/sa_is_test_main.cpp)
-
 
 
