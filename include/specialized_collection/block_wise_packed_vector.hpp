@@ -273,6 +273,16 @@ namespace stool
 
             return total;
         }
+
+        double average_block_capacity() const noexcept{
+            size_type total = 0;
+            for (const auto &block : blocks_)
+            {
+                total +=
+                    block.words.capacity();
+            }
+            return static_cast<double>(total) / blocks_.size();
+        }
     };
 
 }
