@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
 project(stool CXX)
 
+enable_testing()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -71,6 +73,6 @@ add_executable(naive_bit_vector_test sources/main/specialized_collection/naive_b
 add_executable(naive_flc_vector_test sources/main/specialized_collection/naive_flc_vector_test_main.cpp)
 add_executable(naive_integer_array_test sources/main/specialized_collection/naive_integer_array_test_main.cpp)
 add_executable(block_wise_packed_vector_test sources/main/specialized_collection/block_wise_packed_vector_test_main.cpp)
+add_executable(semi_succinct_2d_array_test sources/main/specialized_collection/semi_succinct_2d_array_test_main.cpp)
+add_test(NAME semi_succinct_2d_array_test COMMAND semi_succinct_2d_array_test)
 add_executable(sa_is_test sources/main/sa_is_test_main.cpp)
-
-
