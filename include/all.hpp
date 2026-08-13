@@ -53,6 +53,8 @@
 
 #include "./specialized_collection/block_wise_packed_vector.hpp"
 #include "./specialized_collection/semi_succinct_2d_array.hpp"
+#include "./specialized_collection/semi_succinct_2d_array_with_unordered_set.hpp"
+
 #include "./lz/lz_factor.hpp"
 
 #include "./bwt/backward_isa.hpp"
