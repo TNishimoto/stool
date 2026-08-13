@@ -63,12 +63,12 @@ namespace stool
             succinct_2d_array.erase(row_index);
         }
 
-        uint64_t access(uint64_t row_index, uint64_t column_index)
+        uint64_t access(uint64_t row_index, uint64_t column_index) const
         {
             return succinct_2d_array.access(row_index, column_index);
         }
 
-        std::array<uint64_t, COLUMN_SIZE> access_row(uint64_t row_index)
+        std::array<uint64_t, COLUMN_SIZE> access_row(uint64_t row_index) const
         {
             return succinct_2d_array.access_row(row_index);
         }

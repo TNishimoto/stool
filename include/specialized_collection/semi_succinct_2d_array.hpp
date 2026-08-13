@@ -115,12 +115,12 @@ namespace stool
             unused_indexes.push(row_index);
         }
 
-        uint64_t access(uint64_t row_index, uint64_t column_index)
+        uint64_t access(uint64_t row_index, uint64_t column_index) const
         {
             return block_packed_vectors[column_index][row_index];
         }
 
-        std::array<uint64_t, COLUMN_SIZE> access_row(uint64_t row_index)
+        std::array<uint64_t, COLUMN_SIZE> access_row(uint64_t row_index) const 
         {
             std::array<uint64_t, COLUMN_SIZE> row;
             for (uint64_t i = 0; i < COLUMN_SIZE; i++)
