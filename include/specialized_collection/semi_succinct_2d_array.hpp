@@ -114,6 +114,15 @@ namespace stool
             is_used_rows[row_index] = false;
             unused_indexes.push(row_index);
         }
+        void clear() {
+            for (uint64_t i = 0; i < COLUMN_SIZE; i++){
+                block_packed_vectors[i].clear();
+            }
+            is_used_rows.clear();
+            while (!unused_indexes.empty()) {
+                unused_indexes.pop();
+            }
+        }
 
         uint64_t access(uint64_t row_index, uint64_t column_index) const
         {
