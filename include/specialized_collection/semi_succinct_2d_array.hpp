@@ -71,6 +71,11 @@ namespace stool
             is_used_rows.resize(0);
         }
 
+        const stool::BlockPackedVector<BLOCK_SIZE> &get_column(uint64_t column_index) const{
+            return block_packed_vectors[column_index];
+        }
+
+
         size_t insert(std::array<uint64_t, COLUMN_SIZE> new_row)
         {
             if (unused_indexes.empty())
