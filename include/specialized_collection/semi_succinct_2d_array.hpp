@@ -123,6 +123,11 @@ namespace stool
                 unused_indexes.pop();
             }
         }
+        void swap(SemiSuccinct2DArray<COLUMN_SIZE, BLOCK_SIZE> &other) {
+            block_packed_vectors.swap(other.block_packed_vectors);
+            is_used_rows.swap(other.is_used_rows);
+            unused_indexes.swap(other.unused_indexes);
+        }
 
         uint64_t access(uint64_t row_index, uint64_t column_index) const
         {

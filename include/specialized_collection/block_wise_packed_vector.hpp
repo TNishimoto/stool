@@ -191,6 +191,16 @@ namespace stool
             return Reference(this, i);
         }
 
+        void clear() {
+            blocks_.clear();
+            size_ = 0;
+        }
+
+        void swap(BlockPackedVector<BLOCK_SIZE> &other) {
+            blocks_.swap(other.blocks_);
+            std::swap(size_, other.size_);
+        }
+
         /**
          * @brief Appends a value to the end of the vector.
          *
