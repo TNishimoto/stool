@@ -134,6 +134,10 @@ namespace stool
         {
             return is_used_rows.size() - unused_indexes.size();
         }
+        size_t row_size() const
+        {
+            return is_used_rows.size();
+        }
     };
 
 
