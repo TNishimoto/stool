@@ -133,6 +133,9 @@ namespace stool
         {
             return block_packed_vectors[column_index][row_index];
         }
+        void set(uint64_t row_index, uint64_t column_index, uint64_t value) {
+            block_packed_vectors[column_index][row_index] = value;
+        }
 
         std::array<uint64_t, COLUMN_SIZE> access_row(uint64_t row_index) const 
         {
