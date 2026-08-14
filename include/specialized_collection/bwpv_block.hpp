@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <limits>
 #include <vector>
+#include <fstream>
 
 namespace stool{
 
@@ -227,6 +228,37 @@ namespace stool{
                 }
             }
         }
+
+        static BWPVBlock load_from_file(std::ifstream &ifs)
+		{
+
+			BWPVBlock r;
+
+			ifs.read(reinterpret_cast<char *>(&r.item_bit_width), sizeof(unsigned));
+			ifs.read(reinterpret_cast<char *>(&r.max_width_count), sizeof(size_type));
+
+            uint64_t words_vec_size;
+			ifs.read(reinterpret_cast<char *>(&words_vec_size), sizeof(uint64_t));
+			r.words.resize(words_vec_size);
+			ifs.read(reinterpret_cast<char *>(r.words.data()), sizeof(std::uint64_t) * words_vec_size);
+
+			return r;
+		}
+
+        static void store_to_file(const BWPVBlock &item, std::ofstream &os)
+		{
+            unsigned __item_bit_width = item.item_bit_width;
+			os.write(reinterpret_cast<const char *>(&__item_bit_width), sizeof(unsigned));
+
+            size_type __max_width_count = item.max_width_count;
+			os.write(reinterpret_cast<const char *>(&__max_width_count), sizeof(size_type));
+
+            uint64_t words_vec_size = item.words.size();
+			os.write(reinterpret_cast<const char *>(&words_vec_size), sizeof(uint64_t));
+            os.write(reinterpret_cast<const char *>(item.words.data()), sizeof(std::uint64_t) * words_vec_size);
+		}
+
+
 
         
     };

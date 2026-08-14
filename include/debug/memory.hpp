@@ -153,6 +153,13 @@ static uint64_t current_memory_footprint_bytes()
 
 			return sizeof(v) + (v.capacity() + bits_per_byte - 1) / bits_per_byte;
 		}
+
+		template <class T, class Alloc>
+		static std::size_t estimate_memory_usage(const std::stack<T, Alloc> &v)
+		{
+			return sizeof(v) + v.size() * sizeof(T);
+		}
+
 	};
 
 }

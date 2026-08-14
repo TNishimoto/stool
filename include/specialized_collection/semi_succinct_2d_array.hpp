@@ -6,7 +6,8 @@
 #include <cstdint>
 #include <unordered_set>
 #include "./block_wise_packed_vector.hpp"
-
+#include "../debug/memory.hpp"
+#include "../debug/message.hpp"
 namespace stool
 {
     template <size_t ARRAY_SIZE, uint64_t BLOCK_SIZE = 128>
@@ -62,7 +63,7 @@ namespace stool
     public:
         std::vector<stool::BlockPackedVector<BLOCK_SIZE>> block_packed_vectors;
         std::vector<bool> is_used_rows;
-        std::stack<uint64_t> unused_indexes;
+        std::vector<uint64_t> unused_indexes;
 
     public:
         SemiSuccinct2DArray()
@@ -90,8 +91,8 @@ namespace stool
             }
             else
             {
-                uint64_t index = unused_indexes.top();
-                unused_indexes.pop();
+                uint64_t index = unused_indexes.back();
+                unused_indexes.pop_back();
                 for (uint64_t i = 0; i < COLUMN_SIZE; i++)
                 {
                     block_packed_vectors[i][index] = new_row[i];
@@ -112,16 +113,15 @@ namespace stool
                 block_packed_vectors[i][row_index] = 0;
             }
             is_used_rows[row_index] = false;
-            unused_indexes.push(row_index);
+            unused_indexes.push_back(row_index);
         }
         void clear() {
             for (uint64_t i = 0; i < COLUMN_SIZE; i++){
                 block_packed_vectors[i].clear();
             }
             is_used_rows.clear();
-            while (!unused_indexes.empty()) {
-                unused_indexes.pop();
-            }
+            unused_indexes.clear();
+            
         }
         void swap(SemiSuccinct2DArray<COLUMN_SIZE, BLOCK_SIZE> &other) {
             block_packed_vectors.swap(other.block_packed_vectors);
@@ -161,6 +161,74 @@ namespace stool
         {
             return is_used_rows.size();
         }
+
+        uint64_t size_in_bytes() const
+        {
+			uint64_t total_size = 0;
+            for (uint64_t i = 0; i < COLUMN_SIZE; i++)
+            {
+                total_size += block_packed_vectors[i].size_in_bytes();
+            }
+            total_size += stool::Memory::estimate_memory_usage(is_used_rows);
+            total_size += stool::Memory::estimate_memory_usage(unused_indexes);
+            return total_size;
+        }
+
+        void print_memory_breakdown(int64_t message_paragraph = stool::Message::SHOW_MESSAGE) const
+		{
+			std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Memory Breakdown (SemiSuccinct2DArray): " << this->size_in_bytes() << " bytes" << std::endl;
+            for (uint64_t i = 0; i < COLUMN_SIZE; i++)
+            {
+                std::cout << stool::Message::get_paragraph_string(message_paragraph+1) << "block_packed_vectors[" << i << "]: " << stool::Memory::estimate_memory_usage(block_packed_vectors[i]) << " bytes" << std::endl;
+            }
+            std::cout << stool::Message::get_paragraph_string(message_paragraph+1) << "is_used_rows: " << stool::Memory::estimate_memory_usage(is_used_rows) << " bytes" << std::endl;
+            std::cout << stool::Message::get_paragraph_string(message_paragraph+1) << "unused_indexes: " << stool::Memory::estimate_memory_usage(unused_indexes) << " bytes" << std::endl;
+			std::cout << stool::Message::get_paragraph_string(message_paragraph) << "[END]" << std::endl;
+
+		}
+
+        static void store_to_file(const SemiSuccinct2DArray<COLUMN_SIZE, BLOCK_SIZE> &item, std::ofstream &os)
+		{
+            for (uint64_t i = 0; i < COLUMN_SIZE; i++)
+            {
+                stool::BlockPackedVector<BLOCK_SIZE>::store_to_file(item.block_packed_vectors[i], os);
+            }
+
+            uint64_t unused_indexes_size = item.unused_indexes.size();
+            os.write(reinterpret_cast<const char *>(&unused_indexes_size), sizeof(uint64_t));
+            os.write(reinterpret_cast<const char *>(item.unused_indexes.data()), sizeof(uint64_t) * unused_indexes_size);
+
+		}
+
+        static SemiSuccinct2DArray<COLUMN_SIZE, BLOCK_SIZE> load_from_file(std::ifstream &ifs)
+		{
+
+			SemiSuccinct2DArray<COLUMN_SIZE, BLOCK_SIZE> r;
+            for (uint64_t i = 0; i < COLUMN_SIZE; i++)
+            {
+                r.block_packed_vectors[i] = stool::BlockPackedVector<BLOCK_SIZE>::load_from_file(ifs);
+            }
+            uint64_t unused_indexes_size;
+			ifs.read(reinterpret_cast<char *>(&unused_indexes_size), sizeof(uint64_t));
+			r.unused_indexes.resize(unused_indexes_size);
+			ifs.read(reinterpret_cast<char *>(r.unused_indexes.data()), sizeof(uint64_t) * unused_indexes_size);
+
+            uint64_t row_size = 0;
+            if(COLUMN_SIZE > 0){
+                row_size = r.block_packed_vectors[0].size();
+            }
+
+            r.is_used_rows.resize(row_size, true);
+            for (uint64_t i = 0; i < unused_indexes_size; i++)
+            {
+                r.is_used_rows[r.unused_indexes[i]] = false;
+            }
+
+			return r;
+		}
+
+
+
     };
 
 
