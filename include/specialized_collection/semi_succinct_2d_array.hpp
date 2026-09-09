@@ -13,7 +13,7 @@ namespace stool
     template <size_t ARRAY_SIZE, uint64_t BLOCK_SIZE = 128>
     struct ArrayHash
     {
-        static constexpr std::vector<stool::BlockPackedVector<BLOCK_SIZE>> *block_packed_vectors = nullptr;
+        inline static std::vector<stool::BlockPackedVector<BLOCK_SIZE>> *block_packed_vectors = nullptr;
 
         static uint64_t splitmix64(uint64_t x) noexcept
         {
@@ -39,7 +39,7 @@ namespace stool
     template <size_t ARRAY_SIZE, uint64_t BLOCK_SIZE = 128>
     struct ArrayEqual
     {
-        static constexpr std::vector<stool::BlockPackedVector<BLOCK_SIZE>> *block_packed_vectors = nullptr;
+        inline static std::vector<stool::BlockPackedVector<BLOCK_SIZE>> *block_packed_vectors = nullptr;
     
         bool operator()(size_t row_index1, size_t row_index2) const noexcept
         {
@@ -179,7 +179,7 @@ namespace stool
 			std::cout << stool::Message::get_paragraph_string(message_paragraph) << "Memory Breakdown (SemiSuccinct2DArray): " << this->size_in_bytes() << " bytes" << std::endl;
             for (uint64_t i = 0; i < COLUMN_SIZE; i++)
             {
-                std::cout << stool::Message::get_paragraph_string(message_paragraph+1) << "block_packed_vectors[" << i << "]: " << stool::Memory::estimate_memory_usage(block_packed_vectors[i]) << " bytes" << std::endl;
+                std::cout << stool::Message::get_paragraph_string(message_paragraph+1) << "block_packed_vectors[" << i << "]: " << block_packed_vectors[i].size_in_bytes() << " bytes" << std::endl;
             }
             std::cout << stool::Message::get_paragraph_string(message_paragraph+1) << "is_used_rows: " << stool::Memory::estimate_memory_usage(is_used_rows) << " bytes" << std::endl;
             std::cout << stool::Message::get_paragraph_string(message_paragraph+1) << "unused_indexes: " << stool::Memory::estimate_memory_usage(unused_indexes) << " bytes" << std::endl;

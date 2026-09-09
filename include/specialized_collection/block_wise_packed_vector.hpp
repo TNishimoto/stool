@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <utility>
 #include <vector>
+#include <fstream>
 #include "./bwpv_block.hpp"
 
 namespace stool
@@ -294,6 +295,29 @@ namespace stool
                     block.words.capacity();
             }
             return static_cast<double>(total) / blocks_.size();
+        }
+
+        static void store_to_file(const BlockPackedVector &item, std::ofstream &os)
+        {
+            const uint64_t item_size = item.size();
+            os.write(reinterpret_cast<const char *>(&item_size), sizeof(item_size));
+            for (uint64_t i = 0; i < item_size; ++i)
+            {
+                const value_type value = item[i];
+                os.write(reinterpret_cast<const char *>(&value), sizeof(value));
+            }
+        }
+
+        static BlockPackedVector load_from_file(std::ifstream &ifs)
+        {
+            uint64_t item_size = 0;
+            ifs.read(reinterpret_cast<char *>(&item_size), sizeof(item_size));
+            std::vector<value_type> values(item_size);
+            if (item_size > 0)
+            {
+                ifs.read(reinterpret_cast<char *>(values.data()), sizeof(value_type) * item_size);
+            }
+            return BlockPackedVector(values);
         }
     };
 
