@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <map>
 #include <set>
+#include <stack>
 
 #ifdef __linux__
 #include <malloc.h>

@@ -27,12 +27,22 @@ namespace stool
         */
         void reduce()
         {
-            int gcd = std::gcd(numerator, denominator);
-            numerator /= gcd;
-            denominator /= gcd;
+            if(numerator == denominator){
+                numerator = 1;
+                denominator = 1;
+            }else if(numerator == 0){
+                numerator = 0;
+                denominator = 1;
+            }
+            else{
+                int gcd = std::gcd(numerator, denominator);
+                if(gcd > 1){
 
-            numerator = -numerator;
-            denominator = -denominator;
+                numerator /= gcd;
+                denominator /= gcd;
+
+                }
+            }
 
         }
 
